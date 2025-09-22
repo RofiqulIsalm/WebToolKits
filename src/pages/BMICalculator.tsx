@@ -52,6 +52,7 @@ const BMICalculator: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="glow-card rounded-lg p-6">
+        <div className="math-card rounded-lg p-6">
           <h2 className="text-xl font-semibold text-white mb-4">Calculate BMI</h2>
           
           <div className="mb-4">
@@ -100,6 +101,7 @@ const BMICalculator: React.FC = () => {
         </div>
 
         <div className="glow-card rounded-lg p-6">
+        <div className="math-card rounded-lg p-6">
           <h2 className="text-xl font-semibold text-white mb-4">Your Result</h2>
           
           <div className="text-center mb-6">
@@ -110,6 +112,7 @@ const BMICalculator: React.FC = () => {
               {bmi.toFixed(1)}
             </div>
             <div className={`inline-block px-4 py-2 rounded-lg font-medium result-glow text-white`}>
+            <div className={`inline-block px-4 py-2 rounded-lg font-medium result-pink text-white`}>
               {category}
             </div>
           </div>

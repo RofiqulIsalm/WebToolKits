@@ -33,11 +33,11 @@ const Homepage: React.FC = () => {
                 <Link
                   key={tool.path}
                   to={tool.path}
-                  className="glow-card p-6 rounded-lg transition-all duration-300 hover:scale-105"
+                  className={`${tool.color} p-6 rounded-lg transition-all duration-300 hover:scale-105`}
                 >
                   <div className="flex items-start space-x-4">
                     <div className="flex-shrink-0">
-                      <tool.icon className="h-8 w-8 text-blue-400 drop-shadow-lg" />
+                      <tool.icon className="h-8 w-8 text-white drop-shadow-lg" />
                     </div>
                     <div className="flex-1">
                       <h3 className="font-semibold text-white mb-2">

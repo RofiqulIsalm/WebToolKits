@@ -238,6 +238,7 @@ const CurrencyConverter: React.FC = () => {
       </div>
 
       <div className="glow-card rounded-lg p-6 mb-8">
+      <div className="currency-card rounded-lg p-6 mb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">From</label>
@@ -298,7 +299,7 @@ const CurrencyConverter: React.FC = () => {
         </div>
 
         {exchangeRates[fromCurrency] && exchangeRates[toCurrency] && (
-          <div className="result-glow rounded-lg p-4 text-center">
+          <div className="result-green rounded-lg p-4 text-center">
             <p className="text-lg font-semibold text-white">
               {amount} {fromCurrency} = {result.toFixed(2)} {toCurrency}
             </p>

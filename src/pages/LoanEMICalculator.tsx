@@ -40,23 +40,27 @@ const LoanEMICalculator: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="finance-card rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">Loan Details</h2>
+          <h2 className="text-xl font-semibold text-white mb-4">Loan Details</h2>
           
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-300 mb-2">
                 Loan Amount (Principal)
               </label>
               <input
                 type="number"
                 value={principal}
                 onChange={(e) => setPrincipal(Number(e.target.value))}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-300 mb-2">
                 Interest Rate (% per annum)
               </label>
               <input
@@ -64,21 +68,22 @@ const LoanEMICalculator: React.FC = () => {
                 step="0.1"
                 value={rate}
                 onChange={(e) => setRate(Number(e.target.value))}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-300 mb-2">
                 Loan Tenure (months)
               </label>
               <input
                 type="number"
                 value={tenure}
                 onChange={(e) => setTenure(Number(e.target.value))}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-slate-400 mt-1">
                 {Math.floor(tenure / 12)} years {tenure % 12} months
               </p>
             </div>
@@ -86,38 +91,45 @@ const LoanEMICalculator: React.FC = () => {
         </div>
 
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="finance-card rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">EMI Breakdown</h2>
+          <h2 className="text-xl font-semibold text-white mb-4">EMI Breakdown</h2>
           
           <div className="space-y-6">
-            <div className="text-center p-4 bg-blue-50 rounded-lg">
+            <div className="text-center p-4 result-purple rounded-lg">
               <PiggyBank className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+              <PiggyBank className="h-8 w-8 text-white mx-auto mb-2 drop-shadow-lg" />
               <div className="text-2xl font-bold text-gray-900">
+              <div className="text-2xl font-bold text-white drop-shadow-lg">
                 ₹{emi.toFixed(2)}
               </div>
-              <div className="text-sm text-gray-600">Monthly EMI</div>
+              <div className="text-sm text-slate-300">Monthly EMI</div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 bg-green-50 rounded-lg text-center">
+              <div className="p-4 result-green rounded-lg text-center">
                 <div className="text-lg font-semibold text-gray-900">
+                <div className="text-lg font-semibold text-white">
                   ₹{principal.toLocaleString()}
                 </div>
-                <div className="text-sm text-gray-600">Principal Amount</div>
+                <div className="text-sm text-slate-300">Principal Amount</div>
               </div>
               
-              <div className="p-4 bg-yellow-50 rounded-lg text-center">
+              <div className="p-4 result-amber rounded-lg text-center">
                 <div className="text-lg font-semibold text-gray-900">
+                <div className="text-lg font-semibold text-white">
                   ₹{totalInterest.toFixed(0)}
                 </div>
-                <div className="text-sm text-gray-600">Total Interest</div>
+                <div className="text-sm text-slate-300">Total Interest</div>
               </div>
             </div>
 
-            <div className="p-4 bg-purple-50 rounded-lg text-center">
+            <div className="p-4 result-purple rounded-lg text-center">
               <div className="text-xl font-semibold text-gray-900">
+              <div className="text-xl font-semibold text-white">
                 ₹{totalAmount.toFixed(0)}
               </div>
-              <div className="text-sm text-gray-600">Total Amount Payable</div>
+              <div className="text-sm text-slate-300">Total Amount Payable</div>
             </div>
           </div>
         </div>
