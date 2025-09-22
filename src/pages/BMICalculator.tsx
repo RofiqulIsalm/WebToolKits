@@ -144,3 +144,5 @@ const BMICalculator: React.FC = () => {
 };
 
 export default BMICalculator;
+  )
+}
