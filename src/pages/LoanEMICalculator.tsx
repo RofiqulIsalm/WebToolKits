@@ -141,3 +141,5 @@ const LoanEMICalculator: React.FC = () => {
 };
 
 export default LoanEMICalculator;
+  )
+}
