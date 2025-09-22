@@ -238,86 +238,87 @@ const CurrencyConverter: React.FC = () => {
       </div>
 
       <div className="glow-card rounded-lg p-6 mb-8">
-      <div className="currency-card rounded-lg p-6 mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">From</label>
-            <div className="space-y-3">
-              <input
-                type="number"
-                value={amount}
-                onChange={(e) => setAmount(Number(e.target.value))}
-                className="w-full px-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter amount"
-              />
-              <select
-                value={fromCurrency}
-                onChange={(e) => setFromCurrency(e.target.value)}
-                className="w-full px-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                {allCurrencies.map((currency) => (
-                  <option key={currency.code} value={currency.code}>
-                    {currency.code} - {currency.name}
-                  </option>
-                ))}
-              </select>
+        <div className="currency-card rounded-lg p-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-2">From</label>
+              <div className="space-y-3">
+                <input
+                  type="number"
+                  value={amount}
+                  onChange={(e) => setAmount(Number(e.target.value))}
+                  className="w-full px-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Enter amount"
+                />
+                <select
+                  value={fromCurrency}
+                  onChange={(e) => setFromCurrency(e.target.value)}
+                  className="w-full px-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  {allCurrencies.map((currency) => (
+                    <option key={currency.code} value={currency.code}>
+                      {currency.code} - {currency.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-2">To</label>
+              <div className="space-y-3">
+                <input
+                  type="text"
+                  value={result.toFixed(2)}
+                  readOnly
+                  className="w-full px-4 py-2 glow-input rounded-lg bg-slate-800/50"
+                />
+                <select
+                  value={toCurrency}
+                  onChange={(e) => setToCurrency(e.target.value)}
+                  className="w-full px-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  {allCurrencies.map((currency) => (
+                    <option key={currency.code} value={currency.code}>
+                      {currency.code} - {currency.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">To</label>
-            <div className="space-y-3">
-              <input
-                type="text"
-                value={result.toFixed(2)}
-                readOnly
-                className="w-full px-4 py-2 glow-input rounded-lg bg-slate-800/50"
-              />
-              <select
-                value={toCurrency}
-                onChange={(e) => setToCurrency(e.target.value)}
-                className="w-full px-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                {allCurrencies.map((currency) => (
-                  <option key={currency.code} value={currency.code}>
-                    {currency.code} - {currency.name}
-                  </option>
-                ))}
-              </select>
+          <div className="flex justify-center mb-6">
+            <button
+              onClick={swapCurrencies}
+              className="flex items-center space-x-2 px-4 py-2 glow-button text-white rounded-lg transition-all"
+            >
+              <ArrowRightLeft className="h-4 w-4" />
+              <span>Swap</span>
+            </button>
+          </div>
+
+          {exchangeRates[fromCurrency] && exchangeRates[toCurrency] && (
+            <div className="result-green rounded-lg p-4 text-center">
+              <p className="text-lg font-semibold text-white">
+                {amount} {fromCurrency} = {result.toFixed(2)} {toCurrency}
+              </p>
+              <p className="text-sm text-slate-300 mt-1">
+                1 {fromCurrency} = {(exchangeRates[toCurrency] / exchangeRates[fromCurrency]).toFixed(4)} {toCurrency}
+              </p>
             </div>
+          )}
+
+          <div className="flex justify-center mt-4">
+            <button
+              onClick={fetchExchangeRates}
+              disabled={loading}
+              className="flex items-center space-x-2 px-4 py-2 text-blue-400 hover:text-blue-300 transition-colors"
+            >
+              <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+              <span>Refresh Rates</span>
+            </button>
           </div>
-        </div>
-
-        <div className="flex justify-center mb-6">
-          <button
-            onClick={swapCurrencies}
-            className="flex items-center space-x-2 px-4 py-2 glow-button text-white rounded-lg transition-all"
-          >
-            <ArrowRightLeft className="h-4 w-4" />
-            <span>Swap</span>
-          </button>
-        </div>
-
-        {exchangeRates[fromCurrency] && exchangeRates[toCurrency] && (
-          <div className="result-green rounded-lg p-4 text-center">
-            <p className="text-lg font-semibold text-white">
-              {amount} {fromCurrency} = {result.toFixed(2)} {toCurrency}
-            </p>
-            <p className="text-sm text-slate-300 mt-1">
-              1 {fromCurrency} = {(exchangeRates[toCurrency] / exchangeRates[fromCurrency]).toFixed(4)} {toCurrency}
-            </p>
-          </div>
-        )}
-
-        <div className="flex justify-center mt-4">
-          <button
-            onClick={fetchExchangeRates}
-            disabled={loading}
-            className="flex items-center space-x-2 px-4 py-2 text-blue-400 hover:text-blue-300 transition-colors"
-          >
-            <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-            <span>Refresh Rates</span>
-          </button>
         </div>
       </div>
 
