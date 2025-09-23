@@ -126,7 +126,6 @@ const LoanEMICalculator: React.FC = () => {
         </div>
         </div>
       </div>
-      </div>
 
       <AdBanner type="bottom" />
     </div>
