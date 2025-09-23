@@ -85,6 +85,7 @@ const LoanEMICalculator: React.FC = () => {
             </div>
           </div>
         </div>
+        </div>
 
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <div className="finance-card rounded-lg p-6">
@@ -123,6 +124,8 @@ const LoanEMICalculator: React.FC = () => {
             </div>
           </div>
         </div>
+        </div>
+      </div>
       </div>
 
       <AdBanner type="bottom" />
@@ -131,5 +134,3 @@ const LoanEMICalculator: React.FC = () => {
 };
 
 export default LoanEMICalculator;
-  )
-}
