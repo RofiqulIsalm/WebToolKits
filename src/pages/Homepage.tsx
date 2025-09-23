@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { toolsData } from '../data/toolsData';
-import { Search } from 'lucide-react';
+import { Search, DollarSign, Calculator, Percent, PiggyBank } from 'lucide-react';
 
 const Homepage: React.FC = () => {
   return (
