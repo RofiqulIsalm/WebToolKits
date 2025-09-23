@@ -96,8 +96,47 @@ const TemperatureConverter: React.FC = () => {
       </div>
 
       <AdBanner type="bottom" />
+
+      {/* SEO Content Section */}
+      <div className="mt-12 space-y-8">
+        <div className="converter-card rounded-lg p-8">
+          <h2 className="text-2xl font-bold text-white mb-6">Temperature Converter Guide</h2>
+          <div className="prose prose-invert max-w-none">
+            <p className="text-slate-300 mb-4">
+              Convert between Celsius, Fahrenheit, and Kelvin temperature scales instantly. Our temperature 
+              converter is essential for cooking, weather analysis, scientific calculations, and international 
+              communication where different temperature scales are used.
+            </p>
+            
+            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Temperature Scales</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <div className="bg-blue-900/30 p-4 rounded-lg border border-blue-500/30">
+                <div className="font-semibold text-blue-400 mb-2">Celsius (°C)</div>
+                <div className="text-slate-300 text-sm mb-2">Water freezes at 0°C, boils at 100°C</div>
+                <div className="text-xs text-slate-400">Used worldwide, scientific standard</div>
+              </div>
+              <div className="bg-red-900/30 p-4 rounded-lg border border-red-500/30">
+                <div className="font-semibold text-red-400 mb-2">Fahrenheit (°F)</div>
+                <div className="text-slate-300 text-sm mb-2">Water freezes at 32°F, boils at 212°F</div>
+                <div className="text-xs text-slate-400">Used in USA, some Caribbean countries</div>
+              </div>
+              <div className="bg-purple-900/30 p-4 rounded-lg border border-purple-500/30">
+                <div className="font-semibold text-purple-400 mb-2">Kelvin (K)</div>
+                <div className="text-slate-300 text-sm mb-2">Absolute zero at 0K (-273.15°C)</div>
+                <div className="text-xs text-slate-400">Scientific absolute temperature scale</div>
+              </div>
+            </div>
     </div>
   );
 };
 
+            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Conversion Formulas</h3>
+            <div className="bg-slate-700/50 p-4 rounded-lg mb-6">
+              <div className="space-y-2 text-sm">
+                <div className="text-white"><strong>Celsius to Fahrenheit:</strong> °F = (°C × 9/5) + 32</div>
+                <div className="text-white"><strong>Fahrenheit to Celsius:</strong> °C = (°F - 32) × 5/9</div>
+                <div className="text-white"><strong>Celsius to Kelvin:</strong> K = °C + 273.15</div>
+                <div className="text-white"><strong>Kelvin to Celsius:</strong> °C = K - 273.15</div>
+              </div>
+            </div>
 export default TemperatureConverter;

@@ -188,8 +188,62 @@ const QRCodeGenerator: React.FC = () => {
       </div>
 
       <AdBanner type="bottom" />
+
+      {/* SEO Content Section */}
+      <div className="mt-12 space-y-8">
+        <div className="misc-card rounded-lg p-8">
+          <h2 className="text-2xl font-bold text-white mb-6">QR Code Generator Guide</h2>
+          <div className="prose prose-invert max-w-none">
+            <p className="text-slate-300 mb-4">
+              QR (Quick Response) codes are two-dimensional barcodes that can store various types of information 
+              and be scanned by smartphones and QR readers. Our generator creates high-quality QR codes for 
+              websites, contact information, WiFi passwords, and much more.
+            </p>
+            
+            <h3 className="text-xl font-semibold text-white mt-6 mb-4">QR Code Types</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div className="bg-slate-700/50 p-4 rounded-lg">
+                <div className="font-semibold text-white mb-2">URL/Website</div>
+                <div className="text-slate-300 text-sm mb-1">Direct users to websites</div>
+                <div className="text-xs text-slate-400">Example: https://example.com</div>
+              </div>
+              <div className="bg-slate-700/50 p-4 rounded-lg">
+                <div className="font-semibold text-white mb-2">Contact Info</div>
+                <div className="text-slate-300 text-sm mb-1">vCard format for contacts</div>
+                <div className="text-xs text-slate-400">Name, phone, email, address</div>
+              </div>
+              <div className="bg-slate-700/50 p-4 rounded-lg">
+                <div className="font-semibold text-white mb-2">WiFi Password</div>
+                <div className="text-slate-300 text-sm mb-1">Auto-connect to WiFi</div>
+                <div className="text-xs text-slate-400">WIFI:T:WPA;S:Name;P:Pass;;</div>
+              </div>
+              <div className="bg-slate-700/50 p-4 rounded-lg">
+                <div className="font-semibold text-white mb-2">Location</div>
+                <div className="text-slate-300 text-sm mb-1">GPS coordinates</div>
+                <div className="text-xs text-slate-400">geo:latitude,longitude</div>
+              </div>
+            </div>
     </div>
   );
 };
 
+            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Error Correction Levels</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
+                <div className="font-semibold text-white">Low (L)</div>
+                <div className="text-sm text-slate-400">~7% recovery</div>
+              </div>
+              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
+                <div className="font-semibold text-white">Medium (M)</div>
+                <div className="text-sm text-slate-400">~15% recovery</div>
+              </div>
+              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
+                <div className="font-semibold text-white">Quartile (Q)</div>
+                <div className="text-sm text-slate-400">~25% recovery</div>
+              </div>
+              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
+                <div className="font-semibold text-white">High (H)</div>
+                <div className="text-sm text-slate-400">~30% recovery</div>
+              </div>
+            </div>
 export default QRCodeGenerator;

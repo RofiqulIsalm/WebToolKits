@@ -157,6 +157,62 @@ const PercentageCalculator: React.FC = () => {
       </div>
 
       <AdBanner type="bottom" />
+
+      {/* SEO Content Section */}
+      <div className="mt-12 space-y-8">
+        <div className="math-card rounded-lg p-8">
+          <h2 className="text-2xl font-bold text-white mb-6">Percentage Calculator Guide</h2>
+          <div className="prose prose-invert max-w-none">
+            <p className="text-slate-300 mb-4">
+              Percentage calculations are essential in daily life, from calculating discounts and tips to analyzing 
+              business growth and academic grades. Our comprehensive percentage calculator handles all common 
+              percentage calculations with easy-to-use interfaces for different calculation types.
+            </p>
+            
+            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Common Percentage Calculations</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div className="bg-slate-700/50 p-4 rounded-lg">
+                <h4 className="font-semibold text-white mb-3">What is X% of Y?</h4>
+                <p className="text-slate-300 text-sm mb-2">Find a percentage of a number</p>
+                <div className="text-xs text-slate-400">Example: What is 20% of 150? = 30</div>
+              </div>
+              <div className="bg-slate-700/50 p-4 rounded-lg">
+                <h4 className="font-semibold text-white mb-3">X is what % of Y?</h4>
+                <p className="text-slate-300 text-sm mb-2">Find what percentage one number is of another</p>
+                <div className="text-xs text-slate-400">Example: 30 is what % of 150? = 20%</div>
+              </div>
+              <div className="bg-slate-700/50 p-4 rounded-lg">
+                <h4 className="font-semibold text-white mb-3">Percentage Change</h4>
+                <p className="text-slate-300 text-sm mb-2">Calculate increase or decrease percentage</p>
+                <div className="text-xs text-slate-400">Example: From 100 to 120 = +20% increase</div>
+              </div>
+              <div className="bg-slate-700/50 p-4 rounded-lg">
+                <h4 className="font-semibold text-white mb-3">Percentage Point</h4>
+                <p className="text-slate-300 text-sm mb-2">Difference between two percentages</p>
+                <div className="text-xs text-slate-400">Example: 25% - 20% = 5 percentage points</div>
+              </div>
+            </div>
+
+            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Real-World Applications</h3>
+            <ul className="text-slate-300 space-y-2 mb-6">
+              <li>• <strong>Shopping:</strong> Calculate discounts, sales tax, and final prices</li>
+              <li>• <strong>Finance:</strong> Interest rates, investment returns, loan calculations</li>
+              <li>• <strong>Business:</strong> Profit margins, growth rates, market share</li>
+              <li>• <strong>Education:</strong> Grade calculations, test scores, GPA</li>
+              <li>• <strong>Statistics:</strong> Data analysis, survey results, demographics</li>
+            </ul>
+
+            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Quick Tips</h3>
+            <ul className="text-slate-300 space-y-2">
+              <li>• To convert percentage to decimal: divide by 100</li>
+              <li>• To convert decimal to percentage: multiply by 100</li>
+              <li>• 50% = 0.5 = 1/2 (one half)</li>
+              <li>• 25% = 0.25 = 1/4 (one quarter)</li>
+              <li>• 100% = 1.0 = the whole amount</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

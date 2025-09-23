@@ -323,8 +323,59 @@ const CurrencyConverter: React.FC = () => {
       </div>
 
       <AdBanner type="bottom" />
+
+      {/* SEO Content Section */}
+      <div className="mt-12 space-y-8">
+        <div className="glow-card rounded-lg p-8">
+          <h2 className="text-2xl font-bold text-white mb-6">About Currency Converter</h2>
+          <div className="prose prose-invert max-w-none">
+            <p className="text-slate-300 mb-4">
+              Our free online currency converter provides real-time exchange rates for over 170 world currencies. 
+              Whether you're traveling, shopping online internationally, or conducting business across borders, 
+              our tool helps you convert currencies instantly with accurate, up-to-date rates.
+            </p>
+            
+            <h3 className="text-xl font-semibold text-white mt-6 mb-4">How to Use the Currency Converter</h3>
+            <ul className="text-slate-300 space-y-2 mb-6">
+              <li>• Enter the amount you want to convert in the "From" field</li>
+              <li>• Select your source currency from the dropdown menu</li>
+              <li>• Choose your target currency in the "To" section</li>
+              <li>• View the converted amount instantly</li>
+              <li>• Use the swap button to quickly reverse the conversion</li>
+            </ul>
+
+            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Popular Currency Pairs</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
+                <div className="font-semibold text-white">USD to EUR</div>
+                <div className="text-sm text-slate-400">US Dollar to Euro</div>
+              </div>
+              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
+                <div className="font-semibold text-white">GBP to USD</div>
+                <div className="text-sm text-slate-400">British Pound to US Dollar</div>
+              </div>
+              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
+                <div className="font-semibold text-white">USD to INR</div>
+                <div className="text-sm text-slate-400">US Dollar to Indian Rupee</div>
+              </div>
+              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
+                <div className="font-semibold text-white">EUR to GBP</div>
+                <div className="text-sm text-slate-400">Euro to British Pound</div>
+              </div>
+            </div>
     </div>
   );
 };
 
+            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Why Use Our Currency Converter?</h3>
+            <ul className="text-slate-300 space-y-2">
+              <li>• <strong>Real-time rates:</strong> Updated exchange rates from reliable financial sources</li>
+              <li>• <strong>170+ currencies:</strong> Support for all major world currencies and cryptocurrencies</li>
+              <li>• <strong>No registration:</strong> Use our tool instantly without creating an account</li>
+              <li>• <strong>Mobile-friendly:</strong> Works perfectly on all devices and screen sizes</li>
+              <li>• <strong>Historical data:</strong> View exchange rate trends and historical information</li>
+            </ul>
+          </div>
+        </div>
+      </div>
 export default CurrencyConverter;

@@ -93,8 +93,60 @@ const WeightConverter: React.FC = () => {
       </div>
 
       <AdBanner type="bottom" />
+
+      {/* SEO Content Section */}
+      <div className="mt-12 space-y-8">
+        <div className="converter-card rounded-lg p-8">
+          <h2 className="text-2xl font-bold text-white mb-6">Weight Converter Information</h2>
+          <div className="prose prose-invert max-w-none">
+            <p className="text-slate-300 mb-4">
+              Convert between different units of weight and mass with precision. Our weight converter supports 
+              all common weight measurements from milligrams to tonnes, making it perfect for cooking, 
+              shipping, scientific calculations, and everyday weight conversions.
+            </p>
+            
+            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Weight vs Mass</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div className="bg-slate-700/50 p-4 rounded-lg">
+                <div className="font-semibold text-white mb-2">Weight</div>
+                <div className="text-slate-300 text-sm">Force exerted by gravity on an object</div>
+                <div className="text-xs text-slate-400 mt-1">Varies with gravitational field</div>
+              </div>
+              <div className="bg-slate-700/50 p-4 rounded-lg">
+                <div className="font-semibold text-white mb-2">Mass</div>
+                <div className="text-slate-300 text-sm">Amount of matter in an object</div>
+                <div className="text-xs text-slate-400 mt-1">Constant regardless of location</div>
+              </div>
+            </div>
     </div>
   );
 };
 
+            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Common Weight Units</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+              <div className="bg-slate-700/50 p-3 rounded-lg">
+                <div className="font-semibold text-white">Milligram (mg)</div>
+                <div className="text-sm text-slate-400">Medicine dosages</div>
+              </div>
+              <div className="bg-slate-700/50 p-3 rounded-lg">
+                <div className="font-semibold text-white">Gram (g)</div>
+                <div className="text-sm text-slate-400">Cooking ingredients</div>
+              </div>
+              <div className="bg-slate-700/50 p-3 rounded-lg">
+                <div className="font-semibold text-white">Kilogram (kg)</div>
+                <div className="text-sm text-slate-400">Body weight, luggage</div>
+              </div>
+              <div className="bg-slate-700/50 p-3 rounded-lg">
+                <div className="font-semibold text-white">Pound (lb)</div>
+                <div className="text-sm text-slate-400">US body weight</div>
+              </div>
+              <div className="bg-slate-700/50 p-3 rounded-lg">
+                <div className="font-semibold text-white">Ounce (oz)</div>
+                <div className="text-sm text-slate-400">Small portions</div>
+              </div>
+              <div className="bg-slate-700/50 p-3 rounded-lg">
+                <div className="font-semibold text-white">Tonne (t)</div>
+                <div className="text-sm text-slate-400">Heavy machinery</div>
+              </div>
+            </div>
 export default WeightConverter;
