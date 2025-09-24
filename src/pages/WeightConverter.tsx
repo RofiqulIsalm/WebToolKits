@@ -149,4 +149,12 @@ const WeightConverter: React.FC = () => {
                 <div className="text-sm text-slate-400">Heavy machinery</div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default WeightConverter;
 export default WeightConverter;

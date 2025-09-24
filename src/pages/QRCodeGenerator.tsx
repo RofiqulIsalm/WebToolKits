@@ -246,4 +246,12 @@ const QRCodeGenerator: React.FC = () => {
                 <div className="text-sm text-slate-400">~30% recovery</div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default QRCodeGenerator;
 export default QRCodeGenerator;

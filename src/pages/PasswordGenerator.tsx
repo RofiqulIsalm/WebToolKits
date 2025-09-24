@@ -303,4 +303,12 @@ const PasswordGenerator: React.FC = () => {
               <li>• <strong>Secure Storage:</strong> Never store passwords in plain text</li>
               <li>• <strong>Phishing Awareness:</strong> Only enter passwords on legitimate sites</li>
             </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PasswordGenerator;
 export default PasswordGenerator;

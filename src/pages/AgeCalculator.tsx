@@ -191,4 +191,12 @@ const AgeCalculator: React.FC = () => {
               <li>• <strong>Retirement:</strong> Planning for retirement age</li>
               <li>• <strong>Medical:</strong> Age-appropriate health screenings</li>
             </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AgeCalculator;
 export default AgeCalculator;

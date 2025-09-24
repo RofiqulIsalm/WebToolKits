@@ -139,4 +139,12 @@ const TemperatureConverter: React.FC = () => {
                 <div className="text-white"><strong>Kelvin to Celsius:</strong> °C = K - 273.15</div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default TemperatureConverter;
 export default TemperatureConverter;

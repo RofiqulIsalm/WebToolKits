@@ -202,4 +202,12 @@ const CompoundInterestCalculator: React.FC = () => {
                 <div className="text-sm text-slate-400">Infinite compounding</div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CompoundInterestCalculator;
 export default CompoundInterestCalculator;
