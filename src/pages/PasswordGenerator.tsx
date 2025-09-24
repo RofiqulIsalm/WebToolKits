@@ -309,6 +309,4 @@ const PasswordGenerator: React.FC = () => {
     </div>
   );
 };
-
-export default PasswordGenerator;
 export default PasswordGenerator;
