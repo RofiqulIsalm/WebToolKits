@@ -127,9 +127,6 @@ const LengthConverter: React.FC = () => {
                 </ul>
               </div>
             </div>
-    </div>
-  );
-};
 
             <h3 className="text-xl font-semibold text-white mt-6 mb-4">Common Conversions</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -149,3 +146,12 @@ const LengthConverter: React.FC = () => {
                 <div className="font-semibold text-white">1 mile</div>
                 <div className="text-sm text-slate-400">= 1.61 km</div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LengthConverter;
