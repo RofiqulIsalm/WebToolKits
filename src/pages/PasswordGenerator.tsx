@@ -301,3 +301,6 @@ const PasswordGenerator: React.FC = () => {
               </div>
             </div>
           </div>
+
+  )
+}
