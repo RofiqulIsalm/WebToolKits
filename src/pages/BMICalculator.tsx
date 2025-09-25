@@ -188,15 +188,64 @@ const BMICalculator: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <AdBanner type="bottom" />
+      
+      {/* SEO Content Section */}
+      <div className="mt-12 space-y-8">
+        <div className="math-card rounded-lg p-8">
+          <h2 className="text-2xl font-bold text-white mb-6">Understanding BMI Calculator</h2>
+          <div className="prose prose-invert max-w-none">
+            <p className="text-slate-300 mb-4">
+              Body Mass Index (BMI) is a widely used screening tool that measures body fat based on height and weight. 
+              Our BMI calculator helps you determine if you're in a healthy weight range and provides insights into 
+              your overall health status. It's used by healthcare professionals worldwide as an initial assessment tool.
+            </p>
+            
+            <h3 className="text-xl font-semibold text-white mt-6 mb-4">BMI Categories Explained</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div className="bg-blue-900/30 p-4 rounded-lg border border-blue-500/30">
+                <div className="font-semibold text-blue-400 mb-2">Underweight</div>
+                <div className="text-slate-300">BMI below 18.5</div>
+                <div className="text-sm text-slate-400 mt-1">May indicate malnutrition or underlying health issues</div>
+              </div>
+              <div className="bg-green-900/30 p-4 rounded-lg border border-green-500/30">
+                <div className="font-semibold text-green-400 mb-2">Normal Weight</div>
+                <div className="text-slate-300">BMI 18.5 - 24.9</div>
+                <div className="text-sm text-slate-400 mt-1">Indicates a healthy weight for your height</div>
+              </div>
+              <div className="bg-yellow-900/30 p-4 rounded-lg border border-yellow-500/30">
+                <div className="font-semibold text-yellow-400 mb-2">Overweight</div>
+                <div className="text-slate-300">BMI 25 - 29.9</div>
+                <div className="text-sm text-slate-400 mt-1">May increase risk of health problems</div>
+              </div>
+              <div className="bg-red-900/30 p-4 rounded-lg border border-red-500/30">
+                <div className="font-semibold text-red-400 mb-2">Obese</div>
+                <div className="text-slate-300">BMI 30 and above</div>
+                <div className="text-sm text-slate-400 mt-1">Significantly increased health risks</div>
+              </div>
+            </div>
+
+            <h3 className="text-xl font-semibold text-white mt-6 mb-4">How to Use the BMI Calculator</h3>
+            <ol className="text-slate-300 space-y-2 mb-6 list-decimal list-inside">
+              <li>Choose your preferred unit system (Metric or Imperial)</li>
+              <li>Enter your height in centimeters or inches</li>
+              <li>Input your weight in kilograms or pounds</li>
+              <li>View your BMI result and category instantly</li>
+              <li>Check the reference ranges to understand your result</li>
+            </ol>
+
+            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Important Considerations</h3>
+            <ul className="text-slate-300 space-y-2">
+              <li>• BMI doesn't distinguish between muscle and fat mass</li>
+              <li>• Athletes may have high BMI due to muscle mass, not fat</li>
+              <li>• Age, gender, and ethnicity can affect BMI interpretation</li>
+              <li>• Consult healthcare professionals for personalized advice</li>
+              <li>• BMI is a screening tool, not a diagnostic measure</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
-
-export default BMICalculator;
-    </div>
-  );
-};
-
-export default BMICalculator;
-  )
-}
