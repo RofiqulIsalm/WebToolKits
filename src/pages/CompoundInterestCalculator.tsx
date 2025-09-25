@@ -142,11 +142,7 @@ const CompoundInterestCalculator: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
       <AdBanner type="bottom" />
-
       {/* SEO Content Section */}
       <div className="mt-12 space-y-8">
         <div className="finance-card rounded-lg p-8">
@@ -205,6 +201,11 @@ const CompoundInterestCalculator: React.FC = () => {
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+
+export default CompoundInterestCalculator;
     </div>
   );
 };

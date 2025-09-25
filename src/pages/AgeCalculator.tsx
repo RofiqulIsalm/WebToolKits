@@ -149,11 +149,7 @@ const AgeCalculator: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
       <AdBanner type="bottom" />
-
       {/* SEO Content Section */}
       <div className="mt-12 space-y-8">
         <div className="glow-card rounded-lg p-8">
@@ -194,6 +190,11 @@ const AgeCalculator: React.FC = () => {
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+
+export default AgeCalculator;
     </div>
   );
 };

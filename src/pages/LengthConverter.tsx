@@ -90,11 +90,7 @@ const LengthConverter: React.FC = () => {
               </div>
             );
           })}
-        </div>
-      </div>
-
       <AdBanner type="bottom" />
-
       {/* SEO Content Section */}
       <div className="mt-12 space-y-8">
         <div className="converter-card rounded-lg p-8">
@@ -150,6 +146,11 @@ const LengthConverter: React.FC = () => {
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+
+export default LengthConverter;
     </div>
   );
 };
