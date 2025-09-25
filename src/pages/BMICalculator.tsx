@@ -249,3 +249,6 @@ const BMICalculator: React.FC = () => {
     </div>
   );
 };
+
+  )
+}
