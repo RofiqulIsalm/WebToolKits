@@ -145,6 +145,11 @@ const LengthConverter: React.FC = () => {
                 <div className="font-semibold text-white">1 mile</div>
                 <div className="text-sm text-slate-400">= 1.61 km</div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
