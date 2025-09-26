@@ -5,7 +5,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-slate-900/90 backdrop-blur-lg border-t border-blue-500/20 mt-16">
       <div className="container mx-auto px-4 py-10">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           
           {/* Brand Info */}
           <div>
@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
             </p>
           </div>
 
-          {/* Popular Tools */}
+          {/* Popular Tools */} 
           <div>
             <h3 className="font-semibold text-white mb-4">Popular Tools</h3>
             <ul className="space-y-2 text-sm">
@@ -34,7 +34,16 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Quick Links */}
-          
+          <div>
+            <h3 className="font-semibold text-white mb-4">Quick Links</h3>
+            <ul className="space-y-2 text-sm">
+              <li><Link to="/" className="text-slate-300 hover:text-blue-400 transition-colors">Home</Link></li>
+              <li><a href="/about" className="text-slate-300 hover:text-blue-400 transition-colors">About Us</a></li>
+              <li><a href="/blog" className="text-slate-300 hover:text-blue-400 transition-colors">Blog</a></li>
+              <li><a href="/faq" className="text-slate-300 hover:text-blue-400 transition-colors">FAQs</a></li>
+              <li><a href="/contact" className="text-slate-300 hover:text-blue-400 transition-colors">Contact</a></li>
+            </ul>
+          </div>
 
           {/* Legal */}
           <div>
