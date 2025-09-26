@@ -188,15 +188,15 @@ const AgeCalculator: React.FC = () => {
         <div className="space-y-4">
           <div>
             <h3 className="font-semibold text-white">🔹 Can I calculate my age on a future date?</h3>
-            <p className="ml-8">Yes, simply select any future date to know how old you will be on that day.</p>
+            <p className="ml-8">-Yes, simply select any future date to know how old you will be on that day.</p>
           </div>
           <div>
             <h3 className="font-semibold text-white">🔹 Is this calculator accurate?</h3>
-            <p className="ml-8">Absolutely. It accounts for leap years and different month lengths for exact results.</p>
+            <p className="ml-8">-Absolutely. It accounts for leap years and different month lengths for exact results.</p>
           </div>
           <div>
             <h3 className="font-semibold text-white">🔹 Do I need to sign up?</h3>
-            <p className="ml-8">No signup required. Just enter your date of birth and get instant results.</p>
+            <p className="ml-8">-No signup required. Just enter your date of birth and get instant results.</p>
           </div>
         </div>
       </div>
