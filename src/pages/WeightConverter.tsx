@@ -89,6 +89,8 @@ const WeightConverter: React.FC = () => {
               </div>
             );
           })}
+        </div>
+      </div>
       <AdBanner type="bottom" />
       {/* SEO Content Section */}
       <div className="mt-12 space-y-8">
@@ -114,9 +116,6 @@ const WeightConverter: React.FC = () => {
                 <div className="text-xs text-slate-400 mt-1">Constant regardless of location</div>
               </div>
             </div>
-    </div>
-  );
-};
 
             <h3 className="text-xl font-semibold text-white mt-6 mb-4">Common Weight Units</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
@@ -150,4 +149,6 @@ const WeightConverter: React.FC = () => {
       </div>
     </div>
   );
+};
+
 export default WeightConverter;
