@@ -65,7 +65,7 @@ const AgeCalculator: React.FC = () => {
       {/* 🔹 Main Heading + SEO Intro */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-white mb-2">Free Online Age Calculator</h1>
-        <h6 className=" font-bold text-gray mb-4">-By CalculatorHub</h6>
+        <h6 className="font-bold text-gray mb-4" style="color:gray"">-By CalculatorHub</h6>
         <p className="text-gray-300">
           Use our free Age Calculator to find your exact age in years, months, days, weeks, and more. 
           This tool instantly calculates your age from date of birth to any given date, making it perfect 
