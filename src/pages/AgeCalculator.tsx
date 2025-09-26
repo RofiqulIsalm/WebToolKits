@@ -62,14 +62,21 @@ const AgeCalculator: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto">
+      {/* 🔹 Main Heading + SEO Intro */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white-900  mb-2">Age Calculator</h1>
-        <p className="text-gray-600">Calculate your exact age in years, months, days, and more</p>
+        <h1 className="text-3xl font-bold text-white mb-2">Free Online Age Calculator</h1>
+        <p className="text-gray-300">
+          Use our free Age Calculator to find your exact age in years, months, days, weeks, and more. 
+          This tool instantly calculates your age from date of birth to any given date, making it perfect 
+          for birthdays, official forms, astrology, retirement planning, or just curiosity. 
+          No signup required – fast, accurate, and mobile-friendly.
+        </p>
       </div>
 
+      {/* 🔹 Calculator Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Date Input</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">Enter Your Date of Birth</h2>
           
           <div className="space-y-4">
             <div>
@@ -106,7 +113,7 @@ const AgeCalculator: React.FC = () => {
         </div>
 
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Age Results</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">Your Age Results</h2>
           
           <div className="space-y-6">
             <div className="text-center p-4 bg-blue-50 rounded-lg">
@@ -154,7 +161,40 @@ const AgeCalculator: React.FC = () => {
 
       <AdBanner type="bottom" />
 
-      {/* add you seo content here faq, how to use, keyword, relative page  */}
+      {/* 🔹 SEO Content After Calculator */}
+      <div className="mt-12 text-gray-300 space-y-6">
+        <h2 className="text-2xl font-bold text-white">How to Use the Age Calculator</h2>
+        <p>
+          Simply enter your date of birth and the date you want to calculate your age for. 
+          You can calculate your age today, or for any past or future date. Our calculator 
+          instantly shows your age in years, months, days, weeks, and even hours. 
+          Perfect for school forms, passport applications, or tracking your fitness progress.
+        </p>
+
+        <h2 className="text-2xl font-bold text-white">Why Use an Online Age Calculator?</h2>
+        <p>
+          Manually calculating your age can be confusing, especially when leap years are involved. 
+          This tool ensures 100% accurate results in seconds. It’s free, fast, and works on all devices. 
+          Whether you’re a student, professional, or just curious, our age calculator gives 
+          instant and precise answers.
+        </p>
+
+        <h2 className="text-2xl font-bold text-white">Frequently Asked Questions (FAQs)</h2>
+        <div className="space-y-4">
+          <div>
+            <h3 className="font-semibold text-white">🔹 Can I calculate my age on a future date?</h3>
+            <p>Yes, simply select any future date to know how old you will be on that day.</p>
+          </div>
+          <div>
+            <h3 className="font-semibold text-white">🔹 Is this calculator accurate?</h3>
+            <p>Absolutely. It accounts for leap years and different month lengths for exact results.</p>
+          </div>
+          <div>
+            <h3 className="font-semibold text-white">🔹 Do I need to sign up?</h3>
+            <p>No signup required. Just enter your date of birth and get instant results.</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
