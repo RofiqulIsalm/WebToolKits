@@ -192,11 +192,11 @@ const AgeCalculator: React.FC = () => {
           </div>
           <div>
             <h3 className="font-semibold text-white">🔹 Is this calculator accurate?</h3>
-            <p>Absolutely. It accounts for leap years and different month lengths for exact results.</p>
+            <p className="ml-8">Absolutely. It accounts for leap years and different month lengths for exact results.</p>
           </div>
           <div>
             <h3 className="font-semibold text-white">🔹 Do I need to sign up?</h3>
-            <p>No signup required. Just enter your date of birth and get instant results.</p>
+            <p className="ml-8">No signup required. Just enter your date of birth and get instant results.</p>
           </div>
         </div>
       </div>
