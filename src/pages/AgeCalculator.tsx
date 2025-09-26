@@ -170,6 +170,10 @@ const AgeCalculator: React.FC = () => {
           instantly shows your age in years, months, days, weeks, and even hours. 
           Perfect for school forms, passport applications, or tracking your fitness progress.
         </p>
+        <h2 className="text-2xl font-bold text-white">Examples :</h2>
+        <p>
+           If you were born on 15th March 1995, and today is 26th September 2025, this     calculator will show you are 30 years, 6 months, and 11 days old.
+        </p>
 
         <h2 className="text-2xl font-bold text-white">Why Use an Online Age Calculator?</h2>
         <p>
