@@ -141,3 +141,5 @@ const TemperatureConverter: React.FC = () => {
     </div>
   );
 export default TemperatureConverter;
+  )
+}

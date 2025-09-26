@@ -184,3 +184,5 @@ const AgeCalculator: React.FC = () => {
 };
 
 export default AgeCalculator;
+  )
+}
