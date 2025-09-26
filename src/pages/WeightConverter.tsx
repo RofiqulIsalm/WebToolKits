@@ -93,6 +93,7 @@ const WeightConverter: React.FC = () => {
       </div>
 
       <AdBanner type="bottom" />
+      {/* add you seo content here faq, how to use, keyword, relative page  */}
     </div>
   );
 };
