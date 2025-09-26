@@ -179,25 +179,8 @@ const AgeCalculator: React.FC = () => {
 };
 
             <h3 className="text-xl font-semibold text-white mt-6 mb-4">Common Use Cases</h3>
-            <ul className="text-slate-300 space-y-2 mb-6">
-              <li>• <strong>Legal Documents:</strong> Passport, visa, and ID applications</li>
-              <li>• <strong>Insurance:</strong> Age-based premium calculations</li>
-              <li>• <strong>Education:</strong> School admission age requirements</li>
-              <li>• <strong>Employment:</strong> Age verification for job applications</li>
-              <li>• <strong>Retirement:</strong> Planning for retirement age</li>
-              <li>• <strong>Medical:</strong> Age-appropriate health screenings</li>
-            </ul>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
 
-export default AgeCalculator;
-    </div>
-  );
-};
-
-export default AgeCalculator;
 export default AgeCalculator;

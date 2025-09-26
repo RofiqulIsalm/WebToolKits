@@ -150,12 +150,4 @@ const WeightConverter: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default WeightConverter;
-    </div>
-  );
-};
-
-export default WeightConverter;
 export default WeightConverter;

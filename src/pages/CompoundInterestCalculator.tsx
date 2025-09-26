@@ -203,12 +203,4 @@ const CompoundInterestCalculator: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default CompoundInterestCalculator;
-    </div>
-  );
-};
-
-export default CompoundInterestCalculator;
 export default CompoundInterestCalculator;
