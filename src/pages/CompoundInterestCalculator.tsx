@@ -142,6 +142,8 @@ const CompoundInterestCalculator: React.FC = () => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
       <AdBanner type="bottom" />
       {/* SEO Content Section */}
       <div className="mt-12 space-y-8">
@@ -167,9 +169,6 @@ const CompoundInterestCalculator: React.FC = () => {
                 </div>
               </div>
             </div>
-    </div>
-  );
-};
 
             <h3 className="text-xl font-semibold text-white mt-6 mb-4">Compounding Frequencies</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
@@ -203,4 +202,6 @@ const CompoundInterestCalculator: React.FC = () => {
       </div>
     </div>
   );
+};
+
 export default CompoundInterestCalculator;
