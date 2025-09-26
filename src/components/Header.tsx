@@ -37,7 +37,7 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2">
             <Calculator className="h-8 w-8 text-blue-400 drop-shadow-lg" />
-            <h1 className="text-2xl font-bold text-white drop-shadow-lg">CalculatorHub</h1>
+            <h1 className="text-2xl font-bold text-white drop-shadow-lg">Daily Tools Hub</h1>
           </Link>
           
           <div className="relative max-w-md w-full mx-4">
