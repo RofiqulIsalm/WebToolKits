@@ -149,40 +149,12 @@ const AgeCalculator: React.FC = () => {
               </div>
             </div>
           </div>
-      <AdBanner type="bottom" />
-      {/* SEO Content Section */}
-      <div className="mt-12 space-y-8">
-        <div className="glow-card rounded-lg p-8">
-          <h2 className="text-2xl font-bold text-white mb-6">Age Calculator Information</h2>
-          <div className="prose prose-invert max-w-none">
-            <p className="text-slate-300 mb-4">
-              Our precise age calculator determines your exact age in years, months, days, weeks, hours, and even minutes. 
-              Whether you need to know your age for official documents, birthday planning, or just curiosity, 
-              our tool provides accurate calculations based on your birth date.
-            </p>
-            
-            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Age Calculation Methods</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <div className="bg-slate-700/50 p-4 rounded-lg">
-                <div className="font-semibold text-white mb-2">Chronological Age</div>
-                <div className="text-slate-300 text-sm">Time elapsed since birth</div>
-                <div className="text-xs text-slate-400 mt-1">Most common age calculation method</div>
-              </div>
-              <div className="bg-slate-700/50 p-4 rounded-lg">
-                <div className="font-semibold text-white mb-2">Age in Days</div>
-                <div className="text-slate-300 text-sm">Total days lived</div>
-                <div className="text-xs text-slate-400 mt-1">Useful for milestone celebrations</div>
-              </div>
-            </div>
-    </div>
-  );
-};
+        </div>
+      </div>
 
-            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Common Use Cases</h3>
+      <AdBanner type="bottom" />
     </div>
   );
 };
 
 export default AgeCalculator;
-  )
-}

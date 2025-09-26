@@ -144,62 +144,8 @@ const CompoundInterestCalculator: React.FC = () => {
           </div>
         </div>
       </div>
-      <AdBanner type="bottom" />
-      {/* SEO Content Section */}
-      <div className="mt-12 space-y-8">
-        <div className="finance-card rounded-lg p-8">
-          <h2 className="text-2xl font-bold text-white mb-6">Compound Interest Calculator Guide</h2>
-          <div className="prose prose-invert max-w-none">
-            <p className="text-slate-300 mb-4">
-              Compound interest is the eighth wonder of the world - it's the interest earned on both the initial 
-              principal and previously earned interest. Our calculator helps you understand how your investments 
-              can grow exponentially over time through the power of compounding.
-            </p>
-            
-            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Compound Interest Formula</h3>
-            <div className="bg-slate-700/50 p-4 rounded-lg mb-6">
-              <div className="text-center">
-                <div className="text-lg font-mono text-white mb-2">A = P(1 + r/n)^(nt)</div>
-                <div className="text-sm text-slate-400 space-y-1">
-                  <div>A = Final amount</div>
-                  <div>P = Principal (initial investment)</div>
-                  <div>r = Annual interest rate (decimal)</div>
-                  <div>n = Number of times interest compounds per year</div>
-                  <div>t = Time in years</div>
-                </div>
-              </div>
-            </div>
 
-            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Compounding Frequencies</h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
-                <div className="font-semibold text-white">Annually</div>
-                <div className="text-sm text-slate-400">Once per year</div>
-              </div>
-              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
-                <div className="font-semibold text-white">Semi-annually</div>
-                <div className="text-sm text-slate-400">Twice per year</div>
-              </div>
-              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
-                <div className="font-semibold text-white">Quarterly</div>
-                <div className="text-sm text-slate-400">4 times per year</div>
-              </div>
-              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
-                <div className="font-semibold text-white">Monthly</div>
-                <div className="text-sm text-slate-400">12 times per year</div>
-              </div>
-              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
-                <div className="font-semibold text-white">Daily</div>
-                <div className="text-sm text-slate-400">365 times per year</div>
-              </div>
-              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
-                <div className="font-semibold text-white">Continuous</div>
-                <div className="text-sm text-slate-400">Infinite compounding</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <AdBanner type="bottom" />
     </div>
   );
 };

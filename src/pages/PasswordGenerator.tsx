@@ -251,55 +251,12 @@ const PasswordGenerator: React.FC = () => {
               </div>
             )}
           </div>
+        </div>
+      </div>
 
-          <AdBanner type="bottom" />
-          
-          {/* SEO Content Section */}
-          <div className="mt-12 space-y-8">
-            <div className="misc-card rounded-lg p-8">
-              <h2 className="text-2xl font-bold text-white mb-6">Password Generator Security Guide</h2>
-              <div className="prose prose-invert max-w-none">
-                <p className="text-slate-300 mb-4">
-                  Strong passwords are your first line of defense against cyber attacks. Our password generator 
-                  creates cryptographically secure passwords with customizable options to meet any security 
-                  requirement while ensuring maximum protection for your accounts.
-                </p>
-                
-                <h3 className="text-xl font-semibold text-white mt-6 mb-4">Password Strength Factors</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                  <div className="bg-slate-700/50 p-4 rounded-lg">
-                    <div className="font-semibold text-white mb-2">Length</div>
-                    <div className="text-slate-300 text-sm mb-1">Longer passwords are exponentially stronger</div>
-                    <div className="text-xs text-slate-400">Minimum 12 characters recommended</div>
-                  </div>
-                  <div className="bg-slate-700/50 p-4 rounded-lg">
-                    <div className="font-semibold text-white mb-2">Character Variety</div>
-                    <div className="text-slate-300 text-sm mb-1">Mix of uppercase, lowercase, numbers, symbols</div>
-                    <div className="text-xs text-slate-400">Increases possible combinations</div>
-                  </div>
-                  <div className="bg-slate-700/50 p-4 rounded-lg">
-                    <div className="font-semibold text-white mb-2">Unpredictability</div>
-                    <div className="text-slate-300 text-sm mb-1">Avoid dictionary words and patterns</div>
-                    <div className="text-xs text-slate-400">Random generation is best</div>
-                  </div>
-                  <div className="bg-slate-700/50 p-4 rounded-lg">
-                    <div className="font-semibold text-white mb-2">Uniqueness</div>
-                    <div className="text-slate-300 text-sm mb-1">Different password for each account</div>
-                    <div className="text-xs text-slate-400">Prevents credential stuffing attacks</div>
-                  </div>
-                </div>
+      <AdBanner type="bottom" />
+    </div>
+  );
+};
 
-                <h3 className="text-xl font-semibold text-white mt-6 mb-4">Password Security Tips</h3>
-                <ul className="text-slate-300 space-y-2 mb-6">
-                  <li>• <strong>Use a Password Manager:</strong> Store and generate unique passwords</li>
-                  <li>• <strong>Enable 2FA:</strong> Add two-factor authentication when available</li>
-                  <li>• <strong>Regular Updates:</strong> Change passwords periodically</li>
-                  <li>• <strong>Avoid Reuse:</strong> Never use the same password twice</li>
-                  <li>• <strong>Secure Storage:</strong> Never store passwords in plain text</li>
-                  <li>• <strong>Phishing Awareness:</strong> Only enter passwords on legitimate sites</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-  )
-}
+export default PasswordGenerator;

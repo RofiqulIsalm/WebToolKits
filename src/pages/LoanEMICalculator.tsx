@@ -39,6 +39,7 @@ const LoanEMICalculator: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <div className="finance-card rounded-lg p-6">
           <h2 className="text-xl font-semibold text-white mb-4">Loan Details</h2>
           
@@ -84,7 +85,9 @@ const LoanEMICalculator: React.FC = () => {
             </div>
           </div>
         </div>
+        </div>
 
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <div className="finance-card rounded-lg p-6">
           <h2 className="text-xl font-semibold text-white mb-4">EMI Breakdown</h2>
           
@@ -121,61 +124,10 @@ const LoanEMICalculator: React.FC = () => {
             </div>
           </div>
         </div>
+        </div>
       </div>
 
       <AdBanner type="bottom" />
-
-      {/* SEO Content Section */}
-      <div className="mt-12 space-y-8">
-        <div className="finance-card rounded-lg p-8">
-          <h2 className="text-2xl font-bold text-white mb-6">Loan EMI Calculator Guide</h2>
-          <div className="prose prose-invert max-w-none">
-            <p className="text-slate-300 mb-4">
-              An EMI (Equated Monthly Installment) calculator helps you determine the monthly payment amount for any loan. 
-              Whether you're planning to buy a home, car, or need a personal loan, our calculator provides accurate EMI 
-              calculations to help you plan your finances better and make informed borrowing decisions.
-            </p>
-            
-            <h3 className="text-xl font-semibold text-white mt-6 mb-4">EMI Calculation Formula</h3>
-            <div className="bg-slate-700/50 p-4 rounded-lg mb-6">
-              <div className="text-center">
-                <div className="text-lg font-mono text-white mb-2">EMI = [P × R × (1+R)^N] / [(1+R)^N - 1]</div>
-                <div className="text-sm text-slate-400">
-                  Where: P = Principal, R = Monthly Interest Rate, N = Number of Months
-                </div>
-              </div>
-            </div>
-
-            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Types of Loans</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              <div className="bg-slate-700/50 p-4 rounded-lg">
-                <div className="font-semibold text-white mb-2">Home Loans</div>
-                <div className="text-sm text-slate-300">15-30 years tenure</div>
-                <div className="text-sm text-slate-300">7-12% interest rate</div>
-              </div>
-              <div className="bg-slate-700/50 p-4 rounded-lg">
-                <div className="font-semibold text-white mb-2">Car Loans</div>
-                <div className="text-sm text-slate-300">3-7 years tenure</div>
-                <div className="text-sm text-slate-300">8-15% interest rate</div>
-              </div>
-              <div className="bg-slate-700/50 p-4 rounded-lg">
-                <div className="font-semibold text-white mb-2">Personal Loans</div>
-                <div className="text-sm text-slate-300">1-5 years tenure</div>
-                <div className="text-sm text-slate-300">12-24% interest rate</div>
-              </div>
-            </div>
-
-            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Benefits of EMI Planning</h3>
-            <ul className="text-slate-300 space-y-2">
-              <li>• <strong>Budget Planning:</strong> Know your exact monthly commitment</li>
-              <li>• <strong>Loan Comparison:</strong> Compare different loan offers easily</li>
-              <li>• <strong>Affordability Check:</strong> Ensure EMI fits your income</li>
-              <li>• <strong>Interest Savings:</strong> Choose optimal tenure to save money</li>
-              <li>• <strong>Financial Planning:</strong> Plan other investments accordingly</li>
-            </ul>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

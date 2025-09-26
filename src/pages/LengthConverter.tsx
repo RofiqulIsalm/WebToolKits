@@ -92,63 +92,8 @@ const LengthConverter: React.FC = () => {
           })}
         </div>
       </div>
-      
-      <AdBanner type="bottom" />
-      {/* SEO Content Section */}
-      <div className="mt-12 space-y-8">
-        <div className="converter-card rounded-lg p-8">
-          <h2 className="text-2xl font-bold text-white mb-6">Length Converter Guide</h2>
-          <div className="prose prose-invert max-w-none">
-            <p className="text-slate-300 mb-4">
-              Convert between different units of length and distance with our comprehensive length converter. 
-              From millimeters to miles, our tool handles all common length measurements used in construction, 
-              engineering, science, and everyday life with precise accuracy.
-            </p>
-            
-            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Measurement Systems</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <div className="bg-slate-700/50 p-4 rounded-lg">
-                <h4 className="font-semibold text-white mb-3">Metric System</h4>
-                <ul className="text-slate-300 text-sm space-y-1">
-                  <li>• Millimeter (mm) - 0.001 meters</li>
-                  <li>• Centimeter (cm) - 0.01 meters</li>
-                  <li>• Meter (m) - Base unit</li>
-                  <li>• Kilometer (km) - 1,000 meters</li>
-                </ul>
-              </div>
-              <div className="bg-slate-700/50 p-4 rounded-lg">
-                <h4 className="font-semibold text-white mb-3">Imperial System</h4>
-                <ul className="text-slate-300 text-sm space-y-1">
-                  <li>• Inch (in) - 2.54 centimeters</li>
-                  <li>• Foot (ft) - 12 inches</li>
-                  <li>• Yard (yd) - 3 feet</li>
-                  <li>• Mile (mi) - 5,280 feet</li>
-                </ul>
-              </div>
-            </div>
 
-            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Common Conversions</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
-                <div className="font-semibold text-white">1 inch</div>
-                <div className="text-sm text-slate-400">= 2.54 cm</div>
-              </div>
-              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
-                <div className="font-semibold text-white">1 foot</div>
-                <div className="text-sm text-slate-400">= 30.48 cm</div>
-              </div>
-              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
-                <div className="font-semibold text-white">1 meter</div>
-                <div className="text-sm text-slate-400">= 3.28 feet</div>
-              </div>
-              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
-                <div className="font-semibold text-white">1 mile</div>
-                <div className="text-sm text-slate-400">= 1.61 km</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <AdBanner type="bottom" />
     </div>
   );
 };

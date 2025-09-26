@@ -1,215 +1,193 @@
-import React, { useState } from 'react';
-import { QrCode, Download, Copy } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { QrCode, Download } from 'lucide-react';
+import QRCodeLib from 'qrcode';
 import AdBanner from '../components/AdBanner';
 
 const QRCodeGenerator: React.FC = () => {
-  const [text, setText] = useState<string>('https://example.com');
-  const [size, setSize] = useState<number>(200);
-  const [errorLevel, setErrorLevel] = useState<string>('M');
+  const [text, setText] = useState<string>('https://dailytoolshub.com');
+  const [qrCodeUrl, setQrCodeUrl] = useState<string>('');
+  const [size, setSize] = useState<number>(256);
+  const [errorLevel, setErrorLevel] = useState<'L' | 'M' | 'Q' | 'H'>('M');
 
-  const generateQRCodeURL = () => {
-    const baseURL = 'https://api.qrserver.com/v1/create-qr-code/';
-    const params = new URLSearchParams({
-      size: `${size}x${size}`,
-      data: text,
-      ecc: errorLevel
-    });
-    return `${baseURL}?${params.toString()}`;
+  useEffect(() => {
+    generateQRCode();
+  }, [text, size, errorLevel]);
+
+  const generateQRCode = async () => {
+    if (!text.trim()) {
+      setQrCodeUrl('');
+      return;
+    }
+
+    try {
+      const url = await QRCodeLib.toDataURL(text, {
+        width: size,
+        margin: 2,
+        errorCorrectionLevel: errorLevel,
+        color: {
+          dark: '#000000',
+          light: '#FFFFFF'
+        }
+      });
+      setQrCodeUrl(url);
+    } catch (error) {
+      console.error('Error generating QR code:', error);
+      setQrCodeUrl('');
+    }
   };
 
   const downloadQRCode = () => {
+    if (!qrCodeUrl) return;
+
     const link = document.createElement('a');
-    link.href = generateQRCodeURL();
     link.download = 'qrcode.png';
+    link.href = qrCodeUrl;
     link.click();
   };
 
-  const copyToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(generateQRCodeURL());
-    } catch (err) {
-      console.error('Failed to copy QR code URL:', err);
-    }
-  };
+  const errorLevels = [
+    { value: 'L', label: 'Low (~7%)' },
+    { value: 'M', label: 'Medium (~15%)' },
+    { value: 'Q', label: 'Quartile (~25%)' },
+    { value: 'H', label: 'High (~30%)' }
+  ];
+
+  const presetTexts = [
+    { label: 'Website URL', value: 'https://example.com' },
+    { label: 'Email', value: 'mailto:contact@example.com' },
+    { label: 'Phone', value: 'tel:+1234567890' },
+    { label: 'SMS', value: 'sms:+1234567890' },
+    { label: 'WiFi', value: 'WIFI:T:WPA;S:NetworkName;P:Password;H:false;' },
+    { label: 'Location', value: 'geo:40.7128,-74.0060' }
+  ];
 
   return (
     <div className="max-w-4xl mx-auto">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">QR Code Generator</h1>
-        <p className="text-slate-300">Generate QR codes for URLs, text, and more</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">QR Code Generator</h1>
+        <p className="text-gray-600">Generate QR codes for text, URLs, contact info, and more</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="misc-card rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-white mb-4">QR Code Settings</h2>
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">QR Code Settings</h2>
           
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                Text or URL
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Text or URL to encode
               </label>
               <textarea
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                className="w-full px-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                rows={3}
-                placeholder="Enter text or URL to encode"
+                rows={4}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Enter text, URL, email, phone number, etc."
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                Size: {size}x{size} pixels
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Quick Presets
               </label>
-              <input
-                type="range"
-                min="100"
-                max="500"
-                value={size}
-                onChange={(e) => setSize(Number(e.target.value))}
-                className="w-full"
-              />
-              <div className="flex justify-between text-xs text-slate-400 mt-1">
-                <span>100px</span>
-                <span>500px</span>
+              <div className="grid grid-cols-2 gap-2">
+                {presetTexts.map((preset) => (
+                  <button
+                    key={preset.label}
+                    onClick={() => setText(preset.value)}
+                    className="px-3 py-2 text-sm bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-lg transition-colors"
+                  >
+                    {preset.label}
+                  </button>
+                ))}
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                Error Correction Level
-              </label>
-              <select
-                value={errorLevel}
-                onChange={(e) => setErrorLevel(e.target.value)}
-                className="w-full px-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="L">Low (7%)</option>
-                <option value="M">Medium (15%)</option>
-                <option value="Q">Quartile (25%)</option>
-                <option value="H">High (30%)</option>
-              </select>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Size (pixels)
+                </label>
+                <select
+                  value={size}
+                  onChange={(e) => setSize(Number(e.target.value))}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value={128}>128x128</option>
+                  <option value={256}>256x256</option>
+                  <option value={512}>512x512</option>
+                  <option value={1024}>1024x1024</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Error Correction
+                </label>
+                <select
+                  value={errorLevel}
+                  onChange={(e) => setErrorLevel(e.target.value as 'L' | 'M' | 'Q' | 'H')}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  {errorLevels.map((level) => (
+                    <option key={level.value} value={level.value}>
+                      {level.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="misc-card rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-white mb-4">Generated QR Code</h2>
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">Generated QR Code</h2>
           
-          <div className="text-center space-y-6">
-            <div className="bg-white p-4 rounded-lg inline-block">
-              <img
-                src={generateQRCodeURL()}
-                alt="Generated QR Code"
-                className="mx-auto"
-                style={{ width: size, height: size }}
-              />
-            </div>
-
-            <div className="flex space-x-4">
-              <button
-                onClick={downloadQRCode}
-                className="flex-1 flex items-center justify-center space-x-2 px-4 py-3 glow-button text-white rounded-lg transition-all"
-              >
-                <Download className="h-5 w-5" />
-                <span>Download</span>
-              </button>
-
-              <button
-                onClick={copyToClipboard}
-                className="flex-1 flex items-center justify-center space-x-2 px-4 py-3 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition-colors"
-              >
-                <Copy className="h-5 w-5" />
-                <span>Copy URL</span>
-              </button>
-            </div>
-
-            <div className="text-left space-y-2 text-sm text-slate-300">
-              <div className="flex justify-between">
-                <span>Data Length:</span>
-                <span>{text.length} characters</span>
+          <div className="space-y-6">
+            {qrCodeUrl ? (
+              <div className="text-center">
+                <div className="inline-block p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+                  <img
+                    src={qrCodeUrl}
+                    alt="Generated QR Code"
+                    className="max-w-full h-auto"
+                    style={{ maxWidth: '300px' }}
+                  />
+                </div>
+                
+                <div className="mt-4">
+                  <button
+                    onClick={downloadQRCode}
+                    className="flex items-center justify-center space-x-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors mx-auto"
+                  >
+                    <Download className="h-5 w-5" />
+                    <span>Download PNG</span>
+                  </button>
+                </div>
               </div>
-              <div className="flex justify-between">
-                <span>Image Size:</span>
-                <span>{size}x{size} pixels</span>
+            ) : (
+              <div className="text-center py-12">
+                <QrCode className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                <p className="text-gray-500">
+                  {text.trim() ? 'Generating QR code...' : 'Enter text to generate QR code'}
+                </p>
               </div>
-              <div className="flex justify-between">
-                <span>Error Correction:</span>
-                <span>{errorLevel} Level</span>
-              </div>
-            </div>
+            )}
           </div>
+
+          {text.trim() && (
+            <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+              <h4 className="font-medium text-gray-900 mb-2">Encoded Content:</h4>
+              <p className="text-sm text-gray-600 break-all">{text}</p>
+              <div className="mt-2 text-xs text-gray-500">
+                Size: {size}x{size}px | Error Level: {errorLevel}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
       <AdBanner type="bottom" />
-      
-      {/* SEO Content Section */}
-      <div className="mt-12 space-y-8">
-        <div className="misc-card rounded-lg p-8">
-          <h2 className="text-2xl font-bold text-white mb-6">QR Code Generator Guide</h2>
-          <div className="prose prose-invert max-w-none">
-            <p className="text-slate-300 mb-4">
-              Generate high-quality QR codes for any text, URL, or data with our free QR code generator. 
-              Perfect for business cards, marketing materials, event tickets, and digital sharing. 
-              Customize size and error correction levels for optimal scanning performance.
-            </p>
-            
-            <h3 className="text-xl font-semibold text-white mt-6 mb-4">QR Code Types</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <div className="bg-slate-700/50 p-4 rounded-lg">
-                <div className="font-semibold text-white mb-2">URL/Website</div>
-                <div className="text-slate-300 text-sm mb-1">Direct users to websites or landing pages</div>
-                <div className="text-xs text-slate-400">Most common QR code type</div>
-              </div>
-              <div className="bg-slate-700/50 p-4 rounded-lg">
-                <div className="font-semibold text-white mb-2">Plain Text</div>
-                <div className="text-slate-300 text-sm mb-1">Share messages, instructions, or information</div>
-                <div className="text-xs text-slate-400">Simple text encoding</div>
-              </div>
-              <div className="bg-slate-700/50 p-4 rounded-lg">
-                <div className="font-semibold text-white mb-2">Contact Info</div>
-                <div className="text-slate-300 text-sm mb-1">vCard format for easy contact sharing</div>
-                <div className="text-xs text-slate-400">Business card integration</div>
-              </div>
-              <div className="bg-slate-700/50 p-4 rounded-lg">
-                <div className="font-semibold text-white mb-2">WiFi Access</div>
-                <div className="text-slate-300 text-sm mb-1">Share WiFi credentials securely</div>
-                <div className="text-xs text-slate-400">Automatic network connection</div>
-              </div>
-            </div>
-
-            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Error Correction Levels</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
-                <div className="font-semibold text-white">Low (L)</div>
-                <div className="text-sm text-slate-400">~7% recovery</div>
-              </div>
-              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
-                <div className="font-semibold text-white">Medium (M)</div>
-                <div className="text-sm text-slate-400">~15% recovery</div>
-              </div>
-              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
-                <div className="font-semibold text-white">Quartile (Q)</div>
-                <div className="text-sm text-slate-400">~25% recovery</div>
-              </div>
-              <div className="bg-slate-700/50 p-3 rounded-lg text-center">
-                <div className="font-semibold text-white">High (H)</div>
-                <div className="text-sm text-slate-400">~30% recovery</div>
-              </div>
-            </div>
-
-            <h3 className="text-xl font-semibold text-white mt-6 mb-4">Best Practices</h3>
-            <ul className="text-slate-300 space-y-2">
-              <li>• <strong>Test Before Use:</strong> Always scan your QR code before printing</li>
-              <li>• <strong>Size Matters:</strong> Ensure adequate size for scanning distance</li>
-              <li>• <strong>High Contrast:</strong> Use dark QR codes on light backgrounds</li>
-              <li>• <strong>Error Correction:</strong> Use higher levels for damaged surfaces</li>
-              <li>• <strong>Clear Instructions:</strong> Tell users what the QR code does</li>
-            </ul>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
