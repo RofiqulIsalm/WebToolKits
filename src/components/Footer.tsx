@@ -60,7 +60,7 @@ const Footer: React.FC = () => {
         <div className="border-t border-slate-700 mt-8 pt-6 text-center text-sm text-slate-400">
           <p>
             © {new Date().getFullYear()} CalculatorHub. Free online calculators & converters for daily use. 
-            All Rights Reserved.
+            All Rights Reserved.001
           </p>
         </div>
       </div>
