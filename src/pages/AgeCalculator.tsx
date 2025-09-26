@@ -1,19 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
-import { Helmet } from "react-helmet";
 
-<Helmet>
-  <title>Free Online Age Calculator - Exact Years, Months & Days</title>
-  <meta
-    name="description"
-    content="Instantly calculate your exact age in years, months, days, weeks, and hours with our free online Age Calculator. Perfect for birthdays, forms, and planning."
-  />
-  <meta
-    name="keywords"
-    content="age calculator, calculate age online, exact age finder, birthday calculator, age in days, age in weeks, retirement age calculator"
-  />
-</Helmet>
 
 const AgeCalculator: React.FC = () => {
   const [birthDate, setBirthDate] = useState<string>('1990-01-01');
