@@ -153,6 +153,10 @@ const AgeCalculator: React.FC = () => {
       </div>
 
       <AdBanner type="bottom" />
+
+      <p>
+        adfkkjoij oiajdsfkj kajoier juyka jhiuh kjauyh8wj jhiuhwj ihaiuwekjhkjsy hhiuyhu jah8 jkajsdiufh 
+      </p>
     </div>
   );
 };
