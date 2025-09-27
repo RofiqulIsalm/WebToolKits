@@ -56,6 +56,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                         <li><a href="/sip-calculator" className="hover:text-blue-400">SIP                                 Calculator</a></li>
                         <li><a href="/percentage-calculator" className="hover:text-blue-                                  400">Percentage Calculator</a></li>
                         <li><a href="/discount-calculator" className="hover:text-blue-                                    400">Discount Calculator</a></li>
+                        <li><a href="/discount-calculator" className="hover:text-blue-                                    400">Discount Calculator</a></li>
+                        <li><a href="/discount-calculator" className="hover:text-blue-                                    400">Discount Calculator</a></li>
+                        <li><a href="/discount-calculator" className="hover:text-blue-                                    400">Discount Calculator</a></li>
+                        <li><a href="/discount-calculator" className="hover:text-blue-                                    400">Discount Calculator</a></li>
+                        <li><a href="/discount-calculator" className="hover:text-blue-                                    400">Discount Calculator</a></li>
+                        <li><a href="/discount-calculator" className="hover:text-blue-                                    400">Discount Calculator</a></li>
                     </ul>
               </div>
           </aside>
