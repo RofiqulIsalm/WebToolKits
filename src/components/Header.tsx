@@ -57,12 +57,7 @@ const Header: React.FC = () => {
             <Link to="/unit-converter" className="text-slate-200 hover:text-blue-400 transition-colors">
               Converters
             </Link>
-            <Link to="/about-us" className="text-slate-200 hover:text-blue-400 transition-colors">
-              About
-            </Link>
-            <Link to="/contact" className="text-slate-200 hover:text-blue-400 transition-colors">
-              Contact
-            </Link>
+
           </nav>
 
           {/* Search Bar */}
