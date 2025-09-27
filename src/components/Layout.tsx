@@ -32,6 +32,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             {/* SEO Intro Section (only for homepage if needed) */}
             {/* You can conditionally render this based on route */}
             {/* Example: show only on `/` */}
+            {/* 
             
             {window.location.pathname === '/' && (
               <section className="mt-10 text-slate-200 text-sm leading-relaxed space-y-3">
@@ -52,7 +53,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 </p>
               </section>
             )}
-            
+            */}
           </div>
 
           {/* Sidebar for Ads / Related Links */}
