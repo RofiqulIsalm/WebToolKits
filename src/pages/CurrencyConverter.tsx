@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRightLeft, RefreshCw } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
+import { Helmet } from "react-helmet-async";
 
 const CurrencyConverter: React.FC = () => {
   const [amount, setAmount] = useState<number>(1);
@@ -231,7 +232,20 @@ const CurrencyConverter: React.FC = () => {
   };
 
   return (
+    
     <div className="max-w-4xl mx-auto">
+      {/* ✅ Dynamic SEO tags */}
+      <Helmet>
+        <title>Currency Converter | CalculatorHub</title>
+        <meta
+          name="description"
+          content="Convert between different currencies instantly with live exchange rates using our free Currency Converter tool on CalculatorHub."
+        />
+        <meta
+          name="keywords"
+          content="currency converter, forex rates, exchange rates, USD to EUR, money converter, calculatorhub"
+        />
+      </Helmet>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">Currency Converter</h1>
         <p className="text-slate-300">Convert between different currencies with live exchange rates</p>
