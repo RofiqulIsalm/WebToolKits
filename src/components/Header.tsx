@@ -96,9 +96,7 @@ const Header: React.FC = () => {
         </div>
 
         {/* SEO Tagline */}
-        <div className="mt-3 text-center text-slate-300 text-xs md:text-sm">
-          Free <strong>online calculators</strong> & <strong>converters</strong> for math, finance, health, and everyday life – fast, accurate, and privacy-friendly.
-        </div>
+        
       </div>
     </header>
   );
