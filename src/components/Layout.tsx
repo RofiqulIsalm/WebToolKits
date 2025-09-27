@@ -40,7 +40,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <AdBanner type="sidebar" />
             {/* SEO internal links idea */}
              <div className="mt-6 p-4 bg-slate-800 rounded-lg text-slate-300 text-sm">
-                <h3 className="font-semibold text-white mb-3">Quick Access</h3>
+                <h3 className="font-semibold text-white mb-3">Popular Calculators</h3>
                 <ul className="space-y-2">
                   <li><a href="/currency-converter" className="hover:text-blue-400">Currency                       Converter</a></li>
                   <li><a href="/bmi-calculator" className="hover:text-blue-400">BMI                                Calculator</a></li>
@@ -50,7 +50,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               </div> 
               {/* Popular Calculators Section */}
               <div className="mt-6 p-4 bg-slate-800 rounded-lg text-slate-300 text-sm">
-                  <h3 className="font-semibold text-white mb-3">Popular Calculators</h3>
+                  <h3 className="font-semibold text-white mb-3">Quick Access</h3>
                   <ul className="space-y-2">
                         <li><a href="/age-calculator" className="hover:text-blue-400">Age                                 Calculator</a></li>
                         <li><a href="/sip-calculator" className="hover:text-blue-400">SIP                                 Calculator</a></li>
