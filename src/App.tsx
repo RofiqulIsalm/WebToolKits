@@ -44,6 +44,9 @@ function App() {
             <Route path="/date-difference" element={<DateDifference />} />
             <Route path="/qr-code-generator" element={<QRCodeGenerator />} />
             <Route path="/password-generator" element={<PasswordGenerator />} />
+
+            {/* 404 page route 👇 */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </Layout>
