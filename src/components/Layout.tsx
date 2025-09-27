@@ -34,7 +34,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             {/* Example: show only on `/` */}
              
             
-            {window.location.pathname === '/' && (
+            {location.pathname === '/' && (
               <section className="mt-10 text-slate-200 text-sm leading-relaxed space-y-3">
                 <h2 className="text-xl font-semibold text-white">
                   Free Online Calculators & Converters
