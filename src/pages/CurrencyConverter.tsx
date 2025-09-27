@@ -179,7 +179,7 @@ const CurrencyConverter: React.FC = () => {
     fetchExchangeRates();
   }, []);
 
-  useEffect(() => {
+  useEffect(() => { 
     if (exchangeRates[fromCurrency] && exchangeRates[toCurrency]) {
       const rate = exchangeRates[toCurrency] / exchangeRates[fromCurrency];
       setResult(amount * rate);
