@@ -32,28 +32,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             {/* SEO Intro Section (only for homepage if needed) */}
             {/* You can conditionally render this based on route */}
             {/* Example: show only on `/` */}
-             
             
-            {location.pathname === '/' && (
-              <section className="mt-10 text-slate-200 text-sm leading-relaxed space-y-3">
-                <h2 className="text-xl font-semibold text-white">
-                  Free Online Calculators & Converters
-                </h2>
-                <p>
-                  Welcome to <strong>CalculatorHub</strong> – the ultimate hub for free and easy-to-use 
-                  calculators. From <strong>math tools</strong> and <strong>finance calculators</strong> 
-                  to <strong>BMI calculators</strong> and <strong>unit converters</strong>, 
-                  we provide accurate and instant results for everyday needs.
-                </p>
-                <p>
-                  Whether you want to <Link to="/loan-emi-calculator" className="text-blue-400 hover:underline">calculate loan EMI</Link>, 
-                  track your <Link to="/bmi-calculator" className="text-blue-400 hover:underline">BMI</Link>, 
-                  or use a quick <Link to="/percentage-calculator" className="text-blue-400 hover:underline">percentage calculator</Link>, 
-                  everything is available here — fast, free, and privacy-friendly.
-                </p>
-              </section>
-            )}
-          
           </div>
 
           {/* Sidebar for Ads / Related Links */}
