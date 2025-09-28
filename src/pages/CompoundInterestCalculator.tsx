@@ -67,7 +67,7 @@ const CompoundInterestCalculator: React.FC = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Time Period (years)
+                Time Period (Days)
               </label>
               <input
                 type="number"
