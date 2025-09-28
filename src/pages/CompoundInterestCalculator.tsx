@@ -42,7 +42,7 @@ const CompoundInterestCalculator: React.FC = () => {
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Principal Amount (₹)
+                Principal Amount ($)
               </label>
               <input
                 type="number"
@@ -118,7 +118,7 @@ const CompoundInterestCalculator: React.FC = () => {
               
               <div className="p-4 bg-yellow-50 rounded-lg text-center">
                 <div className="text-lg font-semibold text-gray-900">
-                  ₹{compoundInterest.toFixed(2)}
+                  ${compoundInterest.toFixed(2)}
                 </div>
                 <div className="text-sm text-gray-600">Compound Interest</div>
               </div>
