@@ -3,28 +3,11 @@ import React, { useState, useEffect } from "react";
 const CompoundCalculator: React.FC = () => {
   const [mode, setMode] = useState("daily");
 
-  // Common inputs
+  // Inputs
   const [principal, setPrincipal] = useState<number>(1000);
   const [rate, setRate] = useState<number>(10);
-  const [timeYears, setTimeYears] = useState<number>(0);
-  const [timeMonths, setTimeMonths] = useState<number>(0);
-  const [timeDays, setTimeDays] = useState<number>(0);
-  const [rateType, setRateType] = useState("yearly"); // daily, weekly, monthly, yearly
-
-  // Daily compounding options
-  const [includeAllDays, setIncludeAllDays] = useState(true);
-  const [selectedDays, setSelectedDays] = useState<string[]>([
-    "Mon",
-    "Tue",
-    "Wed",
-    "Thu",
-    "Fri",
-    "Sat",
-    "Sun",
-  ]);
-  const [breakdown, setBreakdown] = useState<
-    { date: string; earnings: number; totalEarnings: number; balance: number }[]
-    >([]);
+  const [time, setTime] = useState<number>(1);
+  const [frequency, setFrequency] = useState<number>(365);
   const [startDate, setStartDate] = useState<string>(
     new Date().toISOString().split("T")[0]
   );
@@ -33,14 +16,10 @@ const CompoundCalculator: React.FC = () => {
   const [finalAmount, setFinalAmount] = useState<number>(0);
   const [interest, setInterest] = useState<number>(0);
 
-  // Handle toggle day selection
-  const toggleDay = (day: string) => {
-    if (selectedDays.includes(day)) {
-      setSelectedDays(selectedDays.filter((d) => d !== day));
-    } else {
-      setSelectedDays([...selectedDays, day]);
-    }
-  };
+  // Breakdown
+  const [breakdown, setBreakdown] = useState<
+    { date: string; earnings: number; totalEarnings: number; balance: number }[]
+  >([]);
 
   // Title
   const getTitle = () => {
@@ -56,76 +35,106 @@ const CompoundCalculator: React.FC = () => {
     }
   };
 
-  // Calculation logic
+  // Calculation
   useEffect(() => {
+    let amount = 0;
+    let intr = 0;
+
     if (mode === "daily") {
-      // Convert years/months/days into total days
-      const totalDays =
-        timeYears * 365 + timeMonths * 30 + timeDays;
-
-      // Convert rate into daily equivalent
-      let dailyRate = 0;
-      switch (rateType) {
-        case "daily":
-          dailyRate = rate / 100;
-          break;
-        case "weekly":
-          dailyRate = rate / 100 / 7;
-          break;
-        case "monthly":
-          dailyRate = rate / 100 / 30;
-          break;
-        case "yearly":
-        default:
-          dailyRate = rate / 100 / 365;
-          break;
-      }
-
-      // Count effective compounding days
-      let effectiveDays = totalDays;
-      if (!includeAllDays) {
-        const start = new Date(startDate);
-        let count = 0;
-        for (let i = 0; i < totalDays; i++) {
-          const d = new Date(start);
-          d.setDate(start.getDate() + i);
-          const dayName = d.toLocaleDateString("en-US", {
-            weekday: "short",
-          });
-          if (selectedDays.includes(dayName)) {
-            count++;
-          }
-        }
-        effectiveDays = count;
-      }
-
-      const amount = principal * Math.pow(1 + dailyRate, effectiveDays);
-      setFinalAmount(amount);
-      setInterest(amount - principal);
+      amount =
+        principal * Math.pow(1 + rate / 100 / frequency, frequency * time);
+      intr = amount - principal;
     } else if (mode === "forex") {
-      const amount = principal * Math.pow(1 + rate / 100, timeYears);
-      setFinalAmount(amount);
-      setInterest(amount - principal);
+      amount = principal * Math.pow(1 + rate / 100, time);
+      intr = amount - principal;
     } else if (mode === "simple") {
-      const si = (principal * rate * timeYears) / 100;
-      setFinalAmount(principal + si);
-      setInterest(si);
+      intr = (principal * rate * time) / 100;
+      amount = principal + intr;
     }
-  }, [
-    mode,
-    principal,
-    rate,
-    timeYears,
-    timeMonths,
-    timeDays,
-    rateType,
-    includeAllDays,
-    selectedDays,
-    startDate,
-  ]);
+
+    setFinalAmount(amount);
+    setInterest(intr);
+
+    // ---- Breakdown ----
+    const breakdownData: {
+      date: string;
+      earnings: number;
+      totalEarnings: number;
+      balance: number;
+    }[] = [];
+
+    let runningPrincipal = principal;
+    let cumulativeEarnings = 0;
+    let currentDate = new Date(startDate);
+
+    // Convert years into days for looping (approx.)
+    const effectiveDays = time * 365;
+    const dailyRate =
+      mode === "daily"
+        ? rate / 100 / frequency
+        : mode === "forex"
+        ? rate / 100
+        : rate / 100 / 365;
+
+    for (let i = 1; i <= effectiveDays; i++) {
+      const prevBalance = runningPrincipal;
+      runningPrincipal = runningPrincipal * (1 + dailyRate);
+      const earnings = runningPrincipal - prevBalance;
+      cumulativeEarnings += earnings;
+
+      // Daily mode → every single day
+      if (mode === "daily") {
+        breakdownData.push({
+          date: currentDate.toLocaleDateString(),
+          earnings,
+          totalEarnings: cumulativeEarnings,
+          balance: runningPrincipal,
+        });
+      }
+
+      // Weekly → every 7 days
+      if (mode === "forex" && i % 7 === 0) {
+        const weekStart = new Date(currentDate);
+        weekStart.setDate(currentDate.getDate() - 6);
+        breakdownData.push({
+          date: `${weekStart.toLocaleDateString()} - ${currentDate.toLocaleDateString()}`,
+          earnings,
+          totalEarnings: cumulativeEarnings,
+          balance: runningPrincipal,
+        });
+      }
+
+      // Monthly → every 30 days
+      if (mode === "simple" && i % 30 === 0) {
+        breakdownData.push({
+          date: currentDate.toLocaleDateString("en-US", {
+            month: "short",
+            year: "numeric",
+          }),
+          earnings,
+          totalEarnings: cumulativeEarnings,
+          balance: runningPrincipal,
+        });
+      }
+
+      // Yearly → every 365 days
+      if (i % 365 === 0) {
+        breakdownData.push({
+          date: `${currentDate.getFullYear()}`,
+          earnings,
+          totalEarnings: cumulativeEarnings,
+          balance: runningPrincipal,
+        });
+      }
+
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    setBreakdown(breakdownData);
+  }, [mode, principal, rate, time, frequency, startDate]);
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       {/* Title */}
       <h1 className="text-2xl font-bold mb-2 text-center">{getTitle()}</h1>
       <p className="text-gray-500 mb-4 text-center">
@@ -167,148 +176,135 @@ const CompoundCalculator: React.FC = () => {
         </button>
       </div>
 
-      {/* Daily Mode Inputs */}
-      {mode === "daily" && (
-        <>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Principal Amount ($)
-              </label>
-              <input
-                type="number"
-                value={principal}
-                onChange={(e) => setPrincipal(Number(e.target.value))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
+      {/* Inputs */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Principal Amount ($)
+          </label>
+          <input
+            type="number"
+            value={principal}
+            onChange={(e) => setPrincipal(Number(e.target.value))}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+          />
+        </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Interest Rate (%)
-              </label>
-              <div className="flex gap-2">
-                <input
-                  type="number"
-                  value={rate}
-                  onChange={(e) => setRate(Number(e.target.value))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                />
-                <select
-                  value={rateType}
-                  onChange={(e) => setRateType(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-md"
-                >
-                  <option value="daily">Daily</option>
-                  <option value="weekly">Weekly</option>
-                  <option value="monthly">Monthly</option>
-                  <option value="yearly">Yearly</option>
-                </select>
-              </div>
-            </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Interest Rate (% {mode === "forex" ? "per trade" : "per annum"})
+          </label>
+          <input
+            type="number"
+            value={rate}
+            onChange={(e) => setRate(Number(e.target.value))}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+          />
+        </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Time Period (Years / Months / Days)
-              </label>
-              <div className="flex gap-2">
-                <input
-                  type="number"
-                  placeholder="Years"
-                  value={timeYears}
-                  onChange={(e) => setTimeYears(Number(e.target.value))}
-                  className="w-1/3 px-3 py-2 border border-gray-300 rounded-md"
-                />
-                <input
-                  type="number"
-                  placeholder="Months"
-                  value={timeMonths}
-                  onChange={(e) => setTimeMonths(Number(e.target.value))}
-                  className="w-1/3 px-3 py-2 border border-gray-300 rounded-md"
-                />
-                <input
-                  type="number"
-                  placeholder="Days"
-                  value={timeDays}
-                  onChange={(e) => setTimeDays(Number(e.target.value))}
-                  className="w-1/3 px-3 py-2 border border-gray-300 rounded-md"
-                />
-              </div>
-            </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            {mode === "forex"
+              ? "Number of Trades"
+              : mode === "simple"
+              ? "Time Period (Years)"
+              : "Time Period (Years)"}
+          </label>
+          <input
+            type="number"
+            value={time}
+            onChange={(e) => setTime(Number(e.target.value))}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+          />
+        </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Start Date
-              </label>
-              <input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
+        {mode === "daily" && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Compounding Frequency
+            </label>
+            <select
+              value={frequency}
+              onChange={(e) => setFrequency(Number(e.target.value))}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+            >
+              <option value={1}>Annually</option>
+              <option value={2}>Semi-Annually</option>
+              <option value={4}>Quarterly</option>
+              <option value={12}>Monthly</option>
+              <option value={365}>Daily</option>
+            </select>
           </div>
+        )}
 
-          {/* Include Days Option */}
-          <div className="mb-4">
-            <p className="text-sm font-medium text-gray-700 mb-1">
-              Include all days of the week?
-            </p>
-            <div className="flex gap-4">
-              <button
-                type="button"
-                onClick={() => setIncludeAllDays(true)}
-                className={`px-3 py-1 rounded-md ${
-                  includeAllDays ? "bg-blue-600 text-white" : "bg-gray-200"
-                }`}
-              >
-                Yes
-              </button>
-              <button
-                type="button"
-                onClick={() => setIncludeAllDays(false)}
-                className={`px-3 py-1 rounded-md ${
-                  !includeAllDays ? "bg-blue-600 text-white" : "bg-gray-200"
-                }`}
-              >
-                No
-              </button>
-            </div>
-          </div>
-
-          {!includeAllDays && (
-            <div className="mb-4">
-              <p className="text-sm font-medium text-gray-700 mb-2">
-                Days to include:
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-                  <button
-                    key={day}
-                    type="button"
-                    onClick={() => toggleDay(day)}
-                    className={`px-3 py-1 rounded-md border ${
-                      selectedDays.includes(day)
-                        ? "bg-orange-400 text-black"
-                        : "bg-gray-200"
-                    }`}
-                  >
-                    {day}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-        </>
-      )}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Starting Date
+          </label>
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+          />
+        </div>
+      </div>
 
       {/* Results */}
-      <div className="p-4 bg-gray-100 rounded-lg text-center mt-6">
+      <div className="p-4 bg-gray-100 rounded-lg text-center">
         <p className="text-lg font-semibold text-gray-800">
           Final Amount: ${finalAmount.toFixed(2)}
         </p>
-        <p className="text-md text-gray-600">Interest Earned: ${interest.toFixed(2)}</p>
+        <p className="text-md text-gray-600">
+          {mode === "simple" ? "Simple Interest" : "Interest"}: $
+          {interest.toFixed(2)}
+        </p>
       </div>
+
+      {/* Breakdown Table */}
+      {breakdown.length > 0 && (
+        <div className="mt-8">
+          <h2 className="text-xl font-semibold mb-4">Earnings Breakdown</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse border border-gray-300 text-sm">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="border border-gray-300 px-3 py-2 text-left">
+                    Period
+                  </th>
+                  <th className="border border-gray-300 px-3 py-2 text-right">
+                    Earnings
+                  </th>
+                  <th className="border border-gray-300 px-3 py-2 text-right">
+                    Total Earnings
+                  </th>
+                  <th className="border border-gray-300 px-3 py-2 text-right">
+                    Balance
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {breakdown.map((row, idx) => (
+                  <tr key={idx} className="odd:bg-white even:bg-gray-50">
+                    <td className="border border-gray-300 px-3 py-2">
+                      {row.date}
+                    </td>
+                    <td className="border border-gray-300 px-3 py-2 text-right">
+                      ${row.earnings.toFixed(2)}
+                    </td>
+                    <td className="border border-gray-300 px-3 py-2 text-right">
+                      ${row.totalEarnings.toFixed(2)}
+                    </td>
+                    <td className="border border-gray-300 px-3 py-2 text-right">
+                      ${row.balance.toFixed(2)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
