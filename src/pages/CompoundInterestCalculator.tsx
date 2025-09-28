@@ -3,10 +3,10 @@ import { TrendingUp } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 
 const CompoundInterestCalculator: React.FC = () => {
-  const [principal, setPrincipal] = useState<number>(10000);
-  const [rate, setRate] = useState<number>(8);
-  const [time, setTime] = useState<number>(5);
-  const [frequency, setFrequency] = useState<number>(12);
+  const [principal, setPrincipal] = useState<number>(0);
+  const [rate, setRate] = useState<number>(0);
+  const [time, setTime] = useState<number>(0);
+  const [frequency, setFrequency] = useState<number>(0);
   const [finalAmount, setFinalAmount] = useState<number>(0);
   const [compoundInterest, setCompoundInterest] = useState<number>(0);
 
