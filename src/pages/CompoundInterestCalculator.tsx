@@ -14,7 +14,7 @@ const CompoundCalculator: React.FC = () => {
   const [timeMonths, setTimeMonths] = useState<number>(0);
   const [timeDays, setTimeDays] = useState<number>(0);
   const [rateType, setRateType] = useState("yearly");
-  const [includeAllDays, setIncludeAllDays] = useState<"yes" | "no">("yes");
+   
   const [startDate, setStartDate] = useState<string>(
     new Date().toISOString().split("T")[0]
   );
@@ -247,7 +247,7 @@ const CompoundCalculator: React.FC = () => {
             ))}
           </div>
         )}
-      </div> 
+      </div>
 
       {/* Results */}
       <div className="p-4 bg-gray-100 rounded-lg text-center mt-6">
