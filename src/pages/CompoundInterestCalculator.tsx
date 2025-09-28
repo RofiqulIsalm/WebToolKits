@@ -220,34 +220,34 @@ const CompoundCalculator: React.FC = () => {
       </div>
 
       {/* Day Selector */}
-      <div>
-  <label className="block text-sm font-medium text-gray-700 mb-1">
-    Include All Days of Week?
-  </label>
-  <div className="flex gap-4">
-    <label className="flex items-center gap-2">
-      <input
-        type="radio"
-        name="includeDays"
-        value="yes"
-        checked={includeAllDays === "yes"}
-        onChange={() => setIncludeAllDays("yes")}
-      />
-      Yes
-    </label>
-    <label className="flex items-center gap-2">
-      <input
-        type="radio"
-        name="includeDays"
-        value="no"
-        checked={includeAllDays === "no"}
-        onChange={() => setIncludeAllDays("no")}
-      />
-      No
-    </label>
-  </div>
-</div>
-
+      <div className="mt-4">
+        <label className="block mb-2 text-sm font-medium">
+          Include All Days
+        </label>
+        <input
+          type="checkbox"
+          checked={includeAllDays}
+          onChange={(e) => setIncludeAllDays(e.target.checked)}
+        />
+        {!includeAllDays && (
+          <div className="mt-2 flex flex-wrap gap-2">
+            {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
+              <button
+                key={day}
+                type="button"
+                onClick={() => toggleDay(day)}
+                className={`px-3 py-1 rounded border ${
+                  selectedDays.includes(day)
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-200"
+                }`}
+              >
+                {day}
+              </button>
+            ))}
+          </div>
+        )}
+      </div> 
 
       {/* Results */}
       <div className="p-4 bg-gray-100 rounded-lg text-center mt-6">
