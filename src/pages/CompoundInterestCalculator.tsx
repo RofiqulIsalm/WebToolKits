@@ -33,7 +33,50 @@ const CompoundInterestCalculator: React.FC = () => {
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Compound Interest Calculator</h1>
         <p className="text-gray-600">Calculate the compound interest on your investments and savings</p>
+        <div className="flex justify-center gap-4 mb-6">
+        <button
+          onClick={() => setMode("daily")}
+          className={`px-4 py-2 rounded-lg text-sm font-semibold transition 
+            ${
+              mode === "daily"
+                ? "bg-blue-600 text-white"
+                : "bg-slate-700 hover:bg-slate-600"
+            }`}
+        >
+          Daily Compound
+        </button>
+        <button
+          onClick={() => setMode("forex")}
+          className={`px-4 py-2 rounded-lg text-sm font-semibold transition 
+            ${
+              mode === "forex"
+                ? "bg-green-600 text-white"
+                : "bg-slate-700 hover:bg-slate-600"
+            }`}
+        >
+          Forex Compound
+        </button>
+        <button
+          onClick={() => setMode("simple")}
+          className={`px-4 py-2 rounded-lg text-sm font-semibold transition 
+            ${
+              mode === "simple"
+                ? "bg-purple-600 text-white"
+                : "bg-slate-700 hover:bg-slate-600"
+            }`}
+        >
+          Simple Interest
+        </button>
       </div>
+
+      {/* Calculator Form */}
+      <div className="bg-slate-800 p-6 rounded-lg">
+        {mode === "daily" && <p className="text-blue-400">Daily Compound Mode Active</p>}
+        {mode === "forex" && <p className="text-green-400">Forex Compound Mode Active</p>}
+        {mode === "simple" && <p className="text-purple-400">Simple Interest Mode Active</p>}
+
+      </div>
+      
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
