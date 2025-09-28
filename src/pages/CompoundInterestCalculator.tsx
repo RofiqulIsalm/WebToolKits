@@ -18,8 +18,9 @@ const CompoundCalculator: React.FC = () => {
   const [startDate, setStartDate] = useState<string>(
     new Date().toISOString().split("T")[0]
   );
+  
 
-  const [includeAllDays, setIncludeAllDays] = useState(true);
+  const [includeAllDays, setIncludeAllDays] = useState<"yes" | "no">("yes");
   const [selectedDays, setSelectedDays] = useState<string[]>([
     "Mon",
     "Tue",
