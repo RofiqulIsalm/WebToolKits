@@ -22,6 +22,9 @@ const CompoundCalculator: React.FC = () => {
     "Sat",
     "Sun",
   ]);
+  const [breakdown, setBreakdown] = useState<
+    { date: string; earnings: number; totalEarnings: number; balance: number }[]
+    >([]);
   const [startDate, setStartDate] = useState<string>(
     new Date().toISOString().split("T")[0]
   );
