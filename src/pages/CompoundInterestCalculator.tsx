@@ -221,15 +221,34 @@ const CompoundCalculator: React.FC = () => {
       </div>
 
       {/* Day Selector */}
-      <div className="mt-4">
-        <label className="block mb-2 text-sm font-medium">
-          Include All Days
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Include All Days of Week?
         </label>
-        <input
-          type="checkbox"
-          checked={includeAllDays}
-          onChange={(e) => setIncludeAllDays(e.target.checked)}
-        />
+        <div className="flex gap-4">
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="includeDays"
+              value="yes"
+              checked={includeAllDays === "yes"}
+              onChange={() => setIncludeAllDays("yes")}
+            />
+            Yes
+          </label>
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="includeDays"
+              value="no"
+              checked={includeAllDays === "no"}
+              onChange={() => setIncludeAllDays("no")}
+            />
+            No
+          </label>
+        </div>
+      </div>
+
         {!includeAllDays && (
           <div className="mt-2 flex flex-wrap gap-2">
             {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
