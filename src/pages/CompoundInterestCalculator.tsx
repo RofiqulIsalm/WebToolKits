@@ -1,14 +1,26 @@
 import React, { useState } from "react";
 
 const CompoundCalculator: React.FC = () => {
-  const [mode, setMode] = useState("compound");
+  const [mode, setMode] = useState("daily");
+
+  // Dynamic Title
+  const getTitle = () => {
+    switch (mode) {
+      case "daily":
+        return "Daily Compound Interest Calculator";
+      case "forex":
+        return "Forex Compound Interest Calculator";
+      case "simple":
+        return "Simple Interest Calculator";
+      default:
+        return "Compound Interest Calculator";
+    }
+  };
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-slate-900 text-white rounded-xl shadow-lg">
       {/* Title */}
-      <h2 className="text-2xl font-bold mb-2 text-center">
-        Compound Interest Calculator
-      </h2>
+      <h1 className="text-2xl font-bold mb-2 text-center">{getTitle()}</h1>
       <p className="text-slate-400 mb-4 text-center">
         Calculate the compound interest on your investments and savings
       </p>
@@ -55,8 +67,6 @@ const CompoundCalculator: React.FC = () => {
         {mode === "daily" && <p className="text-blue-400">Daily Compound Mode Active</p>}
         {mode === "forex" && <p className="text-green-400">Forex Compound Mode Active</p>}
         {mode === "simple" && <p className="text-purple-400">Simple Interest Mode Active</p>}
-
-        {/* Later we’ll replace these messages with the actual calculator logic */}
       </div>
     </div>
   );
