@@ -385,7 +385,7 @@ const CompoundCalculator: React.FC = () => {
           Interest Earned: ${interest.toFixed(2)}
         </p>
       </div>
-
+ 
       {/* Breakdown Table */}
       {breakdown.length > 0 && (
         <div className="mt-6 overflow-x-auto">
