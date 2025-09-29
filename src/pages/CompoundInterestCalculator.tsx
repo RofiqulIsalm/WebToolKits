@@ -371,63 +371,73 @@ const CompoundCalculator: React.FC = () => {
       </div>
 
       {/* Breakdown Section */}
-      <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-xl font-bold mb-4">Breakdown</h2>
+      {/* Breakdown Section */}
+<div className="mt-8">
+  <h2 className="text-xl font-semibold mb-4 text-center">Earnings Breakdown</h2>
 
-        {/* Breakdown Mode Switch */}
-        <div className="flex gap-4 mb-4">
-          {["daily", "weekly", "monthly", "yearly"].map((m) => (
-            <button
-              key={m}
-              onClick={() => setBreakdownMode(m)}
-              className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
-                breakdownMode === m
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-200 hover:bg-gray-300"
-              }`}
-            >
-              {m.charAt(0).toUpperCase() + m.slice(1)}
-            </button>
-          ))}
-        </div>
+  {/* Switch between daily/weekly/monthly/yearly */}
+  <div className="flex justify-center gap-4 mb-4">
+    {["daily", "weekly", "monthly", "yearly"].map((view) => (
+      <button
+        key={view}
+        onClick={() => setBreakdownView(view)}
+        className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
+          breakdownView === view
+            ? "bg-blue-600 text-white"
+            : "bg-gray-200 hover:bg-gray-300"
+        }`}
+      >
+        {view.charAt(0).toUpperCase() + view.slice(1)}
+      </button>
+    ))}
+  </div>
 
-        {/* Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full border border-gray-300 text-sm">
-            <thead>
-              <tr className="bg-gray-100 text-left">
-                <th className="border px-3 py-2">Period</th>
-                <th className="border px-3 py-2">Earnings</th>
-                <th className="border px-3 py-2">Total Earnings</th>
-                <th className="border px-3 py-2">Balance</th>
-              </tr>
-            </thead>
-            <tbody>
-              {breakdown.map((row, idx) => (
-                <tr key={idx} className="hover:bg-gray-50">
-                  <td className="border px-3 py-2">{row.label}</td>
-                  <td className="border px-3 py-2">
-                    ${row.earnings.toFixed(2)}
-                  </td>
-                  <td className="border px-3 py-2">
-                    ${row.totalEarnings.toFixed(2)}
-                  </td>
-                  <td className="border px-3 py-2">
-                    ${row.balance.toFixed(2)}
-                  </td>
-                </tr>
-              ))}
-              {breakdown.length === 0 && (
-                <tr>
-                  <td colSpan={4} className="text-center py-3 text-gray-500">
-                    No breakdown available.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
+  {/* Breakdown Table */}
+  <div className="overflow-x-auto">
+    <table className="min-w-full border border-gray-300 text-sm text-center">
+      <thead className="bg-gray-100">
+        <tr>
+          <th className="border px-3 py-2">Period</th>
+          <th className="border px-3 py-2">Earnings</th>
+          <th className="border px-3 py-2">Total Earnings</th>
+          <th className="border px-3 py-2">Balance</th>
+        </tr>
+      </thead>
+      <tbody>
+        {groupedBreakdown.map((row, i) => (
+          <tr key={i}>
+            <td className="border px-3 py-2">{row.period}</td>
+            <td className="border px-3 py-2">{row.earnings.toFixed(2)}</td>
+            <td className="border px-3 py-2">{row.totalEarnings.toFixed(2)}</td>
+            <td className="border px-3 py-2">{row.balance.toFixed(2)}</td>
+          </tr>
+        ))}
+        {/* Total row */}
+        {groupedBreakdown.length > 0 && (
+          <tr className="font-bold bg-gray-50">
+            <td className="border px-3 py-2">Total</td>
+            <td className="border px-3 py-2">
+              {groupedBreakdown.reduce((s, r) => s + r.earnings, 0).toFixed(2)}
+            </td>
+            <td className="border px-3 py-2">
+              {
+                groupedBreakdown[groupedBreakdown.length - 1].totalEarnings.toFixed(
+                  2
+                )
+              }
+            </td>
+            <td className="border px-3 py-2">
+              {
+                groupedBreakdown[groupedBreakdown.length - 1].balance.toFixed(2)
+              }
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  </div>
+</div>
+
     </>
   );
 };
