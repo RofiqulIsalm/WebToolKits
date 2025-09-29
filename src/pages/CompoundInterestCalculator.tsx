@@ -22,6 +22,9 @@ const CompoundCalculator: React.FC = () => {
     "Sat",
     "Sun",
   ]);
+  const [breakdown, setBreakdown] = useState<
+    { date: string; earnings: number; totalEarnings: number; balance: number }[]
+    >([]);
   const [startDate, setStartDate] = useState<string>(
     new Date().toISOString().split("T")[0]
   );
@@ -29,11 +32,8 @@ const CompoundCalculator: React.FC = () => {
   // Results
   const [finalAmount, setFinalAmount] = useState<number>(0);
   const [interest, setInterest] = useState<number>(0);
-  const [breakdown, setBreakdown] = useState<
-    { period: string; balance: number; earnings: number; totalEarnings: number }[]
-  >([]);
 
-  // Toggle day selection
+  // Handle toggle day selection
   const toggleDay = (day: string) => {
     if (selectedDays.includes(day)) {
       setSelectedDays(selectedDays.filter((d) => d !== day));
@@ -58,17 +58,11 @@ const CompoundCalculator: React.FC = () => {
 
   // Calculation logic
   useEffect(() => {
-    let totalDays = timeYears * 365 + timeMonths * 30 + timeDays;
-    let amount = principal;
-    let interestAcc = 0;
-    let breakdownData: {
-      period: string;
-      balance: number;
-      earnings: number;
-      totalEarnings: number;
-    }[] = [];
-
     if (mode === "daily") {
+      // Convert years/months/days into total days
+      const totalDays =
+        timeYears * 365 + timeMonths * 30 + timeDays;
+
       // Convert rate into daily equivalent
       let dailyRate = 0;
       switch (rateType) {
@@ -87,66 +81,36 @@ const CompoundCalculator: React.FC = () => {
           break;
       }
 
-      const start = new Date(startDate);
-      let currentBalance = principal;
-      let totalEarnings = 0;
-
-      for (let i = 1; i <= totalDays; i++) {
-        const d = new Date(start);
-        d.setDate(start.getDate() + i - 1);
-        const dayName = d.toLocaleDateString("en-US", { weekday: "short" });
-
-        if (includeAllDays || selectedDays.includes(dayName)) {
-          const dailyEarning = currentBalance * dailyRate;
-          currentBalance += dailyEarning;
-          totalEarnings += dailyEarning;
+      // Count effective compounding days
+      let effectiveDays = totalDays;
+      if (!includeAllDays) {
+        const start = new Date(startDate);
+        let count = 0;
+        for (let i = 0; i < totalDays; i++) {
+          const d = new Date(start);
+          d.setDate(start.getDate() + i);
+          const dayName = d.toLocaleDateString("en-US", {
+            weekday: "short",
+          });
+          if (selectedDays.includes(dayName)) {
+            count++;
+          }
         }
-
-        // Save breakdown for each day
-        breakdownData.push({
-          period: d.toDateString(),
-          balance: currentBalance,
-          earnings: currentBalance - principal,
-          totalEarnings,
-        });
+        effectiveDays = count;
       }
 
-      amount = breakdownData[breakdownData.length - 1]?.balance || principal;
-      interestAcc = amount - principal;
+      const amount = principal * Math.pow(1 + dailyRate, effectiveDays);
+      setFinalAmount(amount);
+      setInterest(amount - principal);
     } else if (mode === "forex") {
-      const trades = timeYears; // here "years" input = trades
-      amount = principal * Math.pow(1 + rate / 100, trades);
-      interestAcc = amount - principal;
-
-      for (let t = 1; t <= trades; t++) {
-        const bal = principal * Math.pow(1 + rate / 100, t);
-        breakdownData.push({
-          period: `Trade ${t}`,
-          balance: bal,
-          earnings: bal - principal,
-          totalEarnings: bal - principal,
-        });
-      }
+      const amount = principal * Math.pow(1 + rate / 100, timeYears);
+      setFinalAmount(amount);
+      setInterest(amount - principal);
     } else if (mode === "simple") {
-      const years = timeYears + timeMonths / 12 + timeDays / 365;
-      const si = (principal * rate * years) / 100;
-      amount = principal + si;
-      interestAcc = si;
-
-      for (let y = 1; y <= years; y++) {
-        const bal = principal + (principal * rate * y) / 100;
-        breakdownData.push({
-          period: `Year ${y}`,
-          balance: bal,
-          earnings: bal - principal,
-          totalEarnings: bal - principal,
-        });
-      }
+      const si = (principal * rate * timeYears) / 100;
+      setFinalAmount(principal + si);
+      setInterest(si);
     }
-
-    setFinalAmount(amount);
-    setInterest(interestAcc);
-    setBreakdown(breakdownData);
   }, [
     mode,
     principal,
@@ -161,7 +125,7 @@ const CompoundCalculator: React.FC = () => {
   ]);
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       {/* Title */}
       <h1 className="text-2xl font-bold mb-2 text-center">{getTitle()}</h1>
       <p className="text-gray-500 mb-4 text-center">
@@ -203,7 +167,7 @@ const CompoundCalculator: React.FC = () => {
         </button>
       </div>
 
-      {/* Inputs */}
+      {/* Daily Mode Inputs */}
       {mode === "daily" && (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -245,7 +209,7 @@ const CompoundCalculator: React.FC = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Time Period
+                Time Period (Years / Months / Days)
               </label>
               <div className="flex gap-2">
                 <input
@@ -328,52 +292,14 @@ const CompoundCalculator: React.FC = () => {
                         ? "bg-orange-400 text-black"
                         : "bg-gray-200"
                     }`}
-                  >
+                  > 
                     {day}
                   </button>
                 ))}
               </div>
             </div>
           )}
-        </>
-      )}
-
-      {mode !== "daily" && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Principal Amount ($)
-            </label>
-            <input
-              type="number"
-              value={principal}
-              onChange={(e) => setPrincipal(Number(e.target.value))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Interest Rate (%)
-            </label>
-            <input
-              type="number"
-              value={rate}
-              onChange={(e) => setRate(Number(e.target.value))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              {mode === "forex" ? "Number of Trades" : "Time Period (Years)"}
-            </label>
-            <input
-              type="number"
-              value={timeYears}
-              onChange={(e) => setTimeYears(Number(e.target.value))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            />
-          </div>
-        </div>
+        </> 
       )}
 
       {/* Results */}
@@ -381,54 +307,10 @@ const CompoundCalculator: React.FC = () => {
         <p className="text-lg font-semibold text-gray-800">
           Final Amount: ${finalAmount.toFixed(2)}
         </p>
-        <p className="text-md text-gray-600">
-          Interest Earned: ${interest.toFixed(2)}
-        </p>
+        <p className="text-md text-gray-600">Interest Earned: ${interest.toFixed(2)}</p>
       </div>
- 
-      {/* Breakdown Table */}
-      {breakdown.length > 0 && (
-        <div className="mt-6 overflow-x-auto">
-          <table className="w-full border-collapse border border-gray-300 text-sm">
-            <thead>
-              <tr className="bg-gray-200">
-                <th className="border border-gray-300 px-2 py-1 text-left">
-                  Period
-                </th>
-                <th className="border border-gray-300 px-2 py-1 text-right">
-                  Balance
-                </th>
-                <th className="border border-gray-300 px-2 py-1 text-right">
-                  Earnings
-                </th>
-                <th className="border border-gray-300 px-2 py-1 text-right">
-                  Total Earnings
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {breakdown.map((row, idx) => (
-                <tr key={idx}>
-                  <td className="border border-gray-300 px-2 py-1">
-                    {row.period}
-                  </td>
-                  <td className="border border-gray-300 px-2 py-1 text-right">
-                    ${row.balance.toFixed(2)}
-                  </td>
-                  <td className="border border-gray-300 px-2 py-1 text-right">
-                    ${row.earnings.toFixed(2)}
-                  </td>
-                  <td className="border border-gray-300 px-2 py-1 text-right">
-                    ${row.totalEarnings.toFixed(2)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
     </div>
-  );
+  ); 
 };
 
 export default CompoundCalculator;
