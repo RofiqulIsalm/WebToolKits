@@ -10,6 +10,8 @@ const CompoundCalculator: React.FC = () => {
   const [timeMonths, setTimeMonths] = useState<number>(0);
   const [timeDays, setTimeDays] = useState<number>(0);
   const [rateType, setRateType] = useState("yearly"); // daily, weekly, monthly, yearly
+  const [breakdownView, setBreakdownView] = useState("daily");
+  const [groupedBreakdown, setGroupedBreakdown] = useState<any[]>([]);
 
   // Daily compounding options
   const [includeAllDays, setIncludeAllDays] = useState(true);
