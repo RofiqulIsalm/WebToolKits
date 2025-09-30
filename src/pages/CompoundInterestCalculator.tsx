@@ -109,40 +109,49 @@ const CompoundCalculator: React.FC = () => {
         effectiveDays = count;
       }
 
-      for (let i = 1; i <= effectiveDays; i++) {
-        const prev = amount;
-        amount = amount * (1 + dailyRate);
-        earned = amount - principal;
-        if (breakdownMode === "daily") {
-          breakdownData.push({
-            label: `Day ${i}`,
-            earnings: amount - prev,
-            totalEarnings: earned,
-            balance: amount,
-          });
-        } else if (breakdownMode === "weekly" && i % 7 === 0) {
-          breakdownData.push({
-            label: `Week ${i / 7}`,
-            earnings: amount - prev,
-            totalEarnings: earned,
-            balance: amount,
-          });
-        } else if (breakdownMode === "monthly" && i % 30 === 0) {
-          breakdownData.push({
-            label: `Month ${i / 30}`,
-            earnings: amount - prev,
-            totalEarnings: earned,
-            balance: amount,
-          });
-        } else if (breakdownMode === "yearly" && i % 365 === 0) {
-          breakdownData.push({
-            label: `Year ${i / 365}`,
-            earnings: amount - prev,
-            totalEarnings: earned,
-            balance: amount,
-          });
-        }
-      }
+      // inside useEffect
+for (let i = 1; i <= effectiveDays; i++) {
+  const prev = amount;
+  amount = amount * (1 + dailyRate);
+  earned = amount - principal;
+
+  if (breakdownMode === "daily") {
+    breakdownData.push({
+      label: `Day ${i}`,
+      earnings: amount - prev,
+      totalEarnings: earned,
+      balance: amount,
+    });
+  } else if (breakdownMode === "weekly") {
+    if (i % 7 === 0 || i === effectiveDays) {
+      breakdownData.push({
+        label: `Week ${Math.ceil(i / 7)}`,
+        earnings: amount - prev,
+        totalEarnings: earned,
+        balance: amount,
+      });
+    }
+  } else if (breakdownMode === "monthly") {
+    if (i % 30 === 0 || i === effectiveDays) {
+      breakdownData.push({
+        label: `Month ${Math.ceil(i / 30)}`,
+        earnings: amount - prev,
+        totalEarnings: earned,
+        balance: amount,
+      });
+    }
+  } else if (breakdownMode === "yearly") {
+    if (i % 365 === 0 || i === effectiveDays) {
+      breakdownData.push({
+        label: `Year ${Math.ceil(i / 365)}`,
+        earnings: amount - prev,
+        totalEarnings: earned,
+        balance: amount,
+      });
+    }
+  }
+}
+
     } else if (mode === "forex" || mode === "simple") {
       const years = timeYears > 0 ? timeYears : 1;
       for (let i = 1; i <= years; i++) {
