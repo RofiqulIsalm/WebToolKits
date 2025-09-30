@@ -421,23 +421,7 @@ for (let i = 1; i <= effectiveDays; i++) {
                 </tr>
               ))}
             
-              {breakdown.length > 0 && (
-                <tr className="bg-gray-200 font-semibold">
-                  <td className="border px-3 py-2 text-right">Total</td>
-                  <td className="border px-3 py-2">
-                    $
-                    {breakdown
-                      .reduce((sum, row) => sum + row.earnings, 0)
-                      .toFixed(2)}
-                  </td>
-                  <td className="border px-3 py-2">
-                    ${breakdown[breakdown.length - 1].totalEarnings.toFixed(2)}
-                  </td>
-                  <td className="border px-3 py-2">
-                    ${breakdown[breakdown.length - 1].balance.toFixed(2)}
-                  </td>
-                </tr>
-              )}
+              
             
               {breakdown.length > 0 && (
                 <tr className="bg-green-600 text-white font-bold">
