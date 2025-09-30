@@ -401,6 +401,7 @@ for (let i = 1; i <= effectiveDays; i++) {
         </div>
 
         {/* Table */}
+       {/* Table */}
         <div className="overflow-x-auto">
           <table className="w-full border border-gray-300 text-sm">
             <thead>
@@ -411,41 +412,32 @@ for (let i = 1; i <= effectiveDays; i++) {
                 <th className="border px-3 py-2 bg-teal-600">Balance</th>
               </tr>
             </thead>
-
             <tbody>
               {breakdown.map((row, idx) => (
-                <tr key={idx} className="hover:bg-gray-50">
-                  <td className="border px-3 py-2">{row.label}</td>
-                  <td className="border px-3 py-2">${row.earnings.toFixed(2)}</td>
-                  <td className="border px-3 py-2">${row.totalEarnings.toFixed(2)}</td>
-                  <td className="border px-3 py-2">${row.balance.toFixed(2)}</td>
+                <tr key={idx} className="hover:bg-gray-100">
+                  <td className="border px-3 py-2 bg-blue-50">{row.label}</td>
+                  <td className="border px-3 py-2 bg-orange-50">
+                    ${row.earnings.toFixed(2)}
+                  </td>
+                  <td className="border px-3 py-2 bg-purple-50">
+                    ${row.totalEarnings.toFixed(2)}
+                  </td>
+                  <td className="border px-3 py-2 bg-teal-50">
+                    ${row.balance.toFixed(2)}
+                  </td>
                 </tr>
               ))}
-            
-              
-            
-              {breakdown.length > 0 && (
-                <tr className="bg-green-600 text-white font-bold">
-                  <td className="border px-3 py-2 text-right">Total</td>
-                  <td className="border px-3 py-2">
-                    $
-                    {breakdown
-                      .reduce((sum, row) => sum + row.earnings, 0)
-                      .toFixed(2)}
-                  </td>
-                  <td className="border px-3 py-2">
-                    ${breakdown[breakdown.length - 1].totalEarnings.toFixed(2)}
-                  </td>
-                  <td className="border px-3 py-2">
-                    ${breakdown[breakdown.length - 1].balance.toFixed(2)}
+              {breakdown.length === 0 && (
+                <tr>
+                  <td colSpan={4} className="text-center py-3 text-gray-500">
+                    No breakdown available.
                   </td>
                 </tr>
               )}
-
             </tbody>
-
           </table>
         </div>
+
       </div>
     </>
   );
