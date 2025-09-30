@@ -404,13 +404,14 @@ for (let i = 1; i <= effectiveDays; i++) {
         <div className="overflow-x-auto">
           <table className="w-full border border-gray-300 text-sm">
             <thead>
-              <tr className="bg-gray-100 text-left">
-                <th className="border px-3 py-2">Period</th>
-                <th className="border px-3 py-2">Earnings</th>
-                <th className="border px-3 py-2">Total Earnings</th>
-                <th className="border px-3 py-2">Balance</th>
+              <tr className="text-left text-white">
+                <th className="border px-3 py-2 bg-blue-600">Period</th>
+                <th className="border px-3 py-2 bg-orange-500">Earnings</th>
+                <th className="border px-3 py-2 bg-purple-600">Total Earnings</th>
+                <th className="border px-3 py-2 bg-teal-600">Balance</th>
               </tr>
             </thead>
+
             <tbody>
               {breakdown.map((row, idx) => (
                 <tr key={idx} className="hover:bg-gray-50">
