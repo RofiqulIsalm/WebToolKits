@@ -415,17 +415,30 @@ for (let i = 1; i <= effectiveDays; i++) {
               {breakdown.map((row, idx) => (
                 <tr key={idx} className="hover:bg-gray-50">
                   <td className="border px-3 py-2">{row.label}</td>
-                  <td className="border px-3 py-2">
-                    ${row.earnings.toFixed(2)}
-                  </td>
-                  <td className="border px-3 py-2">
-                    ${row.totalEarnings.toFixed(2)}
-                  </td>
-                  <td className="border px-3 py-2">
-                    ${row.balance.toFixed(2)}
-                  </td>
+                  <td className="border px-3 py-2">${row.earnings.toFixed(2)}</td>
+                  <td className="border px-3 py-2">${row.totalEarnings.toFixed(2)}</td>
+                  <td className="border px-3 py-2">${row.balance.toFixed(2)}</td>
                 </tr>
               ))}
+            
+              {breakdown.length > 0 && (
+                <tr className="bg-gray-200 font-semibold">
+                  <td className="border px-3 py-2 text-right">Total</td>
+                  <td className="border px-3 py-2">
+                    $
+                    {breakdown
+                      .reduce((sum, row) => sum + row.earnings, 0)
+                      .toFixed(2)}
+                  </td>
+                  <td className="border px-3 py-2">
+                    ${breakdown[breakdown.length - 1].totalEarnings.toFixed(2)}
+                  </td>
+                  <td className="border px-3 py-2">
+                    ${breakdown[breakdown.length - 1].balance.toFixed(2)}
+                  </td>
+                </tr>
+              )}
+            
               {breakdown.length === 0 && (
                 <tr>
                   <td colSpan={4} className="text-center py-3 text-gray-500">
@@ -434,6 +447,7 @@ for (let i = 1; i <= effectiveDays; i++) {
                 </tr>
               )}
             </tbody>
+
           </table>
         </div>
       </div>
