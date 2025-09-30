@@ -18,6 +18,9 @@ import AgeCalculator from './pages/AgeCalculator';
 import DateDifference from './pages/DateDifference';
 import QRCodeGenerator from './pages/QRCodeGenerator';
 import PasswordGenerator from './pages/PasswordGenerator';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
+import ContactUs from './pages/ContactUs';
 
 function App() {
   return (
@@ -41,6 +44,9 @@ function App() {
           <Route path="/date-difference" element={<DateDifference />} />
           <Route path="/qr-code-generator" element={<QRCodeGenerator />} />
           <Route path="/password-generator" element={<PasswordGenerator />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/contact-us" element={<ContactUs />} />
         </Routes>
       </Layout>
     </Router>
