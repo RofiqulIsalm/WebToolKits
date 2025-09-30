@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { toolsData } from '../data/toolsData';
-import { Search, DollarSign, Calculator, Percent, PiggyBank } from 'lucide-react';
+import { Search, ArrowRight } from 'lucide-react';
 
 const Homepage: React.FC = () => {
   return (
@@ -25,9 +25,18 @@ const Homepage: React.FC = () => {
       <div className="space-y-12">
         {toolsData.map((category) => (
           <div key={category.category}>
-            <h2 className="text-2xl font-bold text-white mb-6 drop-shadow-lg">
-              {category.category}
-            </h2>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-white drop-shadow-lg">
+                {category.category}
+              </h2>
+              <Link
+                to={`/category/${category.category.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}
+                className="flex items-center space-x-2 text-blue-400 hover:text-blue-300 transition-colors group"
+              >
+                <span className="text-sm font-medium">View All</span>
+                <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {category.tools.map((tool) => (
                 <Link

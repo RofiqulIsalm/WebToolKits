@@ -21,6 +21,7 @@ import PasswordGenerator from './pages/PasswordGenerator';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import ContactUs from './pages/ContactUs';
+import CategoryPage from './pages/CategoryPage';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/category/:categorySlug" element={<CategoryPage />} />
         </Routes>
       </Layout>
     </Router>
