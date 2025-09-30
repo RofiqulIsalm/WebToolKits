@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRightLeft, RefreshCw } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
-import { Helmet } from "react-helmet-async";
 
 const CurrencyConverter: React.FC = () => {
   const [amount, setAmount] = useState<number>(1);
@@ -179,7 +178,7 @@ const CurrencyConverter: React.FC = () => {
     fetchExchangeRates();
   }, []);
 
-  useEffect(() => { 
+  useEffect(() => {
     if (exchangeRates[fromCurrency] && exchangeRates[toCurrency]) {
       const rate = exchangeRates[toCurrency] / exchangeRates[fromCurrency];
       setResult(amount * rate);
@@ -232,9 +231,7 @@ const CurrencyConverter: React.FC = () => {
   };
 
   return (
-    
     <div className="max-w-4xl mx-auto">
-      
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">Currency Converter</h1>
         <p className="text-slate-300">Convert between different currencies with live exchange rates</p>

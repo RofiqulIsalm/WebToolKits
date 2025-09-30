@@ -12,8 +12,8 @@ const Header: React.FC = () => {
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     if (query.length > 2) {
-      const results = toolsData.flatMap(category =>
-        category.tools.filter(tool =>
+      const results = toolsData.flatMap(category => 
+        category.tools.filter(tool => 
           tool.name.toLowerCase().includes(query.toLowerCase()) ||
           tool.description.toLowerCase().includes(query.toLowerCase())
         )
@@ -35,43 +35,23 @@ const Header: React.FC = () => {
     <header className="bg-slate-900/80 backdrop-blur-lg shadow-2xl border-b border-blue-500/20">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo + Brand */}
           <Link to="/" className="flex items-center space-x-2">
             <Calculator className="h-8 w-8 text-blue-400 drop-shadow-lg" />
-            <h1 className="text-2xl font-bold text-white drop-shadow-lg">
-              CalculatorHub
-            </h1>
+            <h1 className="text-2xl font-bold text-white drop-shadow-lg">Daily Tools Hub</h1>
           </Link>
-
-          {/* Navigation Menu for SEO */}
-          <nav className="hidden md:flex space-x-6 text-sm font-medium">
-            <Link to="/" className="text-slate-200 hover:text-blue-400 transition-colors">
-              Home
-            </Link>
-            <Link to="/bmi-calculator" className="text-slate-200 hover:text-blue-400 transition-colors">
-              BMI Calculator
-            </Link>
-            <Link to="/currency-converter" className="text-slate-200 hover:text-blue-400 transition-colors">
-              Currency
-            </Link>
-            <Link to="/percentage-calculator" className="text-slate-200 hover:text-blue-400 transition-colors">
-              Percentage
-            </Link>
-          </nav>
-
-          {/* Search Bar */}
+          
           <div className="relative max-w-md w-full mx-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-400 h-5 w-5" />
               <input
                 type="text"
-                placeholder="Search calculators, converters..."
+                placeholder="Search tools..."
                 value={searchQuery}
                 onChange={(e) => handleSearch(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-slate-400"
               />
             </div>
-
+            
             {showResults && searchResults.length > 0 && (
               <div className="absolute top-full left-0 right-0 glow-card rounded-lg mt-1 z-50 max-h-80 overflow-y-auto">
                 {searchResults.map((tool) => (
@@ -93,9 +73,6 @@ const Header: React.FC = () => {
             )}
           </div>
         </div>
-
-        {/* SEO Tagline */}
-        
       </div>
     </header>
   );
