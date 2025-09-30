@@ -45,19 +45,18 @@ const Header: React.FC = () => {
 
           {/* Navigation Menu for SEO */}
           <nav className="hidden md:flex space-x-6 text-sm font-medium">
-            <Link to="/math-calculators" className="text-slate-200 hover:text-blue-400 transition-colors">
-              Math
+            <Link to="/" className="text-slate-200 hover:text-blue-400 transition-colors">
+              Home
             </Link>
-            <Link to="/finance-calculators" className="text-slate-200 hover:text-blue-400 transition-colors">
-              Finance
+            <Link to="/bmi-calculator" className="text-slate-200 hover:text-blue-400 transition-colors">
+              BMI Calculator
             </Link>
-            <Link to="/health-calculators" className="text-slate-200 hover:text-blue-400 transition-colors">
-              Health
+            <Link to="/currency-converter" className="text-slate-200 hover:text-blue-400 transition-colors">
+              Currency
             </Link>
-            <Link to="/unit-converter" className="text-slate-200 hover:text-blue-400 transition-colors">
-              Converters
+            <Link to="/percentage-calculator" className="text-slate-200 hover:text-blue-400 transition-colors">
+              Percentage
             </Link>
-
           </nav>
 
           {/* Search Bar */}

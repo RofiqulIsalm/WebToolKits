@@ -26,8 +26,8 @@ const Footer: React.FC = () => {
               <li><Link to="/bmi-calculator" className="text-slate-300 hover:text-blue-400 transition-colors">BMI Calculator</Link></li>
               <li><Link to="/loan-emi-calculator" className="text-slate-300 hover:text-blue-400 transition-colors">Loan EMI Calculator</Link></li>
               <li><Link to="/percentage-calculator" className="text-slate-300 hover:text-blue-400 transition-colors">Percentage Calculator</Link></li>
-              <li><Link to="/unit-converter" className="text-slate-300 hover:text-blue-400 transition-colors">Unit Converter</Link></li>
-              <li><Link to="/scientific-calculator" className="text-slate-300 hover:text-blue-400 transition-colors">Scientific Calculator</Link></li>
+              <li><Link to="/length-converter" className="text-slate-300 hover:text-blue-400 transition-colors">Length Converter</Link></li>
+              <li><Link to="/qr-code-generator" className="text-slate-300 hover:text-blue-400 transition-colors">QR Code Generator</Link></li>
             </ul>
           </div>
 
@@ -35,10 +35,10 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="font-semibold text-white mb-4">Quick Links</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="/privacy-policy" className="text-slate-300 hover:text-blue-400 transition-colors">Privacy Policy</a></li>
-              <li><a href="/terms-of-service" className="text-slate-300 hover:text-blue-400 transition-colors">Terms of Service</a></li>
-              <li><a href="/about-us" className="text-slate-300 hover:text-blue-400 transition-colors">About Us</a></li>
-              <li><a href="/contact" className="text-slate-300 hover:text-blue-400 transition-colors">Contact Us</a></li>
+              <li><Link to="/age-calculator" className="text-slate-300 hover:text-blue-400 transition-colors">Age Calculator</Link></li>
+              <li><Link to="/password-generator" className="text-slate-300 hover:text-blue-400 transition-colors">Password Generator</Link></li>
+              <li><Link to="/date-difference" className="text-slate-300 hover:text-blue-400 transition-colors">Date Difference</Link></li>
+              <li><Link to="/average-calculator" className="text-slate-300 hover:text-blue-400 transition-colors">Average Calculator</Link></li>
             </ul>
           </div>
         </div>

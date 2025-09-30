@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import AdBanner from './AdBanner';
@@ -51,12 +52,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className="mt-6 p-4 bg-slate-800/50 rounded-lg text-slate-300 text-sm border border-slate-700">
               <h3 className="font-semibold text-white mb-3">Quick Access</h3>
               <ul className="space-y-2">
-                <li><a href="/age-calculator" className="hover:text-blue-400 transition-colors">Age Calculator</a></li>
-                <li><a href="/percentage-calculator" className="hover:text-blue-400 transition-colors">Percentage Calculator</a></li>
-                <li><a href="/temperature-converter" className="hover:text-blue-400 transition-colors">Temperature Converter</a></li>
-                <li><a href="/password-generator" className="hover:text-blue-400 transition-colors">Password Generator</a></li>
-                <li><a href="/date-difference" className="hover:text-blue-400 transition-colors">Date Difference</a></li>
-                <li><a href="/average-calculator" className="hover:text-blue-400 transition-colors">Average Calculator</a></li>
+                <li><Link to="/age-calculator" className="hover:text-blue-400 transition-colors">Age Calculator</Link></li>
+                <li><Link to="/percentage-calculator" className="hover:text-blue-400 transition-colors">Percentage Calculator</Link></li>
+                <li><Link to="/temperature-converter" className="hover:text-blue-400 transition-colors">Temperature Converter</Link></li>
+                <li><Link to="/password-generator" className="hover:text-blue-400 transition-colors">Password Generator</Link></li>
+                <li><Link to="/date-difference" className="hover:text-blue-400 transition-colors">Date Difference</Link></li>
+                <li><Link to="/average-calculator" className="hover:text-blue-400 transition-colors">Average Calculator</Link></li>
               </ul>
             </div>
           </aside>
