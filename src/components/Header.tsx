@@ -38,7 +38,7 @@ const Header: React.FC = () => {
           <Link to="/" className="flex items-center space-x-2">
             <Calculator className="h-8 w-8 text-blue-400 drop-shadow-lg" />
             <h1 className="text-2xl font-bold text-white drop-shadow-lg">
-              Calculator Hub – Free Calculators Online
+              Calculator Hub
             </h1>
           </Link>
           
