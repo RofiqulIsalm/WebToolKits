@@ -28,7 +28,7 @@ const Header: React.FC = () => {
   const handleToolClick = (path: string) => {
     setSearchQuery('');
     setShowResults(false);
-    navigate(path);
+    navigate(path, { replace: false });
   };
 
   return (
