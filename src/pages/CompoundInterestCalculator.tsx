@@ -230,7 +230,7 @@ const CompoundInterestCalculator: React.FC = () => {
           <div className="space-y-6">
             <div className="text-center p-4 bg-emerald-50 rounded-lg">
               <TrendingUp className="h-8 w-8 text-emerald-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-slate-900">₹{finalAmount.toFixed(2)}</div>
+              <div className="text-2xl font-bold text-slate-900">₹{finalAmount.toFixed(2)}                 </div>
               <div className="text-sm text-slate-600">Final Amount</div>
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -243,6 +243,12 @@ const CompoundInterestCalculator: React.FC = () => {
                 <div className="text-sm text-slate-600">Compound Interest</div>
               </div>
             </div>
+            <button
+    onClick={() => setShowBreakdown(!showBreakdown)}
+    className="absolute bottom-3 left-3 px-3 py-1 text-xs bg-indigo-500 text-white rounded-lg shadow hover:bg-indigo-600 transition"
+  >
+    {showBreakdown ? 'Hide Breakdown' : 'Show Breakdown'}
+  </button>
           </div>
         </div>
       </div>
