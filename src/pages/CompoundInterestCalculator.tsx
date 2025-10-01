@@ -5,6 +5,8 @@ import React, { useState, useEffect } from 'react';
 import { TrendingUp, ChevronDown, ChevronUp } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 
+
+
 const CompoundInterestCalculator: React.FC = () => {
   // ================================
   // State variables
