@@ -245,11 +245,6 @@ const CompoundInterestCalculator: React.FC = () => {
             </div>
           </div>
         </div>
-        <button
-              onClick={() => setShowBreakdown(!showBreakdown)}
-              className="absolute bottom-3 left-3 px-3 py-1 text-xs bg-indigo-500 text-white               rounded-lg shadow hover:bg-indigo-600 transition" >
-              {showBreakdown ? 'Hide Breakdown' : 'Show Breakdown'}
-        </button>
       </div>
 
       {/* Toggle Breakdown */}
