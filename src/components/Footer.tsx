@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
         
         <div className="border-t border-slate-700 mt-8 pt-8 text-center">
           <p className="text-slate-300 text-sm">
-            © 2025 Daily Tools Hub. All rights reserved. | {toolsData.reduce((total, category) => total + category.tools.length, 0)} Free Calculators & Tools
+            © 2025 Daily Tools Hub. All rights reserved. | code.dev {toolsData.reduce((total, category) => total + category.tools.length, 0)} Free Calculators & Tools
           </p>
         </div>
       </div>
