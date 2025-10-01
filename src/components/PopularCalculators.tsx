@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { TrendingUp } from 'lucide-react';
 import { useViewTracking } from '../hooks/useViewTracking';
 import { toolsData } from '../data/toolsData';
@@ -8,7 +8,6 @@ import { toolsData } from '../data/toolsData';
 const PopularCalculators: React.FC = () => {
   const { getTopCalculators, trackView } = useViewTracking();
   const topCalculators = getTopCalculators(6);
-  const navigate = useNavigate();
 
   // Get calculator details from toolsData
   const getCalculatorDetails = (path: string) => {
@@ -53,7 +52,8 @@ const PopularCalculators: React.FC = () => {
               key={path}
               to={path}
               onClick={() => {
-                trackView(path); // tracking before navigation
+                // Fire tracking event before navigation
+                trackView(path);
               }}
               className="block p-3 bg-slate-700/30 hover:bg-slate-600/40 rounded-lg transition-all duration-200 group"
             >
