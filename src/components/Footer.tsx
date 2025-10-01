@@ -26,15 +26,7 @@ const Footer: React.FC = () => {
             </ul>
           </div>
           
-          <div>
-            <h3 className="font-semibold text-white mb-4">Tool Categories</h3>
-            <ul className="space-y-2 text-sm">
-              <li><Link to="/category/currency-finance" className="text-slate-300 hover:text-blue-400 transition-colors">Currency & Finance Calculators</Link></li>
-              <li><Link to="/category/unit-converters" className="text-slate-300 hover:text-blue-400 transition-colors">Unit Converters & Measurement Tools</Link></li>
-              <li><Link to="/category/math-tools" className="text-slate-300 hover:text-blue-400 transition-colors">Math Tools & Percentage Calculators</Link></li>
-              <li><Link to="/category/date-time-tools" className="text-slate-300 hover:text-blue-400 transition-colors">Date & Time Calculators</Link></li>
-            </ul>
-          </div>
+          
           
           <div>
             <h3 className="font-semibold text-white mb-4">Support & Legal</h3>
