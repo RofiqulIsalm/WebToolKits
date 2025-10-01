@@ -1,92 +1,84 @@
-import React, { useState } from "react";
-import Link from "next/link";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Search, Calculator } from 'lucide-react';
+import { toolsData } from '../data/toolsData';
 
 const Header: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [results, setResults] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<typeof toolsData[0]['tools']>([]);
+  const [showResults, setShowResults] = useState(false);
+  const navigate = useNavigate();
 
-  const calculators = [
-    "Currency Converter",
-    "Loan EMI Calculator",
-    "Compound Interest",
-    "Tax Calculator",
-    "QR Code Generator",
-    "Password Generator",
-    "Age Calculator",
-    "Date Difference",
-    "BMI Calculator",
-    "Unit Converter",
-  ];
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value.toLowerCase();
+  const handleSearch = (query: string) => {
     setSearchQuery(query);
-
-    if (query.length > 0) {
-      const filtered = calculators.filter((calc) =>
-        calc.toLowerCase().includes(query)
+    if (query.length > 2) {
+      const results = toolsData.flatMap(category => 
+        category.tools.filter(tool => 
+          tool.name.toLowerCase().includes(query.toLowerCase()) ||
+          tool.description.toLowerCase().includes(query.toLowerCase())
+        )
       );
-      setResults(filtered);
+      setSearchResults(results);
+      setShowResults(true);
     } else {
-      setResults([]);
+      setShowResults(false);
     }
   };
 
-  const clearSearch = () => {
-    setSearchQuery("");
-    setResults([]);
+  const handleToolClick = (path: string) => {
+    setSearchQuery('');
+    setShowResults(false);
+    navigate(path);
   };
 
   return (
-    <header className="bg-gray-900 text-white px-4 py-3 flex flex-col md:flex-row items-center justify-between relative">
-      {/* Logo */}
-      <Link href="/" className="text-xl font-bold mb-2 md:mb-0">
-        CalculatorHub
-      </Link>
-
-      {/* Search Bar */}
-      <div className="relative w-full md:w-1/3">
-        <input
-          type="text"
-          placeholder="Search calculators..."
-          value={searchQuery}
-          onChange={handleSearch}
-          className="w-full px-3 py-2 rounded-lg text-black outline-none"
-        />
-
-        {/* Search Results Dropdown */}
-        {results.length > 0 && (
-          <div className="absolute top-full left-0 right-0 glow-card rounded-lg mt-1 max-h-80 overflow-y-auto z-[99999]">
-            {results.map((result, index) => (
-              <Link
-                key={index}
-                href={`/calculators/${result
-                  .toLowerCase()
-                  .replace(/\s+/g, "-")}`}
-                className="block px-3 py-2 hover:bg-gray-200 hover:text-black"
-                onClick={clearSearch} // ✅ Auto close dropdown on mobile after click
-              >
-                {result}
-              </Link>
-            ))}
+    <header className="bg-slate-900/80 backdrop-blur-lg shadow-2xl border-b border-blue-500/20">
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex items-center justify-between">
+          <Link to="/" className="flex items-center space-x-2">
+            <Calculator className="h-8 w-8 text-blue-400 drop-shadow-lg" />
+            <h1 className="text-2xl font-bold text-white drop-shadow-lg">
+              CalculatorHub
+            </h1>
+          </Link>
+          
+          <div className="relative max-w-md w-full mx-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-400 h-5 w-5" />
+              <input
+                type="text"
+                placeholder="Search calculators, converters, and tools..."
+                value={searchQuery}
+                onChange={(e) => handleSearch(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-slate-400"
+              />
+            </div>
+            
+            {showResults && searchResults.length > 0 && (
+              <div className="absolute top-full left-0 right-0 glow-card rounded-lg mt-1 z-50 max-h-80 overflow-y-auto">
+                {searchResults.map((tool) => (
+                  <button
+                    key={tool.path}
+                    onClick={() => handleToolClick(tool.path)}
+                    className="w-full text-left px-4 py-3 hover:bg-slate-700/50 border-b border-slate-600/30 last:border-b-0 transition-colors"
+                  >
+                    <div className="flex items-center space-x-3">
+                      <tool.icon className="h-5 w-5 text-blue-400" />
+                      <div>
+                        <div className="font-medium text-white">{tool.name}</div>
+                        <div className="text-sm text-slate-300">{tool.description}</div>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
-        )}
+        </div> 
       </div>
-
-      {/* Navigation */}
-      <nav className="flex gap-4 mt-2 md:mt-0">
-        <Link href="/about" className="hover:text-gray-300">
-          About
-        </Link>
-        <Link href="/contact" className="hover:text-gray-300">
-          Contact
-        </Link>
-        <Link href="/support" className="hover:text-gray-300">
-          Support
-        </Link>
-      </nav>
     </header>
   );
 };
 
 export default Header;
+ 
