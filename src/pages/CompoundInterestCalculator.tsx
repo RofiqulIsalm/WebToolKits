@@ -239,7 +239,7 @@ const CompoundInterestCalculator: React.FC = () => {
               </div>
 
               {!includeAllDays && (
-                <div className="flex flex-wrap gap-2 mt-3">
+                <div className="flex flex-wrap gap-1 mt-3">
                   {['SU','MO','TU','WE','TH','FR','SA'].map((day) => (
                     <button
                       key={day}
