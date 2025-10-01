@@ -16,7 +16,8 @@ const Layout: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-blue-500/5 rounded-3xl blur-3xl"></div>
         <div className="flex gap-8">
           <div className="flex-1 relative z-10">
-            <Outlet /> {/* 👈 this replaces {children} */}
+            {/* 👇 This is where your pages (Home, Calculator, etc.) will show */}
+            <Outlet />
           </div>
           <div className="hidden lg:block w-80">
             <PopularCalculators />
