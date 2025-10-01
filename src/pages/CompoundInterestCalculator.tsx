@@ -350,7 +350,7 @@ const CompoundInterestCalculator: React.FC = () => {
 
           {/* Mobile Card View */}
           <div className="sm:hidden space-y-4">
-            {breakdownData.map((row, idx) => (
+            {breakdownData.map((row, idx) => ( 
               <div
                 key={idx}
                 className={`p-4 rounded-lg border shadow-sm ${
