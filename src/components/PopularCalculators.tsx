@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { TrendingUp, Eye } from 'lucide-react';
+import { TrendingUp } from 'lucide-react';
 import { useViewTracking } from '../hooks/useViewTracking';
 import { toolsData } from '../data/toolsData';
 
@@ -33,15 +34,17 @@ const PopularCalculators: React.FC = () => {
 
   return (
     <div className="glow-card rounded-lg p-6">
-      <div className="flex items-center space-x-2 mb-4">
+      <div className="flex items-center gap-2 mb-4">
         <TrendingUp className="h-5 w-5 text-blue-400 drop-shadow-lg" />
         <h3 className="text-lg font-semibold text-white">Popular Calculators</h3>
       </div>
       
-      <div className="space-y-3">
+      <div className="flex flex-col gap-3">
         {calculatorsToShow.map(({ path, views }, index) => {
           const calculator = getCalculatorDetails(path);
           if (!calculator) return null;
+
+          const Icon = calculator.icon;
 
           return (
             <Link
@@ -49,9 +52,9 @@ const PopularCalculators: React.FC = () => {
               to={path}
               className="block p-3 bg-slate-700/30 hover:bg-slate-600/40 rounded-lg transition-all duration-200 group"
             >
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center gap-3">
                 <div className="flex-shrink-0 relative">
-                  <calculator.icon className="h-5 w-5 text-blue-400 group-hover:text-blue-300 transition-colors" />
+                  <Icon className="h-5 w-5 text-blue-400 group-hover:text-blue-300 transition-colors" />
                   <div className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center font-bold">
                     {index + 1}
                   </div>
@@ -60,7 +63,6 @@ const PopularCalculators: React.FC = () => {
                   <h4 className="text-sm font-medium text-white group-hover:text-blue-100 transition-colors truncate">
                     {calculator.name}
                   </h4>
-                  
                 </div>
               </div>
             </Link>
