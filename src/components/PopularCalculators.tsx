@@ -1,12 +1,11 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { TrendingUp, Eye } from 'lucide-react';
 import { useViewTracking } from '../hooks/useViewTracking';
 import { toolsData } from '../data/toolsData';
 
 const PopularCalculators: React.FC = () => {
   const { getTopCalculators } = useViewTracking();
-  const navigate = useNavigate();
   const topCalculators = getTopCalculators(6);
 
   // Get calculator details from toolsData
@@ -45,9 +44,9 @@ const PopularCalculators: React.FC = () => {
           if (!calculator) return null;
 
           return (
-            <button
+            <Link
               key={path}
-              onClick={() => navigate(path)}
+              to={path}
               className="block p-3 bg-slate-700/30 hover:bg-slate-600/40 rounded-lg transition-all duration-200 group"
             >
               <div className="flex items-center space-x-3">
@@ -69,7 +68,7 @@ const PopularCalculators: React.FC = () => {
                   )}
                 </div>
               </div>
-            </button>
+            </Link>
           );
         })}
       </div>

@@ -22,9 +22,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             {children}
           </div>
           <div className="hidden lg:block w-80">
-            <AdBanner type="sidebar" />
             <PopularCalculators />
-            
+            <AdBanner type="sidebar" />
           </div>
         </div>
       </main>
