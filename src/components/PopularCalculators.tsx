@@ -1,13 +1,14 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { TrendingUp } from 'lucide-react';
 import { useViewTracking } from '../hooks/useViewTracking';
 import { toolsData } from '../data/toolsData';
 
 const PopularCalculators: React.FC = () => {
-  const { getTopCalculators } = useViewTracking();
+  const { getTopCalculators, trackView } = useViewTracking();
   const topCalculators = getTopCalculators(6);
+  const navigate = useNavigate();
 
   // Get calculator details from toolsData
   const getCalculatorDetails = (path: string) => {
@@ -28,9 +29,10 @@ const PopularCalculators: React.FC = () => {
     '/length-converter'
   ];
 
-  const calculatorsToShow = topCalculators.length > 0 
-    ? topCalculators.map(({ path, views }) => ({ path, views }))
-    : defaultPopular.map(path => ({ path, views: 0 }));
+  const calculatorsToShow =
+    topCalculators.length > 0
+      ? topCalculators.map(({ path, views }) => ({ path, views }))
+      : defaultPopular.map(path => ({ path, views: 0 }));
 
   return (
     <div className="glow-card rounded-lg p-6">
@@ -38,9 +40,9 @@ const PopularCalculators: React.FC = () => {
         <TrendingUp className="h-5 w-5 text-blue-400 drop-shadow-lg" />
         <h3 className="text-lg font-semibold text-white">Popular Calculators</h3>
       </div>
-      
+
       <div className="flex flex-col gap-3">
-        {calculatorsToShow.map(({ path, views }, index) => {
+        {calculatorsToShow.map(({ path }, index) => {
           const calculator = getCalculatorDetails(path);
           if (!calculator) return null;
 
@@ -50,6 +52,9 @@ const PopularCalculators: React.FC = () => {
             <Link
               key={path}
               to={path}
+              onClick={() => {
+                trackView(path); // tracking before navigation
+              }}
               className="block p-3 bg-slate-700/30 hover:bg-slate-600/40 rounded-lg transition-all duration-200 group"
             >
               <div className="flex items-center gap-3">
@@ -69,7 +74,7 @@ const PopularCalculators: React.FC = () => {
           );
         })}
       </div>
-      
+
       <div className="mt-4 pt-4 border-t border-slate-600/30">
         <p className="text-xs text-slate-400 text-center">
           Rankings update based on usage
