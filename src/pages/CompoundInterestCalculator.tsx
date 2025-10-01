@@ -137,7 +137,7 @@ const CompoundInterestCalculator: React.FC = () => {
           <div className="space-y-4">
             {/* Principal */}
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Principal Amount (₹)</label>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Principal Amount ($)</label>
               <input
                 type="number"
                 value={principal}
@@ -225,36 +225,38 @@ const CompoundInterestCalculator: React.FC = () => {
         </div>
 
         {/* Results */}
-        <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
-          <h2 className="text-xl font-semibold text-slate-800 mb-4">Results</h2>
-          <div className="space-y-6">
-            <div className="text-center p-4 bg-emerald-50 rounded-lg">
-              <TrendingUp className="h-8 w-8 text-emerald-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-slate-900">₹{finalAmount.toFixed(2)}                 </div>
-              <div className="text-sm text-slate-600">Final Amount</div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 bg-indigo-50 rounded-lg text-center">
-                <div className="text-lg font-semibold text-slate-900">₹{principal.toLocaleString()}</div>
-                <div className="text-sm text-slate-600">Principal</div>
+        <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-6 flex flex-col justify-between">
+          <div>
+            <h2 className="text-xl font-semibold text-slate-800 mb-4">Results</h2>
+            <div className="space-y-6">
+              <div className="text-center p-4 bg-emerald-50 rounded-lg">
+                <TrendingUp className="h-8 w-8 text-emerald-600 mx-auto mb-2" />
+                <div className="text-2xl font-bold text-slate-900">${finalAmount.toFixed(2)}</div>
+                <div className="text-sm text-slate-600">Final Amount</div>
               </div>
-              <div className="p-4 bg-amber-50 rounded-lg text-center">
-                <div className="text-lg font-semibold text-slate-900">₹{compoundInterest.toFixed(2)}</div>
-                <div className="text-sm text-slate-600">Compound Interest</div>
-              </div> 
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-4 bg-indigo-50 rounded-lg text-center">
+                  <div className="text-lg font-semibold text-slate-900">${principal.toLocaleString()}</div>
+                  <div className="text-sm text-slate-600">Principal</div>
+                </div>
+                <div className="p-4 bg-amber-50 rounded-lg text-center">
+                  <div className="text-lg font-semibold text-slate-900">${compoundInterest.toFixed(2)}</div>
+                  <div className="text-sm text-slate-600">Compound Interest</div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Toggle Breakdown */}
-      <div className="flex justify-center mt-8">
-        <button
-          onClick={() => setShowBreakdown(!showBreakdown)}
-          className="flex items-center px-6 py-2 bg-indigo-500 text-white rounded-lg shadow hover:bg-indigo-600 transition"
-        >
-          {showBreakdown ? <>Hide Breakdown <ChevronUp className="ml-2 h-5 w-5" /></> : <>Show Breakdown <ChevronDown className="ml-2 h-5 w-5" /></>}
-        </button>
+          {/* Toggle Breakdown Button inside Results */}
+          <div className="flex justify-end mt-6">
+            <button
+              onClick={() => setShowBreakdown(!showBreakdown)}
+              className="flex items-center px-4 py-2 bg-indigo-500 text-white rounded-lg shadow hover:bg-indigo-600 transition text-sm"
+            >
+              {showBreakdown ? <>Hide Breakdown <ChevronUp className="ml-2 h-4 w-4" /></> : <>Show Breakdown <ChevronDown className="ml-2 h-4 w-4" /></>}
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Breakdown Section */}
@@ -301,9 +303,9 @@ const CompoundInterestCalculator: React.FC = () => {
                     }
                   >
                     <td className="px-4 py-2 border">{row.period}</td>
-                    <td className="px-4 py-2 border text-emerald-700">₹{row.earnings.toFixed(2)}</td>
-                    <td className="px-4 py-2 border text-amber-700">₹{row.totalEarnings.toFixed(2)}</td>
-                    <td className="px-4 py-2 border text-indigo-700">₹{row.balance.toFixed(2)}</td>
+                    <td className="px-4 py-2 border text-emerald-700">${row.earnings.toFixed(2)}</td>
+                    <td className="px-4 py-2 border text-amber-700">${row.totalEarnings.toFixed(2)}</td>
+                    <td className="px-4 py-2 border text-indigo-700">${row.balance.toFixed(2)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -315,6 +317,6 @@ const CompoundInterestCalculator: React.FC = () => {
       <AdBanner type="bottom" />
     </div>
   );
-}; 
- 
+};
+
 export default CompoundInterestCalculator;
