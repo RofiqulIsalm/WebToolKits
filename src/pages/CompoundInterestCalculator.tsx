@@ -227,19 +227,28 @@ const CompoundInterestCalculator: React.FC = () => {
             </div>
 
             {/* Include Days Selection */}
+            {/* Include Days */}
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Include all days</label>
-              <div className="flex items-center space-x-3">
-                <input
-                  type="checkbox"
-                  checked={includeAllDays}
-                  onChange={(e) => setIncludeAllDays(e.target.checked)}
+              <label className="block text-sm font-medium text-slate-700 mb-2">Include all                 days</label>
+              
+              {/* Toggle Switch */}
+              <button
+                onClick={() => setIncludeAllDays(!includeAllDays)}
+                className={`relative inline-flex h-6 w-12 items-center rounded-full transition-colors ${
+                  includeAllDays ? 'bg-indigo-500' : 'bg-slate-300'
+                }`}
+              >
+                <span
+                  className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${
+                    includeAllDays ? 'translate-x-6' : 'translate-x-1'
+                  }`}
                 />
-                <span className="text-sm">Yes</span>
-              </div>
-
+              </button>
+              <span className="ml-3 text-sm">{includeAllDays ? 'On' : 'Off'}</span>
+            
+              {/* Day Selector (only when toggle is OFF) */}
               {!includeAllDays && (
-                <div className="flex flex-wrap gap-1 mt-3">
+                <div className="flex flex-wrap gap-2 mt-3">
                   {['SU','MO','TU','WE','TH','FR','SA'].map((day) => (
                     <button
                       key={day}
@@ -256,8 +265,7 @@ const CompoundInterestCalculator: React.FC = () => {
                 </div>
               )}
             </div>
-          </div>
-        </div>
+
         {/* ================= END: Input Box ================= */}
 
         {/* ================= START: Results ================= */}
