@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Homepage from './pages/Homepage';
 import CategoryPage from './pages/CategoryPage';
- 
+
 // Existing calculators
 import CurrencyConverter from './pages/CurrencyConverter';
 import LengthConverter from './pages/LengthConverter';
