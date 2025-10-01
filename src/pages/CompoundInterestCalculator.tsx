@@ -4,81 +4,109 @@ import AdBanner from '../components/AdBanner';
 
 const CompoundInterestCalculator: React.FC = () => {
   const [principal, setPrincipal] = useState<number>(10000);
+
+  // Interest Rate + dropdown
   const [rate, setRate] = useState<number>(8);
+  const [rateUnit, setRateUnit] = useState<'daily' | 'weekly' | 'monthly' | 'yearly'>('yearly');
+
+  // Time Period + dropdown
   const [time, setTime] = useState<number>(5);
-  const [frequency, setFrequency] = useState<number>(12);
+  const [timeUnit, setTimeUnit] = useState<'years' | 'months' | 'days'>('years');
+
+  // Results
   const [finalAmount, setFinalAmount] = useState<number>(0);
   const [compoundInterest, setCompoundInterest] = useState<number>(0);
 
-  // New states
+  // Breakdown controls
   const [breakdownMode, setBreakdownMode] = useState<'daily' | 'weekly' | 'monthly' | 'yearly'>('daily');
   const [includeAllDays, setIncludeAllDays] = useState<boolean>(true);
+  const [selectedDays, setSelectedDays] = useState<string[]>(['SU','MO','TU','WE','TH','FR','SA']);
   const [breakdownData, setBreakdownData] = useState<any[]>([]);
+
+  // Convert rate to daily effective
+  const getDailyRate = () => {
+    switch (rateUnit) {
+      case 'daily': return rate / 100;
+      case 'weekly': return (rate / 100) / 7;
+      case 'monthly': return (rate / 100) / 30;
+      case 'yearly': return (rate / 100) / 365;
+      default: return rate / 100 / 365;
+    }
+  };
+
+  // Convert time into days
+  const getTotalDays = () => {
+    switch (timeUnit) {
+      case 'days': return time;
+      case 'months': return time * 30;
+      case 'years': return time * 365;
+      default: return time * 365;
+    }
+  };
 
   useEffect(() => {
     calculateCompoundInterest();
     generateBreakdown();
-  }, [principal, rate, time, frequency, breakdownMode, includeAllDays]);
+  }, [principal, rate, rateUnit, time, timeUnit, breakdownMode, includeAllDays, selectedDays]);
 
   const calculateCompoundInterest = () => {
-    const amount = principal * Math.pow((1 + (rate / 100) / frequency), frequency * time);
-    setFinalAmount(amount);
-    setCompoundInterest(amount - principal);
+    const dailyRate = getDailyRate();
+    const totalDays = getTotalDays();
+    let balance = principal;
+    for (let i = 0; i < totalDays; i++) {
+      const day = new Date();
+      day.setDate(day.getDate() + i);
+      if (!includeAllDays) {
+        const dayMap = ['SU','MO','TU','WE','TH','FR','SA'];
+        if (!selectedDays.includes(dayMap[day.getDay()])) continue;
+      }
+      balance += balance * dailyRate;
+    }
+    setFinalAmount(balance);
+    setCompoundInterest(balance - principal);
   };
 
-  // Generate breakdown function
   const generateBreakdown = () => {
     let data: any[] = [];
     const startDate = new Date();
     let balance = principal;
-    const totalDays = Math.floor(time * 365); // rough conversion
-    const dailyRate = rate / 100 / 365;
-
     let totalEarnings = 0;
+    const dailyRate = getDailyRate();
+    const totalDays = getTotalDays();
 
     for (let i = 0; i < totalDays; i++) {
       const date = new Date(startDate);
       date.setDate(startDate.getDate() + i);
 
-      // Skip weekends if includeAllDays = false
       if (!includeAllDays) {
-        const day = date.getDay();
-        if (day === 0 || day === 6) continue;
+        const dayMap = ['SU','MO','TU','WE','TH','FR','SA'];
+        if (!selectedDays.includes(dayMap[date.getDay()])) continue;
       }
 
-      // Earnings per day
       const earnings = balance * dailyRate;
       balance += earnings;
       totalEarnings += earnings;
 
       let label = '';
       if (breakdownMode === 'daily') {
-        const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-        label = `${days[date.getDay()]} ${i + 1}`;
+        label = date.toDateString();
       } else if (breakdownMode === 'weekly') {
-        const weekNum = Math.floor(i / 7) + 1;
-        label = `Week ${weekNum}`;
+        label = `Week ${Math.floor(i / 7) + 1}`;
       } else if (breakdownMode === 'monthly') {
         label = date.toLocaleString('default', { month: 'short', year: 'numeric' });
       } else if (breakdownMode === 'yearly') {
         label = date.getFullYear().toString();
       }
 
-      data.push({
-        period: label,
-        earnings: earnings,
-        totalEarnings: totalEarnings,
-        balance: balance
-      });
+      data.push({ period: label, earnings, totalEarnings, balance });
     }
 
     // Collapse duplicates for month/year
     if (breakdownMode === 'monthly' || breakdownMode === 'yearly') {
       const grouped: Record<string, any> = {};
       data.forEach((row) => {
-        if (!grouped[row.period]) {
-          grouped[row.period] = { ...row };
-        } else {
+        if (!grouped[row.period]) grouped[row.period] = { ...row };
+        else {
           grouped[row.period].earnings += row.earnings;
           grouped[row.period].totalEarnings = row.totalEarnings;
           grouped[row.period].balance = row.balance;
@@ -89,22 +117,20 @@ const CompoundInterestCalculator: React.FC = () => {
 
     // Add total row
     data.push({
-      period: 'Total',
-      earnings: data.reduce((sum, r: any) => sum + r.earnings, 0),
-      totalEarnings: totalEarnings,
-      balance: balance
+      period: 'TOTAL',
+      earnings: data.reduce((s, r: any) => s + r.earnings, 0),
+      totalEarnings,
+      balance
     });
 
     setBreakdownData(data);
   };
 
-  const frequencies = [
-    { value: 1, label: 'Annually' },
-    { value: 2, label: 'Semi-annually' },
-    { value: 4, label: 'Quarterly' },
-    { value: 12, label: 'Monthly' },
-    { value: 365, label: 'Daily' }
-  ];
+  const toggleDay = (day: string) => {
+    setSelectedDays((prev) =>
+      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
+    );
+  };
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -117,84 +143,93 @@ const CompoundInterestCalculator: React.FC = () => {
         {/* Input Box */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">Investment Details</h2>
-          
           <div className="space-y-4">
+
+            {/* Principal */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Principal Amount (₹)
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Principal Amount (₹)</label>
               <input
                 type="number"
                 value={principal}
                 onChange={(e) => setPrincipal(Number(e.target.value))}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Interest Rate (% per annum)
-              </label>
-              <input
-                type="number"
-                step="0.1"
-                value={rate}
-                onChange={(e) => setRate(Number(e.target.value))}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Time Period (years)
-              </label>
-              <input
-                type="number"
-                value={time}
-                onChange={(e) => setTime(Number(e.target.value))}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Compounding Frequency
-              </label>
-              <select
-                value={frequency}
-                onChange={(e) => setFrequency(Number(e.target.value))}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                {frequencies.map((freq) => (
-                  <option key={freq.value} value={freq.value}>
-                    {freq.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* New Controls */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Breakdown Mode</label>
-              <select
-                value={breakdownMode}
-                onChange={(e) => setBreakdownMode(e.target.value as any)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-              >
-                <option value="daily">Daily</option>
-                <option value="weekly">Weekly</option>
-                <option value="monthly">Monthly</option>
-                <option value="yearly">Yearly</option>
-              </select>
+              />
             </div>
 
-            <div className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={includeAllDays}
-                onChange={(e) => setIncludeAllDays(e.target.checked)}
-              />
-              <label className="text-sm text-gray-700">Include all days of the week</label>
+            {/* Interest Rate */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Interest Rate (%)</label>
+              <div className="flex space-x-2">
+                <input
+                  type="number"
+                  value={rate}
+                  onChange={(e) => setRate(Number(e.target.value))}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                />
+                <select
+                  value={rateUnit}
+                  onChange={(e) => setRateUnit(e.target.value as any)}
+                  className="px-3 py-2 border border-gray-300 rounded-lg"
+                >
+                  <option value="daily">Daily</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="yearly">Yearly</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Time Period */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Time Period</label>
+              <div className="flex space-x-2">
+                <input
+                  type="number"
+                  value={time}
+                  onChange={(e) => setTime(Number(e.target.value))}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                />
+                <select
+                  value={timeUnit}
+                  onChange={(e) => setTimeUnit(e.target.value as any)}
+                  className="px-3 py-2 border border-gray-300 rounded-lg"
+                >
+                  <option value="years">Years</option>
+                  <option value="months">Months</option>
+                  <option value="days">Days</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Include Days */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Include all days of the week</label>
+              <div className="flex items-center space-x-3">
+                <input
+                  type="checkbox"
+                  checked={includeAllDays}
+                  onChange={(e) => setIncludeAllDays(e.target.checked)}
+                />
+                <span className="text-sm">Yes</span>
+              </div>
+
+              {!includeAllDays && (
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {['SU','MO','TU','WE','TH','FR','SA'].map((day) => (
+                    <button
+                      key={day}
+                      onClick={() => toggleDay(day)}
+                      className={`px-3 py-1 rounded-lg border ${
+                        selectedDays.includes(day)
+                          ? 'bg-blue-500 text-white'
+                          : 'bg-gray-100 text-gray-700'
+                      }`}
+                    >
+                      {day}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -202,59 +237,49 @@ const CompoundInterestCalculator: React.FC = () => {
         {/* Result Box */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">Results</h2>
-          
           <div className="space-y-6">
             <div className="text-center p-4 bg-green-50 rounded-lg">
               <TrendingUp className="h-8 w-8 text-green-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-gray-900">
-                ₹{finalAmount.toFixed(2)}
-              </div>
+              <div className="text-2xl font-bold text-gray-900">₹{finalAmount.toFixed(2)}</div>
               <div className="text-sm text-gray-600">Final Amount</div>
             </div>
-
             <div className="grid grid-cols-2 gap-4">
               <div className="p-4 bg-blue-50 rounded-lg text-center">
-                <div className="text-lg font-semibold text-gray-900">
-                  ₹{principal.toLocaleString()}
-                </div>
+                <div className="text-lg font-semibold text-gray-900">₹{principal.toLocaleString()}</div>
                 <div className="text-sm text-gray-600">Principal</div>
               </div>
-              
               <div className="p-4 bg-yellow-50 rounded-lg text-center">
-                <div className="text-lg font-semibold text-gray-900">
-                  ₹{compoundInterest.toFixed(2)}
-                </div>
+                <div className="text-lg font-semibold text-gray-900">₹{compoundInterest.toFixed(2)}</div>
                 <div className="text-sm text-gray-600">Compound Interest</div>
-              </div>
-            </div>
-
-            <div className="p-4 bg-purple-50 rounded-lg">
-              <h4 className="font-medium text-gray-900 mb-2">Growth Summary</h4>
-              <div className="text-sm space-y-1">
-                <div className="flex justify-between">
-                  <span>Total Return:</span>
-                  <span className="font-medium">
-                    {((compoundInterest / principal) * 100).toFixed(2)}%
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Annual Return:</span>
-                  <span className="font-medium">
-                    {(Math.pow(finalAmount / principal, 1 / time) - 1).toFixed(4)}%
-                  </span>
-                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Breakdown Table */}
+      {/* Breakdown Section */}
       <div className="mt-10 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Breakdown</h3>
+
+        {/* Breakdown Mode Buttons */}
+        <div className="flex gap-3 mb-4">
+          {['daily','weekly','monthly','yearly'].map((mode) => (
+            <button
+              key={mode}
+              onClick={() => setBreakdownMode(mode as any)}
+              className={`px-4 py-2 rounded-lg border ${
+                breakdownMode === mode ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700'
+              }`}
+            >
+              {mode.charAt(0).toUpperCase() + mode.slice(1)}
+            </button>
+          ))}
+        </div>
+
+        {/* Breakdown Table */}
         <div className="overflow-x-auto">
           <table className="min-w-full border border-gray-200 text-sm">
-            <thead className="bg-gray-100">
+            <thead className="bg-blue-100">
               <tr>
                 <th className="px-4 py-2 border">Period</th>
                 <th className="px-4 py-2 border">Earnings</th>
@@ -264,7 +289,16 @@ const CompoundInterestCalculator: React.FC = () => {
             </thead>
             <tbody>
               {breakdownData.map((row, idx) => (
-                <tr key={idx} className={row.period === 'Total' ? 'bg-gray-200 font-semibold' : idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                <tr
+                  key={idx}
+                  className={
+                    row.period === 'TOTAL'
+                      ? 'bg-blue-200 font-semibold'
+                      : idx % 2 === 0
+                      ? 'bg-gray-50'
+                      : 'bg-white'
+                  }
+                >
                   <td className="px-4 py-2 border">{row.period}</td>
                   <td className="px-4 py-2 border">₹{row.earnings.toFixed(2)}</td>
                   <td className="px-4 py-2 border">₹{row.totalEarnings.toFixed(2)}</td>
