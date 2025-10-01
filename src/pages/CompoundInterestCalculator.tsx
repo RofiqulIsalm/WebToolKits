@@ -242,13 +242,14 @@ const CompoundInterestCalculator: React.FC = () => {
                 <div className="text-lg font-semibold text-slate-900">₹{compoundInterest.toFixed(2)}</div>
                 <div className="text-sm text-slate-600">Compound Interest</div>
               </div>
-            </div>
-            <button
+              <button
     onClick={() => setShowBreakdown(!showBreakdown)}
     className="absolute bottom-3 left-3 px-3 py-1 text-xs bg-indigo-500 text-white rounded-lg shadow hover:bg-indigo-600 transition"
   >
     {showBreakdown ? 'Hide Breakdown' : 'Show Breakdown'}
   </button>
+            </div>
+            
           </div>
         </div>
       </div>
