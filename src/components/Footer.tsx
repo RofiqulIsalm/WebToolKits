@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="font-semibold text-white mb-4">Calculator Hub</h3>
+            <h3 className="font-semibold text-white mb-8">Calculator Hub</h3>
             <p className="text-slate-300 text-sm">
               Discover 100% free online calculators and converters for finance, health, math, and daily life. 
               Calculator Hub helps you solve problems instantly—fast, accurate, and privacy-friendly with no signup required.
