@@ -6,7 +6,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-slate-900/90 backdrop-blur-lg border-t border-blue-500/20 mt-16">
       <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-16">
           <div>
             <h3 className="font-semibold text-white mb-8">Calculator Hub</h3>
             <p className="text-slate-300 text-sm">
