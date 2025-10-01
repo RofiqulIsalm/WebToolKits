@@ -132,7 +132,7 @@ const CompoundInterestCalculator: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Input Box */}
-        <div className="bg-[#F9FAFB] rounded-2xl shadow-md border border-slate-200 p-6">
+        <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
           <h2 className="text-xl font-semibold text-slate-800 mb-4">Investment Details</h2>
           <div className="space-y-4">
             {/* Principal */}
@@ -225,7 +225,7 @@ const CompoundInterestCalculator: React.FC = () => {
         </div>
 
         {/* Results */}
-        <div className="bg-[#F9FAFB] rounded-2xl shadow-md border border-slate-200 p-6">
+        <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
           <h2 className="text-xl font-semibold text-slate-800 mb-4">Results</h2>
           <div className="space-y-6">
             <div className="text-center p-4 bg-emerald-50 rounded-lg">
@@ -280,12 +280,12 @@ const CompoundInterestCalculator: React.FC = () => {
           {/* Table */}
           <div className="overflow-x-auto">
             <table className="min-w-full border border-slate-200 text-sm">
-              <thead>
+              <thead className="bg-indigo-100 text-indigo-800">
                 <tr>
-                  <th className="px-4 py-2 border text-[#42D3F2] bg-[#E8FCFF]">Period</th>
-                  <th className="px-4 py-2 border text-[#99A1AF] bg-[#F3F4F6]">Earnings</th>
-                  <th className="px-4 py-2 border text-[#FF8904] bg-[#FFF4E6]">Total Earnings</th>
-                  <th className="px-4 py-2 border text-[#05DF72] bg-[#E8FFF3]">Balance</th>
+                  <th className="px-4 py-2 border">Period</th>
+                  <th className="px-4 py-2 border">Earnings</th>
+                  <th className="px-4 py-2 border">Total Earnings</th>
+                  <th className="px-4 py-2 border">Balance</th>
                 </tr>
               </thead>
               <tbody>
@@ -294,17 +294,16 @@ const CompoundInterestCalculator: React.FC = () => {
                     key={idx}
                     className={
                       row.period === 'TOTAL'
-                        ? 'font-semibold'
+                        ? 'bg-indigo-200 font-semibold'
                         : idx % 2 === 0
                         ? 'bg-slate-50'
                         : 'bg-white'
                     }
-                    style={row.period === 'TOTAL' ? { backgroundColor: '#31C950', color: 'white' } : {}}
                   >
-                    <td className="px-4 py-2 border text-[#BCEFFA]">{row.period}</td>
-                    <td className="px-4 py-2 border text-[#D7DAE0]">₹{row.earnings.toFixed(2)}</td>
-                    <td className="px-4 py-2 border text-[#FFDEB8]">₹{row.totalEarnings.toFixed(2)}</td>
-                    <td className="px-4 py-2 border text-[#B9FEDB]">₹{row.balance.toFixed(2)}</td>
+                    <td className="px-4 py-2 border">{row.period}</td>
+                    <td className="px-4 py-2 border text-emerald-700">₹{row.earnings.toFixed(2)}</td>
+                    <td className="px-4 py-2 border text-amber-700">₹{row.totalEarnings.toFixed(2)}</td>
+                    <td className="px-4 py-2 border text-indigo-700">₹{row.balance.toFixed(2)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -317,5 +316,5 @@ const CompoundInterestCalculator: React.FC = () => {
     </div>
   );
 };
-
+ 
 export default CompoundInterestCalculator;
