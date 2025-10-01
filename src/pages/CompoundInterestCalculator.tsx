@@ -19,13 +19,12 @@ const CompoundInterestCalculator: React.FC = () => {
   const [selectedDays, setSelectedDays] = useState<string[]>(['SU','MO','TU','WE','TH','FR','SA']);
   const [breakdownData, setBreakdownData] = useState<any[]>([]);
 
-  // 🔹 Default changed to false (hide breakdown initially)
+  // Default: hide breakdown on initial load
   const [showBreakdown, setShowBreakdown] = useState<boolean>(false);
   // ================= END: State Variables =================
 
 
   // ================= START: Helper Functions =================
-  // Convert interest rate to daily rate based on selected unit
   const getDailyRate = () => {
     switch (rateUnit) {
       case 'daily': return rate / 100;
@@ -36,7 +35,6 @@ const CompoundInterestCalculator: React.FC = () => {
     }
   };
 
-  // Convert time unit to total days
   const getTotalDays = () => {
     switch (timeUnit) {
       case 'days': return time;
@@ -52,12 +50,12 @@ const CompoundInterestCalculator: React.FC = () => {
   useEffect(() => {
     calculateCompoundInterest();
     generateBreakdown();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [principal, rate, rateUnit, time, timeUnit, breakdownMode, includeAllDays, selectedDays]);
   // ================= END: useEffect =================
 
 
   // ================= START: Core Calculation =================
-  // Calculate compound interest over time
   const calculateCompoundInterest = () => {
     const dailyRate = getDailyRate();
     const totalDays = getTotalDays();
@@ -67,7 +65,6 @@ const CompoundInterestCalculator: React.FC = () => {
       const day = new Date();
       day.setDate(day.getDate() + i);
 
-      // Skip days if not included
       if (!includeAllDays) {
         const dayMap = ['SU','MO','TU','WE','TH','FR','SA'];
         if (!selectedDays.includes(dayMap[day.getDay()])) continue;
@@ -80,7 +77,6 @@ const CompoundInterestCalculator: React.FC = () => {
     setCompoundInterest(balance - principal);
   };
 
-  // Generate detailed breakdown (daily, weekly, monthly, yearly)
   const generateBreakdown = () => {
     let data: any[] = [];
     const startDate = new Date();
@@ -102,7 +98,6 @@ const CompoundInterestCalculator: React.FC = () => {
       balance += earnings;
       totalEarnings += earnings;
 
-      // Label by mode
       let label = '';
       if (breakdownMode === 'daily') {
         label = date.toDateString();
@@ -117,7 +112,6 @@ const CompoundInterestCalculator: React.FC = () => {
       data.push({ period: label, earnings, totalEarnings, balance });
     }
 
-    // Group data for monthly/yearly breakdown
     if (breakdownMode === 'monthly' || breakdownMode === 'yearly') {
       const grouped: Record<string, any> = {};
       data.forEach((row) => {
@@ -131,7 +125,6 @@ const CompoundInterestCalculator: React.FC = () => {
       data = Object.values(grouped);
     }
 
-    // Add total summary row
     data.push({
       period: 'TOTAL',
       earnings: data.reduce((s, r: any) => s + r.earnings, 0),
@@ -226,15 +219,17 @@ const CompoundInterestCalculator: React.FC = () => {
               </div>
             </div>
 
-            {/* Include Days Selection */}
-            {/* Include Days */}
+            {/* Include Days - REPLACED with toggle switch */}
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Include all                 days</label>
-              
-              {/* Toggle Switch */}
+              <label className="block text-sm font-medium text-slate-700 mb-2">Include all days</label>
+
+              {/* Toggle Switch (light on/off style) */}
               <button
+                type="button"
+                role="switch"
+                aria-checked={includeAllDays}
                 onClick={() => setIncludeAllDays(!includeAllDays)}
-                className={`relative inline-flex h-6 w-12 items-center rounded-full transition-colors ${
+                className={`relative inline-flex h-6 w-12 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400 ${
                   includeAllDays ? 'bg-indigo-500' : 'bg-slate-300'
                 }`}
               >
@@ -245,8 +240,8 @@ const CompoundInterestCalculator: React.FC = () => {
                 />
               </button>
               <span className="ml-3 text-sm">{includeAllDays ? 'On' : 'Off'}</span>
-            
-              {/* Day Selector (only when toggle is OFF) */}
+
+              {/* Day Selector: show only when toggle is OFF (user wants to pick specific days) */}
               {!includeAllDays && (
                 <div className="flex flex-wrap gap-2 mt-3">
                   {['SU','MO','TU','WE','TH','FR','SA'].map((day) => (
@@ -265,7 +260,9 @@ const CompoundInterestCalculator: React.FC = () => {
                 </div>
               )}
             </div>
-
+            {/* ================= END: Include Days ================= */}
+          </div>
+        </div>
         {/* ================= END: Input Box ================= */}
 
         {/* ================= START: Results ================= */}
