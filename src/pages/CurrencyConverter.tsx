@@ -237,8 +237,7 @@ const CurrencyConverter: React.FC = () => {
         <p className="text-slate-300">Convert between different currencies with live exchange rates</p>
       </div>
 
-      <div className="glow-card rounded-lg p-6 mb-8">
-        <div className="currency-card rounded-lg p-6 mb-8">
+      <div className="currency-card rounded-lg p-6 mb-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">From</label>
@@ -319,8 +318,6 @@ const CurrencyConverter: React.FC = () => {
               <span>Refresh Rates</span>
             </button>
           </div>
-        </div>
-      </div>
 
       <AdBanner type="bottom" />
     </div>
