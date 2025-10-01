@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
            
           <div>
             <h3 className="font-semibold text-white mb-4">Popular Calculators</h3>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-1 text-sm">
               <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
               <li><Link to="/bmi-calculator" className="text-slate-300 hover:text-blue-400 transition-colors">BMI Calculator – Body Mass Index</Link></li>
               <li><Link to="/loan-emi-calculator" className="text-slate-300 hover:text-blue-400 transition-colors">Loan EMI Calculator – Monthly Payments</Link></li>
