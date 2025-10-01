@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { TrendingUp, ChevronDown, ChevronUp } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 
+// ================= START: CompoundInterestCalculator Component =================
 const CompoundInterestCalculator: React.FC = () => {
+  // ================= START: State Variables =================
   const [principal, setPrincipal] = useState<number>(0);
   const [rate, setRate] = useState<number>(0);
   const [rateUnit, setRateUnit] = useState<'daily' | 'weekly' | 'monthly' | 'yearly'>('yearly');
@@ -16,8 +18,14 @@ const CompoundInterestCalculator: React.FC = () => {
   const [includeAllDays, setIncludeAllDays] = useState<boolean>(true);
   const [selectedDays, setSelectedDays] = useState<string[]>(['SU','MO','TU','WE','TH','FR','SA']);
   const [breakdownData, setBreakdownData] = useState<any[]>([]);
-  const [showBreakdown, setShowBreakdown] = useState<boolean>(true);
 
+  // 🔹 Default changed to false (hide breakdown initially)
+  const [showBreakdown, setShowBreakdown] = useState<boolean>(false);
+  // ================= END: State Variables =================
+
+
+  // ================= START: Helper Functions =================
+  // Convert interest rate to daily rate based on selected unit
   const getDailyRate = () => {
     switch (rateUnit) {
       case 'daily': return rate / 100;
@@ -28,6 +36,7 @@ const CompoundInterestCalculator: React.FC = () => {
     }
   };
 
+  // Convert time unit to total days
   const getTotalDays = () => {
     switch (timeUnit) {
       case 'days': return time;
@@ -36,29 +45,42 @@ const CompoundInterestCalculator: React.FC = () => {
       default: return time * 365;
     }
   };
+  // ================= END: Helper Functions =================
 
+
+  // ================= START: useEffect =================
   useEffect(() => {
     calculateCompoundInterest();
     generateBreakdown();
   }, [principal, rate, rateUnit, time, timeUnit, breakdownMode, includeAllDays, selectedDays]);
+  // ================= END: useEffect =================
 
+
+  // ================= START: Core Calculation =================
+  // Calculate compound interest over time
   const calculateCompoundInterest = () => {
     const dailyRate = getDailyRate();
     const totalDays = getTotalDays();
     let balance = principal;
+
     for (let i = 0; i < totalDays; i++) {
       const day = new Date();
       day.setDate(day.getDate() + i);
+
+      // Skip days if not included
       if (!includeAllDays) {
         const dayMap = ['SU','MO','TU','WE','TH','FR','SA'];
         if (!selectedDays.includes(dayMap[day.getDay()])) continue;
       }
+
       balance += balance * dailyRate;
     }
+
     setFinalAmount(balance);
     setCompoundInterest(balance - principal);
   };
 
+  // Generate detailed breakdown (daily, weekly, monthly, yearly)
   const generateBreakdown = () => {
     let data: any[] = [];
     const startDate = new Date();
@@ -80,6 +102,7 @@ const CompoundInterestCalculator: React.FC = () => {
       balance += earnings;
       totalEarnings += earnings;
 
+      // Label by mode
       let label = '';
       if (breakdownMode === 'daily') {
         label = date.toDateString();
@@ -94,6 +117,7 @@ const CompoundInterestCalculator: React.FC = () => {
       data.push({ period: label, earnings, totalEarnings, balance });
     }
 
+    // Group data for monthly/yearly breakdown
     if (breakdownMode === 'monthly' || breakdownMode === 'yearly') {
       const grouped: Record<string, any> = {};
       data.forEach((row) => {
@@ -107,6 +131,7 @@ const CompoundInterestCalculator: React.FC = () => {
       data = Object.values(grouped);
     }
 
+    // Add total summary row
     data.push({
       period: 'TOTAL',
       earnings: data.reduce((s, r: any) => s + r.earnings, 0),
@@ -116,26 +141,36 @@ const CompoundInterestCalculator: React.FC = () => {
 
     setBreakdownData(data);
   };
+  // ================= END: Core Calculation =================
 
+
+  // ================= START: UI Handlers =================
   const toggleDay = (day: string) => {
     setSelectedDays((prev) =>
       prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
     );
   };
+  // ================= END: UI Handlers =================
 
+
+  // ================= START: JSX Render =================
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6">
+      {/* Title */}
       <div className="mb-8 text-center">
         <h1 className="text-3xl font-bold text-slate-900 mb-2">Compound Interest Calculator</h1>
         <p className="text-slate-600">Calculate your investment growth with ease</p>
       </div>
 
+      {/* Main Grid: Input + Results */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Input Box */}
+
+        {/* ================= START: Input Box ================= */}
         <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
           <h2 className="text-xl font-semibold text-slate-800 mb-4">Investment Details</h2>
           <div className="space-y-4">
-            {/* Principal */}
+
+            {/* Principal Input */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">Principal Amount ($)</label>
               <input
@@ -146,7 +181,7 @@ const CompoundInterestCalculator: React.FC = () => {
               />
             </div>
 
-            {/* Rate */}
+            {/* Rate Input */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">Interest Rate (%)</label>
               <div className="flex space-x-2">
@@ -169,7 +204,7 @@ const CompoundInterestCalculator: React.FC = () => {
               </div>
             </div>
 
-            {/* Time */}
+            {/* Time Input */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">Time Period</label>
               <div className="flex space-x-2">
@@ -191,7 +226,7 @@ const CompoundInterestCalculator: React.FC = () => {
               </div>
             </div>
 
-            {/* Include Days */}
+            {/* Include Days Selection */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">Include all days</label>
               <div className="flex items-center space-x-3">
@@ -223,17 +258,21 @@ const CompoundInterestCalculator: React.FC = () => {
             </div>
           </div>
         </div>
+        {/* ================= END: Input Box ================= */}
 
-        {/* Results */}
+        {/* ================= START: Results ================= */}
         <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-6 flex flex-col justify-between">
           <div>
             <h2 className="text-xl font-semibold text-slate-800 mb-4">Results</h2>
             <div className="space-y-6">
+              {/* Final Amount */}
               <div className="text-center p-4 bg-emerald-50 rounded-lg">
                 <TrendingUp className="h-8 w-8 text-emerald-600 mx-auto mb-2" />
                 <div className="text-2xl font-bold text-slate-900">${finalAmount.toFixed(2)}</div>
                 <div className="text-sm text-slate-600">Final Amount</div>
               </div>
+
+              {/* Principal & Interest */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 bg-indigo-50 rounded-lg text-center">
                   <div className="text-lg font-semibold text-slate-900">${principal.toLocaleString()}</div>
@@ -247,7 +286,7 @@ const CompoundInterestCalculator: React.FC = () => {
             </div>
           </div>
 
-          {/* Toggle Breakdown Button inside Results */}
+          {/* Toggle Breakdown Button */}
           <div className="flex justify-end mt-6">
             <button
               onClick={() => setShowBreakdown(!showBreakdown)}
@@ -257,14 +296,15 @@ const CompoundInterestCalculator: React.FC = () => {
             </button>
           </div>
         </div>
+        {/* ================= END: Results ================= */}
       </div>
 
-      {/* Breakdown Section */}
+      {/* ================= START: Breakdown Section ================= */}
       {showBreakdown && (
         <div className="mt-8 bg-white rounded-2xl shadow-md border border-slate-200 p-6">
           <h3 className="text-lg font-semibold text-slate-800 mb-4">Breakdown</h3>
 
-          {/* Mode */}
+          {/* Mode Switch */}
           <div className="flex flex-wrap gap-3 mb-4">
             {['daily','weekly','monthly','yearly'].map((mode) => (
               <button
@@ -279,7 +319,7 @@ const CompoundInterestCalculator: React.FC = () => {
             ))}
           </div>
 
-          {/* Table */}
+          {/* Breakdown Table */}
           <div className="overflow-x-auto">
             <table className="min-w-full border border-slate-200 text-sm">
               <thead className="bg-indigo-100 text-indigo-800">
@@ -313,10 +353,15 @@ const CompoundInterestCalculator: React.FC = () => {
           </div>
         </div>
       )}
+      {/* ================= END: Breakdown Section ================= */}
 
+      {/* ================= START: Ad Banner ================= */}
       <AdBanner type="bottom" />
+      {/* ================= END: Ad Banner ================= */}
     </div>
   );
+  // ================= END: JSX Render =================
 };
 
 export default CompoundInterestCalculator;
+// ================= END: CompoundInterestCalculator Component =================
