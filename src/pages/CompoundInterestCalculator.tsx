@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { TrendingUp, ChevronDown, ChevronUp } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 
