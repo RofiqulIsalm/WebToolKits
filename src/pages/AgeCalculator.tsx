@@ -63,7 +63,8 @@ const AgeCalculator: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Age Calculator</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Age Calculator              <a href="/currency-converter">Test</a>
+        </h1>
         <p className="text-gray-600">Calculate your exact age in years, months, days, and more</p>
       </div>
 
