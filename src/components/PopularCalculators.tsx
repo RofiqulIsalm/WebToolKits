@@ -60,12 +60,7 @@ const PopularCalculators: React.FC = () => {
                   <h4 className="text-sm font-medium text-white group-hover:text-blue-100 transition-colors truncate">
                     {calculator.name}
                   </h4>
-                  {views > 0 && (
-                    <div className="flex items-center space-x-1 mt-1">
-                      <Eye className="h-3 w-3 text-slate-400" />
-                      <span className="text-xs text-slate-400">{views} views</span>
-                    </div>
-                  )}
+                  
                 </div>
               </div>
             </Link>
