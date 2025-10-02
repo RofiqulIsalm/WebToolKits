@@ -160,7 +160,9 @@ const TermsOfService: React.FC = () => {
           <h2 className="text-2xl font-semibold text-white mb-4">Contact Information</h2>
           <div className="text-slate-300">
             <p>
-              If you have any questions about these Terms of Service, please contact us through our Contact Us page.
+              If you have any questions about these Terms of Service, please <a href="/contact-us" className="text-blue-400 hover:text-blue-300 underline">
+              contact us
+            </a>
             </p>
           </div>
         </section>
