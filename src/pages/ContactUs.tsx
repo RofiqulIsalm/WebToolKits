@@ -247,10 +247,10 @@ const ContactUs: React.FC = () => {
           <div className="glow-card rounded-lg p-6">
             <h3 className="text-xl font-semibold text-white mb-4">Quick Links</h3>
             <div className="space-y-2">
-              <Link to="/privacy-policy" className="text-slate-300 hover:text-blue-400 transition-colors">Privacy Policy</Link>
+              <Link to="/privacy-policy" className="text-slate-300 hover:text-blue-400 transition-colors">Privacy Policy</Link></br>
               <Link to="/privacy-policy" className="text-slate-300 hover:text-blue-400 transition-colors">
                 Terms of Service
-              </Link>
+              </Link></br>
               <Link to="/privacy-policy" className="text-slate-300 hover:text-blue-400 transition-colors">
                 All Calculators
               </Link>
