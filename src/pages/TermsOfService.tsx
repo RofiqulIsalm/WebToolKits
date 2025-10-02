@@ -97,7 +97,7 @@ const TermsOfService: React.FC = () => {
           </h2>
           <div className="text-slate-300 space-y-4">
             <p>
-              In no event shall Daily Tools Hub or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on Daily Tools Hub, even if Daily Tools Hub or a Daily Tools Hub authorized representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you.
+              In no event shall CalculatorHub or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on CalculatorHub, even if Daily Tools Hub or a CalculatorHub authorized representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you.
             </p>
           </div>
         </section>
