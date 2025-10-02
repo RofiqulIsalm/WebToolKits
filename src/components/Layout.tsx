@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import AdBanner from './AdBanner';
+import { Link } from 'react-router-dom';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -33,21 +34,19 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <section className="bg-slate-800/70 p-4 rounded-xl shadow-md">
             <h2 className="text-lg font-semibold mb-3 text-yellow-300">Quick Access</h2>
             <ul className="space-y-2 text-sm">
-              <li><a href="/currency-converter" className="hover:text-yellow-400">Currency Converter</a></li>
-              <li><a href="/loan-emi-calculator" className="hover:text-yellow-400">Loan EMI Calculator</a></li>
-              <li><a href="/tax-calculator" className="hover:text-yellow-400">Tax Calculator</a></li>
-              <li><a href="/age-calculator" className="hover:text-yellow-400">Age Calculator</a></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
+              
             </ul>
           </section>
 
           {/* Popular Calculators Section */}
           <section className="bg-slate-800/70 p-4 rounded-xl shadow-md">
-            <h2 className="text-lg font-semibold mb-3 text-green-300">Popular Calculators</h2>
+            <h2 className="text-lg font-semibold mb-3 text-green-300">Popular                             Calculators</h2>
             <ul className="space-y-2 text-sm">
-              <li><a href="/percentage-calculator" className="hover:text-green-400">Percentage Calculator</a></li>
-              <li><a href="/compound-interest-calculator" className="hover:text-green-400">Compound Interest</a></li>
-              <li><a href="/sip-calculator" className="hover:text-green-400">SIP Calculator</a></li>
-              <li><a href="/bmi-calculator" className="hover:text-green-400">BMI Calculator</a></li>
+              <li><a href="/percentage-calculator" className="hover:text-green-                                400">Percentage Calculator</a></li>
+              <li><a href="/compound-interest-calculator" className="hover:text-green-                        400">Compound Interest</a></li>
+              <li><a href="/sip-calculator" className="hover:text-green-400">SIP                               Calculator</a></li>
+              <li><a href="/bmi-calculator" className="hover:text-green-400">BMI                               Calculator</a></li>
             </ul>
           </section>
         </aside>
