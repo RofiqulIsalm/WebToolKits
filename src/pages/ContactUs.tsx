@@ -63,7 +63,7 @@ const ContactUs: React.FC = () => {
               {/* Team Profiles */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div className="glow-card rounded-lg p-6">
-            <h3 className="text-xl font-semibold text-white mb-2">[Rofiqul Islam] – Senior                   Partner</h3>
+            <h3 className="text-xl font-semibold text-white mb-2">Rofiqul Islam – Senior                   Partner</h3>
             <p className="text-slate-300 text-sm">
               Rofiqul Islam is the Senior Partner and founder of CalculatorHub. With                       expertise in creating user-friendly calculators and tools, [he/she/they]                     ensures high-quality solutions and a smooth experience for all users.
             </p>
