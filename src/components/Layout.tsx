@@ -48,19 +48,19 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <ul className="space-y-2 text-sm">
               <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter</Link></li>
               <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Loan EMI Calculator</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Compound Interest</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors"> Length Converter</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors"></Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Weight Converter</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Temperature Converter</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">BMI Calculator</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Percentage Calculator</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Average Calculator</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Age Calculator</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Data Difference Calculator</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Add Subtract Day</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">QR Code Generator</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Password Code Generator</Link></li>
               
             </ul>
           </section>
