@@ -50,18 +50,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <li><Link to="/loan-emi-calculator" className="text-slate-300 hover:text-blue-                400 transition-colors">Loan EMI Calculator</Link></li>
               <li><Link to="/compound-interest-calculator" className="text-slate-300 hover:text-blue-                400 transition-colors">Compound Interest</Link></li>
               <li><Link to="/tax-calculator" className="text-slate-300 hover:text-blue-                400 transition-colors"> Tax Calculator</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors"> Length Converter</Link></li>
+              <li><Link to="/length-converter" className="text-slate-300 hover:text-blue-                400 transition-colors"> Length Converter</Link></li>
               <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors"></Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Weight Converter</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Temperature Converter</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">BMI Calculator</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Percentage Calculator</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Average Calculator</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Age Calculator</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Data Difference Calculator</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Add Subtract Day</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">QR Code Generator</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Password Code Generator</Link></li>
+              <li><Link to="/weight-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Weight Converter</Link></li>
+              <li><Link to="/temperature-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Temperature Converter</Link></li>
+              <li><Link to="/bmi-calculator" className="text-slate-300 hover:text-blue-                400 transition-colors">BMI Calculator</Link></li>
+              <li><Link to="/percentage-calculator" className="text-slate-300 hover:text-blue-                400 transition-colors">Percentage Calculator</Link></li>
+              <li><Link to="/average-calculator" className="text-slate-300 hover:text-blue-                400 transition-colors">Average Calculator</Link></li>
+              <li><Link to="/age-calculator" className="text-slate-300 hover:text-blue-                400 transition-colors">Age Calculator</Link></li>
+              <li><Link to="/date-difference" className="text-slate-300 hover:text-blue-                400 transition-colors">Data Difference Calculator</Link></li>
+              <li><Link to="/add-subtract-days" className="text-slate-300 hover:text-blue-                400 transition-colors">Add Subtract Day</Link></li>
+              <li><Link to="/qr-code-generator" className="text-slate-300 hover:text-blue-                400 transition-colors">QR Code Generator</Link></li>
+              <li><Link to="/password-generator" className="text-slate-300 hover:text-blue-                400 transition-colors">Password Code Generator</Link></li>
               
             </ul>
           </section>
