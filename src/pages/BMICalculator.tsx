@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Activity } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { seoData, generateCalculatorSchema } from '../utils/seoData';
+import RelatedCalculators from '../components/RelatedCalculators';
 
 const BMICalculator: React.FC = () => {
   const [height, setHeight] = useState<number>(170);
@@ -44,7 +48,28 @@ const BMICalculator: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <>
+      <SEOHead
+        title={seoData.bmiCalculator.title}
+        description={seoData.bmiCalculator.description}
+        canonical="https://calculatorhub.com/bmi-calculator"
+        schemaData={generateCalculatorSchema(
+          "BMI Calculator",
+          seoData.bmiCalculator.description,
+          "/bmi-calculator",
+          seoData.bmiCalculator.keywords
+        )}
+        breadcrumbs={[
+          { name: 'Math Tools', url: '/category/math-tools' },
+          { name: 'BMI Calculator', url: '/bmi-calculator' }
+        ]}
+      />
+      <div className="max-w-4xl mx-auto">
+        <Breadcrumbs items={[
+          { name: 'Math Tools', url: '/category/math-tools' },
+          { name: 'BMI Calculator', url: '/bmi-calculator' }
+        ]} />
+        
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">BMI Calculator</h1>
         <p className="text-slate-300">Calculate your Body Mass Index and check if you're in a healthy weight range</p>
@@ -136,7 +161,13 @@ const BMICalculator: React.FC = () => {
       </div>
 
       <AdBanner type="bottom" />
-    </div>
+      
+      <RelatedCalculators 
+        currentPath="/bmi-calculator" 
+        category="math-tools" 
+      />
+      </div>
+    </>
   );
 };
 

@@ -1,10 +1,26 @@
 import React from 'react';
 import { Shield, Eye, Database, Lock, Mail } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { seoData } from '../utils/seoData';
 
 const PrivacyPolicy: React.FC = () => {
   return (
-    <div className="max-w-4xl mx-auto">
+    <>
+      <SEOHead
+        title={seoData.privacyPolicy.title}
+        description={seoData.privacyPolicy.description}
+        canonical="https://calculatorhub.com/privacy-policy"
+        breadcrumbs={[
+          { name: 'Privacy Policy', url: '/privacy-policy' }
+        ]}
+      />
+      <div className="max-w-4xl mx-auto">
+        <Breadcrumbs items={[
+          { name: 'Privacy Policy', url: '/privacy-policy' }
+        ]} />
+        
       <div className="mb-8">
         <div className="flex items-center space-x-3 mb-4">
           <Shield className="h-8 w-8 text-blue-400 drop-shadow-lg" />
@@ -138,7 +154,8 @@ const PrivacyPolicy: React.FC = () => {
       </div>
 
       <AdBanner type="bottom" />
-    </div>
+      </div>
+    </>
   );
 };
 

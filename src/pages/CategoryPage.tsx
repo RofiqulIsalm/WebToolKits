@@ -2,6 +2,9 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calculator } from 'lucide-react';
 import { toolsData } from '../data/toolsData';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { seoData } from '../utils/seoData';
 
 const CategoryPage: React.FC = () => {
   const { categorySlug } = useParams<{ categorySlug: string }>();
@@ -11,6 +14,12 @@ const CategoryPage: React.FC = () => {
 
   if (!category) {
     return (
+      <>
+        <SEOHead
+          title="Category Not Found | CalculatorHub"
+          description="The category you're looking for doesn't exist. Browse our collection of free online calculators and tools."
+          canonical={`https://calculatorhub.com/category/${categorySlug}`}
+        />
       <div className="max-w-4xl mx-auto text-center">
         <h1 className="text-3xl font-bold text-white mb-4">Category Not Found</h1>
         <p className="text-slate-300 mb-8">The category you're looking for doesn't exist.</p>
@@ -22,11 +31,27 @@ const CategoryPage: React.FC = () => {
           <span>Back to Home</span>
         </Link>
       </div>
+      </>
     );
   }
 
+  const categoryData = seoData.categoryPages[categorySlug as keyof typeof seoData.categoryPages];
+
   return (
-    <div className="max-w-6xl mx-auto">
+    <>
+      <SEOHead
+        title={categoryData?.title || `${category.category} | CalculatorHub`}
+        description={categoryData?.description || `Free ${category.category.toLowerCase()} tools and calculators`}
+        canonical={`https://calculatorhub.com/category/${categorySlug}`}
+        breadcrumbs={[
+          { name: category.category, url: `/category/${categorySlug}` }
+        ]}
+      />
+      <div className="max-w-6xl mx-auto">
+        <Breadcrumbs items={[
+          { name: category.category, url: `/category/${categorySlug}` }
+        ]} />
+        
       {/* Header */}
       <div className="mb-8">
         <Link
@@ -132,7 +157,8 @@ const CategoryPage: React.FC = () => {
             ))}
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

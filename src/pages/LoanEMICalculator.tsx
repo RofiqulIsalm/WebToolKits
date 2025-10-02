@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { PiggyBank } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { seoData, generateCalculatorSchema } from '../utils/seoData';
+import RelatedCalculators from '../components/RelatedCalculators';
 
 const LoanEMICalculator: React.FC = () => {
   const [principal, setPrincipal] = useState<number>(100000);
@@ -32,7 +36,28 @@ const LoanEMICalculator: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <>
+      <SEOHead
+        title={seoData.loanEmiCalculator.title}
+        description={seoData.loanEmiCalculator.description}
+        canonical="https://calculatorhub.com/loan-emi-calculator"
+        schemaData={generateCalculatorSchema(
+          "Loan EMI Calculator",
+          seoData.loanEmiCalculator.description,
+          "/loan-emi-calculator",
+          seoData.loanEmiCalculator.keywords
+        )}
+        breadcrumbs={[
+          { name: 'Currency & Finance', url: '/category/currency-finance' },
+          { name: 'Loan EMI Calculator', url: '/loan-emi-calculator' }
+        ]}
+      />
+      <div className="max-w-4xl mx-auto">
+        <Breadcrumbs items={[
+          { name: 'Currency & Finance', url: '/category/currency-finance' },
+          { name: 'Loan EMI Calculator', url: '/loan-emi-calculator' }
+        ]} />
+        
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Loan EMI Calculator</h1>
         <p className="text-gray-600">Calculate your monthly loan EMI, total amount, and interest payable</p>
@@ -128,7 +153,13 @@ const LoanEMICalculator: React.FC = () => {
       </div>
 
       <AdBanner type="bottom" />
-    </div>
+      
+      <RelatedCalculators 
+        currentPath="/loan-emi-calculator" 
+        category="currency-finance" 
+      />
+      </div>
+    </>
   );
 };
 

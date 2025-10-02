@@ -2,12 +2,22 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { toolsData, getPopularCalculators } from '../data/toolsData';
 import { ArrowRight, TrendingUp } from 'lucide-react';
+import SEOHead from '../components/SEOHead';
+import { seoData, organizationSchema } from '../utils/seoData';
 
 const Homepage: React.FC = () => {
   const popularCalculators = getPopularCalculators();
 
   return (
-    <div>
+    <>
+      <SEOHead
+        title={seoData.homepage.title}
+        description={seoData.homepage.description}
+        canonical="https://calculatorhub.com/"
+        ogType="website"
+        schemaData={organizationSchema}
+      />
+      <div>
       {/* Hero Section */}
       <div className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-2xl">
@@ -121,7 +131,8 @@ const Homepage: React.FC = () => {
           ))}
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

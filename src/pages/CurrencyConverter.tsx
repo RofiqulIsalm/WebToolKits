@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRightLeft, RefreshCw } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { seoData, generateCalculatorSchema } from '../utils/seoData';
+import RelatedCalculators from '../components/RelatedCalculators';
 
 const CurrencyConverter: React.FC = () => {
   const [amount, setAmount] = useState<number>(1);
@@ -231,7 +235,28 @@ const CurrencyConverter: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <>
+      <SEOHead
+        title={seoData.currencyConverter.title}
+        description={seoData.currencyConverter.description}
+        canonical="https://calculatorhub.com/currency-converter"
+        schemaData={generateCalculatorSchema(
+          "Currency Converter",
+          seoData.currencyConverter.description,
+          "/currency-converter",
+          seoData.currencyConverter.keywords
+        )}
+        breadcrumbs={[
+          { name: 'Currency & Finance', url: '/category/currency-finance' },
+          { name: 'Currency Converter', url: '/currency-converter' }
+        ]}
+      />
+      <div className="max-w-4xl mx-auto">
+        <Breadcrumbs items={[
+          { name: 'Currency & Finance', url: '/category/currency-finance' },
+          { name: 'Currency Converter', url: '/currency-converter' }
+        ]} />
+        
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">Currency Converter</h1>
         <p className="text-slate-300">Convert between different currencies with live exchange rates</p>
@@ -323,7 +348,13 @@ const CurrencyConverter: React.FC = () => {
       </div>
 
       <AdBanner type="bottom" />
-    </div>
+      
+      <RelatedCalculators 
+        currentPath="/currency-converter" 
+        category="currency-finance" 
+      />
+      </div>
+    </>
   );
 };
 
