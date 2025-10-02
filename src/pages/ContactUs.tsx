@@ -245,7 +245,7 @@ const ContactUs: React.FC = () => {
           </div>
 
           <div className="glow-card rounded-lg p-6">
-           <h3 className="font-semibold text-white mb-8">Quick Link</h3>
+           <h3 className="font-semibold text-white mb-8">Quick Access</h3>
             <ul className="space-y-2 text-sm">
               <li><Link to="/privacy-policy" className="text-slate-300 hover:text-blue-400 transition-colors">Privacy Policy</Link></li>
               <li><Link to="/terms-of-service" className="text-slate-300 hover:text-blue-400 transition-colors">Terms of Service</Link></li>
