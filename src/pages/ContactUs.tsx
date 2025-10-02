@@ -61,32 +61,32 @@ const ContactUs: React.FC = () => {
         <p className="text-slate-300">Get in touch with us - we'd love to hear from you!</p>
       </div>
               {/* Team Profiles */}
-       {/* Team Profiles */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div className="glow-card rounded-lg p-6 text-center">
-            <img 
-              src="/images/your-profile.jpg" 
-              alt="[Your Name]" 
-              className="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-2 border-blue-400"
-            />
-            <h3 className="text-xl font-semibold text-white mb-2">[Your Name] – Senior Partner</h3>
-            <p className="text-slate-300 text-sm">
-              [Your Name] is the Senior Partner and founder of Daily Tools Hub. With expertise in creating user-friendly calculators and tools, [he/she/they] ensures high-quality solutions and a smooth experience for all users.
-            </p>
-          </div>
-        
-          <div className="glow-card rounded-lg p-6 text-center">
-            <img 
-              src="/images/partner-profile.jpg" 
-              alt="[Partner Name]" 
-              className="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-2 border-blue-400"
-            />
-            <h3 className="text-xl font-semibold text-white mb-2">[Partner Name] – Associate Partner</h3>
-            <p className="text-slate-300 text-sm">
-              [Partner Name] is the Associate Partner at Daily Tools Hub. Bringing strong operational and technical skills, [he/she/they] supports development, user experience, and contributes to the growth and innovation of the platform.
-            </p>
-          </div>
+       {/* Team Profiles */} 
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="glow-card rounded-lg p-6 text-center">
+          <img 
+            src="/images/your-profile.jpg" 
+            alt="[Your Name]" 
+            className="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-2 border-blue-400"
+          />
+          <h3 className="text-xl font-semibold text-white mb-2">[Your Name] – Senior Partner</h3>
+          <p className="text-slate-300 text-sm">
+            [Your Name] is the Senior Partner and founder of Daily Tools Hub. With expertise in creating user-friendly calculators and tools, [he/she/they] ensures high-quality solutions and a smooth experience for all users.
+          </p>
         </div>
+      
+        <div className="glow-card rounded-lg p-6 text-center">
+          <img 
+            src="/images/partner-profile.jpg" 
+            alt="[Partner Name]" 
+            className="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-2 border-blue-400"
+          />
+          <h3 className="text-xl font-semibold text-white mb-2">[Partner Name] – Associate Partner</h3>
+          <p className="text-slate-300 text-sm">
+            [Partner Name] is the Associate Partner at Daily Tools Hub. Bringing strong operational and technical skills, [he/she/they] supports development, user experience, and contributes to the growth and innovation of the platform.
+          </p>
+        </div>
+      </div>
 
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
