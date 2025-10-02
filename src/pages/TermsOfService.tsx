@@ -106,7 +106,7 @@ const TermsOfService: React.FC = () => {
           <h2 className="text-2xl font-semibold text-white mb-4">Accuracy of Materials</h2>
           <div className="text-slate-300 space-y-4">
             <p>
-              The materials appearing on Daily Tools Hub could include technical, typographical, or photographic errors. Daily Tools Hub does not warrant that any of the materials on its website are accurate, complete, or current. Daily Tools Hub may make changes to the materials contained on its website at any time without notice. However, Daily Tools Hub does not make any commitment to update the materials.
+              The materials appearing on CalculatorHub could include technical, typographical, or photographic errors. CalculatorHub does not warrant that any of the materials on its website are accurate, complete, or current. CalculatorHub may make changes to the materials contained on its website at any time without notice. However, CalculatorHub does not make any commitment to update the materials.
             </p>
           </div>
         </section>
