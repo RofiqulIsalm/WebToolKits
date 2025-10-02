@@ -115,7 +115,7 @@ const TermsOfService: React.FC = () => {
           <h2 className="text-2xl font-semibold text-white mb-4">Links</h2>
           <div className="text-slate-300 space-y-4">
             <p>
-              CalculatorHub has not reviewed all of the sites linked to our website and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by Daily Tools Hub of the site. Use of any such linked website is at the user's own risk.
+              CalculatorHub has not reviewed all of the sites linked to our website and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by CalculatorHub of the site. Use of any such linked website is at the user's own risk.
             </p>
           </div>
         </section>
