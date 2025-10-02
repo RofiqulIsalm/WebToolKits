@@ -46,7 +46,7 @@ const TermsOfService: React.FC = () => {
           </h2>
           <div className="text-slate-300 space-y-4">
             <p>
-              Permission is granted to temporarily use calculatorHub for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:
+              Permission is granted to temporarily use CalculatorHub for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:
             </p>
             <ul className="list-disc list-inside space-y-2 ml-4">
               <li>Modify or copy the materials</li>
