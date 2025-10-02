@@ -30,16 +30,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <aside className="hidden lg:block w-80 space-y-6 relative z-10">
           <AdBanner type="sidebar" />
 
-          {/* Quick Access Section */}
-          <section className="bg-slate-800/70 p-4 rounded-xl shadow-md">
-            <h2 className="text-lg font-semibold mb-3 text-yellow-300">Quick Access</h2>
-            <ul className="space-y-2 text-sm">
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
-              
-            </ul>
-          </section>
-
-          {/* Popular Calculators Section */}
+            {/* Popular Calculators Section */}
           <section className="bg-slate-800/70 p-4 rounded-xl shadow-md">
             <h2 className="text-lg font-semibold mb-3 text-green-300">Popular                             Calculators</h2>
             <ul className="space-y-2 text-sm">
@@ -49,6 +40,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <li><a href="/bmi-calculator" className="hover:text-green-400">BMI                               Calculator</a></li>
             </ul>
           </section>
+
+          
+          {/* Quick Access Section */}
+          <section className="bg-slate-800/70 p-4 rounded-xl shadow-md">
+            <h2 className="text-lg font-semibold mb-3 text-yellow-300">Quick Access</h2>
+            <ul className="space-y-2 text-sm">
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
+              
+            </ul>
+          </section>
+
+          
         </aside>
       </main>
 
