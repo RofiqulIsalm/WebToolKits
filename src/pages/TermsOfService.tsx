@@ -126,7 +126,7 @@ const TermsOfService: React.FC = () => {
             User Conduct
           </h2>
           <div className="text-slate-300 space-y-4">
-            <p>You agree not to use Daily Tools Hub to:</p>
+            <p>You agree not to use CalculatorHub to:</p>
             <ul className="list-disc list-inside space-y-2 ml-4">
               <li>Violate any applicable laws or regulations</li>
               <li>Transmit any harmful, threatening, or offensive content</li>
