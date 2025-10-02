@@ -4,6 +4,7 @@ import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { seoData } from '../utils/seoData';
+import { Link } from 'react-router-dom';
 
 const TermsOfService: React.FC = () => {
   return (
@@ -160,9 +161,7 @@ const TermsOfService: React.FC = () => {
           <h2 className="text-2xl font-semibold text-white mb-4">Contact Information</h2>
           <div className="text-slate-300">
             <p>
-              If you have any questions about these Terms of Service, please <a href="/contact-us" className="text-blue-400 hover:text-blue-300 underline">
-              contact us
-            </a>
+              If you have any questions about these Terms of Service, please <Link to="/contact-us" className="text-slate-300 hover:text-blue-400 transition-colors">Contact Us</Link>
             </p>
           </div>
         </section>
