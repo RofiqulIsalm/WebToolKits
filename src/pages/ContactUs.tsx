@@ -249,7 +249,7 @@ const ContactUs: React.FC = () => {
             <ul className="space-y-2 text-sm">
               <li><Link to="/privacy-policy" className="text-slate-300 hover:text-blue-400 transition-colors">Privacy Policy</Link></li>
               <li><Link to="/terms-of-service" className="text-slate-300 hover:text-blue-400 transition-colors">Terms of Service</Link></li>
-              <li><Link to="/contact-us" className="text-slate-300 hover:text-blue-400 transition-colors">All Calculators</Link></li>
+              <li><Link to="/" className="text-slate-300 hover:text-blue-400 transition-colors">All Calculators</Link></li>
             </ul>
           </div>
         </div>
