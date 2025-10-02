@@ -137,7 +137,7 @@ const PrivacyPolicy: React.FC = () => {
           <div className="text-slate-300">
             <p className="text-slate-300">
             If you have any questions about this Privacy Policy or our data practices,                     please
-              <Link to="/contact-us" className="text-slate-300 hover:text-blue-400 transition-colors">Contact Us</Link>
+ Contact Us
             through our Contact Us page or reach out to us directly.
           </p>
           </div>
