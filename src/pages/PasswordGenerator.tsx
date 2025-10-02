@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Key, Copy, RefreshCw, Eye, EyeOff } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { seoData, generateCalculatorSchema } from '../utils/seoData';
+import RelatedCalculators from '../components/RelatedCalculators';
 
 const PasswordGenerator: React.FC = () => {
   const [password, setPassword] = useState<string>('');
@@ -80,10 +84,31 @@ const PasswordGenerator: React.FC = () => {
   };
 
   return (
+    <>
+      <SEOHead
+        title={seoData.passwordGenerator.title}
+        description={seoData.passwordGenerator.description}
+        canonical="https://calculatorhub.com/password-generator"
+        schemaData={generateCalculatorSchema(
+          "Password Generator",
+          seoData.passwordGenerator.description,
+          "/password-generator",
+          seoData.passwordGenerator.keywords
+        )}
+        breadcrumbs={[
+          { name: 'Misc Tools', url: '/category/misc-tools' },
+          { name: 'Password Generator', url: '/password-generator' }
+        ]}
+      />
     <div className="max-w-4xl mx-auto">
+      <Breadcrumbs items={[
+        { name: 'Misc Tools', url: '/category/misc-tools' },
+        { name: 'Password Generator', url: '/password-generator' }
+      ]} />
+      
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Password Generator</h1>
-        <p className="text-gray-600">Generate secure, random passwords for your accounts</p>
+        <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">Password Generator</h1>
+        <p className="text-slate-300">Generate secure, random passwords for your accounts</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -255,7 +280,13 @@ const PasswordGenerator: React.FC = () => {
       </div>
 
       <AdBanner type="bottom" />
+      
+      <RelatedCalculators 
+        currentPath="/password-generator" 
+        category="misc-tools" 
+      />
     </div>
+    </>
   );
 };
 

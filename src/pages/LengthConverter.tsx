@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Ruler } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { seoData, generateCalculatorSchema } from '../utils/seoData';
+import RelatedCalculators from '../components/RelatedCalculators';
 
 const LengthConverter: React.FC = () => {
   const [value, setValue] = useState<number>(1);
@@ -39,10 +43,31 @@ const LengthConverter: React.FC = () => {
   };
 
   return (
+    <>
+      <SEOHead
+        title={seoData.lengthConverter.title}
+        description={seoData.lengthConverter.description}
+        canonical="https://calculatorhub.com/length-converter"
+        schemaData={generateCalculatorSchema(
+          "Length Converter",
+          seoData.lengthConverter.description,
+          "/length-converter",
+          seoData.lengthConverter.keywords
+        )}
+        breadcrumbs={[
+          { name: 'Unit Converters', url: '/category/unit-converters' },
+          { name: 'Length Converter', url: '/length-converter' }
+        ]}
+      />
     <div className="max-w-4xl mx-auto">
+      <Breadcrumbs items={[
+        { name: 'Unit Converters', url: '/category/unit-converters' },
+        { name: 'Length Converter', url: '/length-converter' }
+      ]} />
+      
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Length Converter</h1>
-        <p className="text-gray-600">Convert between different units of length and distance</p>
+        <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">Length Converter</h1>
+        <p className="text-slate-300">Convert between different units of length and distance</p>
       </div>
 
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
@@ -94,7 +119,13 @@ const LengthConverter: React.FC = () => {
       </div>
 
       <AdBanner type="bottom" />
+      
+      <RelatedCalculators 
+        currentPath="/length-converter" 
+        category="unit-converters" 
+      />
     </div>
+    </>
   );
 };
 

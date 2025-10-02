@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { Percent } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { seoData, generateCalculatorSchema } from '../utils/seoData';
+import RelatedCalculators from '../components/RelatedCalculators';
 
 const PercentageCalculator: React.FC = () => {
   const [value1, setValue1] = useState<number>(25);
@@ -25,10 +29,31 @@ const PercentageCalculator: React.FC = () => {
   };
 
   return (
+    <>
+      <SEOHead
+        title={seoData.percentageCalculator.title}
+        description={seoData.percentageCalculator.description}
+        canonical="https://calculatorhub.com/percentage-calculator"
+        schemaData={generateCalculatorSchema(
+          "Percentage Calculator",
+          seoData.percentageCalculator.description,
+          "/percentage-calculator",
+          seoData.percentageCalculator.keywords
+        )}
+        breadcrumbs={[
+          { name: 'Math Tools', url: '/category/math-tools' },
+          { name: 'Percentage Calculator', url: '/percentage-calculator' }
+        ]}
+      />
     <div className="max-w-4xl mx-auto">
+      <Breadcrumbs items={[
+        { name: 'Math Tools', url: '/category/math-tools' },
+        { name: 'Percentage Calculator', url: '/percentage-calculator' }
+      ]} />
+      
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Percentage Calculator</h1>
-        <p className="text-gray-600">Calculate percentages, percentage increases, decreases, and more</p>
+        <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">Percentage Calculator</h1>
+        <p className="text-slate-300">Calculate percentages, percentage increases, decreases, and more</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -157,7 +182,13 @@ const PercentageCalculator: React.FC = () => {
       </div>
 
       <AdBanner type="bottom" />
+      
+      <RelatedCalculators 
+        currentPath="/percentage-calculator" 
+        category="math-tools" 
+      />
     </div>
+    </>
   );
 };
 

@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { seoData, generateCalculatorSchema } from '../utils/seoData';
+import RelatedCalculators from '../components/RelatedCalculators';
 
 const AgeCalculator: React.FC = () => {
   const [birthDate, setBirthDate] = useState<string>('1990-01-01');
@@ -61,10 +65,31 @@ const AgeCalculator: React.FC = () => {
   };
 
   return (
+    <>
+      <SEOHead
+        title={seoData.ageCalculator.title}
+        description={seoData.ageCalculator.description}
+        canonical="https://calculatorhub.com/age-calculator"
+        schemaData={generateCalculatorSchema(
+          "Age Calculator",
+          seoData.ageCalculator.description,
+          "/age-calculator",
+          seoData.ageCalculator.keywords
+        )}
+        breadcrumbs={[
+          { name: 'Date & Time Tools', url: '/category/date-time-tools' },
+          { name: 'Age Calculator', url: '/age-calculator' }
+        ]}
+      />
     <div className="max-w-4xl mx-auto">
+      <Breadcrumbs items={[
+        { name: 'Date & Time Tools', url: '/category/date-time-tools' },
+        { name: 'Age Calculator', url: '/age-calculator' }
+      ]} />
+      
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Age Calculator</h1>
-        <p className="text-gray-600">Calculate your exact age in years, months, days, and more</p>
+        <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">Age Calculator</h1>
+        <p className="text-slate-300">Calculate your exact age in years, months, days, and more</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -153,7 +178,13 @@ const AgeCalculator: React.FC = () => {
       </div>
 
       <AdBanner type="bottom" />
+      
+      <RelatedCalculators 
+        currentPath="/age-calculator" 
+        category="date-time-tools" 
+      />
     </div>
+    </>
   );
 };
 

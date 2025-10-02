@@ -27,6 +27,56 @@ export const seoData = {
     description: "Calculate income tax for FY 2024-25 under old and new tax regimes. Free tax calculator with salary breakdown and tax-saving tips.",
     keywords: "income tax calculator, tax calculator, salary calculator, tax calculation, income tax"
   },
+  mortgageCalculator: {
+    title: "Mortgage Calculator - Monthly Payment & Total Cost",
+    description: "Calculate monthly mortgage payments, total cost, and amortization schedule. Free mortgage calculator with taxes and insurance options.",
+    keywords: "mortgage calculator, home loan calculator, monthly payment calculator, mortgage payment"
+  },
+  sipCalculator: {
+    title: "SIP Calculator - Mutual Fund Investment Returns",
+    description: "Calculate SIP returns and investment growth. Free SIP calculator for systematic investment plans with detailed projections and charts.",
+    keywords: "SIP calculator, mutual fund calculator, investment calculator, systematic investment plan"
+  },
+  fdCalculator: {
+    title: "FD Calculator - Fixed Deposit Maturity Amount",
+    description: "Calculate fixed deposit maturity amount and interest earned. Free FD calculator with compound interest and tax implications.",
+    keywords: "FD calculator, fixed deposit calculator, maturity calculator, deposit interest"
+  },
+  rdCalculator: {
+    title: "RD Calculator - Recurring Deposit Maturity",
+    description: "Calculate recurring deposit maturity amount and monthly contributions. Free RD calculator with interest calculations and growth chart.",
+    keywords: "RD calculator, recurring deposit calculator, monthly deposit calculator"
+  },
+  retirementCalculator: {
+    title: "Retirement Calculator - Retirement Planning Tool",
+    description: "Plan your retirement savings and calculate required corpus. Free retirement calculator with inflation adjustment and goal planning.",
+    keywords: "retirement calculator, retirement planning, pension calculator, retirement savings"
+  },
+  inflationCalculator: {
+    title: "Inflation Calculator - Future Value Calculator",
+    description: "Calculate the impact of inflation on money over time. Free inflation calculator showing purchasing power and future value adjustments.",
+    keywords: "inflation calculator, purchasing power calculator, future value calculator"
+  },
+  creditCardPayoffCalculator: {
+    title: "Credit Card Payoff Calculator - Debt Payment Plan",
+    description: "Calculate time and interest to pay off credit card debt. Free payoff calculator with minimum payment and extra payment strategies.",
+    keywords: "credit card payoff calculator, debt calculator, credit card debt, payment calculator"
+  },
+  savingsGoalCalculator: {
+    title: "Savings Goal Calculator - Financial Goal Planner",
+    description: "Calculate monthly savings needed to reach financial goals. Free savings calculator with timeline and contribution planning.",
+    keywords: "savings goal calculator, financial goal calculator, savings planner"
+  },
+  simpleInterestCalculator: {
+    title: "Simple Interest Calculator - Interest Calculation",
+    description: "Calculate simple interest on loans and investments. Free simple interest calculator with principal, rate, and time calculations.",
+    keywords: "simple interest calculator, interest calculator, loan interest calculator"
+  },
+  roiCalculator: {
+    title: "ROI Calculator - Return on Investment Calculator",
+    description: "Calculate return on investment percentage and profit. Free ROI calculator for business investments and financial decisions.",
+    keywords: "ROI calculator, return on investment calculator, profit calculator, investment return"
+  },
 
   // Unit Converters
   lengthConverter: {
@@ -54,6 +104,31 @@ export const seoData = {
     description: "Convert between mph, kmh, knots, meters per second, and more. Free speed converter with instant results for all velocity units.",
     keywords: "speed converter, velocity converter, mph to kmh, speed calculator, unit converter"
   },
+  volumeConverter: {
+    title: "Volume Converter - Liters, Gallons, Cups Converter",
+    description: "Convert between liters, gallons, cups, milliliters, and more. Free volume converter with instant results for all liquid measurements.",
+    keywords: "volume converter, liquid converter, liters to gallons, volume calculator, unit converter"
+  },
+  pressureConverter: {
+    title: "Pressure Converter - PSI, Bar, Pascal Converter",
+    description: "Convert between PSI, bar, pascal, atmosphere, and more. Free pressure converter for engineering and scientific calculations.",
+    keywords: "pressure converter, PSI to bar, pressure calculator, unit converter"
+  },
+  energyConverter: {
+    title: "Energy Converter - Joules, Calories, BTU Converter",
+    description: "Convert between joules, calories, BTU, kilowatt-hours, and more. Free energy converter for physics and engineering calculations.",
+    keywords: "energy converter, joules to calories, energy calculator, unit converter"
+  },
+  dataStorageConverter: {
+    title: "Data Storage Converter - Bytes, KB, MB, GB, TB",
+    description: "Convert between bytes, kilobytes, megabytes, gigabytes, terabytes, and more. Free data storage converter for digital file sizes.",
+    keywords: "data storage converter, file size converter, bytes to GB, storage calculator"
+  },
+  fuelEfficiencyConverter: {
+    title: "Fuel Efficiency Converter - MPG, L/100km Converter",
+    description: "Convert between MPG, L/100km, km/L, and other fuel efficiency units. Free fuel economy converter for vehicle efficiency calculations.",
+    keywords: "fuel efficiency converter, MPG converter, fuel economy calculator, gas mileage converter"
+  },
 
   // Math Tools
   bmiCalculator: {
@@ -71,17 +146,92 @@ export const seoData = {
     description: "Calculate mean, median, mode, and statistical averages. Free average calculator with detailed statistical analysis.",
     keywords: "average calculator, mean calculator, median calculator, statistics calculator, math calculator"
   },
+  quadraticEquationSolver: {
+    title: "Quadratic Equation Solver - Find Roots Calculator",
+    description: "Solve quadratic equations and find roots using the quadratic formula. Free equation solver with step-by-step solutions.",
+    keywords: "quadratic equation solver, quadratic formula calculator, equation solver, math calculator"
+  },
+  factorialCalculator: {
+    title: "Factorial Calculator - Permutation & Combination",
+    description: "Calculate factorial, permutation, and combination values. Free factorial calculator with detailed mathematical computations.",
+    keywords: "factorial calculator, permutation calculator, combination calculator, math calculator"
+  },
+  primeNumberChecker: {
+    title: "Prime Number Checker - Prime Factor Calculator",
+    description: "Check if a number is prime and find prime factors. Free prime number checker with factorization and mathematical analysis.",
+    keywords: "prime number checker, prime calculator, prime factors, number theory calculator"
+  },
+  statisticsCalculator: {
+    title: "Statistics Calculator - Mean, Median, Standard Deviation",
+    description: "Calculate statistical measures including mean, median, mode, and standard deviation. Free statistics calculator for data analysis.",
+    keywords: "statistics calculator, standard deviation calculator, statistical analysis, data calculator"
+  },
+  gcdLcmCalculator: {
+    title: "GCD LCM Calculator - Greatest Common Divisor",
+    description: "Find Greatest Common Divisor (GCD) and Least Common Multiple (LCM) of numbers. Free GCD LCM calculator with step-by-step solutions.",
+    keywords: "GCD calculator, LCM calculator, greatest common divisor, least common multiple"
+  },
+  logCalculator: {
+    title: "Log Calculator - Logarithm & Exponential Calculator",
+    description: "Calculate logarithms and exponential functions with any base. Free log calculator for natural log, common log, and custom bases.",
+    keywords: "log calculator, logarithm calculator, natural log calculator, exponential calculator"
+  },
+  equationSolver: {
+    title: "Equation Solver - Linear & Polynomial Equations",
+    description: "Solve linear and polynomial equations with step-by-step solutions. Free equation solver for algebraic expressions.",
+    keywords: "equation solver, algebra calculator, polynomial solver, linear equation solver"
+  },
+
+  // Date & Time Tools
   ageCalculator: {
     title: "Age Calculator - Calculate Your Exact Age",
     description: "Calculate your exact age in years, months, days, hours, and minutes. Free age calculator with detailed age breakdown.",
     keywords: "age calculator, age calculation, date calculator, birthday calculator"
   },
-
-  // Date & Time Tools
   dateDifference: {
     title: "Date Difference Calculator - Days Between Dates",
     description: "Calculate the difference between two dates in days, weeks, months, and years. Free date calculator with detailed breakdown.",
     keywords: "date difference calculator, days between dates, date calculator, time calculator"
+  },
+  addSubtractDays: {
+    title: "Add Subtract Days Calculator - Date Math Calculator",
+    description: "Add or subtract days, weeks, months, or years from any date. Free date math calculator with calendar integration.",
+    keywords: "add subtract days calculator, date math calculator, date arithmetic, calendar calculator"
+  },
+  weekdayFinder: {
+    title: "Weekday Finder - What Day of Week Calculator",
+    description: "Find what day of the week any date falls on. Free weekday finder for historical and future dates with calendar lookup.",
+    keywords: "weekday finder, day of week calculator, date weekday calculator, calendar lookup"
+  },
+  businessDaysCalculator: {
+    title: "Business Days Calculator - Working Days Counter",
+    description: "Calculate business days between dates excluding weekends and holidays. Free working days calculator for project planning.",
+    keywords: "business days calculator, working days calculator, weekdays counter, project timeline"
+  },
+  countdownTimer: {
+    title: "Countdown Timer - Event Countdown Calculator",
+    description: "Create countdown timers for events, deadlines, and special occasions. Free countdown calculator with days, hours, minutes display.",
+    keywords: "countdown timer, event countdown, deadline calculator, time remaining calculator"
+  },
+  timeZoneConverter: {
+    title: "Time Zone Converter - World Time Calculator",
+    description: "Convert time between different time zones worldwide. Free time zone converter with daylight saving time adjustments.",
+    keywords: "time zone converter, world time calculator, timezone conversion, time difference"
+  },
+  timeDurationCalculator: {
+    title: "Time Duration Calculator - Time Difference Calculator",
+    description: "Calculate duration between two times in hours, minutes, and seconds. Free time duration calculator for work hours and intervals.",
+    keywords: "time duration calculator, time difference calculator, hours calculator, work time calculator"
+  },
+  weekNumberFinder: {
+    title: "Week Number Finder - ISO Week Calculator",
+    description: "Find the week number for any date using ISO 8601 standard. Free week number calculator with year and date lookup.",
+    keywords: "week number finder, ISO week calculator, week of year calculator, calendar week"
+  },
+  calendarGenerator: {
+    title: "Calendar Generator - Printable Calendar Maker",
+    description: "Generate printable calendars for any month and year. Free calendar generator with customizable layouts and formats.",
+    keywords: "calendar generator, printable calendar, calendar maker, monthly calendar"
   },
 
   // Misc Tools
@@ -94,6 +244,46 @@ export const seoData = {
     title: "Password Generator - Secure Random Passwords",
     description: "Generate secure, random passwords with customizable length and character sets. Free password generator for strong security.",
     keywords: "password generator, random password, secure password, password creator"
+  },
+  randomNumberGenerator: {
+    title: "Random Number Generator - Random Integer Generator",
+    description: "Generate random numbers within specified ranges. Free random number generator for games, statistics, and decision making.",
+    keywords: "random number generator, random integer generator, number picker, random selector"
+  },
+  colorConverter: {
+    title: "Color Converter - HEX, RGB, HSL Color Tool",
+    description: "Convert between HEX, RGB, HSL, and other color formats. Free color converter with color picker and palette generator.",
+    keywords: "color converter, hex to rgb, color picker, color palette generator, web colors"
+  },
+  textCounter: {
+    title: "Text Counter - Word & Character Counter",
+    description: "Count words, characters, paragraphs, and sentences in text. Free text counter with reading time and keyword density analysis.",
+    keywords: "text counter, word counter, character counter, text analyzer, writing tool"
+  },
+  tipCalculator: {
+    title: "Tip Calculator - Bill Split Calculator",
+    description: "Calculate tips and split bills among friends. Free tip calculator with percentage options and group bill splitting.",
+    keywords: "tip calculator, bill split calculator, restaurant calculator, gratuity calculator"
+  },
+  romanNumeralConverter: {
+    title: "Roman Numeral Converter - Numbers to Roman",
+    description: "Convert between numbers and Roman numerals. Free Roman numeral converter with validation and historical number systems.",
+    keywords: "roman numeral converter, roman numbers, number converter, ancient numbers"
+  },
+  uuidGenerator: {
+    title: "UUID Generator - Unique Identifier Generator",
+    description: "Generate unique identifiers (UUID/GUID) for software development. Free UUID generator with multiple format options.",
+    keywords: "UUID generator, GUID generator, unique identifier, software development tool"
+  },
+  baseConverter: {
+    title: "Base Converter - Binary, Decimal, Hexadecimal",
+    description: "Convert between binary, decimal, hexadecimal, and other number bases. Free base converter for programming and mathematics.",
+    keywords: "base converter, binary converter, hexadecimal converter, number system converter"
+  },
+  fuelCostCalculator: {
+    title: "Fuel Cost Calculator - Trip Cost & Mileage",
+    description: "Calculate fuel costs and mileage for trips. Free fuel calculator with gas prices, distance, and vehicle efficiency calculations.",
+    keywords: "fuel cost calculator, gas calculator, trip cost calculator, mileage calculator"
   },
 
   // Category Pages

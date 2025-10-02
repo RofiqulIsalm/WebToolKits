@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart3, Plus, X } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { seoData, generateCalculatorSchema } from '../utils/seoData';
+import RelatedCalculators from '../components/RelatedCalculators';
 
 const AverageCalculator: React.FC = () => {
   const [numbers, setNumbers] = useState<number[]>([10, 20, 30, 40, 50]);
@@ -58,10 +62,31 @@ const AverageCalculator: React.FC = () => {
   };
 
   return (
+    <>
+      <SEOHead
+        title={seoData.averageCalculator.title}
+        description={seoData.averageCalculator.description}
+        canonical="https://calculatorhub.com/average-calculator"
+        schemaData={generateCalculatorSchema(
+          "Average Calculator",
+          seoData.averageCalculator.description,
+          "/average-calculator",
+          seoData.averageCalculator.keywords
+        )}
+        breadcrumbs={[
+          { name: 'Math Tools', url: '/category/math-tools' },
+          { name: 'Average Calculator', url: '/average-calculator' }
+        ]}
+      />
     <div className="max-w-4xl mx-auto">
+      <Breadcrumbs items={[
+        { name: 'Math Tools', url: '/category/math-tools' },
+        { name: 'Average Calculator', url: '/average-calculator' }
+      ]} />
+      
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Average Calculator</h1>
-        <p className="text-gray-600">Calculate mean, median, mode, and sum of a set of numbers</p>
+        <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">Average Calculator</h1>
+        <p className="text-slate-300">Calculate mean, median, mode, and sum of a set of numbers</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -150,7 +175,13 @@ const AverageCalculator: React.FC = () => {
       </div>
 
       <AdBanner type="bottom" />
+      
+      <RelatedCalculators 
+        currentPath="/average-calculator" 
+        category="math-tools" 
+      />
     </div>
+    </>
   );
 };
 

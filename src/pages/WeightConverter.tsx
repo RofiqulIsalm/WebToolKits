@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Scale } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { seoData, generateCalculatorSchema } from '../utils/seoData';
+import RelatedCalculators from '../components/RelatedCalculators';
 
 const WeightConverter: React.FC = () => {
   const [value, setValue] = useState<number>(1);
@@ -38,10 +42,31 @@ const WeightConverter: React.FC = () => {
   };
 
   return (
+    <>
+      <SEOHead
+        title={seoData.weightConverter.title}
+        description={seoData.weightConverter.description}
+        canonical="https://calculatorhub.com/weight-converter"
+        schemaData={generateCalculatorSchema(
+          "Weight Converter",
+          seoData.weightConverter.description,
+          "/weight-converter",
+          seoData.weightConverter.keywords
+        )}
+        breadcrumbs={[
+          { name: 'Unit Converters', url: '/category/unit-converters' },
+          { name: 'Weight Converter', url: '/weight-converter' }
+        ]}
+      />
     <div className="max-w-4xl mx-auto">
+      <Breadcrumbs items={[
+        { name: 'Unit Converters', url: '/category/unit-converters' },
+        { name: 'Weight Converter', url: '/weight-converter' }
+      ]} />
+      
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Weight Converter</h1>
-        <p className="text-gray-600">Convert between different units of weight and mass</p>
+        <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">Weight Converter</h1>
+        <p className="text-slate-300">Convert between different units of weight and mass</p>
       </div>
 
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
@@ -93,7 +118,13 @@ const WeightConverter: React.FC = () => {
       </div>
 
       <AdBanner type="bottom" />
+      
+      <RelatedCalculators 
+        currentPath="/weight-converter" 
+        category="unit-converters" 
+      />
     </div>
+    </>
   );
 };
 

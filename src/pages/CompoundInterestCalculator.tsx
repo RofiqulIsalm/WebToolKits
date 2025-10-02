@@ -4,6 +4,10 @@
 import React, { useState, useEffect } from 'react';
 import { TrendingUp, ChevronDown, ChevronUp } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { seoData, generateCalculatorSchema } from '../utils/seoData';
+import RelatedCalculators from '../components/RelatedCalculators';
 
 
 
@@ -153,7 +157,28 @@ const CompoundInterestCalculator: React.FC = () => {
   // Render
   // ================================
   return (
+    <>
+      <SEOHead
+        title={seoData.compoundInterestCalculator.title}
+        description={seoData.compoundInterestCalculator.description}
+        canonical="https://calculatorhub.com/compound-interest-calculator"
+        schemaData={generateCalculatorSchema(
+          "Compound Interest Calculator",
+          seoData.compoundInterestCalculator.description,
+          "/compound-interest-calculator",
+          seoData.compoundInterestCalculator.keywords
+        )}
+        breadcrumbs={[
+          { name: 'Currency & Finance', url: '/category/currency-finance' },
+          { name: 'Compound Interest Calculator', url: '/compound-interest-calculator' }
+        ]}
+      />
     <div className="max-w-4xl mx-auto p-4 sm:p-6">
+      <Breadcrumbs items={[
+        { name: 'Currency & Finance', url: '/category/currency-finance' },
+        { name: 'Compound Interest Calculator', url: '/compound-interest-calculator' }
+      ]} />
+      
       {/* Title */}
       <div className="mb-8 text-center">
         <h1 className="text-3xl font-bold text-slate-900 mb-2">Compound Interest Calculator</h1>
@@ -368,7 +393,13 @@ const CompoundInterestCalculator: React.FC = () => {
       )}
 
       <AdBanner type="bottom" />
+      
+      <RelatedCalculators 
+        currentPath="/compound-interest-calculator" 
+        category="currency-finance" 
+      />
     </div>
+    </>
   );
 };
 

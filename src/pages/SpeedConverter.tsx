@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Zap } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { seoData, generateCalculatorSchema } from '../utils/seoData';
+import RelatedCalculators from '../components/RelatedCalculators';
 
 const SpeedConverter: React.FC = () => {
   const [value, setValue] = useState<number>(1);
@@ -37,10 +41,31 @@ const SpeedConverter: React.FC = () => {
   };
 
   return (
+    <>
+      <SEOHead
+        title={seoData.speedConverter.title}
+        description={seoData.speedConverter.description}
+        canonical="https://calculatorhub.com/speed-converter"
+        schemaData={generateCalculatorSchema(
+          "Speed Converter",
+          seoData.speedConverter.description,
+          "/speed-converter",
+          seoData.speedConverter.keywords
+        )}
+        breadcrumbs={[
+          { name: 'Unit Converters', url: '/category/unit-converters' },
+          { name: 'Speed Converter', url: '/speed-converter' }
+        ]}
+      />
     <div className="max-w-4xl mx-auto">
+      <Breadcrumbs items={[
+        { name: 'Unit Converters', url: '/category/unit-converters' },
+        { name: 'Speed Converter', url: '/speed-converter' }
+      ]} />
+      
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Speed Converter</h1>
-        <p className="text-gray-600">Convert between different units of speed and velocity</p>
+        <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">Speed Converter</h1>
+        <p className="text-slate-300">Convert between different units of speed and velocity</p>
       </div>
 
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
@@ -92,7 +117,13 @@ const SpeedConverter: React.FC = () => {
       </div>
 
       <AdBanner type="bottom" />
+      
+      <RelatedCalculators 
+        currentPath="/speed-converter" 
+        category="unit-converters" 
+      />
     </div>
+    </>
   );
 };
 

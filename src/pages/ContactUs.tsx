@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Mail, MessageSquare, Send, MapPin, Clock, Phone } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { seoData } from '../utils/seoData';
 
 const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -36,7 +39,20 @@ const ContactUs: React.FC = () => {
   };
 
   return (
+    <>
+      <SEOHead
+        title={seoData.contactUs.title}
+        description={seoData.contactUs.description}
+        canonical="https://calculatorhub.com/contact-us"
+        breadcrumbs={[
+          { name: 'Contact Us', url: '/contact-us' }
+        ]}
+      />
     <div className="max-w-6xl mx-auto">
+      <Breadcrumbs items={[
+        { name: 'Contact Us', url: '/contact-us' }
+      ]} />
+      
       <div className="mb-8">
         <div className="flex items-center space-x-3 mb-4">
           <Mail className="h-8 w-8 text-blue-400 drop-shadow-lg" />
@@ -230,6 +246,7 @@ const ContactUs: React.FC = () => {
 
       <AdBanner type="bottom" />
     </div>
+    </>
   );
 };
 

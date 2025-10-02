@@ -1,10 +1,26 @@
 import React from 'react';
 import { FileText, AlertTriangle, Scale, Users, Zap } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { seoData } from '../utils/seoData';
 
 const TermsOfService: React.FC = () => {
   return (
+    <>
+      <SEOHead
+        title={seoData.termsOfService.title}
+        description={seoData.termsOfService.description}
+        canonical="https://calculatorhub.com/terms-of-service"
+        breadcrumbs={[
+          { name: 'Terms of Service', url: '/terms-of-service' }
+        ]}
+      />
     <div className="max-w-4xl mx-auto">
+      <Breadcrumbs items={[
+        { name: 'Terms of Service', url: '/terms-of-service' }
+      ]} />
+      
       <div className="mb-8">
         <div className="flex items-center space-x-3 mb-4">
           <FileText className="h-8 w-8 text-blue-400 drop-shadow-lg" />
@@ -152,6 +168,7 @@ const TermsOfService: React.FC = () => {
 
       <AdBanner type="bottom" />
     </div>
+    </>
   );
 };
 

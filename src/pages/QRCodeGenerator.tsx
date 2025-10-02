@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { QrCode, Download } from 'lucide-react';
 import QRCodeLib from 'qrcode';
 import AdBanner from '../components/AdBanner';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { seoData, generateCalculatorSchema } from '../utils/seoData';
+import RelatedCalculators from '../components/RelatedCalculators';
 
 const QRCodeGenerator: React.FC = () => {
   const [text, setText] = useState<string>('https://dailytoolshub.com');
@@ -62,10 +66,31 @@ const QRCodeGenerator: React.FC = () => {
   ];
 
   return (
+    <>
+      <SEOHead
+        title={seoData.qrCodeGenerator.title}
+        description={seoData.qrCodeGenerator.description}
+        canonical="https://calculatorhub.com/qr-code-generator"
+        schemaData={generateCalculatorSchema(
+          "QR Code Generator",
+          seoData.qrCodeGenerator.description,
+          "/qr-code-generator",
+          seoData.qrCodeGenerator.keywords
+        )}
+        breadcrumbs={[
+          { name: 'Misc Tools', url: '/category/misc-tools' },
+          { name: 'QR Code Generator', url: '/qr-code-generator' }
+        ]}
+      />
     <div className="max-w-4xl mx-auto">
+      <Breadcrumbs items={[
+        { name: 'Misc Tools', url: '/category/misc-tools' },
+        { name: 'QR Code Generator', url: '/qr-code-generator' }
+      ]} />
+      
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">QR Code Generator</h1>
-        <p className="text-gray-600">Generate QR codes for text, URLs, contact info, and more</p>
+        <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">QR Code Generator</h1>
+        <p className="text-slate-300">Generate QR codes for text, URLs, contact info, and more</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -188,7 +213,13 @@ const QRCodeGenerator: React.FC = () => {
       </div>
 
       <AdBanner type="bottom" />
+      
+      <RelatedCalculators 
+        currentPath="/qr-code-generator" 
+        category="misc-tools" 
+      />
     </div>
+    </>
   );
 };
 

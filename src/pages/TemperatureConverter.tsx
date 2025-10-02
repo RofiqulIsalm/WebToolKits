@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Thermometer } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { seoData, generateCalculatorSchema } from '../utils/seoData';
+import RelatedCalculators from '../components/RelatedCalculators';
 
 const TemperatureConverter: React.FC = () => {
   const [celsius, setCelsius] = useState<number>(20);
@@ -28,10 +32,31 @@ const TemperatureConverter: React.FC = () => {
   };
 
   return (
+    <>
+      <SEOHead
+        title={seoData.temperatureConverter.title}
+        description={seoData.temperatureConverter.description}
+        canonical="https://calculatorhub.com/temperature-converter"
+        schemaData={generateCalculatorSchema(
+          "Temperature Converter",
+          seoData.temperatureConverter.description,
+          "/temperature-converter",
+          seoData.temperatureConverter.keywords
+        )}
+        breadcrumbs={[
+          { name: 'Unit Converters', url: '/category/unit-converters' },
+          { name: 'Temperature Converter', url: '/temperature-converter' }
+        ]}
+      />
     <div className="max-w-4xl mx-auto">
+      <Breadcrumbs items={[
+        { name: 'Unit Converters', url: '/category/unit-converters' },
+        { name: 'Temperature Converter', url: '/temperature-converter' }
+      ]} />
+      
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Temperature Converter</h1>
-        <p className="text-gray-600">Convert between Celsius, Fahrenheit, and Kelvin</p>
+        <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">Temperature Converter</h1>
+        <p className="text-slate-300">Convert between Celsius, Fahrenheit, and Kelvin</p>
       </div>
 
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
@@ -96,7 +121,13 @@ const TemperatureConverter: React.FC = () => {
       </div>
 
       <AdBanner type="bottom" />
+      
+      <RelatedCalculators 
+        currentPath="/temperature-converter" 
+        category="unit-converters" 
+      />
     </div>
+    </>
   );
 };
 

@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Receipt } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { seoData, generateCalculatorSchema } from '../utils/seoData';
+import RelatedCalculators from '../components/RelatedCalculators';
 
 const TaxCalculator: React.FC = () => {
   const [salary, setSalary] = useState<number>(600000);
@@ -63,10 +67,31 @@ const TaxCalculator: React.FC = () => {
   };
 
   return (
+    <>
+      <SEOHead
+        title={seoData.taxCalculator.title}
+        description={seoData.taxCalculator.description}
+        canonical="https://calculatorhub.com/tax-calculator"
+        schemaData={generateCalculatorSchema(
+          "Tax Calculator",
+          seoData.taxCalculator.description,
+          "/tax-calculator",
+          seoData.taxCalculator.keywords
+        )}
+        breadcrumbs={[
+          { name: 'Currency & Finance', url: '/category/currency-finance' },
+          { name: 'Tax Calculator', url: '/tax-calculator' }
+        ]}
+      />
     <div className="max-w-4xl mx-auto">
+      <Breadcrumbs items={[
+        { name: 'Currency & Finance', url: '/category/currency-finance' },
+        { name: 'Tax Calculator', url: '/tax-calculator' }
+      ]} />
+      
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Income Tax Calculator</h1>
-        <p className="text-gray-600">Calculate your income tax for FY 2024-25 under both tax regimes</p>
+        <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">Income Tax Calculator</h1>
+        <p className="text-slate-300">Calculate your income tax for FY 2024-25 under both tax regimes</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -172,7 +197,13 @@ const TaxCalculator: React.FC = () => {
       </div>
 
       <AdBanner type="bottom" />
+      
+      <RelatedCalculators 
+        currentPath="/tax-calculator" 
+        category="currency-finance" 
+      />
     </div>
+    </>
   );
 };
 
