@@ -26,7 +26,7 @@ const PrivacyPolicy: React.FC = () => {
           <Shield className="h-8 w-8 text-blue-400 drop-shadow-lg" />
           <h1 className="text-3xl font-bold text-white drop-shadow-lg">Privacy Policy</h1>
         </div>
-        <p className="text-slate-300">Last updated: January 2025</p>
+        <p className="text-slate-300">Last updated: October 2025</p>
       </div>
 
       <div className="glow-card rounded-lg p-8 space-y-8">
