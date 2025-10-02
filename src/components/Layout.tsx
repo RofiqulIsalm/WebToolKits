@@ -47,6 +47,20 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <h2 className="text-lg font-semibold mb-3 text-yellow-300">Quick Access</h2>
             <ul className="space-y-2 text-sm">
               <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
+              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter – Live Exchange Rates</Link></li>
               
             </ul>
           </section>
