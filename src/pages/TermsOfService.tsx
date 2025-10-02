@@ -67,10 +67,10 @@ const TermsOfService: React.FC = () => {
           </h2>
           <div className="text-slate-300 space-y-4">
             <p>
-              The materials on Daily Tools Hub are provided on an 'as is' basis. Daily Tools Hub makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
+              The materials on CalculatorHub are provided on an 'as is' basis. CalculatorHub makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
             </p>
             <p>
-              Further, Daily Tools Hub does not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials on its website or otherwise relating to such materials or on any sites linked to this site.
+              Further, CalculatorHub does not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials on its website or otherwise relating to such materials or on any sites linked to this site.
             </p>
           </div>
         </section>
