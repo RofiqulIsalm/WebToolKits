@@ -70,9 +70,9 @@ const ContactUs: React.FC = () => {
           </div>
         
           <div className="glow-card rounded-lg p-6">
-            <h3 className="text-xl font-semibold text-white mb-2">[Partner Name] – Associate             Partner</h3>
+            <h3 className="text-xl font-semibold text-white mb-2">Siraj Shah – Associate             Partner</h3>
             <p className="text-slate-300 text-sm">
-              [Partner Name] is the Associate Partner at Daily Tools Hub. Bringing strong                  operational and technical skills, [he/she/they] supports development, user                   experience, and contributes to the growth and innovation of the platform.
+              Siraj Shah is the Associate Partner at CalculatorHub. Bringing strong                  operational and technical skills, [he/she/they] supports development, user                   experience, and contributes to the growth and innovation of the platform.
             </p>
           </div>
         </div>
