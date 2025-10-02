@@ -248,7 +248,7 @@ const ContactUs: React.FC = () => {
             <h3 className="text-xl font-semibold text-white mb-4">Quick Links</h3>
             <div className="space-y-2">
               <Link to="/privacy-policy" className="text-slate-300 hover:text-blue-400 transition-colors">Privacy Policy</Link>
-              <Link to="/privacy-policy" className="text-slate-300 hover:text-blue-400 transition-colors">
+              <Link to="//terms-of-service" className="text-slate-300 hover:text-blue-400 transition-colors">
                 Terms of Service
               </Link>
               <Link to="/privacy-policy" className="text-slate-300 hover:text-blue-400 transition-colors">
