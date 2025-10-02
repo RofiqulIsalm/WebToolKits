@@ -26,7 +26,7 @@ const PrivacyPolicy: React.FC = () => {
           <Shield className="h-8 w-8 text-blue-400 drop-shadow-lg" />
           <h1 className="text-3xl font-bold text-white drop-shadow-lg">Privacy Policy</h1>
         </div>
-        <p className="text-slate-300">Last updated: October 2025</p>
+        <p className="text-slate-300">Last updated: January 2025</p>
       </div>
 
       <div className="glow-card rounded-lg p-8 space-y-8">
@@ -144,7 +144,7 @@ const PrivacyPolicy: React.FC = () => {
           <h2 className="text-2xl font-semibold text-white mb-4">Changes to This Policy</h2>
           <div className="text-slate-300 space-y-4">
             <p>
-              We may update this Privacy Policy from time to time. We will notify users of any material changes by posting the new Privacy Policy on this page and updating the "Last updated" date.
+              We may update this Privacy Policy from time to time. We will notify users of any material changes by posting the new Privacy Policy on this page and updating the "October 2 2025" date.
             </p>
             <p>
               Your continued use of our services after any changes indicates your acceptance of the updated Privacy Policy.
