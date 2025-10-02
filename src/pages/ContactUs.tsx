@@ -4,6 +4,7 @@ import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { seoData } from '../utils/seoData';
+import { Link } from 'react-router-dom';
 
 const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -246,15 +247,13 @@ const ContactUs: React.FC = () => {
           <div className="glow-card rounded-lg p-6">
             <h3 className="text-xl font-semibold text-white mb-4">Quick Links</h3>
             <div className="space-y-2">
-              <a href="/privacy-policy" className="block text-blue-400 hover:text-blue-300 transition-colors text-sm">
-                Privacy Policy
-              </a>
-              <a href="/terms-of-service" className="block text-blue-400 hover:text-blue-300 transition-colors text-sm">
+              <Link to="/privacy-policy" className="text-slate-300 hover:text-blue-400 transition-colors">Privacy Policy</Link>
+              <Link to="/privacy-policy" className="text-slate-300 hover:text-blue-400 transition-colors">
                 Terms of Service
-              </a>
-              <a href="/" className="block text-blue-400 hover:text-blue-300 transition-colors text-sm">
+              </Link>
+              <Link to="/privacy-policy" className="text-slate-300 hover:text-blue-400 transition-colors">
                 All Calculators
-              </a>
+              </Link>
             </div>
           </div>
         </div>
