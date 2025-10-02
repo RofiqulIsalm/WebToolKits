@@ -196,7 +196,7 @@ const ContactUs: React.FC = () => {
                 <Mail className="h-5 w-5 text-blue-400 mt-1 flex-shrink-0" />
                 <div>
                   <p className="text-slate-300 text-sm">Email</p>
-                  <p className="text-white font-medium">support@dailytoolshub.com</p>
+                  <p className="text-white font-medium">support@calculatorhub.site</p>
                 </div>
               </div>
 
