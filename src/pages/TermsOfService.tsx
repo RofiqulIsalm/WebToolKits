@@ -79,7 +79,7 @@ const TermsOfService: React.FC = () => {
           <h2 className="text-2xl font-semibold text-white mb-4">Accuracy of Calculations</h2>
           <div className="text-slate-300 space-y-4">
             <p>
-              While we strive to provide accurate calculations and conversions, Daily Tools Hub:
+              While we strive to provide accurate calculations and conversions, CalculatorHub:
             </p>
             <ul className="list-disc list-inside space-y-2 ml-4">
               <li>Does not guarantee the accuracy of any calculations or results</li>
