@@ -37,7 +37,7 @@ const PrivacyPolicy: React.FC = () => {
           </h2>
           <div className="text-slate-300 space-y-4">
             <p>
-              Daily Tools Hub is committed to protecting your privacy. We collect minimal information to provide you with the best possible experience:
+              CalculatorHub is committed to protecting your privacy. We collect minimal information to provide you with the best possible experience:
             </p>
             <ul className="list-disc list-inside space-y-2 ml-4">
               <li><strong>Usage Data:</strong> We may collect anonymous usage statistics to improve our tools and services.</li>
