@@ -142,7 +142,7 @@ const TermsOfService: React.FC = () => {
           <h2 className="text-2xl font-semibold text-white mb-4">Modifications</h2>
           <div className="text-slate-300 space-y-4">
             <p>
-              Daily Tools Hub may revise these terms of service for its website at any time without notice. By using this website, you are agreeing to be bound by the then current version of these terms of service.
+              CalculatorHub may revise these terms of service for its website at any time without notice. By using this website, you are agreeing to be bound by the then current version of these terms of service.
             </p>
           </div>
         </section>
