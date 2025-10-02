@@ -48,7 +48,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <ul className="space-y-2 text-sm">
               <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Currency Converter</Link></li>
               <li><Link to="/loan-emi-calculator" className="text-slate-300 hover:text-blue-                400 transition-colors">Loan EMI Calculator</Link></li>
-              <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Compound Interest</Link></li>
+              <li><Link to="/compound-interest-calculator" className="text-slate-300 hover:text-blue-                400 transition-colors">Compound Interest</Link></li>
+              <li><Link to="/tax-calculator" className="text-slate-300 hover:text-blue-                400 transition-colors"> Tax Calculator</Link></li>
               <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors"> Length Converter</Link></li>
               <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors"></Link></li>
               <li><Link to="/currency-converter" className="text-slate-300 hover:text-blue-                400 transition-colors">Weight Converter</Link></li>
