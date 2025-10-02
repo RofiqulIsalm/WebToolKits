@@ -34,7 +34,7 @@ const TermsOfService: React.FC = () => {
           <h2 className="text-2xl font-semibold text-white mb-4">Agreement to Terms</h2>
           <div className="text-slate-300 space-y-4">
             <p>
-              By accessing and using Daily Tools Hub, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
+              By accessing and using CalculatorHub, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
             </p>
           </div>
         </section>
