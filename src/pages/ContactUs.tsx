@@ -60,6 +60,7 @@ const ContactUs: React.FC = () => {
         </div>
         <p className="text-slate-300">Get in touch with us - we'd love to hear from you!</p>
       </div>
+        
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Contact Form */}
