@@ -17,7 +17,7 @@ const CompoundInterestCalculator: React.FC = () => {
   // ================================
   const [principal, setPrincipal] = useState<number>(0);  
   const [rate, setRate] = useState<number>(0); 
-const [customRate, setCustomRate] = useState({ years: 0, months: 0, days: 0 });
+  const [customRate, setCustomRate] = useState({ years: 0, months: 0, days: 0 });
 
   const [time, setTime] = useState<number>(0);
   const [timeUnit, setTimeUnit] = useState<'years' | 'months' | 'days'>('days');
