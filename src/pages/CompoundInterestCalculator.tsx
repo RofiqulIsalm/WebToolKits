@@ -294,7 +294,7 @@ const CompoundInterestCalculator: React.FC = () => {
             <h2 className="text-xl font-semibold text-slate-800 mb-4">Investment Details</h2>
             <div className="space-y-4">
               {/* Principal */}
-              <div>
+              <div> 
                 <label className="block text-sm font-medium text-slate-700 mb-2">Principal Amount ($)</label>
                 <input
                   type="number"
