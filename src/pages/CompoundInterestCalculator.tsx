@@ -284,6 +284,7 @@ const CompoundInterestCalculator: React.FC = () => {
                   <input
                     type="number"
                     value={rate}
+                    placeholder="Years"
                     onChange={(e) => setRate(Number(e.target.value))}
                     className="text-black w-full sm:w-auto flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
                     placeholder="e.g. 10"
