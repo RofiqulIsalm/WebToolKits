@@ -367,16 +367,19 @@ const CurrencyConverter: React.FC = () => {
        </p>
         <h2 className="text-2xl font-bold">How Does the Currency Converter Work?</h2>
         <p>
-          The logic behind a currency converter is very simple but powerful. The formula used is:
+        A <strong>currency converter</strong> works on a simple yet powerful principle: it takes an amount of money in one currency and calculates its value in another using the <strong>latest exchange rate</strong>. This process ensures that the conversion is both <strong>accurate and instant</strong>, making it a reliable tool for travelers, businesses, and investors alike.
+        </p>
+        <p>
+         The general formula used by most converters is:
         </p>
         <div className="bg-slate-800/60 p-4 rounded-lg">
           <code className="text-green-400">
             Converted Amount = Amount × (Target Currency Rate ÷ Base Currency Rate)
           </code>
         </div>
+          <p>This formula means that the calculator first looks at the value of your base currency (the one you are converting from) and compares it with the value of the target currency (the one you are converting to). By applying the exchange rate between the two, it provides the converted result within seconds.</p>
         <p>
-          For example, if you want to convert <strong>100 USD to EUR</strong>, and the current 
-          rate is 1 USD = 0.85 EUR, then:
+        If you want to convert 100 USD to EUR, and the exchange rate is 1 USD = 0.85 EUR, the calculation would look like this:
         </p>
         <p className="italic text-yellow-300">
           100 × 0.85 = 85 EUR
