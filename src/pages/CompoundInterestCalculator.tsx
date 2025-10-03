@@ -7,7 +7,7 @@ import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
-import compoundingImg from "../image/compounding1.png";
+import compoundingImg from "../img/compounding1.png";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
