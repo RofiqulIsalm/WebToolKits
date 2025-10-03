@@ -634,7 +634,13 @@ How Compound Interest Works
               <li><strong>t</strong> = Time period in years, months, and days</li>
             </ul>
             <p className="text-lg leading-relaxed text-slate-100">
-              By changing the <strong>frequency of compounding</strong>—daily, weekly, monthly, or yearly—you can see how different investment strategies impact your total returns. Use the <strong>custom period and rate</strong> option to model realistic financial scenarios, including fluctuating interest rates.
+              <strong>Notes on the inputs:</strong>
+            </p>
+            <p className="text-lg leading-relaxed text-slate-100">
+              The annual rate r should be entered as a percentage and then converted to a decimal by dividing by 100.
+The compounding frequency n determines how many times per year interest is added to the balance (daily, monthly, yearly, or a custom interval).
+The time period t can be expressed in years, months, or days; the calculator handles the appropriate conversion.
+By adjusting the compounding frequency, you can illustrate how more frequent compounding can increase returns under the same nominal rate, while also highlighting the sensitivity of outcomes to the chosen horizon.
             </p> 
             
           </section>
