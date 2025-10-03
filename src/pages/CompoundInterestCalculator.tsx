@@ -667,7 +667,9 @@ By adjusting the compounding frequency, you can illustrate how more frequent com
               These examples show how starting early and compounding frequently maximizes returns. Even small increases in interest rate or contribution can make a huge difference over time.
             </p>
           </section>
-        
+
+            <AdBanner type="bottom" />
+            
           {/* ================= Benefits ================= */}
           <section className="space-y-4">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Benefits of Using This Compound Interest Calculator</h2>
