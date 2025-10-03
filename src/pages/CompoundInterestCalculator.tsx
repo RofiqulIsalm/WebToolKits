@@ -279,7 +279,7 @@ const CompoundInterestCalculator: React.FC = () => {
                   type="number"
                   value={principal}
                   onChange={(e) => setPrincipal(Number(e.target.value))}
-                  className="text-black w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
+                  className="text-black w-full px-2 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
                 />
               </div>
 
