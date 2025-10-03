@@ -300,12 +300,18 @@ const CompoundInterestCalculator: React.FC = () => {
                     onChange={(e) => setRateUnit(e.target.value as any)}
                     className="mt-2 sm:mt-0 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
                   >
-                    <option value="daily">Daily</option>
-                    <option value="weekly">Weekly</option>
-                    <option value="monthly">Monthly</option>
-                    <option value="quarterly">Every 3 Months</option>
-                    <option value="yearly">Yearly</option>
-                    <option value="custom">Custom...</option>
+                    <option value="daily" className="text-black"
+>Daily</option>
+                    <option value="weekly" className="text-black"
+>Weekly</option>
+                    <option value="monthly" className="text-black"
+>Monthly</option>
+                    <option value="quarterly" className="text-black"
+>Every 3 Months</option>
+                    <option value="yearly" className="text-black"
+>Yearly</option>
+                    <option value="custom" className="text-black"
+>Custom...</option>
                   </select>
                 </div>
 
@@ -313,7 +319,7 @@ const CompoundInterestCalculator: React.FC = () => {
                 {rateUnit === 'custom' && (
                   <div className="mt-3 grid grid-cols-3 gap-2">
                     <div>
-                      <label className="block text-xs text-slate-500 mb-1">Years</label>
+                      <label className="block text-xs text-black mb-1">Years</label>
                       <input
                         type="number"
                         min={0}
@@ -323,7 +329,7 @@ const CompoundInterestCalculator: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-slate-500 mb-1">Months</label>
+                      <label className="block text-xs text-black mb-1">Months</label>
                       <input
                         type="number"
                         min={0}
@@ -333,7 +339,7 @@ const CompoundInterestCalculator: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-slate-500 mb-1">Days</label>
+                      <label className="block text-xs text-black mb-1">Days</label>
                       <input
                         type="number"
                         min={0}
@@ -366,8 +372,8 @@ const CompoundInterestCalculator: React.FC = () => {
                     className="px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
                   >
                     <option value="years" className="text-black">Years</option>
-                    <option value="months">Months</option>
-                    <option value="days">Days</option>
+                    <option value="months" className="text-black">Months</option>
+                    <option value="days" className="text-black">Days</option>
                   </select>
                 </div>
               </div>
