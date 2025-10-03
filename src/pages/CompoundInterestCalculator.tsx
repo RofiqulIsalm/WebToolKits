@@ -283,7 +283,7 @@ const CompoundInterestCalculator: React.FC = () => {
                 <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-1">
                   <input
                     type="number"
-                    value={rate}
+                    
                     onChange={(e) => setRate(Number(e.target.value))}
                     className="text-black w-full sm:w-auto flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
                     placeholder="e.g. 10"
