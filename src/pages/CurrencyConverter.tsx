@@ -238,14 +238,7 @@ const CurrencyConverter: React.FC = () => {
     setFromCurrency(toCurrency);
     setToCurrency(fromCurrency);
   };
-  // Filtered options based on search
-  const filteredFrom = allCurrencies.filter((currency) =>
-      currency.toLowerCase().includes(fromSearch.toLowerCase())
-  );
 
-  const filteredTo = allCurrencies.filter((currency) =>
-      currency.toLowerCase().includes(toSearch.toLowerCase())
-  );
 
   return (
     <>
