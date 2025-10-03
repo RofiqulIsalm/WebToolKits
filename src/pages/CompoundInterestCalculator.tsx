@@ -723,11 +723,9 @@ Tips to Maximize Compounding Returns</li>
             <div className="space-y-4 text-lg text-slate-100 leading-relaxed">
               <div>
                 <div className="bg-slate-800/60 p-4 rounded-lg">
-                <code className=" ">
                     <h3 className="font-semibold text-xl">Q1: What is compound interest?</h3>
                     <p>Compound interest is interest calculated on both the initial principal and on the accumulated interest from prior periods. As time progresses, interest is earned on an increasingly larger base, which can lead to faster growth than simple interest.
 </p>
-                </code>
                 </div>
               </div>
               <div>
