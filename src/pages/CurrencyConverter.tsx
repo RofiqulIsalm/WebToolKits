@@ -15,6 +15,8 @@ const CurrencyConverter: React.FC = () => {
   const [result, setResult] = useState<number>(0);
   const [exchangeRates, setExchangeRates] = useState<{[key: string]: number}>({});
   const [loading, setLoading] = useState<boolean>(false);
+  const [fromSearch, setFromSearch] = useState('');
+  const [toSearch, setToSearch] = useState('');
 
   const allCurrencies = [
     { code: 'AED', name: 'UAE Dirham' },
