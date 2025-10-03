@@ -6,6 +6,9 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
 
+
+const [fromSearch, setFromSearch] = useState('');
+const [toSearch, setToSearch] = useState('');
 const CurrencyConverter: React.FC = () => {
   const [amount, setAmount] = useState<number>(1);
   const [fromCurrency, setFromCurrency] = useState<string>('USD');
