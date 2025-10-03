@@ -617,7 +617,7 @@ const CompoundInterestCalculator: React.FC = () => {
               <li>Monthly SIP of $500 at 7% compounded monthly for 10 years → Total Future Value ≈ $86,000</li>
               <li>Use custom variable rates for real-world investment modeling</li>
             </ul>
-            <img src={compoundingImg} alt="Compound interest formula example" className="w-full rounded-xl shadow-lg" />
+          
 
             <p className="text-lg leading-relaxed text-slate-100">
               These examples show how starting early and compounding frequently maximizes returns. Even small increases in interest rate or contribution can make a huge difference over time.
