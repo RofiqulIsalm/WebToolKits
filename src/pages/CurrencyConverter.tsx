@@ -19,6 +19,14 @@ const CurrencyConverter: React.FC = () => {
   const [toSearch, setToSearch] = useState('');
 
   const allCurrencies = [
+      const filteredFrom = allCurrencies.filter((currency) =>
+        currency.toLowerCase().includes(fromSearch.toLowerCase())
+      );
+
+    const filteredTo = allCurrencies.filter((currency) =>
+      currency.toLowerCase().includes(toSearch.toLowerCase())
+    );
+
     { code: 'AED', name: 'UAE Dirham' },
     { code: 'AFN', name: 'Afghan Afghani' },
     { code: 'ALL', name: 'Albanian Lek' },
