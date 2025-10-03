@@ -477,9 +477,9 @@ const CompoundInterestCalculator: React.FC = () => {
                 <thead className="bg-indigo-100 text-indigo-800">
                   <tr>
                     <th className="text-black px-4 py-2 border">Period</th>
-                    <th className="px-4 py-2 border">Earnings</th>
-                    <th className="px-4 py-2 border">Total Earnings</th>
-                    <th className="px-4 py-2 border">Balance</th>
+                    <th className="text-black px-4 py-2 border">Earnings</th>
+                    <th className="text-black px-4 py-2 border">Total Earnings</th>
+                    <th className="text-black px-4 py-2 border">Balance</th>
                   </tr>
                 </thead> 
                 <tbody>
