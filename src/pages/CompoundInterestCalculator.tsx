@@ -7,7 +7,6 @@ import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
-import compoundingImg from "../img/compounding1.png";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -573,15 +572,7 @@ const CompoundInterestCalculator: React.FC = () => {
           <p className="text-lg md:text-xl text-slate-100 text-center mb-6 leading-relaxed">
             Unlock the power of compounding with our advanced calculator. Calculate <strong>daily, monthly, yearly, and custom interest</strong> for savings, investments, SIPs, or retirement planning. See how your money grows over time with precise calculations using <strong>principal, interest rate, and custom periods</strong>.
           </p>
-          export default function Compounding() {
-        return (
-          <img
-            src={compoundingImg}
-            alt="Compound interest illustration showing growth over time"
-            className="mx-auto rounded-xl shadow-lg"
-          />
-        );
-      }
+            
         
           {/* ================= How to Use ================= */}
           <section className="space-y-4">
