@@ -581,10 +581,10 @@ const CompoundInterestCalculator: React.FC = () => {
             Using this investment growth tool is straightforward and efficient:
             </h3>
             <p className="text-lg leading-relaxed text-slate-100">
-              <strong>Enter your principal amount:</strong> Provide the annual rate as a percentage, then the calculator converts it to a decimal for computations.
+              <strong>Enter your principal amount:</strong>  Input the initial sum you plan to invest or save.
             </p>
             <p className="text-lg leading-relaxed text-slate-100">
-              <strong>Select your interest rate:</strong> Input the initial sum you plan to invest or save.
+              <strong>Select your interest rate:</strong>  Provide the annual rate as a percentage, then the calculator converts it to a decimal for computations.
             </p>
             <p className="text-lg leading-relaxed text-slate-100">
               <strong>Choose a compounding frequency:</strong> Pick daily, monthly, yearly, or a custom interval to reflect how often interest is added to the balance.
