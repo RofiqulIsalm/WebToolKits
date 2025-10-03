@@ -387,6 +387,8 @@ const CurrencyConverter: React.FC = () => {
           </code>
         </div>
           <p>This shows that your <strong>100 U.S</strong>. dollars are equal to <strong>85 euros</strong> at the current rate.</p>
+
+          <AdBanner type="bottom" />
       
         <h2 className="text-2xl font-bold">Why Should You Use an Online Currency Calculator?</h2>
         <ul className="list-disc list-inside space-y-2">
