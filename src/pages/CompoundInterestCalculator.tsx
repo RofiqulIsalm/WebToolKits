@@ -566,31 +566,23 @@ const CompoundInterestCalculator: React.FC = () => {
 
           <div className="max-w-5xl mx-auto p-6 space-y-12 text-white">
     
- export default function Compounding() {
-  return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      {/* ================= Main Title ================= */}
-      <h1 className="text-4xl md:text-5xl font-extrabold text-center mb-6">
-        Compound Interest Calculator – Calculate Your Investment Growth Accurately
-      </h1>
-
-      <p className="text-lg md:text-xl text-slate-100 text-center mb-6 leading-relaxed">
-        Unlock the power of compounding with our advanced calculator. Calculate{" "}
-        <strong>daily, monthly, yearly, and custom interest</strong> for savings,
-        investments, SIPs, or retirement planning. See how your money grows over
-        time with precise calculations using{" "}
-        <strong>principal, interest rate, and custom periods</strong>.
-      </p>
-
-      {/* ================= Image ================= */}
-      <img
-        src={compoundingImg}
-        alt="Compound interest illustration showing growth over time"
-        className="mx-auto rounded-xl shadow-lg"
-      />
-    </div>
-  );
-}
+          {/* ================= Main Title ================= */}
+          <h1 className="text-4xl md:text-5xl font-extrabold text-center mb-6">
+            Compound Interest Calculator – Calculate Your Investment Growth Accurately
+          </h1>
+          <p className="text-lg md:text-xl text-slate-100 text-center mb-6 leading-relaxed">
+            Unlock the power of compounding with our advanced calculator. Calculate <strong>daily, monthly, yearly, and custom interest</strong> for savings, investments, SIPs, or retirement planning. See how your money grows over time with precise calculations using <strong>principal, interest rate, and custom periods</strong>.
+          </p>
+          export default function Compounding() {
+        return (
+          <img
+            src={compoundingImg}
+            alt="Compound interest illustration showing growth over time"
+            className="mx-auto rounded-xl shadow-lg"
+          />
+        );
+      }
+        
           {/* ================= How to Use ================= */}
           <section className="space-y-4">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">How to Use the Compound Interest Calculator</h2>
