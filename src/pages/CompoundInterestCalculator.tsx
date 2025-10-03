@@ -745,6 +745,7 @@ Tips to Maximize Compounding Returns</li>
                 <div className="bg-slate-800/60 p-4 rounded-lg">
                 <h3 className="font-semibold text-xl">Q4: Why should I use this calculator?</h3>
                 <p>This tool helps you plan finances, optimize investments, and forecast long-term growth with accuracy. It supports decision-making by showing how different inputs influence outcomes.</p>
+                </div>
               </div>
               <div>
                 <div className="bg-slate-800/60 p-4 rounded-lg">
