@@ -32,6 +32,8 @@ const CompoundInterestCalculator: React.FC = () => {
 
   const [finalAmount, setFinalAmount] = useState<number>(0);
   const [compoundInterest, setCompoundInterest] = useState<number>(0);
+  const [timeData, setTimeData] = useState({ years: 0, months: 0, days: 0 });
+
 
   const [breakdownMode, setBreakdownMode] = useState<'daily' | 'weekly' | 'monthly' | 'yearly'>(
     'daily'
