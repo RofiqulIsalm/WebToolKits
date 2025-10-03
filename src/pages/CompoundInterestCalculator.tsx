@@ -286,7 +286,7 @@ const CompoundInterestCalculator: React.FC = () => {
               {/* Rate */}
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">Interest Rate (%)</label>
-                <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-1">
                   <input
                     type="number"
                     value={rate}
