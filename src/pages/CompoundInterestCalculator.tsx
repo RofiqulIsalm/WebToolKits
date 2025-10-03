@@ -627,7 +627,7 @@ How Compound Interest Works
             <h2 className="text-3xl md:text-4xl font-bold mb-4">How the Compound Interest Calculator Works</h2>
             <p className="text-lg leading-relaxed text-slate-100">
               The calculator uses the <strong>standard compound interest formula</strong>: 
-
+            </p>
             <div className="bg-slate-800/60 p-4 rounded-lg">
               <code className=" text-green-300">
                   <strong>A = P × (1 + r/n)^(n × t)</strong>, where:
