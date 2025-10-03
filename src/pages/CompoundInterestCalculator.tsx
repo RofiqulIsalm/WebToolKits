@@ -663,9 +663,9 @@ By adjusting the compounding frequency, you can illustrate how more frequent com
               Understanding compound interest is easier with practical examples:
             </p>
             <ul className="list-disc list-inside text-lg text-slate-100 space-y-2">
-              <li>Deposit <span className="text-yellow-300"> $1,000 </span>at 5% annual interest compounded daily for 3 years → Future Value ≈ $1,161.62</li>
-              <li>Invest $10,000 at 8% annual interest  monthly for 5 years → Future Value ≈      $14,859.47</li>
-              <li>Monthly SIP of $500 at 7% compounded monthly for 10 years → Total Future Value ≈ $86,000</li>
+              <li>Deposit <span className="text-yellow-300"> $1,000 </span>at<span className="text-yellow-300"> 5%</span> annual interest compounded daily for<span className="text-yellow-300"> 3 years </span>→ Future Value ≈ <span className="text-green-300">$1,161.62</span></li>
+              <li>Invest<span className="text-yellow-300"> $10,000</span> at <span className="text-yellow-300">8%</span> annual interest  monthly for<span className="text-yellow-300"> 5 years</span> → Future Value ≈     <span className="text-green-300"> $14,859.47</span></li>
+              <li>Monthly SIP of <span className="text-yellow-300">$500 at <span className="text-yellow-300">7%</span> compounded monthly for<span className="text-yellow-300"> 10 years </span> → Total Future Value ≈<span className="text-green-300"> $86,000</span></li>
               <li>Use custom variable rates for real-world investment modeling</li>
             </ul>
           
