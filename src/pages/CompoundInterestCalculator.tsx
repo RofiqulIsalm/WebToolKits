@@ -351,27 +351,31 @@ const CompoundInterestCalculator: React.FC = () => {
                 )}
               </div>
 
-              {/* Time */}
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Time Period</label>
+              {/* Time Period */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-black mb-1">Time Period</label>
                 <div className="flex space-x-2">
                   <input
                     type="number"
-                    value={time}
-                    onChange={(e) => setTime(Number(e.target.value))}
-                    className="text-black w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
+                    placeholder="Years"
+                    onChange={(e) => setTimeData({ ...timeData, years: Number(e.target.value) })}
+                    className="w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-black"
                   />
-                  <select
-                    value={timeUnit}
-                    onChange={(e) => setTimeUnit(e.target.value as any)}
-                    className=" text-black px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
-                  >
-                    <option value="years" className="text-black">Years</option>
-                    <option value="months" className="text-black">Months</option>
-                    <option value="days" className="text-black">Days</option>
-                  </select>
+                  <input
+                    type="number"
+                    placeholder="Months"
+                    onChange={(e) => setTimeData({ ...timeData, months: Number(e.target.value) })}
+                    className="w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-black"
+                  />
+                  <input
+                    type="number"
+                    placeholder="Days"
+                    onChange={(e) => setTimeData({ ...timeData, days: Number(e.target.value) })}
+                    className="w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-black"
+                  />
                 </div>
               </div>
+
 
               {/* Include Days Toggle */}
               <div>
