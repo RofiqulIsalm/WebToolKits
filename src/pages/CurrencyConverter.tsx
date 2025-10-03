@@ -182,7 +182,15 @@ const CurrencyConverter: React.FC = () => {
     { code: 'ZAR', name: 'South African Rand' },
     { code: 'ZMW', name: 'Zambian Kwacha' },
     { code: 'ZWL', name: 'Zimbabwean Dollar' }
-     
+
+    const filteredFrom = allCurrencies.filter((currency) =>
+  currency.toLowerCase().includes(fromSearch.toLowerCase())
+);
+
+const filteredTo = allCurrencies.filter((currency) =>
+  currency.toLowerCase().includes(toSearch.toLowerCase())
+);
+
   ];
 
 
