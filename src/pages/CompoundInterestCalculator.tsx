@@ -271,7 +271,7 @@ const CompoundInterestCalculator: React.FC = () => {
                 <label className="block text-sm font-medium text-slate-700 mb-2">Principal Amount ($)</label>
                 <input
                   type="number"
-                  value={principal}
+                  placeholder="$$$"
                   onChange={(e) => setPrincipal(Number(e.target.value))}
                   className="text-black w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
                 />
