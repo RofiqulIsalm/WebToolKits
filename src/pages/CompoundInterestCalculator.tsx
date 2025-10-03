@@ -710,23 +710,26 @@ Tips to Maximize Compounding Returns</li>
             <div className="space-y-4 text-lg text-slate-100 leading-relaxed">
               <div>
                 <h3 className="font-semibold text-xl">Q1: What is compound interest?</h3>
-                <p>Interest calculated on both the principal and previously earned interest, allowing your investments to grow faster than simple interest.</p>
+                <p>Compound interest is interest calculated on both the initial principal and on the accumulated interest from prior periods. As time progresses, interest is earned on an increasingly larger base, which can lead to faster growth than simple interest.
+</p>
               </div>
               <div>
                 <h3 className="font-semibold text-xl">Q2: How does compounding frequency affect growth?</h3>
-                <p>Daily compounding grows faster than monthly or yearly compounding at the same interest rate due to more frequent interest calculations.</p>
+                <p>In general, higher-frequency compounding (daily rather than monthly, for example) yields higher returns at the same nominal rate because interest is added to the balance more often. The effect grows more pronounced over longer time horizons.</p>
               </div>
               <div>
                 <h3 className="font-semibold text-xl">Q3: Can I calculate for custom periods?</h3>
-                <p>Yes, our calculator allows you to enter any combination of years, months, and days for precise results.</p>
+                <p>Yes. You can calculate using various combinations of years, months, and days. The calculator converts everything to the appropriate unit to determine the future value.</p>
               </div>
               <div>
                 <h3 className="font-semibold text-xl">Q4: Why should I use this calculator?</h3>
-                <p>It helps plan finances, optimize investments, and forecast growth with accuracy, saving time and avoiding manual errors.</p>
+                <p>This tool helps you plan finances, optimize investments, and forecast long-term growth with accuracy. It supports decision-making by showing how different inputs influence outcomes.</p>
               </div>
               <div>
                 <h3 className="font-semibold text-xl">Q5: Can I model variable interest rates?</h3>
-                <p>Yes, the custom interest rate option allows you to simulate fluctuating rates over different periods.</p>
+                <p> Yes. The calculator enables custom interest rates to simulate real-world scenarios where rates may change over time, allowing you to explore sensitivity and plan accordingly.</p>
+
+                <p>This professional, user-friendly tool provides a clear and reliable way to understand how your money can grow through compounding. By adjusting inputs such as principal, rate, frequency, and time, you can forecast outcomes, compare different strategies, and make informed financial decisions for savings, investments, SIPs, and retirement planning.</p>
               </div>
             </div>
           </section>
