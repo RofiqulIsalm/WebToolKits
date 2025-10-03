@@ -257,7 +257,7 @@ const CompoundInterestCalculator: React.FC = () => {
 
         {/* Title */}
         <div className="mb-8 text-center">
-          <h1 className=" text-white text-2xl font-bold text-slate-900 mb-2">Compounding Calculator – Calculate Compound Interest Online</h1>
+          <h1 className=" text-white text-2xl font-bold text-slate-900 mb-2">Compounding Calculator – Calculate Compound Interest Online</h1> 
           <p className="text-orange-50">Compound interest is one of the most powerful concepts in finance and investing. Unlike simple interest, compounding allows your money to grow faster by reinvesting earnings back into the principal. Our compounding calculator helps you calculate how much your investment will be worth in the future, based on your principal amount, interest rate, and custom time period (years, months, and days).</p>
         </div>
 
