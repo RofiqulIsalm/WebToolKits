@@ -581,7 +581,7 @@ const CompoundInterestCalculator: React.FC = () => {
             Using this investment growth tool is straightforward and efficient:
             </h3>
             <p className="text-lg leading-relaxed text-slate-100">
-              
+              <strong>Enter your principal amount:</strong> Input the initial sum you plan to invest or save.
             </p>
             <p className="text-lg leading-relaxed text-slate-100">
               
