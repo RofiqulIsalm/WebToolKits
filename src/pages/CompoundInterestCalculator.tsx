@@ -536,22 +536,114 @@ const CompoundInterestCalculator: React.FC = () => {
           </div>
         )}
 
-        <h1>How to Use the Compounding Calculator</h1>
-        
-        <AdBanner type="bottom" />
-        
-        <h1>How the Calculator Works</h1>
-        
-        <AdBanner type="bottom" />
-        
-        <h1>Example Scenario</h1>
-        
-        <h1>Benefits of Using This Calculator</h1>
-        
-        <h1>Frequently Asked Questions (FAQ)</h1>
-        
-        <RelatedCalculators currentPath="/compound-interest-calculator" category="currency-finance" />
-        <h1></h1>
+       <div className="max-w-4xl mx-auto p-4 sm:p-6 space-y-8 text-black">
+          
+            {/* ================= H1 ================= */}
+            <h1 className="text-3xl font-bold text-slate-900 text-center mb-4">
+              Daily & Custom Compounding Calculator – Calculate Your Investment Growth
+            </h1>
+            <p className="text-slate-700 text-center mb-6">
+              Calculate how your money grows with our daily and custom compound interest calculator. 
+              Enter your principal, interest rate, and custom period (years, months, days) to get accurate results.
+            </p>
+          
+            <AdBanner type="bottom" />
+          
+            {/* ================= How to Use ================= */}
+            <section className="bg-white rounded-2xl shadow-md p-6 border border-slate-200">
+              <h2 className="text-2xl font-semibold mb-4">How to Use the Compounding Calculator</h2>
+              <ol className="list-decimal list-inside space-y-2 text-slate-700">
+                <li>Enter your <strong>principal amount</strong> (initial investment).</li>
+                <li>Set the <strong>interest rate (%)</strong> or custom rate.</li>
+                <li>Select the <strong>compounding frequency</strong>: daily, weekly, monthly, quarterly, yearly, or custom.</li>
+                <li>Set the <strong>custom time period</strong> using <strong>years, months, and days</strong>.</li>
+                <li>Click <strong>Calculate</strong> to see <strong>future value, interest earned, and total investment growth</strong>.</li>
+              </ol>
+            </section>
+          
+            <AdBanner type="bottom" />
+          
+            {/* ================= How the Calculator Works ================= */}
+            <section className="bg-white rounded-2xl shadow-md p-6 border border-slate-200">
+              <h2 className="text-2xl font-semibold mb-4">How the Calculator Works</h2>
+              <p className="text-slate-700 mb-4">
+                The calculator uses the <strong>compound interest formula</strong>: 
+              </p>
+              <pre className="bg-slate-100 p-3 rounded-lg text-slate-900 overflow-x-auto mb-4">
+                A = P × (1 + r/n)^(n × t)
+              </pre>
+              <ul className="list-disc list-inside text-slate-700">
+                <li><strong>A</strong> = Future Value</li>
+                <li><strong>P</strong> = Principal Amount</li>
+                <li><strong>r</strong> = Interest Rate</li>
+                <li><strong>n</strong> = Compounding Frequency</li>
+                <li><strong>t</strong> = Time (converted from years, months, days)</li>
+              </ul>
+              <p className="text-slate-700 mt-3">
+                The custom period input allows precise calculations for any combination of years, months, and days.
+              </p>
+              <img
+                src="/images/compound-interest-formula.png"
+                alt="Compound interest formula illustration"
+                className="mt-4 rounded-lg shadow-sm w-full"
+              />
+            </section>
+          
+            <AdBanner type="bottom" />
+          
+            {/* ================= Example Scenario ================= */}
+            <section className="bg-white rounded-2xl shadow-md p-6 border border-slate-200">
+              <h2 className="text-2xl font-semibold mb-4">Example Scenarios</h2>
+              <ul className="list-disc list-inside text-slate-700 space-y-2">
+                <li><strong>Bank Savings:</strong> Deposit $1,000 at 5% annual interest compounded daily for 3 years → Future Value ≈ $1,161.62</li>
+                <li><strong>Investment Portfolio:</strong> Invest $10,000 at 8% annual interest compounded monthly for 5 years → Future Value ≈ $14,859.47</li>
+              </ul>
+              <img
+                src="/images/compound-interest-growth.png"
+                alt="Compound interest growth chart example"
+                className="mt-4 rounded-lg shadow-sm w-full"
+              />
+            </section>
+          
+            {/* ================= Benefits ================= */}
+            <section className="bg-white rounded-2xl shadow-md p-6 border border-slate-200">
+              <h2 className="text-2xl font-semibold mb-4">Benefits of Using This Calculator</h2>
+              <ul className="list-disc list-inside text-slate-700 space-y-2">
+                <li><strong>Plan Your Finances:</strong> Know how your savings grow over time.</li>
+                <li><strong>Compare Scenarios:</strong> Test different interest rates and time periods.</li>
+                <li><strong>Flexible Periods:</strong> Enter exact years, months, and days for accurate results.</li>
+                <li><strong>Easy to Use:</strong> Instant calculation with a simple interface.</li>
+              </ul>
+            </section>
+          
+            {/* ================= FAQ ================= */}
+            <section className="bg-white rounded-2xl shadow-md p-6 border border-slate-200">
+              <h2 className="text-2xl font-semibold mb-4">Frequently Asked Questions (FAQ)</h2>
+              <div className="space-y-4 text-slate-700">
+                <div>
+                  <h3 className="font-semibold">Q1: What is compound interest?</h3>
+                  <p>Interest calculated on both the principal and previously earned interest, allowing investments to grow faster.</p>
+                </div>
+                <div>
+                  <h3 className="font-semibold">Q2: How is daily compounding different from yearly compounding?</h3>
+                  <p>Daily compounding calculates interest every day, leading to higher total returns than yearly compounding for the same rate.</p>
+                </div>
+                <div>
+                  <h3 className="font-semibold">Q3: Can I calculate for custom periods?</h3>
+                  <p>Yes, enter any combination of years, months, and days for accurate calculations.</p>
+                </div>
+                <div>
+                  <h3 className="font-semibold">Q4: Why should I use this calculator?</h3>
+                  <p>It helps forecast investment growth, plan savings, and make better financial decisions with precise, easy-to-understand results.</p>
+                </div>
+              </div>
+            </section>
+          
+            {/* ================= Related Calculators ================= */}
+            <RelatedCalculators currentPath="/compound-interest-calculator" category="currency-finance" />
+          
+          </div>
+
         
       </div>
     </>
