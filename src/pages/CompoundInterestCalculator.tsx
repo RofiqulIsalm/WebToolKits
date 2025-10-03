@@ -283,7 +283,7 @@ const CompoundInterestCalculator: React.FC = () => {
         />
 
         {/* Title */}
-        <div className="mb-8 text-left">
+        <div className="mb-8 text-left text-center">
           <h1 className="text-center text-white text-2xl font-bold text-slate-900 mb-2">Compounding Calculator – Calculate Compound Interest Online</h1> 
           <p className="text-orange-50">Compound interest grows your money faster by reinvesting earnings into the principal. Our compounding calculator shows your future investment value based on principal, rate, and custom time periods.</p>
         </div>
