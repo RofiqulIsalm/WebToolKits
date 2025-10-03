@@ -626,16 +626,24 @@ How Compound Interest Works
           <section className="space-y-4">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">How the Compound Interest Calculator Works</h2>
             <p className="text-lg leading-relaxed text-slate-100">
-              The calculator uses the <strong>standard compound interest formula</strong>: <br />
-              <strong>A = P × (1 + r/n)^(n × t)</strong>, where:
-            </p>
-            <ul className="list-disc list-inside text-lg text-slate-100 space-y-2">
-              <li><strong>A</strong> = Future Value (total amount including interest)</li>
-              <li><strong>P</strong> = Principal Amount</li>
-              <li><strong>r</strong> = Interest Rate (as a decimal)</li>
-              <li><strong>n</strong> = Compounding Frequency (times per year)</li>
-              <li><strong>t</strong> = Time period in years, months, and days</li>
-            </ul>
+              The calculator uses the <strong>standard compound interest formula</strong>: 
+
+            <div className="bg-slate-800/60 p-4 rounded-lg">
+              <code className=" text-green-300">
+                  <strong>A = P × (1 + r/n)^(n × t)</strong>, where:
+                </p>
+                <ul className="list-disc list-inside text-lg text-slate-100 space-y-2">
+                  <li><strong>A</strong> = Future Value (total amount including interest)                      </li>
+                  <li><strong>P</strong> = Principal Amount</li>
+                  <li><strong>r</strong> = Interest Rate (as a decimal)</li>
+                  <li><strong>n</strong> = Compounding Frequency (times per year)</li>
+                  <li><strong>t</strong> = Time period in years, months, and days</li>
+                </ul>
+              </code>
+            </div>
+            
+
+            
             <p className="text-lg leading-relaxed text-slate-100">
               <strong>Notes on the inputs:</strong>
             </p>
