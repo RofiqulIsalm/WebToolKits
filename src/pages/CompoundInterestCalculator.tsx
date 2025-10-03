@@ -719,7 +719,7 @@ Tips to Maximize Compounding Returns</li>
         <AdBanner type="bottom" />
           {/* ================= FAQ ================= */}
           <section className="space-y-4">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions (FAQ)</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)</h2>
             <div className="space-y-4 text-lg text-slate-100 leading-relaxed">
               <div>
                 <div className="bg-slate-800/60 p-4 rounded-lg">
