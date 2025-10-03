@@ -78,17 +78,9 @@ const CompoundInterestCalculator: React.FC = () => {
 
   // Convert time to total days (for the simulation length)
   const getTotalDays = () => {
-    switch (timeUnit) {
-      case 'days':
-        return Math.max(0, Math.floor(time));
-      case 'months':
-        return Math.max(0, Math.floor(time * 30));
-      case 'years':
-        return Math.max(0, Math.floor(time * 365));
-      default:
-        return Math.max(0, Math.floor(time * 365));
-    }
-  };
+  return (timeData.years * 365) + (timeData.months * 30) + timeData.days;
+};
+
 
   // ================================
   // Effects: recalc when inputs change
