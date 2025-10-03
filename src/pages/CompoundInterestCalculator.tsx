@@ -1,11 +1,17 @@
 // CompoundInterestCalculator.tsx
 import React, { useState, useEffect } from 'react';
 import { TrendingUp, ChevronDown, ChevronUp } from 'lucide-react';
+import { createClient } from '@supabase/supabase-js';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
+
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+);
 
 const CompoundInterestCalculator: React.FC = () => {
   // ================================
@@ -41,7 +47,8 @@ const CompoundInterestCalculator: React.FC = () => {
   const [includeAllDays, setIncludeAllDays] = useState<boolean>(true);
   const [selectedDays, setSelectedDays] = useState<string[]>(['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA']);
   const [breakdownData, setBreakdownData] = useState<any[]>([]);
-  const [showBreakdown, setShowBreakdown] = useState<boolean>(false); // default hidden
+  const [showBreakdown, setShowBreakdown] = useState<boolean>(false);
+  const [guideImageUrl, setGuideImageUrl] = useState<string>('');
 
   // ================================
   // Helpers: convert rate/time units
@@ -85,6 +92,26 @@ const CompoundInterestCalculator: React.FC = () => {
   // ================================
   // Effects: recalc when inputs change
   // ================================
+  useEffect(() => {
+    loadGuideImage();
+  }, []);
+
+  const loadGuideImage = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('website_settings')
+        .select('value')
+        .eq('key', 'compound_interest_guide_image')
+        .maybeSingle();
+
+      if (data && !error) {
+        setGuideImageUrl(data.value);
+      }
+    } catch (err) {
+      console.error('Error loading guide image:', err);
+    }
+  };
+
   useEffect(() => {
     calculateCompoundInterest();
     generateBreakdown();
@@ -557,11 +584,13 @@ const CompoundInterestCalculator: React.FC = () => {
             <p className="text-lg leading-relaxed text-slate-100">
               Using this calculator is simple. Enter your <strong>principal amount</strong>, choose the <strong>interest rate</strong>, select the <strong>compounding frequency</strong>, and define the <strong>time period</strong> in years, months, and days. Our calculator supports <strong>custom interest rates</strong> for variable investment scenarios. Instantly view your <strong>future value</strong>, <strong>compound interest earned</strong>, and <strong>total investment growth</strong>.
             </p>
-            <img
-              src="/images/how-to-use-calculator.png"
-              alt="Step-by-step guide to using compound interest calculator"
-              className="w-full rounded-xl shadow-lg"
-            />
+            {guideImageUrl && (
+              <img
+                src={guideImageUrl}
+                alt="Step-by-step guide to using compound interest calculator"
+                className="w-full rounded-xl shadow-lg"
+              />
+            )}
             <p className="text-lg leading-relaxed text-slate-100">
               This tool helps you <strong>plan savings, optimize investments, and forecast financial growth</strong>. Whether you are calculating daily savings or planning long-term retirement funds, the results are accurate and easy to understand.
             </p>
