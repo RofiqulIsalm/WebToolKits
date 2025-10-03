@@ -16,10 +16,10 @@ const CompoundInterestCalculator: React.FC = () => {
   // State variables
   // ================================
   const [principal, setPrincipal] = useState<number>(0);  
-  const [rate, setRate] = useState<number>(0);
-  const [rateUnit, setRateUnit] = useState<'daily' | 'weekly' | 'monthly' | 'yearly'>                ('daily');
-  const [rateUnit, setRateUnit] = useState<'daily' | 'weekly' | 'monthly' | 'yearly' |               'quarterly' | 'custom'>('daily');
-  const [customRate, setCustomRate] = useState({ years: 0, months: 0, days: 0 });
+  const [rate, setRate] = useState<number>(0); 
+  const [rateUnit, setRateUnit] = useState<'daily' | 'weekly' | 'monthly' | 'yearly'>        ('daily');
+  const [rateUnit, setRateUnit] = useState<'daily' | 'weekly' | 'monthly' | 'yearly' | 'quarterly' | 'custom'>('daily');
+const [customRate, setCustomRate] = useState({ years: 0, months: 0, days: 0 });
 
   const [time, setTime] = useState<number>(0);
   const [timeUnit, setTimeUnit] = useState<'years' | 'months' | 'days'>('days');
@@ -27,9 +27,9 @@ const CompoundInterestCalculator: React.FC = () => {
   const [finalAmount, setFinalAmount] = useState<number>(0);
   const [compoundInterest, setCompoundInterest] = useState<number>(0);
 
-  const [breakdownMode, setBreakdownMode] = useState<'daily' | 'weekly' | 'monthly' |               'yearly'>('daily');
+  const [breakdownMode, setBreakdownMode] = useState<'daily' | 'weekly' | 'monthly' | 'yearly'>('daily');
   const [includeAllDays, setIncludeAllDays] = useState<boolean>(true);
-  const [selectedDays, setSelectedDays] = useState<string[]>                                        (['SU','MO','TU','WE','TH','FR','SA']);
+  const [selectedDays, setSelectedDays] = useState<string[]>(['SU','MO','TU','WE','TH','FR','SA']);
   const [breakdownData, setBreakdownData] = useState<any[]>([]);
   const [showBreakdown, setShowBreakdown] = useState<boolean>(false); // default hidden
 
