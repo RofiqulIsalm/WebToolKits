@@ -334,7 +334,6 @@ const CompoundInterestCalculator: React.FC = () => {
                       <input
                         type="number"
                         min={0}
-                        className="text-black"
                         value={customRate.months}
                         onChange={(e) => setCustomRate({ ...customRate, months: Number(e.target.value) })}
                         className="text-black w-full px-3 py-2 border border-slate-300 rounded-lg"
@@ -345,7 +344,6 @@ const CompoundInterestCalculator: React.FC = () => {
                       <input
                         type="number"
                         min={0}
-                        className="text-black"
                         value={customRate.days}
                         onChange={(e) => setCustomRate({ ...customRate, days: Number(e.target.value) })}
                         className="text-black w-full px-3 py-2 border border-slate-300 rounded-lg"

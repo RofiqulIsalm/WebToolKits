@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { toolsData, getPopularCalculators } from '../data/toolsData';
-import { ArrowRight, TrendingUp } from 'lucide-react';
+import { ArrowRight, TrendingUp, Check } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import { seoData, organizationSchema } from '../utils/seoData';
 
@@ -26,10 +26,19 @@ const Homepage: React.FC = () => {
         <p className="text-xl text-slate-300 mb-8">
           Free online calculators and converters for daily use
         </p>
-        <div className="flex items-center justify-center text-sm text-slate-400 space-x-4">
-          <span>✓ No signup required</span>
-          <span>✓ Privacy-friendly</span>
-          <span>✓ Completely free</span>
+        <div className="flex items-center justify-center text-sm text-slate-300 space-x-6">
+          <span className="flex items-center space-x-2">
+            <Check className="h-5 w-5 text-green-500" />
+            <span>No signup required</span>
+          </span>
+          <span className="flex items-center space-x-2">
+            <Check className="h-5 w-5 text-green-500" />
+            <span>Privacy-friendly</span>
+          </span>
+          <span className="flex items-center space-x-2">
+            <Check className="h-5 w-5 text-green-500" />
+            <span>Completely free</span>
+          </span>
         </div>
       </div>
 
