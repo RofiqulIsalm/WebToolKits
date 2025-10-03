@@ -580,13 +580,6 @@ const CompoundInterestCalculator: React.FC = () => {
             <p className="text-lg leading-relaxed text-slate-100">
               Using this calculator is simple. Enter your <strong>principal amount</strong>, choose the <strong>interest rate</strong>, select the <strong>compounding frequency</strong>, and define the <strong>time period</strong> in years, months, and days. Our calculator supports <strong>custom interest rates</strong> for variable investment scenarios. Instantly view your <strong>future value</strong>, <strong>compound interest earned</strong>, and <strong>total investment growth</strong>.
             </p>
-            {guideImageUrl && (
-              <img
-                src={guideImageUrl}
-                alt="Step-by-step guide to using compound interest calculator"
-                className="w-full rounded-xl shadow-lg"
-              />
-            )}
             <p className="text-lg leading-relaxed text-slate-100">
               This tool helps you <strong>plan savings, optimize investments, and forecast financial growth</strong>. Whether you are calculating daily savings or planning long-term retirement funds, the results are accurate and easy to understand.
             </p>
@@ -628,11 +621,7 @@ const CompoundInterestCalculator: React.FC = () => {
               <li>Monthly SIP of $500 at 7% compounded monthly for 10 years → Total Future Value ≈ $86,000</li>
               <li>Use custom variable rates for real-world investment modeling</li>
             </ul>
-            <img
-              src="/images/compound-interest-growth-chart.png"
-              alt="Chart showing investment growth with compounding"
-              className="w-full rounded-xl shadow-lg"
-            />
+            
             <p className="text-lg leading-relaxed text-slate-100">
               These examples show how starting early and compounding frequently maximizes returns. Even small increases in interest rate or contribution can make a huge difference over time.
             </p>
@@ -652,11 +641,7 @@ const CompoundInterestCalculator: React.FC = () => {
               <li><strong>Visualize Growth:</strong> Charts and breakdowns provide insight into investment trends.</li>
               <li><strong>Optimize Investments:</strong> Learn how frequency, rate, and contribution impact total growth.</li>
             </ul>
-            <img
-              src="/images/compound-interest-benefits.png"
-              alt="Benefits of compound interest explained visually"
-              className="w-full rounded-xl shadow-lg"
-            />
+           
           </section>
         
           {/* ================= Advanced Tips ================= */}
@@ -669,11 +654,7 @@ const CompoundInterestCalculator: React.FC = () => {
               <li><strong>Use Variable Rates:</strong> Custom rate inputs allow realistic scenario modeling.</li>
               <li><strong>Monitor Performance:</strong> Track progress regularly to make adjustments for optimal growth.</li>
             </ul>
-            <img
-              src="/images/compound-interest-tips.png"
-              alt="Tips to maximize compounding returns"
-              className="w-full rounded-xl shadow-lg"
-            />
+            
           </section>
         
           {/* ================= FAQ ================= */}
