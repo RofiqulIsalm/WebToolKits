@@ -634,10 +634,10 @@ How Compound Interest Works
                 
                 <ul className="list-disc list-inside text-lg text-slate-100 space-y-2">
                   <li><strong  className=" text-yellow-300">A</strong> = Future Value (total amount including interest)                      </li>
-                  <li><strong>P</strong> = Principal Amount</li>
-                  <li><strong>r</strong> = Interest Rate (as a decimal)</li>
-                  <li><strong>n</strong> = Compounding Frequency (times per year)</li>
-                  <li><strong>t</strong> = Time period in years, months, and days</li>
+                  <li><strong className=" text-yellow-300">P</strong> = Principal Amount</li>
+                  <li><strong className=" text-yellow-300">r</strong> = Interest Rate (as a decimal)</li>
+                  <li><strong className=" text-yellow-300">n</strong> = Compounding Frequency (times per year)</li>
+                  <li><strong className=" text-yellow-300">t</strong> = Time period in years, months, and days</li>
                 </ul>
               </code>
             </div>
