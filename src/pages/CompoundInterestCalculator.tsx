@@ -614,7 +614,7 @@ const CompoundInterestCalculator: React.FC = () => {
               By changing the <strong>frequency of compounding</strong>—daily, weekly, monthly, or yearly—you can see how different investment strategies impact your total returns. Use the <strong>custom period and rate</strong> option to model realistic financial scenarios, including fluctuating interest rates.
             </p>
             <img
-              src="/images/compound-interest-formula.png"
+              src="/img/compounding1.png"
               alt="Compound interest formula example"
               className="w-full rounded-xl shadow-lg"
             />
