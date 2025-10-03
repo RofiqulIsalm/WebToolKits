@@ -391,7 +391,7 @@ const CurrencyConverter: React.FC = () => {
         <h2 className="text-2xl font-bold">Why Should You Use an Online Currency Calculator?</h2>
         <ul className="list-disc list-inside space-y-2">
           <li>✔ It helps <strong>travelers</strong> know exactly how much money they will get when exchanging cash abroad.</li>
-          <li>✔ Easy to use for students, travelers, and businesses</li>
+          <li>✔ It allows <strong>businesses and investors</strong> to make informed financial decisions when dealing with foreign markets.</li>
           <li>✔ Supports more than <strong>150+ world currencies</strong></li>
           <li>✔ Helps compare international prices before shopping or investing</li>
           <li>✔ Saves time by avoiding manual calculation mistakes</li>
