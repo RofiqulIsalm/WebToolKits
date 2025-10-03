@@ -365,7 +365,7 @@ const CompoundInterestCalculator: React.FC = () => {
                     onChange={(e) => setTimeUnit(e.target.value as any)}
                     className="px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
                   >
-                    <option value="years">Years</option>
+                    <option value="years" className="text-black">Years</option>
                     <option value="months">Months</option>
                     <option value="days">Days</option>
                   </select>
