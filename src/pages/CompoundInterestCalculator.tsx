@@ -690,15 +690,15 @@ By adjusting the compounding frequency, you can illustrate how more frequent com
               <li><strong>Custom Periods:</strong> Enter exact durations to obtain highly accurate results.</li>
               <li><strong>Save Time:</strong> Obtain quick, automatic results without manual computations.</li>
               <li><strong>Visualize Growth:</strong> Access breakdowns and charts that help you understand how value accumulates over time.</li>
-              <li><strong>Assess frequency and contributions:</strong>See how changes in compounding frequency and regular contributions affect total value.
+              <li><strong>Assess frequency and contributions:</strong> See how changes in compounding frequency and regular contributions affect total value.
 Tips to Maximize Compounding Returns</li>
-              <li><strong>Reinvest earnings:</strong>Allow interest to remain invested to accelerate growth.
+              <li><strong>Reinvest earnings:</strong> Allow interest to remain invested to accelerate growth.
 Tips to Maximize Compounding Returns</li>
               <li><strong>Increase contribution frequency:</strong> More frequent deposits (weekly or monthly) can boost overall returns.
 Tips to Maximize Compounding Returns</li>
-              <li><strong>Start early:</strong>Time is a powerful ally; even modest early investments can yield substantial growth.</li>
-              <li><strong>Model variable rates:</strong>Use scenarios with different rates to reflect potential real-world changes.</li>
-              <li><strong>Track and adjust:</strong>Regularly review performance and adjust your savings or investment strategy as needed.
+              <li><strong>Start early:</strong> Time is a powerful ally; even modest early investments can yield substantial growth.</li>
+              <li><strong>Model variable rates:</strong> Use scenarios with different rates to reflect potential real-world changes.</li>
+              <li><strong>Track and adjust:</strong> Regularly review performance and adjust your savings or investment strategy as needed.
 </li>
             </ul>
            
