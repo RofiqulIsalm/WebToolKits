@@ -347,7 +347,7 @@ const CurrencyConverter: React.FC = () => {
         </div>
       </div>
 
-      <AdBanner type="bottom" />
+      
       
       <RelatedCalculators 
         currentPath="/currency-converter" 
