@@ -633,7 +633,7 @@ How Compound Interest Works
                   <strong>A = P × (1 + r/n)^(n × t)</strong>, where:
                 
                 <ul className="list-disc list-inside text-lg text-slate-100 space-y-2">
-                  <li><strong  className=" text-green-300">A</strong> = Future Value (total amount including interest)                      </li>
+                  <li><strong  className=" text-yellow-300">A</strong> = Future Value (total amount including interest)                      </li>
                   <li><strong>P</strong> = Principal Amount</li>
                   <li><strong>r</strong> = Interest Rate (as a decimal)</li>
                   <li><strong>n</strong> = Compounding Frequency (times per year)</li>
