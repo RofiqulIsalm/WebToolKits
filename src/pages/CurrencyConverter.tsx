@@ -393,7 +393,7 @@ const CurrencyConverter: React.FC = () => {
           <li>✔ It helps <strong>travelers</strong> know exactly how much money they will get when exchanging cash abroad.</li>
           <li>✔ It allows <strong>businesses and investors</strong> to make informed financial decisions when dealing with foreign markets.</li>
           <li>✔ Supports more than <strong>150+ world currencies</strong></li>
-          <li>✔ Helps compare international prices before shopping or investing</li>
+          <li>✔ It supports <strong>online shoppers</strong> in checking the actual cost of products listed in different currencies.</li>
           <li>✔ Saves time by avoiding manual calculation mistakes</li>
         </ul>
       
