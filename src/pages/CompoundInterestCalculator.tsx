@@ -729,9 +729,11 @@ Tips to Maximize Compounding Returns</li>
                 <h3 className="font-semibold text-xl">Q5: Can I model variable interest rates?</h3>
                 <p> Yes. The calculator enables custom interest rates to simulate real-world scenarios where rates may change over time, allowing you to explore sensitivity and plan accordingly.</p>
 
-                <p>This professional, user-friendly tool provides a clear and reliable way to understand how your money can grow through compounding. By adjusting inputs such as principal, rate, frequency, and time, you can forecast outcomes, compare different strategies, and make informed financial decisions for savings, investments, SIPs, and retirement planning.</p>
+               
               </div>
+              
             </div>
+             <p>This professional, user-friendly tool provides a clear and reliable way to understand how your money can grow through compounding. By adjusting inputs such as principal, rate, frequency, and time, you can forecast outcomes, compare different strategies, and make informed financial decisions for savings, investments, SIPs, and retirement planning.</p>
           </section>
         
           {/* Related Calculators */}
