@@ -631,7 +631,7 @@ How Compound Interest Works
             <div className="bg-slate-800/60 p-4 rounded-lg">
               <code className=" text-green-300">
                   <strong>A = P × (1 + r/n)^(n × t)</strong>, where:
-                </p>
+                
                 <ul className="list-disc list-inside text-lg text-slate-100 space-y-2">
                   <li><strong>A</strong> = Future Value (total amount including interest)                      </li>
                   <li><strong>P</strong> = Principal Amount</li>
