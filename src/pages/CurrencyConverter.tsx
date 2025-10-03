@@ -15,8 +15,7 @@ const CurrencyConverter: React.FC = () => {
   const [result, setResult] = useState<number>(0);
   const [exchangeRates, setExchangeRates] = useState<{[key: string]: number}>({});
   const [loading, setLoading] = useState<boolean>(false);
-  const [fromSearch, setFromSearch] = useState('');
-  const [toSearch, setToSearch] = useState('');
+
 
   const allCurrencies = [
     { code: 'AED', name: 'UAE Dirham' },
@@ -355,7 +354,76 @@ const CurrencyConverter: React.FC = () => {
 
         <div className="seo-content text-white space-y-6 mt-10">
 
+        <h2 className="text-2xl font-bold">What is a Currency Converter?</h2>
+        <p>
+          A <strong>currency converter</strong> is an essential financial tool that helps 
+          travelers, investors, businesses, and online shoppers convert one currency into another 
+          using real-time <strong>exchange rates</strong>. Whether you want to convert 
+          <strong>USD to EUR</strong>, <strong>GBP to INR</strong>, or <strong>JPY to AUD</strong>, 
+          this calculator provides instant results. It saves time and ensures you always get an 
+          accurate value before making international transactions.
+        </p>
       
+        <h2 className="text-2xl font-bold">How Does the Currency Converter Work?</h2>
+        <p>
+          The logic behind a currency converter is very simple but powerful. The formula used is:
+        </p>
+        <div className="bg-slate-800/60 p-4 rounded-lg">
+          <code className="text-green-400">
+            Converted Amount = Amount × (Target Currency Rate ÷ Base Currency Rate)
+          </code>
+        </div>
+        <p>
+          For example, if you want to convert <strong>100 USD to EUR</strong>, and the current 
+          rate is 1 USD = 0.85 EUR, then:
+        </p>
+        <p className="italic text-yellow-300">
+          100 × 0.85 = 85 EUR
+        </p>
+      
+        <h2 className="text-2xl font-bold">Why Should You Use an Online Currency Calculator?</h2>
+        <ul className="list-disc list-inside space-y-2">
+          <li>✔ Get real-time exchange rates from global financial markets</li>
+          <li>✔ Easy to use for students, travelers, and businesses</li>
+          <li>✔ Supports more than <strong>150+ world currencies</strong></li>
+          <li>✔ Helps compare international prices before shopping or investing</li>
+          <li>✔ Saves time by avoiding manual calculation mistakes</li>
+        </ul>
+      
+        <h2 className="text-2xl font-bold">Popular Currency Conversions</h2>
+        <p>
+          Here are some of the most searched conversions worldwide:
+        </p>
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 list-disc list-inside">
+          <li>USD to EUR – United States Dollar to Euro</li>
+          <li>USD to INR – United States Dollar to Indian Rupee</li>
+          <li>GBP to USD – British Pound Sterling to US Dollar</li>
+          <li>EUR to JPY – Euro to Japanese Yen</li>
+          <li>CAD to AUD – Canadian Dollar to Australian Dollar</li>
+          <li>AED to BDT – Dirham to Bangladeshi Taka</li>
+        </ul>
+      
+        <h2 className="text-2xl font-bold">Keywords for SEO</h2>
+        <p>
+          currency converter, currency calculator, online exchange rate, USD to EUR converter, 
+          real-time currency conversion, live forex calculator, best currency exchange tool, 
+          money converter online, global exchange rates.
+        </p>
+      
+        <h2 className="text-2xl font-bold">Image Suggestions</h2>
+        <ul className="list-disc list-inside">
+          <li>A world map with currency symbols ($, €, ¥, £)</li>
+          <li>A digital forex trading chart with real-time exchange rates</li>
+          <li>A traveler exchanging money at an airport</li>
+        </ul>
+      
+        <p className="text-slate-300 mt-4">
+          This <strong>currency converter calculator</strong> is designed to make your life easier, 
+          whether you’re shopping online internationally, planning a trip abroad, or trading in 
+          foreign exchange markets. With accurate rates and an easy-to-use interface, you’ll always 
+          stay updated on global money values.
+        </p>
+      </div>
 
 
       
