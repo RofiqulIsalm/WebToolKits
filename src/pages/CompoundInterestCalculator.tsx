@@ -537,7 +537,8 @@ const CompoundInterestCalculator: React.FC = () => {
         )}
 
         <AdBanner type="bottom" />
-        <h1>hello world</h1>
+        
+        <h1>How the Calculator Works</h1>
         <RelatedCalculators currentPath="/compound-interest-calculator" category="currency-finance" />
       </div>
     </>
