@@ -572,7 +572,8 @@ const CompoundInterestCalculator: React.FC = () => {
           <p className="text-lg md:text-xl text-slate-100 text-center mb-6 leading-relaxed">
             This online calculator helps you quantify the growth of your investments through the power of compounding. It supports daily, monthly, yearly, and customizable compounding intervals for savings, SIPs, general investments, or retirement planning. You will obtain precise future values based on the principal, the interest rate, and the time period you select.
           </p>
-            
+
+            <AdBanner type="bottom" />
         
           {/* ================= How to Use ================= */}
           <section className="space-y-4">
