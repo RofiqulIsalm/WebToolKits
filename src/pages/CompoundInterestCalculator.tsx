@@ -600,6 +600,22 @@ Why This Calculator Helps You
             <p className="text-lg leading-relaxed text-slate-100">
               This compound interest calculator is designed to support you in several important financial planning activities:
             </p>
+            <p className="text-lg leading-relaxed text-slate-100">
+            <strong> Savings planning:</strong> Project how your savings will grow over time under different compounding schemes.
+            </p>
+            <p className="text-lg leading-relaxed text-slate-100">
+              <strong>Forecasting long-term investments:</strong> Compare how various rates and frequencies influence outcomes over extended periods.
+            </p>
+            <p className="text-lg leading-relaxed text-slate-100">
+              <strong>Retirement fund growth:</strong> Model how contributions and compounding affect the size of your retirement corpus.
+            </p>
+            <p className="text-lg leading-relaxed text-slate-100">
+              <strong>Daily savings or SIP calculations:</strong> Assess how regular contributions accumulate with different compounding choices.
+            </p>
+            <p className="text-lg leading-relaxed text-slate-100">
+              Clarity and accuracy: The results are presented clearly and with precision, making it easier to interpret the impact of each input.
+How Compound Interest Works
+            </p>
             
           </section>
         
