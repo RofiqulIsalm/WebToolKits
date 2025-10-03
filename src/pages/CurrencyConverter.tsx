@@ -351,7 +351,7 @@ const CurrencyConverter: React.FC = () => {
           </div>
         </div>
       </div>
-
+      <AdBanner type="bottom" />
         <div className="seo-content text-white space-y-6 mt-10">
 
         <h2 className="text-2xl font-bold">What is a Currency Converter?</h2>
