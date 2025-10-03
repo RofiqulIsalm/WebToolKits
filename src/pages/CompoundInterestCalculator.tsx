@@ -578,7 +578,7 @@ const CompoundInterestCalculator: React.FC = () => {
           <section className="space-y-4">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">How to Use the Compound Interest Calculator</h2>
             <p className="text-lg leading-relaxed text-slate-100">
-<strong>Using this investment growth tool is straightforward and efficient:</strong>, choose the <strong>interest rate</strong>, select the <strong>compounding frequency</strong>, and define the <strong>time period</strong> in years, months, and days. Our calculator supports <strong>custom interest rates</strong> for variable investment scenarios. Instantly view your <strong>future value</strong>, <strong>compound interest earned</strong>, and <strong>total investment growth</strong>.
+<strong>Using this investment growth tool is straightforward and efficient:</strong><br>, choose the <strong>interest rate</strong>, select the <strong>compounding frequency</strong>, and define the <strong>time period</strong> in years, months, and days. Our calculator supports <strong>custom interest rates</strong> for variable investment scenarios. Instantly view your <strong>future value</strong>, <strong>compound interest earned</strong>, and <strong>total investment growth</strong>.
             </p>
             <p className="text-lg leading-relaxed text-slate-100">
               This tool helps you <strong>plan savings, optimize investments, and forecast financial growth</strong>. Whether you are calculating daily savings or planning long-term retirement funds, the results are accurate and easy to understand.
