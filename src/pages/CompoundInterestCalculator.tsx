@@ -619,7 +619,9 @@ How Compound Interest Works
             </p>
             
           </section>
-        
+
+            <AdBanner type="bottom" />
+            
           {/* ================= How It Works ================= */}
           <section className="space-y-4">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">How the Compound Interest Calculator Works</h2>
