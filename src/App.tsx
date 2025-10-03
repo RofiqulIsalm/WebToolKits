@@ -26,9 +26,6 @@ import DateDifference from './pages/DateDifference';
 import QRCodeGenerator from './pages/QRCodeGenerator';
 import PasswordGenerator from './pages/PasswordGenerator';
 
-// Admin Pages
-import AdminImageUpload from './pages/AdminImageUpload';
-
 // Legal Pages
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
@@ -75,9 +72,6 @@ function App() {
             <Route path="/date-difference" element={<DateDifference />} />
             <Route path="/qr-code-generator" element={<QRCodeGenerator />} />
             <Route path="/password-generator" element={<PasswordGenerator />} />
-
-            {/* ✅ Admin Pages */}
-            <Route path="/admin/upload-image" element={<AdminImageUpload />} />
 
             {/* ✅ Coming Soon Calculators - Currency & Finance */}
             <Route path="/mortgage-calculator" element={<ComingSoon title="Mortgage Calculator" />} />
