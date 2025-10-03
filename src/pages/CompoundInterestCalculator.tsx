@@ -686,7 +686,7 @@ Tips to Maximize Compounding Returns</li>
               <li><strong>Start early:</strong>Time is a powerful ally; even modest early investments can yield substantial growth.</li>
               <li><strong>Model variable rates:</strong>Use scenarios with different rates to reflect potential real-world changes.</li>
               <li><strong>Track and adjust:</strong>Regularly review performance and adjust your savings or investment strategy as needed.
-FAQ – Compound Interest Calculator</li>
+</li>
             </ul>
            
           </section>
