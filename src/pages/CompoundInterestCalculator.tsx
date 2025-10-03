@@ -567,10 +567,10 @@ const CompoundInterestCalculator: React.FC = () => {
     
           {/* ================= Main Title ================= */}
           <h1 className="text-2xl md:text-3xl font-extrabold text-center mb-6">
-            Compound Interest Calculator – Calculate Your Investment Growth Accurately
+            Compound Interest Calculator – Calculate Your Investment Growth Online
           </h1>
           <p className="text-lg md:text-xl text-slate-100 text-center mb-6 leading-relaxed">
-            Unlock the power of compounding with our advanced calculator. Calculate <strong>daily, monthly, yearly, and custom interest</strong> for savings, investments, SIPs, or retirement planning. See how your money grows over time with precise calculations using <strong>principal, interest rate, and custom periods</strong>.
+            This online calculator helps you quantify the growth of your investments through the power of compounding. It supports daily, monthly, yearly, and customizable compounding intervals for savings, SIPs, general investments, or retirement planning. You will obtain precise future values based on the principal, the interest rate, and the time period you select.
           </p>
             
         
