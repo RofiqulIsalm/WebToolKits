@@ -1,11 +1,17 @@
 // CompoundInterestCalculator.tsx
 import React, { useState, useEffect } from 'react';
 import { TrendingUp, ChevronDown, ChevronUp } from 'lucide-react';
+import { createClient } from '@supabase/supabase-js';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
+
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+);
 
 const CompoundInterestCalculator: React.FC = () => {
   // ================================
@@ -32,6 +38,8 @@ const CompoundInterestCalculator: React.FC = () => {
 
   const [finalAmount, setFinalAmount] = useState<number>(0);
   const [compoundInterest, setCompoundInterest] = useState<number>(0);
+  const [timeData, setTimeData] = useState({ years: 0, months: 0, days: 0 });
+
 
   const [breakdownMode, setBreakdownMode] = useState<'daily' | 'weekly' | 'monthly' | 'yearly'>(
     'daily'
@@ -39,7 +47,8 @@ const CompoundInterestCalculator: React.FC = () => {
   const [includeAllDays, setIncludeAllDays] = useState<boolean>(true);
   const [selectedDays, setSelectedDays] = useState<string[]>(['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA']);
   const [breakdownData, setBreakdownData] = useState<any[]>([]);
-  const [showBreakdown, setShowBreakdown] = useState<boolean>(false); // default hidden
+  const [showBreakdown, setShowBreakdown] = useState<boolean>(false);
+  const [guideImageUrl, setGuideImageUrl] = useState<string>('');
 
   // ================================
   // Helpers: convert rate/time units
@@ -76,21 +85,33 @@ const CompoundInterestCalculator: React.FC = () => {
 
   // Convert time to total days (for the simulation length)
   const getTotalDays = () => {
-    switch (timeUnit) {
-      case 'days':
-        return Math.max(0, Math.floor(time));
-      case 'months':
-        return Math.max(0, Math.floor(time * 30));
-      case 'years':
-        return Math.max(0, Math.floor(time * 365));
-      default:
-        return Math.max(0, Math.floor(time * 365));
-    }
-  };
+  return (timeData.years * 365) + (timeData.months * 30) + timeData.days;
+};
+
 
   // ================================
   // Effects: recalc when inputs change
   // ================================
+  useEffect(() => {
+    loadGuideImage();
+  }, []);
+
+  const loadGuideImage = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('website_settings')
+        .select('value')
+        .eq('key', 'compound_interest_guide_image')
+        .maybeSingle();
+
+      if (data && !error) {
+        setGuideImageUrl(data.value);
+      }
+    } catch (err) {
+      console.error('Error loading guide image:', err);
+    }
+  };
+
   useEffect(() => {
     calculateCompoundInterest();
     generateBreakdown();
@@ -262,9 +283,9 @@ const CompoundInterestCalculator: React.FC = () => {
         />
 
         {/* Title */}
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Compound Interest Calculator</h1>
-          <p className="text-slate-600">Calculate your investment growth with ease</p>
+        <div className="mb-8 text-left text-center">
+          <h1 className="text-center text-white text-2xl font-bold text-slate-900 mb-2">Compounding Calculator – Calculate Compound Interest Online</h1> 
+          <p className="text-orange-50">Compound interest grows your money faster by reinvesting earnings into the principal. Our compounding calculator shows your future investment value based on principal, rate, and custom time periods.</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -273,11 +294,11 @@ const CompoundInterestCalculator: React.FC = () => {
             <h2 className="text-xl font-semibold text-slate-800 mb-4">Investment Details</h2>
             <div className="space-y-4">
               {/* Principal */}
-              <div>
+              <div> 
                 <label className="block text-sm font-medium text-slate-700 mb-2">Principal Amount ($)</label>
                 <input
                   type="number"
-                  value={principal}
+                  placeholder="$$$"
                   onChange={(e) => setPrincipal(Number(e.target.value))}
                   className="text-black w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
                 />
@@ -286,19 +307,18 @@ const CompoundInterestCalculator: React.FC = () => {
               {/* Rate */}
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">Interest Rate (%)</label>
-                <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-1">
                   <input
-                    type="number"
-                    value={rate}
+                    type="number"                
                     onChange={(e) => setRate(Number(e.target.value))}
                     className="text-black w-full sm:w-auto flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
-                    placeholder="e.g. 10"
+                    placeholder="%"
                   />
 
                   <select
                     value={rateUnit}
                     onChange={(e) => setRateUnit(e.target.value as any)}
-                    className=" text-black mt-2 sm:mt-0 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
+                    className=" text-black mt-2 sm:mt-0 px-1 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
                   >
                     <option value="daily" className="text-black"
 >Daily</option>
@@ -344,6 +364,7 @@ const CompoundInterestCalculator: React.FC = () => {
                       <input
                         type="number"
                         min={0}
+                        placeholder="Years"
                         value={customRate.days}
                         onChange={(e) => setCustomRate({ ...customRate, days: Number(e.target.value) })}
                         className="text-black w-full px-3 py-2 border border-slate-300 rounded-lg"
@@ -357,27 +378,31 @@ const CompoundInterestCalculator: React.FC = () => {
                 )}
               </div>
 
-              {/* Time */}
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Time Period</label>
+              {/* Time Period */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-black mb-1">Time Period</label>
                 <div className="flex space-x-2">
                   <input
                     type="number"
-                    value={time}
-                    onChange={(e) => setTime(Number(e.target.value))}
-                    className="text-black w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
+                    placeholder="Years"
+                    onChange={(e) => setTimeData({ ...timeData, years: Number(e.target.value) })}
+                    className="w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-black"
                   />
-                  <select
-                    value={timeUnit}
-                    onChange={(e) => setTimeUnit(e.target.value as any)}
-                    className=" text-black px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
-                  >
-                    <option value="years" className="text-black">Years</option>
-                    <option value="months" className="text-black">Months</option>
-                    <option value="days" className="text-black">Days</option>
-                  </select>
+                  <input
+                    type="number"
+                    placeholder="Months"
+                    onChange={(e) => setTimeData({ ...timeData, months: Number(e.target.value) })}
+                    className="w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-black"
+                  />
+                  <input
+                    type="number"
+                    placeholder="Days"
+                    onChange={(e) => setTimeData({ ...timeData, days: Number(e.target.value) })}
+                    className="w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-black"
+                  />
                 </div>
               </div>
+
 
               {/* Include Days Toggle */}
               <div>
@@ -538,9 +563,158 @@ const CompoundInterestCalculator: React.FC = () => {
           </div>
         )}
 
-        <AdBanner type="bottom" />
+          <div className="max-w-5xl mx-auto p-6 space-y-12 text-white">
+    
+          {/* ================= Main Title ================= */}
+          <h1 className="text-4xl md:text-5xl font-extrabold text-center mb-6">
+            Compound Interest Calculator – Calculate Your Investment Growth Accurately
+          </h1>
+          <p className="text-lg md:text-xl text-slate-100 text-center mb-6 leading-relaxed">
+            Unlock the power of compounding with our advanced calculator. Calculate <strong>daily, monthly, yearly, and custom interest</strong> for savings, investments, SIPs, or retirement planning. See how your money grows over time with precise calculations using <strong>principal, interest rate, and custom periods</strong>.
+          </p>
+          <img
+            src="/img/compounding1.png"
+            alt="Compound interest illustration showing growth over time"
+            className="mx-auto rounded-xl shadow-lg"
+          />
+        
+          {/* ================= How to Use ================= */}
+          <section className="space-y-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">How to Use the Compound Interest Calculator</h2>
+            <p className="text-lg leading-relaxed text-slate-100">
+              Using this calculator is simple. Enter your <strong>principal amount</strong>, choose the <strong>interest rate</strong>, select the <strong>compounding frequency</strong>, and define the <strong>time period</strong> in years, months, and days. Our calculator supports <strong>custom interest rates</strong> for variable investment scenarios. Instantly view your <strong>future value</strong>, <strong>compound interest earned</strong>, and <strong>total investment growth</strong>.
+            </p>
+            {guideImageUrl && (
+              <img
+                src={guideImageUrl}
+                alt="Step-by-step guide to using compound interest calculator"
+                className="w-full rounded-xl shadow-lg"
+              />
+            )}
+            <p className="text-lg leading-relaxed text-slate-100">
+              This tool helps you <strong>plan savings, optimize investments, and forecast financial growth</strong>. Whether you are calculating daily savings or planning long-term retirement funds, the results are accurate and easy to understand.
+            </p>
+          </section>
+        
+          {/* ================= How It Works ================= */}
+          <section className="space-y-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">How the Compound Interest Calculator Works</h2>
+            <p className="text-lg leading-relaxed text-slate-100">
+              The calculator uses the <strong>standard compound interest formula</strong>: <br />
+              <strong>A = P × (1 + r/n)^(n × t)</strong>, where:
+            </p>
+            <ul className="list-disc list-inside text-lg text-slate-100 space-y-2">
+              <li><strong>A</strong> = Future Value (total amount including interest)</li>
+              <li><strong>P</strong> = Principal Amount</li>
+              <li><strong>r</strong> = Interest Rate (as a decimal)</li>
+              <li><strong>n</strong> = Compounding Frequency (times per year)</li>
+              <li><strong>t</strong> = Time period in years, months, and days</li>
+            </ul>
+            <p className="text-lg leading-relaxed text-slate-100">
+              By changing the <strong>frequency of compounding</strong>—daily, weekly, monthly, or yearly—you can see how different investment strategies impact your total returns. Use the <strong>custom period and rate</strong> option to model realistic financial scenarios, including fluctuating interest rates.
+            </p> 
+            <img
+              src="/img/compounding1.png"
+              alt="Compound interest formula example"
+              className="w-full rounded-xl shadow-lg"
+            />
+          </section>
+        
+          {/* ================= Example Scenarios ================= */}
+          <section className="space-y-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Example Investment Scenarios</h2>
+            <p className="text-lg leading-relaxed text-slate-100">
+              Understanding compound interest is easier with practical examples:
+            </p>
+            <ul className="list-disc list-inside text-lg text-slate-100 space-y-2">
+              <li>Deposit $1,000 at 5% annual interest compounded daily for 3 years → Future Value ≈ $1,161.62</li>
+              <li>Invest $10,000 at 8% annual interest compounded monthly for 5 years → Future Value ≈ $14,859.47</li>
+              <li>Monthly SIP of $500 at 7% compounded monthly for 10 years → Total Future Value ≈ $86,000</li>
+              <li>Use custom variable rates for real-world investment modeling</li>
+            </ul>
+            <img
+              src="/images/compound-interest-growth-chart.png"
+              alt="Chart showing investment growth with compounding"
+              className="w-full rounded-xl shadow-lg"
+            />
+            <p className="text-lg leading-relaxed text-slate-100">
+              These examples show how starting early and compounding frequently maximizes returns. Even small increases in interest rate or contribution can make a huge difference over time.
+            </p>
+          </section>
+        
+          {/* ================= Benefits ================= */}
+          <section className="space-y-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Benefits of Using This Compound Interest Calculator</h2>
+            <p className="text-lg leading-relaxed text-slate-100">
+              Our calculator is ideal for anyone looking to optimize financial growth. Benefits include:
+            </p>
+            <ul className="list-disc list-inside text-lg text-slate-100 space-y-2">
+              <li><strong>Financial Planning:</strong> Forecast growth of savings, investments, and retirement funds.</li>
+              <li><strong>Compare Scenarios:</strong> Test different interest rates and compounding periods.</li>
+              <li><strong>Custom Periods:</strong> Enter exact years, months, and days for precise calculations.</li>
+              <li><strong>Save Time:</strong> Automatically calculates without manual effort.</li>
+              <li><strong>Visualize Growth:</strong> Charts and breakdowns provide insight into investment trends.</li>
+              <li><strong>Optimize Investments:</strong> Learn how frequency, rate, and contribution impact total growth.</li>
+            </ul>
+            <img
+              src="/images/compound-interest-benefits.png"
+              alt="Benefits of compound interest explained visually"
+              className="w-full rounded-xl shadow-lg"
+            />
+          </section>
+        
+          {/* ================= Advanced Tips ================= */}
+          <section className="space-y-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Advanced Tips to Maximize Returns</h2>
+            <ul className="list-disc list-inside text-lg text-slate-100 space-y-2">
+              <li><strong>Reinvest Earnings:</strong> Allow interest to compound for maximum effect.</li>
+              <li><strong>Increase Contribution Frequency:</strong> More frequent deposits lead to higher growth.</li>
+              <li><strong>Start Early:</strong> Time is the biggest advantage in compounding.</li>
+              <li><strong>Use Variable Rates:</strong> Custom rate inputs allow realistic scenario modeling.</li>
+              <li><strong>Monitor Performance:</strong> Track progress regularly to make adjustments for optimal growth.</li>
+            </ul>
+            <img
+              src="/images/compound-interest-tips.png"
+              alt="Tips to maximize compounding returns"
+              className="w-full rounded-xl shadow-lg"
+            />
+          </section>
+        
+          {/* ================= FAQ ================= */}
+          <section className="space-y-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions (FAQ)</h2>
+            <div className="space-y-4 text-lg text-slate-100 leading-relaxed">
+              <div>
+                <h3 className="font-semibold text-xl">Q1: What is compound interest?</h3>
+                <p>Interest calculated on both the principal and previously earned interest, allowing your investments to grow faster than simple interest.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-xl">Q2: How does compounding frequency affect growth?</h3>
+                <p>Daily compounding grows faster than monthly or yearly compounding at the same interest rate due to more frequent interest calculations.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-xl">Q3: Can I calculate for custom periods?</h3>
+                <p>Yes, our calculator allows you to enter any combination of years, months, and days for precise results.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-xl">Q4: Why should I use this calculator?</h3>
+                <p>It helps plan finances, optimize investments, and forecast growth with accuracy, saving time and avoiding manual errors.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-xl">Q5: Can I model variable interest rates?</h3>
+                <p>Yes, the custom interest rate option allows you to simulate fluctuating rates over different periods.</p>
+              </div>
+            </div>
+          </section>
+        
+          {/* Related Calculators */}
+          <RelatedCalculators currentPath="/compound-interest-calculator" category="currency-finance" />
+    
+          </div>
 
-        <RelatedCalculators currentPath="/compound-interest-calculator" category="currency-finance" />
+
+
+        
       </div>
     </>
   );
