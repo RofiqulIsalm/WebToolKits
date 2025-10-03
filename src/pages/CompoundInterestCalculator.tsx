@@ -573,7 +573,7 @@ const CompoundInterestCalculator: React.FC = () => {
             Unlock the power of compounding with our advanced calculator. Calculate <strong>daily, monthly, yearly, and custom interest</strong> for savings, investments, SIPs, or retirement planning. See how your money grows over time with precise calculations using <strong>principal, interest rate, and custom periods</strong>.
           </p>
           <img
-            src="/images/compound-interest-main.png"
+            src="/img/compounding1.png"
             alt="Compound interest illustration showing growth over time"
             className="mx-auto rounded-xl shadow-lg"
           />
