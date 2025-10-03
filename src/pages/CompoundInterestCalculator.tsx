@@ -598,8 +598,9 @@ Why This Calculator Helps You
             </p>
 
             <p className="text-lg leading-relaxed text-slate-100">
-              
+              This compound interest calculator is designed to support you in several important financial planning activities:
             </p>
+            
           </section>
         
           {/* ================= How It Works ================= */}
