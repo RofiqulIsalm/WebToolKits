@@ -353,6 +353,11 @@ const CurrencyConverter: React.FC = () => {
         </div>
       </div>
 
+        <div className="seo-content text-white space-y-6 mt-10">
+
+      
+
+
       
       
       <RelatedCalculators 
