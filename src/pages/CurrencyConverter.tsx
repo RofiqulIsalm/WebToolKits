@@ -381,9 +381,11 @@ const CurrencyConverter: React.FC = () => {
         <p>
         If you want to convert <strong>100 USD to EUR</strong>, and the exchange rate is <strong>1 USD = 0.85 EUR</strong>, the calculation would look like this:
         </p>
-        <p className="italic text-yellow-300">
-          100 × 0.85 = 85 EUR
-        </p>
+          <div className="bg-slate-800/60 p-4 rounded-lg">
+          <code className="italic text-yellow-300">
+            100 × 0.85 = 85 EUR
+          </code>
+        </div>
       
         <h2 className="text-2xl font-bold">Why Should You Use an Online Currency Calculator?</h2>
         <ul className="list-disc list-inside space-y-2">
