@@ -95,26 +95,26 @@ const TextToolsPage: React.FC = () => {
 
   // Reverse dropdwon 
   const reverseText = (mode: 'word' | 'sentence' | 'line') => {
-  if (!text) return;
-
-  let reversed = '';
-  switch(mode) {
-    case 'word':
-      reversed = text.split(/\s+/).reverse().join(' ');
-      break;
-    case 'sentence':
-      reversed = text.split(/([.!?]+)/).reduce((acc, curr, idx, arr) => {
-        if (/[.!?]+/.test(curr)) return acc; 
-        return acc + curr.split(' ').reverse().join(' ') + (arr[idx+1] || '');
-      }, '');
-      break;
-    case 'line':
-      reversed = text.split('\n').reverse().join('\n');
-      break;
-  }
-
-  setText(reversed);
-};
+      if (!text) return;
+    
+      let reversed = '';
+      switch(mode) {
+        case 'word':
+          reversed = text.split(/\s+/).reverse().join(' ');
+          break;
+        case 'sentence':
+          reversed = text.split(/([.!?]+)/).reduce((acc, curr, idx, arr) => {
+            if (/[.!?]+/.test(curr)) return acc; 
+            return acc + curr.split(' ').reverse().join(' ') + (arr[idx+1] || '');
+          }, '');
+          break;
+        case 'line':
+          reversed = text.split('\n').reverse().join('\n');
+          break;
+      }
+    
+      setText(reversed);
+    };
 
 
   // Convert Case Functions
@@ -244,6 +244,24 @@ const TextToolsPage: React.FC = () => {
 
             <div className="flex flex-wrap justify-between items-center mt-2 gap-2">
               <p className="text-sm text-slate-400">Real-time analysis as you type</p>
+              {/* text reverse */}
+                {/* Reverse Text Dropdown */}
+                  <div className="relative">
+                    <button
+                      onClick={() => setReverseDropdownOpen(!reverseDropdownOpen)}
+                      className="flex items-center text-xs bg-purple-700 hover:bg-purple-600 text-white px-3 py-1 rounded transition"
+                    >
+                      Reverse <ChevronDown className="ml-1 h-4 w-4" />
+                    </button>
+                    {reverseDropdownOpen && (
+                      <div className="absolute left-0 mt-2 w-36 bg-slate-800 border border-slate-600 rounded-lg shadow-lg z-50">
+                        <button onClick={() => reverseText('word')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">Reverse by Word</button>
+                        <button onClick={() => reverseText('sentence')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">Reverse by Sentence</button>
+                        <button onClick={() => reverseText('line')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">Reverse by Line</button>
+                      </div>
+                    )}
+                  </div>
+
 
               <div className="flex flex-wrap items-center gap-2 relative">
                 {/* Convert Case Dropdown */}
