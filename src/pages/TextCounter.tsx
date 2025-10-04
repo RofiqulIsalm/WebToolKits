@@ -382,7 +382,7 @@ const TextToolsPage: React.FC = () => {
         <AdBanner />
         <RelatedCalculators currentPath="/text-tools" />
       </div>
-    </>
+    
   );
 };
 
