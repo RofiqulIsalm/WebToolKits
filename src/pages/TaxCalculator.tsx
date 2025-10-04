@@ -168,7 +168,7 @@ const TextUtils: React.FC = () => {
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/text-utils" category="misc-tools" />
       </div>
-    </>
+    </> 
   );
 };
 
