@@ -160,31 +160,7 @@ const TextCounter: React.FC = () => {
                 </button>
 
                 {/* ✂️ Extra Tools */}
-                <button
-                  onClick={removeExtraSpaces}
-                  className="text-xs bg-yellow-600 hover:bg-yellow-500 text-white px-3 py-1 rounded transition"
-                >
-                  Clean Spaces
-                </button>
-                <button
-                  onClick={copyText}
-                  className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition"
-                >
-                  {copied ? 'Copied!' : 'Copy Text'}
-                </button>
-                <button
-                  onClick={downloadText}
-                  className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded transition"
-                >
-                  Download
-                </button>
-
-                <button
-                  onClick={clearText}
-                  className="text-xs text-red-400 hover:text-red-300 transition-colors ml-2"
-                >
-                  Clear
-                </button>
+               
               </div>
             </div>
           </div>
