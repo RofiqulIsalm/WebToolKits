@@ -182,7 +182,7 @@ const TextToolsPage: React.FC = () => {
         </div>
           <button
             className={`px-4 py-2 rounded-xl font-semibold ${selectedTab === 'binarytotext' ? 'bg-green-600 text-white' : 'bg-slate-700 text-slate-300'}`}
-            onClick={() => setSelectedTab('loremIpsum')}
+            onClick={() => setSelectedTab('binarytotext')}
           >
             Binary ↔ Text 
           </button>
