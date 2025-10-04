@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Copy, RefreshCw } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
@@ -53,13 +53,11 @@ const TextUtils: React.FC = () => {
 
       case 'Binary Converter':
         if (/^[01\s]+$/.test(text.trim())) {
-          // Binary to Text
           try {
             const txt = text.trim().split(' ').map(b => String.fromCharCode(parseInt(b,2))).join('');
             setResult(txt);
           } catch(e) { setResult('Invalid binary input'); }
         } else {
-          // Text to Binary
           const bin = text.split('').map(c => c.charCodeAt(0).toString(2).padStart(8,'0')).join(' ');
           setResult(bin);
         }
@@ -91,6 +89,15 @@ const TextUtils: React.FC = () => {
       default: break;
     }
   };
+
+  // Live update as user types or switches tabs
+  useEffect(() => {
+    if (text || activeTab === 'Lorem Ipsum Generator') {
+      handleAction();
+    } else {
+      setResult('');
+    }
+  }, [text, activeTab]);
 
   return (
     <>
@@ -150,11 +157,6 @@ const TextUtils: React.FC = () => {
           <button onClick={()=>convertCase('sentence')} className="px-3 py-1 bg-blue-600 text-white rounded">Sentence case</button>
           <button onClick={()=>convertCase('capitalize')} className="px-3 py-1 bg-blue-600 text-white rounded">Capitalize</button>
           <button onClick={()=>{setText(''); setResult('');}} className="px-3 py-1 bg-red-500 text-white rounded flex items-center gap-1">Clear <RefreshCw className="w-4 h-4"/></button>
-        </div>
-
-        {/* Action button */}
-        <div className="mb-4">
-          <button onClick={handleAction} className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700">Generate Result</button>
         </div>
 
         {/* Result display */}
