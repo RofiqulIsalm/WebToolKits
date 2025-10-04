@@ -267,6 +267,8 @@ const TextToolsPage: React.FC = () => {
           </div>
         )}
 
+        
+
         {/* ----------------- Lorem Ipsum Generator ----------------- */}
         {selectedTab === 'loremIpsum' && (
           <div className="glow-card rounded-2xl p-8 mb-8 relative">
@@ -299,7 +301,16 @@ const TextToolsPage: React.FC = () => {
                 Generate
               </button>
 
-              {/* Convert Case Dropdown */}
+             
+
+            <textarea
+              value={loremText}
+              readOnly
+              className="w-full h-64 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none mt-4"
+              placeholder="Generated Lorem Ipsum will appear here..."
+            />
+
+               {/* Convert Case Dropdown */}
               <div className="relative">
                 <button
                   onClick={() => setLoremDropdownOpen(!loremDropdownOpen)}
@@ -322,13 +333,6 @@ const TextToolsPage: React.FC = () => {
               <button onClick={() => downloadTextFile(loremText, 'lorem-ipsum.txt')} className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded transition">Download</button>
               <button onClick={() => setLoremText('')} className="text-xs text-red-400 hover:text-red-300 transition-colors">Clear</button>
             </div>
-
-            <textarea
-              value={loremText}
-              readOnly
-              className="w-full h-64 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none mt-4"
-              placeholder="Generated Lorem Ipsum will appear here..."
-            />
           </div>
         )}
 
