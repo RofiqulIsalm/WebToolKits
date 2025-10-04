@@ -17,6 +17,7 @@ const TextCounter: React.FC = () => {
     lines: 0,
     readingTime: 0
   });
+  const [copied, setCopied] = useState<boolean>(false);
 
   useEffect(() => {
     calculateStats();
@@ -58,6 +59,32 @@ const TextCounter: React.FC = () => {
       .toLowerCase()
       .replace(/(^\s*\w|[.!?]\s*\w)/g, char => char.toUpperCase());
     setText(converted);
+  };
+
+  // ✂️ Remove Extra Spaces
+  const removeExtraSpaces = () => {
+    const cleaned = text.replace(/\s+/g, ' ').trim();
+    setText(cleaned);
+  };
+
+  // 📋 Copy Text
+  const copyText = async () => {
+    if (text.trim() === '') return;
+    await navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
+
+  // 💾 Download Text File
+  const downloadText = () => {
+    if (text.trim() === '') return;
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'text-counter-output.txt';
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -132,11 +159,31 @@ const TextCounter: React.FC = () => {
                   Sentence Case
                 </button>
 
+                {/* ✂️ Extra Tools */}
+                <button
+                  onClick={removeExtraSpaces}
+                  className="text-xs bg-yellow-600 hover:bg-yellow-500 text-white px-3 py-1 rounded transition"
+                >
+                  Clean Spaces
+                </button>
+                <button
+                  onClick={copyText}
+                  className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition"
+                >
+                  {copied ? 'Copied!' : 'Copy Text'}
+                </button>
+                <button
+                  onClick={downloadText}
+                  className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded transition"
+                >
+                  Download
+                </button>
+
                 <button
                   onClick={clearText}
                   className="text-xs text-red-400 hover:text-red-300 transition-colors ml-2"
                 >
-                  Clear Text
+                  Clear
                 </button>
               </div>
             </div>
@@ -200,7 +247,7 @@ const TextCounter: React.FC = () => {
               <li>Sentence and paragraph analysis</li>
               <li>Line count for structured text</li>
               <li>Reading time estimation</li>
-              <li>Convert text case tools (UPPERCASE, lowercase, Title Case)</li>
+              <li>Convert case, copy, clean spaces, and download tools</li>
             </ul>
             <h3 className="text-xl font-semibold text-white mt-6">Common Uses:</h3>
             <ul className="list-disc list-inside space-y-2 ml-4">
