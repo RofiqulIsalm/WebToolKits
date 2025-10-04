@@ -310,7 +310,7 @@ const TextToolsPage: React.FC = () => {
               placeholder="Generated Lorem Ipsum will appear here..."
             />
          <div className="flex flex-wrap justify-between items-center mt-2 gap-2">
-              <p className="text-sm text-slate-400">Real-time analysis as you type</p>
+              <p className="text-sm text-slate-400">Modify Lorem how you want..</p>
 
             <div className="flex flex-wrap items-center gap-2 relative">
                {/* Convert Case Dropdown */}
