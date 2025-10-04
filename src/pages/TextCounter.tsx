@@ -282,10 +282,9 @@ const TextToolsPage: React.FC = () => {
                 <input
                   type="number"
                   min={1}
-                  value={paragraphsCount}
                   onChange={e => setParagraphsCount(Number(e.target.value))}
                   className="w-36 px-3 py-2 rounded-lg bg-slate-700 text-white border border-slate-600 focus:outline-none focus:ring-2 focus:ring-green-500"
-                  placeholder="Words (e.g. 1000)"
+                  placeholder="How meny word "
                 />
           
                 <button
