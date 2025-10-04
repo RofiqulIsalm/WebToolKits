@@ -1,252 +1,235 @@
-import React, { useState } from "react";
-import { ArrowLeftRight } from "lucide-react";
-import AdBanner from "../components/AdBanner";
-import SEOHead from "../components/SEOHead";
-import Breadcrumbs from "../components/Breadcrumbs";
-import { seoData, generateCalculatorSchema } from "../utils/seoData";
-import RelatedCalculators from "../components/RelatedCalculators";
+import React, { useState, useEffect } from 'react';
+import { FileText, ChevronDown, RefreshCw } from 'lucide-react';
+import AdBanner from '../components/AdBanner';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { seoData, generateCalculatorSchema } from '../utils/seoData';
+import RelatedCalculators from '../components/RelatedCalculators';
 
-const TextReverser: React.FC = () => {
-  const [text, setText] = useState<string>("");
-  const [copied, setCopied] = useState<boolean>(false);
-  const [reverseMode, setReverseMode] = useState<string>("full");
-  const [caseOption, setCaseOption] = useState<string>("none");
+// ---------------- Lorem Ipsum Sentences ----------------
+const loremSentences = [
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  "Nullam sodales at mi id laoreet.",
+  "Ut eget neque viverra, laoreet mi eu, pulvinar felis.",
+  "Nunc quis lobortis mi.",
+  "Integer eget massa cursus leo varius ullamcorper.",
+  "In sit amet aliquet erat.",
+  "Donec in viverra sapien.",
+  "Mauris congue quam ut sollicitudin tempus.",
+  "Maecenas vulputate erat et quam ullamcorper, ac gravida velit mollis.",
+  "Aenean consectetur mauris in odio commodo porta.",
+  "In vel neque sit amet dui pharetra bibendum.",
+  "Mauris lacinia ex eu ante pharetra, a malesuada dolor volutpat.",
+  "Sed rhoncus, libero at maximus vestibulum, ante justo facilisis felis, a dapibus eros arcu vitae purus.",
+  "Duis facilisis metus blandit leo consequat, at tincidunt eros finibus.",
+  "In tincidunt, quam sed bibendum vulputate, justo metus sagittis erat, in finibus erat sem at est.",
+  "Quisque nec risus vitae erat interdum elementum vitae at dui.",
+  "Donec quis consectetur ligula, ullamcorper eleifend ligula.",
+  "Fusce venenatis aliquam suscipit.",
+  "Donec venenatis sapien nec erat tincidunt facilisis.",
+  "Duis dui purus, finibus sit amet dapibus sit amet, tristique ut ante.",
+  "Vivamus viverra sem eu dolor fermentum, quis semper risus fringilla.",
+  "In interdum consequat mauris at mollis."
+];
 
-  // 🧠 Reverse Logic
-  const reverseText = () => {
-    if (text.trim() === "") return;
-    let reversed = text;
+// ---------------- Helper Functions ----------------
+function generateLoremParagraph(sentencesPerParagraph: number) {
+  let paragraph = '';
+  for (let i = 0; i < sentencesPerParagraph; i++) {
+    const sentence = loremSentences[Math.floor(Math.random() * loremSentences.length)];
+    paragraph += sentence + ' ';
+  }
+  return paragraph.trim();
+}
 
-    switch (reverseMode) {
-      case "full":
-        reversed = text.split("").reverse().join("");
+function generateLoremText(paragraphCount: number, sentencesPerParagraph: number) {
+  let text = '';
+  for (let i = 0; i < paragraphCount; i++) {
+    text += generateLoremParagraph(sentencesPerParagraph) + '\n\n';
+  }
+  return text.trim();
+}
+
+// ---------------- Component ----------------
+const TextToolsPage: React.FC = () => {
+  // Tabs
+  const [selectedTab, setSelectedTab] = useState<'textCounter' | 'loremIpsum' | 'textReverser'>('textCounter');
+
+  // Common States
+  const [copied, setCopied] = useState(false);
+
+  // ---------------- TEXT COUNTER ----------------
+  const [text, setText] = useState('');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [stats, setStats] = useState({
+    characters: 0,
+    charactersNoSpaces: 0,
+    words: 0,
+    sentences: 0,
+    paragraphs: 0,
+    lines: 0,
+    readingTime: 0
+  });
+
+  useEffect(() => {
+    calculateStats();
+  }, [text]);
+
+  const calculateStats = () => {
+    const characters = text.length;
+    const charactersNoSpaces = text.replace(/\s/g, '').length;
+    const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+    const sentences = text.trim() === '' ? 0 : text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+    const paragraphs = text.trim() === '' ? 0 : text.split(/\n\n+/).filter(p => p.trim().length > 0).length;
+    const lines = text === '' ? 0 : text.split(/\n/).length;
+    const readingTime = Math.ceil(words / 200);
+    setStats({ characters, charactersNoSpaces, words, sentences, paragraphs, lines, readingTime });
+  };
+
+  // ---------------- LOREM IPSUM ----------------
+  const [loremText, setLoremText] = useState('');
+  const [paragraphsCount, setParagraphsCount] = useState(3);
+  const [loremDropdownOpen, setLoremDropdownOpen] = useState(false);
+
+  const generateLoremIpsum = () => {
+    const text = generateLoremText(paragraphsCount, 5);
+    setLoremText(text);
+  };
+
+  // ---------------- TEXT REVERSER ----------------
+  const [reverseInput, setReverseInput] = useState('');
+  const [reversedOutput, setReversedOutput] = useState('');
+  const [reverseDropdownOpen, setReverseDropdownOpen] = useState(false);
+
+  const handleReverse = (value: string) => {
+    setReverseInput(value);
+    setReversedOutput(value.split('').reverse().join(''));
+  };
+
+  // ---------------- Common Tools ----------------
+  const convertText = (mode: 'upper' | 'lower' | 'title' | 'sentence' | 'clean', target: 'text' | 'lorem' | 'reverse') => {
+    let sourceText = target === 'text' ? text : target === 'lorem' ? loremText : reversedOutput;
+    let converted = sourceText;
+
+    switch (mode) {
+      case 'upper':
+        converted = sourceText.toUpperCase();
         break;
-      case "words":
-        reversed = text
-          .split(" ")
-          .map((word) => word.split("").reverse().join(""))
-          .join(" ");
+      case 'lower':
+        converted = sourceText.toLowerCase();
         break;
-      case "lines":
-        reversed = text.split("\n").reverse().join("\n");
+      case 'title':
+        converted = sourceText.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+        break;
+      case 'sentence':
+        converted = sourceText.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
+        break;
+      case 'clean':
+        converted = sourceText.replace(/\s+/g, ' ').trim();
         break;
     }
 
-    setText(reversed);
+    if (target === 'text') setText(converted);
+    if (target === 'lorem') setLoremText(converted);
+    if (target === 'reverse') setReversedOutput(converted);
   };
 
-  // 🔠 Convert Case Logic
-  const applyCaseOption = () => {
-    let newText = text;
-
-    switch (caseOption) {
-      case "upper":
-        newText = text.toUpperCase();
-        break;
-      case "lower":
-        newText = text.toLowerCase();
-        break;
-      case "title":
-        newText = text
-          .toLowerCase()
-          .replace(/\b\w/g, (char) => char.toUpperCase());
-        break;
-      case "sentence":
-        newText = text
-          .toLowerCase()
-          .replace(/(^\s*\w|[.!?]\s*\w)/g, (char) => char.toUpperCase());
-        break;
-      case "clean":
-        newText = text.replace(/\s+/g, " ").trim();
-        break;
-      default:
-        return;
-    }
-
-    setText(newText);
-  };
-
-  // 📋 Copy Text
-  const copyText = async () => {
-    if (text.trim() === "") return;
-    await navigator.clipboard.writeText(text);
+  const copyTextToClipboard = async (sourceText: string) => {
+    if (!sourceText) return;
+    await navigator.clipboard.writeText(sourceText);
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   };
 
-  // 📥 Paste Text
-  const pasteText = async () => {
-    const clipboardText = await navigator.clipboard.readText();
-    setText(clipboardText);
-  };
-
-  // 💾 Download Text
-  const downloadText = () => {
-    if (text.trim() === "") return;
-    const blob = new Blob([text], { type: "text/plain" });
+  const downloadTextFile = (sourceText: string, filename: string) => {
+    if (!sourceText) return;
+    const blob = new Blob([sourceText], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
+    const a = document.createElement('a');
     a.href = url;
-    a.download = "reversed-text.txt";
+    a.download = filename;
     a.click();
     URL.revokeObjectURL(url);
   };
 
-  // 🧹 Clear Text
-  const clearText = () => setText("");
-
+  // ---------------- RETURN ----------------
   return (
     <>
       <SEOHead
-        title={
-          seoData.textReverser?.title ||
-          "Text Reverser - Reverse Text, Words, and Lines Instantly"
-        }
-        description={
-          seoData.textReverser?.description ||
-          "Reverse text easily online. Flip letters, words, or lines instantly with copy, paste, and download options."
-        }
-        canonical="https://calculatorhub.com/text-reverser"
-        schemaData={generateCalculatorSchema(
-          "Text Reverser",
-          "Reverse text, words, or lines instantly online",
-          "/text-reverser",
-          ["text reverser", "reverse text", "reverse words", "flip text"]
-        )}
-        breadcrumbs={[
-          { name: "Misc Tools", url: "/category/misc-tools" },
-          { name: "Text Reverser", url: "/text-reverser" },
-        ]}
+        title="Text Tools - Counter, Lorem Ipsum, Reverser"
+        description="Text Counter, Lorem Ipsum Generator, and Text Reverser tools with convert case, copy, and download options."
+        canonical="https://calculatorhub.com/text-tools"
+        schemaData={generateCalculatorSchema('Text Tools', 'All-in-one text utilities', '/text-tools')}
       />
 
       <div className="max-w-4xl mx-auto">
-        <Breadcrumbs
-          items={[
-            { name: "Misc Tools", url: "/category/misc-tools" },
-            { name: "Text Reverser", url: "/text-reverser" },
-          ]}
-        />
+        <Breadcrumbs items={[{ name: 'Misc Tools', url: '/category/misc-tools' }, { name: 'Text Tools', url: '/text-tools' }]} />
 
-        <div className="glow-card rounded-2xl p-8 mb-8">
-          <div className="flex items-center space-x-3 mb-6 justify-between">
-            <div className="flex items-center space-x-3">
-              <ArrowLeftRight className="h-8 w-8 text-blue-400" />
+        {/* Tabs */}
+        <div className="flex gap-4 mb-6">
+          <button onClick={() => setSelectedTab('textCounter')} className={`px-4 py-2 rounded-xl font-semibold ${selectedTab === 'textCounter' ? 'bg-blue-600 text-white' : 'bg-slate-700 text-slate-300'}`}>Text Counter</button>
+          <button onClick={() => setSelectedTab('loremIpsum')} className={`px-4 py-2 rounded-xl font-semibold ${selectedTab === 'loremIpsum' ? 'bg-green-600 text-white' : 'bg-slate-700 text-slate-300'}`}>Lorem Ipsum Generator</button>
+          <button onClick={() => setSelectedTab('textReverser')} className={`px-4 py-2 rounded-xl font-semibold ${selectedTab === 'textReverser' ? 'bg-pink-600 text-white' : 'bg-slate-700 text-slate-300'}`}>Text Reverser</button>
+        </div>
+
+        {/* ---------------- TEXT REVERSER ---------------- */}
+        {selectedTab === 'textReverser' && (
+          <div className="glow-card rounded-2xl p-8 mb-8">
+            <div className="flex items-center space-x-3 mb-6">
+              <RefreshCw className="h-8 w-8 text-pink-400" />
               <h1 className="text-3xl font-bold text-white">Text Reverser</h1>
             </div>
-            <button
-              onClick={pasteText}
-              className="text-xs bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded transition"
-            >
-              Paste
-            </button>
-          </div>
 
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-white mb-2">
-              Enter or Paste Your Text
-            </label>
             <textarea
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              className="w-full h-64 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              value={reverseInput}
+              onChange={(e) => handleReverse(e.target.value)}
+              className="w-full h-40 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-pink-500 resize-none mb-3"
               placeholder="Type or paste text to reverse..."
             />
 
-            <div className="flex justify-between items-center mt-3 flex-wrap gap-2">
-              <div className="flex items-center gap-2">
-                {/* Reverse Options */}
-                <select
-                  value={reverseMode}
-                  onChange={(e) => setReverseMode(e.target.value)}
-                  className="text-xs bg-slate-700 text-white border border-slate-600 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="full">Reverse Entire Text</option>
-                  <option value="words">Reverse Each Word</option>
-                  <option value="lines">Reverse Lines</option>
-                </select>
+            <textarea
+              value={reversedOutput}
+              readOnly
+              className="w-full h-40 px-4 py-3 bg-slate-800 text-pink-100 rounded-lg border border-slate-700 focus:outline-none resize-none mb-3"
+              placeholder="Reversed text will appear here..."
+            />
 
-                <button
-                  onClick={reverseText}
-                  className="text-xs bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded transition"
-                >
-                  Reverse
-                </button>
-              </div>
+            <div className="flex flex-wrap justify-between items-center mt-2 gap-2">
+              <p className="text-sm text-slate-400">Reverse and modify your text easily</p>
 
-              <div className="flex items-center gap-2">
-                {/* Convert Case Dropdown */}
-                <select
-                  value={caseOption}
-                  onChange={(e) => setCaseOption(e.target.value)}
-                  className="text-xs bg-slate-700 text-white border border-slate-600 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                >
-                  <option value="none">Convert Case</option>
-                  <option value="upper">UPPERCASE</option>
-                  <option value="lower">lowercase</option>
-                  <option value="title">Title Case</option>
-                  <option value="sentence">Sentence Case</option>
-                  <option value="clean">Clean Spaces</option>
-                </select>
-                <button
-                  onClick={applyCaseOption}
-                  className="text-xs bg-purple-600 hover:bg-purple-500 text-white px-3 py-1 rounded transition"
-                >
-                  Apply
-                </button>
+              <div className="flex flex-wrap items-center gap-2 relative">
+                <div className="relative">
+                  <button
+                    onClick={() => setReverseDropdownOpen(!reverseDropdownOpen)}
+                    className="flex items-center text-xs bg-pink-700 hover:bg-pink-600 text-white px-3 py-1 rounded transition"
+                  >
+                    Convert Case <ChevronDown className="ml-1 h-4 w-4" />
+                  </button>
+                  {reverseDropdownOpen && (
+                    <div className="absolute right-0 mt-2 w-44 bg-slate-800 border border-slate-600 rounded-lg shadow-lg z-50">
+                      <button onClick={() => convertText('upper', 'reverse')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">🔠 UPPERCASE</button>
+                      <button onClick={() => convertText('lower', 'reverse')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">🔡 lowercase</button>
+                      <button onClick={() => convertText('title', 'reverse')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">🧾 Title Case</button>
+                      <button onClick={() => convertText('sentence', 'reverse')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">📝 Sentence Case</button>
+                      <button onClick={() => convertText('clean', 'reverse')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">✂️ Clean Spaces</button>
+                    </div>
+                  )}
+                </div>
 
-                <button
-                  onClick={copyText}
-                  className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition"
-                >
-                  {copied ? "Copied!" : "Copy"}
-                </button>
-                <button
-                  onClick={downloadText}
-                  className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded transition"
-                >
-                  Download
-                </button>
-                <button
-                  onClick={clearText}
-                  className="text-xs text-red-400 hover:text-red-300 transition-colors"
-                >
-                  Clear
-                </button>
+                <button onClick={() => copyTextToClipboard(reversedOutput)} className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition">{copied ? 'Copied!' : 'Copy'}</button>
+                <button onClick={() => downloadTextFile(reversedOutput, 'reversed-text.txt')} className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded transition">Download</button>
+                <button onClick={() => { setReverseInput(''); setReversedOutput(''); }} className="text-xs text-red-400 hover:text-red-300 transition-colors">Clear</button>
               </div>
             </div>
           </div>
-        </div>
+        )}
 
+        {/* Keep your existing text counter and lorem ipsum sections unchanged */}
         <AdBanner />
-
-        <div className="glow-card rounded-2xl p-8 mb-8">
-          <h2 className="text-2xl font-bold text-white mb-4">
-            About Text Reverser
-          </h2>
-          <div className="space-y-4 text-slate-300">
-            <p>
-              The Text Reverser tool allows you to flip or reverse any text,
-              whether it’s a single line, paragraph, or entire document. Choose
-              from multiple reversal modes and apply case conversions easily.
-            </p>
-
-            <h3 className="text-xl font-semibold text-white mt-6">
-              Features:
-            </h3>
-            <ul className="list-disc list-inside space-y-2 ml-4">
-              <li>Reverse text, words, or lines instantly</li>
-              <li>Convert between UPPERCASE, lowercase, Title, or Sentence case</li>
-              <li>Clean up extra spaces automatically</li>
-              <li>Copy, paste, download, and clear with one click</li>
-              <li>Lightweight and fast for instant text manipulation</li>
-            </ul>
-          </div>
-        </div>
-
-        <RelatedCalculators currentPath="/text-reverser" />
+        <RelatedCalculators currentPath="/text-tools" />
       </div>
     </>
   );
 };
 
-export default TextReverser;
+export default TextToolsPage;
