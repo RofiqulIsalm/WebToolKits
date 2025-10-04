@@ -26,6 +26,16 @@ import DateDifference from './pages/DateDifference';
 import QRCodeGenerator from './pages/QRCodeGenerator';
 import PasswordGenerator from './pages/PasswordGenerator';
 
+// Misc Tools
+import RandomNumberGenerator from './pages/RandomNumberGenerator';
+import ColorConverter from './pages/ColorConverter';
+import TextCounter from './pages/TextCounter';
+import TipCalculator from './pages/TipCalculator';
+import RomanNumeralConverter from './pages/RomanNumeralConverter';
+import UUIDGenerator from './pages/UUIDGenerator';
+import BaseConverter from './pages/BaseConverter';
+import FuelCostCalculator from './pages/FuelCostCalculator';
+
 // Admin Pages
 import AdminImageUpload from './pages/AdminImageUpload';
 
@@ -117,15 +127,15 @@ function App() {
             <Route path="/week-number-finder" element={<ComingSoon title="Week Number Finder" />} />
             <Route path="/calendar-generator" element={<ComingSoon title="Calendar Generator" />} />
 
-            {/* ✅ Coming Soon Calculators - Misc Tools */}
-            <Route path="/random-number-generator" element={<ComingSoon title="Random Number Generator" />} />
-            <Route path="/color-converter" element={<ComingSoon title="Color Converter" />} />
-            <Route path="/text-counter" element={<ComingSoon title="Text Counter" />} />
-            <Route path="/tip-calculator" element={<ComingSoon title="Tip Calculator" />} />
-            <Route path="/roman-numeral-converter" element={<ComingSoon title="Roman Numeral Converter" />} />
-            <Route path="/uuid-generator" element={<ComingSoon title="UUID Generator" />} />
-            <Route path="/base-converter" element={<ComingSoon title="Base Converter" />} />
-            <Route path="/fuel-cost-calculator" element={<ComingSoon title="Fuel Cost Calculator" />} />
+            {/* ✅ Misc Tools */}
+            <Route path="/random-number-generator" element={<RandomNumberGenerator />} />
+            <Route path="/color-converter" element={<ColorConverter />} />
+            <Route path="/text-counter" element={<TextCounter />} />
+            <Route path="/tip-calculator" element={<TipCalculator />} />
+            <Route path="/roman-numeral-converter" element={<RomanNumeralConverter />} />
+            <Route path="/uuid-generator" element={<UUIDGenerator />} />
+            <Route path="/base-converter" element={<BaseConverter />} />
+            <Route path="/fuel-cost-calculator" element={<FuelCostCalculator />} />
 
             {/* ✅ Legal Pages */}
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
