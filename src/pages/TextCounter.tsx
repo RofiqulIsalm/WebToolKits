@@ -25,15 +25,10 @@ const TextCounter: React.FC = () => {
   const calculateStats = () => {
     const characters = text.length;
     const charactersNoSpaces = text.replace(/\s/g, '').length;
-
     const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
-
     const sentences = text.trim() === '' ? 0 : text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
-
     const paragraphs = text.trim() === '' ? 0 : text.split(/\n\n+/).filter(p => p.trim().length > 0).length;
-
     const lines = text === '' ? 0 : text.split(/\n/).length;
-
     const readingTime = Math.ceil(words / 200);
 
     setStats({
@@ -47,8 +42,22 @@ const TextCounter: React.FC = () => {
     });
   };
 
-  const clearText = () => {
-    setText('');
+  const clearText = () => setText('');
+
+  // 🔠 Convert Case Functions
+  const toUpperCase = () => setText(text.toUpperCase());
+  const toLowerCase = () => setText(text.toLowerCase());
+  const toTitleCase = () => {
+    const converted = text
+      .toLowerCase()
+      .replace(/\b\w/g, char => char.toUpperCase());
+    setText(converted);
+  };
+  const toSentenceCase = () => {
+    const converted = text
+      .toLowerCase()
+      .replace(/(^\s*\w|[.!?]\s*\w)/g, char => char.toUpperCase());
+    setText(converted);
   };
 
   return (
@@ -90,16 +99,46 @@ const TextCounter: React.FC = () => {
               className="w-full h-64 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
               placeholder="Start typing or paste your text here..."
             />
-            <div className="flex justify-between items-center mt-2">
+
+            {/* Buttons Row */}
+            <div className="flex flex-wrap justify-between items-center mt-2 gap-2">
               <p className="text-sm text-slate-400">
                 Real-time analysis as you type
               </p>
-              <button
-                onClick={clearText}
-                className="text-sm text-red-400 hover:text-red-300 transition-colors"
-              >
-                Clear Text
-              </button>
+              <div className="flex flex-wrap items-center gap-2">
+                {/* 🔠 Convert Case Buttons */}
+                <button
+                  onClick={toUpperCase}
+                  className="text-xs bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded transition"
+                >
+                  UPPERCASE
+                </button>
+                <button
+                  onClick={toLowerCase}
+                  className="text-xs bg-green-600 hover:bg-green-500 text-white px-3 py-1 rounded transition"
+                >
+                  lowercase
+                </button>
+                <button
+                  onClick={toTitleCase}
+                  className="text-xs bg-purple-600 hover:bg-purple-500 text-white px-3 py-1 rounded transition"
+                >
+                  Title Case
+                </button>
+                <button
+                  onClick={toSentenceCase}
+                  className="text-xs bg-pink-600 hover:bg-pink-500 text-white px-3 py-1 rounded transition"
+                >
+                  Sentence Case
+                </button>
+
+                <button
+                  onClick={clearText}
+                  className="text-xs text-red-400 hover:text-red-300 transition-colors ml-2"
+                >
+                  Clear Text
+                </button>
+              </div>
             </div>
           </div>
 
@@ -161,7 +200,7 @@ const TextCounter: React.FC = () => {
               <li>Sentence and paragraph analysis</li>
               <li>Line count for structured text</li>
               <li>Reading time estimation</li>
-              <li>No character or word limit</li>
+              <li>Convert text case tools (UPPERCASE, lowercase, Title Case)</li>
             </ul>
             <h3 className="text-xl font-semibold text-white mt-6">Common Uses:</h3>
             <ul className="list-disc list-inside space-y-2 ml-4">
@@ -173,7 +212,7 @@ const TextCounter: React.FC = () => {
               <li>SMS and text message limits</li>
             </ul>
           </div>
-        </div> 
+        </div>
 
         <RelatedCalculators currentPath="/text-counter" />
       </div>
