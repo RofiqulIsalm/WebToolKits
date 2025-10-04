@@ -103,7 +103,7 @@ const TextToolsPage: React.FC = () => {
 
   const generateLoremIpsum = () => {
     const loremParagraph =
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada.';
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sodales at mi id laoreet. Ut eget neque viverra, laoreet mi eu, pulvinar felis. Nunc quis lobortis mi. Integer eget massa cursus leo varius ullamcorper. In sit amet aliquet erat. Donec in viverra sapien. Mauris congue quam ut sollicitudin tempus.';
     let text = '';
     for (let i = 0; i < paragraphsCount; i++) {
       text += loremParagraph + '\n\n';
