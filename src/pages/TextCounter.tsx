@@ -1,184 +1,175 @@
-import React, { useState, useEffect } from 'react';
-import { FileText } from 'lucide-react';
+import React, { useState } from 'react';
+import { Copy, RefreshCw } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
-import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
+import { seoData, generateCalculatorSchema } from '../utils/seoData';
 
-const TextCounter: React.FC = () => {
-  const [text, setText] = useState<string>('');
-  const [stats, setStats] = useState({
-    characters: 0,
-    charactersNoSpaces: 0,
-    words: 0,
-    sentences: 0,
-    paragraphs: 0,
-    lines: 0,
-    readingTime: 0
-  });
+const TextUtils: React.FC = () => {
+  const tabs = [
+    'Text Counter',
+    'Text Reverser',
+    'Lorem Ipsum Generator',
+    'Binary Converter',
+    'Palindrome Checker',
+    'Number to Words Converter'
+  ];
 
-  useEffect(() => {
-    calculateStats();
-  }, [text]);
+  const [activeTab, setActiveTab] = useState('Text Counter');
+  const [text, setText] = useState('');
+  const [result, setResult] = useState('');
 
-  const calculateStats = () => {
-    const characters = text.length;
-    const charactersNoSpaces = text.replace(/\s/g, '').length;
-
-    const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
-
-    const sentences = text.trim() === '' ? 0 : text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
-
-    const paragraphs = text.trim() === '' ? 0 : text.split(/\n\n+/).filter(p => p.trim().length > 0).length;
-
-    const lines = text === '' ? 0 : text.split(/\n/).length;
-
-    const readingTime = Math.ceil(words / 200);
-
-    setStats({
-      characters,
-      charactersNoSpaces,
-      words,
-      sentences,
-      paragraphs,
-      lines,
-      readingTime
-    });
+  // Case converters
+  const convertCase = (type: string) => {
+    switch(type) {
+      case 'upper': return setText(text.toUpperCase());
+      case 'lower': return setText(text.toLowerCase());
+      case 'title': return setText(text.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.substr(1).toLowerCase()));
+      case 'sentence': return setText(text.replace(/(^\s*\w|[.!?]\s*\w)/g, (c) => c.toUpperCase()));
+      case 'capitalize': return setText(text.charAt(0).toUpperCase() + text.slice(1));
+      default: return;
+    }
   };
 
-  const clearText = () => {
-    setText('');
+  // Tab features
+  const handleAction = () => {
+    switch(activeTab){
+      case 'Text Counter':
+        const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+        const chars = text.length;
+        const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+        setResult(`Words: ${words} | Characters: ${chars} | Sentences: ${sentences}`);
+        break;
+
+      case 'Text Reverser':
+        setResult(text.split('').reverse().join(''));
+        break;
+
+      case 'Lorem Ipsum Generator':
+        const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+        setResult(lorem);
+        break;
+
+      case 'Binary Converter':
+        if (/^[01\s]+$/.test(text.trim())) {
+          // Binary to Text
+          try {
+            const txt = text.trim().split(' ').map(b => String.fromCharCode(parseInt(b,2))).join('');
+            setResult(txt);
+          } catch(e) { setResult('Invalid binary input'); }
+        } else {
+          // Text to Binary
+          const bin = text.split('').map(c => c.charCodeAt(0).toString(2).padStart(8,'0')).join(' ');
+          setResult(bin);
+        }
+        break;
+
+      case 'Palindrome Checker':
+        const clean = text.replace(/[^A-Za-z0-9]/g, '').toLowerCase();
+        const isPalindrome = clean === clean.split('').reverse().join('');
+        setResult(isPalindrome ? '✅ This is a palindrome!' : '❌ Not a palindrome');
+        break;
+
+      case 'Number to Words Converter':
+        const numberToWords = (num: number) => {
+          if (isNaN(num)) return 'Invalid number';
+          const a = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+          const b = ['', '', 'Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+          const n = ('000000000'+num).slice(-9).match(/(\d{2})(\d{3})(\d{3})/);
+          if(!n) return '';
+          let str = '';
+          if (Number(n[1]) !== 0) str += a[Number(n[1])] + ' Crore '; 
+          if (Number(n[2].slice(0,2)) !== 0) str += (b[Number(n[2].slice(0,1))]+' '+a[Number(n[2].slice(1,2))]) + ' Lakh '; 
+          if (Number(n[3].slice(0,2)) !== 0) str += (b[Number(n[3].slice(0,1))]+' '+a[Number(n[3].slice(1,2))]) + ' Thousand '; 
+          if (Number(n[3].slice(2,3)) !== 0) str += a[Number(n[3].slice(2,3))];
+          return str.trim();
+        };
+        setResult(numberToWords(Number(text)));
+        break;
+
+      default: break;
+    }
   };
 
   return (
     <>
       <SEOHead
-        title={seoData.textCounter?.title || 'Text Counter - Character, Word, and Sentence Counter'}
-        description={seoData.textCounter?.description || 'Count characters, words, sentences, and paragraphs in your text. Get reading time estimates and detailed text statistics instantly.'}
-        canonical="https://calculatorhub.com/text-counter"
+        title={seoData.textUtils.title}
+        description={seoData.textUtils.description}
+        canonical="https://calculatorhub.com/text-utils"
         schemaData={generateCalculatorSchema(
-          'Text Counter',
-          'Count characters, words, sentences, and paragraphs in text',
-          '/text-counter',
-          ['text counter', 'word counter', 'character counter', 'word count', 'character count']
+          "Text Utility Tools",
+          seoData.textUtils.description,
+          "/text-utils",
+          seoData.textUtils.keywords
         )}
         breadcrumbs={[
           { name: 'Misc Tools', url: '/category/misc-tools' },
-          { name: 'Text Counter', url: '/text-counter' }
+          { name: 'Text Utilities', url: '/text-utils' }
         ]}
       />
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto px-4">
         <Breadcrumbs items={[
           { name: 'Misc Tools', url: '/category/misc-tools' },
-          { name: 'Text Counter', url: '/text-counter' }
+          { name: 'Text Utilities', url: '/text-utils' }
         ]} />
 
-        <div className="glow-card rounded-2xl p-8 mb-8">
-          <div className="flex items-center space-x-3 mb-6">
-            <FileText className="h-8 w-8 text-blue-400" />
-            <h1 className="text-3xl font-bold text-white">Text Counter</h1>
-          </div>
-
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-white mb-2">
-              Enter or Paste Your Text
-            </label>
-            <textarea
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              className="w-full h-64 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-              placeholder="Start typing or paste your text here..."
-            />
-            <div className="flex justify-between items-center mt-2">
-              <p className="text-sm text-slate-400">
-                Real-time analysis as you type
-              </p>
-              <button
-                onClick={clearText}
-                className="text-sm text-red-400 hover:text-red-300 transition-colors"
-              >
-                Clear Text
-              </button>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="p-4 bg-gradient-to-br from-blue-900/30 to-blue-800/30 rounded-xl border border-blue-500/30">
-              <p className="text-sm text-slate-400 mb-1">Characters</p>
-              <p className="text-3xl font-bold text-white">{stats.characters.toLocaleString()}</p>
-            </div>
-
-            <div className="p-4 bg-gradient-to-br from-purple-900/30 to-purple-800/30 rounded-xl border border-purple-500/30">
-              <p className="text-sm text-slate-400 mb-1">No Spaces</p>
-              <p className="text-3xl font-bold text-white">{stats.charactersNoSpaces.toLocaleString()}</p>
-            </div>
-
-            <div className="p-4 bg-gradient-to-br from-green-900/30 to-green-800/30 rounded-xl border border-green-500/30">
-              <p className="text-sm text-slate-400 mb-1">Words</p>
-              <p className="text-3xl font-bold text-white">{stats.words.toLocaleString()}</p>
-            </div>
-
-            <div className="p-4 bg-gradient-to-br from-orange-900/30 to-orange-800/30 rounded-xl border border-orange-500/30">
-              <p className="text-sm text-slate-400 mb-1">Sentences</p>
-              <p className="text-3xl font-bold text-white">{stats.sentences.toLocaleString()}</p>
-            </div>
-
-            <div className="p-4 bg-gradient-to-br from-pink-900/30 to-pink-800/30 rounded-xl border border-pink-500/30">
-              <p className="text-sm text-slate-400 mb-1">Paragraphs</p>
-              <p className="text-3xl font-bold text-white">{stats.paragraphs.toLocaleString()}</p>
-            </div>
-
-            <div className="p-4 bg-gradient-to-br from-teal-900/30 to-teal-800/30 rounded-xl border border-teal-500/30">
-              <p className="text-sm text-slate-400 mb-1">Lines</p>
-              <p className="text-3xl font-bold text-white">{stats.lines.toLocaleString()}</p>
-            </div>
-
-            <div className="p-4 bg-gradient-to-br from-indigo-900/30 to-indigo-800/30 rounded-xl border border-indigo-500/30 col-span-2">
-              <p className="text-sm text-slate-400 mb-1">Reading Time</p>
-              <p className="text-3xl font-bold text-white">
-                {stats.readingTime} min{stats.readingTime !== 1 ? 's' : ''}
-              </p>
-              <p className="text-xs text-slate-500 mt-1">Based on 200 words/min</p>
-            </div>
-          </div>
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">Text Utility Tools</h1>
+          <p className="text-slate-300">Multi-purpose text tools: counter, reverser, binary converter, palindrome check, lorem ipsum generator, and number to words.</p>
         </div>
 
-        <AdBanner />
-
-        <div className="glow-card rounded-2xl p-8 mb-8">
-          <h2 className="text-2xl font-bold text-white mb-4">About Text Counter</h2>
-          <div className="space-y-4 text-slate-300">
-            <p>
-              Our text counter provides comprehensive analysis of your text including character count,
-              word count, sentence count, and more. Perfect for writers, students, and content creators
-              who need to meet specific text requirements.
-            </p>
-            <h3 className="text-xl font-semibold text-white mt-6">Features:</h3>
-            <ul className="list-disc list-inside space-y-2 ml-4">
-              <li>Real-time character and word counting</li>
-              <li>Count with and without spaces</li>
-              <li>Sentence and paragraph analysis</li>
-              <li>Line count for structured text</li>
-              <li>Reading time estimation</li>
-              <li>No character or word limit</li>
-            </ul>
-            <h3 className="text-xl font-semibold text-white mt-6">Common Uses:</h3>
-            <ul className="list-disc list-inside space-y-2 ml-4">
-              <li>Essay and article writing</li>
-              <li>Social media post optimization (Twitter, Facebook)</li>
-              <li>SEO content optimization</li>
-              <li>Academic paper requirements</li>
-              <li>Resume and cover letter writing</li>
-              <li>SMS and text message limits</li>
-            </ul>
-          </div>
+        {/* Tabs */}
+        <div className="flex flex-wrap mb-6 border-b border-gray-300">
+          {tabs.map(tab => (
+            <button
+              key={tab}
+              onClick={() => {setActiveTab(tab); setResult('');}}
+              className={`px-4 py-2 -mb-px ${activeTab===tab ? 'border-b-2 border-blue-600 text-blue-600 font-semibold' : 'text-gray-400 hover:text-blue-500'}`}
+            >{tab}</button>
+          ))}
         </div>
 
-        <RelatedCalculators currentPath="/text-counter" />
+        {/* Input area */}
+        <div className="mb-4">
+          <textarea
+            rows={6}
+            value={text}
+            onChange={(e)=>setText(e.target.value)}
+            className="w-full p-4 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
+            placeholder="Enter your text here..."
+          />
+        </div>
+
+        {/* Case Converter */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          <button onClick={()=>convertCase('upper')} className="px-3 py-1 bg-blue-600 text-white rounded">UPPERCASE</button>
+          <button onClick={()=>convertCase('lower')} className="px-3 py-1 bg-blue-600 text-white rounded">lowercase</button>
+          <button onClick={()=>convertCase('title')} className="px-3 py-1 bg-blue-600 text-white rounded">Title Case</button>
+          <button onClick={()=>convertCase('sentence')} className="px-3 py-1 bg-blue-600 text-white rounded">Sentence case</button>
+          <button onClick={()=>convertCase('capitalize')} className="px-3 py-1 bg-blue-600 text-white rounded">Capitalize</button>
+          <button onClick={()=>{setText(''); setResult('');}} className="px-3 py-1 bg-red-500 text-white rounded flex items-center gap-1">Clear <RefreshCw className="w-4 h-4"/></button>
+        </div>
+
+        {/* Action button */}
+        <div className="mb-4">
+          <button onClick={handleAction} className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700">Generate Result</button>
+        </div>
+
+        {/* Result display */}
+        {result && (
+          <div className="p-4 bg-gray-100 rounded-lg mb-6 relative">
+            <pre className="whitespace-pre-wrap text-gray-900">{result}</pre>
+            <button onClick={()=>navigator.clipboard.writeText(result)} className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"><Copy className="w-5 h-5" /></button>
+          </div>
+        )}
+
+        <AdBanner type="bottom" />
+        <RelatedCalculators currentPath="/text-utils" category="misc-tools" />
       </div>
     </>
   );
 };
 
-export default TextCounter;
+export default TextUtils;
