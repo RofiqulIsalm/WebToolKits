@@ -1,368 +1,252 @@
-import React, { useState, useEffect } from 'react';
-import { FileText, ChevronDown } from 'lucide-react';
-import AdBanner from '../components/AdBanner';
-import SEOHead from '../components/SEOHead';
-import Breadcrumbs from '../components/Breadcrumbs';
-import { seoData, generateCalculatorSchema } from '../utils/seoData';
-import RelatedCalculators from '../components/RelatedCalculators';
+import React, { useState } from "react";
+import { ArrowLeftRight } from "lucide-react";
+import AdBanner from "../components/AdBanner";
+import SEOHead from "../components/SEOHead";
+import Breadcrumbs from "../components/Breadcrumbs";
+import { seoData, generateCalculatorSchema } from "../utils/seoData";
+import RelatedCalculators from "../components/RelatedCalculators";
 
-const loremSentences = [
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  "Nullam sodales at mi id laoreet.",
-  "Ut eget neque viverra, laoreet mi eu, pulvinar felis.",
-  "Nunc quis lobortis mi.",
-  "Integer eget massa cursus leo varius ullamcorper.",
-  "In sit amet aliquet erat.",
-  "Donec in viverra sapien.",
-  "Mauris congue quam ut sollicitudin tempus.",
-  "Maecenas vulputate erat et quam ullamcorper, ac gravida velit mollis.",
-  "Aenean consectetur mauris in odio commodo porta.",
-  "In vel neque sit amet dui pharetra bibendum.",
-  "Mauris lacinia ex eu ante pharetra, a malesuada dolor volutpat.",
-  "Sed rhoncus, libero at maximus vestibulum, ante justo facilisis felis, a dapibus eros arcu vitae purus.",
-  "Duis facilisis metus blandit leo consequat, at tincidunt eros finibus.",
-  "In tincidunt, quam sed bibendum vulputate, justo metus sagittis erat, in finibus erat sem at est.",
-  "Quisque nec risus vitae erat interdum elementum vitae at dui.",
-  "Donec quis consectetur ligula, ullamcorper eleifend ligula.",
-  "Fusce venenatis aliquam suscipit.",
-  "Donec venenatis sapien nec erat tincidunt facilisis.",
-  "Duis dui purus, finibus sit amet dapibus sit amet, tristique ut ante.",
-  "Vivamus viverra sem eu dolor fermentum, quis semper risus fringilla.",
-  "In interdum consequat mauris at mollis."
-];
+const TextReverser: React.FC = () => {
+  const [text, setText] = useState<string>("");
+  const [copied, setCopied] = useState<boolean>(false);
+  const [reverseMode, setReverseMode] = useState<string>("full");
+  const [caseOption, setCaseOption] = useState<string>("none");
 
-function generateLoremParagraph(sentencesPerParagraph: number) {
-  let paragraph = '';
-  for (let i = 0; i < sentencesPerParagraph; i++) {
-    const sentence = loremSentences[Math.floor(Math.random() * loremSentences.length)];
-    paragraph += sentence + ' ';
-  }
-  return paragraph.trim();
-}
+  // 🧠 Reverse Logic
+  const reverseText = () => {
+    if (text.trim() === "") return;
+    let reversed = text;
 
-function generateLoremText(paragraphCount: number, sentencesPerParagraph: number) {
-  let text = '';
-  for (let i = 0; i < paragraphCount; i++) {
-    text += generateLoremParagraph(sentencesPerParagraph) + '\n\n';
-  }
-  return text.trim();
-}
-
-const TextToolsPage: React.FC = () => {
-  // Tabs
-  const [selectedTab, setSelectedTab] = useState<'textCounter' | 'loremIpsum'>('textCounter');
-
-  // Text Counter state
-  const [text, setText] = useState('');
-  const [stats, setStats] = useState({
-    characters: 0,
-    charactersNoSpaces: 0,
-    words: 0,
-    sentences: 0,
-    paragraphs: 0,
-    lines: 0,
-    readingTime: 0
-  });
-  const [copied, setCopied] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  // Lorem Ipsum state
-  const [loremText, setLoremText] = useState('');
-  const [paragraphsCount, setParagraphsCount] = useState(3);
-  const [sentencesPerParagraph, setSentencesPerParagraph] = useState(5);
-  const [loremDropdownOpen, setLoremDropdownOpen] = useState(false);
-
-  // Text Counter Stats Calculation
-  useEffect(() => {
-    calculateStats();
-  }, [text]);
-
-  const calculateStats = () => {
-    const characters = text.length;
-    const charactersNoSpaces = text.replace(/\s/g, '').length;
-    const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
-    const sentences = text.trim() === '' ? 0 : text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
-    const paragraphs = text.trim() === '' ? 0 : text.split(/\n\n+/).filter(p => p.trim().length > 0).length;
-    const lines = text === '' ? 0 : text.split(/\n/).length;
-    const readingTime = Math.ceil(words / 200);
-
-    setStats({ characters, charactersNoSpaces, words, sentences, paragraphs, lines, readingTime });
-  };
-
-  const clearText = () => setText('');
-
-  // Convert Case Functions
-  const convertText = (mode: 'upper' | 'lower' | 'title' | 'sentence' | 'clean', target: 'text' | 'lorem') => {
-    let sourceText = target === 'text' ? text : loremText;
-    let converted = sourceText;
-
-    switch (mode) {
-      case 'upper':
-        converted = sourceText.toUpperCase();
+    switch (reverseMode) {
+      case "full":
+        reversed = text.split("").reverse().join("");
         break;
-      case 'lower':
-        converted = sourceText.toLowerCase();
+      case "words":
+        reversed = text
+          .split(" ")
+          .map((word) => word.split("").reverse().join(""))
+          .join(" ");
         break;
-      case 'title':
-        converted = sourceText.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
-        break;
-      case 'sentence':
-        converted = sourceText.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
-        break;
-      case 'clean':
-        converted = sourceText.replace(/\s+/g, ' ').trim();
+      case "lines":
+        reversed = text.split("\n").reverse().join("\n");
         break;
     }
 
-    if (target === 'text') setText(converted);
-    else setLoremText(converted);
+    setText(reversed);
   };
 
-  const copyTextToClipboard = async (sourceText: string) => {
-    if (!sourceText) return;
-    await navigator.clipboard.writeText(sourceText);
+  // 🔠 Convert Case Logic
+  const applyCaseOption = () => {
+    let newText = text;
+
+    switch (caseOption) {
+      case "upper":
+        newText = text.toUpperCase();
+        break;
+      case "lower":
+        newText = text.toLowerCase();
+        break;
+      case "title":
+        newText = text
+          .toLowerCase()
+          .replace(/\b\w/g, (char) => char.toUpperCase());
+        break;
+      case "sentence":
+        newText = text
+          .toLowerCase()
+          .replace(/(^\s*\w|[.!?]\s*\w)/g, (char) => char.toUpperCase());
+        break;
+      case "clean":
+        newText = text.replace(/\s+/g, " ").trim();
+        break;
+      default:
+        return;
+    }
+
+    setText(newText);
+  };
+
+  // 📋 Copy Text
+  const copyText = async () => {
+    if (text.trim() === "") return;
+    await navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   };
 
-  const downloadTextFile = (sourceText: string, filename: string) => {
-    if (!sourceText) return;
-    const blob = new Blob([sourceText], { type: 'text/plain' });
+  // 📥 Paste Text
+  const pasteText = async () => {
+    const clipboardText = await navigator.clipboard.readText();
+    setText(clipboardText);
+  };
+
+  // 💾 Download Text
+  const downloadText = () => {
+    if (text.trim() === "") return;
+    const blob = new Blob([text], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = filename;
+    a.download = "reversed-text.txt";
     a.click();
     URL.revokeObjectURL(url);
   };
 
-  const generateLoremIpsum = () => {
-    const text = generateLoremText(paragraphsCount, sentencesPerParagraph);
-    setLoremText(text);
-  };
+  // 🧹 Clear Text
+  const clearText = () => setText("");
 
   return (
     <>
       <SEOHead
-        title={seoData.textCounter?.title || 'Text Tools - Text Counter & Lorem Ipsum Generator'}
-        description={seoData.textCounter?.description || 'Text counter and Lorem Ipsum generator with convert case tools.'}
-        canonical="https://calculatorhub.com/text-tools"
+        title={
+          seoData.textReverser?.title ||
+          "Text Reverser - Reverse Text, Words, and Lines Instantly"
+        }
+        description={
+          seoData.textReverser?.description ||
+          "Reverse text easily online. Flip letters, words, or lines instantly with copy, paste, and download options."
+        }
+        canonical="https://calculatorhub.com/text-reverser"
         schemaData={generateCalculatorSchema(
-          'Text Tools',
-          'Text counter and Lorem Ipsum generator with convert case tools',
-          '/text-tools',
-          ['text counter', 'lorem ipsum generator', 'word counter', 'character counter']
+          "Text Reverser",
+          "Reverse text, words, or lines instantly online",
+          "/text-reverser",
+          ["text reverser", "reverse text", "reverse words", "flip text"]
         )}
         breadcrumbs={[
-          { name: 'Misc Tools', url: '/category/misc-tools' },
-          { name: 'Text Tools', url: '/text-tools' }
+          { name: "Misc Tools", url: "/category/misc-tools" },
+          { name: "Text Reverser", url: "/text-reverser" },
         ]}
       />
 
       <div className="max-w-4xl mx-auto">
-        <Breadcrumbs items={[
-          { name: 'Misc Tools', url: '/category/misc-tools' },
-          { name: 'Text Tools', url: '/text-tools' }
-        ]} />
+        <Breadcrumbs
+          items={[
+            { name: "Misc Tools", url: "/category/misc-tools" },
+            { name: "Text Reverser", url: "/text-reverser" },
+          ]}
+        />
 
-        {/* Tabs */}
-        <div className="flex gap-4 mb-6">
-          <button
-            className={`px-4 py-2 rounded-xl font-semibold ${selectedTab === 'textCounter' ? 'bg-blue-600 text-white' : 'bg-slate-700 text-slate-300'}`}
-            onClick={() => setSelectedTab('textCounter')}
-          >
-            Text Counter
-          </button>
-          <button
-            className={`px-4 py-2 rounded-xl font-semibold ${selectedTab === 'loremIpsum' ? 'bg-green-600 text-white' : 'bg-slate-700 text-slate-300'}`}
-            onClick={() => setSelectedTab('loremIpsum')}
-          >
-            Lorem Ipsum Generator
-          </button>
-        
-          <button
-            className={`px-4 py-2 rounded-xl font-semibold ${selectedTab === 'binarytotext' ? 'bg-violet-600 text-white' : 'bg-slate-700 text-slate-300'}`}
-            onClick={() => setSelectedTab('binarytotext')}
-          >
-            Binary ↔ Text 
-          </button>
-        </div>
-
-        {/* ----------------- Text Counter ----------------- */}
-        {selectedTab === 'textCounter' && (
-          <div className="glow-card rounded-2xl p-8 mb-8 relative">
-            <div className="flex items-center space-x-3 mb-6">
-              <FileText className="h-8 w-8 text-blue-400" />
-              <h1 className="text-3xl font-bold text-white">Text Counter</h1>
+        <div className="glow-card rounded-2xl p-8 mb-8">
+          <div className="flex items-center space-x-3 mb-6 justify-between">
+            <div className="flex items-center space-x-3">
+              <ArrowLeftRight className="h-8 w-8 text-blue-400" />
+              <h1 className="text-3xl font-bold text-white">Text Reverser</h1>
             </div>
-                <button
-          onClick={async () => {
-            try {
-              const clipText = await navigator.clipboard.readText();
-              setText(clipText);
-            } catch {
-              alert('Failed to read clipboard — please allow clipboard access.');
-            }
-          }}
-          className="absolute top-3 right-3 text-sm text-blue-400 hover:text-blue-300 transition-colors bg-slate-800/70 px-3 py-1 rounded-md border border-slate-600"
-        >
-          Paste
-        </button>
+            <button
+              onClick={pasteText}
+              className="text-xs bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded transition"
+            >
+              Paste
+            </button>
+          </div>
 
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-white mb-2">
+              Enter or Paste Your Text
+            </label>
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
-              className="w-full h-64 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none mb-2"
-              placeholder="Start typing or paste your text here..."
+              className="w-full h-64 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              placeholder="Type or paste text to reverse..."
             />
 
-            <div className="flex flex-wrap justify-between items-center mt-2 gap-2">
-              <p className="text-sm text-slate-400">Real-time analysis as you type</p>
+            <div className="flex justify-between items-center mt-3 flex-wrap gap-2">
+              <div className="flex items-center gap-2">
+                {/* Reverse Options */}
+                <select
+                  value={reverseMode}
+                  onChange={(e) => setReverseMode(e.target.value)}
+                  className="text-xs bg-slate-700 text-white border border-slate-600 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="full">Reverse Entire Text</option>
+                  <option value="words">Reverse Each Word</option>
+                  <option value="lines">Reverse Lines</option>
+                </select>
 
-              <div className="flex flex-wrap items-center gap-2 relative">
+                <button
+                  onClick={reverseText}
+                  className="text-xs bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded transition"
+                >
+                  Reverse
+                </button>
+              </div>
+
+              <div className="flex items-center gap-2">
                 {/* Convert Case Dropdown */}
-                <div className="relative">
-                  <button
-                    onClick={() => setDropdownOpen(!dropdownOpen)}
-                    className="flex items-center text-xs bg-blue-700 hover:bg-blue-600 text-white px-3 py-1 rounded transition"
-                  >
-                    Convert Case <ChevronDown className="ml-1 h-4 w-4" />
-                  </button>
-                  {dropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-44 bg-slate-800 border border-slate-600 rounded-lg shadow-lg z-50">
-                      <button onClick={() => convertText('upper', 'text')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">🔠 UPPERCASE</button>
-                      <button onClick={() => convertText('lower', 'text')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">🔡 lowercase</button>
-                      <button onClick={() => convertText('title', 'text')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">🧾 Title Case</button>
-                      <button onClick={() => convertText('sentence', 'text')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">📝 Sentence Case</button>
-                      <button onClick={() => convertText('clean', 'text')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">✂️ Clean Spaces</button>
-                    </div>
-                  )}
-                </div>
+                <select
+                  value={caseOption}
+                  onChange={(e) => setCaseOption(e.target.value)}
+                  className="text-xs bg-slate-700 text-white border border-slate-600 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                >
+                  <option value="none">Convert Case</option>
+                  <option value="upper">UPPERCASE</option>
+                  <option value="lower">lowercase</option>
+                  <option value="title">Title Case</option>
+                  <option value="sentence">Sentence Case</option>
+                  <option value="clean">Clean Spaces</option>
+                </select>
+                <button
+                  onClick={applyCaseOption}
+                  className="text-xs bg-purple-600 hover:bg-purple-500 text-white px-3 py-1 rounded transition"
+                >
+                  Apply
+                </button>
 
-                <button onClick={() => copyTextToClipboard(text)} className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition">{copied ? 'Copied!' : 'Copy'}</button>
-                <button onClick={() => downloadTextFile(text, 'text-counter.txt')} className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded transition">Download</button>
-                <button onClick={clearText} className="text-xs text-red-400 hover:text-red-300 transition-colors">Clear</button>
-              </div>
-            </div>
-
-            {/* Statistics Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-              <div className="p-4 bg-gradient-to-br from-blue-900/30 to-blue-800/30 rounded-xl border border-blue-500/30">
-                <p className="text-sm text-slate-400 mb-1">Characters</p>
-                <p className="text-3xl font-bold text-white">{stats.characters.toLocaleString()}</p>
-              </div>
-              <div className="p-4 bg-gradient-to-br from-purple-900/30 to-purple-800/30 rounded-xl border border-purple-500/30">
-                <p className="text-sm text-slate-400 mb-1">No Spaces</p>
-                <p className="text-3xl font-bold text-white">{stats.charactersNoSpaces.toLocaleString()}</p>
-              </div>
-              <div className="p-4 bg-gradient-to-br from-green-900/30 to-green-800/30 rounded-xl border border-green-500/30">
-                <p className="text-sm text-slate-400 mb-1">Words</p>
-                <p className="text-3xl font-bold text-white">{stats.words.toLocaleString()}</p>
-              </div>
-              <div className="p-4 bg-gradient-to-br from-orange-900/30 to-orange-800/30 rounded-xl border border-orange-500/30">
-                <p className="text-sm text-slate-400 mb-1">Sentences</p>
-                <p className="text-3xl font-bold text-white">{stats.sentences.toLocaleString()}</p>
-              </div>
-              <div className="p-4 bg-gradient-to-br from-pink-900/30 to-pink-800/30 rounded-xl border border-pink-500/30">
-                <p className="text-sm text-slate-400 mb-1">Paragraphs</p>
-                <p className="text-3xl font-bold text-white">{stats.paragraphs.toLocaleString()}</p>
-              </div>
-              <div className="p-4 bg-gradient-to-br from-teal-900/30 to-teal-800/30 rounded-xl border border-teal-500/30">
-                <p className="text-sm text-slate-400 mb-1">Lines</p>
-                <p className="text-3xl font-bold text-white">{stats.lines.toLocaleString()}</p>
-              </div>
-              <div className="p-4 bg-gradient-to-br from-indigo-900/30 to-indigo-800/30 rounded-xl border border-indigo-500/30 col-span-2">
-                <p className="text-sm text-slate-400 mb-1">Reading Time</p>
-                <p className="text-3xl font-bold text-white">{stats.readingTime} min{stats.readingTime !== 1 ? 's' : ''}</p>
-                <p className="text-xs text-slate-500 mt-1">Based on 200 words/min</p>
+                <button
+                  onClick={copyText}
+                  className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition"
+                >
+                  {copied ? "Copied!" : "Copy"}
+                </button>
+                <button
+                  onClick={downloadText}
+                  className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded transition"
+                >
+                  Download
+                </button>
+                <button
+                  onClick={clearText}
+                  className="text-xs text-red-400 hover:text-red-300 transition-colors"
+                >
+                  Clear
+                </button>
               </div>
             </div>
           </div>
-        )}
-
-        
-
-        {/* ----------------- Lorem Ipsum Generator ----------------- */}
-                 
-          {selectedTab === 'loremIpsum' && (
-            <div className="glow-card rounded-2xl p-8 mb-8 relative">
-              <div className="flex items-center space-x-3 mb-6">
-                <FileText className="h-8 w-8 text-green-400" />
-                <h1 className="text-3xl font-bold text-white">Lorem Ipsum Generator</h1>
-              </div>
-          
-              <div className="flex flex-wrap gap-2 mb-4">
-                <input
-                  type="number"
-                  min={1}
-                  onChange={e => setParagraphsCount(Number(e.target.value))}
-                  className="w-36 px-3 py-2 rounded-lg bg-slate-700 text-white border border-slate-600 focus:outline-none focus:ring-2 focus:ring-green-500"
-                  placeholder="Word Number"
-                />
-          
-                <button
-                  onClick={() => {
-                    const totalWords = paragraphsCount;
-                    const loremArray = [];
-                    while (loremArray.join(' ').split(' ').length < totalWords) {
-                      const sentence = loremSentences[Math.floor(Math.random() * loremSentences.length)];
-                      loremArray.push(sentence);
-                    }
-                    const generated = loremArray.join(' ').split(' ').slice(0, totalWords).join(' ');
-                    setLoremText(generated);
-                  }}
-                  className="text-xs bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded transition"
-                >
-                  Generate
-                </button>
-              </div>
-          
-              <textarea
-                value={loremText}
-                readOnly
-                className="w-full h-64 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none mb-3"
-                placeholder="Generated Lorem Ipsum text will appear here..."
-              />
-          
-              {/* Bottom-right tools */}
-              <div className="flex flex-wrap justify-between items-center mt-2 gap-2">
-                <p className="text-sm text-slate-400">Modify or download your generated Lorem Ipsum</p>
-          
-                <div className="flex flex-wrap items-center gap-2 relative">
-                  {/* Convert Case Dropdown */}
-                  <div className="relative">
-                    <button
-                      onClick={() => setLoremDropdownOpen(!loremDropdownOpen)}
-                      className="flex items-center text-xs bg-green-700 hover:bg-green-600 text-white px-3 py-1 rounded transition"
-                    >
-                      Convert Case <ChevronDown className="ml-1 h-4 w-4" />
-                    </button>
-                    {loremDropdownOpen && (
-                      <div className="absolute right-0 mt-2 w-44 bg-slate-800 border border-slate-600 rounded-lg shadow-lg z-50">
-                        <button onClick={() => convertText('upper', 'lorem')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">🔠 UPPERCASE</button>
-                        <button onClick={() => convertText('lower', 'lorem')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">🔡 lowercase</button>
-                        <button onClick={() => convertText('title', 'lorem')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">🧾 Title Case</button>
-                        <button onClick={() => convertText('sentence', 'lorem')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">📝 Sentence Case</button>
-                        <button onClick={() => convertText('clean', 'lorem')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">✂️ Clean Spaces</button>
-                      </div>
-                    )}
-                  </div>
-          
-                  <button onClick={() => copyTextToClipboard(loremText)} className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition">{copied ? 'Copied!' : 'Copy'}</button>
-                  <button onClick={() => downloadTextFile(loremText, 'lorem-ipsum.txt')} className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded transition">Download</button>
-                  <button onClick={() => setLoremText('')} className="text-xs text-red-400 hover:text-red-300 transition-colors">Clear</button>
-                </div>
-              </div>
-            </div>
-          )}
-
+        </div>
 
         <AdBanner />
-        <RelatedCalculators currentPath="/text-tools" />
+
+        <div className="glow-card rounded-2xl p-8 mb-8">
+          <h2 className="text-2xl font-bold text-white mb-4">
+            About Text Reverser
+          </h2>
+          <div className="space-y-4 text-slate-300">
+            <p>
+              The Text Reverser tool allows you to flip or reverse any text,
+              whether it’s a single line, paragraph, or entire document. Choose
+              from multiple reversal modes and apply case conversions easily.
+            </p>
+
+            <h3 className="text-xl font-semibold text-white mt-6">
+              Features:
+            </h3>
+            <ul className="list-disc list-inside space-y-2 ml-4">
+              <li>Reverse text, words, or lines instantly</li>
+              <li>Convert between UPPERCASE, lowercase, Title, or Sentence case</li>
+              <li>Clean up extra spaces automatically</li>
+              <li>Copy, paste, download, and clear with one click</li>
+              <li>Lightweight and fast for instant text manipulation</li>
+            </ul>
+          </div>
+        </div>
+
+        <RelatedCalculators currentPath="/text-reverser" />
       </div>
     </>
   );
 };
 
-export default TextToolsPage;
- 
+export default TextReverser;
