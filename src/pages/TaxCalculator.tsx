@@ -1,175 +1,210 @@
-import React, { useState } from 'react';
-import { Copy, RefreshCw } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Receipt } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
-import RelatedCalculators from '../components/RelatedCalculators';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
+import RelatedCalculators from '../components/RelatedCalculators';
 
-const TextUtils: React.FC = () => {
-  const tabs = [
-    'Text Counter',
-    'Text Reverser',
-    'Lorem Ipsum Generator',
-    'Binary Converter',
-    'Palindrome Checker',
-    'Number to Words Converter'
-  ];
+const TaxCalculator: React.FC = () => {
+  const [salary, setSalary] = useState<number>(600000);
+  const [regime, setRegime] = useState<'old' | 'new'>('new');
+  const [deductions, setDeductions] = useState<number>(150000);
+  const [tax, setTax] = useState<number>(0);
+  const [netSalary, setNetSalary] = useState<number>(0);
 
-  const [activeTab, setActiveTab] = useState('Text Counter');
-  const [text, setText] = useState('');
-  const [result, setResult] = useState('');
+  useEffect(() => {
+    calculateTax();
+  }, [salary, regime, deductions]);
 
-  // Case converters
-  const convertCase = (type: string) => {
-    switch(type) {
-      case 'upper': return setText(text.toUpperCase());
-      case 'lower': return setText(text.toLowerCase());
-      case 'title': return setText(text.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.substr(1).toLowerCase()));
-      case 'sentence': return setText(text.replace(/(^\s*\w|[.!?]\s*\w)/g, (c) => c.toUpperCase()));
-      case 'capitalize': return setText(text.charAt(0).toUpperCase() + text.slice(1));
-      default: return;
+  const calculateTax = () => {
+    let taxableIncome = salary;
+    
+    // Standard deduction of 50,000
+    taxableIncome -= 50000;
+    
+    if (regime === 'old') {
+      taxableIncome -= deductions;
     }
-  };
 
-  // Tab features
-  const handleAction = () => {
-    switch(activeTab){
-      case 'Text Counter':
-        const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
-        const chars = text.length;
-        const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
-        setResult(`Words: ${words} | Characters: ${chars} | Sentences: ${sentences}`);
-        break;
+    let calculatedTax = 0;
 
-      case 'Text Reverser':
-        setResult(text.split('').reverse().join(''));
-        break;
-
-      case 'Lorem Ipsum Generator':
-        const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
-        setResult(lorem);
-        break;
-
-      case 'Binary Converter':
-        if (/^[01\s]+$/.test(text.trim())) {
-          // Binary to Text
-          try {
-            const txt = text.trim().split(' ').map(b => String.fromCharCode(parseInt(b,2))).join('');
-            setResult(txt);
-          } catch(e) { setResult('Invalid binary input'); }
-        } else {
-          // Text to Binary
-          const bin = text.split('').map(c => c.charCodeAt(0).toString(2).padStart(8,'0')).join(' ');
-          setResult(bin);
-        }
-        break;
-
-      case 'Palindrome Checker':
-        const clean = text.replace(/[^A-Za-z0-9]/g, '').toLowerCase();
-        const isPalindrome = clean === clean.split('').reverse().join('');
-        setResult(isPalindrome ? '✅ This is a palindrome!' : '❌ Not a palindrome');
-        break;
-
-      case 'Number to Words Converter':
-        const numberToWords = (num: number) => {
-          if (isNaN(num)) return 'Invalid number';
-          const a = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
-          const b = ['', '', 'Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
-          const n = ('000000000'+num).slice(-9).match(/(\d{2})(\d{3})(\d{3})/);
-          if(!n) return '';
-          let str = '';
-          if (Number(n[1]) !== 0) str += a[Number(n[1])] + ' Crore '; 
-          if (Number(n[2].slice(0,2)) !== 0) str += (b[Number(n[2].slice(0,1))]+' '+a[Number(n[2].slice(1,2))]) + ' Lakh '; 
-          if (Number(n[3].slice(0,2)) !== 0) str += (b[Number(n[3].slice(0,1))]+' '+a[Number(n[3].slice(1,2))]) + ' Thousand '; 
-          if (Number(n[3].slice(2,3)) !== 0) str += a[Number(n[3].slice(2,3))];
-          return str.trim();
-        };
-        setResult(numberToWords(Number(text)));
-        break;
-
-      default: break;
+    if (regime === 'new') {
+      // New tax regime slabs
+      if (taxableIncome > 300000) {
+        calculatedTax += Math.min(taxableIncome - 300000, 300000) * 0.05;
+      }
+      if (taxableIncome > 600000) {
+        calculatedTax += Math.min(taxableIncome - 600000, 300000) * 0.1;
+      }
+      if (taxableIncome > 900000) {
+        calculatedTax += Math.min(taxableIncome - 900000, 300000) * 0.15;
+      }
+      if (taxableIncome > 1200000) {
+        calculatedTax += Math.min(taxableIncome - 1200000, 300000) * 0.2;
+      }
+      if (taxableIncome > 1500000) {
+        calculatedTax += (taxableIncome - 1500000) * 0.3;
+      }
+    } else {
+      // Old tax regime slabs
+      if (taxableIncome > 250000) {
+        calculatedTax += Math.min(taxableIncome - 250000, 250000) * 0.05;
+      }
+      if (taxableIncome > 500000) {
+        calculatedTax += Math.min(taxableIncome - 500000, 500000) * 0.2;
+      }
+      if (taxableIncome > 1000000) {
+        calculatedTax += (taxableIncome - 1000000) * 0.3;
+      }
     }
+
+    // Add 4% cess
+    calculatedTax = calculatedTax * 1.04;
+
+    setTax(calculatedTax);
+    setNetSalary(salary - calculatedTax);
   };
 
   return (
     <>
       <SEOHead
-        title={seoData.textUtils.title}
-        description={seoData.textUtils.description}
-        canonical="https://calculatorhub.com/text-utils"
+        title={seoData.taxCalculator.title}
+        description={seoData.taxCalculator.description}
+        canonical="https://calculatorhub.com/tax-calculator"
         schemaData={generateCalculatorSchema(
-          "Text Utility Tools",
-          seoData.textUtils.description,
-          "/text-utils",
-          seoData.textUtils.keywords
+          "Tax Calculator",
+          seoData.taxCalculator.description,
+          "/tax-calculator",
+          seoData.taxCalculator.keywords
         )}
         breadcrumbs={[
-          { name: 'Misc Tools', url: '/category/misc-tools' },
-          { name: 'Text Utilities', url: '/text-utils' }
+          { name: 'Currency & Finance', url: '/category/currency-finance' },
+          { name: 'Tax Calculator', url: '/tax-calculator' }
         ]}
       />
-      <div className="max-w-4xl mx-auto px-4">
-        <Breadcrumbs items={[
-          { name: 'Misc Tools', url: '/category/misc-tools' },
-          { name: 'Text Utilities', url: '/text-utils' }
-        ]} />
-
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">Text Utility Tools</h1>
-          <p className="text-slate-300">Multi-purpose text tools: counter, reverser, binary converter, palindrome check, lorem ipsum generator, and number to words.</p>
-        </div>
-
-        {/* Tabs */}
-        <div className="flex flex-wrap mb-6 border-b border-gray-300">
-          {tabs.map(tab => (
-            <button
-              key={tab}
-              onClick={() => {setActiveTab(tab); setResult('');}}
-              className={`px-4 py-2 -mb-px ${activeTab===tab ? 'border-b-2 border-blue-600 text-blue-600 font-semibold' : 'text-gray-400 hover:text-blue-500'}`}
-            >{tab}</button>
-          ))}
-        </div>
-
-        {/* Input area */}
-        <div className="mb-4">
-          <textarea
-            rows={6}
-            value={text}
-            onChange={(e)=>setText(e.target.value)}
-            className="w-full p-4 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
-            placeholder="Enter your text here..."
-          />
-        </div>
-
-        {/* Case Converter */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          <button onClick={()=>convertCase('upper')} className="px-3 py-1 bg-blue-600 text-white rounded">UPPERCASE</button>
-          <button onClick={()=>convertCase('lower')} className="px-3 py-1 bg-blue-600 text-white rounded">lowercase</button>
-          <button onClick={()=>convertCase('title')} className="px-3 py-1 bg-blue-600 text-white rounded">Title Case</button>
-          <button onClick={()=>convertCase('sentence')} className="px-3 py-1 bg-blue-600 text-white rounded">Sentence case</button>
-          <button onClick={()=>convertCase('capitalize')} className="px-3 py-1 bg-blue-600 text-white rounded">Capitalize</button>
-          <button onClick={()=>{setText(''); setResult('');}} className="px-3 py-1 bg-red-500 text-white rounded flex items-center gap-1">Clear <RefreshCw className="w-4 h-4"/></button>
-        </div>
-
-        {/* Action button */}
-        <div className="mb-4">
-          <button onClick={handleAction} className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700">Generate Result</button>
-        </div>
-
-        {/* Result display */}
-        {result && (
-          <div className="p-4 bg-gray-100 rounded-lg mb-6 relative">
-            <pre className="whitespace-pre-wrap text-gray-900">{result}</pre>
-            <button onClick={()=>navigator.clipboard.writeText(result)} className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"><Copy className="w-5 h-5" /></button>
-          </div>
-        )}
-
-        <AdBanner type="bottom" />
-        <RelatedCalculators currentPath="/text-utils" category="misc-tools" />
+    <div className="max-w-4xl mx-auto">
+      <Breadcrumbs items={[
+        { name: 'Currency & Finance', url: '/category/currency-finance' },
+        { name: 'Tax Calculator', url: '/tax-calculator' }
+      ]} />
+      
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">Income Tax Calculator</h1>
+        <p className="text-slate-300">Calculate your income tax for FY 2024-25 under both tax regimes</p>
       </div>
-    </>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">Income Details</h2>
+          
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Annual Salary (₹)
+              </label>
+              <input
+                type="number"
+                value={salary}
+                onChange={(e) => setSalary(Number(e.target.value))}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Tax Regime
+              </label>
+              <div className="flex space-x-4">
+                <button
+                  onClick={() => setRegime('new')}
+                  className={`px-4 py-2 rounded-lg border ${regime === 'new' ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-700 border-gray-300'}`}
+                >
+                  New Regime
+                </button>
+                <button
+                  onClick={() => setRegime('old')}
+                  className={`px-4 py-2 rounded-lg border ${regime === 'old' ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-700 border-gray-300'}`}
+                >
+                  Old Regime
+                </button>
+              </div>
+            </div>
+
+            {regime === 'old' && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Total Deductions (₹)
+                </label>
+                <input
+                  type="number"
+                  value={deductions}
+                  onChange={(e) => setDeductions(Number(e.target.value))}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+                <p className="text-sm text-gray-500 mt-1">
+                  80C, 80D, HRA, etc.
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">Tax Calculation</h2>
+          
+          <div className="space-y-6">
+            <div className="text-center p-4 bg-red-50 rounded-lg">
+              <Receipt className="h-8 w-8 text-red-600 mx-auto mb-2" />
+              <div className="text-2xl font-bold text-gray-900">
+                ₹{tax.toFixed(0)}
+              </div>
+              <div className="text-sm text-gray-600">Annual Tax</div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="p-4 bg-blue-50 rounded-lg text-center">
+                <div className="text-lg font-semibold text-gray-900">
+                  ₹{salary.toLocaleString()}
+                </div>
+                <div className="text-sm text-gray-600">Gross Salary</div>
+              </div>
+              
+              <div className="p-4 bg-green-50 rounded-lg text-center">
+                <div className="text-lg font-semibold text-gray-900">
+                  ₹{netSalary.toFixed(0)}
+                </div>
+                <div className="text-sm text-gray-600">Net Salary</div>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <div className="flex justify-between text-sm">
+                <span>Monthly Tax:</span>
+                <span className="font-medium">₹{(tax / 12).toFixed(0)}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span>Monthly Take-home:</span>
+                <span className="font-medium">₹{(netSalary / 12).toFixed(0)}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span>Effective Tax Rate:</span>
+                <span className="font-medium">{((tax / salary) * 100).toFixed(2)}%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <AdBanner type="bottom" />
+      
+      <RelatedCalculators 
+        currentPath="/tax-calculator" 
+        category="currency-finance" 
+      />
+    </div>
+    </> 
   );
 };
 
-export default TextUtils;
+export default TaxCalculator;
