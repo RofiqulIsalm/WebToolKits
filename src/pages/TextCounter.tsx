@@ -205,6 +205,7 @@ const TextToolsPage: React.FC = () => {
           >
             Lorem Ipsum Generator
           </button>
+        </div>
         
 
 
