@@ -309,7 +309,10 @@ const TextToolsPage: React.FC = () => {
               className="w-full h-64 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none mt-4"
               placeholder="Generated Lorem Ipsum will appear here..."
             />
+         <div className="flex flex-wrap justify-between items-center mt-2 gap-2">
+              <p className="text-sm text-slate-400">Real-time analysis as you type</p>
 
+            <div className="flex flex-wrap items-center gap-2 relative">
                {/* Convert Case Dropdown */}
               <div className="relative">
                 <button
@@ -333,7 +336,10 @@ const TextToolsPage: React.FC = () => {
               <button onClick={() => downloadTextFile(loremText, 'lorem-ipsum.txt')} className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded transition">Download</button>
               <button onClick={() => setLoremText('')} className="text-xs text-red-400 hover:text-red-300 transition-colors">Clear</button>
             </div>
+         </div>
+            </div>
           </div>
+        
         )}
 
         <AdBanner />
