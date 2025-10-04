@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Copy, RefreshCw } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
@@ -35,83 +35,62 @@ const TextUtils: React.FC = () => {
   // Tab features
   const handleAction = () => {
     switch(activeTab){
-  case 'Text Counter':
-    if(text.trim() === '') {
-      setResult('Words: 0 | Characters: 0 | Sentences: 0');
-      break;
+      case 'Text Counter':
+        const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+        const chars = text.length;
+        const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+        setResult(`Words: ${words} | Characters: ${chars} | Sentences: ${sentences}`);
+        break;
+
+      case 'Text Reverser':
+        setResult(text.split('').reverse().join(''));
+        break;
+
+      case 'Lorem Ipsum Generator':
+        const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+        setResult(lorem);
+        break;
+
+      case 'Binary Converter':
+        if (/^[01\s]+$/.test(text.trim())) {
+          // Binary to Text
+          try {
+            const txt = text.trim().split(' ').map(b => String.fromCharCode(parseInt(b,2))).join('');
+            setResult(txt);
+          } catch(e) { setResult('Invalid binary input'); }
+        } else {
+          // Text to Binary
+          const bin = text.split('').map(c => c.charCodeAt(0).toString(2).padStart(8,'0')).join(' ');
+          setResult(bin);
+        }
+        break;
+
+      case 'Palindrome Checker':
+        const clean = text.replace(/[^A-Za-z0-9]/g, '').toLowerCase();
+        const isPalindrome = clean === clean.split('').reverse().join('');
+        setResult(isPalindrome ? '✅ This is a palindrome!' : '❌ Not a palindrome');
+        break;
+
+      case 'Number to Words Converter':
+        const numberToWords = (num: number) => {
+          if (isNaN(num)) return 'Invalid number';
+          const a = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+          const b = ['', '', 'Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+          const n = ('000000000'+num).slice(-9).match(/(\d{2})(\d{3})(\d{3})/);
+          if(!n) return '';
+          let str = '';
+          if (Number(n[1]) !== 0) str += a[Number(n[1])] + ' Crore '; 
+          if (Number(n[2].slice(0,2)) !== 0) str += (b[Number(n[2].slice(0,1))]+' '+a[Number(n[2].slice(1,2))]) + ' Lakh '; 
+          if (Number(n[3].slice(0,2)) !== 0) str += (b[Number(n[3].slice(0,1))]+' '+a[Number(n[3].slice(1,2))]) + ' Thousand '; 
+          if (Number(n[3].slice(2,3)) !== 0) str += a[Number(n[3].slice(2,3))];
+          return str.trim();
+        };
+        setResult(numberToWords(Number(text)));
+        break;
+
+      default: break;
     }
-    const words = text.trim().split(/\s+/).length;
-    const chars = text.length;
-    const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
-    setResult(`Words: ${words} | Characters: ${chars} | Sentences: ${sentences}`);
-    break;
-
-  case 'Text Reverser':
-    setResult(text ? text.split('').reverse().join('') : '');
-    break;
-
-  case 'Lorem Ipsum Generator':
-    setResult('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.');
-    break;
-
-  case 'Binary Converter':
-    if(!text.trim()) {
-      setResult('');
-      break;
-    }
-    if (/^[01\s]+$/.test(text.trim())) {
-      try {
-        const txt = text.trim().split(' ').map(b => String.fromCharCode(parseInt(b,2))).join('');
-        setResult(txt);
-      } catch(e) { setResult('Invalid binary input'); }
-    } else {
-      const bin = text.split('').map(c => c.charCodeAt(0).toString(2).padStart(8,'0')).join(' ');
-      setResult(bin);
-    }
-    break;
-
-  case 'Palindrome Checker':
-    if(!text.trim()) {
-      setResult('');
-      break;
-    }
-    const clean = text.replace(/[^A-Za-z0-9]/g, '').toLowerCase();
-    const isPalindrome = clean === clean.split('').reverse().join('');
-    setResult(isPalindrome ? '✅ This is a palindrome!' : '❌ Not a palindrome');
-    break;
-
-  case 'Number to Words Converter':
-    if(!text.trim()) {
-      setResult('');
-      break;
-    }
-    const numberToWords = (num: number) => {
-      if(isNaN(num)) return 'Invalid number';
-      const a = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
-      const b = ['', '', 'Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
-      const n = ('000000000'+num).slice(-9).match(/(\d{2})(\d{3})(\d{3})/);
-      if(!n) return '';
-      let str = '';
-      if (Number(n[1]) !== 0) str += a[Number(n[1])] + ' Crore '; 
-      if (Number(n[2].slice(0,2)) !== 0) str += (b[Number(n[2].slice(0,1))]+' '+a[Number(n[2].slice(1,2))]) + ' Lakh '; 
-      if (Number(n[3].slice(0,2)) !== 0) str += (b[Number(n[3].slice(0,1))]+' '+a[Number(n[3].slice(1,2))]) + ' Thousand '; 
-      if (Number(n[3].slice(2,3)) !== 0) str += a[Number(n[3].slice(2,3))];
-      return str.trim();
-    };
-    setResult(numberToWords(Number(text)));
-    break;
-}
-
   };
-
-  // Live update as user types or switches tabs
-  useEffect(() => {
-    if (text || activeTab === 'Lorem Ipsum Generator') {
-      handleAction();
-    } else {
-      setResult('');
-    }
-  }, [text, activeTab]);
 
   return (
     <>
@@ -152,7 +131,7 @@ const TextUtils: React.FC = () => {
           ))}
         </div>
 
-        {/* Input area */}
+        {/* Input area */} 
         <div className="mb-4">
           <textarea
             rows={6}
@@ -171,6 +150,11 @@ const TextUtils: React.FC = () => {
           <button onClick={()=>convertCase('sentence')} className="px-3 py-1 bg-blue-600 text-white rounded">Sentence case</button>
           <button onClick={()=>convertCase('capitalize')} className="px-3 py-1 bg-blue-600 text-white rounded">Capitalize</button>
           <button onClick={()=>{setText(''); setResult('');}} className="px-3 py-1 bg-red-500 text-white rounded flex items-center gap-1">Clear <RefreshCw className="w-4 h-4"/></button>
+        </div>
+
+        {/* Action button */}
+        <div className="mb-4">
+          <button onClick={handleAction} className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700">Generate Result</button>
         </div>
 
         {/* Result display */}
