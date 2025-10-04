@@ -93,6 +93,30 @@ const TextToolsPage: React.FC = () => {
 
   const clearText = () => setText('');
 
+  // Reverse dropdwon 
+  const reverseText = (mode: 'word' | 'sentence' | 'line') => {
+  if (!text) return;
+
+  let reversed = '';
+  switch(mode) {
+    case 'word':
+      reversed = text.split(/\s+/).reverse().join(' ');
+      break;
+    case 'sentence':
+      reversed = text.split(/([.!?]+)/).reduce((acc, curr, idx, arr) => {
+        if (/[.!?]+/.test(curr)) return acc; 
+        return acc + curr.split(' ').reverse().join(' ') + (arr[idx+1] || '');
+      }, '');
+      break;
+    case 'line':
+      reversed = text.split('\n').reverse().join('\n');
+      break;
+  }
+
+  setText(reversed);
+};
+
+
   // Convert Case Functions
   const convertText = (mode: 'upper' | 'lower' | 'title' | 'sentence' | 'clean', target: 'text' | 'lorem') => {
     let sourceText = target === 'text' ? text : loremText;
