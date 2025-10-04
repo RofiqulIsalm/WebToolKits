@@ -1,20 +1,58 @@
 import React, { useState, useEffect } from 'react';
-import { FileText, ChevronDown, Copy, Download } from 'lucide-react';
+import { FileText, ChevronDown } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
 
+const loremSentences = [
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  "Nullam sodales at mi id laoreet.",
+  "Ut eget neque viverra, laoreet mi eu, pulvinar felis.",
+  "Nunc quis lobortis mi.",
+  "Integer eget massa cursus leo varius ullamcorper.",
+  "In sit amet aliquet erat.",
+  "Donec in viverra sapien.",
+  "Mauris congue quam ut sollicitudin tempus.",
+  "Maecenas vulputate erat et quam ullamcorper, ac gravida velit mollis.",
+  "Aenean consectetur mauris in odio commodo porta.",
+  "In vel neque sit amet dui pharetra bibendum.",
+  "Mauris lacinia ex eu ante pharetra, a malesuada dolor volutpat.",
+  "Sed rhoncus, libero at maximus vestibulum, ante justo facilisis felis, a dapibus eros arcu vitae purus.",
+  "Duis facilisis metus blandit leo consequat, at tincidunt eros finibus.",
+  "In tincidunt, quam sed bibendum vulputate, justo metus sagittis erat, in finibus erat sem at est.",
+  "Quisque nec risus vitae erat interdum elementum vitae at dui.",
+  "Donec quis consectetur ligula, ullamcorper eleifend ligula.",
+  "Fusce venenatis aliquam suscipit.",
+  "Donec venenatis sapien nec erat tincidunt facilisis.",
+  "Duis dui purus, finibus sit amet dapibus sit amet, tristique ut ante.",
+  "Vivamus viverra sem eu dolor fermentum, quis semper risus fringilla.",
+  "In interdum consequat mauris at mollis."
+];
+
+function generateLoremParagraph(sentencesPerParagraph: number) {
+  let paragraph = '';
+  for (let i = 0; i < sentencesPerParagraph; i++) {
+    const sentence = loremSentences[Math.floor(Math.random() * loremSentences.length)];
+    paragraph += sentence + ' ';
+  }
+  return paragraph.trim();
+}
+
+function generateLoremText(paragraphCount: number, sentencesPerParagraph: number) {
+  let text = '';
+  for (let i = 0; i < paragraphCount; i++) {
+    text += generateLoremParagraph(sentencesPerParagraph) + '\n\n';
+  }
+  return text.trim();
+}
+
 const TextToolsPage: React.FC = () => {
   // Tabs
   const [selectedTab, setSelectedTab] = useState<'textCounter' | 'loremIpsum'>('textCounter');
 
-  // Shared states
-  const [copied, setCopied] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  // ----------------- Text Counter States -----------------
+  // Text Counter state
   const [text, setText] = useState('');
   const [stats, setStats] = useState({
     characters: 0,
@@ -23,134 +61,73 @@ const TextToolsPage: React.FC = () => {
     sentences: 0,
     paragraphs: 0,
     lines: 0,
-    readingTime: 0,
+    readingTime: 0
   });
+  const [copied, setCopied] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  // Lorem Ipsum state
+  const [loremText, setLoremText] = useState('');
+  const [paragraphsCount, setParagraphsCount] = useState(3);
+  const [sentencesPerParagraph, setSentencesPerParagraph] = useState(5);
+  const [loremDropdownOpen, setLoremDropdownOpen] = useState(false);
+
+  // Text Counter Stats Calculation
   useEffect(() => {
-    if (selectedTab === 'textCounter') calculateTextStats();
+    calculateStats();
   }, [text]);
 
-  const calculateTextStats = () => {
+  const calculateStats = () => {
     const characters = text.length;
     const charactersNoSpaces = text.replace(/\s/g, '').length;
     const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
-    const sentences =
-      text.trim() === ''
-        ? 0
-        : text.split(/[.!?]+/).filter((s) => s.trim().length > 0).length;
-    const paragraphs =
-      text.trim() === ''
-        ? 0
-        : text.split(/\n\n+/).filter((p) => p.trim().length > 0).length;
+    const sentences = text.trim() === '' ? 0 : text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+    const paragraphs = text.trim() === '' ? 0 : text.split(/\n\n+/).filter(p => p.trim().length > 0).length;
     const lines = text === '' ? 0 : text.split(/\n/).length;
     const readingTime = Math.ceil(words / 200);
 
-    setStats({
-      characters,
-      charactersNoSpaces,
-      words,
-      sentences,
-      paragraphs,
-      lines,
-      readingTime,
-    });
+    setStats({ characters, charactersNoSpaces, words, sentences, paragraphs, lines, readingTime });
   };
 
   const clearText = () => setText('');
 
-  // ----------------- Convert Case Functions -----------------
-  const toUpperCase = () => setText(text.toUpperCase());
-  const toLowerCase = () => setText(text.toLowerCase());
-  const toTitleCase = () =>
-    setText(
-      text
-        .toLowerCase()
-        .replace(/\b\w/g, (char) => char.toUpperCase())
-    );
-  const toSentenceCase = () =>
-    setText(
-      text
-        .toLowerCase()
-        .replace(/(^\s*\w|[.!?]\s*\w)/g, (char) => char.toUpperCase())
-    );
-  const removeExtraSpaces = () => setText(text.replace(/\s+/g, ' ').trim());
+  // Convert Case Functions
+  const convertText = (mode: 'upper' | 'lower' | 'title' | 'sentence' | 'clean', target: 'text' | 'lorem') => {
+    let sourceText = target === 'text' ? text : loremText;
+    let converted = sourceText;
 
-  const handleDropdownSelect = (option: string) => {
-    switch (option) {
+    switch (mode) {
       case 'upper':
-        toUpperCase();
+        converted = sourceText.toUpperCase();
         break;
       case 'lower':
-        toLowerCase();
+        converted = sourceText.toLowerCase();
         break;
       case 'title':
-        toTitleCase();
+        converted = sourceText.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
         break;
       case 'sentence':
-        toSentenceCase();
+        converted = sourceText.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
         break;
       case 'clean':
-        removeExtraSpaces();
+        converted = sourceText.replace(/\s+/g, ' ').trim();
         break;
     }
-    setDropdownOpen(false);
+
+    if (target === 'text') setText(converted);
+    else setLoremText(converted);
   };
 
-  // ----------------- Lorem Ipsum States -----------------
-  const [loremText, setLoremText] = useState('');
-  const [paragraphsCount, setParagraphsCount] = useState(3);
-  const [loremDropdownOpen, setLoremDropdownOpen] = useState(false);
-
-  const generateLoremIpsum = () => {
-    const loremParagraph =
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sodales at mi id laoreet. Ut eget neque viverra, laoreet mi eu, pulvinar felis. Nunc quis lobortis mi. Integer eget massa cursus leo varius ullamcorper. In sit amet aliquet erat. Donec in viverra sapien. Mauris congue quam ut sollicitudin tempus.';
-    let text = '';
-    for (let i = 0; i < paragraphsCount; i++) {
-      text += loremParagraph + '\n\n';
-    }
-    setLoremText(text.trim());
-  };
-
-  const handleLoremDropdownSelect = (option: string) => {
-    switch (option) {
-      case 'upper':
-        setLoremText(loremText.toUpperCase());
-        break;
-      case 'lower':
-        setLoremText(loremText.toLowerCase());
-        break;
-      case 'title':
-        setLoremText(
-          loremText
-            .toLowerCase()
-            .replace(/\b\w/g, (char) => char.toUpperCase())
-        );
-        break;
-      case 'sentence':
-        setLoremText(
-          loremText
-            .toLowerCase()
-            .replace(/(^\s*\w|[.!?]\s*\w)/g, (char) => char.toUpperCase())
-        );
-        break;
-      case 'clean':
-        setLoremText(loremText.replace(/\s+/g, ' ').trim());
-        break;
-    }
-    setLoremDropdownOpen(false);
-  };
-
-  // ----------------- Shared Utilities -----------------
-  const copyTextToClipboard = async (content: string) => {
-    if (!content) return;
-    await navigator.clipboard.writeText(content);
+  const copyTextToClipboard = async (sourceText: string) => {
+    if (!sourceText) return;
+    await navigator.clipboard.writeText(sourceText);
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   };
 
-  const downloadTextFile = (content: string, filename: string) => {
-    if (!content) return;
-    const blob = new Blob([content], { type: 'text/plain' });
+  const downloadTextFile = (sourceText: string, filename: string) => {
+    if (!sourceText) return;
+    const blob = new Blob([sourceText], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -159,60 +136,54 @@ const TextToolsPage: React.FC = () => {
     URL.revokeObjectURL(url);
   };
 
+  const generateLoremIpsum = () => {
+    const text = generateLoremText(paragraphsCount, sentencesPerParagraph);
+    setLoremText(text);
+  };
+
   return (
     <>
       <SEOHead
-        title={seoData.textCounter?.title || 'Text Tools'}
-        description={seoData.textCounter?.description || 'Text Counter and Lorem Ipsum Generator'}
+        title={seoData.textCounter?.title || 'Text Tools - Text Counter & Lorem Ipsum Generator'}
+        description={seoData.textCounter?.description || 'Text counter and Lorem Ipsum generator with convert case tools.'}
         canonical="https://calculatorhub.com/text-tools"
         schemaData={generateCalculatorSchema(
           'Text Tools',
-          'Text Counter and Lorem Ipsum Generator',
+          'Text counter and Lorem Ipsum generator with convert case tools',
           '/text-tools',
-          ['text counter', 'lorem ipsum', 'convert case', 'text tools']
+          ['text counter', 'lorem ipsum generator', 'word counter', 'character counter']
         )}
         breadcrumbs={[
           { name: 'Misc Tools', url: '/category/misc-tools' },
-          { name: 'Text Tools', url: '/text-tools' },
+          { name: 'Text Tools', url: '/text-tools' }
         ]}
       />
 
       <div className="max-w-4xl mx-auto">
-        <Breadcrumbs
-          items={[
-            { name: 'Misc Tools', url: '/category/misc-tools' },
-            { name: 'Text Tools', url: '/text-tools' },
-          ]}
-        />
+        <Breadcrumbs items={[
+          { name: 'Misc Tools', url: '/category/misc-tools' },
+          { name: 'Text Tools', url: '/text-tools' }
+        ]} />
 
         {/* Tabs */}
         <div className="flex gap-4 mb-6">
           <button
+            className={`px-4 py-2 rounded-xl font-semibold ${selectedTab === 'textCounter' ? 'bg-blue-600 text-white' : 'bg-slate-700 text-slate-300'}`}
             onClick={() => setSelectedTab('textCounter')}
-            className={`px-4 py-2 rounded-lg font-medium ${
-              selectedTab === 'textCounter'
-                ? 'bg-blue-600 text-white'
-                : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-            }`}
           >
             Text Counter
           </button>
           <button
+            className={`px-4 py-2 rounded-xl font-semibold ${selectedTab === 'loremIpsum' ? 'bg-green-600 text-white' : 'bg-slate-700 text-slate-300'}`}
             onClick={() => setSelectedTab('loremIpsum')}
-            className={`px-4 py-2 rounded-lg font-medium ${
-              selectedTab === 'loremIpsum'
-                ? 'bg-blue-600 text-white'
-                : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-            }`}
           >
             Lorem Ipsum Generator
           </button>
         </div>
 
-        {/* Tab Panels */}
+        {/* ----------------- Text Counter ----------------- */}
         {selectedTab === 'textCounter' && (
           <div className="glow-card rounded-2xl p-8 mb-8 relative">
-            {/* Text Counter UI (same as before) */}
             <div className="flex items-center space-x-3 mb-6">
               <FileText className="h-8 w-8 text-blue-400" />
               <h1 className="text-3xl font-bold text-white">Text Counter</h1>
@@ -239,59 +210,18 @@ const TextToolsPage: React.FC = () => {
                   </button>
                   {dropdownOpen && (
                     <div className="absolute right-0 mt-2 w-44 bg-slate-800 border border-slate-600 rounded-lg shadow-lg z-50">
-                      <button
-                        onClick={() => handleDropdownSelect('upper')}
-                        className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700"
-                      >
-                        🔠 UPPERCASE
-                      </button>
-                      <button
-                        onClick={() => handleDropdownSelect('lower')}
-                        className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700"
-                      >
-                        🔡 lowercase
-                      </button>
-                      <button
-                        onClick={() => handleDropdownSelect('title')}
-                        className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700"
-                      >
-                        🧾 Title Case
-                      </button>
-                      <button
-                        onClick={() => handleDropdownSelect('sentence')}
-                        className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700"
-                      >
-                        📝 Sentence Case
-                      </button>
-                      <button
-                        onClick={() => handleDropdownSelect('clean')}
-                        className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700"
-                      >
-                        ✂️ Clean Spaces
-                      </button>
+                      <button onClick={() => convertText('upper', 'text')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">🔠 UPPERCASE</button>
+                      <button onClick={() => convertText('lower', 'text')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">🔡 lowercase</button>
+                      <button onClick={() => convertText('title', 'text')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">🧾 Title Case</button>
+                      <button onClick={() => convertText('sentence', 'text')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">📝 Sentence Case</button>
+                      <button onClick={() => convertText('clean', 'text')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">✂️ Clean Spaces</button>
                     </div>
                   )}
                 </div>
 
-                {/* Copy, Download, Clear */}
-                <button
-                  onClick={() => copyTextToClipboard(text)}
-                  className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition"
-                >
-                  {copied ? 'Copied!' : 'Copy'}
-                </button>
-                <button
-                  onClick={() => downloadTextFile(text, 'text-counter.txt')}
-                  className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded transition"
-                >
-                  Download
-                </button>
-                <button
-                  onClick={clearText}
-                  className="text-xs text-red-400 hover:text-red-300 transition-colors"
-                >
-                  Clear
-                </button>
+                <button onClick={() => copyTextToClipboard(text)} className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition">{copied ? 'Copied!' : 'Copy'}</button>
+                <button onClick={() => downloadTextFile(text, 'text-counter.txt')} className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded transition">Download</button>
+                <button onClick={clearText} className="text-xs text-red-400 hover:text-red-300 transition-colors">Clear</button>
               </div>
             </div>
 
@@ -323,9 +253,7 @@ const TextToolsPage: React.FC = () => {
               </div>
               <div className="p-4 bg-gradient-to-br from-indigo-900/30 to-indigo-800/30 rounded-xl border border-indigo-500/30 col-span-2">
                 <p className="text-sm text-slate-400 mb-1">Reading Time</p>
-                <p className="text-3xl font-bold text-white">
-                  {stats.readingTime} min{stats.readingTime !== 1 ? 's' : ''}
-                </p>
+                <p className="text-3xl font-bold text-white">{stats.readingTime} min{stats.readingTime !== 1 ? 's' : ''}</p>
                 <p className="text-xs text-slate-500 mt-1">Based on 200 words/min</p>
               </div>
             </div>
@@ -336,19 +264,26 @@ const TextToolsPage: React.FC = () => {
         {selectedTab === 'loremIpsum' && (
           <div className="glow-card rounded-2xl p-8 mb-8 relative">
             <div className="flex items-center space-x-3 mb-6">
-              <FileText className="h-8 w-8 text-blue-400" />
+              <FileText className="h-8 w-8 text-green-400" />
               <h1 className="text-3xl font-bold text-white">Lorem Ipsum Generator</h1>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-2 mb-4">
+            <div className="flex flex-wrap gap-2 mb-2">
               <input
                 type="number"
                 min={1}
-                max={50}
                 value={paragraphsCount}
-                onChange={(e) => setParagraphsCount(parseInt(e.target.value))}
-                className="w-full md:w-36 px-4 py-2 rounded-lg border border-slate-600 bg-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onChange={e => setParagraphsCount(Number(e.target.value))}
+                className="w-24 px-3 py-2 rounded-lg bg-slate-700 text-white border border-slate-600 focus:outline-none focus:ring-2 focus:ring-green-500"
                 placeholder="Paragraphs"
+              />
+              <input
+                type="number"
+                min={1}
+                value={sentencesPerParagraph}
+                onChange={e => setSentencesPerParagraph(Number(e.target.value))}
+                className="w-28 px-3 py-2 rounded-lg bg-slate-700 text-white border border-slate-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="Sentences/Paragraph"
               />
               <button
                 onClick={generateLoremIpsum}
@@ -356,84 +291,37 @@ const TextToolsPage: React.FC = () => {
               >
                 Generate
               </button>
+
+              {/* Convert Case Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setLoremDropdownOpen(!loremDropdownOpen)}
+                  className="flex items-center text-xs bg-green-700 hover:bg-green-600 text-white px-3 py-1 rounded transition"
+                >
+                  Convert Case <ChevronDown className="ml-1 h-4 w-4" />
+                </button>
+                {loremDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-44 bg-slate-800 border border-slate-600 rounded-lg shadow-lg z-50">
+                    <button onClick={() => convertText('upper', 'lorem')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">🔠 UPPERCASE</button>
+                    <button onClick={() => convertText('lower', 'lorem')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">🔡 lowercase</button>
+                    <button onClick={() => convertText('title', 'lorem')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">🧾 Title Case</button>
+                    <button onClick={() => convertText('sentence', 'lorem')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">📝 Sentence Case</button>
+                    <button onClick={() => convertText('clean', 'lorem')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">✂️ Clean Spaces</button>
+                  </div>
+                )}
+              </div>
+
+              <button onClick={() => copyTextToClipboard(loremText)} className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition">{copied ? 'Copied!' : 'Copy'}</button>
+              <button onClick={() => downloadTextFile(loremText, 'lorem-ipsum.txt')} className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded transition">Download</button>
+              <button onClick={() => setLoremText('')} className="text-xs text-red-400 hover:text-red-300 transition-colors">Clear</button>
             </div>
 
             <textarea
               value={loremText}
-              onChange={(e) => setLoremText(e.target.value)}
-              className="w-full h-64 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none mb-2"
+              readOnly
+              className="w-full h-64 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none mt-4"
               placeholder="Generated Lorem Ipsum will appear here..."
             />
-
-            <div className="flex flex-wrap justify-between items-center mt-2 gap-2">
-              <p className="text-sm text-slate-400">Modify or copy your generated text</p>
-
-              <div className="flex flex-wrap items-center gap-2 relative">
-                {/* Convert Case Dropdown */}
-                <div className="relative">
-                  <button
-                    onClick={() => setLoremDropdownOpen(!loremDropdownOpen)}
-                    className="flex items-center text-xs bg-blue-700 hover:bg-blue-600 text-white px-3 py-1 rounded transition"
-                  >
-                    Convert Case <ChevronDown className="ml-1 h-4 w-4" />
-                  </button>
-                  {loremDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-44 bg-slate-800 border border-slate-600 rounded-lg shadow-lg z-50">
-                      <button
-                        onClick={() => handleLoremDropdownSelect('upper')}
-                        className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700"
-                      >
-                        🔠 UPPERCASE
-                      </button>
-                      <button
-                        onClick={() => handleLoremDropdownSelect('lower')}
-                        className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700"
-                      >
-                        🔡 lowercase
-                      </button>
-                      <button
-                        onClick={() => handleLoremDropdownSelect('title')}
-                        className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700"
-                      >
-                        🧾 Title Case
-                      </button>
-                      <button
-                        onClick={() => handleLoremDropdownSelect('sentence')}
-                        className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700"
-                      >
-                        📝 Sentence Case
-                      </button>
-                      <button
-                        onClick={() => handleLoremDropdownSelect('clean')}
-                        className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700"
-                      >
-                        ✂️ Clean Spaces
-                      </button>
-                    </div>
-                  )}
-                </div>
-
-                {/* Copy, Download, Clear */}
-                <button
-                  onClick={() => copyTextToClipboard(loremText)}
-                  className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition"
-                >
-                  {copied ? 'Copied!' : 'Copy'}
-                </button>
-                <button
-                  onClick={() => downloadTextFile(loremText, 'lorem-ipsum.txt')}
-                  className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded transition"
-                >
-                  Download
-                </button>
-                <button
-                  onClick={() => setLoremText('')}
-                  className="text-xs text-red-400 hover:text-red-300 transition-colors"
-                >
-                  Clear
-                </button>
-              </div>
-            </div>
           </div>
         )}
 
