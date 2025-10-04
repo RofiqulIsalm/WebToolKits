@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FileText } from 'lucide-react';
+import { FileText, ChevronDown } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -18,6 +18,7 @@ const TextCounter: React.FC = () => {
     readingTime: 0
   });
   const [copied, setCopied] = useState<boolean>(false);
+  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
 
   useEffect(() => {
     calculateStats();
@@ -60,8 +61,6 @@ const TextCounter: React.FC = () => {
       .replace(/(^\s*\w|[.!?]\s*\w)/g, char => char.toUpperCase());
     setText(converted);
   };
-
-  // ✂️ Remove Extra Spaces
   const removeExtraSpaces = () => {
     const cleaned = text.replace(/\s+/g, ' ').trim();
     setText(cleaned);
@@ -87,6 +86,27 @@ const TextCounter: React.FC = () => {
     URL.revokeObjectURL(url);
   };
 
+  const handleDropdownSelect = (option: string) => {
+    switch (option) {
+      case 'upper':
+        toUpperCase();
+        break;
+      case 'lower':
+        toLowerCase();
+        break;
+      case 'title':
+        toTitleCase();
+        break;
+      case 'sentence':
+        toSentenceCase();
+        break;
+      case 'clean':
+        removeExtraSpaces();
+        break;
+    }
+    setDropdownOpen(false);
+  };
+
   return (
     <>
       <SEOHead
@@ -105,18 +125,20 @@ const TextCounter: React.FC = () => {
         ]}
       />
       <div className="max-w-4xl mx-auto">
-        <Breadcrumbs items={[
-          { name: 'Misc Tools', url: '/category/misc-tools' },
-          { name: 'Text Counter', url: '/text-counter' }
-        ]} />
+        <Breadcrumbs
+          items={[
+            { name: 'Misc Tools', url: '/category/misc-tools' },
+            { name: 'Text Counter', url: '/text-counter' }
+          ]}
+        />
 
-        <div className="glow-card rounded-2xl p-8 mb-8">
+        <div className="glow-card rounded-2xl p-8 mb-8 relative">
           <div className="flex items-center space-x-3 mb-6">
             <FileText className="h-8 w-8 text-blue-400" />
             <h1 className="text-3xl font-bold text-white">Text Counter</h1>
           </div>
 
-          <div className="mb-6">
+          <div className="mb-6 relative">
             <label className="block text-sm font-medium text-white mb-2">
               Enter or Paste Your Text
             </label>
@@ -127,51 +149,67 @@ const TextCounter: React.FC = () => {
               placeholder="Start typing or paste your text here..."
             />
 
-            {/* Buttons Row */}
+            {/* Controls Row */}
             <div className="flex flex-wrap justify-between items-center mt-2 gap-2">
               <p className="text-sm text-slate-400">
                 Real-time analysis as you type
               </p>
-              <div className="flex flex-wrap items-center gap-2">
-                {/* 🔠 Convert Case Buttons */}
-                <button
-                  onClick={toUpperCase}
-                  className="text-xs bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded transition"
-                >
-                  UPPERCASE
-                </button>
-                <button
-                  onClick={toLowerCase}
-                  className="text-xs bg-green-600 hover:bg-green-500 text-white px-3 py-1 rounded transition"
-                >
-                  lowercase
-                </button>
-                <button
-                  onClick={toTitleCase}
-                  className="text-xs bg-purple-600 hover:bg-purple-500 text-white px-3 py-1 rounded transition"
-                >
-                  Title Case
-                </button>
-                <button
-                  onClick={toSentenceCase}
-                  className="text-xs bg-pink-600 hover:bg-pink-500 text-white px-3 py-1 rounded transition"
-                >
-                  Sentence Case
-                </button>
 
-                {/* ✂️ Extra Tools */}
-                <button
-                  onClick={removeExtraSpaces}
-                  className="text-xs bg-yellow-600 hover:bg-yellow-500 text-white px-3 py-1 rounded transition"
-                >
-                  Clean Spaces
-                </button>
+              <div className="flex flex-wrap items-center gap-2 relative">
+                {/* 🔽 Dropdown Menu */}
+                <div className="relative">
+                  <button
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                    className="flex items-center text-xs bg-blue-700 hover:bg-blue-600 text-white px-3 py-1 rounded transition"
+                  >
+                    Convert Case
+                    <ChevronDown className="ml-1 h-4 w-4" />
+                  </button>
+
+                  {dropdownOpen && (
+                    <div className="absolute right-0 mt-2 w-44 bg-slate-800 border border-slate-600 rounded-lg shadow-lg z-50">
+                      <button
+                        onClick={() => handleDropdownSelect('upper')}
+                        className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700"
+                      >
+                        🔠 UPPERCASE
+                      </button>
+                      <button
+                        onClick={() => handleDropdownSelect('lower')}
+                        className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700"
+                      >
+                        🔡 lowercase
+                      </button>
+                      <button
+                        onClick={() => handleDropdownSelect('title')}
+                        className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700"
+                      >
+                        🧾 Title Case
+                      </button>
+                      <button
+                        onClick={() => handleDropdownSelect('sentence')}
+                        className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700"
+                      >
+                        ✍️ Sentence Case
+                      </button>
+                      <button
+                        onClick={() => handleDropdownSelect('clean')}
+                        className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700"
+                      >
+                        🧹 Clean Extra Spaces
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Copy / Download / Clear */}
                 <button
                   onClick={copyText}
                   className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition"
                 >
-                  {copied ? 'Copied!' : 'Copy Text'}
+                  {copied ? 'Copied!' : 'Copy'}
                 </button>
+
                 <button
                   onClick={downloadText}
                   className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded transition"
@@ -179,7 +217,7 @@ const TextCounter: React.FC = () => {
                   Download
                 </button>
 
-                <button 
+                <button
                   onClick={clearText}
                   className="text-xs text-red-400 hover:text-red-300 transition-colors ml-2"
                 >
@@ -189,36 +227,26 @@ const TextCounter: React.FC = () => {
             </div>
           </div>
 
+          {/* Stats Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="p-4 bg-gradient-to-br from-blue-900/30 to-blue-800/30 rounded-xl border border-blue-500/30">
-              <p className="text-sm text-slate-400 mb-1">Characters</p>
-              <p className="text-3xl font-bold text-white">{stats.characters.toLocaleString()}</p>
-            </div>
-
-            <div className="p-4 bg-gradient-to-br from-purple-900/30 to-purple-800/30 rounded-xl border border-purple-500/30">
-              <p className="text-sm text-slate-400 mb-1">No Spaces</p>
-              <p className="text-3xl font-bold text-white">{stats.charactersNoSpaces.toLocaleString()}</p>
-            </div>
-
-            <div className="p-4 bg-gradient-to-br from-green-900/30 to-green-800/30 rounded-xl border border-green-500/30">
-              <p className="text-sm text-slate-400 mb-1">Words</p>
-              <p className="text-3xl font-bold text-white">{stats.words.toLocaleString()}</p>
-            </div>
-
-            <div className="p-4 bg-gradient-to-br from-orange-900/30 to-orange-800/30 rounded-xl border border-orange-500/30">
-              <p className="text-sm text-slate-400 mb-1">Sentences</p>
-              <p className="text-3xl font-bold text-white">{stats.sentences.toLocaleString()}</p>
-            </div>
-
-            <div className="p-4 bg-gradient-to-br from-pink-900/30 to-pink-800/30 rounded-xl border border-pink-500/30">
-              <p className="text-sm text-slate-400 mb-1">Paragraphs</p>
-              <p className="text-3xl font-bold text-white">{stats.paragraphs.toLocaleString()}</p>
-            </div>
-
-            <div className="p-4 bg-gradient-to-br from-teal-900/30 to-teal-800/30 rounded-xl border border-teal-500/30">
-              <p className="text-sm text-slate-400 mb-1">Lines</p>
-              <p className="text-3xl font-bold text-white">{stats.lines.toLocaleString()}</p>
-            </div>
+            {[
+              { label: 'Characters', value: stats.characters, color: 'blue' },
+              { label: 'No Spaces', value: stats.charactersNoSpaces, color: 'purple' },
+              { label: 'Words', value: stats.words, color: 'green' },
+              { label: 'Sentences', value: stats.sentences, color: 'orange' },
+              { label: 'Paragraphs', value: stats.paragraphs, color: 'pink' },
+              { label: 'Lines', value: stats.lines, color: 'teal' }
+            ].map((item, i) => (
+              <div
+                key={i}
+                className={`p-4 bg-gradient-to-br from-${item.color}-900/30 to-${item.color}-800/30 rounded-xl border border-${item.color}-500/30`}
+              >
+                <p className="text-sm text-slate-400 mb-1">{item.label}</p>
+                <p className="text-3xl font-bold text-white">
+                  {item.value.toLocaleString()}
+                </p>
+              </div>
+            ))}
 
             <div className="p-4 bg-gradient-to-br from-indigo-900/30 to-indigo-800/30 rounded-xl border border-indigo-500/30 col-span-2">
               <p className="text-sm text-slate-400 mb-1">Reading Time</p>
@@ -243,20 +271,10 @@ const TextCounter: React.FC = () => {
             <h3 className="text-xl font-semibold text-white mt-6">Features:</h3>
             <ul className="list-disc list-inside space-y-2 ml-4">
               <li>Real-time character and word counting</li>
-              <li>Count with and without spaces</li>
-              <li>Sentence and paragraph analysis</li>
-              <li>Line count for structured text</li>
+              <li>Convert case, clean spaces, copy, and download options</li>
+              <li>Sentence, paragraph, and line analysis</li>
               <li>Reading time estimation</li>
-              <li>Convert case, copy, clean spaces, and download tools</li>
-            </ul>
-            <h3 className="text-xl font-semibold text-white mt-6">Common Uses:</h3>
-            <ul className="list-disc list-inside space-y-2 ml-4">
-              <li>Essay and article writing</li>
-              <li>Social media post optimization (Twitter, Facebook)</li>
-              <li>SEO content optimization</li>
-              <li>Academic paper requirements</li>
-              <li>Resume and cover letter writing</li>
-              <li>SMS and text message limits</li>
+              <li>No character or word limits</li>
             </ul>
           </div>
         </div>
