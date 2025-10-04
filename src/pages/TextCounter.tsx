@@ -387,3 +387,4 @@ const TextToolsPage: React.FC = () => {
 };
 
 export default TextToolsPage;
+ 
