@@ -468,34 +468,30 @@ const dropdownRef = useRef<HTMLDivElement>(null);
               <div className="flex flex-wrap items-center gap-2 mb-2">
                 <button
                   onClick={() => {
-                    // Convert text to binary
-                    if (!text) return;
-                    const binary = text
+                    if (!binaryText) return;
+                    const binary = binaryText
                       .split('')
                       .map(char => char.charCodeAt(0).toString(2).padStart(8, '0'))
                       .join(' ');
-                    setText(binary);
+                    setBinaryText(binary);
                   }}
-                  className="text-xs bg-violet-600 hover:bg-violet-500 text-white px-3 py-1 rounded transition"
                 >
                   Text → Binary
                 </button>
           
                 <button
                   onClick={() => {
-                    // Convert binary to text
-                    if (!text) return;
+                    if (!binaryText) return;
                     try {
-                      const textFromBinary = text
+                      const textFromBinary = binaryText
                         .split(' ')
                         .map(b => String.fromCharCode(parseInt(b, 2)))
                         .join('');
-                      setText(textFromBinary);
+                      setBinaryText(textFromBinary);
                     } catch {
                       alert('Invalid binary input!');
                     }
                   }}
-                  className="text-xs bg-purple-600 hover:bg-purple-500 text-white px-3 py-1 rounded transition"
                 >
                   Binary → Text
                 </button>
