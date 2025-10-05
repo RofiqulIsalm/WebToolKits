@@ -771,17 +771,23 @@ const generateQRCode = async () => {
                     <label className="block text-sm font-medium text-white mb-2">
                       Export Format
                     </label>
-                    <select
-                      value={exportFormat}
-                      onChange={(e) => setExportFormat(e.target.value as ExportFormat)}
-                      className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option value="png">PNG</option>
-                      <option value="jpg">JPG</option>
-                      <option value="svg">SVG</option>
-                      <option value="pdf">PDF</option>
-                    </select>
+                    <div className="flex gap-2">
+                      {['png', 'jpg'].map((format) => (
+                        <button
+                          key={format}
+                          onClick={() => setExportFormat(format as ExportFormat)}
+                          className={`flex-1 px-4 py-2 rounded-lg border transition-all duration-200 ${
+                            exportFormat === format
+                              ? 'bg-blue-600 text-white border-blue-500 shadow-md'
+                              : 'bg-slate-700 text-gray-300 border-slate-600 hover:bg-slate-600'
+                          }`}
+                        >
+                          {format.toUpperCase()}
+                        </button>
+                      ))}
+                    </div>
                   </div>
+
 
                   <div>
                     <label className="block text-sm font-medium text-white mb-2">
