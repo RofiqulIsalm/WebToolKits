@@ -160,6 +160,9 @@ const dropdownRef = useRef<HTMLDivElement>(null);
     
       setText(reversed);
     };
+  // For the Binary tab
+  const [binaryText, setBinaryText] = useState('');
+
 
  
 
