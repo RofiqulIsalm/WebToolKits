@@ -590,10 +590,10 @@ ${500 + imgData.length}
                 
                   {/* ---------------- Quick Presets Dropdown ---------------- */}
               <div className="relative inline-block w-full max-w-xs">
-                <<label className="block text-sm font-medium text-white mb-2">
+                <label className="block text-sm font-medium text-white mb-2">
                       Quick Presets
                     </label>
-                <button
+                <button>
                   onClick={() => setPresetOpen(!presetOpen)}
                   className="w-full flex justify-between items-center bg-slate-800 text-white px-4 py-2 rounded-md border border-slate-600 hover:bg-slate-700"
                 >
