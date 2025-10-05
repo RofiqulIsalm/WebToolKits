@@ -79,7 +79,8 @@ useEffect(() => {
 
   //start
   
- const generateQRCode = async () => {
+// replace your existing generateQRCode with this
+const generateQRCode = async () => {
   try {
     if (!text.trim()) {
       setQrCodeUrl('');
@@ -103,25 +104,34 @@ useEffect(() => {
     // Draw logo if exists
     if (logoDataUrl) {
       const ctx = canvas.getContext('2d');
-      const logo = new Image();
-      logo.crossOrigin = 'anonymous';
+      if (ctx) {
+        const logo = new Image();
+        logo.crossOrigin = 'anonymous'; // requires CORS headers on remote images
+        await new Promise<void>((resolve) => {
+          logo.onload = () => {
+            const logoSize = Math.round(size * 0.2);
+            const x = Math.round((size - logoSize) / 2);
+            const y = x;
 
-      await new Promise<void>((resolve) => {
-        logo.onload = () => {
-          const logoSize = size * 0.2;
-          const x = (size - logoSize) / 2;
-          const y = (size - logoSize) / 2;
+            // draw background for logo so it doesn't hide modules
+            ctx.save();
+            ctx.fillStyle = bgColor || '#ffffff';
+            ctx.fillRect(x - 6, y - 6, logoSize + 12, logoSize + 12);
+            ctx.drawImage(logo, x, y, logoSize, logoSize);
+            ctx.restore();
 
-          ctx?.fillRect(x - 5, y - 5, logoSize + 10, logoSize + 10);
-          ctx?.drawImage(logo, x, y, logoSize, logoSize);
-          resolve();
-        };
-        logo.onerror = () => resolve();
-        logo.src = logoDataUrl;
-      });
+            resolve();
+          };
+          logo.onerror = () => {
+            // if logo fails to load, just continue silently
+            resolve();
+          };
+          logo.src = logoDataUrl;
+        });
+      }
     }
 
-    // ✅ Set QR code preview (this triggers React re-render)
+    // Set QR code preview (this triggers React re-render)
     const finalDataURL = canvas.toDataURL('image/png');
     setQrCodeUrl(finalDataURL);
   } catch (err) {
@@ -129,6 +139,7 @@ useEffect(() => {
     setQrCodeUrl('');
   }
 };
+
 
 
 
