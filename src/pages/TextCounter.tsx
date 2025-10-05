@@ -194,7 +194,7 @@ const TextToolsPage: React.FC = () => {
         ]} />
 
         {/* Tabs */}
-        <div className="flex gap-4 mb-6 w-full max-w-[600px] mx-auto px-3">
+        <div className="flex gap-4 mb-6 ">
           <button
             className={`px-4 py-2 rounded-xl font-semibold ${selectedTab === 'textCounter' ? 'bg-blue-600 text-white' : 'bg-slate-700 text-slate-300'}`}
             onClick={() => setSelectedTab('textCounter')}
