@@ -503,9 +503,7 @@ const dropdownRef = useRef<HTMLDivElement>(null);
                 <button onClick={() => downloadTextFile(text, 'binary-text.txt')} className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded transition">
                   Download
                 </button>
-                <button onClick={clearText} className="text-xs text-red-400 hover:text-red-300 transition-colors">
-                  Clear
-                </button>
+                <button className="text-xs text-red-400 hover:text-red-300 transition-colors" onClick={() => setBinaryText('')}>Clear</button>
               </div>
             </div>
           )}
