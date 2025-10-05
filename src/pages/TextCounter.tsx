@@ -510,7 +510,7 @@ const dropdownRef = useRef<HTMLDivElement>(null);
                   Binary → Text
                 </button>
           
-                <button className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition" onClick={() => copyTextToClipboard(binaryText)}>Copy</button>
+                <button className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition" onClick={() => copyTextToClipboard(binaryText)}>{copied ? 'Copied!' : 'Copy'}Copy</button>
 
                 <button
                   onClick={() => downloadTextFile(binaryText, 'binary.txt')}
