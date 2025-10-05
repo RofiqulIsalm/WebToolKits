@@ -122,7 +122,17 @@ const TextToolsPage: React.FC = () => {
       setText(reversed);
     };
 
- 
+ const dropdownRef = useRef(null);
+
+useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setReverseDropdownOpen(false);
+    }
+  };
+  document.addEventListener('mousedown', handleClickOutside);
+  return () => document.removeEventListener('mousedown', handleClickOutside);
+}, []);
 
 
   // Convert Case Functions
@@ -256,7 +266,10 @@ const TextToolsPage: React.FC = () => {
                 {/* Reverse Text Dropdown */}
                   <div className="relative">
                     <button
-                       
+                       onClick={() => {
+                          reverseText('word');
+                          setReverseDropdownOpen(false); // ✅ close after selecting
+                        }}
                       className="flex items-center text-xs bg-purple-700 hover:bg-purple-600 text-white px-3 py-1 rounded transition"
                     >
                       Reverse <ChevronDown className="ml-1 h-4 w-4" />
