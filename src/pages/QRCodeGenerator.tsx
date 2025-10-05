@@ -896,104 +896,71 @@ ${500 + imgData.length}
 
           {/*-------------------------------Barcode-----------------------------*/}
 
-          {activeTab === 'barcode' && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-white mb-2">
-                    Barcode Content
-                  </label>
-                  <input
-                    type="text"
-                    value={barcodeText}
-                    onChange={(e) => setBarcodeText(e.target.value)}
-                    className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Enter numbers or text"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-white mb-2">
-                    Barcode Type
-                  </label>
-                  <select
-                    value={barcodeType}
-                    onChange={(e) => setBarcodeType(e.target.value as BarcodeType)}
-                    className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    <option value="CODE128">Code 128 (Alphanumeric)</option>
-                    <option value="CODE39">Code 39 (Alphanumeric)</option>
-                    <option value="EAN13">EAN-13 (13 digits)</option>
-                    <option value="UPC">UPC-A (12 digits)</option>
-                  </select>
-                  <p className="text-xs text-slate-400 mt-1">
-                    {barcodeType === 'EAN13' && 'Requires exactly 13 digits'}
-                    {barcodeType === 'UPC' && 'Requires exactly 12 digits'}
-                    {barcodeType === 'CODE128' && 'Supports numbers and letters'}
-                    {barcodeType === 'CODE39' && 'Supports numbers, uppercase letters, and special characters'}
-                  </p>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-white mb-2">
-                    Download Format
-                  </label>
-                  <div className="flex space-x-3">
-                    <button
-                      onClick={() => setBarcodeFormat('png')}
-                      className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
-                        barcodeFormat === 'png'
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-                      }`}
-                    >
-                      PNG
-                    </button>
-                    <button
-                      onClick={() => setBarcodeFormat('svg')}
-                      className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
-                        barcodeFormat === 'svg'
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-                      }`}
-                    >
-                      SVG
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-lg font-semibold text-white mb-4">Barcode Preview</h3>
-                  {barcodeUrl ? (
-                    <div className="text-center space-y-4">
-                      <div className="inline-block p-6 bg-white rounded-xl shadow-lg">
-                        {barcodeFormat === 'svg' ? (
-                          <svg ref={barcodeSvgRef} className="max-w-full h-auto" />
-                        ) : (
-                          <canvas ref={barcodeCanvasRef} className="max-w-full h-auto" />
-                        )}
-                      </div>
-
-                      <button
-                        onClick={downloadBarcode}
-                        className="flex items-center justify-center space-x-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors mx-auto"
-                      >
-                        <Download className="h-5 w-5" />
-                        <span>Download {barcodeFormat.toUpperCase()}</span>
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="text-center py-12 bg-slate-800 rounded-xl">
-                      <BarChart3 className="h-16 w-16 text-slate-600 mx-auto mb-4" />
-                      <p className="text-slate-400">Enter content to generate barcode</p>
-                    </div>
-                  )}
-                </div>
-              </div>
+         {activeTab === 'barcode' && (
+          <div className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">Barcode Text</label>
+              <input
+                type="text"
+                value={barcodeText}
+                onChange={(e) => setBarcodeText(e.target.value)}
+                className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter barcode text (e.g. 123456789012)"
+              />
             </div>
-          )}
+        
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">Barcode Type</label>
+              <select
+                value={barcodeType}
+                onChange={(e) => setBarcodeType(e.target.value as BarcodeType)}
+                className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600"
+              >
+                <option value="CODE128">CODE128</option>
+                <option value="CODE39">CODE39</option>
+                <option value="EAN13">EAN13</option>
+                <option value="UPC">UPC</option>
+              </select>
+            </div>
+        
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">Format</label>
+              <select
+                value={barcodeFormat}
+                onChange={(e) => setBarcodeFormat(e.target.value as 'png' | 'svg')}
+                className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600"
+              >
+                <option value="png">PNG</option>
+                <option value="svg">SVG</option>
+              </select>
+            </div>
+        
+            <div className="flex flex-col items-center justify-center bg-slate-800 rounded-xl p-6 mt-4">
+              {/* Render Barcode */}
+              {barcodeFormat === 'svg' ? (
+                <svg ref={barcodeSvgRef}></svg>
+              ) : (
+                <canvas ref={barcodeCanvasRef}></canvas>
+              )}
+        
+              {/* Show preview image if generated */}
+              {barcodeUrl && (
+                <img
+                  src={barcodeUrl}
+                  alt="Generated Barcode"
+                  className="mt-4 max-h-40 object-contain bg-white p-2 rounded-lg"
+                />
+              )}
+        
+              <button
+                onClick={downloadBarcode}
+                className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition"
+              >
+                Download Barcode
+              </button>
+            </div>
+          </div>
+        )}
 
           {/*-----------------------------Hash code------------------------------*/}
 
