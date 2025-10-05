@@ -27,6 +27,9 @@ const QRCodeGenerator: React.FC = () => {
   const [logoDataUrl, setLogoDataUrl] = useState<string>('');
   const [exportFormat, setExportFormat] = useState<ExportFormat>('png');
   const [exportSize, setExportSize] = useState<ExportSize>('medium');
+  const [presetOpen, setPresetOpen] = useState(false);
+  const [selectedPreset, setSelectedPreset] = useState('Quick Presets');
+
 
   const [decodedText, setDecodedText] = useState<string>('');
   const [decodedCopied, setDecodedCopied] = useState<boolean>(false);
@@ -584,22 +587,68 @@ ${500 + imgData.length}
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-white mb-2">
-                    Quick Presets
-                  </label>
-                  <div className="grid grid-cols-2 gap-2">
-                    {presetTexts.map((preset) => (
-                      <button
-                        key={preset.label}
-                        onClick={() => setText(preset.value)}
-                        className="px-3 py-2 text-sm bg-slate-700 hover:bg-slate-600 text-white border border-slate-600 rounded-lg transition-colors"
-                      >
-                        {preset.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                {/*start*/}
+
+                  {/* ---------------- Quick Presets Dropdown ---------------- */}
+<div className="relative inline-block w-full max-w-xs">
+  <button
+    onClick={() => setPresetOpen(!presetOpen)}
+    className="w-full flex justify-between items-center bg-slate-800 text-white px-4 py-2 rounded-md border border-slate-600 hover:bg-slate-700"
+  >
+    {selectedPreset}
+    <svg
+      className={`w-4 h-4 ml-2 transition-transform ${presetOpen ? 'rotate-180' : 'rotate-0'}`}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+
+  {presetOpen && (
+    <div className="absolute z-10 w-full mt-2 bg-slate-800 border border-slate-600 rounded-md shadow-lg">
+      {['Website URL', 'Email', 'Phone', 'SMS', 'WiFi', 'Location'].map((preset) => (
+        <button
+          key={preset}
+          onClick={() => {
+            setSelectedPreset(preset);
+            setPresetOpen(false);
+
+            // handle preset selection
+            switch (preset) {
+              case 'Website URL':
+                setText('https://');
+                break;
+              case 'Email':
+                setText('mailto:example@example.com');
+                break;
+              case 'Phone':
+                setText('tel:+880');
+                break;
+              case 'SMS':
+                setText('sms:+880?body=Hello');
+                break;
+              case 'WiFi':
+                setText('WIFI:T:WPA;S:NetworkName;P:Password;;');
+                break;
+              case 'Location':
+                setText('geo:0,0?q=Dhaka,Bangladesh');
+                break;
+            }
+          }}
+          className="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-slate-700"
+        >
+          {preset}
+        </button>
+      ))}
+    </div>
+  )}
+</div>
+
+                
+                {/*end*/}
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
