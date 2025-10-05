@@ -390,10 +390,10 @@ const dropdownRef = useRef<HTMLDivElement>(null);
                 <p className="text-xs text-slate-500 mt-1">Based on 200 words/min</p>
               </div>
 
-              <div className="p-4 bg-gradient-to-br from-pink-900/30 to-pink-800/30 rounded-xl border border-pink-500/30">
-  <p className="text-sm text-slate-400 mb-1">Palindrome Words</p>
-  <p className="text-3xl font-bold text-white">{stats.palindromeWords.toLocaleString()}</p>
-</div>
+               <div className="p-4 bg-gradient-to-br from-pink-900/30 to-pink-800/30 rounded-xl border border-pink-500/30">
+                  <p className="text-sm text-slate-400 mb-1">Palindrome Words</p>
+                  <p className="text-3xl font-bold text-white">                        {stats.palindromeWords.toLocaleString()}</p>
+               </div>
 
             </div>
           </div>
