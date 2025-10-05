@@ -69,6 +69,10 @@ const TextToolsPage: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [reverseDropdownOpen, setReverseDropdownOpen] = useState(false);
+  const reverseDropdownRef = useRef<HTMLDivElement>(null);
+  const convertCaseDropdownRef = useRef<HTMLDivElement>(null);
+  const loremDropdownRef = useRef<HTMLDivElement>(null);
+
   
 
 
@@ -81,17 +85,34 @@ const TextToolsPage: React.FC = () => {
   // ----------------- Close dropdowns when clicking outside -----------------
 const dropdownRef = useRef<HTMLDivElement>(null);
 
-useEffect(() => {
-  const handleClickOutside = (event: MouseEvent) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-      setDropdownOpen(false);
-      setReverseDropdownOpen(false);
-      setLoremDropdownOpen(false);
-    }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
+    useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (
+          (reverseDropdownRef.current && !reverseDropdownRef.current.contains(event.target as Node)) &&
+          reverseDropdownOpen
+        ) {
+          setReverseDropdownOpen(false);
+        }
+    
+        if (
+          (convertCaseDropdownRef.current && !convertCaseDropdownRef.current.contains(event.target as Node)) &&
+          dropdownOpen
+        ) {
+          setDropdownOpen(false);
+        }
+    
+        if (
+          (loremDropdownRef.current && !loremDropdownRef.current.contains(event.target as Node)) &&
+          loremDropdownOpen
+        ) {
+          setLoremDropdownOpen(false);
+        }
+      };
+
+  document.addEventListener('mousedown', handleClickOutside);
+  return () => document.removeEventListener('mousedown', handleClickOutside);
+}, [reverseDropdownOpen, dropdownOpen, loremDropdownOpen]);
+
 /// dropdown menu done ✅
 
   // Text Counter Stats Calculation
@@ -272,7 +293,7 @@ useEffect(() => {
              
               {/* text reverse */}
                 {/* Reverse Text Dropdown */}
-                  <div className="relative" ref={dropdownRef}>
+                  <div className="relative" ref={reverseDropdownRef}>
                     <button
                       onClick={() => setReverseDropdownOpen(!reverseDropdownOpen)} 
                       className="flex items-center text-xs bg-purple-700 hover:bg-purple-600 text-white px-3 py-1 rounded transition"
@@ -291,7 +312,7 @@ useEffect(() => {
 
               <div className="flex flex-wrap items-center gap-2 relative">
                 {/* Convert Case Dropdown */}
-                <div className="relative">
+                <div className="relative" ref={convertCaseDropdownRef}>
                   <button
                     onClick={() => setDropdownOpen(!dropdownOpen)}
                     className="flex items-center text-xs bg-blue-700 hover:bg-blue-600 text-white px-3 py-1 rounded transition"
@@ -400,7 +421,7 @@ useEffect(() => {
           
                 <div className="flex flex-wrap items-center gap-2 relative">
                   {/* Convert Case Dropdown */}
-                  <div className="relative">
+                  <div className="relative" ref={loremDropdownRef}>
                     <button
                       onClick={() => setLoremDropdownOpen(!loremDropdownOpen)}
                       className="flex items-center text-xs bg-green-700 hover:bg-green-600 text-white px-3 py-1 rounded transition"
