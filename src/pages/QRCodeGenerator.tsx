@@ -588,7 +588,7 @@ ${500 + imgData.length}
                 </div>
 
                 
-                  {/* ---------------- Quick Presets Dropdown ---------------- */}
+              {/* ---------------- Quick Presets Dropdown ---------------- */}
               <div className="relative inline-block w-full max-w-xs">
                 <label className="block text-sm font-medium text-white mb-2">
                       Quick Presets
