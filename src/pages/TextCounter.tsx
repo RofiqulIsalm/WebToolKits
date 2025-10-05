@@ -267,7 +267,7 @@ useEffect(() => {
               placeholder="Start typing or paste your text here..."
             />
 
-            <div className="flex flex-wrap justify-between items-center mt-2 gap-2" ref={dropdownRef}>
+            <div className="flex flex-wrap justify-between items-center mt-2 gap-2" >
              
               {/* text reverse */}
                 {/* Reverse Text Dropdown */}
