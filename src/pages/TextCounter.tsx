@@ -290,7 +290,7 @@ useEffect(() => {
 
               <div className="flex flex-wrap items-center gap-2 relative">
                 {/* Convert Case Dropdown */}
-                <div className="relative">
+                <div className="relative" ref={dropdownRef}>
                   <button
                     onClick={() => setDropdownOpen(!dropdownOpen)}
                     className="flex items-center text-xs bg-blue-700 hover:bg-blue-600 text-white px-3 py-1 rounded transition"
