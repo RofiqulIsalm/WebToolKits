@@ -820,7 +820,15 @@ ${500 + imgData.length}
                     <div className="mt-2 text-xs text-slate-500">
                       Size: {size}x{size}px | Error Level: {errorLevel} | Colors: {fgColor}/{bgColor}
                     </div>
-                    <p>hello</p>
+
+                      <button
+                        onClick={downloadQRCode}
+                        className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-md"
+                      >
+                        <Download size={18} />
+                        Download QR Code
+                      </button>
+                    
                   </div>
                 )}
               </div>
