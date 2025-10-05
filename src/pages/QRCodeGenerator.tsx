@@ -731,7 +731,7 @@ const generateQRCode = async () => {
                 <label className="block text-sm font-medium text-white mb-2">
                   Error Correction
                 </label>
-                <div className="flex gap-1 sm:gap-1">
+                <div className="flex gap-1 sm:gap-2">
                   {['L', 'M', 'Q', 'H'].map((level) => (
                     <button
                       key={level}
