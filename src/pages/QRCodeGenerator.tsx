@@ -498,10 +498,10 @@ ${500 + imgData.length}
   ];
 
   const tabs = [
-    { id: 'qr-generator', label: 'QR Generator', icon: QrCode },
-    { id: 'qr-decoder', label: 'QR Decoder', icon: Scan },
-    { id: 'barcode', label: 'Barcode Generator', icon: BarChart3 },
-    { id: 'hash', label: 'Hash Generator', icon: Hash }
+    { id: 'qr-generator', label: '', icon: QrCode },
+    { id: 'qr-decoder', label: '', icon: Scan },
+    { id: 'barcode', label: '', icon: BarChart3 },
+    { id: 'hash', label: '', icon: Hash }
   ];
 
   return (
@@ -509,7 +509,7 @@ ${500 + imgData.length}
       <SEOHead
         title={seoData.qrCodeGenerator.title}
         description={seoData.qrCodeGenerator.description}
-        canonical="https://calculatorhub.com/qr-code-generator"
+        canonical="https://calculatorhub.site/qr-code-generator"
         schemaData={generateCalculatorSchema(
           "QR Code Generator",
           seoData.qrCodeGenerator.description,
