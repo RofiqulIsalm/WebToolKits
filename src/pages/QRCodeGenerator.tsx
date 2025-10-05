@@ -702,7 +702,7 @@ const generateQRCode = async () => {
                 <label className="block text-sm font-medium text-white mb-2">
                   Preview Size
                 </label>
-                <div className="flex gap-2 sm:gap-4">
+                <div className="flex gap-4 sm:gap-4">
                   {[
                     { label: 'S', value: 128 },
                     { label: 'M', value: 256 },
