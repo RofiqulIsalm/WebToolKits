@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { QrCode, Download, Upload, Copy, Check, Scan, BarChart3, Hash } from 'lucide-react';
 import QRCodeLib from 'qrcode';
+
 import jsQR from 'jsqr';
 import JsBarcode from 'jsbarcode';
 import AdBanner from '../components/AdBanner';
@@ -46,15 +47,36 @@ const QRCodeGenerator: React.FC = () => {
   const [sha256Hash, setSha256Hash] = useState<string>('');
   const [copiedHash, setCopiedHash] = useState<string>('');
 
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const barcodeCanvasRef = useRef<HTMLCanvasElement>(null);
   const barcodeSvgRef = useRef<SVGSVGElement>(null);
+  
 
-  useEffect(() => {
-      if (canvasRef.current && text.trim() !== '') {
-    generateQRCode();
-  }
-}, [text, size, fgColor, bgColor, errorLevel, logoDataUrl]);
+ useEffect(() => {
+  if (!text.trim()) return;
+
+  const generateQRCode = async () => {
+    try {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      await QRCodeLib.toCanvas(canvas, text, {
+        width: size,
+        margin: 2,
+        errorCorrectionLevel: errorLevel,
+        color: { dark: fgColor, light: bgColor },
+      });
+
+      const dataUrl = canvas.toDataURL();
+      setQRCodeUrl(dataUrl);
+    } catch (error) {
+      console.error('QR code generation failed:', error);
+    }
+  };
+
+  generateQRCode();
+}, [text, size, fgColor, bgColor, errorLevel]);
+
 
   useEffect(() => {
     generateBarcode();
@@ -829,7 +851,7 @@ ${500 + imgData.length}
                     <h4 className="font-medium text-white mb-2">Encoded Content:</h4>
                     <p className="text-sm text-slate-300 break-all">{text}</p>
                     <div className="mt-2 text-xs text-slate-500">
-                      Size: {size}x{size}px | Error Level: {errorLevel} | Colors: {fgColor}/{bgColor}
+                      Size1: {size}x{size}px | Error Level: {errorLevel} | Colors: {fgColor}/{bgColor}
                     </div>
                   </div>
                 )}
