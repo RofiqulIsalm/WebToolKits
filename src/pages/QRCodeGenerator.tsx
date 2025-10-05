@@ -73,54 +73,60 @@ const QRCodeGenerator: React.FC = () => {
     }
   }, [logoFile]);
 
-  const generateQRCode = async () => {
-    if (!text.trim()) {
-      setQrCodeUrl('');
-      return;
-    }
+const generateQRCode = async () => {
+  if (!text.trim()) {
+    setQrCodeUrl('');
+    return;
+  }
 
-    try {
-      if (!canvasRef.current) return;
+  try {
+    if (!canvasRef.current) return;
 
-      await QRCodeLib.toCanvas(canvasRef.current, text, {
-        width: size,
-        margin: 2,
-        errorCorrectionLevel: errorLevel,
-        color: {
-          dark: fgColor,
-          light: bgColor
-        }
+    // Generate base QR
+    await QRCodeLib.toCanvas(canvasRef.current, text, {
+      width: size,
+      margin: 2,
+      errorCorrectionLevel: errorLevel,
+      color: {
+        dark: fgColor,
+        light: bgColor,
+      },
+    });
+
+    await new Promise((res) => setTimeout(res, 200)); // small delay
+
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+
+    if (logoDataUrl && ctx) {
+      const logo = new Image();
+      logo.crossOrigin = 'anonymous';
+
+      await new Promise<void>((resolve, reject) => {
+        logo.onload = () => {
+          const logoSize = size * 0.2;
+          const x = (size - logoSize) / 2;
+          const y = (size - logoSize) / 2;
+
+          ctx.fillStyle = bgColor;
+          ctx.fillRect(x - 5, y - 5, logoSize + 10, logoSize + 10);
+          ctx.drawImage(logo, x, y, logoSize, logoSize);
+          resolve();
+        };
+        logo.onerror = reject;
+        logo.src = logoDataUrl;
       });
-      await new Promise(res => setTimeout(res, 200)); // ✅ small delay
-
-      if (logoDataUrl && canvasRef.current) {
-        const ctx = canvasRef.current.getContext('2d');
-        if (ctx) {
-          const logo = new Image();
-          logo.crossOrigin = 'anonymous';
-          logo.onload = () => {
-            const logoSize = size * 0.2;
-            const x = (size - logoSize) / 2;
-            const y = (size - logoSize) / 2;
-
-            ctx.fillStyle = bgColor;
-            ctx.fillRect(x - 5, y - 5, logoSize + 10, logoSize + 10);
-
-            ctx.drawImage(logo, x, y, logoSize, logoSize);
-
-            setQrCodeUrl(canvasRef.current!.toDataURL());
-          };
-          logo.src = logoDataUrl;
-        }
-      } else {
-        setQrCodeUrl(canvasRef.current.toDataURL());
-      }
-    } catch (error) {
-      console.error('Error generating QR code:', error);
-      setQrCodeUrl('');
     }
-  };
 
+    // ✅ Now safely get the QR code URL
+    setQrCodeUrl(canvas.toDataURL());
+  } catch (error) {
+    console.error('Error generating QR code:', error);
+    setQrCodeUrl('');
+  }
+};
+
+  //end here
   const getSizePixels = (): number => {
     const sizes = {
       small: 256,
