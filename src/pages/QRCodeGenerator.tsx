@@ -8,8 +8,7 @@ import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
-import { Download, BarChart3 } from 'lucide-react';
-
+ 
 
 type TabType = 'qr-generator' | 'qr-decoder' | 'barcode' | 'hash';
 type ExportFormat = 'png' | 'jpg' | 'svg' | 'pdf';
@@ -288,7 +287,6 @@ ${500 + imgData.length}
     setTimeout(() => setDecodedCopied(false), 2000);
   };
 
-   // bar code generator 
   const generateBarcode = () => {
     if (!barcodeText.trim()) {
       setBarcodeUrl('');
@@ -324,8 +322,6 @@ ${500 + imgData.length}
     }
   };
 
-
-  //  
   const downloadBarcode = () => {
     if (!barcodeUrl) return;
 
