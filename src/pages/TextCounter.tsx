@@ -458,6 +458,19 @@ const dropdownRef = useRef<HTMLDivElement>(null);
                 <FileText className="h-8 w-8 text-violet-400" />
                 <h1 className="text-3xl font-bold text-white">Binary ↔ Text Converter</h1>
               </div>
+              <button
+              onClick={async () => {
+                try {
+                  const clipText = await navigator.clipboard.readText();
+                  setBinaryText(clipText);
+                } catch {
+                  alert('Failed to read clipboard — please allow clipboard access.');
+                }
+              }}
+              className="absolute top-3 right-3 text-sm text-violet-400 hover:text-violet-300 transition-colors bg-slate-800/70 px-3 py-1 rounded-md border border-slate-600"
+            >
+              Paste
+            </button>
           
               <textarea
                 value={binaryText}
