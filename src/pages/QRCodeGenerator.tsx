@@ -696,7 +696,7 @@ const generateQRCode = async () => {
                   </div>
                 </div>
 
-              <div className="grid grid-cols-2 gap-6 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               {/* Preview Size */}
               <div>
                 <label className="block text-sm font-medium text-white mb-2">
@@ -712,7 +712,7 @@ const generateQRCode = async () => {
                       key={opt.value}
                       onClick={() => setSize(opt.value)}
                       className={`
-                        flex-1 px-3 sm:px-4 py-2 rounded-lg border text-sm font-medium transition-all duration-200
+                        flex-2 px-3 sm:px-4 py-2 rounded-lg border text-sm font-medium transition-all duration-200
                         ${
                           size === opt.value
                             ? 'bg-blue-600 text-white border-blue-500 shadow-md'
