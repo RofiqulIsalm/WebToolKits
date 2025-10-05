@@ -75,68 +75,57 @@ const QRCodeGenerator: React.FC = () => {
 
   //start
   
-  const generateQRCode = async () => {
+ const generateQRCode = async () => {
+  try {
     if (!text.trim()) {
       setQrCodeUrl('');
       return;
     }
-  
-    try {
-      const canvas = canvasRef.current;
-      if (!canvas) return;
-  
-      // Generate base QR code
-      await QRCodeLib.toCanvas(canvas, text, {
-        width: size,
-        margin: 2,
-        errorCorrectionLevel: errorLevel,
-        color: {
-          dark: fgColor,
-          light: bgColor,
-        },
-      });
-  
-      // Small delay to ensure QR drawn
-      await new Promise((res) => setTimeout(res, 200));
-  
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    // Draw QR code first
+    await QRCodeLib.toCanvas(canvas, text, {
+      width: size,
+      margin: 1,
+      errorCorrectionLevel: errorLevel,
+      color: {
+        dark: fgColor,
+        light: bgColor,
+      },
+    });
+
+    // Draw logo if exists
+    if (logoDataUrl) {
       const ctx = canvas.getContext('2d');
-      if (!ctx) return;
-  
-      // If logo exists, draw it in the middle
-      if (logoDataUrl) {
-        const logo = new Image();
-        logo.crossOrigin = 'anonymous';
-  
-        await new Promise<void>((resolve, reject) => {
-          logo.onload = () => {
-            const logoSize = size * 0.2;
-            const x = (size - logoSize) / 2;
-            const y = (size - logoSize) / 2;
-  
-            // Draw white background behind logo
-            ctx.fillStyle = bgColor;
-            ctx.fillRect(x - 5, y - 5, logoSize + 10, logoSize + 10);
-  
-            // Draw logo
-            ctx.drawImage(logo, x, y, logoSize, logoSize);
-            resolve();
-          };
-          logo.onerror = () => {
-            console.warn('Logo failed to load, skipping.');
-            resolve();
-          };
-          logo.src = logoDataUrl;
-        });
-      }
-  
-      // ✅ Always update the final image URL
-      const finalUrl = canvas.toDataURL('image/png');
-      setQrCodeUrl(finalUrl);
-    } catch (err) {
-      console.error('Error generating QR code:', err);
-      setQrCodeUrl('');
+      const logo = new Image();
+      logo.crossOrigin = 'anonymous';
+
+      await new Promise<void>((resolve) => {
+        logo.onload = () => {
+          const logoSize = size * 0.2;
+          const x = (size - logoSize) / 2;
+          const y = (size - logoSize) / 2;
+
+          ctx?.fillRect(x - 5, y - 5, logoSize + 10, logoSize + 10);
+          ctx?.drawImage(logo, x, y, logoSize, logoSize);
+          resolve();
+        };
+        logo.onerror = () => resolve();
+        logo.src = logoDataUrl;
+      });
     }
-  };
+
+    // ✅ Set QR code preview (this triggers React re-render)
+    const finalDataURL = canvas.toDataURL('image/png');
+    setQrCodeUrl(finalDataURL);
+  } catch (err) {
+    console.error('QR generation failed:', err);
+    setQrCodeUrl('');
+  }
+};
+
 
 
   //end here
