@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { QrCode, Download, Upload, Copy, Check, Scan, BarChart3, Hash } from 'lucide-react';
 import QRCodeLib from 'qrcode';
-
 import jsQR from 'jsqr';
 import JsBarcode from 'jsbarcode';
 import AdBanner from '../components/AdBanner';
@@ -47,36 +46,15 @@ const QRCodeGenerator: React.FC = () => {
   const [sha256Hash, setSha256Hash] = useState<string>('');
   const [copiedHash, setCopiedHash] = useState<string>('');
 
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const barcodeCanvasRef = useRef<HTMLCanvasElement>(null);
   const barcodeSvgRef = useRef<SVGSVGElement>(null);
-  
 
- useEffect(() => {
-  if (!text.trim()) return;
-
-  const generateQRCode = async () => {
-    try {
-      const canvas = canvasRef.current;
-      if (!canvas) return;
-
-      await QRCodeLib.toCanvas(canvas, text, {
-        width: size,
-        margin: 2,
-        errorCorrectionLevel: errorLevel,
-        color: { dark: fgColor, light: bgColor },
-      });
-
-      const dataUrl = canvas.toDataURL();
-      setQRCodeUrl(dataUrl);
-    } catch (error) {
-      console.error('QR code generation failed:', error);
-    }
-  };
-
-  generateQRCode();
-}, [text, size, fgColor, bgColor, errorLevel]);
-
+  useEffect(() => {
+      if (canvasRef.current && text.trim() !== '') {
+    generateQRCode();
+  }
+}, [text, size, fgColor, bgColor, errorLevel, logoDataUrl]);
 
   useEffect(() => {
     generateBarcode();
@@ -153,7 +131,7 @@ const QRCodeGenerator: React.FC = () => {
 
 
 
-
+  //end here
   const getSizePixels = (): number => {
     const sizes = {
       small: 256,
@@ -669,14 +647,12 @@ ${500 + imgData.length}
                     ))}
                   </div>
                 )}
-
-                 
               </div>
 
                 
                 {/*end*/}
 
-                <div className="grid grid-cols-1 gap-4">
+                <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-white mb-2">
                       Foreground Color
@@ -820,15 +796,6 @@ ${500 + imgData.length}
                     </select>
                   </div>
                 </div>
-
-                <button
-                  onClick={downloadQRCode}
-                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-md"
-                >
-                  <Download size={18} />
-                  Download QR Code
-                </button>
-                
               </div>
 
               <div className="space-y-6">
@@ -851,7 +818,7 @@ ${500 + imgData.length}
                     <h4 className="font-medium text-white mb-2">Encoded Content:</h4>
                     <p className="text-sm text-slate-300 break-all">{text}</p>
                     <div className="mt-2 text-xs text-slate-500">
-                      Size1: {size}x{size}px | Error Level: {errorLevel} | Colors: {fgColor}/{bgColor}
+                      Size: {size}x{size}px | Error Level: {errorLevel} | Colors: {fgColor}/{bgColor}
                     </div>
                   </div>
                 )}
