@@ -384,7 +384,7 @@ const dropdownRef = useRef<HTMLDivElement>(null);
                 <p className="text-sm text-slate-400 mb-1">Lines</p>
                 <p className="text-3xl font-bold text-white">{stats.lines.toLocaleString()}</p>
               </div>
-              <div className="p-4 bg-gradient-to-br from-indigo-900/30 to-indigo-800/30 rounded-xl border border-indigo-500/30 col-span-2">
+              <div className="p-4 bg-gradient-to-br from-indigo-900/30 to-indigo-800/30 rounded-xl border border-indigo-500/30 col-span-1">
                 <p className="text-sm text-slate-400 mb-1">Reading Time</p>
                 <p className="text-3xl font-bold text-white">{stats.readingTime} min{stats.readingTime !== 1 ? 's' : ''}</p>
                 <p className="text-xs text-slate-500 mt-1">Based on 200 words/min</p>
