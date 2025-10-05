@@ -48,8 +48,10 @@ const QRCodeGenerator: React.FC = () => {
   const barcodeSvgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
+      if (canvasRef.current && text.trim() !== '') {
     generateQRCode();
-  }, [text, size, errorLevel, fgColor, bgColor, logoDataUrl]);
+  }
+}, [text, size, fgColor, bgColor, errorLevel, logoDataUrl]);
 
   useEffect(() => {
     generateBarcode();
@@ -89,11 +91,13 @@ const QRCodeGenerator: React.FC = () => {
           light: bgColor
         }
       });
+      await new Promise(res => setTimeout(res, 200)); // ✅ small delay
 
       if (logoDataUrl && canvasRef.current) {
         const ctx = canvasRef.current.getContext('2d');
         if (ctx) {
           const logo = new Image();
+          logo.crossOrigin = 'anonymous';
           logo.onload = () => {
             const logoSize = size * 0.2;
             const x = (size - logoSize) / 2;
