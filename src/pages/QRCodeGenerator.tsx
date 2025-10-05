@@ -29,6 +29,18 @@ const QRCodeGenerator: React.FC = () => {
   const [exportSize, setExportSize] = useState<ExportSize>('medium');
   const [presetOpen, setPresetOpen] = useState(false);
   const [selectedPreset, setSelectedPreset] = useState('Quick Presets');
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setPresetOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
 
 
   const [decodedText, setDecodedText] = useState<string>('');
