@@ -88,6 +88,48 @@ const TextToolsPage: React.FC = () => {
   const [sentencesPerParagraph, setSentencesPerParagraph] = useState(5);
   const [loremDropdownOpen, setLoremDropdownOpen] = useState(false);
 
+  // _________________ Number to word function _________________________
+  // Number ↔ Words conversion functions
+    // nubmer to word
+    const convertNumberToWords = () => {
+      if (!numberInput) return;
+      const num = Number(numberInput);
+      if (isNaN(num)) {
+        setNumberResult('Invalid number');
+        return;
+      }
+      setNumberResult(toWords(num));
+    };
+
+   // word to number
+      const convertWordsToNumber = () => {
+        if (!numberInput) return;
+        try {
+          const words = numberInput.toLowerCase().replace(/-/g, ' ').split(' ');
+          let num = 0;
+          // Simple library-free parser for 0-9999 numbers; you can replace with a library if needed
+          const wordToNum: Record<string, number> = {
+            zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5,
+            six: 6, seven: 7, eight: 8, nine: 9, ten: 10,
+            eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15,
+            sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19,
+            twenty: 20, thirty: 30, forty: 40, fifty: 50, sixty: 60,
+            seventy: 70, eighty: 80, ninety: 90, hundred: 100, thousand: 1000
+          };
+          let temp = 0;
+          words.forEach(w => {
+            const val = wordToNum[w];
+            if (val === 100) temp *= 100;
+            else if (val === 1000) { temp *= 1000; num += temp; temp = 0; }
+            else if (val !== undefined) temp += val;
+          });
+          num += temp;
+          setNumberResult(num.toString());
+        } catch {
+          setNumberResult('Invalid words');
+        }
+      };
+  
   // ----------------- Close dropdowns when clicking outside -----------------
 const dropdownRef = useRef<HTMLDivElement>(null);
 
