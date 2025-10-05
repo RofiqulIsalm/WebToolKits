@@ -567,6 +567,34 @@ const dropdownRef = useRef<HTMLDivElement>(null);
           )}
 
 
+        {/*-------------------------------number to text------------------------------*/}
+          {selectedTab === 'numberConverter' && (
+            <div className="glow-card rounded-2xl p-4 sm:p-6 md:p-8 mb-8 relative">
+              <h1 className="text-3xl font-bold text-white mb-4">Number ↔ Words Converter</h1>
+              
+              <input
+                type="text"
+                value={numberInput}
+                onChange={(e) => setNumberInput(e.target.value)}
+                className="w-full px-3 py-2 rounded-lg bg-slate-700 text-white border border-slate-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 mb-3"
+                placeholder="Enter number or words"
+              />
+          
+              <div className="flex gap-2 mb-3">
+                <button onClick={convertToWords} className="px-3 py-1 bg-yellow-600 text-white rounded">Number → Words</button>
+                <button onClick={convertToNumber} className="px-3 py-1 bg-yellow-600 text-white rounded">Words → Number</button>
+              </div>
+          
+              <textarea
+                value={result}
+                readOnly
+                className="w-full h-32 px-3 py-2 rounded-lg bg-slate-700 text-white border border-slate-600 resize-none"
+                placeholder="Result will appear here"
+              />
+            </div>
+          )}
+
+
         <AdBanner />
         <RelatedCalculators currentPath="/text-tools" />
       </div>
