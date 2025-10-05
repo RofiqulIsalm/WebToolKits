@@ -605,21 +605,23 @@ ${500 + imgData.length}
                 <label className="block text-sm font-medium text-white mb-2">
                       Quick Presets
                     </label>
-                <button
-                  onClick={() => setPresetOpen(!presetOpen)}
-                  className="w-full flex justify-between items-center bg-slate-800 text-white px-4 py-2 rounded-md border border-slate-600 hover:bg-slate-700"
-                >
-                  {selectedPreset}
-                  <svg
-                    className={`w-4 h-4 ml-2 transition-transform ${presetOpen ? 'rotate-180' : 'rotate-0'}`}
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
+                <div ref={dropdownRef} className="relative inline-block w-full max-w-xs">
+                      <button
+                        onClick={() => setPresetOpen(!presetOpen)}
+                        className="w-full flex justify-between items-center bg-slate-800 text-white px-4 py-2 rounded-md border border-slate-600 hover:bg-slate-700"
+                      >
+                        {selectedPreset}
+                        <svg
+                          className={`w-4 h-4 ml-2 transition-transform ${presetOpen ? 'rotate-180' : 'rotate-0'}`}
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                </div>
               
                 {presetOpen && (
                   <div className="absolute z-10 w-full mt-2 bg-slate-800 border border-slate-600 rounded-md shadow-lg">
