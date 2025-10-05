@@ -511,6 +511,8 @@ const dropdownRef = useRef<HTMLDivElement>(null);
                 >
                   Binary → Text
                 </button>
+
+                <div className="flex justify-end gap-2 mt-2">
           
                 <button className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition" onClick={() => copyTextToClipboard(binaryText)}>{copied ? 'Copied!' : 'Copy'}</button>
 
@@ -521,6 +523,7 @@ const dropdownRef = useRef<HTMLDivElement>(null);
                   Download
                 </button>
                 <button className="text-xs text-red-400 hover:text-red-300 transition-colors" onClick={() => setBinaryText('')}>Clear</button>
+                </div>
               </div>
             </div>
           )}
