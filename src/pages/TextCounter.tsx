@@ -446,7 +446,71 @@ const dropdownRef = useRef<HTMLDivElement>(null);
               </div>
             </div> 
           )}
- 
+
+        
+         {/* ----------------- Binary ↔ Text Converter ----------------- */}
+          {selectedTab === 'binarytotext' && (
+            <div className="glow-card rounded-2xl p-4 sm:p-6 md:p-8 mb-8 relative">
+              <div className="flex items-center space-x-3 mb-6">
+                <FileText className="h-8 w-8 text-violet-400" />
+                <h1 className="text-3xl font-bold text-white">Binary ↔ Text Converter</h1>
+              </div>
+          
+              <textarea
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                className="w-full max-w-full h-64 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-violet-500 resize-none mb-2"
+                placeholder="Enter text or binary here..."
+              />
+          
+              <div className="flex flex-wrap items-center gap-2 mb-2">
+                <button
+                  onClick={() => {
+                    // Convert text to binary
+                    if (!text) return;
+                    const binary = text
+                      .split('')
+                      .map(char => char.charCodeAt(0).toString(2).padStart(8, '0'))
+                      .join(' ');
+                    setText(binary);
+                  }}
+                  className="text-xs bg-violet-600 hover:bg-violet-500 text-white px-3 py-1 rounded transition"
+                >
+                  Text → Binary
+                </button>
+          
+                <button
+                  onClick={() => {
+                    // Convert binary to text
+                    if (!text) return;
+                    try {
+                      const textFromBinary = text
+                        .split(' ')
+                        .map(b => String.fromCharCode(parseInt(b, 2)))
+                        .join('');
+                      setText(textFromBinary);
+                    } catch {
+                      alert('Invalid binary input!');
+                    }
+                  }}
+                  className="text-xs bg-purple-600 hover:bg-purple-500 text-white px-3 py-1 rounded transition"
+                >
+                  Binary → Text
+                </button>
+          
+                <button onClick={() => copyTextToClipboard(text)} className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition">
+                  {copied ? 'Copied!' : 'Copy'}
+                </button>
+                <button onClick={() => downloadTextFile(text, 'binary-text.txt')} className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded transition">
+                  Download
+                </button>
+                <button onClick={clearText} className="text-xs text-red-400 hover:text-red-300 transition-colors">
+                  Clear
+                </button>
+              </div>
+            </div>
+          )}
+
 
         <AdBanner />
         <RelatedCalculators currentPath="/text-tools" />
