@@ -498,10 +498,10 @@ ${500 + imgData.length}
   ];
 
   const tabs = [
-    { id: 'qr-generator', label: 'Generator', icon: QrCode },
-    { id: 'qr-decoder', label: 'Decoder', icon: Scan },
-    { id: 'barcode', label: 'Barcode', icon: BarChart3 },
-    { id: 'hash', label: 'Hash', icon: Hash }
+    { id: 'qr-generator', label: '', icon: QrCode },
+    { id: 'qr-decoder', label: '', icon: Scan },
+    { id: 'barcode', label: '', icon: BarChart3 },
+    { id: 'hash', label: '', icon: Hash }
   ];
 
   return (
