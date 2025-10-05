@@ -511,6 +511,7 @@ const dropdownRef = useRef<HTMLDivElement>(null);
                 >
                   Binary → Text
                 </button>
+                </div>
 
                 <div className="flex justify-end gap-2 mt-2">
           
@@ -523,7 +524,7 @@ const dropdownRef = useRef<HTMLDivElement>(null);
                   Download
                 </button>
                 <button className="text-xs text-red-400 hover:text-red-300 transition-colors" onClick={() => setBinaryText('')}>Clear</button>
-                </div>
+                
               </div>
             </div>
           )}
