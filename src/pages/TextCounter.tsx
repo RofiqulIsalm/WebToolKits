@@ -64,7 +64,8 @@ const TextToolsPage: React.FC = () => {
     sentences: 0,
     paragraphs: 0,
     lines: 0,
-    readingTime: 0
+    readingTime: 0,
+    palindromeWords: 0 
   });
   const [copied, setCopied] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -137,6 +138,27 @@ const dropdownRef = useRef<HTMLDivElement>(null);
 
   // dropdwon meny
 
+  //palindromeWords
+    const calculateStats = () => {
+    const characters = text.length;
+    const charactersNoSpaces = text.replace(/\s/g, '').length;
+    const wordsArray = text.trim() === '' ? [] : text.trim().split(/\s+/);
+    const words = wordsArray.length;
+    const sentences = text.trim() === '' ? 0 : text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+    const paragraphs = text.trim() === '' ? 0 : text.split(/\n\n+/).filter(p => p.trim().length > 0).length;
+    const lines = text === '' ? 0 : text.split(/\n/).length;
+    const readingTime = Math.ceil(words / 200);
+  
+    // Count palindrome words
+    const palindromeWords = wordsArray.filter(word => {
+      const cleanWord = word.replace(/[^a-z0-9]/gi, '').toLowerCase();
+      return cleanWord.length > 1 && cleanWord === cleanWord.split('').reverse().join('');
+    }).length;
+  
+    setStats({ characters, charactersNoSpaces, words, sentences, paragraphs, lines, readingTime, palindromeWords });
+  };
+
+    
   
   // Reverse dropdwon 
   const reverseText = (mode: 'word' | 'sentence' | 'line') => {
@@ -162,6 +184,8 @@ const dropdownRef = useRef<HTMLDivElement>(null);
     };
   // For the Binary tab
   const [binaryText, setBinaryText] = useState('');
+
+
 
 
  
@@ -194,6 +218,7 @@ const dropdownRef = useRef<HTMLDivElement>(null);
     else setLoremText(converted);
   };
 
+  
   const copyTextToClipboard = async (sourceText: string) => {
     if (!sourceText) return;
     await navigator.clipboard.writeText(sourceText);
