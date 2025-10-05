@@ -154,171 +154,82 @@ const generateQRCode = async () => {
   };
 
   // Replace your existing downloadQRCode with this function
-    const downloadQRCode = async () => {
-        if (!text.trim()) return;
-      
-        try {
-          const exportPixels = getSizePixels();
-      
-          // === SVG Export (with embedded logo) ===
-          if (exportFormat === 'svg') {
-            let svgString = await QRCodeLib.toString(text, {
-              type: 'svg',
-              width: exportPixels,
-              margin: 2,
-              errorCorrectionLevel: errorLevel,
-              color: {
-                dark: fgColor,
-                light: bgColor,
-              },
+  const downloadQRCode = async () => {
+      if (!text.trim()) return;
+    
+      try {
+        const exportPixels = getSizePixels();
+    
+        // === Create canvas for export ===
+        const exportCanvas = document.createElement('canvas');
+        exportCanvas.width = exportPixels;
+        exportCanvas.height = exportPixels;
+    
+        // Draw QR code onto canvas
+        await QRCodeLib.toCanvas(exportCanvas, text, {
+          width: exportPixels,
+          margin: 2,
+          errorCorrectionLevel: errorLevel,
+          color: {
+            dark: fgColor,
+            light: bgColor,
+          },
+        });
+    
+        // === Draw logo (if present) ===
+        if (logoDataUrl) {
+          const ctx = exportCanvas.getContext('2d');
+          if (ctx) {
+            const logo = new Image();
+            logo.crossOrigin = 'anonymous';
+            await new Promise<void>((resolve) => {
+              logo.onload = () => {
+                const logoSize = Math.round(exportPixels * 0.2);
+                const x = Math.round((exportPixels - logoSize) / 2);
+                const y = x;
+    
+                // Draw a white background box behind logo (for contrast)
+                ctx.save();
+                ctx.fillStyle = bgColor || '#ffffff';
+                ctx.fillRect(
+                  x - Math.round(logoSize * 0.05),
+                  y - Math.round(logoSize * 0.05),
+                  logoSize + Math.round(logoSize * 0.1),
+                  logoSize + Math.round(logoSize * 0.1)
+                );
+                ctx.drawImage(logo, x, y, logoSize, logoSize);
+                ctx.restore();
+    
+                resolve();
+              };
+              logo.onerror = () => {
+                console.warn('Logo failed to load — exporting QR without logo.');
+                resolve();
+              };
+              logo.src = logoDataUrl;
             });
-      
-            // ✅ Add xlink namespace (for logo embedding support)
-            if (!svgString.includes('xmlns:xlink')) {
-              svgString = svgString.replace(
-                '<svg',
-                '<svg xmlns:xlink="http://www.w3.org/1999/xlink"'
-              );
-            }
-      
-            // ✅ Embed logo if present
-            if (logoDataUrl) {
-              const logoBase64 = await convertToBase64(logoDataUrl);
-      
-              const logoSize = Math.round(exportPixels * 0.2);
-              const x = Math.round((exportPixels - logoSize) / 2);
-              const y = x;
-      
-              // Optional: white circle background behind logo (for contrast)
-              const logoBackground = `
-                <rect 
-                  x="${x - logoSize * 0.05}" 
-                  y="${y - logoSize * 0.05}" 
-                  width="${logoSize * 1.1}" 
-                  height="${logoSize * 1.1}" 
-                  rx="${logoSize * 0.1}" 
-                  ry="${logoSize * 0.1}" 
-                  fill="${bgColor || '#ffffff'}"
-                />
-              `;
-      
-              const logoImage = `
-                <image 
-                  xlink:href="${logoBase64}" 
-                  x="${x}" 
-                  y="${y}" 
-                  width="${logoSize}" 
-                  height="${logoSize}" 
-                  preserveAspectRatio="xMidYMid meet"
-                />
-              `;
-      
-              // Insert background and logo before </svg>
-              svgString = svgString.replace('</svg>', `${logoBackground}${logoImage}</svg>`);
-            }
-      
-            // ✅ Create and download SVG file
-            const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.download = 'qrcode.svg';
-            link.href = url;
-            link.click();
-            URL.revokeObjectURL(url);
-            return;
           }
-      
-          // === Raster / PDF Export (PNG, JPG, PDF) ===
-          const exportCanvas = document.createElement('canvas');
-          exportCanvas.width = exportPixels;
-          exportCanvas.height = exportPixels;
-      
-          await QRCodeLib.toCanvas(exportCanvas, text, {
-            width: exportPixels,
-            margin: 2,
-            errorCorrectionLevel: errorLevel,
-            color: {
-              dark: fgColor,
-              light: bgColor,
-            },
-          });
-      
-          // ✅ Draw logo on canvas
-          if (logoDataUrl) {
-            const ctx = exportCanvas.getContext('2d');
-            if (ctx) {
-              const logo = new Image();
-              logo.crossOrigin = 'anonymous';
-              await new Promise<void>((resolve) => {
-                logo.onload = () => {
-                  const logoSize = Math.round(exportPixels * 0.2);
-                  const x = Math.round((exportPixels - logoSize) / 2);
-                  const y = x;
-      
-                  ctx.save();
-                  // small background behind logo
-                  ctx.fillStyle = bgColor || '#ffffff';
-                  ctx.fillRect(
-                    x - Math.round(logoSize * 0.05),
-                    y - Math.round(logoSize * 0.05),
-                    logoSize + Math.round(logoSize * 0.1),
-                    logoSize + Math.round(logoSize * 0.1)
-                  );
-                  ctx.drawImage(logo, x, y, logoSize, logoSize);
-                  ctx.restore();
-                  resolve();
-                };
-                logo.onerror = () => {
-                  console.warn('Logo failed to load for download — exporting without logo.');
-                  resolve();
-                };
-                logo.src = logoDataUrl;
-              });
-            }
-          }
-      
-          // === PDF Export ===
-          if (exportFormat === 'pdf') {
-            console.warn(
-              'PDF export recommended via jsPDF. Falling back to PNG download.'
-            );
-      
-            const fallbackBlob = await new Promise<Blob | null>((resolve) => {
-              exportCanvas.toBlob((b) => resolve(b), 'image/png', 1.0);
-            });
-            if (fallbackBlob) {
-              const url = URL.createObjectURL(fallbackBlob);
-              const link = document.createElement('a');
-              link.download = 'qrcode.png';
-              link.href = url;
-              link.click();
-              URL.revokeObjectURL(url);
-            }
-            return;
-          }
-      
-          // === PNG / JPG Export ===
-          const mime = exportFormat === 'jpg' ? 'image/jpeg' : 'image/png';
-          exportCanvas.toBlob(
-            (blob) => {
-              if (!blob) {
-                console.error('Failed to export QR blob');
-                return;
-              }
-              const url = URL.createObjectURL(blob);
-              const link = document.createElement('a');
-              link.download = `qrcode.${exportFormat}`;
-              link.href = url;
-              link.click();
-              URL.revokeObjectURL(url);
-            },
-            mime,
-            1.0
-          );
-        } catch (error) {
-          console.error('Error downloading QR code:', error);
         }
-      };
+    
+        // === PNG / JPG Export ===
+        const mime = exportFormat === 'jpg' ? 'image/jpeg' : 'image/png';
+        exportCanvas.toBlob((blob) => {
+          if (!blob) {
+            console.error('Failed to export QR code.');
+            return;
+          }
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.download = `qrcode.${exportFormat}`;
+          link.href = url;
+          link.click();
+          URL.revokeObjectURL(url);
+        }, mime, 1.0);
+      } catch (error) {
+        console.error('Error downloading QR code:', error);
+      }
+    };
+
 
     async function convertToBase64(url: string): Promise<string> {
         if (url.startsWith('data:image')) return url;
