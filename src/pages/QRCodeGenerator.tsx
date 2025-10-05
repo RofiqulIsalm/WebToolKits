@@ -131,7 +131,7 @@ const QRCodeGenerator: React.FC = () => {
 
 
 
-  //end here
+
   const getSizePixels = (): number => {
     const sizes = {
       small: 256,
@@ -662,7 +662,7 @@ ${500 + imgData.length}
                         type="color"
                         value={fgColor}
                         onChange={(e) => setFgColor(e.target.value)}
-                        className="h-10 w-20   border border-slate-600 cursor-pointer"
+                        className="h-10 w-20 rounded border border-slate-600 cursor-pointer"
                       />
                       <input
                         type="text"
