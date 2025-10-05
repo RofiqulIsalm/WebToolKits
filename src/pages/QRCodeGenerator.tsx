@@ -923,17 +923,32 @@ ${500 + imgData.length}
               </select>
             </div>
         
-            <div>
-              <label className="block text-sm font-medium text-white mb-2">Format</label>
-              <select
-                value={barcodeFormat}
-                onChange={(e) => setBarcodeFormat(e.target.value as 'png' | 'svg')}
-                className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600"
-              >
-                <option value="png">PNG</option>
-                <option value="svg">SVG</option>
-              </select>
-            </div>
+           <div>
+          <label className="block text-sm font-medium text-white mb-2">Download Format</label>
+          <div className="flex space-x-3">
+            <button
+              onClick={() => setBarcodeFormat('png')}
+              className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
+                barcodeFormat === 'png'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+              }`}
+            >
+              PNG
+            </button>
+            <button
+              onClick={() => setBarcodeFormat('svg')}
+              className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
+                barcodeFormat === 'svg'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+              }`}
+            >
+              SVG
+            </button>
+          </div>
+        </div>
+
         
             <div className="flex flex-col items-center justify-center bg-slate-800 rounded-xl p-6 mt-4">
               {/* Render Barcode */}
