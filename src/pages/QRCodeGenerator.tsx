@@ -893,6 +893,8 @@ ${500 + imgData.length}
             </div>
           )}
 
+          {/*-------------------------------Barcode-----------------------------*/}
+
           {activeTab === 'barcode' && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="space-y-6">
@@ -991,6 +993,8 @@ ${500 + imgData.length}
               </div>
             </div>
           )}
+
+          {/*-----------------------------Hash code------------------------------*/}
 
           {activeTab === 'hash' && (
             <div className="max-w-2xl mx-auto space-y-6">
