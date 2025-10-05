@@ -271,7 +271,7 @@ useEffect(() => {
              
               {/* text reverse */}
                 {/* Reverse Text Dropdown */}
-                  <div className="relative">
+                  <div className="relative" ref={dropdownRef}>
                     <button
                       onClick={() => setReverseDropdownOpen(!reverseDropdownOpen)} 
                       className="flex items-center text-xs bg-purple-700 hover:bg-purple-600 text-white px-3 py-1 rounded transition"
