@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FileText, ChevronDown } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
@@ -95,6 +95,11 @@ const TextToolsPage: React.FC = () => {
 
   const clearText = () => setText('');
 
+  // dropdwon meny
+  const Dropdown = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  
   // Reverse dropdwon 
   const reverseText = (mode: 'word' | 'sentence' | 'line') => {
       if (!text) return;
@@ -117,6 +122,8 @@ const TextToolsPage: React.FC = () => {
     
       setText(reversed);
     };
+
+ 
 
 
   // Convert Case Functions
