@@ -460,9 +460,8 @@ const dropdownRef = useRef<HTMLDivElement>(null);
               </div>
           
               <textarea
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                className="w-full max-w-full h-64 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-violet-500 resize-none mb-2"
+                value={binaryText}
+                onChange={(e) => setBinaryText(e.target.value)}
                 placeholder="Enter text or binary here..."
               />
           
