@@ -333,7 +333,7 @@ const dropdownRef = useRef<HTMLDivElement>(null);
                   )}
                 </div>
 
-                <button onClick={() => copyTextToClipboard(text)} className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition">{copied ? 'Copied!' : 'Copy'}</button>
+                <button className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition" onClick={() => copyTextToClipboard(text)}>Copy</button>
                 <button onClick={() => downloadTextFile(text, 'text-counter.txt')} className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded transition">Download</button>
                 <button onClick={clearText} className="text-xs text-red-400 hover:text-red-300 transition-colors">Clear</button>
               </div>
@@ -510,9 +510,8 @@ const dropdownRef = useRef<HTMLDivElement>(null);
                   Binary → Text
                 </button>
           
-                <button onClick={() => copyTextToClipboard(text)} className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition">
-                  {copied ? 'Copied!' : 'Copy'}
-                </button>
+                <button className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition" onClick={() => copyTextToClipboard(binaryText)}>Copy</button>
+
                 <button
                   onClick={() => downloadTextFile(binaryText, 'binary.txt')}
                   className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded transition"
