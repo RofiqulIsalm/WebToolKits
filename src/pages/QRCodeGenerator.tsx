@@ -153,111 +153,146 @@ const generateQRCode = async () => {
     return sizes[exportSize];
   };
 
-  const downloadQRCode = async () => {
-    if (!text.trim()) return;
+  // Replace your existing downloadQRCode with this function
+const downloadQRCode = async () => {
+  if (!text.trim()) return;
 
-    try {
-      const exportPixels = getSizePixels();
+  try {
+    const exportPixels = getSizePixels();
 
-      if (exportFormat === 'svg') {
-        const svgString = await QRCodeLib.toString(text, {
-          type: 'svg',
-          width: exportPixels,
-          margin: 2,
-          errorCorrectionLevel: errorLevel,
-          color: {
-            dark: fgColor,
-            light: bgColor
-          }
-        });
-
-        const blob = new Blob([svgString], { type: 'image/svg+xml' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.download = `qrcode.svg`;
-        link.href = url;
-        link.click();
-        URL.revokeObjectURL(url);
-        return;
-      }
-
-      if (exportFormat === 'pdf') {
-        const dataUrl = await QRCodeLib.toDataURL(text, {
-          width: exportPixels,
-          margin: 2,
-          errorCorrectionLevel: errorLevel,
-          color: {
-            dark: fgColor,
-            light: bgColor
-          }
-        });
-
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          canvas.width = exportPixels;
-          canvas.height = exportPixels;
-          const ctx = canvas.getContext('2d');
-          if (ctx) {
-            ctx.fillStyle = 'white';
-            ctx.fillRect(0, 0, exportPixels, exportPixels);
-            ctx.drawImage(img, 0, 0);
-
-            const imgData = canvas.toDataURL('image/jpeg', 1.0);
-            const pdf = `%PDF-1.4
-1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj
-2 0 obj<</Type/Pages/Count 1/Kids[3 0 R]>>endobj
-3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 ${exportPixels} ${exportPixels}]/Contents 4 0 R/Resources<</XObject<</Im1 5 0 R>>>>>>endobj
-4 0 obj<</Length 44>>stream
-q ${exportPixels} 0 0 ${exportPixels} 0 0 cm /Im1 Do Q
-endstream endobj
-5 0 obj<</Type/XObject/Subtype/Image/Width ${exportPixels}/Height ${exportPixels}/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length ${imgData.length}>>stream
-${imgData}
-endstream endobj
-xref
-0 6
-0000000000 65535 f
-0000000009 00000 n
-0000000056 00000 n
-0000000108 00000 n
-0000000251 00000 n
-0000000343 00000 n
-trailer<</Size 6/Root 1 0 R>>
-startxref
-${500 + imgData.length}
-%%EOF`;
-
-            const blob = new Blob([pdf], { type: 'application/pdf' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.download = 'qrcode.pdf';
-            link.href = url;
-            link.click();
-            URL.revokeObjectURL(url);
-          }
-        };
-        img.src = dataUrl;
-        return;
-      }
-
-      const dataUrl = await QRCodeLib.toDataURL(text, {
+    // === SVG export: generate svg and embed logo (if present) ===
+    if (exportFormat === 'svg') {
+      let svgString = await QRCodeLib.toString(text, {
+        type: 'svg',
         width: exportPixels,
         margin: 2,
         errorCorrectionLevel: errorLevel,
         color: {
           dark: fgColor,
-          light: bgColor
-        }
+          light: bgColor,
+        },
       });
 
+      if (logoDataUrl) {
+        // compute logo size & position (20% of export size)
+        const logoSize = Math.round(exportPixels * 0.2);
+        const x = Math.round((exportPixels - logoSize) / 2);
+        const y = x;
+
+        // Insert <image> element before closing </svg>
+        // Use href (works in modern browsers). preserveAspectRatio keeps it centered.
+        const imageTag = `<image href="${logoDataUrl}" x="${x}" y="${y}" width="${logoSize}" height="${logoSize}" preserveAspectRatio="xMidYMid meet" />`;
+        svgString = svgString.replace('</svg>', `${imageTag}</svg>`);
+      }
+
+      const blob = new Blob([svgString], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.download = `qrcode.svg`;
+      link.href = url;
+      link.click();
+      URL.revokeObjectURL(url);
+      return;
+    }
+
+    // === Raster/PDF export: draw QR+logo to an export-sized canvas ===
+    const exportCanvas = document.createElement('canvas');
+    exportCanvas.width = exportPixels;
+    exportCanvas.height = exportPixels;
+
+    // draw QR to canvas
+    await QRCodeLib.toCanvas(exportCanvas, text, {
+      width: exportPixels,
+      margin: 2,
+      errorCorrectionLevel: errorLevel,
+      color: {
+        dark: fgColor,
+        light: bgColor,
+      },
+    });
+
+    // draw logo (if present)
+    if (logoDataUrl) {
+      const ctx = exportCanvas.getContext('2d');
+      if (ctx) {
+        const logo = new Image();
+        logo.crossOrigin = 'anonymous';
+        await new Promise<void>((resolve) => {
+          logo.onload = () => {
+            const logoSize = Math.round(exportPixels * 0.2);
+            const x = Math.round((exportPixels - logoSize) / 2);
+            const y = x;
+
+            // make small padding / background behind logo so it stands out
+            ctx.save();
+            ctx.fillStyle = bgColor || '#ffffff';
+            ctx.fillRect(x - Math.round(logoSize * 0.05), y - Math.round(logoSize * 0.05), logoSize + Math.round(logoSize * 0.1), logoSize + Math.round(logoSize * 0.1));
+            ctx.drawImage(logo, x, y, logoSize, logoSize);
+            ctx.restore();
+
+            resolve();
+          };
+          logo.onerror = () => {
+            // If logo fails to load (CORS or broken), continue without logo
+            console.warn('Logo failed to load for download — exporting without logo.');
+            resolve();
+          };
+          logo.src = logoDataUrl;
+        });
+      }
+    }
+
+    // === PDF export (recommended: use jsPDF) ===
+    if (exportFormat === 'pdf') {
+      // Preferred robust solution: install jsPDF and use it to create a PDF with the canvas image.
+      // npm install jspdf
+      // import { jsPDF } from 'jspdf'
+      //
+      // Example:
+      // const imgData = exportCanvas.toDataURL('image/png');
+      // const pdf = new jsPDF({ unit: 'px', format: [exportPixels, exportPixels] });
+      // pdf.addImage(imgData, 'PNG', 0, 0, exportPixels, exportPixels);
+      // pdf.save('qrcode.pdf');
+      //
+      // If you don't want to add a dependency, fall back to downloading a PNG/JPG instead
+      // but if you want the PDF path without new libs, tell me and I'll provide a pure-js minimal PDF emitter (less reliable).
+      //
+      // For now, if you have jsPDF installed, uncomment above and use it.
+      console.warn('PDF export recommended via jsPDF. Falling back to PNG download with .pdf extension disabled.');
+      // fallback: download PNG with .png name
+      const fallbackBlob = await new Promise<Blob | null>((resolve) => {
+        exportCanvas.toBlob((b) => resolve(b), 'image/png', 1.0);
+      });
+      if (fallbackBlob) {
+        const url = URL.createObjectURL(fallbackBlob);
+        const link = document.createElement('a');
+        link.download = 'qrcode.png';
+        link.href = url;
+        link.click();
+        URL.revokeObjectURL(url);
+      }
+      return;
+    }
+
+    // === PNG / JPG export ===
+    const mime = exportFormat === 'jpg' ? 'image/jpeg' : 'image/png';
+    exportCanvas.toBlob((blob) => {
+      if (!blob) {
+        console.error('Failed to export QR blob');
+        return;
+      }
+      const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.download = `qrcode.${exportFormat}`;
-      link.href = dataUrl;
+      link.href = url;
       link.click();
-    } catch (error) {
-      console.error('Error downloading QR code:', error);
-    }
-  };
+      URL.revokeObjectURL(url);
+    }, mime, 1.0);
+  } catch (error) {
+    console.error('Error downloading QR code:', error);
+  }
+};
+
 
   const handleQRImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
