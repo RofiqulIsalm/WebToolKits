@@ -51,10 +51,7 @@ function generateLoremText(paragraphCount: number, sentencesPerParagraph: number
 }
 
 const TextToolsPage: React.FC = () => {
-    // ----------------- Tabs -----------------
-  const [selectedTab, setSelectedTab] = useState<'textCounter' | 'loremIpsum'>('textCounter');
-
-  // ----------------- Text Counter state -----------------
+  const [selectedTab, setSelectedTab] = useState<'textCounter' | 'loremIpsum' | 'binarytotext'>('textCounter');
   const [text, setText] = useState('');
   const [stats, setStats] = useState({
     characters: 0,
@@ -68,15 +65,11 @@ const TextToolsPage: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [reverseDropdownOpen, setReverseDropdownOpen] = useState(false);
-
-
-  // Lorem Ipsum state
   const [loremText, setLoremText] = useState('');
   const [paragraphsCount, setParagraphsCount] = useState(3);
   const [sentencesPerParagraph, setSentencesPerParagraph] = useState(5);
   const [loremDropdownOpen, setLoremDropdownOpen] = useState(false);
 
-  // Text Counter Stats Calculation
   useEffect(() => {
     calculateStats();
   }, [text]);
@@ -89,57 +82,41 @@ const TextToolsPage: React.FC = () => {
     const paragraphs = text.trim() === '' ? 0 : text.split(/\n\n+/).filter(p => p.trim().length > 0).length;
     const lines = text === '' ? 0 : text.split(/\n/).length;
     const readingTime = Math.ceil(words / 200);
-
     setStats({ characters, charactersNoSpaces, words, sentences, paragraphs, lines, readingTime });
   };
 
   const clearText = () => setText('');
 
-  // Reverse dropdwon 
   const reverseText = (mode: 'word' | 'sentence' | 'line') => {
-      if (!text) return;
-    
-      let reversed = '';
-      switch(mode) {
-        case 'word':
-          reversed = text.split(/\s+/).reverse().join(' ');
-          break;
-        case 'sentence':
-          reversed = text.split(/([.!?]+)/).reduce((acc, curr, idx, arr) => {
-            if (/[.!?]+/.test(curr)) return acc; 
-            return acc + curr.split(' ').reverse().join(' ') + (arr[idx+1] || '');
-          }, '');
-          break;
-        case 'line':
-          reversed = text.split('\n').reverse().join('\n');
-          break;
-      }
-    
-      setText(reversed);
-    };
+    if (!text) return;
+    let reversed = '';
+    switch (mode) {
+      case 'word':
+        reversed = text.split(/\s+/).reverse().join(' ');
+        break;
+      case 'sentence':
+        reversed = text.split(/([.!?]+)/).reduce((acc, curr, idx, arr) => {
+          if (/[.!?]+/.test(curr)) return acc;
+          return acc + curr.split(' ').reverse().join(' ') + (arr[idx + 1] || '');
+        }, '');
+        break;
+      case 'line':
+        reversed = text.split('\n').reverse().join('\n');
+        break;
+    }
+    setText(reversed);
+  };
 
-
-  // Convert Case Functions
   const convertText = (mode: 'upper' | 'lower' | 'title' | 'sentence' | 'clean', target: 'text' | 'lorem') => {
     let sourceText = target === 'text' ? text : loremText;
     let converted = sourceText;
 
     switch (mode) {
-      case 'upper':
-        converted = sourceText.toUpperCase();
-        break;
-      case 'lower':
-        converted = sourceText.toLowerCase();
-        break;
-      case 'title':
-        converted = sourceText.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
-        break;
-      case 'sentence':
-        converted = sourceText.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
-        break;
-      case 'clean':
-        converted = sourceText.replace(/\s+/g, ' ').trim();
-        break;
+      case 'upper': converted = sourceText.toUpperCase(); break;
+      case 'lower': converted = sourceText.toLowerCase(); break;
+      case 'title': converted = sourceText.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()); break;
+      case 'sentence': converted = sourceText.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase()); break;
+      case 'clean': converted = sourceText.replace(/\s+/g, ' ').trim(); break;
     }
 
     if (target === 'text') setText(converted);
@@ -187,90 +164,89 @@ const TextToolsPage: React.FC = () => {
         ]}
       />
 
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6"> {/* ✅ Added horizontal padding for mobile */}
         <Breadcrumbs items={[
           { name: 'Misc Tools', url: '/category/misc-tools' },
           { name: 'Text Tools', url: '/text-tools' }
         ]} />
 
-        {/* Tabs */}
-        <div className="flex gap-4 mb-6">
+        {/* ✅ Tabs: made responsive */}
+        <div className="flex flex-wrap justify-center sm:justify-start gap-3 mb-6">
           <button
-            className={`px-4 py-2 rounded-xl font-semibold ${selectedTab === 'textCounter' ? 'bg-blue-600 text-white' : 'bg-slate-700 text-slate-300'}`}
+            className={`px-4 py-2 rounded-xl font-semibold w-full sm:w-auto ${selectedTab === 'textCounter' ? 'bg-blue-600 text-white' : 'bg-slate-700 text-slate-300'}`}
             onClick={() => setSelectedTab('textCounter')}
           >
             Text Counter
           </button>
           <button
-            className={`px-4 py-2 rounded-xl font-semibold ${selectedTab === 'loremIpsum' ? 'bg-green-600 text-white' : 'bg-slate-700 text-slate-300'}`}
+            className={`px-4 py-2 rounded-xl font-semibold w-full sm:w-auto ${selectedTab === 'loremIpsum' ? 'bg-green-600 text-white' : 'bg-slate-700 text-slate-300'}`}
             onClick={() => setSelectedTab('loremIpsum')}
           >
             Lorem Ipsum Generator
-          </button> 
-        
+          </button>
           <button
-            className={`px-4 py-2 rounded-xl font-semibold ${selectedTab === 'binarytotext' ? 'bg-violet-600 text-white' : 'bg-slate-700 text-slate-300'}`}
+            className={`px-4 py-2 rounded-xl font-semibold w-full sm:w-auto ${selectedTab === 'binarytotext' ? 'bg-violet-600 text-white' : 'bg-slate-700 text-slate-300'}`}
             onClick={() => setSelectedTab('binarytotext')}
           >
-            Binary ↔ Text 
+            Binary ↔ Text
           </button>
         </div>
 
         {/* ----------------- Text Counter ----------------- */}
         {selectedTab === 'textCounter' && (
-          <div className="glow-card rounded-2xl p-8 mb-8 relative">
-            <div className="flex items-center space-x-3 mb-6">
+          <div className="glow-card rounded-2xl p-6 sm:p-8 mb-8 relative">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6">
               <FileText className="h-8 w-8 text-blue-400" />
-              <h1 className="text-3xl font-bold text-white">Text Counter</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">Text Counter</h1>
             </div>
-                <button
-          onClick={async () => {
-            try {
-              const clipText = await navigator.clipboard.readText();
-              setText(clipText);
-            } catch {
-              alert('Failed to read clipboard — please allow clipboard access.');
-            }
-          }}
-          className="absolute top-3 right-3 text-sm text-blue-400 hover:text-blue-300 transition-colors bg-slate-800/70 px-3 py-1 rounded-md border border-slate-600"
-        >
-          Paste
-        </button>
+
+            {/* ✅ Made Paste button position fixed for smaller screens */}
+            <button
+              onClick={async () => {
+                try {
+                  const clipText = await navigator.clipboard.readText();
+                  setText(clipText);
+                } catch {
+                  alert('Failed to read clipboard — please allow clipboard access.');
+                }
+              }}
+              className="absolute top-3 right-3 text-xs sm:text-sm text-blue-400 hover:text-blue-300 transition-colors bg-slate-800/70 px-2 sm:px-3 py-1 rounded-md border border-slate-600"
+            >
+              Paste
+            </button>
 
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
-              className="w-full h-64 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none mb-2"
+              className="w-full h-64 px-3 sm:px-4 py-2 sm:py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none mb-2"
               placeholder="Start typing or paste your text here..."
             />
 
-            <div className="flex flex-wrap justify-between items-center mt-2 gap-2">
-             
-              {/* text reverse */}
-                {/* Reverse Text Dropdown */}
-                  <div className="relative">
-                    <button
-                      onClick={() => setReverseDropdownOpen(!reverseDropdownOpen)}
-                      className="flex items-center text-xs bg-purple-700 hover:bg-purple-600 text-white px-3 py-1 rounded transition"
-                    >
-                      Reverse <ChevronDown className="ml-1 h-4 w-4" />
-                    </button>
-                    {reverseDropdownOpen && (
-                      <div className="absolute left-0 mt-2 w-36 bg-slate-800 border border-slate-600 rounded-lg shadow-lg z-50">
-                        <button onClick={() => reverseText('word')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">Reverse by Word</button>
-                        <button onClick={() => reverseText('sentence')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">Reverse by Sentence</button>
-                        <button onClick={() => reverseText('line')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">Reverse by Line</button>
-                      </div>
-                    )}
+            {/* ✅ Responsive button containers */}
+            <div className="flex flex-wrap justify-between items-center mt-2 gap-3 sm:gap-2">
+              {/* Reverse Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setReverseDropdownOpen(!reverseDropdownOpen)}
+                  className="flex items-center text-xs bg-purple-700 hover:bg-purple-600 text-white px-3 py-1 rounded transition w-full sm:w-auto justify-center"
+                >
+                  Reverse <ChevronDown className="ml-1 h-4 w-4" />
+                </button>
+                {reverseDropdownOpen && (
+                  <div className="absolute left-0 mt-2 w-36 bg-slate-800 border border-slate-600 rounded-lg shadow-lg z-50">
+                    <button onClick={() => reverseText('word')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">Reverse by Word</button>
+                    <button onClick={() => reverseText('sentence')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">Reverse by Sentence</button>
+                    <button onClick={() => reverseText('line')} className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-slate-700">Reverse by Line</button>
                   </div>
+                )}
+              </div>
 
-
-              <div className="flex flex-wrap items-center gap-2 relative">
+              <div className="flex flex-wrap items-center gap-2 relative justify-center sm:justify-end w-full sm:w-auto">
                 {/* Convert Case Dropdown */}
                 <div className="relative">
                   <button
                     onClick={() => setDropdownOpen(!dropdownOpen)}
-                    className="flex items-center text-xs bg-blue-700 hover:bg-blue-600 text-white px-3 py-1 rounded transition"
+                    className="flex items-center text-xs bg-blue-700 hover:bg-blue-600 text-white px-3 py-1 rounded transition w-full sm:w-auto justify-center"
                   >
                     Convert Case <ChevronDown className="ml-1 h-4 w-4" />
                   </button>
@@ -285,41 +261,32 @@ const TextToolsPage: React.FC = () => {
                   )}
                 </div>
 
-                <button onClick={() => copyTextToClipboard(text)} className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition">{copied ? 'Copied!' : 'Copy'}</button>
-                <button onClick={() => downloadTextFile(text, 'text-counter.txt')} className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded transition">Download</button>
-                <button onClick={clearText} className="text-xs text-red-400 hover:text-red-300 transition-colors">Clear</button>
+                <button onClick={() => copyTextToClipboard(text)} className="text-xs bg-teal-600 hover:bg-teal-500 text-white px-3 py-1 rounded transition w-full sm:w-auto">{copied ? 'Copied!' : 'Copy'}</button>
+                <button onClick={() => downloadTextFile(text, 'text-counter.txt')} className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded transition w-full sm:w-auto">Download</button>
+                <button onClick={clearText} className="text-xs text-red-400 hover:text-red-300 transition-colors w-full sm:w-auto">Clear</button>
               </div>
             </div>
 
-            {/* Statistics Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-              <div className="p-4 bg-gradient-to-br from-blue-900/30 to-blue-800/30 rounded-xl border border-blue-500/30">
-                <p className="text-sm text-slate-400 mb-1">Characters</p>
-                <p className="text-3xl font-bold text-white">{stats.characters.toLocaleString()}</p>
-              </div>
-              <div className="p-4 bg-gradient-to-br from-purple-900/30 to-purple-800/30 rounded-xl border border-purple-500/30">
-                <p className="text-sm text-slate-400 mb-1">No Spaces</p>
-                <p className="text-3xl font-bold text-white">{stats.charactersNoSpaces.toLocaleString()}</p>
-              </div>
-              <div className="p-4 bg-gradient-to-br from-green-900/30 to-green-800/30 rounded-xl border border-green-500/30">
-                <p className="text-sm text-slate-400 mb-1">Words</p>
-                <p className="text-3xl font-bold text-white">{stats.words.toLocaleString()}</p>
-              </div>
-              <div className="p-4 bg-gradient-to-br from-orange-900/30 to-orange-800/30 rounded-xl border border-orange-500/30">
-                <p className="text-sm text-slate-400 mb-1">Sentences</p>
-                <p className="text-3xl font-bold text-white">{stats.sentences.toLocaleString()}</p>
-              </div>
-              <div className="p-4 bg-gradient-to-br from-pink-900/30 to-pink-800/30 rounded-xl border border-pink-500/30">
-                <p className="text-sm text-slate-400 mb-1">Paragraphs</p>
-                <p className="text-3xl font-bold text-white">{stats.paragraphs.toLocaleString()}</p>
-              </div>
-              <div className="p-4 bg-gradient-to-br from-teal-900/30 to-teal-800/30 rounded-xl border border-teal-500/30">
-                <p className="text-sm text-slate-400 mb-1">Lines</p>
-                <p className="text-3xl font-bold text-white">{stats.lines.toLocaleString()}</p>
-              </div>
-              <div className="p-4 bg-gradient-to-br from-indigo-900/30 to-indigo-800/30 rounded-xl border border-indigo-500/30 col-span-2">
+            {/* ✅ Responsive stats grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-4">
+              {[
+                ['Characters', stats.characters],
+                ['No Spaces', stats.charactersNoSpaces],
+                ['Words', stats.words],
+                ['Sentences', stats.sentences],
+                ['Paragraphs', stats.paragraphs],
+                ['Lines', stats.lines],
+              ].map(([label, value]) => (
+                <div key={label} className="p-4 bg-slate-800/50 rounded-xl border border-slate-600">
+                  <p className="text-sm text-slate-400 mb-1">{label}</p>
+                  <p className="text-2xl sm:text-3xl font-bold text-white">{Number(value).toLocaleString()}</p>
+                </div>
+              ))}
+              <div className="p-4 bg-slate-800/50 rounded-xl border border-slate-600 col-span-2 sm:col-span-3 md:col-span-2">
                 <p className="text-sm text-slate-400 mb-1">Reading Time</p>
-                <p className="text-3xl font-bold text-white">{stats.readingTime} min{stats.readingTime !== 1 ? 's' : ''}</p>
+                <p className="text-2xl sm:text-3xl font-bold text-white">
+                  {stats.readingTime} min{stats.readingTime !== 1 ? 's' : ''}
+                </p>
                 <p className="text-xs text-slate-500 mt-1">Based on 200 words/min</p>
               </div>
             </div>
