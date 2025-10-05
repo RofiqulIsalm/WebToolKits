@@ -481,7 +481,7 @@ const dropdownRef = useRef<HTMLDivElement>(null);
           
               <div className="flex flex-wrap items-center gap-2 mb-2">
                 <button
-                  className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900""
+                  className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
                   onClick={() => {
                     if (!binaryText) return;
                     const binary = binaryText
