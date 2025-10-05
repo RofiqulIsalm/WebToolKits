@@ -723,22 +723,27 @@ const generateQRCode = async () => {
                   </div>
 
 
-                  <div>
+                 <div>
                     <label className="block text-sm font-medium text-white mb-2">
                       Error Correction
                     </label>
-                    <select
-                      value={errorLevel}
-                      onChange={(e) => setErrorLevel(e.target.value as 'L' | 'M' | 'Q' | 'H')}
-                      className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      {errorLevels.map((level) => (
-                        <option key={level.value} value={level.value}>
-                          {level.label}
-                        </option>
+                    <div className="flex gap-2">
+                      {['L', 'M', 'Q', 'H'].map((level) => (
+                        <button
+                          key={level}
+                          onClick={() => setErrorLevel(level as 'L' | 'M' | 'Q' | 'H')}
+                          className={`
+                            px-4 py-2 rounded-lg border 
+                            ${errorLevel === level ? 'bg-blue-500 text-white border-blue-500' : 'bg-slate-700 text-white border-slate-600'}
+                            focus:outline-none focus:ring-2 focus:ring-blue-500
+                          `}
+                        >
+                          {level}
+                        </button>
                       ))}
-                    </select>
+                    </div>
                   </div>
+
                 </div>
 
                 <div>
