@@ -69,9 +69,7 @@ const TextToolsPage: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [reverseDropdownOpen, setReverseDropdownOpen] = useState(false);
-  const reverseDropdownRef = useRef<HTMLDivElement>(null);
-  const convertCaseDropdownRef = useRef<HTMLDivElement>(null);
-  const loremDropdownRef = useRef<HTMLDivElement>(null);
+  
 
 
   // Lorem Ipsum state
@@ -293,7 +291,7 @@ useEffect(() => {
 
               <div className="flex flex-wrap items-center gap-2 relative">
                 {/* Convert Case Dropdown */}
-                <div className="relative" ref={dropdownRef}>
+                <div className="relative">
                   <button
                     onClick={() => setDropdownOpen(!dropdownOpen)}
                     className="flex items-center text-xs bg-blue-700 hover:bg-blue-600 text-white px-3 py-1 rounded transition"
