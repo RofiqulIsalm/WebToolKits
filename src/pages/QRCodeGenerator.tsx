@@ -737,7 +737,7 @@ const generateQRCode = async () => {
                       key={level}
                       onClick={() => setErrorLevel(level as 'L' | 'M' | 'Q' | 'H')}
                       className={`
-                        flex-1 px-2 sm:px-2 py-1 rounded-lg border text-sm font-medium transition-all duration-200
+                        flex-1 px-1 sm:px-2 py-2 rounded-lg border text-sm font-medium transition-all duration-200
                         ${errorLevel === level ? 'bg-blue-500 text-white border-blue-500 shadow-md' : 'bg-slate-700 text-white border-slate-600 hover:bg-slate-600'}
                         focus:outline-none focus:ring-2 focus:ring-blue-500
                       `}
