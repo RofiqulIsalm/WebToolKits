@@ -125,38 +125,26 @@ const dropdownRef = useRef<HTMLDivElement>(null);
     const characters = text.length;
     const charactersNoSpaces = text.replace(/\s/g, '').length;
     const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
-    const sentences = text.trim() === '' ? 0 : text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
-    const paragraphs = text.trim() === '' ? 0 : text.split(/\n\n+/).filter(p => p.trim().length > 0).length;
+    const sentences = text.trim() === '' ? 0 : text.split(/[.!?]+/).filter(s =>                     s.trim().length > 0).length;
+    const paragraphs = text.trim() === '' ? 0 : text.split(/\n\n+/).filter(p =>                     p.trim().length > 0).length;
     const lines = text === '' ? 0 : text.split(/\n/).length;
     const readingTime = Math.ceil(words / 200);
     
 
-    setStats({ characters, charactersNoSpaces, words, sentences, paragraphs, lines, readingTime });
-  };
+    setStats({ characters, charactersNoSpaces, words, sentences, paragraphs, lines,               readingTime });
+
+    const palindromeWords = wordsArray.filter(word => {
+    const cleanWord = word.replace(/[^a-z0-9]/gi, '').toLowerCase();
+    return cleanWord.length > 1 && cleanWord === cleanWord.split('').reverse().join('');
+    }).length;
+  };    
+    
 
   const clearText = () => setText('');
 
   // dropdwon meny
 
-  //palindromeWords
-    const calculateStats = () => {
-    const characters = text.length;
-    const charactersNoSpaces = text.replace(/\s/g, '').length;
-    const wordsArray = text.trim() === '' ? [] : text.trim().split(/\s+/);
-    const words = wordsArray.length;
-    const sentences = text.trim() === '' ? 0 : text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
-    const paragraphs = text.trim() === '' ? 0 : text.split(/\n\n+/).filter(p => p.trim().length > 0).length;
-    const lines = text === '' ? 0 : text.split(/\n/).length;
-    const readingTime = Math.ceil(words / 200);
-  
-    // Count palindrome words
-    const palindromeWords = wordsArray.filter(word => {
-      const cleanWord = word.replace(/[^a-z0-9]/gi, '').toLowerCase();
-      return cleanWord.length > 1 && cleanWord === cleanWord.split('').reverse().join('');
-    }).length;
-  
-    setStats({ characters, charactersNoSpaces, words, sentences, paragraphs, lines, readingTime, palindromeWords });
-  };
+
 
     
   
