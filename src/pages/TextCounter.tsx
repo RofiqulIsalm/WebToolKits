@@ -651,6 +651,50 @@ const dropdownRef = useRef<HTMLDivElement>(null);
             </div>
           )}
 
+        {/*--------------------- numver to word ----------------------*/}
+        
+          {selectedTab === 'numberConverter' && (
+            <div className="glow-card rounded-2xl p-4 sm:p-6 md:p-8 mb-8 relative">
+              <div className="flex items-center space-x-3 mb-6">
+                <FileText className="h-8 w-8 text-yellow-400" />
+                <h1 className="text-3xl font-bold text-white">Number ↔ Words Converter</h1>
+                <button
+                  onClick={pasteNumberInput}
+                  className="absolute top-3 right-3 text-sm text-yellow-400 hover:text-yellow-300 transition-colors bg-slate-800/70 px-3 py-1 rounded-md border border-slate-600"
+                >
+                  Paste
+                </button>
+              </div>
+          
+              <input
+                type="text"
+                value={numberInput}
+                onChange={(e) => setNumberInput(e.target.value)}
+                className="w-full px-3 py-2 rounded-lg bg-slate-700 text-white border border-slate-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 mb-3"
+                placeholder="Enter number or words"
+              />
+          
+              <div className="flex gap-2 mb-3">
+                <button onClick={convertNumberToWords} className="px-3 py-1 bg-yellow-600 text-white rounded">Number → Words</button>
+                <button onClick={convertWordsToNumber} className="px-3 py-1 bg-yellow-600 text-white rounded">Words → Number</button>
+              </div>
+          
+              <textarea
+                value={numberResult}
+                readOnly
+                className="w-full h-32 px-3 py-2 rounded-lg bg-slate-700 text-white border border-slate-600 resize-none mb-2"
+                placeholder="Result will appear here"
+              />
+          
+              <div className="flex justify-end gap-2 mt-1">
+                <button onClick={copyNumberResult} className="px-3 py-1 bg-teal-600 text-white rounded">{copiedNumber ? 'Copied!' : 'Copy'}</button>
+                <button onClick={downloadNumberResult} className="px-3 py-1 bg-indigo-600 text-white rounded">Download</button>
+                <button onClick={clearNumberConverter} className="px-3 py-1 text-red-400 hover:text-red-300 rounded">Clear</button>
+              </div>
+            </div>
+          )}
+
+
 
         <AdBanner />
         <RelatedCalculators currentPath="/text-tools" />
