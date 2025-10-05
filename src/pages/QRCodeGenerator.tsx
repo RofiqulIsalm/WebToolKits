@@ -286,39 +286,47 @@ ${500 + imgData.length}
     setTimeout(() => setDecodedCopied(false), 2000);
   };
 
- export default function BarcodeGenerator() {
-    const [text, setText] = useState("123456789012");
-    const [format, setFormat] = useState("EAN13");
-    const [downloadFormat, setDownloadFormat] = useState("png");
-    const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  
-    // Generate barcode preview whenever input changes
-    useEffect(() => {
-      if (!text || !canvasRef.current) return;
-  
-      try {
-        JsBarcode(canvasRef.current, text, {
-          format,
+  const generateBarcode = () => {
+    if (!barcodeText.trim()) {
+      setBarcodeUrl('');
+      return;
+    }
+
+    try {
+      if (barcodeFormat === 'svg' && barcodeSvgRef.current) {
+        JsBarcode(barcodeSvgRef.current, barcodeText, {
+          format: barcodeType,
           displayValue: true,
-          lineColor: "#000000",
-          background: "#ffffff",
+          fontSize: 14,
           width: 2,
-          height: 100,
-          margin: 10,
+          height: 100
         });
-      } catch (error) {
-        console.error("Barcode generation error:", error);
+
+        const svgString = new XMLSerializer().serializeToString(barcodeSvgRef.current);
+        const blob = new Blob([svgString], { type: 'image/svg+xml' });
+        setBarcodeUrl(URL.createObjectURL(blob));
+      } else if (barcodeCanvasRef.current) {
+        JsBarcode(barcodeCanvasRef.current, barcodeText, {
+          format: barcodeType,
+          displayValue: true,
+          fontSize: 14,
+          width: 2,
+          height: 100
+        });
+        setBarcodeUrl(barcodeCanvasRef.current.toDataURL());
       }
-    }, [text, format]);
-   
+    } catch (error) {
+      console.error('Error generating barcode:', error);
+      setBarcodeUrl('');
+    }
+  };
 
-  
- const downloadBarcode = () => {
-    if (!canvasRef.current) return;
+  const downloadBarcode = () => {
+    if (!barcodeUrl) return;
 
-    const link = document.createElement("a");
-    link.download = `barcode.${downloadFormat}`;
-    link.href = canvasRef.current.toDataURL("image/png");
+    const link = document.createElement('a');
+    link.download = `barcode.${barcodeFormat}`;
+    link.href = barcodeUrl;
     link.click();
   };
 
