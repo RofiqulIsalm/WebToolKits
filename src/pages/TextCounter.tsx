@@ -54,9 +54,7 @@ const TextToolsPage: React.FC = () => {
     // ----------------- Tabs -----------------
   const [selectedTab, setSelectedTab] = useState<'textCounter' | 'loremIpsum'>('textCounter');
 
-  const Dropdown = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
+
   // ----------------- Text Counter state -----------------
   const [text, setText] = useState('');
   const [stats, setStats] = useState({
