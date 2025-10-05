@@ -77,6 +77,22 @@ const TextToolsPage: React.FC = () => {
   const [sentencesPerParagraph, setSentencesPerParagraph] = useState(5);
   const [loremDropdownOpen, setLoremDropdownOpen] = useState(false);
 
+  // ----------------- Close dropdowns when clicking outside -----------------
+const dropdownRef = useRef<HTMLDivElement>(null);
+
+useEffect(() => {
+  const handleClickOutside = (event: MouseEvent) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      setDropdownOpen(false);
+      setReverseDropdownOpen(false);
+      setLoremDropdownOpen(false);
+    }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+/// dropdown menu done ✅
+
   // Text Counter Stats Calculation
   useEffect(() => {
     calculateStats();
@@ -90,6 +106,7 @@ const TextToolsPage: React.FC = () => {
     const paragraphs = text.trim() === '' ? 0 : text.split(/\n\n+/).filter(p => p.trim().length > 0).length;
     const lines = text === '' ? 0 : text.split(/\n/).length;
     const readingTime = Math.ceil(words / 200);
+    
 
     setStats({ characters, charactersNoSpaces, words, sentences, paragraphs, lines, readingTime });
   };
