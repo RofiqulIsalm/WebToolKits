@@ -194,7 +194,7 @@ const TextToolsPage: React.FC = () => {
         ]} />
 
         {/* Tabs */}
-        <div className="flex gap-4 mb-6">
+        <div className="flex flex-wrap gap-2 mb-6 justify-center">
           <button
             className={`px-4 py-2 rounded-xl font-semibold ${selectedTab === 'textCounter' ? 'bg-blue-600 text-white' : 'bg-slate-700 text-slate-300'}`}
             onClick={() => setSelectedTab('textCounter')}
@@ -218,7 +218,7 @@ const TextToolsPage: React.FC = () => {
 
         {/* ----------------- Text Counter ----------------- */}
         {selectedTab === 'textCounter' && (
-          <div className="glow-card rounded-2xl p-8 mb-8 relative">
+          <div className="glow-card rounded-2xl p-4 sm:p-6 md:p-8 mb-8 relative">
             <div className="flex items-center space-x-3 mb-6">
               <FileText className="h-8 w-8 text-blue-400" />
               <h1 className="text-3xl font-bold text-white">Text Counter</h1>
@@ -240,7 +240,7 @@ const TextToolsPage: React.FC = () => {
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
-              className="w-full h-64 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none mb-2"
+              className="w-full max-w-full h-64 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none mb-2"
               placeholder="Start typing or paste your text here..."
             />
 
@@ -292,7 +292,7 @@ const TextToolsPage: React.FC = () => {
             </div>
 
             {/* Statistics Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4">
               <div className="p-4 bg-gradient-to-br from-blue-900/30 to-blue-800/30 rounded-xl border border-blue-500/30">
                 <p className="text-sm text-slate-400 mb-1">Characters</p>
                 <p className="text-3xl font-bold text-white">{stats.characters.toLocaleString()}</p>
@@ -331,7 +331,7 @@ const TextToolsPage: React.FC = () => {
         {/* ----------------- Lorem Ipsum Generator ----------------- */}
                  
           {selectedTab === 'loremIpsum' && (
-            <div className="glow-card rounded-2xl p-8 mb-8 relative">
+            <div className="glow-card rounded-2xl p-4 sm:p-6 md:p-8 mb-8 relative">
               <div className="flex items-center space-x-3 mb-6">
                 <FileText className="h-8 w-8 text-green-400" />
                 <h1 className="text-3xl font-bold text-white">Lorem Ipsum Generator</h1>
@@ -366,7 +366,7 @@ const TextToolsPage: React.FC = () => {
               <textarea
                 value={loremText}
                 readOnly
-                className="w-full h-64 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none mb-3"
+                className="w-full max-w-full h-64 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none mb-3"
                 placeholder="Generated Lorem Ipsum text will appear here..."
               />
           
