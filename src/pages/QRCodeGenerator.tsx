@@ -39,6 +39,8 @@ const QRCodeGenerator: React.FC = () => {
   const [barcodeType, setBarcodeType] = useState<BarcodeType>('CODE128');
   const [barcodeUrl, setBarcodeUrl] = useState<string>('');
   const [barcodeFormat, setBarcodeFormat] = useState<'png' | 'svg'>('png');
+  const barcodeCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const barcodeSvgRef = useRef<SVGSVGElement | null>(null);
 
   const [hashInput, setHashInput] = useState<string>('Hello World');
   const [md5Hash, setMd5Hash] = useState<string>('');
@@ -47,8 +49,6 @@ const QRCodeGenerator: React.FC = () => {
   const [copiedHash, setCopiedHash] = useState<string>('');
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const barcodeCanvasRef = useRef<HTMLCanvasElement>(null);
-  const barcodeSvgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
       if (canvasRef.current && text.trim() !== '') {
@@ -56,9 +56,9 @@ const QRCodeGenerator: React.FC = () => {
   }
 }, [text, size, fgColor, bgColor, errorLevel, logoDataUrl]);
 
-  useEffect(() => {
-    generateBarcode();
-  }, [barcodeText, barcodeType]);
+useEffect(() => {
+  generateBarcode();
+}, [barcodeText, barcodeType, barcodeFormat]);
 
   useEffect(() => {
     generateHashes();
