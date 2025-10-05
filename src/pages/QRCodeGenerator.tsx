@@ -747,7 +747,7 @@ const generateQRCode = async () => {
       ))}
     </div>
   </div>
-</div>
+
 
 
                 </div>
