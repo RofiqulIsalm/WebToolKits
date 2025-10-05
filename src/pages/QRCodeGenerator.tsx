@@ -820,6 +820,7 @@ ${500 + imgData.length}
                     <div className="mt-2 text-xs text-slate-500">
                       Size: {size}x{size}px | Error Level: {errorLevel} | Colors: {fgColor}/{bgColor}
                     </div>
+                    <p>hello</p>
                   </div>
                 )}
               </div>
