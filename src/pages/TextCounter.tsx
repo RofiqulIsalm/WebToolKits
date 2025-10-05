@@ -96,18 +96,6 @@ const TextToolsPage: React.FC = () => {
 
   const clearText = () => setText('');
 
-  // dropdwon meny
-  const dropdownRef = useRef(null);
-
-      useEffect(() => {
-        const handleClickOutside = (event) => {
-          if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-            setReverseDropdownOpen(false);
-          }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-      }, []);
   
   // Reverse dropdwon 
   const reverseText = (mode: 'word' | 'sentence' | 'line') => {
