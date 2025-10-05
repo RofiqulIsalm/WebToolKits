@@ -256,7 +256,7 @@ const TextToolsPage: React.FC = () => {
                 {/* Reverse Text Dropdown */}
                   <div className="relative">
                     <button
-                      onClick={() => setReverseDropdownOpen(!reverseDropdownOpen)}
+                       
                       className="flex items-center text-xs bg-purple-700 hover:bg-purple-600 text-white px-3 py-1 rounded transition"
                     >
                       Reverse <ChevronDown className="ml-1 h-4 w-4" />
