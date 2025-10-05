@@ -725,7 +725,7 @@ const generateQRCode = async () => {
                   ))}
                 </div>
               </div>
-            
+               </div>
               {/* Error Correction */}
               <div>
                 <label className="block text-sm font-medium text-white mb-2">
@@ -747,10 +747,10 @@ const generateQRCode = async () => {
                   ))}
                 </div>
               </div>
+     
 
 
-
-                </div>
+                
 
                 <div>
                   <label className="block text-sm font-medium text-white mb-2">
