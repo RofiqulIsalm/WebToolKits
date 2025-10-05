@@ -69,6 +69,9 @@ const TextToolsPage: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [reverseDropdownOpen, setReverseDropdownOpen] = useState(false);
+  const reverseDropdownRef = useRef<HTMLDivElement>(null);
+  const convertCaseDropdownRef = useRef<HTMLDivElement>(null);
+  const loremDropdownRef = useRef<HTMLDivElement>(null);
 
 
   // Lorem Ipsum state
