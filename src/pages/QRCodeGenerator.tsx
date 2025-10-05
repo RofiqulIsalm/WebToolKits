@@ -823,7 +823,7 @@ ${500 + imgData.length}
 
                       <button
                         onClick={downloadQRCode}
-                        className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-md"
+                        className="mt-2 flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-md"
                       >
                         <Download size={18} />
                         Download QR Code
