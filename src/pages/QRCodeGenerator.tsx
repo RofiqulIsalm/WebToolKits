@@ -10,6 +10,7 @@ import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
 import { Download, BarChart3 } from 'lucide-react';
 
+
 type TabType = 'qr-generator' | 'qr-decoder' | 'barcode' | 'hash';
 type ExportFormat = 'png' | 'jpg' | 'svg' | 'pdf';
 type ExportSize = 'small' | 'medium' | 'large';
@@ -287,6 +288,7 @@ ${500 + imgData.length}
     setTimeout(() => setDecodedCopied(false), 2000);
   };
 
+   // bar code generator 
   const generateBarcode = () => {
     if (!barcodeText.trim()) {
       setBarcodeUrl('');
@@ -322,6 +324,53 @@ ${500 + imgData.length}
     }
   };
 
+
+  // bar code  section 
+  const BarcodeSection = () => {
+    const [barcodeText, setBarcodeText] = useState<string>('123456789012');
+    const [barcodeType, setBarcodeType] = useState<string>('CODE128');
+    const [barcodeUrl, setBarcodeUrl] = useState<string>('');
+    const [barcodeFormat, setBarcodeFormat] = useState<'png' | 'svg'>('png');
+  
+    const barcodeCanvasRef = useRef<HTMLCanvasElement | null>(null);
+    const barcodeSvgRef = useRef<SVGSVGElement | null>(null);
+  
+    const generateBarcode = () => {
+      if (!barcodeText.trim()) {
+        setBarcodeUrl('');
+        return;
+      }
+  
+      try {
+        if (barcodeFormat === 'svg' && barcodeSvgRef.current) {
+          JsBarcode(barcodeSvgRef.current, barcodeText, {
+            format: barcodeType,
+            displayValue: true,
+            fontSize: 14,
+            width: 2,
+            height: 100
+          });
+  
+          const svgString = new XMLSerializer().serializeToString(barcodeSvgRef.current);
+          const blob = new Blob([svgString], { type: 'image/svg+xml' });
+          setBarcodeUrl(URL.createObjectURL(blob));
+        } else if (barcodeCanvasRef.current) {
+          JsBarcode(barcodeCanvasRef.current, barcodeText, {
+            format: barcodeType,
+            displayValue: true,
+            fontSize: 14,
+            width: 2,
+            height: 100
+          });
+          setBarcodeUrl(barcodeCanvasRef.current.toDataURL());
+        }
+      } catch (error) {
+        console.error('Error generating barcode:', error);
+        setBarcodeUrl('');
+      }
+    };
+  
+  
   const downloadBarcode = () => {
     if (!barcodeUrl) return;
 
