@@ -366,6 +366,13 @@ const dropdownRef = useRef<HTMLDivElement>(null);
             Binary ↔ Text 
           </button>
 
+          <button
+            className={`px-4 py-2 rounded-xl font-semibold ${selectedTab === 'numberConverter' ? 'bg-yellow-600 text-white' : 'bg-slate-700 text-slate-300'}`}
+            onClick={() => setSelectedTab('numberConverter')}
+          >
+            Number ↔ Words
+          </button>
+
            
         </div>
 
