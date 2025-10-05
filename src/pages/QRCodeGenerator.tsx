@@ -174,17 +174,31 @@ const downloadQRCode = async () => {
       });
 
       if (logoDataUrl) {
+        // ✅ Ensure logoDataUrl is base64 (not external)
+        const logoBase64 = await convertToBase64(logoDataUrl);
+
         // compute logo size & position (20% of export size)
         const logoSize = Math.round(exportPixels * 0.2);
         const x = Math.round((exportPixels - logoSize) / 2);
         const y = x;
 
-        // Insert <image> element before closing </svg>
-        // Use href (works in modern browsers). preserveAspectRatio keeps it centered.
-        const imageTag = `<image href="${logoDataUrl}" x="${x}" y="${y}" width="${logoSize}" height="${logoSize}" preserveAspectRatio="xMidYMid meet" />`;
+        // Create <image> tag
+        const imageTag = `
+          <image 
+            href="${logoBase64}" 
+            x="${x}" 
+            y="${y}" 
+            width="${logoSize}" 
+            height="${logoSize}" 
+            preserveAspectRatio="xMidYMid meet" 
+          />
+        `;
+
+        // Insert before closing </svg>
         svgString = svgString.replace('</svg>', `${imageTag}</svg>`);
       }
 
+      // Create blob and download
       const blob = new Blob([svgString], { type: 'image/svg+xml' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -195,12 +209,11 @@ const downloadQRCode = async () => {
       return;
     }
 
-    // === Raster/PDF export: draw QR+logo to an export-sized canvas ===
+    // === Raster/PDF export: draw QR+logo to canvas ===
     const exportCanvas = document.createElement('canvas');
     exportCanvas.width = exportPixels;
     exportCanvas.height = exportPixels;
 
-    // draw QR to canvas
     await QRCodeLib.toCanvas(exportCanvas, text, {
       width: exportPixels,
       margin: 2,
@@ -211,7 +224,6 @@ const downloadQRCode = async () => {
       },
     });
 
-    // draw logo (if present)
     if (logoDataUrl) {
       const ctx = exportCanvas.getContext('2d');
       if (ctx) {
@@ -222,18 +234,19 @@ const downloadQRCode = async () => {
             const logoSize = Math.round(exportPixels * 0.2);
             const x = Math.round((exportPixels - logoSize) / 2);
             const y = x;
-
-            // make small padding / background behind logo so it stands out
             ctx.save();
             ctx.fillStyle = bgColor || '#ffffff';
-            ctx.fillRect(x - Math.round(logoSize * 0.05), y - Math.round(logoSize * 0.05), logoSize + Math.round(logoSize * 0.1), logoSize + Math.round(logoSize * 0.1));
+            ctx.fillRect(
+              x - Math.round(logoSize * 0.05),
+              y - Math.round(logoSize * 0.05),
+              logoSize + Math.round(logoSize * 0.1),
+              logoSize + Math.round(logoSize * 0.1)
+            );
             ctx.drawImage(logo, x, y, logoSize, logoSize);
             ctx.restore();
-
             resolve();
           };
           logo.onerror = () => {
-            // If logo fails to load (CORS or broken), continue without logo
             console.warn('Logo failed to load for download — exporting without logo.');
             resolve();
           };
@@ -242,24 +255,8 @@ const downloadQRCode = async () => {
       }
     }
 
-    // === PDF export (recommended: use jsPDF) ===
+    // === PDF export fallback ===
     if (exportFormat === 'pdf') {
-      // Preferred robust solution: install jsPDF and use it to create a PDF with the canvas image.
-      // npm install jspdf
-      // import { jsPDF } from 'jspdf'
-      //
-      // Example:
-      // const imgData = exportCanvas.toDataURL('image/png');
-      // const pdf = new jsPDF({ unit: 'px', format: [exportPixels, exportPixels] });
-      // pdf.addImage(imgData, 'PNG', 0, 0, exportPixels, exportPixels);
-      // pdf.save('qrcode.pdf');
-      //
-      // If you don't want to add a dependency, fall back to downloading a PNG/JPG instead
-      // but if you want the PDF path without new libs, tell me and I'll provide a pure-js minimal PDF emitter (less reliable).
-      //
-      // For now, if you have jsPDF installed, uncomment above and use it.
-      console.warn('PDF export recommended via jsPDF. Falling back to PNG download with .pdf extension disabled.');
-      // fallback: download PNG with .png name
       const fallbackBlob = await new Promise<Blob | null>((resolve) => {
         exportCanvas.toBlob((b) => resolve(b), 'image/png', 1.0);
       });
@@ -292,6 +289,25 @@ const downloadQRCode = async () => {
     console.error('Error downloading QR code:', error);
   }
 };
+
+// ✅ Helper: convert any URL to base64 (works for local uploads or remote images)
+async function convertToBase64(url: string): Promise<string> {
+  if (url.startsWith('data:image')) return url; // already base64
+  try {
+    const res = await fetch(url, { mode: 'cors' });
+    const blob = await res.blob();
+    return await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  } catch (err) {
+    console.warn('Failed to convert logo to base64:', err);
+    return url;
+  }
+}
+
 
 
   const handleQRImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
