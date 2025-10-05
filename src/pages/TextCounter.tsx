@@ -53,7 +53,11 @@ function generateLoremText(paragraphCount: number, sentencesPerParagraph: number
 
 const TextToolsPage: React.FC = () => {
     // ----------------- Tabs -----------------
-  const [selectedTab, setSelectedTab] = useState<'textCounter' | 'loremIpsum'>('textCounter');
+  const [selectedTab, setSelectedTab] = useState<'textCounter' | 'loremIpsum' |   'binarytotext' | 'numberConverter'>('textCounter');
+
+  const [numberInput, setNumberInput] = useState('');
+  const [numberResult, setNumberResult] = useState('');
+  const [copiedNumber, setCopiedNumber] = useState(false);
 
 
   // ----------------- Text Counter state -----------------
