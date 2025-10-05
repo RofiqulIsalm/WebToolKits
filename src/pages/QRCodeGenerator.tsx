@@ -652,7 +652,7 @@ ${500 + imgData.length}
                 
                 {/*end*/}
 
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-white mb-2">
                       Foreground Color
