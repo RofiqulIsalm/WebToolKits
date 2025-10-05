@@ -308,7 +308,23 @@ async function convertToBase64(url: string): Promise<string> {
   }
 }
 
-
+// ✅ Helper: convert any URL to base64 (works for local uploads or remote images)
+async function convertToBase64(url: string): Promise<string> {
+  if (url.startsWith('data:image')) return url; // already base64
+  try {
+    const res = await fetch(url, { mode: 'cors' });
+    const blob = await res.blob();
+    return await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  } catch (err) {
+    console.warn('Failed to convert logo to base64:', err);
+    return url;
+  }
+}
 
   const handleQRImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
