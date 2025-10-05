@@ -129,6 +129,43 @@ const TextToolsPage: React.FC = () => {
           setNumberResult('Invalid words');
         }
       };
+
+      // Paste function
+    const pasteNumberInput = async () => {
+      try {
+        const clipText = await navigator.clipboard.readText();
+        setNumberInput(clipText);
+      } catch {
+        alert('Failed to read clipboard — please allow clipboard access.');
+      }
+    };
+
+  // Copy function
+    const copyNumberResult = async () => {
+      if (!numberResult) return;
+      await navigator.clipboard.writeText(numberResult);
+      setCopiedNumber(true);
+      setTimeout(() => setCopiedNumber(false), 1500);
+    };
+
+  
+     // Download function
+    const downloadNumberResult = () => {
+      if (!numberResult) return;
+      const blob = new Blob([numberResult], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'number-converter.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+
+    // Clear function
+    const clearNumberConverter = () => {
+      setNumberInput('');
+      setNumberResult('');
+    };
   
   // ----------------- Close dropdowns when clicking outside -----------------
 const dropdownRef = useRef<HTMLDivElement>(null);
