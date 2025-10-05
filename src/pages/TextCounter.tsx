@@ -134,9 +134,9 @@ const dropdownRef = useRef<HTMLDivElement>(null);
     setStats({ characters, charactersNoSpaces, words, sentences, paragraphs, lines,               readingTime });
 
     const palindromeWords = wordsArray.filter(word => {
-    const cleanWord = word.replace(/[^a-z0-9]/gi, '').toLowerCase();
-    return cleanWord.length > 1 && cleanWord === cleanWord.split('').reverse().join('');
-    }).length;
+      const cleanWord = word.replace(/[^a-z0-9]/gi, '').toLowerCase();
+      return cleanWord.length > 1 && cleanWord === cleanWord.split('').reverse().join('');
+      }).length;
   };    
     
 
@@ -383,8 +383,6 @@ const dropdownRef = useRef<HTMLDivElement>(null);
                 <p className="text-3xl font-bold text-white">{stats.readingTime} min{stats.readingTime !== 1 ? 's' : ''}</p>
                 <p className="text-xs text-slate-500 mt-1">Based on 200 words/min</p>
               </div>
-
-
             </div>
           </div>
         )}
