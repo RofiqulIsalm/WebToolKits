@@ -909,19 +909,22 @@ ${500 + imgData.length}
               />
             </div>
         
-            <div>
-              <label className="block text-sm font-medium text-white mb-2">Barcode Type</label>
-              <select
-                value={barcodeType}
-                onChange={(e) => setBarcodeType(e.target.value as BarcodeType)}
-                className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600"
-              >
-                <option value="CODE128">CODE128</option>
-                <option value="CODE39">CODE39</option>
-                <option value="EAN13">EAN13</option>
-                <option value="UPC">UPC</option>
-              </select>
-            </div>
+              <div className="max-w-xs">
+                <label className="block text-sm font-medium text-white mb-2">
+                  Barcode Type
+                </label>
+                <select
+                  value={barcodeType}
+                  onChange={(e) => setBarcodeType(e.target.value as BarcodeType)}
+                  className="w-full px-3 py-2 bg-slate-700 text-white rounded-md border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                >
+                  <option value="CODE128">CODE128</option>
+                  <option value="CODE39">CODE39</option>
+                  <option value="EAN13">EAN13</option>
+                  <option value="UPC">UPC</option>
+                </select>
+              </div>
+
         
            <div>
           <label className="block text-sm font-medium text-white mb-2">Download Format</label>
