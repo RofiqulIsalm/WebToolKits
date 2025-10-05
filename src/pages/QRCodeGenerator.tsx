@@ -748,31 +748,19 @@ ${500 + imgData.length}
               </div>
 
               <div className="space-y-6">
-                <div>
-                  <h3 className="text-lg font-semibold text-white mb-4">QR Code Preview</h3>
-                  {qrCodeUrl ? (
-                    <div className="text-center space-y-4">
-                      <div className="inline-block p-4 bg-white rounded-xl shadow-lg">
-                        <canvas ref={canvasRef} className="max-w-full h-auto" />
-                      </div>
+                <div className="flex justify-center items-center bg-slate-800 rounded-lg p-4">
+  {qrCodeUrl ? (
+    <img
+      src={qrCodeUrl}
+      alt="Generated QR Code"
+      className="w-auto h-auto max-w-full max-h-80"
+    />
+  ) : (
+    <p className="text-gray-400">Generating QR code...</p>
+  )}
+  <canvas ref={canvasRef} className="hidden" />
+</div>
 
-                      <button
-                        onClick={downloadQRCode}
-                        className="flex items-center justify-center space-x-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors mx-auto"
-                      >
-                        <Download className="h-5 w-5" />
-                        <span>Download {exportFormat.toUpperCase()}</span>
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="text-center py-12 bg-slate-800 rounded-xl">
-                      <QrCode className="h-16 w-16 text-slate-600 mx-auto mb-4" />
-                      <p className="text-slate-400">
-                        {text.trim() ? 'Generating QR code...' : 'Enter text to generate QR code'}
-                      </p>
-                    </div>
-                  )}
-                </div>
 
                 {text.trim() && (
                   <div className="p-4 bg-slate-800 rounded-lg">
