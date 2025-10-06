@@ -39,9 +39,6 @@ import FuelCostCalculator from './pages/FuelCostCalculator';
 // Admin Pages
 import AdminImageUpload from './pages/AdminImageUpload';
 
-// All-in-One Calculator
-import AllCalculators from './pages/AllCalculators';
-
 // Legal Pages
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
@@ -91,9 +88,6 @@ function App() {
 
             {/* ✅ Admin Pages */}
             <Route path="/admin/upload-image" element={<AdminImageUpload />} />
-
-            {/* ✅ All-in-One Calculator Suite */}
-            <Route path="/all-calculators" element={<AllCalculators />} />
 
             {/* ✅ Coming Soon Calculators - Currency & Finance */}
             <Route path="/mortgage-calculator" element={<ComingSoon title="Mortgage Calculator" />} />

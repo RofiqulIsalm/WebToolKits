@@ -260,6 +260,6 @@ const BaseConverter: React.FC = () => {
       </div>
     </>
   );
-}; 
+};
 
 export default BaseConverter;

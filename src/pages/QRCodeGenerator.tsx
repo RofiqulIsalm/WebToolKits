@@ -8,7 +8,6 @@ import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
- 
 
 type TabType = 'qr-generator' | 'qr-decoder' | 'barcode' | 'hash';
 type ExportFormat = 'png' | 'jpg' | 'svg' | 'pdf';
@@ -28,9 +27,6 @@ const QRCodeGenerator: React.FC = () => {
   const [logoDataUrl, setLogoDataUrl] = useState<string>('');
   const [exportFormat, setExportFormat] = useState<ExportFormat>('png');
   const [exportSize, setExportSize] = useState<ExportSize>('medium');
-  const [presetOpen, setPresetOpen] = useState(false);
-  const [selectedPreset, setSelectedPreset] = useState('Quick Presets');
-
 
   const [decodedText, setDecodedText] = useState<string>('');
   const [decodedCopied, setDecodedCopied] = useState<boolean>(false);
@@ -40,8 +36,6 @@ const QRCodeGenerator: React.FC = () => {
   const [barcodeType, setBarcodeType] = useState<BarcodeType>('CODE128');
   const [barcodeUrl, setBarcodeUrl] = useState<string>('');
   const [barcodeFormat, setBarcodeFormat] = useState<'png' | 'svg'>('png');
-  const barcodeCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  const barcodeSvgRef = useRef<SVGSVGElement | null>(null);
 
   const [hashInput, setHashInput] = useState<string>('Hello World');
   const [md5Hash, setMd5Hash] = useState<string>('');
@@ -50,16 +44,16 @@ const QRCodeGenerator: React.FC = () => {
   const [copiedHash, setCopiedHash] = useState<string>('');
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const barcodeCanvasRef = useRef<HTMLCanvasElement>(null);
+  const barcodeSvgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-      if (canvasRef.current && text.trim() !== '') {
     generateQRCode();
-  }
-}, [text, size, fgColor, bgColor, errorLevel, logoDataUrl]);
+  }, [text, size, errorLevel, fgColor, bgColor, logoDataUrl]);
 
-useEffect(() => {
-  generateBarcode();
-}, [barcodeText, barcodeType, barcodeFormat]);
+  useEffect(() => {
+    generateBarcode();
+  }, [barcodeText, barcodeType]);
 
   useEffect(() => {
     generateHashes();
@@ -77,73 +71,52 @@ useEffect(() => {
     }
   }, [logoFile]);
 
-  //start
-  
-// replace your existing generateQRCode with this
-const generateQRCode = async () => {
-  try {
+  const generateQRCode = async () => {
     if (!text.trim()) {
       setQrCodeUrl('');
       return;
     }
 
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    try {
+      if (!canvasRef.current) return;
 
-    // Draw QR code first
-    await QRCodeLib.toCanvas(canvas, text, {
-      width: size,
-      margin: 1,
-      errorCorrectionLevel: errorLevel,
-      color: {
-        dark: fgColor,
-        light: bgColor,
-      },
-    });
+      await QRCodeLib.toCanvas(canvasRef.current, text, {
+        width: size,
+        margin: 2,
+        errorCorrectionLevel: errorLevel,
+        color: {
+          dark: fgColor,
+          light: bgColor
+        }
+      });
 
-    // Draw logo if exists
-    if (logoDataUrl) {
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        const logo = new Image();
-        logo.crossOrigin = 'anonymous'; // requires CORS headers on remote images
-        await new Promise<void>((resolve) => {
+      if (logoDataUrl && canvasRef.current) {
+        const ctx = canvasRef.current.getContext('2d');
+        if (ctx) {
+          const logo = new Image();
           logo.onload = () => {
-            const logoSize = Math.round(size * 0.2);
-            const x = Math.round((size - logoSize) / 2);
-            const y = x;
+            const logoSize = size * 0.2;
+            const x = (size - logoSize) / 2;
+            const y = (size - logoSize) / 2;
 
-            // draw background for logo so it doesn't hide modules
-            ctx.save();
-            ctx.fillStyle = bgColor || '#ffffff';
-            ctx.fillRect(x - 6, y - 6, logoSize + 12, logoSize + 12);
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(x - 5, y - 5, logoSize + 10, logoSize + 10);
+
             ctx.drawImage(logo, x, y, logoSize, logoSize);
-            ctx.restore();
 
-            resolve();
-          };
-          logo.onerror = () => {
-            // if logo fails to load, just continue silently
-            resolve();
+            setQrCodeUrl(canvasRef.current!.toDataURL());
           };
           logo.src = logoDataUrl;
-        });
+        }
+      } else {
+        setQrCodeUrl(canvasRef.current.toDataURL());
       }
+    } catch (error) {
+      console.error('Error generating QR code:', error);
+      setQrCodeUrl('');
     }
+  };
 
-    // Set QR code preview (this triggers React re-render)
-    const finalDataURL = canvas.toDataURL('image/png');
-    setQrCodeUrl(finalDataURL);
-  } catch (err) {
-    console.error('QR generation failed:', err);
-    setQrCodeUrl('');
-  }
-};
-
-
-
-
-  //end here
   const getSizePixels = (): number => {
     const sizes = {
       small: 256,
@@ -153,101 +126,111 @@ const generateQRCode = async () => {
     return sizes[exportSize];
   };
 
-  // Replace your existing downloadQRCode with this function
   const downloadQRCode = async () => {
-      if (!text.trim()) return;
-    
-      try {
-        const exportPixels = getSizePixels();
-    
-        // === Create canvas for export ===
-        const exportCanvas = document.createElement('canvas');
-        exportCanvas.width = exportPixels;
-        exportCanvas.height = exportPixels;
-    
-        // Draw QR code onto canvas
-        await QRCodeLib.toCanvas(exportCanvas, text, {
+    if (!text.trim()) return;
+
+    try {
+      const exportPixels = getSizePixels();
+
+      if (exportFormat === 'svg') {
+        const svgString = await QRCodeLib.toString(text, {
+          type: 'svg',
           width: exportPixels,
           margin: 2,
           errorCorrectionLevel: errorLevel,
           color: {
             dark: fgColor,
-            light: bgColor,
-          },
+            light: bgColor
+          }
         });
-    
-        // === Draw logo (if present) ===
-        if (logoDataUrl) {
-          const ctx = exportCanvas.getContext('2d');
+
+        const blob = new Blob([svgString], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = `qrcode.svg`;
+        link.href = url;
+        link.click();
+        URL.revokeObjectURL(url);
+        return;
+      }
+
+      if (exportFormat === 'pdf') {
+        const dataUrl = await QRCodeLib.toDataURL(text, {
+          width: exportPixels,
+          margin: 2,
+          errorCorrectionLevel: errorLevel,
+          color: {
+            dark: fgColor,
+            light: bgColor
+          }
+        });
+
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = exportPixels;
+          canvas.height = exportPixels;
+          const ctx = canvas.getContext('2d');
           if (ctx) {
-            const logo = new Image();
-            logo.crossOrigin = 'anonymous';
-            await new Promise<void>((resolve) => {
-              logo.onload = () => {
-                const logoSize = Math.round(exportPixels * 0.2);
-                const x = Math.round((exportPixels - logoSize) / 2);
-                const y = x;
-    
-                // Draw a white background box behind logo (for contrast)
-                ctx.save();
-                ctx.fillStyle = bgColor || '#ffffff';
-                ctx.fillRect(
-                  x - Math.round(logoSize * 0.05),
-                  y - Math.round(logoSize * 0.05),
-                  logoSize + Math.round(logoSize * 0.1),
-                  logoSize + Math.round(logoSize * 0.1)
-                );
-                ctx.drawImage(logo, x, y, logoSize, logoSize);
-                ctx.restore();
-    
-                resolve();
-              };
-              logo.onerror = () => {
-                console.warn('Logo failed to load — exporting QR without logo.');
-                resolve();
-              };
-              logo.src = logoDataUrl;
-            });
-          }
-        }
-    
-        // === PNG / JPG Export ===
-        const mime = exportFormat === 'jpg' ? 'image/jpeg' : 'image/png';
-        exportCanvas.toBlob((blob) => {
-          if (!blob) {
-            console.error('Failed to export QR code.');
-            return;
-          }
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.download = `qrcode.${exportFormat}`;
-          link.href = url;
-          link.click();
-          URL.revokeObjectURL(url);
-        }, mime, 1.0);
-      } catch (error) {
-        console.error('Error downloading QR code:', error);
-      }
-    };
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, exportPixels, exportPixels);
+            ctx.drawImage(img, 0, 0);
 
+            const imgData = canvas.toDataURL('image/jpeg', 1.0);
+            const pdf = `%PDF-1.4
+1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj
+2 0 obj<</Type/Pages/Count 1/Kids[3 0 R]>>endobj
+3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 ${exportPixels} ${exportPixels}]/Contents 4 0 R/Resources<</XObject<</Im1 5 0 R>>>>>>endobj
+4 0 obj<</Length 44>>stream
+q ${exportPixels} 0 0 ${exportPixels} 0 0 cm /Im1 Do Q
+endstream endobj
+5 0 obj<</Type/XObject/Subtype/Image/Width ${exportPixels}/Height ${exportPixels}/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length ${imgData.length}>>stream
+${imgData}
+endstream endobj
+xref
+0 6
+0000000000 65535 f
+0000000009 00000 n
+0000000056 00000 n
+0000000108 00000 n
+0000000251 00000 n
+0000000343 00000 n
+trailer<</Size 6/Root 1 0 R>>
+startxref
+${500 + imgData.length}
+%%EOF`;
 
-    async function convertToBase64(url: string): Promise<string> {
-        if (url.startsWith('data:image')) return url;
-        try {
-          const res = await fetch(url, { mode: 'cors' });
-          const blob = await res.blob();
-          return await new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result as string);
-            reader.onerror = reject;
-            reader.readAsDataURL(blob);
-          });
-        } catch (err) {
-          console.warn('Failed to convert logo to base64:', err);
-          return url;
-        }
+            const blob = new Blob([pdf], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.download = 'qrcode.pdf';
+            link.href = url;
+            link.click();
+            URL.revokeObjectURL(url);
+          }
+        };
+        img.src = dataUrl;
+        return;
       }
 
+      const dataUrl = await QRCodeLib.toDataURL(text, {
+        width: exportPixels,
+        margin: 2,
+        errorCorrectionLevel: errorLevel,
+        color: {
+          dark: fgColor,
+          light: bgColor
+        }
+      });
+
+      const link = document.createElement('a');
+      link.download = `qrcode.${exportFormat}`;
+      link.href = dataUrl;
+      link.click();
+    } catch (error) {
+      console.error('Error downloading QR code:', error);
+    }
+  };
 
   const handleQRImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -515,10 +498,10 @@ const generateQRCode = async () => {
   ];
 
   const tabs = [
-    { id: 'qr-generator', label: '', icon: QrCode },
-    { id: 'qr-decoder', label: '', icon: Scan },
-    { id: 'barcode', label: '', icon: BarChart3 },
-    { id: 'hash', label: '', icon: Hash }
+    { id: 'qr-generator', label: 'QR Generator', icon: QrCode },
+    { id: 'qr-decoder', label: 'QR Decoder', icon: Scan },
+    { id: 'barcode', label: 'Barcode Generator', icon: BarChart3 },
+    { id: 'hash', label: 'Hash Generator', icon: Hash }
   ];
 
   return (
@@ -526,7 +509,7 @@ const generateQRCode = async () => {
       <SEOHead
         title={seoData.qrCodeGenerator.title}
         description={seoData.qrCodeGenerator.description}
-        canonical="https://calculatorhub.site/qr-code-generator"
+        canonical="https://calculatorhub.com/qr-code-generator"
         schemaData={generateCalculatorSchema(
           "QR Code Generator",
           seoData.qrCodeGenerator.description,
@@ -583,78 +566,30 @@ const generateQRCode = async () => {
                   <textarea
                     value={text}
                     onChange={(e) => setText(e.target.value)}
-                    className="w-80 h-32 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                    rows={4}
+                    className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter text, URL, email, phone number, etc."
                   />
-
                 </div>
 
-                
-              {/* ---------------- Quick Presets Dropdown ---------------- */}
-              <div className="relative inline-block w-full max-w-xs">
-                <label className="block text-sm font-medium text-white mb-2">
-                      Quick Presets
-                    </label>
-                <button
-                  onClick={() => setPresetOpen(!presetOpen)}
-                  className="w-full flex justify-between items-center bg-slate-800 text-white px-4 py-2 rounded-md border border-slate-600 hover:bg-slate-700"
-                >
-                  {selectedPreset}
-                  <svg
-                    className={`w-4 h-4 ml-2 transition-transform ${presetOpen ? 'rotate-180' : 'rotate-0'}`}
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-              
-                {presetOpen && (
-                  <div className="absolute z-10 w-full mt-2 bg-slate-800 border border-slate-600 rounded-md shadow-lg">
-                    {['Website URL', 'Email', 'Phone', 'SMS', 'WiFi', 'Location'].map((preset) => (
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">
+                    Quick Presets
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {presetTexts.map((preset) => (
                       <button
-                        key={preset}
-                        onClick={() => {
-                          setSelectedPreset(preset);
-                          setPresetOpen(false);
-              
-                          // handle preset selection
-                          switch (preset) {
-                            case 'Website URL':
-                              setText('https://');
-                              break;
-                            case 'Email':
-                              setText('mailto:example@example.com');
-                              break;
-                            case 'Phone':
-                              setText('tel:+880');
-                              break;
-                            case 'SMS':
-                              setText('sms:+880?body=Hello');
-                              break;
-                            case 'WiFi':
-                              setText('WIFI:T:WPA;S:NetworkName;P:Password;;');
-                              break;
-                            case 'Location':
-                              setText('geo:0,0?q=Dhaka,Bangladesh');
-                              break;
-                          }
-                        }}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-slate-700"
+                        key={preset.label}
+                        onClick={() => setText(preset.value)}
+                        className="px-3 py-2 text-sm bg-slate-700 hover:bg-slate-600 text-white border border-slate-600 rounded-lg transition-colors"
                       >
-                        {preset}
+                        {preset.label}
                       </button>
                     ))}
                   </div>
-                )}
-              </div>
+                </div>
 
-                
-                {/*end*/}
-
-                <div className="grid grid-cols-1 gap-4">
+                <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-white mb-2">
                       Foreground Color
@@ -696,66 +631,39 @@ const generateQRCode = async () => {
                   </div>
                 </div>
 
-                {/* Preview Size */}
-              <div className="grid grid-cols-1 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-white mb-2">
-                    Preview Size
-                  </label>
-                  <div className="flex gap-4">
-                    {[
-                      { label: 'S', value: 128 },
-                      { label: 'M', value: 256 },
-                      { label: 'L', value: 512 },
-                    ].map((opt) => (
-                      <button
-                        key={opt.value}
-                        onClick={() => setSize(opt.value)}
-                        className={`
-                          flex-1 px-4 py-2 rounded-lg border text-sm font-medium transition-all duration-200
-                          ${
-                            size === opt.value
-                              ? 'bg-blue-600 text-white border-blue-500 shadow-md'
-                              : 'bg-slate-700 text-gray-300 border-slate-600 hover:bg-slate-600'
-                          }
-                        `}
-                      >
-                        {opt.label}
-                      </button>
-                    ))}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-white mb-2">
+                      Preview Size
+                    </label>
+                    <select
+                      value={size}
+                      onChange={(e) => setSize(Number(e.target.value))}
+                      className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value={128}>128x128</option>
+                      <option value={256}>256x256</option>
+                      <option value={512}>512x512</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-white mb-2">
+                      Error Correction
+                    </label>
+                    <select
+                      value={errorLevel}
+                      onChange={(e) => setErrorLevel(e.target.value as 'L' | 'M' | 'Q' | 'H')}
+                      className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      {errorLevels.map((level) => (
+                        <option key={level.value} value={level.value}>
+                          {level.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
-              
-                {/* Error Correction */}
-                <div>
-                  <label className="block text-sm font-medium text-white mb-2">
-                    Error Correction
-                  </label>
-                  <div className="flex gap-2">
-                    {['L', 'M', 'Q', 'H'].map((level) => (
-                      <button
-                        key={level}
-                        onClick={() => setErrorLevel(level as 'L' | 'M' | 'Q' | 'H')}
-                        className={`
-                          flex-1 px-3 py-2 rounded-lg border text-sm font-medium transition-all duration-200
-                          ${
-                            errorLevel === level
-                              ? 'bg-blue-500 text-white border-blue-500 shadow-md'
-                              : 'bg-slate-700 text-white border-slate-600 hover:bg-slate-600'
-                          }
-                          focus:outline-none focus:ring-2 focus:ring-blue-500
-                        `}
-                      >
-                        {level}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-
-
-                
 
                 <div>
                   <label className="block text-sm font-medium text-white mb-2">
@@ -798,70 +706,61 @@ const generateQRCode = async () => {
                     <label className="block text-sm font-medium text-white mb-2">
                       Export Format
                     </label>
-                    <div className="flex gap-2">
-                      {['png', 'jpg'].map((format) => (
-                        <button
-                          key={format}
-                          onClick={() => setExportFormat(format as ExportFormat)}
-                          className={`flex-1 px-4 py-2 rounded-lg border transition-all duration-200 ${
-                            exportFormat === format
-                              ? 'bg-blue-600 text-white border-blue-500 shadow-md'
-                              : 'bg-slate-700 text-gray-300 border-slate-600 hover:bg-slate-600'
-                          }`}
-                        >
-                          {format.toUpperCase()}
-                        </button>
-                      ))}
-                    </div>
+                    <select
+                      value={exportFormat}
+                      onChange={(e) => setExportFormat(e.target.value as ExportFormat)}
+                      className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="png">PNG</option>
+                      <option value="jpg">JPG</option>
+                      <option value="svg">SVG</option>
+                      <option value="pdf">PDF</option>
+                    </select>
                   </div>
-
 
                   <div>
                     <label className="block text-sm font-medium text-white mb-2">
                       Export Size
                     </label>
-                    <div className="flex gap-2 sm:gap-4">
-                      {[
-                        { label: 'S', value: 'small' },
-                        { label: 'M', value: 'medium' },
-                        { label: 'L', value: 'large' },
-                      ].map((opt) => (
-                        <button
-                          key={opt.value}
-                          onClick={() => setExportSize(opt.value as ExportSize)}
-                          className={`
-                            flex-1 px-3 sm:px-4 py-2 rounded-lg border text-sm font-medium transition-all duration-200
-                            ${
-                              exportSize === opt.value
-                                ? 'bg-blue-600 text-white border-blue-500 shadow-md'
-                                : 'bg-slate-700 text-gray-300 border-slate-600 hover:bg-slate-600'
-                            }
-                            focus:outline-none focus:ring-2 focus:ring-blue-500
-                          `}
-                        >
-                          {opt.label}
-                        </button>
-                      ))}
-                    </div>
+                    <select
+                      value={exportSize}
+                      onChange={(e) => setExportSize(e.target.value as ExportSize)}
+                      className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="small">Small (256px)</option>
+                      <option value="medium">Medium (512px)</option>
+                      <option value="large">Large (1024px)</option>
+                    </select>
                   </div>
-
                 </div>
               </div>
 
               <div className="space-y-6">
-                <div className="flex justify-center items-center bg-slate-800 rounded-lg p-4">
-  {qrCodeUrl ? (
-    <img
-      src={qrCodeUrl}
-      alt="Generated QR Code"
-      className="w-auto h-auto max-w-full max-h-80"
-    />
-  ) : (
-    <p className="text-gray-400">Generating QR code...</p>
-  )}
-  <canvas ref={canvasRef} className="hidden" />
-</div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-4">QR Code Preview</h3>
+                  {qrCodeUrl ? (
+                    <div className="text-center space-y-4">
+                      <div className="inline-block p-4 bg-white rounded-xl shadow-lg">
+                        <canvas ref={canvasRef} className="max-w-full h-auto" />
+                      </div>
 
+                      <button
+                        onClick={downloadQRCode}
+                        className="flex items-center justify-center space-x-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors mx-auto"
+                      >
+                        <Download className="h-5 w-5" />
+                        <span>Download {exportFormat.toUpperCase()}</span>
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="text-center py-12 bg-slate-800 rounded-xl">
+                      <QrCode className="h-16 w-16 text-slate-600 mx-auto mb-4" />
+                      <p className="text-slate-400">
+                        {text.trim() ? 'Generating QR code...' : 'Enter text to generate QR code'}
+                      </p>
+                    </div>
+                  )}
+                </div>
 
                 {text.trim() && (
                   <div className="p-4 bg-slate-800 rounded-lg">
@@ -870,15 +769,6 @@ const generateQRCode = async () => {
                     <div className="mt-2 text-xs text-slate-500">
                       Size: {size}x{size}px | Error Level: {errorLevel} | Colors: {fgColor}/{bgColor}
                     </div>
-
-                      <button
-                        onClick={downloadQRCode}
-                        className="mt-2 flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-md"
-                      >
-                        <Download size={18} />
-                        Download QR Code
-                      </button>
-                    
                   </div>
                 )}
               </div>
@@ -943,93 +833,104 @@ const generateQRCode = async () => {
             </div>
           )}
 
-          {/*-------------------------------Barcode-----------------------------*/}
+          {activeTab === 'barcode' && (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">
+                    Barcode Content
+                  </label>
+                  <input
+                    type="text"
+                    value={barcodeText}
+                    onChange={(e) => setBarcodeText(e.target.value)}
+                    className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter numbers or text"
+                  />
+                </div>
 
-         {activeTab === 'barcode' && (
-          <div className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-white mb-2">Barcode Text</label>
-              <input
-                type="text"
-                value={barcodeText}
-                onChange={(e) => setBarcodeText(e.target.value)}
-                className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter barcode text (e.g. 123456789012)"
-              />
-            </div>
-        
-              <div className="max-w-xs">
-                <label className="block text-sm font-medium text-white mb-2">
-                  Barcode Type
-                </label>
-                <select
-                  value={barcodeType}
-                  onChange={(e) => setBarcodeType(e.target.value as BarcodeType)}
-                  className="w-full px-3 py-2 bg-slate-700 text-white rounded-md border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                >
-                  <option value="CODE128">CODE128</option>
-                  <option value="CODE39">CODE39</option>
-                  <option value="EAN13">EAN13</option>
-                  <option value="UPC">UPC</option>
-                </select>
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">
+                    Barcode Type
+                  </label>
+                  <select
+                    value={barcodeType}
+                    onChange={(e) => setBarcodeType(e.target.value as BarcodeType)}
+                    className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="CODE128">Code 128 (Alphanumeric)</option>
+                    <option value="CODE39">Code 39 (Alphanumeric)</option>
+                    <option value="EAN13">EAN-13 (13 digits)</option>
+                    <option value="UPC">UPC-A (12 digits)</option>
+                  </select>
+                  <p className="text-xs text-slate-400 mt-1">
+                    {barcodeType === 'EAN13' && 'Requires exactly 13 digits'}
+                    {barcodeType === 'UPC' && 'Requires exactly 12 digits'}
+                    {barcodeType === 'CODE128' && 'Supports numbers and letters'}
+                    {barcodeType === 'CODE39' && 'Supports numbers, uppercase letters, and special characters'}
+                  </p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">
+                    Download Format
+                  </label>
+                  <div className="flex space-x-3">
+                    <button
+                      onClick={() => setBarcodeFormat('png')}
+                      className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
+                        barcodeFormat === 'png'
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                      }`}
+                    >
+                      PNG
+                    </button>
+                    <button
+                      onClick={() => setBarcodeFormat('svg')}
+                      className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
+                        barcodeFormat === 'svg'
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                      }`}
+                    >
+                      SVG
+                    </button>
+                  </div>
+                </div>
               </div>
 
-        
-           <div>
-          <label className="block text-sm font-medium text-white mb-2">Download Format</label>
-          <div className="flex space-x-3">
-            <button
-              onClick={() => setBarcodeFormat('png')}
-              className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
-                barcodeFormat === 'png'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-              }`}
-            >
-              PNG
-            </button>
-            <button
-              onClick={() => setBarcodeFormat('svg')}
-              className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
-                barcodeFormat === 'svg'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-              }`}
-            >
-              SVG
-            </button>
-          </div>
-        </div>
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-4">Barcode Preview</h3>
+                  {barcodeUrl ? (
+                    <div className="text-center space-y-4">
+                      <div className="inline-block p-6 bg-white rounded-xl shadow-lg">
+                        {barcodeFormat === 'svg' ? (
+                          <svg ref={barcodeSvgRef} className="max-w-full h-auto" />
+                        ) : (
+                          <canvas ref={barcodeCanvasRef} className="max-w-full h-auto" />
+                        )}
+                      </div>
 
-        
-            <div className="flex flex-col items-center justify-center bg-slate-800 rounded-xl p-6 mt-4">
-              {/* Render Barcode */}
-              {barcodeFormat === 'svg' ? (
-                <svg ref={barcodeSvgRef}></svg>
-              ) : (
-                <canvas ref={barcodeCanvasRef}></canvas>
-              )}
-        
-              {/* Show preview image if generated */}
-              {barcodeUrl && (
-                <img
-                  src={barcodeUrl}
-                  alt="Generated Barcode"
-                  className="mt-4 max-h-40 object-contain bg-white p-2 rounded-lg"
-                />
-              )}
-        
-              <button
-                onClick={downloadBarcode}
-                className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition"
-              >
-                Download Barcode
-              </button>
+                      <button
+                        onClick={downloadBarcode}
+                        className="flex items-center justify-center space-x-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors mx-auto"
+                      >
+                        <Download className="h-5 w-5" />
+                        <span>Download {barcodeFormat.toUpperCase()}</span>
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="text-center py-12 bg-slate-800 rounded-xl">
+                      <BarChart3 className="h-16 w-16 text-slate-600 mx-auto mb-4" />
+                      <p className="text-slate-400">Enter content to generate barcode</p>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
-        )}
-
-          {/*-----------------------------Hash code------------------------------*/}
+          )}
 
           {activeTab === 'hash' && (
             <div className="max-w-2xl mx-auto space-y-6">
