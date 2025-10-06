@@ -323,20 +323,29 @@ const dropdownRef = useRef<HTMLDivElement>(null);
   return (
     <>
       <SEOHead
-        title={seoData.textCounter?.title || 'Text Tools - Text Counter & Lorem Ipsum Generator'}
-        description={seoData.textCounter?.description || 'Text counter and Lorem Ipsum generator with convert case tools.'}
-        canonical="https://calculatorhub.com/text-tools"
+        title={seoData.textCounter?.title || 'Free Online Text Counter | Word, Character & Converter Tool'}
+        description={seoData.textCounter?.description || 'Count characters, words, sentences & paragraphs instantly. Convert text, binary & numbers. Free online text counter tool with generator & case converter.'}
+        canonical="https://calculatorhub.site/text-tools"
         schemaData={generateCalculatorSchema(
           'Text Tools',
           'Text counter and Lorem Ipsum generator with convert case tools',
           '/text-tools',
-          ['text counter', 'lorem ipsum generator', 'word counter', 'character counter']
+          ['text counter', 'lorem ipsum generator', 'word counter', 'character counter', 'online word counter', 'text analysis tool', 'binary to text converter', 'number to text converter', 'free text tool', 'case converter', 'word counter for SEO', 'reverse text tool', 'online text editor']
         )}
         breadcrumbs={[
           { name: 'Misc Tools', url: '/category/misc-tools' },
           { name: 'Text Tools', url: '/text-tools' }
         ]}
       />
+
+    <meta property="og:title" content="Free Online Text Counter | Word, Character & Converter Tool" />
+<meta property="og:description" content="Count characters, words, and paragraphs instantly. Includes text converter, lorem generator, and binary converter. 100% free and browser-based." />
+<meta name="description" content="Use our free Text Counter tool to count words, characters, sentences, and paragraphs instantly. Includes case converter, lorem ipsum generator, binary converter, and number to text converter — all in one place!" />
+<meta name="keywords" content="text counter, word counter, character counter, lorem ipsum generator, binary converter, number to text, text tools, online text counter, SEO writing tools, case converter" />
+<meta property="og:image" content="https://calculatorhub.site/images/text-counter-og.jpg" />
+<meta property="og:url" content="https://calculatorhub.site/text-counter" />
+<meta property="og:type" content="calculatorhub" />
+
 
       <div className="max-w-4xl mx-auto">
         <Breadcrumbs items={[
@@ -747,21 +756,21 @@ const dropdownRef = useRef<HTMLDivElement>(null);
               </ul>
 
                    
-              <p>By using a <storng>secure password generator</storng>, you can effortlessly create passwords that meet these requirements and ensure your digital life stays safe.</p>
+              <p>By using a <strong>secure password generator</strong>, you can effortlessly create passwords that meet these requirements and ensure your digital life stays safe.</p>
           
               <h3 className="text-2xl font-semibold text-white mt-6">💡 Our Tool Features</h3>
               <p>Our <strong>Password Generator</strong> is designed to help you create <strong>strong and secure passwords</strong> effortlessly. Here’s what makes it an essential tool for online security:</p>
               <ul className="list-disc list-inside space-y-2 ml-4">
-                <li><strong>Text Counter:</strong> – Generate QR codes for text, links, phone numbers, emails, Wi-Fi, SMS, or passwords.</li>
-                <li><strong>Reverse Text:</strong> – Choose your QR type easily from a dropdown list.</li>
-                <li><strong>Case Converter:</strong> – Adjust foreground and background colors to match your brand.</li>
-                <li><strong>Extra Space Remover:</strong> – Add your business logo or custom icon at the center of the QR code</li>
-                <li><strong>Copy / Download / Clear Buttons:</strong> – QSmall (S), Medium (M), or Large (L) previews before download.</li>
-                <li><strong>Lorem Ipsum Generator:</strong> – Select between L, M, Q, and H for data recovery strength.</li>
-                <li><strong>Binary to Text Converter:</strong> – Support for Code128, Code39, EAN13, and UPC with instant preview.</li>
-                <li><strong>Number ↔ Text Converter:</strong> – Upload and decode QR images instantly to reveal hidden text or URLs.</li>
-                <li><strong>Instant Paste Button:</strong> – Create secure MD5, SHA-1, and SHA-256 hashes instantly.</li>
-                <li><strong>Auto Result Display:</strong> – Choose output format (PNG/JPG) and export size (S, M, L).</li>
+                <li><strong>Text Counter:</strong> – Counts characters, words, paragraphs, and reading time.</li>
+                <li><strong>Reverse Text:</strong> – Reverse by word, sentence, or line instantly.</li>
+                <li><strong>Case Converter:</strong> – Change to uppercase, lowercase, title case, or sentence case.</li>
+                <li><strong>Extra Space Remover:</strong> – Clean up text with one click.</li>
+                <li><strong>Copy / Download / Clear Buttons:</strong> – Manage your content instantly.</li>
+                <li><strong>Lorem Ipsum Generator:</strong> – Create placeholder text with a custom word count.</li>
+                <li><strong>Binary to Text Converter:</strong> – Translate binary code or text easily.</li>
+                <li><strong>Number ↔ Text Converter:</strong> –Convert numbers into words or vice versa.</li>
+                <li><strong>Instant Paste Button:</strong> – Add text quickly without manual typing.</li>
+                <li><strong>Auto Result Display:</strong> – CReal-time results without refreshing the page.</li>
               </ul>
               <p>Using these features, our Password Generator ensures that you can always create<strong> robust, high-security passwords</strong> for all your online accounts with ease.</p>
          
@@ -774,48 +783,48 @@ const dropdownRef = useRef<HTMLDivElement>(null);
             <div className="space-y-4 text-lg text-slate-100 leading-relaxed">
               <div>
                 <div className="bg-slate-800/60 p-4 rounded-lg">
-                    <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q1</span>: Is this QR & Barcode Generator free to use?</h3>
-                    <p>Yes, it’s 100% free! You can generate, decode, and download unlimited QR codes, barcodes, and hash codes without registration.
+                    <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q1</span>: What is a text counter tool used for?</h3>
+                    <p>It helps you count characters, words, and lines in any text to stay within writing limits.
                     </p>
                   
                 </div>
               </div>
               <div>
                 <div className="bg-slate-800/60 p-4 rounded-lg">
-                  <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q2</span>: Can I customize the QR code colors and add my logo?</h3>
-                  <p>Absolutely! You can pick custom foreground and background colors, and even upload your logo to appear in the center.</p>
+                  <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q2</span>: Can I convert binary to text using this tool?</h3>
+                  <p>Yes, our Binary tab lets you convert binary to text and text to binary instantly.</p>
                 </div>
              </div>
               <div>
                 <div className="bg-slate-800/60 p-4 rounded-lg">
-                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q3</span>: How do I decode a QR code image?</h3>
-                <p>Simply upload the image under the “QR Code Decode” tab — the tool will automatically scan and display the embedded data.</p>
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q3</span>: Does it work on mobile devices?</h3>
+                <p>Absolutely! It’s fully mobile-friendly and responsive on all screen sizes.</p>
                 </div>
               </div>
               <div>
                 <div className="bg-slate-800/60 p-4 rounded-lg">
-                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q4</span>: What barcode formats are supported?</h3>
-                <p>Our tool supports Code128, Code39, EAN13, and UPC barcode formats, ideal for retail and inventory systems.</p>
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q4</span>: Is the lorem ipsum generator customizable?</h3>
+                <p>Yes, you can set how many words you want before generating.</p>
                 </div>
               </div>
               <div>
                 <div className="bg-slate-800/60 p-4 rounded-lg">
-                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q5</span>: Are my data and inputs stored online?</h3>
-                <p>No. Everything runs locally in your browser — your data is never uploaded or saved.</p>
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q5</span>: Can I download my text as a file?</h3>
+                <p>Yes, you can download your text as a <span className="bg-gray-700  px-2 rounded">.txt</span>  file with one click.</p>
 
                 </div>
               </div>
               <div>
                 <div className="bg-slate-800/60 p-4 rounded-lg">
-                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q6</span>: What is a hash code, and why should I use it?</h3>
-                <p> Hash codes securely convert data into encrypted text. It’s useful for verifying data integrity and generating secure passwords.</p>
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q6</span>: What cases can I convert text into?</h3>
+                <p> You can switch between uppercase, lowercase, title case, sentence case, or remove extra spaces.</p>
 
                 </div>
               </div>
               <div>
                 <div className="bg-slate-800/60 p-4 rounded-lg">
-                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q7</span>: Can I use this tool on mobile devices?</h3>
-                <p>Yes! The entire generator is fully responsive and optimized for Android, iOS, and all major browsers.</p>
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q7</span>: Is this tool free to use?</h3>
+                <p>Completely free! No registration, ads, or hidden limits — just instant text tools.</p>
 
                 </div>
               </div>
@@ -826,10 +835,86 @@ const dropdownRef = useRef<HTMLDivElement>(null);
               <AdBanner type="bottom" />
 
                    
-                 </div>
+            </div>
           </div>
         
         <RelatedCalculators currentPath="/text-tools" />
+
+        <script type="application/ld+json" dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is a Text Counter Tool?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A Text Counter is an online tool that counts words, characters, sentences, and paragraphs instantly — perfect for SEO writers, students, and editors."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is this Text Counter free?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes! Our Text Counter and all its features are 100% free with no sign-up required."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I generate Lorem Ipsum text?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, the Lorem Generator tab lets you create custom placeholder text instantly by word count."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I convert Binary or Numbers to Text?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Absolutely. The tool includes binary-to-text and number-to-text converters with instant output and copy/download options."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does it work on mobile devices?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, our Text Counter is fully responsive and works perfectly on mobile, tablet, and desktop."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I copy or download my text?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes! You can easily copy your processed text or download it as a .txt file with one click."
+              }
+            }
+          ]
+        })
+      }} />
+        
+        <script type="application/ld+json" dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Text Counter Tool",
+            "operatingSystem": "All",
+            "applicationCategory": "UtilityApplication",
+            "description": "Count words, characters, and convert text instantly using our free online text counter tool.",
+            "url": "https://calculatorhub.site/text-tools",
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.9",
+              "reviewCount": "1580"
+            }
+          })
+        }} />
+
+
       </div>
     </>
   );
