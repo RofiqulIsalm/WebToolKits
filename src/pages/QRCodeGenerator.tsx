@@ -8,6 +8,7 @@ import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
+ 
 
 type TabType = 'qr-generator' | 'qr-decoder' | 'barcode' | 'hash';
 type ExportFormat = 'png' | 'jpg' | 'svg' | 'pdf';
@@ -27,6 +28,9 @@ const QRCodeGenerator: React.FC = () => {
   const [logoDataUrl, setLogoDataUrl] = useState<string>('');
   const [exportFormat, setExportFormat] = useState<ExportFormat>('png');
   const [exportSize, setExportSize] = useState<ExportSize>('medium');
+  const [presetOpen, setPresetOpen] = useState(false);
+  const [selectedPreset, setSelectedPreset] = useState('Quick Presets');
+
 
   const [decodedText, setDecodedText] = useState<string>('');
   const [decodedCopied, setDecodedCopied] = useState<boolean>(false);
@@ -36,6 +40,8 @@ const QRCodeGenerator: React.FC = () => {
   const [barcodeType, setBarcodeType] = useState<BarcodeType>('CODE128');
   const [barcodeUrl, setBarcodeUrl] = useState<string>('');
   const [barcodeFormat, setBarcodeFormat] = useState<'png' | 'svg'>('png');
+  const barcodeCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const barcodeSvgRef = useRef<SVGSVGElement | null>(null);
 
   const [hashInput, setHashInput] = useState<string>('Hello World');
   const [md5Hash, setMd5Hash] = useState<string>('');
@@ -44,16 +50,16 @@ const QRCodeGenerator: React.FC = () => {
   const [copiedHash, setCopiedHash] = useState<string>('');
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const barcodeCanvasRef = useRef<HTMLCanvasElement>(null);
-  const barcodeSvgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
+      if (canvasRef.current && text.trim() !== '') {
     generateQRCode();
-  }, [text, size, errorLevel, fgColor, bgColor, logoDataUrl]);
+  }
+}, [text, size, fgColor, bgColor, errorLevel, logoDataUrl]);
 
-  useEffect(() => {
-    generateBarcode();
-  }, [barcodeText, barcodeType]);
+useEffect(() => {
+  generateBarcode();
+}, [barcodeText, barcodeType, barcodeFormat]);
 
   useEffect(() => {
     generateHashes();
@@ -71,52 +77,73 @@ const QRCodeGenerator: React.FC = () => {
     }
   }, [logoFile]);
 
-  const generateQRCode = async () => {
+  //start
+  
+// replace your existing generateQRCode with this
+const generateQRCode = async () => {
+  try {
     if (!text.trim()) {
       setQrCodeUrl('');
       return;
     }
 
-    try {
-      if (!canvasRef.current) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-      await QRCodeLib.toCanvas(canvasRef.current, text, {
-        width: size,
-        margin: 2,
-        errorCorrectionLevel: errorLevel,
-        color: {
-          dark: fgColor,
-          light: bgColor
-        }
-      });
+    // Draw QR code first
+    await QRCodeLib.toCanvas(canvas, text, {
+      width: size,
+      margin: 1,
+      errorCorrectionLevel: errorLevel,
+      color: {
+        dark: fgColor,
+        light: bgColor,
+      },
+    });
 
-      if (logoDataUrl && canvasRef.current) {
-        const ctx = canvasRef.current.getContext('2d');
-        if (ctx) {
-          const logo = new Image();
+    // Draw logo if exists
+    if (logoDataUrl) {
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        const logo = new Image();
+        logo.crossOrigin = 'anonymous'; // requires CORS headers on remote images
+        await new Promise<void>((resolve) => {
           logo.onload = () => {
-            const logoSize = size * 0.2;
-            const x = (size - logoSize) / 2;
-            const y = (size - logoSize) / 2;
+            const logoSize = Math.round(size * 0.2);
+            const x = Math.round((size - logoSize) / 2);
+            const y = x;
 
-            ctx.fillStyle = bgColor;
-            ctx.fillRect(x - 5, y - 5, logoSize + 10, logoSize + 10);
-
+            // draw background for logo so it doesn't hide modules
+            ctx.save();
+            ctx.fillStyle = bgColor || '#ffffff';
+            ctx.fillRect(x - 6, y - 6, logoSize + 12, logoSize + 12);
             ctx.drawImage(logo, x, y, logoSize, logoSize);
+            ctx.restore();
 
-            setQrCodeUrl(canvasRef.current!.toDataURL());
+            resolve();
+          };
+          logo.onerror = () => {
+            // if logo fails to load, just continue silently
+            resolve();
           };
           logo.src = logoDataUrl;
-        }
-      } else {
-        setQrCodeUrl(canvasRef.current.toDataURL());
+        });
       }
-    } catch (error) {
-      console.error('Error generating QR code:', error);
-      setQrCodeUrl('');
     }
-  };
 
+    // Set QR code preview (this triggers React re-render)
+    const finalDataURL = canvas.toDataURL('image/png');
+    setQrCodeUrl(finalDataURL);
+  } catch (err) {
+    console.error('QR generation failed:', err);
+    setQrCodeUrl('');
+  }
+};
+
+
+
+
+  //end here
   const getSizePixels = (): number => {
     const sizes = {
       small: 256,
@@ -126,111 +153,101 @@ const QRCodeGenerator: React.FC = () => {
     return sizes[exportSize];
   };
 
+  // Replace your existing downloadQRCode with this function
   const downloadQRCode = async () => {
-    if (!text.trim()) return;
-
-    try {
-      const exportPixels = getSizePixels();
-
-      if (exportFormat === 'svg') {
-        const svgString = await QRCodeLib.toString(text, {
-          type: 'svg',
+      if (!text.trim()) return;
+    
+      try {
+        const exportPixels = getSizePixels();
+    
+        // === Create canvas for export ===
+        const exportCanvas = document.createElement('canvas');
+        exportCanvas.width = exportPixels;
+        exportCanvas.height = exportPixels;
+    
+        // Draw QR code onto canvas
+        await QRCodeLib.toCanvas(exportCanvas, text, {
           width: exportPixels,
           margin: 2,
           errorCorrectionLevel: errorLevel,
           color: {
             dark: fgColor,
-            light: bgColor
-          }
+            light: bgColor,
+          },
         });
-
-        const blob = new Blob([svgString], { type: 'image/svg+xml' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.download = `qrcode.svg`;
-        link.href = url;
-        link.click();
-        URL.revokeObjectURL(url);
-        return;
-      }
-
-      if (exportFormat === 'pdf') {
-        const dataUrl = await QRCodeLib.toDataURL(text, {
-          width: exportPixels,
-          margin: 2,
-          errorCorrectionLevel: errorLevel,
-          color: {
-            dark: fgColor,
-            light: bgColor
-          }
-        });
-
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          canvas.width = exportPixels;
-          canvas.height = exportPixels;
-          const ctx = canvas.getContext('2d');
+    
+        // === Draw logo (if present) ===
+        if (logoDataUrl) {
+          const ctx = exportCanvas.getContext('2d');
           if (ctx) {
-            ctx.fillStyle = 'white';
-            ctx.fillRect(0, 0, exportPixels, exportPixels);
-            ctx.drawImage(img, 0, 0);
-
-            const imgData = canvas.toDataURL('image/jpeg', 1.0);
-            const pdf = `%PDF-1.4
-1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj
-2 0 obj<</Type/Pages/Count 1/Kids[3 0 R]>>endobj
-3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 ${exportPixels} ${exportPixels}]/Contents 4 0 R/Resources<</XObject<</Im1 5 0 R>>>>>>endobj
-4 0 obj<</Length 44>>stream
-q ${exportPixels} 0 0 ${exportPixels} 0 0 cm /Im1 Do Q
-endstream endobj
-5 0 obj<</Type/XObject/Subtype/Image/Width ${exportPixels}/Height ${exportPixels}/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length ${imgData.length}>>stream
-${imgData}
-endstream endobj
-xref
-0 6
-0000000000 65535 f
-0000000009 00000 n
-0000000056 00000 n
-0000000108 00000 n
-0000000251 00000 n
-0000000343 00000 n
-trailer<</Size 6/Root 1 0 R>>
-startxref
-${500 + imgData.length}
-%%EOF`;
-
-            const blob = new Blob([pdf], { type: 'application/pdf' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.download = 'qrcode.pdf';
-            link.href = url;
-            link.click();
-            URL.revokeObjectURL(url);
+            const logo = new Image();
+            logo.crossOrigin = 'anonymous';
+            await new Promise<void>((resolve) => {
+              logo.onload = () => {
+                const logoSize = Math.round(exportPixels * 0.2);
+                const x = Math.round((exportPixels - logoSize) / 2);
+                const y = x;
+    
+                // Draw a white background box behind logo (for contrast)
+                ctx.save();
+                ctx.fillStyle = bgColor || '#ffffff';
+                ctx.fillRect(
+                  x - Math.round(logoSize * 0.05),
+                  y - Math.round(logoSize * 0.05),
+                  logoSize + Math.round(logoSize * 0.1),
+                  logoSize + Math.round(logoSize * 0.1)
+                );
+                ctx.drawImage(logo, x, y, logoSize, logoSize);
+                ctx.restore();
+    
+                resolve();
+              };
+              logo.onerror = () => {
+                console.warn('Logo failed to load — exporting QR without logo.');
+                resolve();
+              };
+              logo.src = logoDataUrl;
+            });
           }
-        };
-        img.src = dataUrl;
-        return;
+        }
+    
+        // === PNG / JPG Export ===
+        const mime = exportFormat === 'jpg' ? 'image/jpeg' : 'image/png';
+        exportCanvas.toBlob((blob) => {
+          if (!blob) {
+            console.error('Failed to export QR code.');
+            return;
+          }
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.download = `qrcode.${exportFormat}`;
+          link.href = url;
+          link.click();
+          URL.revokeObjectURL(url);
+        }, mime, 1.0);
+      } catch (error) {
+        console.error('Error downloading QR code:', error);
+      }
+    };
+
+
+    async function convertToBase64(url: string): Promise<string> {
+        if (url.startsWith('data:image')) return url;
+        try {
+          const res = await fetch(url, { mode: 'cors' });
+          const blob = await res.blob();
+          return await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+          });
+        } catch (err) {
+          console.warn('Failed to convert logo to base64:', err);
+          return url;
+        }
       }
 
-      const dataUrl = await QRCodeLib.toDataURL(text, {
-        width: exportPixels,
-        margin: 2,
-        errorCorrectionLevel: errorLevel,
-        color: {
-          dark: fgColor,
-          light: bgColor
-        }
-      });
-
-      const link = document.createElement('a');
-      link.download = `qrcode.${exportFormat}`;
-      link.href = dataUrl;
-      link.click();
-    } catch (error) {
-      console.error('Error downloading QR code:', error);
-    }
-  };
 
   const handleQRImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -498,10 +515,10 @@ ${500 + imgData.length}
   ];
 
   const tabs = [
-    { id: 'qr-generator', label: 'QR Generator', icon: QrCode },
-    { id: 'qr-decoder', label: 'QR Decoder', icon: Scan },
-    { id: 'barcode', label: 'Barcode Generator', icon: BarChart3 },
-    { id: 'hash', label: 'Hash Generator', icon: Hash }
+    { id: 'qr-generator', label: '', icon: QrCode },
+    { id: 'qr-decoder', label: '', icon: Scan },
+    { id: 'barcode', label: '', icon: BarChart3 },
+    { id: 'hash', label: '', icon: Hash }
   ];
 
   return (
@@ -531,7 +548,7 @@ ${500 + imgData.length}
           <div className="flex items-center space-x-3 mb-6">
             <QrCode className="h-8 w-8 text-blue-400" />
             <div>
-              <h1 className="text-3xl font-bold text-white">QR & Barcode Tools</h1>
+              <h1 className="text-3xl font-bold text-white"> Free QR Code Generator</h1>
               <p className="text-slate-300 mt-1">Generate QR codes, decode images, create barcodes, and generate hashes</p>
             </div>
           </div>
@@ -566,30 +583,78 @@ ${500 + imgData.length}
                   <textarea
                     value={text}
                     onChange={(e) => setText(e.target.value)}
-                    rows={4}
-                    className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-80 h-32 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                     placeholder="Enter text, URL, email, phone number, etc."
                   />
+
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-white mb-2">
-                    Quick Presets
-                  </label>
-                  <div className="grid grid-cols-2 gap-2">
-                    {presetTexts.map((preset) => (
+                
+              {/* ---------------- Quick Presets Dropdown ---------------- */}
+              <div className="relative inline-block w-full max-w-xs">
+                <label className="block text-sm font-medium text-white mb-2">
+                      Quick Presets
+                    </label>
+                <button
+                  onClick={() => setPresetOpen(!presetOpen)}
+                  className="w-full flex justify-between items-center bg-slate-800 text-white px-4 py-2 rounded-md border border-slate-600 hover:bg-slate-700"
+                >
+                  {selectedPreset}
+                  <svg
+                    className={`w-4 h-4 ml-2 transition-transform ${presetOpen ? 'rotate-180' : 'rotate-0'}`}
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              
+                {presetOpen && (
+                  <div className="absolute z-10 w-full mt-2 bg-slate-800 border border-slate-600 rounded-md shadow-lg">
+                    {['Website URL', 'Email', 'Phone', 'SMS', 'WiFi', 'Location'].map((preset) => (
                       <button
-                        key={preset.label}
-                        onClick={() => setText(preset.value)}
-                        className="px-3 py-2 text-sm bg-slate-700 hover:bg-slate-600 text-white border border-slate-600 rounded-lg transition-colors"
+                        key={preset}
+                        onClick={() => {
+                          setSelectedPreset(preset);
+                          setPresetOpen(false);
+              
+                          // handle preset selection
+                          switch (preset) {
+                            case 'Website URL':
+                              setText('https://');
+                              break;
+                            case 'Email':
+                              setText('mailto:example@example.com');
+                              break;
+                            case 'Phone':
+                              setText('tel:+880');
+                              break;
+                            case 'SMS':
+                              setText('sms:+880?body=Hello');
+                              break;
+                            case 'WiFi':
+                              setText('WIFI:T:WPA;S:NetworkName;P:Password;;');
+                              break;
+                            case 'Location':
+                              setText('geo:0,0?q=Dhaka,Bangladesh');
+                              break;
+                          }
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-slate-700"
                       >
-                        {preset.label}
+                        {preset}
                       </button>
                     ))}
                   </div>
-                </div>
+                )}
+              </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                
+                {/*end*/}
+
+                <div className="grid grid-cols-1 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-white mb-2">
                       Foreground Color
@@ -631,39 +696,66 @@ ${500 + imgData.length}
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-white mb-2">
-                      Preview Size
-                    </label>
-                    <select
-                      value={size}
-                      onChange={(e) => setSize(Number(e.target.value))}
-                      className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option value={128}>128x128</option>
-                      <option value={256}>256x256</option>
-                      <option value={512}>512x512</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-white mb-2">
-                      Error Correction
-                    </label>
-                    <select
-                      value={errorLevel}
-                      onChange={(e) => setErrorLevel(e.target.value as 'L' | 'M' | 'Q' | 'H')}
-                      className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      {errorLevels.map((level) => (
-                        <option key={level.value} value={level.value}>
-                          {level.label}
-                        </option>
-                      ))}
-                    </select>
+                {/* Preview Size */}
+              <div className="grid grid-cols-1 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">
+                    Preview Size
+                  </label>
+                  <div className="flex gap-4">
+                    {[
+                      { label: 'S', value: 128 },
+                      { label: 'M', value: 256 },
+                      { label: 'L', value: 512 },
+                    ].map((opt) => (
+                      <button
+                        key={opt.value}
+                        onClick={() => setSize(opt.value)}
+                        className={`
+                          flex-1 px-4 py-2 rounded-lg border text-sm font-medium transition-all duration-200
+                          ${
+                            size === opt.value
+                              ? 'bg-blue-600 text-white border-blue-500 shadow-md'
+                              : 'bg-slate-700 text-gray-300 border-slate-600 hover:bg-slate-600'
+                          }
+                        `}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
                   </div>
                 </div>
+              
+                {/* Error Correction */}
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">
+                    Error Correction
+                  </label>
+                  <div className="flex gap-2">
+                    {['L', 'M', 'Q', 'H'].map((level) => (
+                      <button
+                        key={level}
+                        onClick={() => setErrorLevel(level as 'L' | 'M' | 'Q' | 'H')}
+                        className={`
+                          flex-1 px-3 py-2 rounded-lg border text-sm font-medium transition-all duration-200
+                          ${
+                            errorLevel === level
+                              ? 'bg-blue-500 text-white border-blue-500 shadow-md'
+                              : 'bg-slate-700 text-white border-slate-600 hover:bg-slate-600'
+                          }
+                          focus:outline-none focus:ring-2 focus:ring-blue-500
+                        `}
+                      >
+                        {level}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+
+
+                
 
                 <div>
                   <label className="block text-sm font-medium text-white mb-2">
@@ -706,61 +798,70 @@ ${500 + imgData.length}
                     <label className="block text-sm font-medium text-white mb-2">
                       Export Format
                     </label>
-                    <select
-                      value={exportFormat}
-                      onChange={(e) => setExportFormat(e.target.value as ExportFormat)}
-                      className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option value="png">PNG</option>
-                      <option value="jpg">JPG</option>
-                      <option value="svg">SVG</option>
-                      <option value="pdf">PDF</option>
-                    </select>
+                    <div className="flex gap-2">
+                      {['png', 'jpg'].map((format) => (
+                        <button
+                          key={format}
+                          onClick={() => setExportFormat(format as ExportFormat)}
+                          className={`flex-1 px-4 py-2 rounded-lg border transition-all duration-200 ${
+                            exportFormat === format
+                              ? 'bg-blue-600 text-white border-blue-500 shadow-md'
+                              : 'bg-slate-700 text-gray-300 border-slate-600 hover:bg-slate-600'
+                          }`}
+                        >
+                          {format.toUpperCase()}
+                        </button>
+                      ))}
+                    </div>
                   </div>
+
 
                   <div>
                     <label className="block text-sm font-medium text-white mb-2">
                       Export Size
                     </label>
-                    <select
-                      value={exportSize}
-                      onChange={(e) => setExportSize(e.target.value as ExportSize)}
-                      className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option value="small">Small (256px)</option>
-                      <option value="medium">Medium (512px)</option>
-                      <option value="large">Large (1024px)</option>
-                    </select>
+                    <div className="flex gap-2 sm:gap-4">
+                      {[
+                        { label: 'S', value: 'small' },
+                        { label: 'M', value: 'medium' },
+                        { label: 'L', value: 'large' },
+                      ].map((opt) => (
+                        <button
+                          key={opt.value}
+                          onClick={() => setExportSize(opt.value as ExportSize)}
+                          className={`
+                            flex-1 px-3 sm:px-4 py-2 rounded-lg border text-sm font-medium transition-all duration-200
+                            ${
+                              exportSize === opt.value
+                                ? 'bg-blue-600 text-white border-blue-500 shadow-md'
+                                : 'bg-slate-700 text-gray-300 border-slate-600 hover:bg-slate-600'
+                            }
+                            focus:outline-none focus:ring-2 focus:ring-blue-500
+                          `}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
                   </div>
+
                 </div>
               </div>
 
               <div className="space-y-6">
-                <div>
-                  <h3 className="text-lg font-semibold text-white mb-4">QR Code Preview</h3>
-                  {qrCodeUrl ? (
-                    <div className="text-center space-y-4">
-                      <div className="inline-block p-4 bg-white rounded-xl shadow-lg">
-                        <canvas ref={canvasRef} className="max-w-full h-auto" />
-                      </div>
+                <div className="flex justify-center items-center bg-slate-800 rounded-lg p-4">
+  {qrCodeUrl ? (
+    <img
+      src={qrCodeUrl}
+      alt="Generated QR Code"
+      className="w-auto h-auto max-w-full max-h-80"
+    />
+  ) : (
+    <p className="text-gray-400">Generating QR code...</p>
+  )}
+  <canvas ref={canvasRef} className="hidden" />
+</div>
 
-                      <button
-                        onClick={downloadQRCode}
-                        className="flex items-center justify-center space-x-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors mx-auto"
-                      >
-                        <Download className="h-5 w-5" />
-                        <span>Download {exportFormat.toUpperCase()}</span>
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="text-center py-12 bg-slate-800 rounded-xl">
-                      <QrCode className="h-16 w-16 text-slate-600 mx-auto mb-4" />
-                      <p className="text-slate-400">
-                        {text.trim() ? 'Generating QR code...' : 'Enter text to generate QR code'}
-                      </p>
-                    </div>
-                  )}
-                </div>
 
                 {text.trim() && (
                   <div className="p-4 bg-slate-800 rounded-lg">
@@ -769,6 +870,15 @@ ${500 + imgData.length}
                     <div className="mt-2 text-xs text-slate-500">
                       Size: {size}x{size}px | Error Level: {errorLevel} | Colors: {fgColor}/{bgColor}
                     </div>
+
+                      <button
+                        onClick={downloadQRCode}
+                        className="mt-2 flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-md"
+                      >
+                        <Download size={18} />
+                        Download QR Code
+                      </button>
+                    
                   </div>
                 )}
               </div>
@@ -833,104 +943,93 @@ ${500 + imgData.length}
             </div>
           )}
 
-          {activeTab === 'barcode' && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-white mb-2">
-                    Barcode Content
-                  </label>
-                  <input
-                    type="text"
-                    value={barcodeText}
-                    onChange={(e) => setBarcodeText(e.target.value)}
-                    className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Enter numbers or text"
-                  />
-                </div>
+          {/*-------------------------------Barcode-----------------------------*/}
 
-                <div>
-                  <label className="block text-sm font-medium text-white mb-2">
-                    Barcode Type
-                  </label>
-                  <select
-                    value={barcodeType}
-                    onChange={(e) => setBarcodeType(e.target.value as BarcodeType)}
-                    className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    <option value="CODE128">Code 128 (Alphanumeric)</option>
-                    <option value="CODE39">Code 39 (Alphanumeric)</option>
-                    <option value="EAN13">EAN-13 (13 digits)</option>
-                    <option value="UPC">UPC-A (12 digits)</option>
-                  </select>
-                  <p className="text-xs text-slate-400 mt-1">
-                    {barcodeType === 'EAN13' && 'Requires exactly 13 digits'}
-                    {barcodeType === 'UPC' && 'Requires exactly 12 digits'}
-                    {barcodeType === 'CODE128' && 'Supports numbers and letters'}
-                    {barcodeType === 'CODE39' && 'Supports numbers, uppercase letters, and special characters'}
-                  </p>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-white mb-2">
-                    Download Format
-                  </label>
-                  <div className="flex space-x-3">
-                    <button
-                      onClick={() => setBarcodeFormat('png')}
-                      className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
-                        barcodeFormat === 'png'
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-                      }`}
-                    >
-                      PNG
-                    </button>
-                    <button
-                      onClick={() => setBarcodeFormat('svg')}
-                      className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
-                        barcodeFormat === 'svg'
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-                      }`}
-                    >
-                      SVG
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-lg font-semibold text-white mb-4">Barcode Preview</h3>
-                  {barcodeUrl ? (
-                    <div className="text-center space-y-4">
-                      <div className="inline-block p-6 bg-white rounded-xl shadow-lg">
-                        {barcodeFormat === 'svg' ? (
-                          <svg ref={barcodeSvgRef} className="max-w-full h-auto" />
-                        ) : (
-                          <canvas ref={barcodeCanvasRef} className="max-w-full h-auto" />
-                        )}
-                      </div>
-
-                      <button
-                        onClick={downloadBarcode}
-                        className="flex items-center justify-center space-x-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors mx-auto"
-                      >
-                        <Download className="h-5 w-5" />
-                        <span>Download {barcodeFormat.toUpperCase()}</span>
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="text-center py-12 bg-slate-800 rounded-xl">
-                      <BarChart3 className="h-16 w-16 text-slate-600 mx-auto mb-4" />
-                      <p className="text-slate-400">Enter content to generate barcode</p>
-                    </div>
-                  )}
-                </div>
-              </div>
+         {activeTab === 'barcode' && (
+          <div className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">Barcode Text</label>
+              <input
+                type="text"
+                value={barcodeText}
+                onChange={(e) => setBarcodeText(e.target.value)}
+                className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter barcode text (e.g. 123456789012)"
+              />
             </div>
-          )}
+        
+              <div className="max-w-xs">
+                <label className="block text-sm font-medium text-white mb-2">
+                  Barcode Type
+                </label>
+                <select
+                  value={barcodeType}
+                  onChange={(e) => setBarcodeType(e.target.value as BarcodeType)}
+                  className="w-full px-3 py-2 bg-slate-700 text-white rounded-md border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                >
+                  <option value="CODE128">CODE128</option>
+                  <option value="CODE39">CODE39</option>
+                  <option value="EAN13">EAN13</option>
+                  <option value="UPC">UPC</option>
+                </select>
+              </div>
+
+        
+           <div>
+          <label className="block text-sm font-medium text-white mb-2">Download Format</label>
+          <div className="flex space-x-3">
+            <button
+              onClick={() => setBarcodeFormat('png')}
+              className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
+                barcodeFormat === 'png'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+              }`}
+            >
+              PNG
+            </button>
+            <button
+              onClick={() => setBarcodeFormat('svg')}
+              className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
+                barcodeFormat === 'svg'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+              }`}
+            >
+              SVG
+            </button>
+          </div>
+        </div>
+
+        
+            <div className="flex flex-col items-center justify-center bg-slate-800 rounded-xl p-6 mt-4">
+              {/* Render Barcode */}
+              {barcodeFormat === 'svg' ? (
+                <svg ref={barcodeSvgRef}></svg>
+              ) : (
+                <canvas ref={barcodeCanvasRef}></canvas>
+              )}
+        
+              {/* Show preview image if generated */}
+              {barcodeUrl && (
+                <img
+                  src={barcodeUrl}
+                  alt="Generated Barcode"
+                  className="mt-4 max-h-40 object-contain bg-white p-2 rounded-lg"
+                />
+              )}
+        
+              <button
+                onClick={downloadBarcode}
+                className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition"
+              >
+                Download Barcode
+              </button>
+            </div>
+          </div>
+        )}
+
+          {/*-----------------------------Hash code------------------------------*/}
 
           {activeTab === 'hash' && (
             <div className="max-w-2xl mx-auto space-y-6">
@@ -1032,129 +1131,220 @@ ${500 + imgData.length}
 
         <AdBanner />
 
-        <div className="glow-card rounded-2xl p-8 mb-8">
-          <h2 className="text-2xl font-bold text-white mb-4">About QR & Barcode Tools</h2>
-          <div className="space-y-4 text-slate-300">
-            <p>
-              Our comprehensive suite of encoding and decoding tools includes QR code generation,
-              QR code decoding, barcode creation, and cryptographic hash generation. All tools are
-              free, work in your browser, and require no installation.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-              <div>
-                <h3 className="text-xl font-semibold text-white mb-3">QR Code Features</h3>
-                <ul className="list-disc list-inside space-y-1">
-                  <li>Custom colors and logo embedding</li>
-                  <li>Multiple export formats (PNG, JPG, SVG, PDF)</li>
-                  <li>Adjustable size and error correction</li>
-                  <li>QR code decoding from images</li>
-                  <li>Quick presets for common use cases</li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-white mb-3">Additional Tools</h3>
-                <ul className="list-disc list-inside space-y-1">
-                  <li>Barcode generation (EAN-13, UPC, Code128, Code39)</li>
-                  <li>Hash generation (MD5, SHA-1, SHA-256)</li>
-                  <li>Copy to clipboard functionality</li>
-                  <li>No server upload - all processing is local</li>
-                  <li>Mobile-friendly interface</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/*--------------------------Seo content--------------------------------*/}
+        
 
 
-          {/* ===================== FAQ SCHEMA (SEO Rich Results) ===================== */}
-          <script type="application/ld+json" dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              "mainEntity": [
-                {
-                  "@type": "Question",
-                  "name": "Is this QR Code Generator free to use?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes! Our QR Code Generator is completely free and allows you to create, decode, and download unlimited QR codes, barcodes, and hash codes without any hidden costs or registration."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "Can I customize the QR code colors and add a logo?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Absolutely! You can choose custom foreground and background colors and even upload a logo or icon to appear in the center of the QR code."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "How do I decode a QR code?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Simply upload your QR code image under the 'QR Code Decode' tab, and the tool will automatically scan and display the embedded data."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "Which barcode formats are supported?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Our tool supports Code128, Code39, EAN13, and UPC barcode formats, making it suitable for retail, inventory management, and product labeling."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "Can I generate hash codes with this tool?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes! You can generate MD5, SHA-1, and SHA-256 hash codes instantly from your input text, useful for encryption and data verification."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "Can I download the QR codes and barcodes?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes! You can download your QR codes and barcodes in PNG or JPG formats and select export sizes Small (S), Medium (M), or Large (L)."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "Is this tool mobile-friendly?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Absolutely! The entire generator is fully responsive and works seamlessly on desktop, tablet, and mobile devices."
-                  }
-                }
-              ]
-            })
-          }} />
+          <div className="rounded-2xl p-8 mb-8">
+                 <h2 className="text-3xl font-bold text-white mb-4">Free Online QR Code, Barcode & Hash Generator with Decoder</h2>
+                 <div className="space-y-4 text-slate-300">
+                  <p>
+               In today’s connected world, <strong>QR codes</strong> and <strong>barcodes</strong> have become essential tools for digital sharing, product tracking, and online security. Our<strong> Free QR Code </strong> lets you instantly create, decode, and customize QR codes, barcodes, and hash codes — all in one place. Whether you’re a business owner, developer, or just a curious user, this all-in-one tool helps you save time and stay secure.
+              </p>
+
+               <h2 className="text-yellow-500"><strong>What is a QR Code?</strong></h2>
+              <p>
+                A QR (Quick Response) Code is a two-dimensional barcode that stores information like website URLs, Wi-Fi passwords, phone numbers, or text. It’s scannable by any mobile camera, making it a fast and contactless way to share data.
+              </p>
+               <h2 className="text-yellow-500"><strong>What is a Barcode?</strong></h2>
+              <p>
+                Barcodes are one-dimensional representations used widely in retail, inventory, and logistics. Each line pattern represents unique data that helps businesses manage products efficiently.
+              </p>
+               <h2 className="text-yellow-500"><strong>What is a Hash Code?</strong></h2>
+              <p>
+               Hashing converts plain text into fixed, encrypted strings using algorithms like MD5, SHA-1, and SHA-256. Hash codes ensure data integrity, authentication, and secure password storage.
+              </p>
+              <p>
+                Our platform combines all these functions into one powerful, easy-to-use interface — no software installation, no limits, and completely free.
+              </p>
+
+              <h3 className="text-2xl font-semibold text-white mt-6">💡 Why Use This 4-in-1 QR, Barcode & Hash Tool?</h3>
+                   
+              <ul className="list-disc list-inside space-y-2 ml-4">
+                <li>Generate custom QR codes with logos and colors.</li>
+                <li>Instantly decode QR codes directly from images.</li>
+                <li>Create multiple barcode types such as Code128, Code39, EAN13, and UPC.</li>
+                <li>Generate secure hash codes (MD5, SHA-1, SHA-256).</li>
+                <li>Customize QR color, background, and logo for branding.</li>
+                <li>Select error correction level for QR reliability (L, M, Q, H).</li>
+                <li>Download QR and barcodes in PNG or JPG formats.</li>
+                <li>Completely browser-based — no data stored or uploaded.</li>
+                <li>Fast, responsive, and mobile-friendly interface.</li>
+                <li>Perfect for businesses, developers, marketers, and personal use.</li>
+              </ul>
+
+                   
+              <p>By using a <storng>secure password generator</storng>, you can effortlessly create passwords that meet these requirements and ensure your digital life stays safe.</p>
           
-          {/* ===================== SoftwareApplication Schema ===================== */}
-          <script type="application/ld+json" dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              "name": "QR Code, Barcode & Hash Generator",
-              "operatingSystem": "All",
-              "applicationCategory": "UtilitiesApplication",
-              "description": "Generate, decode, and customize QR codes, barcodes, and hash codes instantly with our free online tool. Add logos, colors, and select export formats easily.",
-              "url": "https://calculatorhub.site/qr-code-generator",
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "reviewCount": "950"
+              <h3 className="text-2xl font-semibold text-white mt-6">⚙️ Key Features of Our QR, Barcode & Hash Generator</h3>
+              <p>Our <strong>Password Generator</strong> is designed to help you create <strong>strong and secure passwords</strong> effortlessly. Here’s what makes it an essential tool for online security:</p>
+              <ul className="list-disc list-inside space-y-2 ml-4">
+                <li><strong>Multi-Type QR Input:</strong> – Generate QR codes for text, links, phone numbers, emails, Wi-Fi, SMS, or passwords.</li>
+                <li><strong>Dynamic Type Selection:</strong> – Choose your QR type easily from a dropdown list.</li>
+                <li><strong>Color Customization:</strong> – Adjust foreground and background colors to match your brand.</li>
+                <li><strong>Logo Insertion:</strong> – Add your business logo or custom icon at the center of the QR code</li>
+                <li><strong>Size Preview Options:</strong> – QSmall (S), Medium (M), or Large (L) previews before download.</li>
+                <li><strong>Error Correction Levels:</strong> – Select between L, M, Q, and H for data recovery strength.</li>
+                <li><strong>Barcode Generator:</strong> – Support for Code128, Code39, EAN13, and UPC with instant preview.</li>
+                <li><strong>QR Decoder:</strong> – Upload and decode QR images instantly to reveal hidden text or URLs.</li>
+                <li><strong>Hash Code Generator:</strong> – Create secure MD5, SHA-1, and SHA-256 hashes instantly.</li>
+                <li><strong>Download & Export Options:</strong> – Choose output format (PNG/JPG) and export size (S, M, L).</li>
+              </ul>
+              <p>Using these features, our Password Generator ensures that you can always create<strong> robust, high-security passwords</strong> for all your online accounts with ease.</p>
+         
+              
+              <AdBanner type="bottom" />
+
+                   
+            <section className="space-y-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">❓ Frequently Asked Questions (<span className="text-yellow-300"> FAQ </span>)</h2>
+            <div className="space-y-4 text-lg text-slate-100 leading-relaxed">
+              <div>
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                    <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q1</span>: Is this QR & Barcode Generator free to use?</h3>
+                    <p>Yes, it’s 100% free! You can generate, decode, and download unlimited QR codes, barcodes, and hash codes without registration.
+                    </p>
+                  
+                </div>
+              </div>
+              <div>
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                  <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q2</span>: Can I customize the QR code colors and add my logo?</h3>
+                  <p>Absolutely! You can pick custom foreground and background colors, and even upload your logo to appear in the center.</p>
+                </div>
+             </div>
+              <div>
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q3</span>: How do I decode a QR code image?</h3>
+                <p>Simply upload the image under the “QR Code Decode” tab — the tool will automatically scan and display the embedded data.</p>
+                </div>
+              </div>
+              <div>
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q4</span>: What barcode formats are supported?</h3>
+                <p>Our tool supports Code128, Code39, EAN13, and UPC barcode formats, ideal for retail and inventory systems.</p>
+                </div>
+              </div>
+              <div>
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q5</span>: Are my data and inputs stored online?</h3>
+                <p>No. Everything runs locally in your browser — your data is never uploaded or saved.</p>
+
+                </div>
+              </div>
+              <div>
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q6</span>: What is a hash code, and why should I use it?</h3>
+                <p> Hash codes securely convert data into encrypted text. It’s useful for verifying data integrity and generating secure passwords.</p>
+
+                </div>
+              </div>
+              <div>
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q7</span>: Can I use this tool on mobile devices?</h3>
+                <p>Yes! The entire generator is fully responsive and optimized for Android, iOS, and all major browsers.</p>
+
+                </div>
+              </div>
+              
+            </div>
+          </section>
+
+              <AdBanner type="bottom" />
+
+                   
+                 </div>
+          </div>
+
+        {/* ===================== FAQ SCHEMA (SEO Rich Results) ===================== */}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Is this QR Code Generator free to use?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes! Our QR Code Generator is completely free and allows you to create, decode, and download unlimited QR codes, barcodes, and hash codes without any hidden costs or registration."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I customize the QR code colors and add a logo?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Absolutely! You can choose custom foreground and background colors and even upload a logo or icon to appear in the center of the QR code."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How do I decode a QR code?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Simply upload your QR code image under the 'QR Code Decode' tab, and the tool will automatically scan and display the embedded data."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Which barcode formats are supported?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Our tool supports Code128, Code39, EAN13, and UPC barcode formats, making it suitable for retail, inventory management, and product labeling."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I generate hash codes with this tool?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes! You can generate MD5, SHA-1, and SHA-256 hash codes instantly from your input text, useful for encryption and data verification."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I download the QR codes and barcodes?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes! You can download your QR codes and barcodes in PNG or JPG formats and select export sizes Small (S), Medium (M), or Large (L)."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is this tool mobile-friendly?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Absolutely! The entire generator is fully responsive and works seamlessly on desktop, tablet, and mobile devices."
+                }
               }
-            })
-          }} />
+            ]
+          })
+        }} />
+        
+        {/* ===================== SoftwareApplication Schema ===================== */}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "QR Code, Barcode & Hash Generator",
+            "operatingSystem": "All",
+            "applicationCategory": "UtilitiesApplication",
+            "description": "Generate, decode, and customize QR codes, barcodes, and hash codes instantly with our free online tool. Add logos, colors, and select export formats easily.",
+            "url": "https://calculatorhub.site/qr-code-generator",
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.9",
+              "reviewCount": "950"
+            }
+          })
+        }} />
 
 
-        <RelatedCalculators
-          currentPath="/qr-code-generator"
-        />
-      </div>
+        
+        <RelatedCalculators currentPath="/qr-code-generator"/>
+        
+      </div> 
     </>
   );
 };
