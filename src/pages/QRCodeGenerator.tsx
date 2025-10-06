@@ -580,10 +580,10 @@ const generateQRCode = async () => {
                   <label className="block text-sm font-medium text-white mb-2">
                     Text or URL to encode
                   </label>
-                  <textarea
+                  <textarea 
                     value={text}
                     onChange={(e) => setText(e.target.value)}
-                    className="w-80 h-32 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                    className="w-full  px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                     placeholder="Enter text, URL, email, phone number, etc."
                   />
 
