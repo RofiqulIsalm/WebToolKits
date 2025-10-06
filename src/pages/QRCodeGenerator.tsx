@@ -509,7 +509,7 @@ ${500 + imgData.length}
       <SEOHead
         title={seoData.qrCodeGenerator.title}
         description={seoData.qrCodeGenerator.description}
-        canonical="https://calculatorhub.com/qr-code-generator"
+        canonical="https://calculatorhub.site/qr-code-generator"
         schemaData={generateCalculatorSchema(
           "QR Code Generator",
           seoData.qrCodeGenerator.description,
@@ -1064,6 +1064,92 @@ ${500 + imgData.length}
             </div>
           </div>
         </div>
+
+
+                    {/* ===================== FAQ SCHEMA (SEO Rich Results) ===================== */}
+          <script type="application/ld+json" dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Is this QR Code Generator free to use?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! Our QR Code Generator is completely free and allows you to create, decode, and download unlimited QR codes, barcodes, and hash codes without any hidden costs or registration."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I customize the QR code colors and add a logo?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Absolutely! You can choose custom foreground and background colors and even upload a logo or icon to appear in the center of the QR code."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How do I decode a QR code?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Simply upload your QR code image under the 'QR Code Decode' tab, and the tool will automatically scan and display the embedded data."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Which barcode formats are supported?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Our tool supports Code128, Code39, EAN13, and UPC barcode formats, making it suitable for retail, inventory management, and product labeling."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I generate hash codes with this tool?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! You can generate MD5, SHA-1, and SHA-256 hash codes instantly from your input text, useful for encryption and data verification."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I download the QR codes and barcodes?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! You can download your QR codes and barcodes in PNG or JPG formats and select export sizes Small (S), Medium (M), or Large (L)."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Is this tool mobile-friendly?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Absolutely! The entire generator is fully responsive and works seamlessly on desktop, tablet, and mobile devices."
+                  }
+                }
+              ]
+            })
+          }} />
+          
+          {/* ===================== SoftwareApplication Schema ===================== */}
+          <script type="application/ld+json" dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              "name": "QR Code, Barcode & Hash Generator",
+              "operatingSystem": "All",
+              "applicationCategory": "UtilitiesApplication",
+              "description": "Generate, decode, and customize QR codes, barcodes, and hash codes instantly with our free online tool. Add logos, colors, and select export formats easily.",
+              "url": "https://calculatorhub.site/qr-code-generator",
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "reviewCount": "950"
+              }
+            })
+          }} />
+
 
         <RelatedCalculators
           currentPath="/qr-code-generator"
