@@ -1066,7 +1066,7 @@ ${500 + imgData.length}
         </div>
 
 
-                    {/* ===================== FAQ SCHEMA (SEO Rich Results) ===================== */}
+          {/* ===================== FAQ SCHEMA (SEO Rich Results) ===================== */}
           <script type="application/ld+json" dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
