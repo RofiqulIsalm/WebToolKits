@@ -697,6 +697,138 @@ const dropdownRef = useRef<HTMLDivElement>(null);
 
 
         <AdBanner />
+
+  <div className="rounded-2xl p-8 mb-8">
+                 <h2 className="text-3xl font-bold text-white mb-4">📝 Text Counter – Count, Convert & Generate Text Instantly</h2>
+                  <h3>What is a Text Counter and Why Do You Need It?</h3>
+                 <div className="space-y-4 text-slate-300">
+                  <p>
+               A <strong>Text Counter Tool </strong>helps writers, students, developers, and digital marketers quickly analyze and manage their content. Whether you’re counting characters for a tweet, checking word density for SEO, or formatting a long document, this free online <strong>text counter</strong> does it all in seconds.
+              </p>
+                  <p>
+             Our tool is more than just a counter — it includes text analysis, case conversion, <strong>lorem ipsum generator, binary converter,</strong> and<strong> number-to-text converter</strong>, making it an all-in-one writing and conversion suite.
+              </p>
+                  <p>
+              Writers use it to ensure their posts meet limits, students for precise essays, and developers for encoding or testing. It’s fast, accurate, and works directly in your browser — no installation or login required.
+              </p>
+                  <p>
+             From counting words to converting binary or generating placeholder text, this is the most complete<strong> text utility tool</strong> online for accurate and efficient content processing.
+              </p>
+
+               <h2 className="text-yellow-500"><strong>What is a QR Code?</strong></h2>
+              <p>
+                A QR (Quick Response) Code is a two-dimensional barcode that stores information like website URLs, Wi-Fi passwords, phone numbers, or text. It’s scannable by any mobile camera, making it a fast and contactless way to share data.
+              </p>
+               <h2 className="text-yellow-500"><strong>What is a Barcode?</strong></h2>
+              <p>
+                Barcodes are one-dimensional representations used widely in retail, inventory, and logistics. Each line pattern represents unique data that helps businesses manage products efficiently.
+              </p>
+               <h2 className="text-yellow-500"><strong>What is a Hash Code?</strong></h2>
+              <p>
+               Hashing converts plain text into fixed, encrypted strings using algorithms like MD5, SHA-1, and SHA-256. Hash codes ensure data integrity, authentication, and secure password storage.
+              </p>
+              <p>
+                Our platform combines all these functions into one powerful, easy-to-use interface — no software installation, no limits, and completely free.
+              </p>
+
+              <h3 className="text-2xl font-semibold text-white mt-6">🔟 Why Use Our Text Counter Tool</h3>
+                   
+              <ul className="list-disc list-inside space-y-2 ml-4">
+                <li>100% free and browser-based – no signup needed.</li>
+                <li>Supports instant text analysis (characters, words, sentences).</li>
+                <li>Helps maintain SEO-friendly content length.</li>
+                <li>Great for students, bloggers, and social media creators.</li>
+                <li>Accurate word and character count for any text.</li>
+                <li>Converts binary, numbers, and lorem ipsum in one place.</li>
+                <li>Clean, ad-light interface with fast processing.</li>
+                <li>Copy, clear, and download text easily.</li>
+                <li>Works on mobile, tablet, and desktop.</li>
+                <li>Ensures text quality and readability tracking.</li>
+              </ul>
+
+                   
+              <p>By using a <storng>secure password generator</storng>, you can effortlessly create passwords that meet these requirements and ensure your digital life stays safe.</p>
+          
+              <h3 className="text-2xl font-semibold text-white mt-6">💡 Our Tool Features</h3>
+              <p>Our <strong>Password Generator</strong> is designed to help you create <strong>strong and secure passwords</strong> effortlessly. Here’s what makes it an essential tool for online security:</p>
+              <ul className="list-disc list-inside space-y-2 ml-4">
+                <li><strong>Text Counter:</strong> – Generate QR codes for text, links, phone numbers, emails, Wi-Fi, SMS, or passwords.</li>
+                <li><strong>Reverse Text:</strong> – Choose your QR type easily from a dropdown list.</li>
+                <li><strong>Case Converter:</strong> – Adjust foreground and background colors to match your brand.</li>
+                <li><strong>Extra Space Remover:</strong> – Add your business logo or custom icon at the center of the QR code</li>
+                <li><strong>Copy / Download / Clear Buttons:</strong> – QSmall (S), Medium (M), or Large (L) previews before download.</li>
+                <li><strong>Lorem Ipsum Generator:</strong> – Select between L, M, Q, and H for data recovery strength.</li>
+                <li><strong>Binary to Text Converter:</strong> – Support for Code128, Code39, EAN13, and UPC with instant preview.</li>
+                <li><strong>Number ↔ Text Converter:</strong> – Upload and decode QR images instantly to reveal hidden text or URLs.</li>
+                <li><strong>Instant Paste Button:</strong> – Create secure MD5, SHA-1, and SHA-256 hashes instantly.</li>
+                <li><strong>Auto Result Display:</strong> – Choose output format (PNG/JPG) and export size (S, M, L).</li>
+              </ul>
+              <p>Using these features, our Password Generator ensures that you can always create<strong> robust, high-security passwords</strong> for all your online accounts with ease.</p>
+         
+              
+              <AdBanner type="bottom" />
+
+                   
+            <section className="space-y-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">❓ Frequently Asked Questions (<span className="text-yellow-300"> FAQ </span>)</h2>
+            <div className="space-y-4 text-lg text-slate-100 leading-relaxed">
+              <div>
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                    <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q1</span>: Is this QR & Barcode Generator free to use?</h3>
+                    <p>Yes, it’s 100% free! You can generate, decode, and download unlimited QR codes, barcodes, and hash codes without registration.
+                    </p>
+                  
+                </div>
+              </div>
+              <div>
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                  <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q2</span>: Can I customize the QR code colors and add my logo?</h3>
+                  <p>Absolutely! You can pick custom foreground and background colors, and even upload your logo to appear in the center.</p>
+                </div>
+             </div>
+              <div>
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q3</span>: How do I decode a QR code image?</h3>
+                <p>Simply upload the image under the “QR Code Decode” tab — the tool will automatically scan and display the embedded data.</p>
+                </div>
+              </div>
+              <div>
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q4</span>: What barcode formats are supported?</h3>
+                <p>Our tool supports Code128, Code39, EAN13, and UPC barcode formats, ideal for retail and inventory systems.</p>
+                </div>
+              </div>
+              <div>
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q5</span>: Are my data and inputs stored online?</h3>
+                <p>No. Everything runs locally in your browser — your data is never uploaded or saved.</p>
+
+                </div>
+              </div>
+              <div>
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q6</span>: What is a hash code, and why should I use it?</h3>
+                <p> Hash codes securely convert data into encrypted text. It’s useful for verifying data integrity and generating secure passwords.</p>
+
+                </div>
+              </div>
+              <div>
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q7</span>: Can I use this tool on mobile devices?</h3>
+                <p>Yes! The entire generator is fully responsive and optimized for Android, iOS, and all major browsers.</p>
+
+                </div>
+              </div>
+              
+            </div>
+          </section>
+
+              <AdBanner type="bottom" />
+
+                   
+                 </div>
+          </div>
+        
         <RelatedCalculators currentPath="/text-tools" />
       </div>
     </>
