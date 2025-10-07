@@ -352,7 +352,7 @@ const RandomNumberGenerator: React.FC = () => {
         }
         .animate-fadeIn { animation: fadeIn 1s ease-in-out; }
       `}</style>
-    </>
+
   );
 };
 
