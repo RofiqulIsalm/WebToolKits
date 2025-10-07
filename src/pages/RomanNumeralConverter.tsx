@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Clipboard, Shuffle } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -12,15 +12,14 @@ const RomanNumeralConverter: React.FC = () => {
   const [numberToRoman, setNumberToRoman] = useState<string>('');
   const [romanToNumber, setRomanToNumber] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const [quizScore, setQuizScore] = useState<number>(0);
+  const [quizQuestion, setQuizQuestion] = useState<{num: number, roman: string} | null>(null);
+  const [quizAnswer, setQuizAnswer] = useState<string>('');
 
   const convertToRoman = (num: number): string => {
-    if (num < 1 || num > 3999) {
-      return '';
-    }
-
-    const values = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
-    const numerals = ['M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I'];
-
+    if (num < 1 || num > 3999) return '';
+    const values = [1000,900,500,400,100,90,50,40,10,9,5,4,1];
+    const numerals = ['M','CM','D','CD','C','XC','L','XL','X','IX','V','IV','I'];
     let result = '';
     for (let i = 0; i < values.length; i++) {
       while (num >= values[i]) {
@@ -32,76 +31,98 @@ const RomanNumeralConverter: React.FC = () => {
   };
 
   const convertToNumber = (roman: string): number => {
-    const romanValues: { [key: string]: number } = {
-      'I': 1, 'V': 5, 'X': 10, 'L': 50,
-      'C': 100, 'D': 500, 'M': 1000
-    };
-
+    const romanValues: { [key: string]: number } = {'I':1,'V':5,'X':10,'L':50,'C':100,'D':500,'M':1000};
     let total = 0;
     let prevValue = 0;
-
     for (let i = roman.length - 1; i >= 0; i--) {
       const currentValue = romanValues[roman[i]];
-      if (currentValue === undefined) {
-        return -1;
-      }
-
-      if (currentValue < prevValue) {
-        total -= currentValue;
-      } else {
-        total += currentValue;
-      }
+      if (currentValue === undefined) return -1;
+      if (currentValue < prevValue) total -= currentValue;
+      else total += currentValue;
       prevValue = currentValue;
     }
-
     return total;
   };
 
   const handleNumberConversion = (value: string) => {
     setNumberInput(value);
     setError('');
-
     const num = parseInt(value);
     if (isNaN(num)) {
       setNumberToRoman('');
       return;
     }
-
     if (num < 1 || num > 3999) {
       setError('Please enter a number between 1 and 3999');
       setNumberToRoman('');
       return;
     }
-
     const roman = convertToRoman(num);
     setNumberToRoman(roman);
+    setRomanInput(roman); // bidirectional update
   };
 
   const handleRomanConversion = (value: string) => {
     const upperValue = value.toUpperCase();
     setRomanInput(upperValue);
     setError('');
-
     if (upperValue === '') {
       setRomanToNumber('');
+      setNumberToRoman('');
       return;
     }
-
     const validPattern = /^[IVXLCDM]+$/;
     if (!validPattern.test(upperValue)) {
       setError('Invalid Roman numeral format. Use only I, V, X, L, C, D, M');
       setRomanToNumber('');
+      setNumberToRoman('');
       return;
     }
-
     const number = convertToNumber(upperValue);
     if (number === -1 || number < 1 || number > 3999) {
       setError('Invalid Roman numeral');
       setRomanToNumber('');
+      setNumberToRoman('');
       return;
     }
-
     setRomanToNumber(number.toString());
+    setNumberInput(number.toString()); // bidirectional update
+    setNumberToRoman(upperValue);
+  };
+
+  // Copy to Clipboard
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    alert(`Copied: ${text}`);
+  };
+
+  // Swap bidirectional conversion
+  const swapConversion = () => {
+    const tempNumber = numberInput;
+    const tempRoman = romanInput;
+    setNumberInput(tempRoman || '');
+    setRomanInput(tempNumber || '');
+    handleNumberConversion(tempRoman || '');
+    handleRomanConversion(tempNumber || '');
+  };
+
+  // Quiz Game
+  const generateQuiz = () => {
+    const num = Math.floor(Math.random() * 3999) + 1;
+    const roman = convertToRoman(num);
+    setQuizQuestion({num, roman});
+    setQuizAnswer('');
+  };
+
+  const checkQuiz = () => {
+    if (!quizQuestion) return;
+    if (quizAnswer.toUpperCase() === quizQuestion.roman) {
+      alert('Correct! 🎉');
+      setQuizScore(prev => prev + 1);
+    } else {
+      alert(`Wrong! Correct answer: ${quizQuestion.roman}`);
+    }
+    generateQuiz();
   };
 
   return (
@@ -133,6 +154,13 @@ const RomanNumeralConverter: React.FC = () => {
             <h1 className="text-3xl font-bold text-white">Roman Numeral Converter</h1>
           </div>
 
+          <button
+            onClick={swapConversion}
+            className="mb-6 px-4 py-2 bg-purple-700 text-white rounded-lg flex items-center space-x-2 hover:bg-purple-600"
+          >
+            <Shuffle className="w-5 h-5" /> <span>Swap Conversion</span>
+          </button>
+
           {error && (
             <div className="mb-6 p-4 bg-red-900/30 border border-red-500/50 rounded-lg">
               <p className="text-red-400 text-sm">{error}</p>
@@ -140,111 +168,76 @@ const RomanNumeralConverter: React.FC = () => {
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            {/* Number to Roman */}
             <div className="space-y-4">
               <h3 className="text-xl font-semibold text-white">Number to Roman</h3>
-              <div>
-                <label className="block text-sm font-medium text-white mb-2">
-                  Enter Number (1-3999)
-                </label>
-                <input
-                  type="number"
-                  value={numberInput}
-                  onChange={(e) => handleNumberConversion(e.target.value)}
-                  min={1}
-                  max={3999}
-                  className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
-                  placeholder="Enter a number"
-                />
-              </div>
+              <input
+                type="number"
+                value={numberInput}
+                onChange={(e) => handleNumberConversion(e.target.value)}
+                min={1} max={3999}
+                className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+                placeholder="Enter a number"
+              />
               {numberToRoman && (
-                <div className="p-6 bg-gradient-to-br from-blue-900/30 to-purple-900/30 rounded-xl border border-blue-500/30">
-                  <p className="text-sm text-slate-400 mb-2">Roman Numeral</p>
-                  <p className="text-4xl font-bold text-white font-serif">{numberToRoman}</p>
+                <div className="p-6 bg-gradient-to-br from-blue-900/30 to-purple-900/30 rounded-xl border border-blue-500/30 flex justify-between items-center">
+                  <div>
+                    <p className="text-sm text-slate-400 mb-2">Roman Numeral</p>
+                    <p className="text-4xl font-bold text-white font-serif">{numberToRoman}</p>
+                  </div>
+                  <button onClick={() => copyToClipboard(numberToRoman)} className="p-2 bg-slate-700 rounded-lg hover:bg-slate-600">
+                    <Clipboard className="w-5 h-5" />
+                  </button>
                 </div>
               )}
             </div>
 
+            {/* Roman to Number */}
             <div className="space-y-4">
               <h3 className="text-xl font-semibold text-white">Roman to Number</h3>
-              <div>
-                <label className="block text-sm font-medium text-white mb-2">
-                  Enter Roman Numeral
-                </label>
-                <input
-                  type="text"
-                  value={romanInput}
-                  onChange={(e) => handleRomanConversion(e.target.value)}
-                  className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg uppercase font-serif"
-                  placeholder="Enter Roman numerals"
-                />
-              </div>
+              <input
+                type="text"
+                value={romanInput}
+                onChange={(e) => handleRomanConversion(e.target.value)}
+                className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg uppercase font-serif"
+                placeholder="Enter Roman numerals"
+              />
               {romanToNumber && (
-                <div className="p-6 bg-gradient-to-br from-green-900/30 to-teal-900/30 rounded-xl border border-green-500/30">
-                  <p className="text-sm text-slate-400 mb-2">Number</p>
-                  <p className="text-4xl font-bold text-white">{romanToNumber}</p>
+                <div className="p-6 bg-gradient-to-br from-green-900/30 to-teal-900/30 rounded-xl border border-green-500/30 flex justify-between items-center">
+                  <div>
+                    <p className="text-sm text-slate-400 mb-2">Number</p>
+                    <p className="text-4xl font-bold text-white">{romanToNumber}</p>
+                  </div>
+                  <button onClick={() => copyToClipboard(romanToNumber)} className="p-2 bg-slate-700 rounded-lg hover:bg-slate-600">
+                    <Clipboard className="w-5 h-5" />
+                  </button>
                 </div>
               )}
             </div>
           </div>
 
-          <div className="bg-slate-800/50 rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Roman Numeral Reference</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-              {[
-                { roman: 'I', value: 1 },
-                { roman: 'V', value: 5 },
-                { roman: 'X', value: 10 },
-                { roman: 'L', value: 50 },
-                { roman: 'C', value: 100 },
-                { roman: 'D', value: 500 },
-                { roman: 'M', value: 1000 }
-              ].map((item) => (
-                <div key={item.roman} className="p-3 bg-slate-700 rounded-lg">
-                  <p className="text-2xl font-bold text-white font-serif">{item.roman}</p>
-                  <p className="text-sm text-slate-400">{item.value}</p>
-                </div>
-              ))}
-            </div>
+          {/* Quiz Game */}
+          <div className="mt-8 p-6 bg-slate-800/50 rounded-xl">
+            <h3 className="text-xl font-semibold text-white mb-4">Roman Numeral Quiz Game 🎯</h3>
+            <p className="text-slate-300 mb-2">Score: {quizScore}</p>
+            {quizQuestion ? (
+              <div className="space-y-4">
+                <p className="text-white">Convert Number <strong>{quizQuestion.num}</strong> to Roman Numeral:</p>
+                <input
+                  type="text"
+                  value={quizAnswer}
+                  onChange={(e) => setQuizAnswer(e.target.value)}
+                  className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg uppercase font-serif"
+                />
+                <button onClick={checkQuiz} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500">Check Answer</button>
+              </div>
+            ) : (
+              <button onClick={generateQuiz} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500">Start Quiz</button>
+            )}
           </div>
         </div>
 
         <AdBanner />
-
-        <div className="glow-card rounded-2xl p-8 mb-8">
-          <h2 className="text-2xl font-bold text-white mb-4">About Roman Numerals</h2>
-          <div className="space-y-4 text-slate-300">
-            <p>
-              Roman numerals are a numeral system that originated in ancient Rome and remained the usual
-              way of writing numbers throughout Europe well into the Late Middle Ages. Today, they're
-              still used in various contexts like clock faces, book chapters, and movie sequels.
-            </p>
-            <h3 className="text-xl font-semibold text-white mt-6">Basic Rules:</h3>
-            <ul className="list-disc list-inside space-y-2 ml-4">
-              <li>When a smaller numeral appears before a larger one, subtract it (IV = 4)</li>
-              <li>When a smaller numeral appears after a larger one, add it (VI = 6)</li>
-              <li>Only I, X, and C can be used as subtractive numerals</li>
-              <li>I can be subtracted from V and X only</li>
-              <li>X can be subtracted from L and C only</li>
-              <li>C can be subtracted from D and M only</li>
-            </ul>
-            <h3 className="text-xl font-semibold text-white mt-6">Common Examples:</h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-3">
-              {[
-                { num: 4, roman: 'IV' },
-                { num: 9, roman: 'IX' },
-                { num: 40, roman: 'XL' },
-                { num: 90, roman: 'XC' },
-                { num: 400, roman: 'CD' },
-                { num: 900, roman: 'CM' }
-              ].map((item) => (
-                <div key={item.num} className="p-3 bg-slate-700 rounded-lg text-center">
-                  <p className="text-lg font-semibold text-white">{item.num} = {item.roman}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
         <RelatedCalculators currentPath="/roman-numeral-converter" />
       </div>
     </>
