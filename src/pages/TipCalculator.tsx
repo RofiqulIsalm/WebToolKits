@@ -396,32 +396,32 @@ const TipCalculatorPage: React.FC = () => {
 
         <RelatedCalculators currentPath="/tip-calculator" />
 
-        <script type="application/ld+json"
-        {
-          "@context": "https://schema.org",
-          "@type": "WebPage",
-          "name": "Tip Calculator",
-          "url": "https://calculatorhub.site/tip-calculator",
-          "description": "Calculate restaurant tips, split bills, and find per-person totals with CalculatorHub's Tip Calculator. Supports over 100 currencies and includes a visual pie chart.",
-          "breadcrumb": {
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Misc Tools",
-                "item": "https://calculatorhub.site/category/misc-tools"
-              },
-              {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Tip Calculator",
-                "item": "https://calculatorhub.site/tip-calculator"
-              }
-            ]
-          }
+        <script type="application/ld+json">
+      {
+        "@context": "https://schema.org", 
+        "@type": "WebPage",
+        "name": "Tip Calculator",
+        "url": "https://calculatorhub.site/tip-calculator",
+        "description": "Calculate restaurant tips, split bills, and find per-person totals with CalculatorHub's Tip Calculator. Supports over 100 currencies and includes a visual pie chart.",
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Misc Tools",
+              "item": "https://calculatorhub.site/category/misc-tools"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Tip Calculator",
+              "item": "https://calculatorhub.site/tip-calculator"
+            }
+          ]
         }
-        </script>
+      }
+      </script>
 
       </div>
     </>
