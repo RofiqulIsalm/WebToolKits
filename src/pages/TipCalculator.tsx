@@ -278,8 +278,7 @@ const TipCalculatorPage: React.FC = () => {
           <h3 className="text-xl text-white mb-2">Learn what a tip calculator is</h3>
           <div className="space-y-4 text-slate-300">
             <p>
-              A <strong>Tip Calculator</strong> is an online tool that helps you quickly calculate restaurant tips, gratuities, and split bills among multiple people. 
-              It ensures accurate calculations without manual math.
+              A <strong>Tip Calculator</strong> is an online tool designed to help you quickly and accurately calculate restaurant tips, gratuities, and split bills among multiple people. Instead of doing the math manually, this tool provides instant results, saving time and ensuring precision.
             </p>
             <p>
               Whether you're dining out, hosting a meal, or splitting a bill with friends, our tip calculator gives you <strong>instant results</strong> for total amounts, per-person shares, and tip percentages.
