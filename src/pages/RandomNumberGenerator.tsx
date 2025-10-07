@@ -288,6 +288,18 @@ const RandomNumberGenerator: React.FC = () => {
                  <li><strong>Click “Generate Random Numbers”</strong> – The dice animation rolls, sound plays, and your results appear instantly.</li> 
                  <li><strong>Play the hidden game mode!</strong> After generating, you can activate the challenge to find the missing number within 20 seconds — a fun way to test your focus and memory.</li> 
             </ul>
+
+            <h3 className="text-2xl font-semibold text-white mt-6">⚙️ What Makes This Tool Unique</h3>
+            <ul className="list-disc list-inside space-y-2 ml-4">
+                <li><strong>🎲 Interactive Experience: </strong> – The tool visually “rolls” your numbers with animated dice, making randomness feel alive.</li> 
+                <li><strong>🔊 Real Sound Effects: </strong> – Subtle dice and ambient sounds enhance the experience.</li> 
+                <li><strong>📊 Built-in Statistics: </strong> – It automatically shows mean, minimum, and maximum values of your results.</li> 
+                <li><strong>🧩 Game Mode:</strong> – A creative mini-game challenges users to spot a missing number, with dynamic effects like fog, red flashes, and glitch animations for added thrill.</li> 
+                <li><strong>🌐 Mobile Friendly:</strong> – Designed with responsive layouts to perform perfectly on phones, tablets, and desktops.</li> 
+                <li><strong>🔒 No Login Needed:</strong> – Everything runs locally — no data stored, no tracking, no sign-ups.</li> 
+            </ul>
+
+            
             
           </div>
 
