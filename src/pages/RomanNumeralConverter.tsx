@@ -219,7 +219,7 @@ const RomanNumeralConverter: React.FC = () => {
               {result && !error && (
                 <div className="p-6 bg-gradient-to-br from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-lg">
                   <div className="text-sm text-slate-400 mb-1">Roman Numeral</div>
-                  <div className="text-4xl font-bold text-white tracking-wider">
+                  <div className="text-3xl font-bold text-white tracking-wider">
                     {result}
                   </div>
                 </div>
