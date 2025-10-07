@@ -387,88 +387,70 @@ Use our free password generator to instantly create strong, unique passwords for
           </section>
 
           {/* ===================== FAQ SCHEMA (SEO Rich Results) ===================== */}
-          <script type="application/ld+json">
-          {
-            "@context": "https://schema.org",
-            "@graph": [
-              {
-                "@type": "SoftwareApplication",
-                "name": "Password Generator",
-                "operatingSystem": "All",
-                "applicationCategory": "SecurityApplication",
-                "description": "Generate strong, random, and secure passwords instantly with our free online Password Generator.",
-                "url": "https://calculatorhub.site/password-generator",
-                "image": "https://calculatorhub.site/images/password-generator-banner.png",
-                "aggregateRating": {
-                  "@type": "AggregateRating",
-                  "ratingValue": "4.9",
-                  "reviewCount": "1750"
-                }
-              },
-              {
-                "@type": "FAQPage",
-                "mainEntity": [
-                  {
-                    "@type": "Question",
-                    "name": "Is this Password Generator free to use?",
-                    "acceptedAnswer": {
-                      "@type": "Answer",
-                      "text": "Yes! Our Password Generator is completely free and allows you to create unlimited strong passwords without any hidden costs or sign-ups."
-                    }
-                  },
-                  {
-                    "@type": "Question",
-                    "name": "How secure are the generated passwords?",
-                    "acceptedAnswer": {
-                      "@type": "Answer",
-                      "text": "All passwords are generated locally on your device, ensuring your data is never stored or transmitted online. Each password is completely random and unique, providing the highest level of security."
-                    }
-                  },
-                  {
-                    "@type": "Question",
-                    "name": "Can I copy the generated password to my clipboard?",
-                    "acceptedAnswer": {
-                      "@type": "Answer",
-                      "text": "Absolutely! With one click on the 'Copy' button, your password is instantly copied to the clipboard for easy use anywhere you need."
-                    }
-                  },
-                  {
-                    "@type": "Question",
-                    "name": "Can I customize the password length and characters?",
-                    "acceptedAnswer": {
-                      "@type": "Answer",
-                      "text": "Yes. You can set your preferred password length (from 4 to 50 characters) and choose to include uppercase, lowercase, numbers, and symbols based on your security needs."
-                    }
-                  },
-                  {
-                    "@type": "Question",
-                    "name": "Does this Password Generator show password strength?",
-                    "acceptedAnswer": {
-                      "@type": "Answer",
-                      "text": "Yes! Our built-in strength meter dynamically shows whether your password is Weak, Medium, or Strong — helping you create the most secure combination possible."
-                    }
-                  },
-                  {
-                    "@type": "Question",
-                    "name": "Can I exclude similar characters like 0 and O?",
-                    "acceptedAnswer": {
-                      "@type": "Answer",
-                      "text": "Definitely. You can enable the 'Exclude Similar Characters' option to avoid confusing symbols such as 0, O, 1, l, and I for better readability and usability."
-                    }
-                  },
-                  {
-                    "@type": "Question",
-                    "name": "Why should I use this Password Generator?",
-                    "acceptedAnswer": {
-                      "@type": "Answer",
-                      "text": "Using this tool helps you protect your online accounts with unique, complex passwords that are nearly impossible to guess. Whether it’s for social media, gaming, or banking, our password generator ensures maximum safety and reliability."
-                    }
+          <script type="application/ld+json" dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Is this Password Generator free to use?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! Our Password Generator is completely free and allows you to create unlimited strong passwords without any hidden costs or sign-ups."
                   }
-                ]
-              }
-            ]
-          }
-          </script>
+                },
+                {
+                  "@type": "Question",
+                  "name": "How secure are the generated passwords?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "All passwords are generated locally on your device, ensuring your data is never stored or transmitted online. Each password is completely random and unique, providing the highest level of security."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I copy the generated password to my clipboard?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Absolutely! With one click on the 'Copy' button, your password is instantly copied to the clipboard for easy use anywhere you need."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I customize the password length and characters?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. You can set your preferred password length (from 4 to 50 characters) and choose to include uppercase, lowercase, numbers, and symbols based on your security needs."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Does this Password Generator show password strength?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! Our built-in strength meter dynamically shows whether your password is Weak, Medium, or Strong — helping you create the most secure combination possible."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I exclude similar characters like 0 and O?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Definitely. You can enable the 'Exclude Similar Characters' option to avoid confusing symbols such as 0, O, 1, l, and I for better readability and usability."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Why should I use this Password Generator?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Using this tool helps you protect your online accounts with unique, complex passwords that are nearly impossible to guess. Whether it’s for social media, gaming, or banking, our password generator ensures maximum safety and reliability."
+                  }
+                }
+              ]
+            })
+          }} /> 
 
             <script type="application/ld+json" dangerouslySetInnerHTML={{
                 __html: JSON.stringify({
