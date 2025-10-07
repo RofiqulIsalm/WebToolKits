@@ -294,7 +294,7 @@ const RandomNumberGenerator: React.FC = () => {
                       <h3 className="text-2xl font-semibold text-white mt-6">🌟 Benefits of Using CalculatorHub’s Random Number Generator</h3>
 
               <ul className="list-disc list-inside space-y-2 ml-4">
-                <li><Fast, simple, and visually appealing interface.</li>
+                <li>Fast, simple, and visually appealing interface.</li>
                 <li>Adjustable range for small or large number sets.</li>
                 <li>Supports educational, professional, and entertainment use.</li>
                 <li>Works on all major browsers and devices.</li>
