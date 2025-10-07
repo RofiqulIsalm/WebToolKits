@@ -281,8 +281,16 @@ const TipCalculatorPage: React.FC = () => {
               A <strong>Tip Calculator</strong> is an online tool designed to help you quickly and accurately calculate restaurant tips, gratuities, and split bills among multiple people. Instead of doing the math manually, this tool provides instant results, saving time and ensuring precision.
             </p>
             <p>
-              Whether you're dining out, hosting a meal, or splitting a bill with friends, our tip calculator gives you <strong>instant results</strong> for total amounts, per-person shares, and tip percentages.
+              Whether you're dining out, hosting a dinner, or splitting a bill with friends, <strong>CalculatorHub’s Tip Calculator</strong> makes it simple to:
             </p>
+            <ul className="list-disc list-inside space-y-2 ml-4 text-slate-300">
+            <li>Calculate the total bill including tip</li>
+            <li>Determine how much each person owes</li>
+            <li>Choose a standard tip percentage or enter a custom amount</li>
+            <li>See visual breakdowns with interactive charts</li>
+          </ul>
+            <p>With our tip calculator, you can enjoy meals without worrying about math, making group payments fast, fair, and hassle-free. It supports<strong> multiple currencies</strong>, adjustable tip percentages, and per-person calculations, ensuring it works for any occasion or group size.</p>
+            
           </div>
         
           <h2 className="text-yellow-500 mt-6">How to Use the Tip Calculator</h2>
