@@ -705,7 +705,7 @@ const dropdownRef = useRef<HTMLDivElement>(null);
 
 
 
-        <AdBanner />
+
   <div className="rounded-2xl p-8 mb-8">
                  <h2 className="text-3xl font-bold text-white mb-4">📝 Text Counter – Count, Convert & Generate Text Instantly</h2>
                   <h3>What is a Text Counter and Why Do You Need It?</h3>
