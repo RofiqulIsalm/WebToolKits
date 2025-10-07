@@ -66,7 +66,6 @@ const RandomNumberGenerator: React.FC = () => {
     setTimeLeft(20);
   };
 
-  // Timer
   useEffect(() => {
     if (gameActive && timeLeft > 0) {
       const timer = setTimeout(() => setTimeLeft((t) => t - 1), 1000);
@@ -106,7 +105,11 @@ const RandomNumberGenerator: React.FC = () => {
         )}
       />
 
-      <div className={`max-w-4xl mx-auto relative transition-all duration-300 ${showFail ? 'animate-shake bg-red-900' : ''}`}>
+      <div
+        className={`max-w-4xl mx-auto relative transition-all duration-300 ${
+          showFail ? 'animate-shake bg-red-900' : ''
+        }`}
+      >
         {/* Fog overlay */}
         {showFail && (
           <div className="absolute inset-0 bg-black/80 flex items-center justify-center z-50 animate-fadeIn">
@@ -124,13 +127,21 @@ const RandomNumberGenerator: React.FC = () => {
         {/* Main Generator */}
         <div className="glow-card rounded-2xl p-8 mb-8">
           <div className="flex items-center space-x-3 mb-6">
-            <Dices className={`h-8 w-8 ${rolling ? 'animate-spin text-yellow-400' : 'text-blue-400'}`} />
-            <h1 className="text-3xl font-bold text-white">Random Number Generator</h1>
+            <Dices
+              className={`h-8 w-8 ${
+                rolling ? 'animate-spin text-yellow-400' : 'text-blue-400'
+              }`}
+            />
+            <h1 className="text-3xl font-bold text-white">
+              Random Number Generator
+            </h1>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
-              <label className="block text-sm font-medium text-white mb-2">Minimum Value</label>
+              <label className="block text-sm font-medium text-white mb-2">
+                Minimum Value
+              </label>
               <input
                 type="number"
                 value={min}
@@ -140,7 +151,9 @@ const RandomNumberGenerator: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white mb-2">Maximum Value</label>
+              <label className="block text-sm font-medium text-white mb-2">
+                Maximum Value
+              </label>
               <input
                 type="number"
                 value={max}
@@ -150,7 +163,9 @@ const RandomNumberGenerator: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white mb-2">How Many Numbers?</label>
+              <label className="block text-sm font-medium text-white mb-2">
+                How Many Numbers?
+              </label>
               <input
                 type="number"
                 value={count}
@@ -186,10 +201,15 @@ const RandomNumberGenerator: React.FC = () => {
 
           {generatedNumbers.length > 0 && (
             <div className="mt-6 p-6 bg-gradient-to-br from-blue-900/30 to-purple-900/30 rounded-xl border border-blue-500/30">
-              <h3 className="text-lg font-semibold text-white mb-4">Generated Numbers:</h3>
+              <h3 className="text-lg font-semibold text-white mb-4">
+                Generated Numbers:
+              </h3>
               <div className="flex flex-wrap gap-3">
                 {generatedNumbers.map((num, index) => (
-                  <div key={index} className="px-4 py-2 bg-slate-700 text-white rounded-lg font-mono text-lg">
+                  <div
+                    key={index}
+                    className="px-4 py-2 bg-slate-700 text-white rounded-lg font-mono text-lg"
+                  >
                     🎲 {num}
                   </div>
                 ))}
@@ -201,7 +221,9 @@ const RandomNumberGenerator: React.FC = () => {
         {/* Game Prompt */}
         {playGame && !gameActive && !showFail && (
           <div className="text-center bg-slate-800 p-6 rounded-xl text-white mb-6">
-            <p className="mb-4 text-lg">Want to play a game? Find the missing number between 1–100!</p>
+            <p className="mb-4 text-lg">
+              Want to play a game? Find the missing number between 1–100!
+            </p>
             <button
               onClick={startGame}
               className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600"
@@ -238,124 +260,57 @@ const RandomNumberGenerator: React.FC = () => {
           </div>
         )}
 
-        {/*------------------------------ seo content ---------------------------*/}
+        {/* SEO content section */}
+        <div className="rounded-2xl p-8 mb-8">
+          <h2 className="text-3xl font-bold text-white mb-4">
+            🧠 About Random Number Generator
+          </h2>
+          <div className="space-y-4 text-slate-300">
+            <p>
+              The <strong>Random Number Generator</strong> is a free online tool that instantly
+              produces unpredictable numbers within any range you choose. Whether you’re
+              organizing a lottery draw, creating quiz questions, testing probability theories,
+              or just having fun with friends, this generator helps you add a touch of true
+              randomness to your tasks.
+            </p>
 
-           <div className="rounded-2xl p-8 mb-8">
-                 <h2 className="text-3xl font-bold text-white mb-4">
-                   🧠 About Random Number Generator
-                 </h2>
-                 <div className="space-y-4 text-slate-300">
-                  <p>      
-             The <strong>Random Number Generator </strong>is a free online tool that instantly produces unpredictable numbers within any range you choose. Whether you’re organizing a lottery draw, creating quiz questions, testing probability theories, or just having fun with friends, this generator helps you add a touch of true randomness to your tasks.
-              </p>
-                   
-               <p>
-          Unlike typical number pickers, this version combines the accuracy of modern algorithms with an interactive<strong> dice-style</strong> animation and sound effects, giving every roll an exciting, game-like feeling. It’s not only functional but also enjoyable — perfect for teachers, gamers, researchers, or anyone who needs a fair and unbiased result.
-              </p>
+            <p>
+              Unlike typical number pickers, this version combines the accuracy of modern
+              algorithms with an interactive <strong>dice-style</strong> animation and sound
+              effects, giving every roll an exciting, game-like feeling.
+            </p>
+          </div>
 
+          <AdBanner type="bottom" />
+          <RelatedCalculators currentPath="/random-number-generator" />
+        </div>
 
-              <h3 className="text-2xl font-semibold text-white mt-6">🎮 How to Use the Random Number Generator</h3>
-                   
-              <ul className="list-disc list-inside space-y-2 ml-4">
-                <li><strong>Set your range</strong> – Enter the minimum and maximum values (for example, 1 to 100).</li>
-            		<li><strong>Choose how many numbers to generate</strong> – You can generate one number or multiple at once.</li>
-            		<li><strong>Allow or block duplicates</strong> – Decide whether numbers can repeat within the same draw.</li>
-            		<li><strong>Click “Generate Random Numbers”</strong> – The dice animation rolls, sound plays, and your results appear instantly.</li>
-            		<li><strong>Play the hidden game mode!</strong> After generating, you can activate the challenge to find the missing number within 20 seconds — a fun way to test your focus and memory.</li>
-              </ul>
-
-                 </div>
-
-          
-              <h3 className="text-2xl font-semibold text-white mt-6">⚙️ What Makes This Tool Unique</h3>
-
-              <ul className="list-disc list-inside space-y-2 ml-4">
-                <li><strong>🎲 Interactive Experience: </strong> – The tool visually “rolls” your numbers with animated dice, making randomness feel alive.</li>
-                <li><strong>🔊 Real Sound Effects: </strong> – Subtle dice and ambient sounds enhance the experience.</li>
-                <li><strong>📊 Built-in Statistics: </strong> – It automatically shows mean, minimum, and maximum values of your results.</li>
-                <li><strong>🧩 Game Mode:</strong> – A creative mini-game challenges users to spot a missing number, with dynamic effects like fog, red flashes, and glitch animations for added thrill.</li>
-                <li><strong>🌐 Mobile Friendly:</strong> – Designed with responsive layouts to perform perfectly on phones, tablets, and desktops.</li>
-                <li><strong>🔒 No Login Needed:</strong> – Everything runs locally — no data stored, no tracking, no sign-ups.</li>
-                
-              </ul>
-          
-            
-              <h3 className="text-2xl font-semibold text-white mt-6">📈 Why Use a Random Number Generator?</h3>
-              <p>Random numbers are essential for fairness and unpredictability. In daily life and digital systems, they play a key role in:</p>
-              <ul className="list-disc list-inside space-y-2 ml-4">
-                <li><strong>Games and Raffles: </strong> – Ensuring every player has an equal chance to win.</li>
-                <li><strong>Education: </strong> – Teachers use it for quizzes, random student selection, or probability lessons.</li>
-                <li><strong>Programming & Research: </strong> – Developers and data scientists use random numbers in simulations and statistical tests.</li>
-                <li><strong>Decision-Making:</strong> – When you can’t decide, let the generator pick for you!</li>
-                
-              </ul>
-
-            <p>Because this tool works instantly and without server requests, it’s reliable and completely private — your generated numbers never leave your device.</p>
-
-
-                      <h3 className="text-2xl font-semibold text-white mt-6">🌟 Benefits of Using CalculatorHub’s Random Number Generator</h3>
-
-              <ul className="list-disc list-inside space-y-2 ml-4">
-                <li>Fast, simple, and visually appealing interface.</li>
-                <li>Adjustable range for small or large number sets.</li>
-                <li>Supports educational, professional, and entertainment use.</li>
-                <li>Works on all major browsers and devices.</li>
-                <li>100% free — no ads interrupt your generation process.</li>                
-              </ul>
-
-              <p>With its combination of functionality and creativity, this isn’t just another number tool — it’s a<strong> fun interactive experience</strong> that turns randomness into play. Whether you’re calculating probabilities, testing algorithms, or simply challenging yourself in the missing-number game, the CalculatorHub Random Number Generator brings excitement and precision together in one page.</p>
-
-         
-              
-              <AdBanner type="bottom" />
-
-                   
-            <section className="space-y-4">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">❓ Frequently Asked Questions (<span className="text-yellow-300"> FAQ </span>)</h2>
-            <div className="space-y-4 text-lg text-slate-100 leading-relaxed">
-              <div>
-                <div className="bg-slate-800/60 p-4 rounded-lg">
-                    <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q1</span>: ???????????????</h3>
-                    <p>
-			????????????????????????????????
-                    </p>
-                </div>
-             </div>
-           </div>
-          </section>
-
-                        <p>Enter your range, roll the dice, and see where randomness takes you. Every click produces new numbers, new patterns, and maybe even a new record in your personal game.<strong className="text-yellow-600"> Start generating — and if you fail, don’t worry. The fog will clear, and you can try again!</strong></p>
-
-
-        <AdBanner />
-        <RelatedCalculators currentPath="/random-number-generator" />
+        {/* Custom Animations */}
+        <style jsx>{`
+          @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-10px); }
+            40%, 80% { transform: translateX(10px); }
+          }
+          .animate-shake { animation: shake 0.6s ease-in-out infinite; }
+          .glitch-text {
+            animation: glitch 0.8s infinite;
+            text-shadow: 2px 2px #ff0000, -2px -2px #00ffea;
+          }
+          @keyframes glitch {
+            0% { transform: skew(0deg); }
+            25% { transform: skew(5deg); }
+            50% { transform: skew(-5deg); }
+            75% { transform: skew(3deg); }
+            100% { transform: skew(0deg); }
+          }
+          @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+          .animate-fadeIn { animation: fadeIn 1s ease-in-out; }
+        `}</style>
       </div>
-
-      {/* Custom Animations */}
-      <style jsx>{`
-        @keyframes shake {
-          0%, 100% { transform: translateX(0); }
-          20%, 60% { transform: translateX(-10px); }
-          40%, 80% { transform: translateX(10px); }
-        }
-        .animate-shake { animation: shake 0.6s ease-in-out infinite; }
-        .glitch-text {
-          animation: glitch 0.8s infinite;
-          text-shadow: 2px 2px #ff0000, -2px -2px #00ffea;
-        }
-        @keyframes glitch {
-          0% { transform: skew(0deg); }
-          25% { transform: skew(5deg); }
-          50% { transform: skew(-5deg); }
-          75% { transform: skew(3deg); }
-          100% { transform: skew(0deg); }
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        .animate-fadeIn { animation: fadeIn 1s ease-in-out; }
-      `}</style>
     </>
   );
 };
