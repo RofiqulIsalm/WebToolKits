@@ -115,16 +115,29 @@ const TipCalculator: React.FC = () => {
 
   return (
     <>
-      <SEOHead
-        title={seoData.tipCalculator?.title || 'Tip Calculator'}
-        description={seoData.tipCalculator?.description || 'Calculate tips and split bills easily.'}
+    <SEOHead
+        title="Tip Calculator - Split Bills & Calculate Restaurant Tips"
+        description="Easily calculate restaurant tips, split bills, and find per-person costs with our Tip Calculator. Perfect for dining out with friends & family."
         canonical="https://calculatorhub.site/tip-calculator"
-        schemaData={generateCalculatorSchema('Tip Calculator', 'Calculate tips and split bills', '/tip-calculator', ['tip calculator'])}
+        schemaData={generateCalculatorSchema(
+          'Tip Calculator',
+          'Easily calculate restaurant tips, split bills, and find per-person costs with our Tip Calculator.',
+          '/tip-calculator',
+          [
+            'tip calculator',
+            'split bill calculator',
+            'restaurant tips',
+            'gratuity calculator',
+            'bill splitter',
+            'per person tip calculator'
+          ]
+        )}
         breadcrumbs={[
           { name: 'Misc Tools', url: '/category/misc-tools' },
           { name: 'Tip Calculator', url: '/tip-calculator' }
         ]}
       />
+
       <div className="max-w-4xl mx-auto">
         <Breadcrumbs items={[
           { name: 'Misc Tools', url: '/category/misc-tools' },
