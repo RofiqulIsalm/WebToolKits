@@ -272,6 +272,8 @@ const TipCalculatorPage: React.FC = () => {
           </div>
         </div>
 
+        <AdBanner type="bottom" />
+        
         {/* SEO Content + FAQ */}
         <div className="rounded-2xl p-8 mb-8 bg-slate-900">
           <h2 className="text-3xl font-bold text-white mb-4">🧠 About Tip Calculator</h2>
