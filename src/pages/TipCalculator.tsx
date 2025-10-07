@@ -384,7 +384,8 @@ const TipCalculatorPage: React.FC = () => {
             </div>
           </section>
         </div>
-
+    
+        <AdBanner type="bottom" />
 
         <RelatedCalculators currentPath="/tip-calculator" />
       </div>
