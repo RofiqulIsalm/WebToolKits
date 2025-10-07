@@ -238,6 +238,65 @@ const RandomNumberGenerator: React.FC = () => {
           </div>
         )}
 
+        {/*------------------------------ seo content ---------------------------*/}
+
+           <div className="rounded-2xl p-8 mb-8">
+                 <h2 className="text-3xl font-bold text-white mb-4">.
+                    🧠 About Random Number Generator
+                 </h2>
+                 <div className="space-y-4 text-slate-300">
+                  <p>
+                    
+             The <strong>Random Number Generator </strong>is a free online tool that instantly produces unpredictable numbers within any range you choose. Whether you’re organizing a lottery draw, creating quiz questions, testing probability theories, or just having fun with friends, this generator helps you add a touch of true randomness to your tasks.
+              </p>
+                  <p>
+          Unlike typical number pickers, this version combines the accuracy of modern algorithms with an interactive<strong> dice-style animation and sound effects, giving every roll an exciting, game-like feeling. It’s not only functional but also enjoyable — perfect for teachers, gamers, researchers, or anyone who needs a fair and unbiased result.
+              </p>
+
+
+              <h3 className="text-2xl font-semibold text-white mt-6">🎮 How to Use the Random Number Generator</h3>
+                   
+              <ul className="list-disc list-inside space-y-2 ml-4">
+                <li><strong>Set your range</strong> – Enter the minimum and maximum values (for example, 1 to 100).</li>
+            		<li><strong>Choose how many numbers to generate</strong> – You can generate one number or multiple at once.</li>
+            		<li><strong>Allow or block duplicates</strong> – Decide whether numbers can repeat within the same draw.</li>
+            		<li><strong>Click “Generate Random Numbers”</strong> – The dice animation rolls, sound plays, and your results appear instantly.</li>
+            		<li><strong>Play the hidden game mode!</strong> After generating, you can activate the challenge to find the missing number within 20 seconds — a fun way to test your focus and memory.</li>
+              </ul>
+
+                   
+              <p>?? <strong>????</strong>, ????????????????????????</p>
+          
+              <h3 className="text-2xl font-semibold text-white mt-6">????????</h3>
+              <p>?? <strong>?????????</strong> ???????????????????????????</strong> ??????????????????????</p>
+              <ul className="list-disc list-inside space-y-2 ml-4">
+                <li><strong>??????</strong> – ?????????????????????</li>
+                <li><strong>??????</strong> – ?????????????????????</li>
+                <li><strong>??????</strong> – ?????????????????????</li>
+                <li><strong>??????</strong> – ?????????????????????</li>
+                
+              </ul>
+              <p>????????????<strong> ?????????</strong> ?????????????</p>
+         
+              
+              <AdBanner type="bottom" />
+
+                   
+            <section className="space-y-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">❓ Frequently Asked Questions (<span className="text-yellow-300"> FAQ </span>)</h2>
+            <div className="space-y-4 text-lg text-slate-100 leading-relaxed">
+              <div>
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                    <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q1</span>: ???????????????</h3>
+                    <p>
+			????????????????????????????????
+                    </p>
+                </div>
+             </div>
+           </div>
+          </section>
+
+
         <AdBanner />
         <RelatedCalculators currentPath="/random-number-generator" />
       </div>
