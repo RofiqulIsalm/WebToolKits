@@ -140,7 +140,7 @@ const TipCalculator: React.FC = () => {
               <label className="block text-sm font-medium text-white mb-3">
                 Tip Percentage
               </label>
-              <div className="grid grid-cols-2 gap-3 mb-3">
+              <div className="grid grid-cols-4 gap-3 mb-3">
                 {[10, 15, 18, 20].map((percentage) => (
                   <button
                     key={percentage}
