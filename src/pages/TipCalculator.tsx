@@ -1,16 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { DollarSign } from 'lucide-react';
+import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
 
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+const currencies = [
+  { code: 'USD', symbol: '$' },
+  { code: 'EUR', symbol: '€' },
+  { code: 'GBP', symbol: '£' },
+  { code: 'BDT', symbol: '৳' },
+  { code: 'JPY', symbol: '¥' }
+];
+
 const TipCalculator: React.FC = () => {
   const [billAmount, setBillAmount] = useState<number>(100);
   const [tipPercentage, setTipPercentage] = useState<number>(15);
   const [numberOfPeople, setNumberOfPeople] = useState<number>(1);
   const [customTip, setCustomTip] = useState<string>('');
+  const [currency, setCurrency] = useState(currencies[0]);
   const [results, setResults] = useState({
     tipAmount: 0,
     totalAmount: 0,
@@ -49,12 +62,24 @@ const TipCalculator: React.FC = () => {
     }
   };
 
+  const pieData = {
+    labels: ['Bill', 'Tip'],
+    datasets: [
+      {
+        label: 'Amount',
+        data: [billAmount, results.tipAmount],
+        backgroundColor: ['#4ade80', '#3b82f6'],
+        hoverOffset: 10
+      }
+    ]
+  };
+
   return (
     <>
       <SEOHead
         title={seoData.tipCalculator?.title || 'Tip Calculator - Calculate Restaurant Tips and Split Bills'}
         description={seoData.tipCalculator?.description || 'Calculate tips and split bills easily. Find the perfect tip amount and per-person cost for dining out with friends and family.'}
-        canonical="https://calculatorhub.com/tip-calculator"
+        canonical="https://calculatorhub.site/tip-calculator"
         schemaData={generateCalculatorSchema(
           'Tip Calculator',
           'Calculate tips and split bills for dining',
@@ -78,10 +103,27 @@ const TipCalculator: React.FC = () => {
             <h1 className="text-3xl font-bold text-white">Tip Calculator</h1>
           </div>
 
+          {/* Currency Selector */}
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-white mb-2">Select Currency</label>
+            <select
+              value={currency.code}
+              onChange={(e) => {
+                const selected = currencies.find(c => c.code === e.target.value);
+                if (selected) setCurrency(selected);
+              }}
+              className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              {currencies.map((c) => (
+                <option key={c.code} value={c.code}>{c.code} ({c.symbol})</option>
+              ))}
+            </select>
+          </div>
+
           <div className="space-y-6 mb-8">
             <div>
               <label className="block text-sm font-medium text-white mb-2">
-                Bill Amount ($)
+                Bill Amount ({currency.symbol})
               </label>
               <input
                 type="number"
@@ -157,56 +199,36 @@ const TipCalculator: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div className="p-6 bg-gradient-to-br from-blue-900/30 to-blue-800/30 rounded-xl border border-blue-500/30">
               <p className="text-sm text-slate-400 mb-1">Tip Amount</p>
-              <p className="text-4xl font-bold text-white">${results.tipAmount.toFixed(2)}</p>
+              <p className="text-4xl font-bold text-white">{currency.symbol}{results.tipAmount.toFixed(2)}</p>
             </div>
 
             <div className="p-6 bg-gradient-to-br from-green-900/30 to-green-800/30 rounded-xl border border-green-500/30">
               <p className="text-sm text-slate-400 mb-1">Total Amount</p>
-              <p className="text-4xl font-bold text-white">${results.totalAmount.toFixed(2)}</p>
+              <p className="text-4xl font-bold text-white">{currency.symbol}{results.totalAmount.toFixed(2)}</p>
             </div>
 
             <div className="p-6 bg-gradient-to-br from-purple-900/30 to-purple-800/30 rounded-xl border border-purple-500/30">
               <p className="text-sm text-slate-400 mb-1">Per Person Total</p>
-              <p className="text-4xl font-bold text-white">${results.perPersonAmount.toFixed(2)}</p>
+              <p className="text-4xl font-bold text-white">{currency.symbol}{results.perPersonAmount.toFixed(2)}</p>
             </div>
 
             <div className="p-6 bg-gradient-to-br from-orange-900/30 to-orange-800/30 rounded-xl border border-orange-500/30">
               <p className="text-sm text-slate-400 mb-1">Per Person Tip</p>
-              <p className="text-4xl font-bold text-white">${results.perPersonTip.toFixed(2)}</p>
+              <p className="text-4xl font-bold text-white">{currency.symbol}{results.perPersonTip.toFixed(2)}</p>
             </div>
+          </div>
+
+          {/* Pie Chart */}
+          <div className="bg-slate-800 p-6 rounded-xl mb-6">
+            <h3 className="text-white font-semibold mb-4">Bill vs Tip</h3>
+            <Pie data={pieData} />
           </div>
         </div>
 
         <AdBanner />
-
-        <div className="glow-card rounded-2xl p-8 mb-8">
-          <h2 className="text-2xl font-bold text-white mb-4">About Tip Calculator</h2>
-          <div className="space-y-4 text-slate-300">
-            <p>
-              Calculate tips and split bills effortlessly with our tip calculator. Perfect for dining out,
-              delivery orders, or any service where gratuity is customary. Get instant calculations for
-              tip amounts and per-person costs.
-            </p>
-            <h3 className="text-xl font-semibold text-white mt-6">Tipping Guide:</h3>
-            <ul className="list-disc list-inside space-y-2 ml-4">
-              <li><strong>10%:</strong> Minimum tip for adequate service</li>
-              <li><strong>15%:</strong> Standard tip for good service</li>
-              <li><strong>18%:</strong> Above-average service or large groups</li>
-              <li><strong>20%+:</strong> Excellent service or fine dining</li>
-            </ul>
-            <h3 className="text-xl font-semibold text-white mt-6">Features:</h3>
-            <ul className="list-disc list-inside space-y-2 ml-4">
-              <li>Preset tip percentages for quick selection</li>
-              <li>Custom tip percentage input</li>
-              <li>Slider for easy tip adjustment</li>
-              <li>Bill splitting for multiple people</li>
-              <li>Real-time calculation updates</li>
-            </ul>
-          </div>
-        </div>
 
         <RelatedCalculators currentPath="/tip-calculator" />
       </div>
