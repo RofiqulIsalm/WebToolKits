@@ -299,7 +299,43 @@ const RandomNumberGenerator: React.FC = () => {
                 <li><strong>🔒 No Login Needed:</strong> – Everything runs locally — no data stored, no tracking, no sign-ups.</li> 
             </ul>
 
-            
+            <h3 className="text-2xl font-semibold text-white mt-6">📈 Why Use a Random Number Generator?</h3> 
+            <p>Random numbers are essential for fairness and unpredictability. In daily life and digital systems, they play a key role in:</p> 
+            <ul className="list-disc list-inside space-y-2 ml-4"> 
+                <li><strong>Games and Raffles: </strong> – Ensuring every player has an equal chance to win.</li> 
+                <li><strong>Education: </strong> – Teachers use it for quizzes, random student selection, or probability lessons.</li>
+                <li><strong>Programming & Research: </strong> – Developers and data scientists use random numbers in simulations and statistical tests.</li> 
+                <li><strong>Decision-Making:</strong> – When you can’t decide, let the generator pick for you!</li> 
+            </ul>
+
+            <p>Because this tool works instantly and without server requests, it’s reliable and completely private — your generated numbers never leave your device.</p>
+
+            <h3 className="text-2xl font-semibold text-white mt-6">🌟 Benefits of Using CalculatorHub’s Random Number Generator</h3>
+
+            <ul className="list-disc list-inside space-y-2 ml-4"> 
+              <li>Fast, simple, and visually appealing interface.</li> 
+              <li>Adjustable range for small or large number sets.</li> 
+              <li>Supports educational, professional, and entertainment use.</li> 
+              <li>Works on all major browsers and devices.</li> 
+              <li>100% free — no ads interrupt your generation process.</li> 
+            </ul>
+
+            <p>With its combination of functionality and creativity, this isn’t just another number tool — it’s a<strong> fun interactive experience</strong> that turns randomness into play. Whether you’re calculating probabilities, testing algorithms, or simply challenging yourself in the missing-number game, the CalculatorHub Random Number Generator brings excitement and precision together in one page.</p>
+
+            <AdBanner type="bottom" />
+
+            <section className="space-y-4"> 
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">❓ Frequently Asked Questions (<span className="text-yellow-300"> FAQ </span>)</h2> 
+              
+              <div className="space-y-4 text-lg text-slate-100 leading-relaxed"> 
+                  <div> 
+                      <div className="bg-slate-800/60 p-4 rounded-lg"> 
+                          <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q1</span>: ???????????????</h3> 
+                          <p> ???????????????????????????????? </p>
+                       </div> 
+                  </div> 
+              </div> 
+            </section>
             
           </div>
 
