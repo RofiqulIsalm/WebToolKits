@@ -96,7 +96,7 @@ const RandomNumberGenerator: React.FC = () => {
       <SEOHead
         title="Random Number Generator - Fun & Game Mode"
         description="Generate random numbers or play a fun missing-number challenge game!"
-        canonical="https://calculatorhub.com/random-number-generator"
+        canonical="https://calculatorhub.site/random-number-generator"
         schemaData={generateCalculatorSchema(
           'Random Number Generator',
           'Generate random numbers or play a game to find the missing number.',
@@ -365,6 +365,7 @@ const RandomNumberGenerator: React.FC = () => {
           </div>
 
           <AdBanner type="bottom" />
+          <p>“Try more tools at CalculatorHub for quick, accurate calculations and fun utilities.”</p>
           <RelatedCalculators currentPath="/random-number-generator" />
         </div>
 
