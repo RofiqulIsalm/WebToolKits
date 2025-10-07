@@ -260,7 +260,16 @@ const RomanNumeralConverter: React.FC = () => {
             </div>
           )}
         </div>
-        
+            <section>
+                  <div className="text-center bg-slate-800 p-6 rounded-xl text-white mb-6">
+                <p className="mb-4 text-lg">
+                    Want to play a game? Find the missing number between 1–100!
+                </p>
+                <button
+                    Start Game
+              </button>
+              </div>
+           </section>
         <div className="glow-card rounded-lg p-6 mb-6">
           <h2 className="text-xl font-semibold text-white mb-4 flex items-center">
             <Info className="h-5 w-5 mr-2 text-blue-400" />
