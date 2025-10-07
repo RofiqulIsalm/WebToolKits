@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 
 const RomanConverterQuiz: React.FC = () => {
   // Converter states
@@ -16,8 +15,8 @@ const RomanConverterQuiz: React.FC = () => {
   const [stage, setStage] = useState<"idle" | "countdown" | "playing" | "result">("idle");
   const [countdown, setCountdown] = useState(3);
   const [userInput, setUserInput] = useState("");
-  const [boxColor, setBoxColor] = useState("bg-slate-800/60 border-slate-600/40");
   const [clues, setClues] = useState<number[]>([]);
+  const [boxColor, setBoxColor] = useState("bg-slate-800 border-slate-700");
 
   // Roman Conversion Logic
   const romanNumerals: [number, string][] = [
@@ -87,7 +86,7 @@ const RomanConverterQuiz: React.FC = () => {
       setCountdown(3);
       setStage("countdown");
       setUserInput("");
-      setBoxColor("bg-slate-800/60 border-slate-600/40");
+      setBoxColor("bg-slate-800 border-slate-700");
     }
   }, [quizMode]);
 
@@ -118,13 +117,13 @@ const RomanConverterQuiz: React.FC = () => {
     setStage("result");
     if (type === "correct") {
       setQuizFeedback("🎉 Great Job!");
-      setBoxColor("bg-green-600/30 border-green-400");
+      setBoxColor("bg-green-700/30 border-green-500");
     } else if (type === "wrong") {
       setQuizFeedback("❌ Wrong Answer!");
-      setBoxColor("bg-red-600/30 border-red-400");
+      setBoxColor("bg-red-700/30 border-red-500");
     } else {
       setQuizFeedback("⏰ Time’s Up!");
-      setBoxColor("bg-yellow-600/30 border-yellow-400");
+      setBoxColor("bg-yellow-700/30 border-yellow-500");
     }
 
     setTimeout(() => {
@@ -139,142 +138,129 @@ const RomanConverterQuiz: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900 text-white flex flex-col items-center justify-center p-6">
-      <div className="max-w-md w-full backdrop-blur-md bg-white/10 p-6 rounded-3xl shadow-xl border border-white/20">
-        <h1 className="text-4xl font-extrabold text-center mb-6 text-blue-400 drop-shadow-lg">
-          🏛 Roman Converter & Quiz
-        </h1>
+    <div className="min-h-screen w-full bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white flex items-center justify-center px-6 py-8">
+      <div
+        className={`w-full max-w-4xl rounded-3xl border transition-all duration-500 shadow-2xl p-8 ${boxColor}`}
+      >
+        {!quizMode ? (
+          <>
+            <h1 className="text-4xl font-extrabold text-center mb-8 text-blue-400">
+              🏛️ Roman Numeral Converter
+            </h1>
 
-        {/* Converter Inputs */}
-        <div className="space-y-3">
-          <input
-            type="number"
-            value={number}
-            onChange={(e) => handleNumberInput(e.target.value)}
-            placeholder="Enter Number"
-            className="w-full px-4 py-3 rounded-xl bg-slate-700/60 border border-slate-600 text-center focus:ring-2 focus:ring-blue-500 transition"
-          />
-          <input
-            type="text"
-            value={romanResult}
-            onChange={(e) => handleRomanInput(e.target.value)}
-            placeholder="Enter Roman"
-            className="w-full px-4 py-3 rounded-xl bg-slate-700/60 border border-slate-600 text-center uppercase focus:ring-2 focus:ring-blue-500 transition"
-          />
-          <input
-            type="text"
-            value={arabicResult}
-            onChange={(e) => handleArabicInput(e.target.value)}
-            placeholder="Enter Arabic (١٢٣...)"
-            className="w-full px-4 py-3 rounded-xl bg-slate-700/60 border border-slate-600 text-center focus:ring-2 focus:ring-blue-500 transition"
-          />
-        </div>
-
-        {/* Results */}
-        {(romanResult || arabicResult || number) && (
-          <div className="mt-6 border-t border-slate-700 pt-4 text-center space-y-2">
-            <h2 className="text-lg font-semibold text-blue-300">Results</h2>
-            <div className="grid grid-cols-3 gap-3">
-              {[
-                ["Roman", romanResult],
-                ["Arabic", arabicResult],
-                ["Number", number],
-              ].map(([label, value]) => (
-                <div key={label}>
-                  <p className="text-slate-400">{label}</p>
-                  <p className="text-white font-bold">{value}</p>
-                </div>
-              ))}
+            {/* Input Fields */}
+            <div className="grid md:grid-cols-3 gap-4 mb-8">
+              <input
+                type="number"
+                value={number}
+                onChange={(e) => handleNumberInput(e.target.value)}
+                placeholder="Enter Number"
+                className="w-full px-4 py-3 rounded-xl bg-slate-700 border border-slate-600 text-center focus:ring-2 focus:ring-blue-500"
+              />
+              <input
+                type="text"
+                value={romanResult}
+                onChange={(e) => handleRomanInput(e.target.value)}
+                placeholder="Enter Roman"
+                className="w-full px-4 py-3 rounded-xl bg-slate-700 border border-slate-600 text-center uppercase focus:ring-2 focus:ring-blue-500"
+              />
+              <input
+                type="text"
+                value={arabicResult}
+                onChange={(e) => handleArabicInput(e.target.value)}
+                placeholder="Enter Arabic (١٢٣...)"
+                className="w-full px-4 py-3 rounded-xl bg-slate-700 border border-slate-600 text-center focus:ring-2 focus:ring-blue-500"
+              />
             </div>
+
+            {/* Result */}
+            {(romanResult || arabicResult || number) && (
+              <div className="border-t border-slate-700 pt-4 text-center space-y-3">
+                <h2 className="text-lg font-semibold text-blue-300">Results</h2>
+                <div className="grid grid-cols-3 gap-3">
+                  <div>
+                    <p className="text-slate-400">Roman</p>
+                    <p className="text-white font-bold">{romanResult}</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-400">Arabic</p>
+                    <p className="text-white font-bold">{arabicResult}</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-400">Number</p>
+                    <p className="text-white font-bold">{number}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className="text-center mt-8">
+              <button
+                onClick={() => setQuizMode(true)}
+                className="px-10 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-xl text-white font-semibold transition-transform transform hover:scale-105"
+              >
+                🎯 Start Quiz
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className="text-center space-y-6">
+            {stage === "countdown" && (
+              <p className="text-6xl font-extrabold text-blue-400 animate-bounce">
+                Starting in {countdown}...
+              </p>
+            )}
+
+            {stage === "playing" && (
+              <>
+                <h3 className="text-3xl font-bold text-blue-300">🧠 Quiz Time!</h3>
+                <p className="text-lg text-slate-300">Convert this number to Roman:</p>
+                <p className="text-6xl font-extrabold text-white">{quizQuestion}</p>
+
+                {/* Clues */}
+                <div className="grid grid-cols-4 gap-3 mt-4">
+                  {clues.map((c, i) => (
+                    <div
+                      key={i}
+                      className="bg-slate-700/70 py-2 rounded-xl border border-slate-600 text-white hover:bg-slate-600 transition-transform transform hover:scale-105"
+                    >
+                      {c}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Timer */}
+                <div className="w-full bg-slate-700 rounded-full h-3 mt-5">
+                  <div
+                    className="h-3 bg-gradient-to-r from-green-400 to-red-500 rounded-full transition-all"
+                    style={{ width: `${(timer / 25) * 100}%` }}
+                  ></div>
+                </div>
+                <p className="text-blue-400 font-medium">⏰ {timer}s left</p>
+
+                {/* Answer Input */}
+                <input
+                  type="text"
+                  value={userInput}
+                  onChange={(e) => setUserInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && checkQuiz()}
+                  placeholder="Enter your answer..."
+                  className="w-full px-4 py-3 mt-4 bg-slate-700 border border-slate-600 rounded-xl text-center uppercase focus:ring-2 focus:ring-blue-500"
+                />
+                <button
+                  onClick={checkQuiz}
+                  className="mt-4 px-8 py-3 bg-green-600 hover:bg-green-700 rounded-xl text-white font-semibold transition-transform hover:scale-105"
+                >
+                  Submit
+                </button>
+              </>
+            )}
+
+            {stage === "result" && (
+              <p className="text-4xl font-bold text-yellow-400 animate-pulse">{quizFeedback}</p>
+            )}
           </div>
         )}
-
-        {/* Quiz Section */}
-        <div className="text-center mt-6">
-          <button
-            onClick={() => setQuizMode(true)}
-            disabled={quizMode}
-            className="px-8 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 rounded-xl text-white font-semibold transition-transform transform hover:scale-105"
-          >
-            🎯 Start Quiz
-          </button>
-        </div>
-
-        {/* Quiz Mode */}
-        <AnimatePresence>
-          {quizMode && (
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className={`text-center mt-6 border rounded-3xl p-8 ${boxColor} shadow-inner`}
-            >
-              {stage === "countdown" && (
-                <motion.p
-                  key={countdown}
-                  className="text-5xl font-extrabold text-blue-400 animate-bounce"
-                >
-                  Starting in {countdown}...
-                </motion.p>
-              )}
-
-              {stage === "playing" && (
-                <>
-                  <h3 className="text-2xl font-bold text-blue-300 mb-2">🧠 Quiz Time!</h3>
-                  <p className="text-slate-300">Convert this number to Roman:</p>
-                  <p className="text-5xl font-extrabold text-white mt-2">{quizQuestion}</p>
-
-                  <div className="grid grid-cols-4 gap-3 mt-4">
-                    {clues.map((c, i) => (
-                      <motion.div
-                        key={i}
-                        whileHover={{ rotate: 5, scale: 1.05 }}
-                        className="bg-slate-700/70 py-2 rounded-xl border border-slate-500"
-                      >
-                        {c}
-                      </motion.div>
-                    ))}
-                  </div>
-
-                  {/* Timer Bar */}
-                  <div className="mt-3 w-full bg-slate-700 rounded-full h-3 overflow-hidden">
-                    <motion.div
-                      className="bg-gradient-to-r from-green-400 to-red-500 h-3"
-                      initial={{ width: "100%" }}
-                      animate={{ width: `${(timer / 25) * 100}%` }}
-                      transition={{ duration: 1, ease: "linear" }}
-                    />
-                  </div>
-
-                  <input
-                    type="text"
-                    value={userInput}
-                    onChange={(e) => setUserInput(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && checkQuiz()}
-                    placeholder="Enter your answer..."
-                    className="w-full mt-4 px-4 py-3 bg-slate-700/60 border border-slate-600 text-center rounded-xl uppercase focus:ring-2 focus:ring-blue-500"
-                  />
-                  <button
-                    onClick={checkQuiz}
-                    className="mt-4 px-6 py-3 bg-green-600 hover:bg-green-700 rounded-xl font-semibold transition-transform hover:scale-105"
-                  >
-                    Submit
-                  </button>
-                </>
-              )}
-
-              {stage === "result" && (
-                <motion.p
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="text-3xl font-bold mt-4"
-                >
-                  {quizFeedback}
-                </motion.p>
-              )}
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
     </div>
   );
