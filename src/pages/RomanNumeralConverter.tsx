@@ -1,219 +1,284 @@
-import React, { useState, useEffect } from 'react';
-import { Sparkles, Copy, PlayCircle, Smile } from 'lucide-react';
-import AdBanner from '../components/AdBanner';
-import SEOHead from '../components/SEOHead';
-import Breadcrumbs from '../components/Breadcrumbs';
-import { seoData, generateCalculatorSchema } from '../utils/seoData';
-import RelatedCalculators from '../components/RelatedCalculators';
+import React, { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
-const RomanNumeralConverter: React.FC = () => {
-  const [numberInput, setNumberInput] = useState<string>('2025');
-  const [romanInput, setRomanInput] = useState<string>('');
-  const [arabicInput, setArabicInput] = useState<string>('');
-  const [numberToRoman, setNumberToRoman] = useState<string>('');
-  const [romanToNumber, setRomanToNumber] = useState<string>('');
-  const [arabicToRoman, setArabicToRoman] = useState<string>('');
-  const [arabicToNumber, setArabicToNumber] = useState<string>('');
-  const [romanToArabic, setRomanToArabic] = useState<string>('');
-  const [numberToArabic, setNumberToArabic] = useState<string>('');
-  const [error, setError] = useState<string>('');
-  const [copied, setCopied] = useState<string>('');
+const RomanConverterQuiz: React.FC = () => {
+  // Converter states
+  const [number, setNumber] = useState<string>("");
+  const [romanResult, setRomanResult] = useState<string>("");
+  const [arabicResult, setArabicResult] = useState<string>("");
+
+  // Quiz states
   const [quizMode, setQuizMode] = useState(false);
-  const [timer, setTimer] = useState(20);
-  const [quizQuestion, setQuizQuestion] = useState<string>('');
-  const [quizAnswer, setQuizAnswer] = useState<string>('');
-  const [quizFeedback, setQuizFeedback] = useState<string>('');
+  const [quizQuestion, setQuizQuestion] = useState("");
+  const [quizAnswer, setQuizAnswer] = useState("");
+  const [quizFeedback, setQuizFeedback] = useState("");
+  const [timer, setTimer] = useState(25);
+  const [stage, setStage] = useState<"idle" | "countdown" | "playing" | "result">("idle");
+  const [countdown, setCountdown] = useState(3);
+  const [userInput, setUserInput] = useState("");
+  const [boxColor, setBoxColor] = useState("bg-slate-800 border-slate-600");
+  const [clues, setClues] = useState<number[]>([]);
 
-  // Conversion Logic
+  // Roman Conversion Logic
+  const romanNumerals: [number, string][] = [
+    [1000, "M"],
+    [900, "CM"],
+    [500, "D"],
+    [400, "CD"],
+    [100, "C"],
+    [90, "XC"],
+    [50, "L"],
+    [40, "XL"],
+    [10, "X"],
+    [9, "IX"],
+    [5, "V"],
+    [4, "IV"],
+    [1, "I"],
+  ];
+
   const convertToRoman = (num: number): string => {
-    if (num < 1 || num > 3999) return '';
-    const values = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
-    const numerals = ['M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I'];
-    let result = '';
-    for (let i = 0; i < values.length; i++) {
-      while (num >= values[i]) {
-        result += numerals[i];
-        num -= values[i];
+    let result = "";
+    for (const [value, symbol] of romanNumerals) {
+      while (num >= value) {
+        result += symbol;
+        num -= value;
       }
     }
     return result;
   };
 
-  const convertToNumber = (roman: string): number => {
-    const romanValues: { [key: string]: number } = { I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000 };
-    let total = 0;
+  const convertFromRoman = (roman: string): number => {
+    const romanMap: Record<string, number> = {
+      I: 1,
+      V: 5,
+      X: 10,
+      L: 50,
+      C: 100,
+      D: 500,
+      M: 1000,
+    };
+    let result = 0;
     let prev = 0;
     for (let i = roman.length - 1; i >= 0; i--) {
-      const val = romanValues[roman[i]];
-      if (!val) return -1;
-      total += val < prev ? -val : val;
-      prev = val;
+      const current = romanMap[roman[i]];
+      if (current < prev) result -= current;
+      else result += current;
+      prev = current;
     }
-    return total;
+    return result;
   };
 
-  const handleNumberConversion = (val: string) => {
+  // Handle number input
+  const handleNumberInput = (val: string) => {
+    setNumber(val);
     const num = parseInt(val);
-    setNumberInput(val);
-    if (isNaN(num)) return setNumberToRoman('');
-    setNumberToRoman(convertToRoman(num));
-    setNumberToArabic(num.toLocaleString('ar-SA'));
+    if (!isNaN(num)) {
+      setRomanResult(convertToRoman(num));
+      setArabicResult(num.toLocaleString("ar-EG"));
+    } else {
+      setRomanResult("");
+      setArabicResult("");
+    }
   };
 
-  const handleRomanConversion = (val: string) => {
-    const upper = val.toUpperCase();
-    setRomanInput(upper);
-    const num = convertToNumber(upper);
-    if (num < 1) return setRomanToNumber('');
-    setRomanToNumber(num.toString());
-    setRomanToArabic(num.toLocaleString('ar-SA'));
+  // Handle Roman input
+  const handleRomanInput = (val: string) => {
+    setRomanResult(val.toUpperCase());
+    const num = convertFromRoman(val.toUpperCase());
+    setNumber(num.toString());
+    setArabicResult(num.toLocaleString("ar-EG"));
   };
 
-  const handleArabicConversion = (val: string) => {
-    setArabicInput(val);
-    const num = parseInt(val.replace(/[^\d]/g, ''));
-    if (isNaN(num)) return;
-    setArabicToNumber(num.toString());
-    setArabicToRoman(convertToRoman(num));
+  // Handle Arabic input
+  const handleArabicInput = (val: string) => {
+    setArabicResult(val);
+    const western = Number(val.replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d).toString()));
+    if (!isNaN(western)) {
+      setNumber(western.toString());
+      setRomanResult(convertToRoman(western));
+    }
   };
 
-  // Copy Feature
-  const handleCopy = (text: string, label: string) => {
-    navigator.clipboard.writeText(text);
-    setCopied(label);
-    setTimeout(() => setCopied(''), 1500);
-  };
-
-  // Quiz Mode
+  // 🎯 QUIZ SYSTEM
   useEffect(() => {
     if (quizMode) {
-      const randomNum = Math.floor(Math.random() * 3999) + 1;
-      setQuizQuestion(randomNum.toString());
-      setQuizAnswer(convertToRoman(randomNum));
-      setTimer(20);
-      setQuizFeedback('');
+      setQuizFeedback("");
+      setTimer(25);
+      setBoxColor("bg-slate-800 border-slate-600");
+      setCountdown(3);
+      setStage("countdown");
+      setUserInput("");
     }
   }, [quizMode]);
 
   useEffect(() => {
-    if (quizMode && timer > 0) {
-      const t = setTimeout(() => setTimer(timer - 1), 1000);
-      return () => clearTimeout(t);
-    } else if (quizMode && timer === 0) {
-      setQuizFeedback('😂 You lost!');
-      setTimeout(() => setQuizMode(false), 3000);
+    if (stage === "countdown" && countdown > 0) {
+      const interval = setInterval(() => setCountdown((prev) => prev - 1), 1000);
+      return () => clearInterval(interval);
+    } else if (stage === "countdown" && countdown === 0) {
+      const randomNum = Math.floor(Math.random() * 3999) + 1;
+      setQuizQuestion(randomNum.toString());
+      setQuizAnswer(convertToRoman(randomNum));
+      // Generate random clue numbers
+      const newClues = Array.from({ length: 4 }, () => Math.floor(Math.random() * 3999) + 1);
+      setClues(newClues);
+      setStage("playing");
+      setTimer(25);
     }
-  }, [timer, quizMode]);
+  }, [stage, countdown]);
 
-  const checkQuiz = (ans: string) => {
-    if (ans.toUpperCase() === quizAnswer) {
-      setQuizFeedback('🎉 Correct!');
-    } else {
-      setQuizFeedback('❌ Wrong Answer!');
+  useEffect(() => {
+    if (stage === "playing" && timer > 0) {
+      const interval = setInterval(() => setTimer((t) => t - 1), 1000);
+      return () => clearInterval(interval);
+    } else if (stage === "playing" && timer === 0) {
+      handleResult("timeout");
     }
-    setTimeout(() => setQuizMode(false), 3000);
+  }, [stage, timer]);
+
+  const handleResult = (type: "correct" | "wrong" | "timeout") => {
+    setStage("result");
+    if (type === "correct") {
+      setQuizFeedback("🎉 Great Job!");
+      setBoxColor("bg-green-600/20 border-green-500");
+    } else if (type === "wrong") {
+      setQuizFeedback("❌ Wrong Answer!");
+      setBoxColor("bg-red-600/20 border-red-500");
+    } else {
+      setQuizFeedback("⏰ Time’s Up!");
+      setBoxColor("bg-yellow-600/20 border-yellow-500");
+    }
+
+    setTimeout(() => {
+      setStage("idle");
+      setQuizMode(false);
+      setBoxColor("bg-slate-800 border-slate-600");
+      setQuizFeedback("");
+    }, 5000);
+  };
+
+  const checkQuiz = () => {
+    if (userInput.trim().toUpperCase() === quizAnswer) handleResult("correct");
+    else handleResult("wrong");
   };
 
   return (
-    <>
-      <SEOHead
-        title={seoData.romanNumeralConverter?.title || 'Roman Numeral Converter - Convert Numbers, Arabic, and Roman Numerals'}
-        description={seoData.romanNumeralConverter?.description || 'Convert between numbers, Arabic, and Roman numerals instantly. Includes copy and quiz mode!'}
-        canonical="https://calculatorhub.site/roman-numeral-converter"
-        schemaData={generateCalculatorSchema('Roman Numeral Converter', 'Convert between Number, Arabic, and Roman Numerals', '/roman-numeral-converter', ['roman numerals', 'arabic numbers'])}
-        breadcrumbs={[
-          { name: 'Misc Tools', url: '/category/misc-tools' },
-          { name: 'Roman Numeral Converter', url: '/roman-numeral-converter' }
-        ]}
-      />
+    <div className="min-h-screen bg-slate-900 text-white flex flex-col items-center justify-center px-4 py-8">
+      <div className="max-w-md w-full bg-slate-800 p-6 rounded-2xl shadow-lg border border-slate-700">
+        <h1 className="text-3xl font-bold text-center mb-6 text-blue-400">
+          🏛️ Roman Numeral Converter
+        </h1>
 
-      <div className="max-w-4xl mx-auto">
-        <Breadcrumbs items={[{ name: 'Misc Tools', url: '/category/misc-tools' }, { name: 'Roman Numeral Converter', url: '/roman-numeral-converter' }]} />
-
-        <div className="glow-card rounded-2xl p-8 mb-8">
-          <div className="flex items-center space-x-3 mb-6">
-            <Sparkles className="h-8 w-8 text-blue-400" />
-            <h1 className="text-3xl font-bold text-white">Roman Numeral Converter</h1>
-          </div>
-
-          {quizMode ? (
-            <div className="text-center space-y-4">
-              <h3 className="text-2xl text-white font-bold">Quiz Mode</h3>
-              <p className="text-slate-400">Convert this number to Roman:</p>
-              <p className="text-4xl font-bold text-white">{quizQuestion}</p>
-              <p className="text-lg text-blue-400">Time Left: {timer}s</p>
-              <input
-                type="text"
-                onKeyDown={(e) => e.key === 'Enter' && checkQuiz(e.currentTarget.value)}
-                placeholder="Your answer..."
-                className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 text-center uppercase"
-              />
-              {quizFeedback && <p className="text-2xl font-bold text-yellow-400 animate-bounce">{quizFeedback}</p>}
-            </div>
-          ) : (
-            <>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                {/* Number to Roman */}
-                <div>
-                  <h3 className="text-xl font-semibold text-white mb-2">Number to Roman</h3>
-                  <input type="number" value={numberInput} onChange={(e) => handleNumberConversion(e.target.value)} className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg" />
-                  {numberToRoman && (
-                    <div className="mt-3 bg-slate-800 p-3 rounded-lg flex justify-between items-center">
-                      <span className="text-white text-2xl font-serif">{numberToRoman}</span>
-                      <button onClick={() => handleCopy(numberToRoman, 'numberToRoman')} className="text-blue-400 hover:text-blue-300">
-                        <Copy size={20} />
-                      </button>
-                    </div>
-                  )}
-                </div>
-
-                {/* Roman to Number */}
-                <div>
-                  <h3 className="text-xl font-semibold text-white mb-2">Roman to Number</h3>
-                  <input type="text" value={romanInput} onChange={(e) => handleRomanConversion(e.target.value)} className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg uppercase" />
-                  {romanToNumber && (
-                    <div className="mt-3 bg-slate-800 p-3 rounded-lg flex justify-between items-center">
-                      <span className="text-white text-2xl">{romanToNumber}</span>
-                      <button onClick={() => handleCopy(romanToNumber, 'romanToNumber')} className="text-blue-400 hover:text-blue-300">
-                        <Copy size={20} />
-                      </button>
-                    </div>
-                  )}
-                </div>
-
-                {/* Arabic to Number & Roman */}
-                <div>
-                  <h3 className="text-xl font-semibold text-white mb-2">Arabic to Conversions</h3>
-                  <input type="text" value={arabicInput} onChange={(e) => handleArabicConversion(e.target.value)} className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg text-right" dir="rtl" />
-                  {arabicToRoman && (
-                    <div className="mt-3 bg-slate-800 p-3 rounded-lg flex justify-between items-center">
-                      <span className="text-white text-2xl font-serif">{arabicToRoman}</span>
-                      <button onClick={() => handleCopy(arabicToRoman, 'arabicToRoman')} className="text-blue-400 hover:text-blue-300">
-                        <Copy size={20} />
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="flex justify-center mt-6">
-                <button
-                  onClick={() => setQuizMode(true)}
-                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg text-white font-semibold shadow-lg"
-                >
-                  <PlayCircle size={20} /> Play Quiz Mode
-                </button>
-              </div>
-              {copied && <p className="text-center text-green-400 mt-4">✅ Copied {copied}!</p>}
-            </>
-          )}
+        {/* Input Fields */}
+        <div className="space-y-4">
+          <input
+            type="number"
+            value={number}
+            onChange={(e) => handleNumberInput(e.target.value)}
+            placeholder="Enter Number"
+            className="w-full px-4 py-3 rounded-lg bg-slate-700 border border-slate-600 text-white text-center"
+          />
+          <input
+            type="text"
+            value={romanResult}
+            onChange={(e) => handleRomanInput(e.target.value)}
+            placeholder="Enter Roman"
+            className="w-full px-4 py-3 rounded-lg bg-slate-700 border border-slate-600 text-white text-center uppercase"
+          />
+          <input
+            type="text"
+            value={arabicResult}
+            onChange={(e) => handleArabicInput(e.target.value)}
+            placeholder="Enter Arabic (١٢٣...)"
+            className="w-full px-4 py-3 rounded-lg bg-slate-700 border border-slate-600 text-white text-center"
+          />
         </div>
 
-        <AdBanner />
-        <RelatedCalculators currentPath="/roman-numeral-converter" />
+        {/* Result Display */}
+        {(romanResult || arabicResult || number) && (
+          <div className="mt-6 border-t border-slate-700 pt-4 text-center space-y-2">
+            <h2 className="text-lg font-semibold text-blue-300">Results:</h2>
+            <div className="grid grid-cols-3 gap-2 text-sm">
+              <div>
+                <p className="text-slate-400">Roman</p>
+                <p className="text-white font-bold">{romanResult}</p>
+              </div>
+              <div>
+                <p className="text-slate-400">Arabic</p>
+                <p className="text-white font-bold">{arabicResult}</p>
+              </div>
+              <div>
+                <p className="text-slate-400">Number</p>
+                <p className="text-white font-bold">{number}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Quiz Button */}
+        <div className="text-center mt-6">
+          <Button
+            onClick={() => setQuizMode(true)}
+            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-semibold"
+          >
+            🎯 Start Quiz
+          </Button>
+        </div>
+
+        {/* Quiz Mode */}
+        {quizMode && (
+          <div
+            className={`text-center space-y-5 border rounded-2xl p-8 mt-6 transition-all duration-500 ${boxColor}`}
+          >
+            {stage === "countdown" && (
+              <p className="text-3xl text-blue-400 font-bold">Starting in {countdown}...</p>
+            )}
+
+            {stage === "playing" && (
+              <>
+                <h3 className="text-2xl font-bold text-white">🧠 Quiz Mode</h3>
+                <p className="text-slate-400">Convert this number to Roman:</p>
+                <p className="text-5xl font-extrabold text-white">{quizQuestion}</p>
+
+                {/* Clue Numbers */}
+                <div className="grid grid-cols-4 gap-2 mt-3">
+                  {clues.map((c, i) => (
+                    <div
+                      key={i}
+                      className="bg-slate-700 text-white py-2 rounded-md border border-slate-600"
+                    >
+                      {c}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-2 text-blue-400 font-medium">⏰ Time Left: {timer}s</div>
+
+                <input
+                  type="text"
+                  value={userInput}
+                  onChange={(e) => setUserInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && checkQuiz()}
+                  placeholder="Enter your answer..."
+                  className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 text-center uppercase focus:ring-2 focus:ring-blue-500"
+                />
+                <button
+                  onClick={checkQuiz}
+                  className="mt-3 px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition"
+                >
+                  Submit
+                </button>
+              </>
+            )}
+
+            {stage === "result" && (
+              <p className="text-3xl font-bold text-yellow-400 animate-pulse">{quizFeedback}</p>
+            )}
+          </div>
+        )}
       </div>
-    </>
-  ); 
+    </div>
+  );
 };
 
-export default RomanNumeralConverter;
+export default RomanConverterQuiz;
