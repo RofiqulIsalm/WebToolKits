@@ -260,7 +260,7 @@ const RomanNumeralConverter: React.FC = () => {
             </div>
           )}
         </div>
-            <h1>show quiz button here</h1>
+            <h1 className="text-center">show quiz button here</h1>
         <div className="glow-card rounded-lg p-6 mb-6">
           <h2 className="text-xl font-semibold text-white mb-4 flex items-center">
             <Info className="h-5 w-5 mr-2 text-blue-400" />
