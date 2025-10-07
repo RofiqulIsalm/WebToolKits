@@ -250,7 +250,7 @@ const RandomNumberGenerator: React.FC = () => {
              The <strong>Random Number Generator </strong>is a free online tool that instantly produces unpredictable numbers within any range you choose. Whether you’re organizing a lottery draw, creating quiz questions, testing probability theories, or just having fun with friends, this generator helps you add a touch of true randomness to your tasks.
               </p>
                   <p>
-          Unlike typical number pickers, this version combines the accuracy of modern algorithms with an interactive<strong> dice-style animation and sound effects, giving every roll an exciting, game-like feeling. It’s not only functional but also enjoyable — perfect for teachers, gamers, researchers, or anyone who needs a fair and unbiased result.
+          Unlike typical number pickers, this version combines the accuracy of modern algorithms with an interactive<strong> dice-style</strong> animation and sound effects, giving every roll an exciting, game-like feeling. It’s not only functional but also enjoyable — perfect for teachers, gamers, researchers, or anyone who needs a fair and unbiased result.
               </p>
 
 
