@@ -706,7 +706,6 @@ const dropdownRef = useRef<HTMLDivElement>(null);
 
 
         <AdBanner />
-
   <div className="rounded-2xl p-8 mb-8">
                  <h2 className="text-3xl font-bold text-white mb-4">📝 Text Counter – Count, Convert & Generate Text Instantly</h2>
                   <h3>What is a Text Counter and Why Do You Need It?</h3>
@@ -723,6 +722,8 @@ const dropdownRef = useRef<HTMLDivElement>(null);
                   <p>
              From counting words to converting binary or generating placeholder text, this is the most complete<strong> text utility tool</strong> online for accurate and efficient content processing.
               </p>
+
+                    <AdBanner type="bottom" />
 
                <h2 className="text-yellow-500"><strong>What is a QR Code?</strong></h2>
               <p>
