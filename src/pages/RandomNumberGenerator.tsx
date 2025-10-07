@@ -330,8 +330,32 @@ const RandomNumberGenerator: React.FC = () => {
               <div className="space-y-4 text-lg text-slate-100 leading-relaxed"> 
                   <div> 
                       <div className="bg-slate-800/60 p-4 rounded-lg"> 
-                          <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q1</span>: ???????????????</h3> 
-                          <p> ???????????????????????????????? </p>
+                          <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q1</span>: What is a Random Number Generator?</h3> 
+                          <p> A Random Number Generator (RNG) is a tool that produces numbers with no predictable pattern. It uses algorithms or hardware processes to create unbiased, unpredictable results for games, research, and simulations. </p>
+                       </div> 
+                      <div className="bg-slate-800/60 p-4 rounded-lg"> 
+                          <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q2</span>: How does this Random Number Generator work?</h3> 
+                          <p> This tool uses a mathematical algorithm to generate random numbers between your selected minimum and maximum range. You can customize how many numbers to generate and whether duplicates are allowed. </p>
+                       </div> 
+                      <div className="bg-slate-800/60 p-4 rounded-lg"> 
+                          <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q3</span>: Can I use this tool for lottery or lucky draws?</h3> 
+                          <p> Yes, you can use this generator for fun activities like lotteries, raffles, or lucky draws. However, it should not replace official or verified systems for real-money contests. </p>
+                       </div> 
+                      <div className="bg-slate-800/60 p-4 rounded-lg"> 
+                          <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q4</span>: Are the generated numbers truly random?</h3> 
+                          <p> The numbers are pseudo-random—they appear random but are generated using computational algorithms. For most practical uses (like gaming or simulations), they are effectively random. </p>
+                       </div> 
+                      <div className="bg-slate-800/60 p-4 rounded-lg"> 
+                          <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q5</span>: Can I generate multiple numbers at once?</h3> 
+                          <p> Yes! Simply enter how many numbers you want in the “How Many Numbers?” box. You can generate up to 100 numbers at a time, instantly displayed with dice-style animations. </p>
+                       </div> 
+                      <div className="bg-slate-800/60 p-4 rounded-lg"> 
+                          <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q6</span>: What is the difference between allowing and disallowing duplicates?</h3> 
+                          <p> If duplicates are allowed, the same number can appear multiple times. When disabled, each number in the generated list will be unique within your chosen range. </p>
+                       </div> 
+                      <div className="bg-slate-800/60 p-4 rounded-lg"> 
+                          <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q7</span>: Is this Random Number Generator free to use?</h3> 
+                          <p> Absolutely! This tool is 100% free, easy to use, and works directly from your browser — no login, no downloads, and no data collection required.</p>
                        </div> 
                   </div> 
               </div> 
