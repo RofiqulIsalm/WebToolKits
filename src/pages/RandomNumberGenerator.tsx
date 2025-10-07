@@ -322,6 +322,8 @@ const RandomNumberGenerator: React.FC = () => {
            </div>
           </section>
 
+                        <p>Enter your range, roll the dice, and see where randomness takes you. Every click produces new numbers, new patterns, and maybe even a new record in your personal game.<strong className="text-yellow-600"> Start generating — and if you fail, don’t worry. The fog will clear, and you can try again!</strong></p>
+
 
         <AdBanner />
         <RelatedCalculators currentPath="/random-number-generator" />
@@ -352,7 +354,7 @@ const RandomNumberGenerator: React.FC = () => {
         }
         .animate-fadeIn { animation: fadeIn 1s ease-in-out; }
       `}</style>
-
+    </>
   );
 };
 
