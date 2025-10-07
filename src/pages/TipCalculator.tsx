@@ -131,6 +131,10 @@ const TipCalculatorPage: React.FC = () => {
           { name: 'Tip Calculator', url: '/tip-calculator' }
         ]}
       />
+      <meta
+      name="description"
+      content="Use CalculatorHub's Tip Calculator to quickly calculate restaurant tips, split bills, and find per-person totals. Supports over 100 currencies and includes a visual pie chart."
+    />
 
       <div className="max-w-4xl mx-auto">
         <Breadcrumbs items={[
