@@ -284,20 +284,31 @@ const TipCalculatorPage: React.FC = () => {
               Whether you're dining out, hosting a dinner, or splitting a bill with friends, <strong>CalculatorHub’s Tip Calculator</strong> makes it simple to:
             </p>
             <ul className="list-disc list-inside space-y-2 ml-4 text-slate-300">
-            <li>Calculate the total bill including tip</li>
-            <li>Determine how much each person owes</li>
-            <li>Choose a standard tip percentage or enter a custom amount</li>
-            <li>See visual breakdowns with interactive charts</li>
-          </ul>
+              <li>Calculate the total bill including tip</li>
+              <li>Determine how much each person owes</li>
+              <li>Choose a standard tip percentage or enter a custom amount</li>
+              <li>See visual breakdowns with interactive charts</li>
+            </ul>
             <p>With our tip calculator, you can enjoy meals without worrying about math, making group payments fast, fair, and hassle-free. It supports<strong> multiple currencies</strong>, adjustable tip percentages, and per-person calculations, ensuring it works for any occasion or group size.</p>
             
           </div>
         
           <h2 className="text-yellow-500 mt-6">How to Use the Tip Calculator</h2>
           <p className="text-slate-300">
-            Using this tool is simple: input your bill amount, select a tip percentage or add a custom tip, and enter the number of people splitting the bill. 
-            The results are displayed instantly.
+            Using <strong>CalculatorHub’s Tip Calculator</strong> is quick and straightforward. Simply:
           </p>
+            <ul className="list-disc list-inside space-y-2 ml-4 text-slate-300">
+              <li><strong>Enter your bill amount</strong> – the total cost of your meal or service.</li>
+              <li><strong>Select a tip percentage</strong> – choose from preset options or input a custom tip based on your preference.</li>
+              <li><strong>Enter the number of people</strong> sharing the bill.</li>
+            </ul>
+          <p>The calculator instantly shows:</p>
+            <ul className="list-disc list-inside space-y-2 ml-4 text-slate-300">
+              <li>Total tip amount</li>
+              <li>Total bill including tip</li>
+              <li>Per-person total and tip</li>
+            </ul>
+          <p>This makes<strong> splitting bills and tipping</strong> easy, accurate, and stress-free, whether you're dining with friends, family, or colleagues.</p>
         
           <h2 className="text-yellow-500 mt-4">What Makes This Tool Unique</h2>
           <p className="text-slate-300">
