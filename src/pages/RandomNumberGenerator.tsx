@@ -239,7 +239,6 @@ const RandomNumberGenerator: React.FC = () => {
         )}
 
         <AdBanner />
-        <h1>hi</h1>
         <RelatedCalculators currentPath="/random-number-generator" />
       </div>
 
