@@ -311,24 +311,35 @@ const TipCalculatorPage: React.FC = () => {
           <p>This makes<strong> splitting bills and tipping</strong> easy, accurate, and stress-free, whether you're dining with friends, family, or colleagues.</p>
         
           <h2 className="text-yellow-500 mt-4">What Makes This Tool Unique</h2>
-          <p className="text-slate-300">
-            Our tip calculator is fast, responsive, and works in over 100 currencies worldwide. 
-            It also features a visual pie chart to show the proportion of bill vs tip.
-          </p>
+            <p><strong>CalculatorHub’s Tip Calculator</strong> stands out because it is:</p>
+            <ul className="list-disc list-inside space-y-2 ml-4 text-slate-300">
+              <li><strong>Fast and responsive</strong> – works on desktops, tablets, and mobile devices.</li>
+              <li><strong>Supports over 100 currencies</strong> – perfect for travelers and international users.</li>
+              <li><strong>Interactive</strong> – features a visual pie chart showing the proportion of the bill vs tip for better understanding.</li>
+              <li><strong>User-friendly</strong> – no signup or complicated steps; just enter numbers and get results instantly.</li>
+            </ul>
+          <p>With these features, tipping and splitting bills becomes effortless and reliable.</p>
         
           <h2 className="text-yellow-500 mt-4">Why Use a Tip Calculator</h2>
-          <p className="text-slate-300">
-            Avoid guesswork and manual calculations. Quickly split bills fairly and ensure the right tip is paid every time.
-          </p>
+           <p>Manually calculating tips or dividing bills can be<strong> time-consuming and error-prone</strong>.Using a tip calculator allows you to:</p>
+            <ul className="list-disc list-inside space-y-2 ml-4 text-slate-300">
+              <li><strong>Avoid guessworke</strong> – know the exact tip and total amount immediately.</li>
+              <li><strong>Split bills fairly</strong> – easily divide costs among friends, family, or coworkers.</li>
+              <li><strong>Save time</strong> –get instant results without any manual calculations.</li>
+              <li><strong>Ensure accurate tipping</strong> – always pay the right gratuity for services.</li>
+            </ul>
+          <p>Whether you're at a restaurant, cafe, or bar, a tip calculator ensures fair and accurate payment every time.</p>
         
           <h2 className="text-yellow-500 mt-4">Benefits of Using CalculatorHub’s Tip Calculator</h2>
+          <p>By using<strong> CalculatorHub’s Tip Calculator</strong>, you get:</p>
           <ul className="list-disc list-inside space-y-2 ml-4 text-slate-300">
-            <li>Fast and easy calculations</li>
-            <li>Supports multiple currencies</li>
-            <li>Accurate tip and per-person totals</li>
-            <li>Visual pie chart representation</li>
+            <li><strong>Fast and easy calculations</strong> – results are displayed instantly.</li>
+            <li><strong>Support for multiple currencies</strong> – perfect for international dining or traveling.</li>
+            <li><strong>Accurate tip and per-person totals</strong> – no rounding errors or guesswork.</li>
+            <li><strong>Visual representation</strong> – pie charts show exactly how your bill and tip are divided.</li>
+            <li><strong>Mobile-friendly design</strong> – works smoothly on phones, tablets, and desktops.</li>
           </ul>
-        
+          <p>This tool is perfect for anyone who wants to <strong>save time, avoid errors, and split bills fairly.</strong></p>
           <AdBanner type="bottom" />
         
           <section className="space-y-4 mt-6">
