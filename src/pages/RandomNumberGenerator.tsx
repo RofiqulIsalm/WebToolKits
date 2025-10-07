@@ -329,7 +329,7 @@ const RandomNumberGenerator: React.FC = () => {
               
               <div className="space-y-4 text-lg text-slate-100 leading-relaxed"> 
                   <div> 
-                      <div className="bg-slate-800/60 p-4 rounded-lg mt-2"> 
+                      <div className="bg-slate-800/60 p-4 mb-2 rounded-lg "> 
                           <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q1</span>: What is a Random Number Generator?</h3> 
                           <p> A Random Number Generator (RNG) is a tool that produces numbers with no predictable pattern. It uses algorithms or hardware processes to create unbiased, unpredictable results for games, research, and simulations. </p>
                        </div> 
