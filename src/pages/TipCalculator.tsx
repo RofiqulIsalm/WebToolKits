@@ -62,15 +62,37 @@ const TipCalculator: React.FC = () => {
     perPersonTip: 0
   });
 
-  useEffect(() => {
+ useEffect(() => {
+    // Calculate tip amounts
     const tip = (billAmount * tipPercentage) / 100;
     const total = billAmount + tip;
     const perPerson = total / numberOfPeople;
     const tipPerPerson = tip / numberOfPeople;
+  
+    // Update results
+    setResults({
+      tipAmount: tip,
+      totalAmount: total,
+      perPersonAmount: perPerson,
+      perPersonTip: tipPerPerson,
+    });
+  
+    // Auto-select currency if searchCurrency matches code or symbol
+    if (searchCurrency) {
+      const match = currencies.find(
+        (c) =>
+          c.code.toLowerCase() === searchCurrency.toLowerCase() ||
+          c.symbol === searchCurrency
+      );
+  
+      if (match) {
+        setCurrency(match); // <-- This was missing
+      }
+    }
+  }, [billAmount, tipPercentage, numberOfPeople, searchCurrency]);
 
-    setResults({ tipAmount: tip, totalAmount: total, perPersonAmount: perPerson, perPersonTip: tipPerPerson });
-  }, [billAmount, tipPercentage, numberOfPeople]);
 
+  //end
   const setPresetTip = (percentage: number) => {
     setTipPercentage(percentage);
     setCustomTip('');
