@@ -253,6 +253,88 @@ const TipCalculator: React.FC = () => {
         </div>
 
         <AdBanner />
+          <div className="rounded-2xl p-8 mb-8 bg-slate-900">
+          <h2 className="text-3xl font-bold text-white mb-4">🧠 About Tip Calculator</h2>
+          <h3 className="text-xl text-white mb-2">Learn what a tip calculator is</h3>
+          <div className="space-y-4 text-slate-300">
+            <p>
+              A <strong>Tip Calculator</strong> is an online tool that helps you quickly calculate restaurant tips, gratuities, and split bills among multiple people. 
+              It ensures accurate calculations without manual math.
+            </p>
+            <p>
+              Whether you're dining out, hosting a meal, or splitting a bill with friends, our tip calculator gives you <strong>instant results</strong> for total amounts, per-person shares, and tip percentages.
+            </p>
+          </div>
+        
+          <h2 className="text-yellow-500 mt-6">How to Use the Tip Calculator</h2>
+          <p className="text-slate-300">
+            Using this tool is simple: input your bill amount, select a tip percentage or add a custom tip, and enter the number of people splitting the bill. 
+            The results are displayed instantly.
+          </p>
+        
+          <h2 className="text-yellow-500 mt-4">What Makes This Tool Unique</h2>
+          <p className="text-slate-300">
+            Our tip calculator is fast, responsive, and works in over 100 currencies worldwide. 
+            It also features a visual pie chart to show the proportion of bill vs tip.
+          </p>
+        
+          <h2 className="text-yellow-500 mt-4">Why Use a Tip Calculator</h2>
+          <p className="text-slate-300">
+            Avoid guesswork and manual calculations. Quickly split bills fairly and ensure the right tip is paid every time.
+          </p>
+        
+          <h2 className="text-yellow-500 mt-4">Benefits of Using CalculatorHub’s Tip Calculator</h2>
+          <ul className="list-disc list-inside space-y-2 ml-4 text-slate-300">
+            <li>Fast and easy calculations</li>
+            <li>Supports multiple currencies</li>
+            <li>Accurate tip and per-person totals</li>
+            <li>Visual pie chart representation</li>
+          </ul>
+        
+          <AdBanner type="bottom" />
+        
+          <section className="space-y-4 mt-6">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+              ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
+            </h2>
+            <div className="space-y-4 text-lg text-slate-100 leading-relaxed">
+              <div className="bg-slate-800/60 p-4 rounded-lg">
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q1</span>: What is a tip calculator?</h3>
+                <p>It is an online tool that calculates tips, total bills, and per-person amounts automatically based on the inputs.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg">
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q2</span>: How do I use it?</h3>
+                <p>Enter the bill amount, choose a tip percentage or custom tip, and input the number of people. Results appear instantly.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg">
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q3</span>: Can I use multiple currencies?</h3>
+                <p>Yes! This calculator supports over 100 currencies including USD, EUR, GBP, INR, BDT, and many more.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg">
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q4</span>: Is it mobile-friendly?</h3>
+                <p>Absolutely! The calculator works perfectly on mobile, tablet, and desktop devices.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg">
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q5</span>: Do I need to sign up?</h3>
+                <p>No registration is required. You can use it for free instantly.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg">
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q6</span>: Can I split the bill among friends?</h3>
+                <p>Yes! Enter the number of people sharing the bill to get per-person tip and total amounts.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg">
+                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q7</span>: Why should I use CalculatorHub’s tip calculator?</h3>
+                <p>It’s accurate, fast, supports multiple currencies, and provides visual insights, making it the best tool for dining out.</p>
+              </div>
+            </div>
+          </section>
+        </div>
 
         <RelatedCalculators currentPath="/tip-calculator" />
       </div>
