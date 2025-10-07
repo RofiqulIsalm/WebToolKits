@@ -265,7 +265,7 @@ const RomanNumeralConverter: React.FC = () => {
                 <p className="mb-4 text-lg">
                     Want to play a game? Find the missing number between 1–100!
                 </p>
-                <button
+                <button>
                     Start Game
               </button>
               </div>
