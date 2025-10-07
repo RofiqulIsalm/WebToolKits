@@ -419,4 +419,356 @@ const FuelCostCalculator: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 mb-4">
             <Fuel className="h-10 w-10 text-blue-400" />
             <div className="flex-1">
-              <h1 className="text-2xl sm:text-3xl font-bold text-white">Fuel
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">Fuel Cost Calculator</h1>
+              <p className="text-sm text-slate-300 mt-1">Estimate fuel, compare vehicles, save & share trips.</p>
+            </div>
+
+            <div className="flex gap-2 items-center">
+              <button
+                className="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm flex items-center gap-2"
+                onClick={() => {
+                  navigator.clipboard?.writeText(buildShareUrl());
+                  alert('Shareable URL copied to clipboard');
+                }}
+              >
+                <Share2 className="h-4 w-4" /> Share
+              </button>
+            </div>
+          </div>
+
+          {/* Inputs (stack on mobile) */}
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm text-white block mb-2">Distance</label>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <input
+                  className="flex-1 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600"
+                  type="number"
+                  min={0}
+                  step={0.1}
+                  value={distance}
+                  onChange={(e) => setDistance(Number(e.target.value))}
+                  placeholder="Distance"
+                />
+                <select
+                  value={distanceUnit}
+                  onChange={(e) => setDistanceUnit(e.target.value as any)}
+                  className="w-full sm:w-40 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600"
+                >
+                  <option value="km">Kilometers</option>
+                  <option value="miles">Miles</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="text-sm text-white block mb-2">Fuel Efficiency</label>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <input
+                  type="number"
+                  min={0}
+                  step={0.1}
+                  value={fuelEfficiency}
+                  onChange={(e) => setFuelEfficiency(Number(e.target.value))}
+                  className="flex-1 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600"
+                />
+                <select
+                  value={efficiencyUnit}
+                  onChange={(e) => setEfficiencyUnit(e.target.value as any)}
+                  className="w-full sm:w-40 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600"
+                >
+                  <option value="l/100km">L/100km</option>
+                  <option value="mpg">MPG (US)</option>
+                  <option value="km/l">km/L</option>
+                </select>
+              </div>
+              <p className="text-xs text-slate-400 mt-1">
+                {efficiencyUnit === 'mpg' ? 'Miles per gallon (US)' : efficiencyUnit === 'km/l' ? 'Kilometers per liter' : 'Liters per 100 kilometers'}
+              </p>
+            </div>
+
+            <div>
+              <label className="text-sm text-white block mb-2">Fuel Price per Liter</label>
+              <div className="flex gap-3">
+                <input
+                  value={currencySymbol}
+                  onChange={(e) => setCurrencySymbol(e.target.value)}
+                  maxLength={3}
+                  className="w-24 px-4 py-3 text-center bg-slate-700 text-white rounded-lg border border-slate-600"
+                />
+                <input
+                  type="number"
+                  min={0}
+                  step={0.01}
+                  value={fuelPrice}
+                  onChange={(e) => setFuelPrice(Number(e.target.value))}
+                  className="flex-1 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600"
+                />
+              </div>
+            </div>
+
+            {/* Advanced settings */}
+            <div className="bg-slate-700/40 p-4 rounded-lg">
+              <h4 className="text-sm font-semibold text-white mb-2">Advanced Settings</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="text-xs text-slate-300">Tolls ({currencySymbol})</label>
+                  <input
+                    type="number"
+                    min={0}
+                    step={0.01}
+                    value={tolls}
+                    onChange={(e) => setTolls(Number(e.target.value))}
+                    className="w-full px-3 py-2 bg-slate-700 text-white rounded-lg border border-slate-600"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs text-slate-300">Other Costs ({currencySymbol})</label>
+                  <input
+                    type="number"
+                    min={0}
+                    step={0.01}
+                    value={otherCost}
+                    onChange={(e) => setOtherCost(Number(e.target.value))}
+                    className="w-full px-3 py-2 bg-slate-700 text-white rounded-lg border border-slate-600"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs text-slate-300">Passengers</label>
+                  <input
+                    type="number"
+                    min={1}
+                    step={1}
+                    value={passengers}
+                    onChange={(e) => setPassengers(Number(e.target.value))}
+                    className="w-full px-3 py-2 bg-slate-700 text-white rounded-lg border border-slate-600"
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="text-xs text-slate-300">Trips per month (for monthly/yearly)</label>
+                  <input
+                    type="number"
+                    min={0}
+                    step={1}
+                    value={timesPerMonth}
+                    onChange={(e) => setTimesPerMonth(Number(e.target.value))}
+                    className="w-full px-3 py-2 bg-slate-700 text-white rounded-lg border border-slate-600"
+                  />
+                </div>
+                <div className="sm:col-span-1 flex items-end">
+                  <button
+                    className="w-full px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg"
+                    onClick={() => saveCurrentTrip()}
+                  >
+                    Save Trip
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Map & auto distance */}
+            <div className="bg-slate-700/40 p-4 rounded-lg">
+              <h4 className="text-sm font-semibold text-white mb-2">Map Distance (optional)</h4>
+              <p className="text-xs text-slate-300 mb-2">Provide Google Maps JS API key to allow automatic distance lookup</p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <input
+                  placeholder="Google Maps JS API Key (optional)"
+                  className="sm:col-span-2 px-3 py-2 bg-slate-700 text-white rounded-lg border border-slate-600"
+                  value={useMapKey}
+                  onChange={(e) => setUseMapKey(e.target.value)}
+                />
+                <div className="flex gap-2">
+                  <button
+                    className="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md flex-1"
+                    onClick={() => computeDistanceFromMap()}
+                    disabled={mapLoading}
+                  >
+                    {mapLoading ? 'Calculating...' : 'Compute Distance'}
+                  </button>
+                  <button
+                    className="px-3 py-2 bg-slate-600 hover:bg-slate-500 text-white rounded-md"
+                    onClick={() => { setOrigin(''); setDestination(''); setMapError(null); }}
+                    title="clear"
+                  >
+                    Clear
+                  </button>
+                </div>
+                <input
+                  placeholder="Origin (e.g., Dhaka)"
+                  className="px-3 py-2 bg-slate-700 text-white rounded-lg border border-slate-600"
+                  value={origin}
+                  onChange={(e) => setOrigin(e.target.value)}
+                />
+                <input
+                  placeholder="Destination (e.g., Chittagong)"
+                  className="px-3 py-2 bg-slate-700 text-white rounded-lg border border-slate-600"
+                  value={destination}
+                  onChange={(e) => setDestination(e.target.value)}
+                />
+                <div className="sm:col-span-3 flex gap-2">
+                  <button className="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md flex-1" onClick={() => openMapsDirections()}>Open in Google Maps</button>
+                  <button className="px-3 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-md" onClick={() => {
+                    const url = buildShareUrl();
+                    navigator.clipboard?.writeText(url);
+                    alert('Shareable URL copied to clipboard');
+                  }}>Copy Share URL</button>
+                </div>
+
+                {mapError && <p className="text-xs text-rose-400 col-span-3">{mapError}</p>}
+              </div>
+            </div>
+          </div>
+
+          {/* Results & charts */}
+          <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-3">
+              <div className="p-4 bg-gradient-to-br from-blue-900/30 to-blue-800/30 rounded-xl border border-blue-500/30">
+                <p className="text-sm text-slate-400">Fuel Needed</p>
+                <p className="text-3xl font-bold text-white">{results.fuelNeeded} L</p>
+              </div>
+              <div className="p-4 bg-gradient-to-br from-green-900/30 to-green-800/30 rounded-xl border border-green-500/30">
+                <p className="text-sm text-slate-400">Total Cost</p>
+                <p className="text-3xl font-bold text-white">{formatCurrency(results.totalCost)}</p>
+                <p className="text-xs text-slate-300 mt-1">Per person: {formatCurrency(+(results.totalCost / Math.max(1, passengers)).toFixed(2))}</p>
+              </div>
+              <div className="p-3 bg-slate-700/50 rounded-lg">
+                <p className="text-xs text-slate-400">Monthly (x{timesPerMonth})</p>
+                <p className="text-lg font-semibold text-white">{formatCurrency(monthlyCost)} / month</p>
+                <p className="text-xs text-slate-300">Yearly: {formatCurrency(yearlyCost)}</p>
+              </div>
+            </div>
+
+            <div className="p-4 bg-slate-800/50 rounded-xl">
+              <h4 className="text-sm font-semibold text-white mb-2">Cost Breakdown</h4>
+              <div style={{ width: '100%', height: 220 }}>
+                <ResponsiveContainer>
+                  <PieChart>
+                    <Pie data={pieData} dataKey="value" nameKey="name" outerRadius={70} label>
+                      {pieData.map((entry, idx) => <Cell key={`c-${idx}`} fill={COLORS[idx % COLORS.length]} />)}
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="mt-2 grid grid-cols-3 gap-2 text-xs text-slate-300">
+                <div className="flex flex-col items-start"><span className="font-semibold">{formatCurrency(Math.round(pieData[0].value * 100) / 100)}</span><span>Fuel</span></div>
+                <div className="flex flex-col items-start"><span className="font-semibold">{formatCurrency(pieData[1].value)}</span><span>Tolls</span></div>
+                <div className="flex flex-col items-start"><span className="font-semibold">{formatCurrency(pieData[2].value)}</span><span>Other</span></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Compare Vehicles */}
+          <div className="mt-4 p-4 bg-slate-700/30 rounded-lg">
+            <div className="flex items-center justify-between">
+              <h4 className="text-sm font-semibold text-white">Compare Two Vehicles</h4>
+              <label className="text-xs text-slate-300 flex items-center gap-2">
+                <input type="checkbox" checked={compareMode} onChange={(e) => setCompareMode(e.target.checked)} className="accent-blue-500" />
+                Enable
+              </label>
+            </div>
+
+            {compareMode && (
+              <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="text-xs text-slate-300">Vehicle A (current)</label>
+                  <div className="text-sm text-slate-200">{fuelEfficiency} {efficiencyUnit}</div>
+                  <div className="mt-1 text-xs text-slate-300">Cost: {formatCurrency(results.totalCost)}</div>
+                </div>
+                <div>
+                  <label className="text-xs text-slate-300">Vehicle B Efficiency</label>
+                  <input className="w-full px-3 py-2 bg-slate-700 text-white rounded-lg" value={bFuelEfficiency} onChange={(e) => setBFuelEfficiency(Number(e.target.value))} />
+                  <div className="mt-1 text-xs text-slate-300">Cost: {formatCurrency(resultsB.totalCost)}</div>
+                </div>
+                <div className="flex items-center">
+                  <div className="text-sm text-white font-semibold">Difference:</div>
+                  <div className={`ml-2 text-sm ${results.totalCost - resultsB.totalCost > 0 ? 'text-rose-400' : 'text-emerald-400'}`}>
+                    {formatCurrency(Math.abs(+(results.totalCost - resultsB.totalCost).toFixed(2)))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Saved trips list */}
+          <div className="mt-4 p-4 bg-slate-700/30 rounded-lg">
+            <div className="flex items-center justify-between mb-2">
+              <h4 className="text-sm font-semibold text-white">Saved Trips</h4>
+              <div className="text-xs text-slate-300">Stored in your browser (local)</div>
+            </div>
+            {savedTrips.length === 0 ? (
+              <p className="text-xs text-slate-400">No saved trips yet — click Save Trip to store.</p>
+            ) : (
+              <ul className="space-y-2">
+                {savedTrips.map((s) => (
+                  <li key={s.id} className="flex items-center justify-between bg-slate-800/40 px-3 py-2 rounded-md">
+                    <div>
+                      <div className="text-sm text-white font-medium">{s.label}</div>
+                      <div className="text-xs text-slate-300">{new Date(s.timestamp).toLocaleString()}</div>
+                    </div>
+                    <div className="flex gap-2">
+                      <button onClick={() => { const url = buildShareUrl(s.payload); navigator.clipboard?.writeText(url); alert('Share URL copied'); }} className="px-2 py-1 bg-slate-600 rounded text-xs">Share</button>
+                      <button onClick={() => { /* load into UI */ setDistance(s.payload.distance); setDistanceUnit(s.payload.distanceUnit); setFuelEfficiency(s.payload.fuelEfficiency); setEfficiencyUnit(s.payload.efficiencyUnit); setFuelPrice(s.payload.fuelPrice); setCurrencySymbol(s.payload.currencySymbol); setTolls(s.payload.tolls); setOtherCost(s.payload.otherCost); setPassengers(s.payload.passengers); setTimesPerMonth(s.payload.timesPerMonth); setOrigin(s.payload.origin || ''); setDestination(s.payload.destination || ''); }} className="px-2 py-1 bg-blue-600 rounded text-xs">Load</button>
+                      <button onClick={() => removeTrip(s.id)} className="px-2 py-1 bg-rose-600 rounded text-xs">Delete</button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          {/* Floating tip + ad spot */}
+          <div className="mt-4 flex flex-col sm:flex-row gap-3 items-start">
+            <div className="flex-1 p-3 bg-slate-700/40 rounded-lg">
+              <div className="text-xs text-slate-400">Tip</div>
+              <div className="text-sm text-white mt-1">{TIPS[tipIdx]}</div>
+            </div>
+
+            <div className="w-full sm:w-64">
+              {/* Ad placeholder — keep your AdBanner component or replace with AdSense snippet */}
+              <AdBanner />
+            </div>
+          </div>
+        </div>
+
+        {/* About / FAQ section */}
+        <div className="glow-card rounded-2xl p-5 sm:p-8 mb-8 bg-slate-800/70">
+          <h2 className="text-xl font-bold text-white mb-3">About Fuel Cost Calculator</h2>
+          <p className="text-sm text-slate-300 mb-4">
+            Calculate the fuel costs for your trips with precision. Our fuel cost calculator helps you
+            budget for road trips, daily commutes, and business travel by estimating fuel consumption
+            and total expenses.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <h3 className="text-sm font-semibold text-white mb-2">How to Use</h3>
+              <ul className="text-sm text-slate-300 list-disc list-inside space-y-1">
+                <li>Enter the distance or compute using the map option.</li>
+                <li>Input your vehicle's fuel efficiency and the current fuel price.</li>
+                <li>Use Advanced settings for tolls, other costs, passengers and frequency.</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-sm font-semibold text-white mb-2">FAQ</h3>
+              <div className="space-y-2 text-sm">
+                {FAQS.map((f, i) => (
+                  <div key={i}>
+                    <div className="text-slate-200 font-medium">{f.q}</div>
+                    <div className="text-slate-400 text-xs">{f.a}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <RelatedCalculators currentPath="/fuel-cost-calculator" />
+      </div>
+    </>
+  );
+};
+
+export default FuelCostCalculator;
