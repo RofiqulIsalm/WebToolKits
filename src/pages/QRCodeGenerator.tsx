@@ -524,20 +524,31 @@ const generateQRCode = async () => {
   return (
     <>
       <SEOHead
-        title={seoData.qrCodeGenerator.title}
-        description={seoData.qrCodeGenerator.description}
-        canonical="https://calculatorhub.site/qr-code-generator"
-        schemaData={generateCalculatorSchema(
-          "QR Code Generator",
-          seoData.qrCodeGenerator.description,
-          "/qr-code-generator",
-          seoData.qrCodeGenerator.keywords
-        )}
-        breadcrumbs={[
-          { name: 'Misc Tools', url: '/category/misc-tools' },
-          { name: 'QR Code Generator', url: '/qr-code-generator' }
-        ]}
-      />
+          title={seoData.qrCodeGenerator.title || "QR Code Generator – Create, Decode & Customize QR Codes"}
+          description={seoData.qrCodeGenerator.description || "Generate QR codes, decode QR codes, create barcodes, and design custom QR codes with logo, color, and size options. Easy and fast online tool for all your QR needs."}
+          canonical="https://calculatorhub.site/qr-code-generator"
+          schemaData={generateCalculatorSchema(
+            "QR Code Generator",
+            seoData.qrCodeGenerator.description || "Generate QR codes, decode QR codes, create barcodes, and design custom QR codes with logo, color, and size options.",
+            "/qr-code-generator",
+            seoData.qrCodeGenerator.keywords || [
+              "QR Code Generator",
+              "QR Code Decoder",
+              "Barcode Generator",
+              "Custom QR Code",
+              "Logo QR Code",
+              "QR Code Color",
+              "QR Code Size",
+              "Online QR Code Tool"
+            ]
+          )}
+          breadcrumbs={[
+            { name: 'Home', url: '/' },
+            { name: 'Misc Tools', url: '/category/misc-tools' },
+            { name: 'QR Code Generator', url: '/qr-code-generator' }
+          ]}
+        />
+
       <div className="max-w-6xl mx-auto">
         <Breadcrumbs items={[
           { name: 'Misc Tools', url: '/category/misc-tools' },
