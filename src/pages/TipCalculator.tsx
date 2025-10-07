@@ -327,8 +327,9 @@ const TipCalculator: React.FC = () => {
              </div>
            </div>
           </section>
-         </div>
 
+	
+</div>
         <RelatedCalculators currentPath="/tip-calculator" />
       </div>
     </>
