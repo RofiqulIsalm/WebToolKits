@@ -133,7 +133,7 @@ const TipCalculator: React.FC = () => {
 
         <div className="glow-card rounded-2xl p-8 mb-8">
           <div className="flex items-center space-x-3 mb-6">
-            <h2 className="h-8 w-8 text-blue-400">{currency.symbol}</h2>
+            <h2 className="text-3xl text-blue-400">{currency.symbol}</h2>
             <h1 className="text-3xl font-bold text-white">Tip Calculator</h1>
           </div>
 
