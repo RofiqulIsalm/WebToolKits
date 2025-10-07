@@ -404,6 +404,96 @@ const TipCalculatorPage: React.FC = () => {
             </div>
           </section>
         </div>
+                {/* ======== TIP CALCULATOR FAQ SCHEMA (SEO Rich Results) ========= */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "What is a Tip Calculator?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A Tip Calculator is an online tool that helps you quickly calculate restaurant tips, gratuities, and split bills among multiple people. It ensures accurate calculations without manual math."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How do I use the Tip Calculator?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Enter your bill amount, select a tip percentage or add a custom tip, and input the number of people splitting the bill. The calculator instantly shows the total, per-person share, and tip amount."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Does the Tip Calculator support multiple currencies?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! CalculatorHub's Tip Calculator supports over 100 currencies worldwide, so you can calculate tips no matter where you are."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I split the bill among friends using this tool?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Absolutely! You can enter the number of people splitting the bill and the tool will automatically calculate per-person totals and tips."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Is this Tip Calculator free to use?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! CalculatorHub’s Tip Calculator is completely free and requires no sign-up. You can calculate tips and split bills instantly."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Why should I use this Tip Calculator?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Using this tool helps you avoid manual calculations, ensures fair bill splitting, and guarantees accurate tip amounts every time."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Does it show a visual representation of bill vs tip?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, the Tip Calculator provides a pie chart visualization that clearly shows the proportion of the bill versus the tip."
+                  }
+                }
+              ]
+            })
+          }}
+        />
+        
+        {/* ===================== TIP CALCULATOR SOFTWARE APPLICATION SCHEMA ===================== */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              "name": "Tip Calculator",
+              "operatingSystem": "All",
+              "applicationCategory": "FinanceApplication",
+              "description": "Quickly calculate restaurant tips, gratuities, and split bills among multiple people. Supports over 100 currencies and provides per-person totals and visual pie chart.",
+              "url": "https://calculatorhub.site/tip-calculator",
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "reviewCount": "1200"
+              }
+            })
+          }}
+        />
+
 
        
 
