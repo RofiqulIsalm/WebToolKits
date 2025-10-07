@@ -155,7 +155,7 @@ const TipCalculator: React.FC = () => {
                   </button>
                 ))}
               </div>
-              <div className="flex items-center space-x-3">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 space-y-3 sm:space-y-0">
                 <input
                   type="number"
                   value={customTip}
@@ -165,8 +165,10 @@ const TipCalculator: React.FC = () => {
                   className="flex-1 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Custom tip %"
                 />
-                <span className="text-slate-400">or</span>
-                <div className="flex items-center space-x-2">
+                
+                <span className="text-slate-400 text-center sm:text-left">or</span>
+                
+                <div className="flex flex-1 items-center space-x-2">
                   <input
                     type="range"
                     min={0}
@@ -177,12 +179,12 @@ const TipCalculator: React.FC = () => {
                       setTipPercentage(Number(e.target.value));
                       setCustomTip(e.target.value);
                     }}
-                    className="w-32"
+                    className="w-full"
                   />
-                  <span className="text-white font-semibold w-12">{tipPercentage}%</span>
+                  <span className="text-white font-semibold w-12 text-right">{tipPercentage}%</span>
                 </div>
               </div>
-            </div>
+
 
             <div>
               <label className="block text-sm font-medium text-white mb-2">
