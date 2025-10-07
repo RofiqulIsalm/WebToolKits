@@ -86,12 +86,12 @@ const FuelCostCalculator: React.FC = () => {
             <h1 className="text-3xl font-bold text-white">Fuel Cost Calculator</h1>
           </div>
 
-          <div className="space-y-6 mb-8">
+          <div className="space-y-4 mb-8">
             <div>
               <label className="block text-sm font-medium text-white mb-2">
                 Distance
               </label>
-              <div className="flex space-x-3">
+              <div className="flex space-x-2">
                 <input
                   type="number"
                   value={distance}
