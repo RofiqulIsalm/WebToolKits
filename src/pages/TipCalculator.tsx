@@ -131,10 +131,23 @@ const TipCalculatorPage: React.FC = () => {
           { name: 'Tip Calculator', url: '/tip-calculator' }
         ]}
       />
+
+      {/*--------------- meta tag ---------------------------*/}
       <meta
       name="description"
       content="Use CalculatorHub's Tip Calculator to quickly calculate restaurant tips, split bills, and find per-person totals. Supports over 100 currencies and includes a visual pie chart."
     />
+      <meta property="og:title" content="Tip Calculator - Split Bills & Calculate Restaurant Tips | CalculatorHub" />
+      <meta property="og:description" content="Quickly calculate tips, split bills, and get per-person totals with CalculatorHub's Tip Calculator." />
+      <meta property="og:url" content="https://calculatorhub.site/tip-calculator" />
+      <meta property="og:type" content="website" />
+      <meta property="og:image" content="https://calculatorhub.site/images/tip-calculator.png" />
+      
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Tip Calculator - Split Bills & Calculate Restaurant Tips | CalculatorHub" />
+      <meta name="twitter:description" content="Quickly calculate tips, split bills, and get per-person totals with CalculatorHub's Tip Calculator." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/tip-calculator.png" />
+
       
 
       <div className="max-w-4xl mx-auto">
