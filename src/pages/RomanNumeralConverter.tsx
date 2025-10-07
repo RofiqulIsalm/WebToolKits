@@ -139,6 +139,9 @@ const RomanConverterQuiz: React.FC = () => {
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white flex items-center justify-center px-6 py-8">
+      <h1 className="text-4xl font-extrabold text-center mb-8 text-blue-400">
+              🏛️ Roman Numeral Converter
+            </h1>
       <div
         className={`w-full max-w-4xl rounded-3xl border transition-all duration-500 shadow-2xl p-8 ${boxColor}`}
       >
