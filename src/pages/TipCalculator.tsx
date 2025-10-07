@@ -396,7 +396,7 @@ const TipCalculatorPage: React.FC = () => {
 
         <RelatedCalculators currentPath="/tip-calculator" />
 
-        <script type="application/ld+json">
+        <script type="application/ld+json"
         {
           "@context": "https://schema.org",
           "@type": "WebPage",
