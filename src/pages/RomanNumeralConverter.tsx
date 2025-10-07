@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
 
 const RomanConverterQuiz: React.FC = () => {
   // Converter states
@@ -119,7 +118,6 @@ const RomanConverterQuiz: React.FC = () => {
       const randomNum = Math.floor(Math.random() * 3999) + 1;
       setQuizQuestion(randomNum.toString());
       setQuizAnswer(convertToRoman(randomNum));
-      // Generate random clue numbers
       const newClues = Array.from({ length: 4 }, () => Math.floor(Math.random() * 3999) + 1);
       setClues(newClues);
       setStage("playing");
@@ -217,12 +215,12 @@ const RomanConverterQuiz: React.FC = () => {
 
         {/* Quiz Button */}
         <div className="text-center mt-6">
-          <Button
+          <button
             onClick={() => setQuizMode(true)}
-            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-semibold"
+            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-semibold transition"
           >
             🎯 Start Quiz
-          </Button>
+          </button>
         </div>
 
         {/* Quiz Mode */}
