@@ -276,7 +276,19 @@ const RandomNumberGenerator: React.FC = () => {
                 <li><strong>🔒 No Login Needed:</strong> – Everything runs locally — no data stored, no tracking, no sign-ups.</li>
                 
               </ul>
-              <p>????????????<strong> ?????????</strong> ?????????????</p>
+          
+              <h3 className="text-2xl font-semibold text-white mt-6">📈 Why Use a Random Number Generator?</h3>
+              <p>Random numbers are essential for fairness and unpredictability. In daily life and digital systems, they play a key role in:</p>
+              <ul className="list-disc list-inside space-y-2 ml-4">
+                <li><strong>Games and Raffles: </strong> – Ensuring every player has an equal chance to win.</li>
+                <li><strong>Education: </strong> – Teachers use it for quizzes, random student selection, or probability lessons.</li>
+                <li><strong>Programming & Research: </strong> – Developers and data scientists use random numbers in simulations and statistical tests.</li>
+                <li><strong>Decision-Making:</strong> – When you can’t decide, let the generator pick for you!</li>
+                
+              </ul>
+
+            <p>Because this tool works instantly and without server requests, it’s reliable and completely private — your generated numbers never leave your device.</p>
+
          
               
               <AdBanner type="bottom" />
