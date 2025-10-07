@@ -404,7 +404,7 @@ const TipCalculatorPage: React.FC = () => {
             </div>
           </section>
         </div>
-        {/* ===================== TIP CALCULATOR ENHANCED SEO SCHEMAS ===================== */}
+      {/* ===================== TIP CALCULATOR ENHANCED SEO SCHEMAS ===================== */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
