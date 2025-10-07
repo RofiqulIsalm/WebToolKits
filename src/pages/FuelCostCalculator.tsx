@@ -1,19 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { Fuel, MapPin, Car } from 'lucide-react';
-import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from 'recharts';
-import AdBanner from '../components/AdBanner';
-import SEOHead from '../components/SEOHead';
-import Breadcrumbs from '../components/Breadcrumbs';
-import { seoData, generateCalculatorSchema } from '../utils/seoData';
-import RelatedCalculators from '../components/RelatedCalculators';
+import React, { useState, useEffect } from "react";
+import { Fuel, MapPin, Car } from "lucide-react";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+import AdBanner from "../components/AdBanner";
+import SEOHead from "../components/SEOHead";
+import Breadcrumbs from "../components/Breadcrumbs";
+import { seoData, generateCalculatorSchema } from "../utils/seoData";
+import RelatedCalculators from "../components/RelatedCalculators";
 
 const FuelCostCalculator: React.FC = () => {
   const [distance, setDistance] = useState<number>(100);
-  const [distanceUnit, setDistanceUnit] = useState<'km' | 'miles'>('km');
+  const [distanceUnit, setDistanceUnit] = useState<"km" | "miles">("km");
   const [fuelEfficiency, setFuelEfficiency] = useState<number>(8);
-  const [efficiencyUnit, setEfficiencyUnit] = useState<'l/100km' | 'mpg' | 'km/l'>('l/100km');
+  const [efficiencyUnit, setEfficiencyUnit] = useState<
+    "l/100km" | "mpg" | "km/l"
+  >("l/100km");
   const [fuelPrice, setFuelPrice] = useState<number>(1.5);
-  const [currencySymbol, setCurrencySymbol] = useState<string>('$');
+  const [currencySymbol, setCurrencySymbol] = useState<string>("$");
   const [tolls, setTolls] = useState<number>(0);
   const [otherCost, setOtherCost] = useState<number>(0);
   const [results, setResults] = useState({
@@ -23,7 +32,7 @@ const FuelCostCalculator: React.FC = () => {
     costPerMile: 0,
   });
 
-  // Vehicle Comparison States
+  // Vehicle comparison state
   const [vehicleB, setVehicleB] = useState({
     fuelEfficiency: 10,
     totalCost: 0,
@@ -31,20 +40,29 @@ const FuelCostCalculator: React.FC = () => {
 
   useEffect(() => {
     calculateFuelCost();
-  }, [distance, distanceUnit, fuelEfficiency, efficiencyUnit, fuelPrice, tolls, otherCost]);
+  }, [
+    distance,
+    distanceUnit,
+    fuelEfficiency,
+    efficiencyUnit,
+    fuelPrice,
+    tolls,
+    otherCost,
+    vehicleB.fuelEfficiency,
+  ]);
 
   const calculateFuelCost = () => {
     let distanceInKm = distance;
-    if (distanceUnit === 'miles') distanceInKm = distance * 1.60934;
+    if (distanceUnit === "miles") distanceInKm = distance * 1.60934;
 
     const calcFuel = (efficiency: number, unit: string) => {
       switch (unit) {
-        case 'l/100km':
+        case "l/100km":
           return (distanceInKm / 100) * efficiency;
-        case 'mpg':
+        case "mpg":
           const distanceInMiles = distanceInKm / 1.60934;
           return (distanceInMiles / efficiency) * 3.78541;
-        case 'km/l':
+        case "km/l":
           return distanceInKm / efficiency;
         default:
           return 0;
@@ -66,61 +84,160 @@ const FuelCostCalculator: React.FC = () => {
     // Vehicle B comparison
     const fuelB = calcFuel(vehicleB.fuelEfficiency, efficiencyUnit);
     const totalB = fuelB * fuelPrice + tolls + otherCost;
-    setVehicleB((prev) => ({ ...prev, totalCost: Math.round(totalB * 100) / 100 }));
+    setVehicleB((prev) => ({
+      ...prev,
+      totalCost: Math.round(totalB * 100) / 100,
+    }));
   };
 
   // Pie chart data
   const pieData = [
-    { name: 'Fuel Cost', value: results.fuelNeeded * fuelPrice },
-    { name: 'Tolls', value: tolls },
-    { name: 'Other Costs', value: otherCost },
+    { name: "Fuel Cost", value: results.fuelNeeded * fuelPrice },
+    { name: "Tolls", value: tolls },
+    { name: "Other Costs", value: otherCost },
   ];
-  const COLORS = ['#3b82f6', '#22c55e', '#f97316'];
+  const COLORS = ["#3b82f6", "#22c55e", "#f97316"];
 
   // Google Maps link
   const openMap = () => {
     const query = `https://www.google.com/maps/dir/?api=1&travelmode=driving`;
-    window.open(query, '_blank');
+    window.open(query, "_blank");
   };
 
   return (
     <>
       <SEOHead
-        title={seoData.fuelCostCalculator?.title || 'Fuel Cost Calculator - Calculate Trip Fuel Expenses'}
-        description={seoData.fuelCostCalculator?.description || 'Calculate fuel costs for your trips. Enter distance, fuel efficiency, and price to get accurate fuel expense estimates.'}
+        title={
+          seoData.fuelCostCalculator?.title ||
+          "Fuel Cost Calculator - Calculate Trip Fuel Expenses"
+        }
+        description={
+          seoData.fuelCostCalculator?.description ||
+          "Calculate fuel costs for your trips. Enter distance, fuel efficiency, and price to get accurate fuel expense estimates."
+        }
         canonical="https://calculatorhub.com/fuel-cost-calculator"
         schemaData={generateCalculatorSchema(
-          'Fuel Cost Calculator',
-          'Calculate fuel costs for trips and journeys',
-          '/fuel-cost-calculator',
-          ['fuel cost calculator', 'gas calculator', 'trip cost', 'fuel consumption', 'mpg calculator']
+          "Fuel Cost Calculator",
+          "Calculate fuel costs for trips and journeys",
+          "/fuel-cost-calculator",
+          [
+            "fuel cost calculator",
+            "gas calculator",
+            "trip cost",
+            "fuel consumption",
+            "mpg calculator",
+          ]
         )}
         breadcrumbs={[
-          { name: 'Misc Tools', url: '/category/misc-tools' },
-          { name: 'Fuel Cost Calculator', url: '/fuel-cost-calculator' },
+          { name: "Misc Tools", url: "/category/misc-tools" },
+          { name: "Fuel Cost Calculator", url: "/fuel-cost-calculator" },
         ]}
       />
+
       <div className="max-w-4xl mx-auto">
         <Breadcrumbs
           items={[
-            { name: 'Misc Tools', url: '/category/misc-tools' },
-            { name: 'Fuel Cost Calculator', url: '/fuel-cost-calculator' },
+            { name: "Misc Tools", url: "/category/misc-tools" },
+            { name: "Fuel Cost Calculator", url: "/fuel-cost-calculator" },
           ]}
         />
 
         <div className="glow-card rounded-2xl p-8 mb-8">
           <div className="flex items-center space-x-3 mb-6">
             <Fuel className="h-8 w-8 text-blue-400" />
-            <h1 className="text-3xl font-bold text-white">Fuel Cost Calculator</h1>
+            <h1 className="text-3xl font-bold text-white">
+              Fuel Cost Calculator
+            </h1>
           </div>
 
-          {/* Existing Input Fields */}
-          {/* Existing UI remains same up to trip summary */}
+          {/* Existing Inputs */}
+          <div className="space-y-6 mb-8">
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">
+                Distance
+              </label>
+              <div className="flex space-x-3">
+                <input
+                  type="number"
+                  value={distance}
+                  onChange={(e) => setDistance(Number(e.target.value))}
+                  min={0}
+                  step={1}
+                  className="flex-1 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600"
+                />
+                <select
+                  value={distanceUnit}
+                  onChange={(e) =>
+                    setDistanceUnit(e.target.value as "km" | "miles")
+                  }
+                  className="px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600"
+                >
+                  <option value="km">Kilometers</option>
+                  <option value="miles">Miles</option>
+                </select>
+              </div>
+            </div>
 
-          {/* 🆕 New Input Fields for Tolls & Other Costs */}
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">
+                Fuel Efficiency
+              </label>
+              <div className="flex space-x-3">
+                <input
+                  type="number"
+                  value={fuelEfficiency}
+                  onChange={(e) => setFuelEfficiency(Number(e.target.value))}
+                  min={0}
+                  step={0.1}
+                  className="flex-1 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600"
+                />
+                <select
+                  value={efficiencyUnit}
+                  onChange={(e) =>
+                    setEfficiencyUnit(
+                      e.target.value as "l/100km" | "mpg" | "km/l"
+                    )
+                  }
+                  className="px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600"
+                >
+                  <option value="l/100km">L/100km</option>
+                  <option value="mpg">MPG (US)</option>
+                  <option value="km/l">km/L</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">
+                Fuel Price per Liter
+              </label>
+              <div className="flex space-x-3">
+                <input
+                  type="text"
+                  value={currencySymbol}
+                  onChange={(e) => setCurrencySymbol(e.target.value)}
+                  maxLength={3}
+                  className="w-20 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600 text-center"
+                  placeholder="$"
+                />
+                <input
+                  type="number"
+                  value={fuelPrice}
+                  onChange={(e) => setFuelPrice(Number(e.target.value))}
+                  min={0}
+                  step={0.01}
+                  className="flex-1 px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* 🆕 Extra Costs Inputs */}
           <div className="space-y-4 mb-6">
             <div>
-              <label className="block text-sm font-medium text-white mb-2">Toll Costs ({currencySymbol})</label>
+              <label className="block text-sm font-medium text-white mb-2">
+                Toll Costs ({currencySymbol})
+              </label>
               <input
                 type="number"
                 value={tolls}
@@ -130,7 +247,9 @@ const FuelCostCalculator: React.FC = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-white mb-2">Other Costs ({currencySymbol})</label>
+              <label className="block text-sm font-medium text-white mb-2">
+                Other Costs ({currencySymbol})
+              </label>
               <input
                 type="number"
                 value={otherCost}
@@ -143,12 +262,23 @@ const FuelCostCalculator: React.FC = () => {
 
           {/* ✅ Cost Breakdown Pie Chart */}
           <div className="p-6 bg-slate-800/50 rounded-xl mb-8">
-            <h3 className="text-lg font-semibold text-white mb-4">Cost Breakdown</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">
+              Cost Breakdown
+            </h3>
             <ResponsiveContainer width="100%" height={250}>
               <PieChart>
-                <Pie data={pieData} dataKey="value" nameKey="name" outerRadius={80} label>
+                <Pie
+                  data={pieData}
+                  dataKey="value"
+                  nameKey="name"
+                  outerRadius={80}
+                  label
+                >
                   {pieData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
                   ))}
                 </Pie>
                 <Tooltip />
@@ -157,14 +287,16 @@ const FuelCostCalculator: React.FC = () => {
             </ResponsiveContainer>
           </div>
 
-          {/* 🚗 Compare Two Vehicles */}
+          {/* 🚗 Vehicle Comparison */}
           <div className="p-6 bg-slate-800/50 rounded-xl mb-8">
             <h3 className="text-lg font-semibold text-white flex items-center gap-2 mb-4">
               <Car className="h-5 w-5 text-blue-400" /> Compare Two Vehicles
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm text-slate-400 mb-2">Vehicle A Efficiency ({efficiencyUnit})</label>
+                <label className="block text-sm text-slate-400 mb-2">
+                  Vehicle A Efficiency ({efficiencyUnit})
+                </label>
                 <input
                   type="number"
                   value={fuelEfficiency}
@@ -172,25 +304,35 @@ const FuelCostCalculator: React.FC = () => {
                   className="w-full px-4 py-3 bg-slate-700 text-slate-300 rounded-lg border border-slate-600"
                 />
                 <p className="text-sm text-slate-400 mt-1">
-                  Total: {currencySymbol}{results.totalCost}
+                  Total: {currencySymbol}
+                  {results.totalCost}
                 </p>
               </div>
               <div>
-                <label className="block text-sm text-slate-400 mb-2">Vehicle B Efficiency ({efficiencyUnit})</label>
+                <label className="block text-sm text-slate-400 mb-2">
+                  Vehicle B Efficiency ({efficiencyUnit})
+                </label>
                 <input
                   type="number"
                   value={vehicleB.fuelEfficiency}
-                  onChange={(e) => setVehicleB({ ...vehicleB, fuelEfficiency: Number(e.target.value) })}
+                  onChange={(e) =>
+                    setVehicleB({
+                      ...vehicleB,
+                      fuelEfficiency: Number(e.target.value),
+                    })
+                  }
                   className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg border border-slate-600"
                   placeholder="Enter Vehicle B efficiency"
                 />
                 <p className="text-sm text-slate-400 mt-1">
-                  Total: {currencySymbol}{vehicleB.totalCost}
+                  Total: {currencySymbol}
+                  {vehicleB.totalCost}
                 </p>
               </div>
             </div>
             <p className="mt-3 text-slate-300 text-sm">
-              💡 Difference: {currencySymbol}{Math.abs(results.totalCost - vehicleB.totalCost).toFixed(2)}
+              💡 Difference: {currencySymbol}
+              {Math.abs(results.totalCost - vehicleB.totalCost).toFixed(2)}
             </p>
           </div>
 
@@ -207,8 +349,6 @@ const FuelCostCalculator: React.FC = () => {
         </div>
 
         <AdBanner />
-
-        {/* Existing “About” and Related sections remain untouched */}
         <RelatedCalculators currentPath="/fuel-cost-calculator" />
       </div>
     </>
