@@ -1,19 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { QrCode, Download, Upload, Copy, Check, Scan, BarChart3, Hash } from 'lucide-react';
 import QRCodeLib from 'qrcode';
-import jsQR from 'jsqr';
-import JsBarcode from 'jsbarcode';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
+
  
 
 type TabType = 'qr-generator' | 'qr-decoder' | 'barcode' | 'hash';
 type ExportFormat = 'png' | 'jpg' | 'svg' | 'pdf';
 type ExportSize = 'small' | 'medium' | 'large';
 type BarcodeType = 'EAN13' | 'UPC' | 'CODE128' | 'CODE39';
+
+const jsQR = lazy(() => import('jsqr'));
+const JsBarcode = lazy(() => import('jsbarcode'));
 
 const QRCodeGenerator: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('qr-generator');
@@ -76,6 +78,12 @@ useEffect(() => {
       setLogoDataUrl('');
     }
   }, [logoFile]);
+
+  // ✅ Preload JsBarcode module in background for faster user switching
+  useEffect(() => {
+    import('jsbarcode');
+    import('jsqr');
+}, []);
 
   //start
   
@@ -524,20 +532,48 @@ const generateQRCode = async () => {
   return (
     <>
       <SEOHead
-        title={seoData.qrCodeGenerator.title}
-        description={seoData.qrCodeGenerator.description}
-        canonical="https://calculatorhub.site/qr-code-generator"
-        schemaData={generateCalculatorSchema(
-          "QR Code Generator",
-          seoData.qrCodeGenerator.description,
-          "/qr-code-generator",
-          seoData.qrCodeGenerator.keywords
-        )}
-        breadcrumbs={[
-          { name: 'Misc Tools', url: '/category/misc-tools' },
-          { name: 'QR Code Generator', url: '/qr-code-generator' }
-        ]}
-      />
+            title="QR Code Generator – Free Online QR, Barcode & Hash Creator"
+            description="Generate custom QR codes, barcodes, and hash values instantly. Upload logos, set colors, and download in PNG, JPG, or SVG. Includes QR decoder and secure hash creator."
+            canonical="https://calculatorhub.site/qr-code-generator"
+            schemaData={generateCalculatorSchema(
+              'QR Code Generator',
+              'Free online tool to create QR codes, barcodes, and hash codes with logo upload, color customization, and decoding feature.',
+              '/qr-code-generator',
+              ['QR code generator', 'barcode generator', 'hash generator', 'QR code decoder', 'QR tool online']
+            )}
+            breadcrumbs={[
+              { name: 'Misc Tools', url: '/category/misc-tools' },
+              { name: 'QR Code Generator', url: '/qr-code-generator' },
+            ]}
+            openGraph={{
+              title: 'Free QR Code Generator – Create, Decode & Customize Online',
+              description: 'All-in-one QR, Barcode, and Hash Generator with logo upload, color options, and instant downloads. Perfect for business, study, and creative projects.',
+              url: 'https://calculatorhub.site/qr-code-generator',
+              image: 'https://calculatorhub.site/images/qr-code-generator-online-with-logo-and-decoder.jpg',
+              imageAlt: 'Online QR code generator with logo and barcode tools',
+              type: 'website',
+              site_name: 'CalculatorHub',
+            }}
+            twitter={{
+              card: 'summary_large_image',
+              title: 'QR Code Generator – Free Barcode & Hash Creator',
+              description: 'Generate and decode QR codes, barcodes, and hash values instantly. Add logo, colors, and download results easily.',
+              image: 'https://calculatorhub.site/images/qr-code-generator-online-with-logo-and-decoder.jpg',
+              creator: '@CalculatorHub',
+            }}
+
+          />
+       {/* Performance Preconnect & Preload */}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+  <link
+    rel="preload"
+    as="image"
+    href="/images/qr-code-generator-online-with-logo-and-decoder.webp"
+  />
+
+       
+
       <div className="max-w-6xl mx-auto">
         <Breadcrumbs items={[
           { name: 'Misc Tools', url: '/category/misc-tools' },
@@ -885,7 +921,10 @@ const generateQRCode = async () => {
             </div>
           )}
 
+          {/*-------------------Decode------------------------*/}
+
           {activeTab === 'qr-decoder' && (
+          <Suspense fallback={<p className="text-slate-400">Loading module…</p>}>
             <div className="max-w-2xl mx-auto space-y-6">
               <div>
                 <label className="block text-sm font-medium text-white mb-2">
@@ -941,11 +980,13 @@ const generateQRCode = async () => {
                 </div>
               )}
             </div>
+          </Suspense>
           )}
 
           {/*-------------------------------Barcode-----------------------------*/}
 
-         {activeTab === 'barcode' && (
+       {activeTab === 'barcode' && (
+        <Suspense fallback={<p className="text-slate-400 text-center">Loading barcode generator...</p>}>
           <div className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-white mb-2">Barcode Text</label>
@@ -957,51 +998,49 @@ const generateQRCode = async () => {
                 placeholder="Enter barcode text (e.g. 123456789012)"
               />
             </div>
-        
-              <div className="max-w-xs">
-                <label className="block text-sm font-medium text-white mb-2">
-                  Barcode Type
-                </label>
-                <select
-                  value={barcodeType}
-                  onChange={(e) => setBarcodeType(e.target.value as BarcodeType)}
-                  className="w-full px-3 py-2 bg-slate-700 text-white rounded-md border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+      
+            <div className="max-w-xs">
+              <label className="block text-sm font-medium text-white mb-2">
+                Barcode Type
+              </label>
+              <select
+                value={barcodeType}
+                onChange={(e) => setBarcodeType(e.target.value as BarcodeType)}
+                className="w-full px-3 py-2 bg-slate-700 text-white rounded-md border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              >
+                <option value="CODE128">CODE128</option>
+                <option value="CODE39">CODE39</option>
+                <option value="EAN13">EAN13</option>
+                <option value="UPC">UPC</option>
+              </select>
+            </div>
+      
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">Download Format</label>
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => setBarcodeFormat('png')}
+                  className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
+                    barcodeFormat === 'png'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                  }`}
                 >
-                  <option value="CODE128">CODE128</option>
-                  <option value="CODE39">CODE39</option>
-                  <option value="EAN13">EAN13</option>
-                  <option value="UPC">UPC</option>
-                </select>
+                  PNG
+                </button>
+                <button
+                  onClick={() => setBarcodeFormat('svg')}
+                  className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
+                    barcodeFormat === 'svg'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                  }`}
+                >
+                  SVG
+                </button>
               </div>
-
-        
-           <div>
-          <label className="block text-sm font-medium text-white mb-2">Download Format</label>
-          <div className="flex space-x-3">
-            <button
-              onClick={() => setBarcodeFormat('png')}
-              className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
-                barcodeFormat === 'png'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-              }`}
-            >
-              PNG
-            </button>
-            <button
-              onClick={() => setBarcodeFormat('svg')}
-              className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
-                barcodeFormat === 'svg'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-              }`}
-            >
-              SVG
-            </button>
-          </div>
-        </div>
-
-        
+            </div>
+      
             <div className="flex flex-col items-center justify-center bg-slate-800 rounded-xl p-6 mt-4">
               {/* Render Barcode */}
               {barcodeFormat === 'svg' ? (
@@ -1009,16 +1048,17 @@ const generateQRCode = async () => {
               ) : (
                 <canvas ref={barcodeCanvasRef}></canvas>
               )}
-        
+      
               {/* Show preview image if generated */}
               {barcodeUrl && (
                 <img
                   src={barcodeUrl}
-                  alt="Generated Barcode"
+                  alt="Generated barcode preview created with CalculatorHub Barcode Generator"
                   className="mt-4 max-h-40 object-contain bg-white p-2 rounded-lg"
+                  loading="lazy"
                 />
               )}
-        
+      
               <button
                 onClick={downloadBarcode}
                 className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition"
@@ -1027,7 +1067,9 @@ const generateQRCode = async () => {
               </button>
             </div>
           </div>
-        )}
+        </Suspense>
+      )}
+
 
           {/*-----------------------------Hash code------------------------------*/}
 
@@ -1130,131 +1172,146 @@ const generateQRCode = async () => {
         </div>
 
         <AdBanner />
-
-        {/*--------------------------Seo content--------------------------------*/}
         
 
-
-          <div className="rounded-2xl p-8 mb-8">
-                 <h2 className="text-3xl font-bold text-white mb-4">Free Online QR Code, Barcode & Hash Generator with Decoder</h2>
-                 <div className="space-y-4 text-slate-300">
-                  <p>
-               In today’s connected world, <strong>QR codes</strong> and <strong>barcodes</strong> have become essential tools for digital sharing, product tracking, and online security. Our<strong> Free QR Code </strong> lets you instantly create, decode, and customize QR codes, barcodes, and hash codes — all in one place. Whether you’re a business owner, developer, or just a curious user, this all-in-one tool helps you save time and stay secure.
-              </p>
-
-               <h2 className="text-yellow-500"><strong>What is a QR Code?</strong></h2>
-              <p>
-                A QR (Quick Response) Code is a two-dimensional barcode that stores information like website URLs, Wi-Fi passwords, phone numbers, or text. It’s scannable by any mobile camera, making it a fast and contactless way to share data.
-              </p>
-               <h2 className="text-yellow-500"><strong>What is a Barcode?</strong></h2>
-              <p>
-                Barcodes are one-dimensional representations used widely in retail, inventory, and logistics. Each line pattern represents unique data that helps businesses manage products efficiently.
-              </p>
-               <h2 className="text-yellow-500"><strong>What is a Hash Code?</strong></h2>
-              <p>
-               Hashing converts plain text into fixed, encrypted strings using algorithms like MD5, SHA-1, and SHA-256. Hash codes ensure data integrity, authentication, and secure password storage.
-              </p>
-              <p>
-                Our platform combines all these functions into one powerful, easy-to-use interface — no software installation, no limits, and completely free.
-              </p>
-
-              <h3 className="text-2xl font-semibold text-white mt-6">💡 Why Use This 4-in-1 QR, Barcode & Hash Tool?</h3>
-                   
-              <ul className="list-disc list-inside space-y-2 ml-4">
-                <li>Generate custom QR codes with logos and colors.</li>
-                <li>Instantly decode QR codes directly from images.</li>
-                <li>Create multiple barcode types such as Code128, Code39, EAN13, and UPC.</li>
-                <li>Generate secure hash codes (MD5, SHA-1, SHA-256).</li>
-                <li>Customize QR color, background, and logo for branding.</li>
-                <li>Select error correction level for QR reliability (L, M, Q, H).</li>
-                <li>Download QR and barcodes in PNG or JPG formats.</li>
-                <li>Completely browser-based — no data stored or uploaded.</li>
-                <li>Fast, responsive, and mobile-friendly interface.</li>
-                <li>Perfect for businesses, developers, marketers, and personal use.</li>
-              </ul>
-
-                   
-              <p>By using a <storng>secure password generator</storng>, you can effortlessly create passwords that meet these requirements and ensure your digital life stays safe.</p>
+        {/*--------------------------Seo content--------------------------------*/}
           
-              <h3 className="text-2xl font-semibold text-white mt-6">⚙️ Key Features of Our QR, Barcode & Hash Generator</h3>
-              <p>Our <strong>Password Generator</strong> is designed to help you create <strong>strong and secure passwords</strong> effortlessly. Here’s what makes it an essential tool for online security:</p>
-              <ul className="list-disc list-inside space-y-2 ml-4">
-                <li><strong>Multi-Type QR Input:</strong> – Generate QR codes for text, links, phone numbers, emails, Wi-Fi, SMS, or passwords.</li>
-                <li><strong>Dynamic Type Selection:</strong> – Choose your QR type easily from a dropdown list.</li>
-                <li><strong>Color Customization:</strong> – Adjust foreground and background colors to match your brand.</li>
-                <li><strong>Logo Insertion:</strong> – Add your business logo or custom icon at the center of the QR code</li>
-                <li><strong>Size Preview Options:</strong> – QSmall (S), Medium (M), or Large (L) previews before download.</li>
-                <li><strong>Error Correction Levels:</strong> – Select between L, M, Q, and H for data recovery strength.</li>
-                <li><strong>Barcode Generator:</strong> – Support for Code128, Code39, EAN13, and UPC with instant preview.</li>
-                <li><strong>QR Decoder:</strong> – Upload and decode QR images instantly to reveal hidden text or URLs.</li>
-                <li><strong>Hash Code Generator:</strong> – Create secure MD5, SHA-1, and SHA-256 hashes instantly.</li>
-                <li><strong>Download & Export Options:</strong> – Choose output format (PNG/JPG) and export size (S, M, L).</li>
+                   {/* 🔗 Quick Navigation */}
+          <nav className="bg-slate-800/50 p-4 rounded-lg mb-6 text-slate-300 text-sm">
+              <strong className="text-white">Quick Navigation:</strong>
+              <ul className="list-disc list-inside mt-2 space-y-1">
+                  <li><a href="#what-is-qr" className="hover:text-blue-400">What is a QR Code?</a></li>
+                  <li><a href="#what-is-barcode" className="hover:text-blue-400">What is a Barcode?</a></li>
+                  <li><a href="#what-is-hash" className="hover:text-blue-400">What is a Hash Code?</a></li>
+                  <li><a href="#benefits" className="hover:text-blue-400">Benefits & Key Features</a></li>
+                  <li><a href="#faq" className="hover:text-blue-400">FAQs</a></li>
               </ul>
-              <p>Using these features, our Password Generator ensures that you can always create<strong> robust, high-security passwords</strong> for all your online accounts with ease.</p>
-         
-              
-              <AdBanner type="bottom" />
-
-                   
-            <section className="space-y-4">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">❓ Frequently Asked Questions (<span className="text-yellow-300"> FAQ </span>)</h2>
-            <div className="space-y-4 text-lg text-slate-100 leading-relaxed">
-              <div>
-                <div className="bg-slate-800/60 p-4 rounded-lg">
-                    <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q1</span>: Is this QR & Barcode Generator free to use?</h3>
-                    <p>Yes, it’s 100% free! You can generate, decode, and download unlimited QR codes, barcodes, and hash codes without registration.
-                    </p>
-                  
+          </nav>
+          
+          {/* 🔍 Main SEO Content Section */}
+          <div className="rounded-2xl p-8 mb-8">
+            <h1 className="text-3xl font-bold text-white mb-4">
+              Free Online QR Code, Barcode & Hash Generator with Decoder
+            </h1>
+          
+            <article className="space-y-4 text-slate-300">
+              <p>
+                In today’s connected world, <strong>QR codes</strong> and <strong>barcodes</strong> are everywhere —
+                from business cards to product packaging. Our <strong>Free QR, Barcode & Hash Generator</strong> helps
+                you instantly create, decode, and download customized <strong>QR codes</strong>, <strong>barcodes</strong>, and <strong>hash values</strong> — 
+                all in one powerful, mobile-friendly tool. 
+                Perfect for businesses, developers, and everyday users.
+              </p>
+          
+              {/* === What is a QR Code === */}
+              <section id="what-is-qr">
+                <h2 className="text-yellow-500 text-2xl font-semibold mt-6">📷 What is a QR Code?</h2>
+                <p>
+                  A <strong>QR (Quick Response) Code</strong> is a two-dimensional barcode that stores information like URLs,
+                  Wi-Fi credentials, contact info, or plain text. It’s scannable by any smartphone camera — making it a fast, 
+                  contactless, and universal way to share information.
+                </p>
+                <img
+                  src="/images/qr-code-explained-online-generator.jpg"
+                  alt="What is a QR Code - example image generated with CalculatorHub QR Generator"
+                  loading="lazy"
+                  width="800"
+                  height="400"
+                  className="rounded-xl mx-auto my-4 shadow-lg"
+                />
+              </section>
+          
+              {/* === What is a Barcode === */}
+              <section id="what-is-barcode">
+                <h2 className="text-yellow-500 text-2xl font-semibold mt-6">📦 What is a Barcode?</h2>
+                <p>
+                  A <strong>Barcode</strong> is a one-dimensional code used to represent numbers or text in a machine-readable format.
+                  It’s commonly used in retail, logistics, and inventory management to track and identify items efficiently.
+                </p>
+                <img
+                  src="/images/barcode-types-online-generator.jpg"
+                  alt="Different barcode types supported by CalculatorHub barcode generator"
+                  loading="lazy"
+                  width="800"
+                  height="400"
+                  className="rounded-xl mx-auto my-4 shadow-lg"
+                />
+              </section>
+          
+              {/* === What is a Hash Code === */}
+              <section id="what-is-hash">
+                <h2 className="text-yellow-500 text-2xl font-semibold mt-6">🔐 What is a Hash Code?</h2>
+                <p>
+                  A <strong>Hash Code</strong> converts plain text into a fixed, encrypted string using algorithms such as MD5,
+                  SHA-1, or SHA-256. It’s essential for password security, digital signatures, and data integrity verification.
+                </p>
+                <img
+                  src="/images/hash-code-explained-md5-sha256-generator.jpg"
+                  alt="What is a hash code and how MD5 SHA-256 hashing works"
+                  loading="lazy"
+                  width="800"
+                  height="400"
+                  className="rounded-xl mx-auto my-4 shadow-lg"
+                />
+              </section>
+          
+              {/* === Why Use This Tool === */}
+              <section id="benefits">
+                <h2 className="text-yellow-500 text-2xl font-semibold mt-6">💡 Why Use This 4-in-1 Generator?</h2>
+                <ul className="list-disc list-inside space-y-2 ml-4">
+                  <li>Create <strong>custom QR codes</strong> with your own logo and brand colors.</li>
+                  <li>Decode QR codes instantly — no external app needed.</li>
+                  <li>Generate professional <strong>barcodes</strong> in Code128, Code39, EAN13, and UPC formats.</li>
+                  <li>Compute <strong>secure hash values</strong> (MD5, SHA-1, SHA-256) instantly.</li>
+                  <li>Fully <strong>offline and privacy-friendly</strong> — nothing is uploaded.</li>
+                  <li>Download in <strong>PNG</strong> or <strong>SVG</strong> with high resolution.</li>
+                  <li>Optimized for <strong>mobile devices</strong> and all major browsers.</li>
+                </ul>
+                <p className="mt-4">
+                  You might also like our other developer tools: 
+                  <a href="/password-generator" className="text-blue-400 hover:underline ml-1">Password Generator</a>, 
+                  <a href="/random-number-generator" className="text-blue-400 hover:underline ml-1">Random Number Generator</a>, 
+                  <a href="/roman-numeral-converter" className="text-blue-400 hover:underline ml-1">Roman Numeral Converter</a>, 
+                  <a href="/color-converter" className="text-blue-400 hover:underline ml-1">Color Converter</a>, and 
+                  <a href="/uuid-generator" className="text-blue-400 hover:underline ml-1">UUID Generator</a>.
+                </p>
+              </section>
+          
+              {/* === FAQ Section === */}
+              <section id="faq" className="space-y-4 mt-10">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                  ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
+                </h2>
+          
+                <div className="space-y-4 text-lg text-slate-100 leading-relaxed">
+                  {[
+                    ["Is this QR & Barcode Generator free to use?", "Yes! You can generate, decode, and download unlimited QR codes, barcodes, and hash codes — completely free."],
+                    ["Can I customize QR codes with my logo?", "Absolutely. Upload your logo, pick your brand colors, and our generator will embed it perfectly in your QR code."],
+                    ["How can I decode a QR code image?", "Go to the 'QR Decode' tab, upload your image, and the tool will instantly extract the data."],
+                    ["What barcode formats are supported?", "Supported formats include Code128, Code39, EAN13, and UPC, commonly used in business and retail."],
+                    ["Are my QR or barcode data stored online?", "No — all processing happens locally in your browser. Nothing is uploaded or saved."],
+                    ["What is a hash code, and why use it?", "Hash codes ensure data integrity and secure password encryption using algorithms like SHA-256."],
+                    ["Can I use this on mobile?", "Yes! The tool is fully responsive and optimized for Android, iOS, and desktop browsers."]
+                  ].map(([q, a], i) => (
+                    <div key={i} className="bg-slate-800/60 p-4 rounded-lg">
+                      <h3 className="font-semibold text-xl">
+                        <span className="text-yellow-300">Q{i + 1}</span>: {q}
+                      </h3>
+                      <p>{a}</p>
+                    </div>
+                  ))}
                 </div>
-              </div>
-              <div>
-                <div className="bg-slate-800/60 p-4 rounded-lg">
-                  <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q2</span>: Can I customize the QR code colors and add my logo?</h3>
-                  <p>Absolutely! You can pick custom foreground and background colors, and even upload your logo to appear in the center.</p>
-                </div>
-             </div>
-              <div>
-                <div className="bg-slate-800/60 p-4 rounded-lg">
-                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q3</span>: How do I decode a QR code image?</h3>
-                <p>Simply upload the image under the “QR Code Decode” tab — the tool will automatically scan and display the embedded data.</p>
-                </div>
-              </div>
-              <div>
-                <div className="bg-slate-800/60 p-4 rounded-lg">
-                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q4</span>: What barcode formats are supported?</h3>
-                <p>Our tool supports Code128, Code39, EAN13, and UPC barcode formats, ideal for retail and inventory systems.</p>
-                </div>
-              </div>
-              <div>
-                <div className="bg-slate-800/60 p-4 rounded-lg">
-                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q5</span>: Are my data and inputs stored online?</h3>
-                <p>No. Everything runs locally in your browser — your data is never uploaded or saved.</p>
-
-                </div>
-              </div>
-              <div>
-                <div className="bg-slate-800/60 p-4 rounded-lg">
-                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q6</span>: What is a hash code, and why should I use it?</h3>
-                <p> Hash codes securely convert data into encrypted text. It’s useful for verifying data integrity and generating secure passwords.</p>
-
-                </div>
-              </div>
-              <div>
-                <div className="bg-slate-800/60 p-4 rounded-lg">
-                <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q7</span>: Can I use this tool on mobile devices?</h3>
-                <p>Yes! The entire generator is fully responsive and optimized for Android, iOS, and all major browsers.</p>
-
-                </div>
-              </div>
-              
-            </div>
-          </section>
-
-              <AdBanner type="bottom" />
-
-                   
-                 </div>
+              </section>
+            </article>
           </div>
+
+
+
+
+
+              <AdBanner type="bottom" />
+
+
 
         {/* ===================== FAQ SCHEMA (SEO Rich Results) ===================== */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{
