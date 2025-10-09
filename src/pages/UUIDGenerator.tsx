@@ -78,9 +78,7 @@ const UUIDGenerator: React.FC = () => {
 
   // --- Helpers ---
   const hyphenatedToCompact = (id: string) => id.replace(/-/g, '');
-
   const toURN = (id: string) => `urn:uuid:${id}`;
-
   const toBase64 = (id: string) => {
     try {
       const bytes = uuidParse(id); // Uint8Array(16)
@@ -105,13 +103,11 @@ const UUIDGenerator: React.FC = () => {
     }
   };
 
-  const applyCasing = (s: string) => (isUppercase ? s.toUpperCase() : s.toLowerCase());
+  const applyCasing = (s: string) => (format === 'base64' ? s : isUppercase ? s.toUpperCase() : s.toLowerCase());
 
   const formatForDisplay = (entry: RawEntry): string => {
     let out = applyFormat(entry.uuid, format);
-    // Only apply casing to text uuid forms (not base64)
-    if (format !== 'base64') out = applyCasing(out);
-    // Prefix/suffix: allow for all formats (even base64) but keep as plain concatenation
+    out = applyCasing(out);
     if (prefix || suffix) out = `${prefix}${out}${suffix}`;
     return out;
   };
@@ -213,15 +209,13 @@ const UUIDGenerator: React.FC = () => {
   };
 
   const toggleAdvanced = () => {
-    // When enabling: show a loading animation before revealing panel
     if (!advancedEnabled) {
       setAdvLoading(true);
       setTimeout(() => {
         setAdvancedEnabled(true);
         setAdvLoading(false);
-      }, 1200);
+      }, 800);
     } else {
-      // Turning off: hide immediately
       setAdvancedEnabled(false);
       setAdvLoading(false);
     }
@@ -232,7 +226,7 @@ const UUIDGenerator: React.FC = () => {
       <SEOHead
         title="UUID Generator – V1, V4, V5 | Bulk Generate, Copy, Download"
         description="Generate UUIDs (V1, V4, V5). Copy single/all, uppercase/lowercase, hyphenated/compact/Base64/URN. Decode timestamps for V1 and export as TXT/JSON/CSV."
-        canonical="https://calculatorhub.com/uuid-generator"
+        canonical="https://calculatorhub.site/uuid-generator"
         schemaData={generateCalculatorSchema(
           'UUID Generator',
           'Generate multiple UUIDs (V1, V4, V5) with advanced formats, timestamp decode, validation, and exports.',
@@ -245,7 +239,7 @@ const UUIDGenerator: React.FC = () => {
         ]}
       />
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+      <div className="max-w-5xl mx-auto px-3 sm:px-6">
         <Breadcrumbs
           items={[
             { name: 'Misc Tools', url: '/category/misc-tools' },
@@ -254,36 +248,41 @@ const UUIDGenerator: React.FC = () => {
         />
 
         {/* Card */}
-        <div className="rounded-2xl p-6 sm:p-8 mb-8 bg-gradient-to-b from-slate-800/70 to-slate-900 border border-slate-700 shadow-lg backdrop-blur">
+        <div className="rounded-2xl p-5 sm:p-8 mb-8 bg-gradient-to-b from-slate-800/70 to-slate-900 border border-slate-700 shadow-lg backdrop-blur">
           {/* Header */}
           <div className="flex items-center justify-between gap-3 mb-6">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-blue-600/20 border border-blue-500/40 rounded-xl">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="p-2 bg-blue-600/20 border border-blue-500/40 rounded-xl shrink-0">
                 <Key className="text-blue-400 h-6 w-6" />
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">UUID Generator</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight truncate">
+                UUID Generator
+              </h1>
             </div>
 
             {/* Advanced Mode button */}
             <button
               onClick={toggleAdvanced}
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg border transition
-                ${advancedEnabled ? 'bg-slate-700 border-slate-600 text-white hover:bg-slate-600' : 'bg-blue-600/20 border-blue-500/40 text-blue-100 hover:bg-blue-600/30'}`}
+              className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-lg border text-sm sm:text-base font-medium transition-all duration-200
+                ${advancedEnabled
+                  ? 'bg-slate-700 border-slate-600 text-white hover:bg-slate-600'
+                  : 'bg-blue-600/20 border-blue-500/40 text-blue-100 hover:bg-blue-600/30'
+                }`}
               title="Toggle Advanced Mode"
             >
-              <Settings2 className="w-5 h-5" />
-              {advancedEnabled ? 'Advanced: ON' : 'Advanced Mode'}
+              <Settings2 className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+              <span className="truncate">{advancedEnabled ? 'Advanced: ON' : 'Advanced Mode'}</span>
             </button>
           </div>
 
           {/* Basic controls */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">UUID Version</label>
               <select
                 value={version}
                 onChange={(e) => setVersion(e.target.value as UuidVersion)}
-                className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="v1">Version 1 (Time-based)</option>
                 <option value="v4">Version 4 (Random)</option>
@@ -299,7 +298,7 @@ const UUIDGenerator: React.FC = () => {
                 onChange={(e) => setCount(Math.max(1, Math.min(1000, Number(e.target.value))))}
                 min={1}
                 max={1000}
-                className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <p className="text-xs text-slate-400 mt-1">Up to 1000 at once</p>
             </div>
@@ -337,7 +336,7 @@ const UUIDGenerator: React.FC = () => {
                 <select
                   value={format}
                   onChange={(e) => setFormat(e.target.value as OutputFormat)}
-                  className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="hyphenated">Hyphenated</option>
                   <option value="compact">Compact (no hyphens)</option>
@@ -366,7 +365,7 @@ const UUIDGenerator: React.FC = () => {
                   value={prefix}
                   onChange={(e) => setPrefix(e.target.value)}
                   placeholder="e.g. user-"
-                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -378,7 +377,7 @@ const UUIDGenerator: React.FC = () => {
                   value={suffix}
                   onChange={(e) => setSuffix(e.target.value)}
                   placeholder="e.g. -prod"
-                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -388,7 +387,7 @@ const UUIDGenerator: React.FC = () => {
                 <select
                   value={separator}
                   onChange={(e) => setSeparator(e.target.value as Separator)}
-                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="newline">Newline</option>
                   <option value="comma">Comma</option>
@@ -406,7 +405,7 @@ const UUIDGenerator: React.FC = () => {
                       placeholder="e.g. 6ba7b811-9dad-11d1-80b4-00c04fd430c8"
                       value={v5Namespace}
                       onChange={(e) => setV5Namespace(e.target.value)}
-                      className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-2 focus:ring-blue-500 font-mono"
+                      className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono"
                     />
                     <p className="text-xs text-slate-400 mt-1">Use a valid namespace UUID (DNS/URL/OID/X500 or custom)</p>
                   </div>
@@ -417,14 +416,14 @@ const UUIDGenerator: React.FC = () => {
                       placeholder="e.g. calculatorhub.com"
                       value={v5Name}
                       onChange={(e) => setV5Name(e.target.value)}
-                      className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                 </>
               )}
 
               {/* Export buttons */}
-              <div className="flex items-end gap-2">
+              <div className="flex flex-wrap items-end gap-2">
                 <button
                   onClick={() => download('txt')}
                   className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition"
@@ -477,14 +476,14 @@ const UUIDGenerator: React.FC = () => {
               </div>
 
               {/* List */}
-              <div className="space-y-2 max-h-[28rem] overflow-y-auto">
+              <div className="space-y-2 max-h-[28rem] overflow-y-auto pr-1">
                 {rawList.map((r, i) => {
                   const out = formatForDisplay(r);
                   const showTimestamp = r.decodedAt && version === 'v1';
                   return (
                     <div
                       key={`${r.uuid}-${i}`}
-                      className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors group"
+                      className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors group break-words"
                     >
                       <div className="flex-1 min-w-0">
                         <code className="text-slate-200 font-mono text-sm break-all">{out}</code>
@@ -498,13 +497,13 @@ const UUIDGenerator: React.FC = () => {
 
                       <button
                         onClick={() => copySingle(i)}
-                        className="mt-2 sm:mt-0 sm:ml-4 p-2 rounded-lg hover:bg-slate-600 transition"
+                        className="mt-2 sm:mt-0 sm:ml-4 px-3 py-2 rounded-lg bg-slate-700/0 hover:bg-slate-600 transition"
                         title="Copy to clipboard"
                       >
                         {copiedIndex === i ? (
                           <Check className="h-5 w-5 text-green-400" />
                         ) : (
-                          <Copy className="h-5 w-5 text-slate-400 group-hover:text-white" />
+                          <Copy className="h-5 w-5 text-slate-300 group-hover:text-white" />
                         )}
                       </button>
                     </div>
@@ -517,467 +516,421 @@ const UUIDGenerator: React.FC = () => {
 
         <AdBanner />
 
-        {/* Validator Panel (always visible, or you can move inside advanced) */}
-       <div className="rounded-2xl p-6 sm:p-8 mb-8 bg-slate-900/70 border border-slate-700">
-  <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-    <ShieldCheck className="w-5 h-5 text-green-400" />
-    UUID Validator
-  </h2>
+        {/* Validator Panel */}
+        <div className="rounded-2xl p-5 sm:p-8 mb-8 bg-slate-900/70 border border-slate-700">
+          <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+            <ShieldCheck className="w-5 h-5 text-green-400" />
+            UUID Validator
+          </h2>
 
-  <div className="flex flex-col sm:flex-row gap-3">
-    <input
-      type="text"
-      value={validateInput}
-      onChange={(e) => setValidateInput(e.target.value)}
-      placeholder="Paste a UUID (with or without prefix/suffix)"
-      className="flex-1 px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-2 focus:ring-blue-500 font-mono"
-    />
+          <div className="flex flex-col sm:flex-row flex-wrap gap-3">
+            <input
+              type="text"
+              value={validateInput}
+              onChange={(e) => setValidateInput(e.target.value)}
+              placeholder="Paste a UUID (with or without prefix/suffix)"
+              className="flex-1 px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono"
+            />
 
-    {/* Validation box */}
-      <div className="min-w-[200px] px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-slate-200">
-        {(() => {
-              if (!validateInput.trim())
-                return <div className="text-slate-400">Awaiting input…</div>;
-            
-              let input = validateInput.trim();
-            
-              // Remove known URN prefix if exists
-              if (input.startsWith("urn:uuid:")) input = input.replace("urn:uuid:", "");
-            
-              // Extract the inner part (handles all: base64, hex, uuid)
-              const base64Match = input.match(/[A-Za-z0-9+/=]{20,}={0,2}/);
-              const hexMatch = input.match(/[0-9a-fA-F]{32,36}/);
-              const canonicalMatch = input.match(
-                /[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/i
-              );
-            
-              let inner = canonicalMatch?.[0] || hexMatch?.[0] || base64Match?.[0];
-              if (!inner) return <div className="text-red-400">❌ Invalid UUID</div>;
-            
-              // --- Handle Base64 ---
-              const isBase64 =
-                /^[A-Za-z0-9+/=]+$/.test(inner) && (inner.length === 22 || inner.length === 24);
-              if (isBase64) {
-                try {
-                  const binary = atob(inner.replace(/-/g, "+").replace(/_/g, "/"));
-                  if (binary.length === 16) {
-                    const hex = Array.from(binary)
-                      .map((b) => ("0" + b.charCodeAt(0).toString(16)).slice(-2))
-                      .join("");
-                    const canonical =
-                      hex.slice(0, 8) +
-                      "-" +
-                      hex.slice(8, 12) +
-                      "-" +
-                      hex.slice(12, 16) +
-                      "-" +
-                      hex.slice(16, 20) +
-                      "-" +
-                      hex.slice(20);
-                    if (uuidValidate(canonical)) {
-                      const ver = uuidVersion(canonical);
-                      return (
-                        <div className="text-green-400 text-sm leading-snug">
-                          ✅ Valid ({`v${ver}`}) – Base64 format
-                          {input !== inner && (
-                            <p className="text-yellow-300 text-xs mt-1">
-                              ⚠️ Prefix/suffix detected
+            {/* Validation box */}
+            <div className="min-w-[220px] px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-slate-200">
+              {(() => {
+                if (!validateInput.trim())
+                  return <div className="text-slate-400">Awaiting input…</div>;
+
+                let input = validateInput.trim();
+
+                if (input.startsWith('urn:uuid:')) input = input.replace('urn:uuid:', '');
+
+                const base64Match = input.match(/[A-Za-z0-9+/=]{20,}={0,2}/);
+                const hexMatch = input.match(/[0-9a-fA-F]{32,36}/);
+                const canonicalMatch = input.match(
+                  /[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/i
+                );
+
+                let inner = canonicalMatch?.[0] || hexMatch?.[0] || base64Match?.[0];
+                if (!inner) return <div className="text-red-400">❌ Invalid UUID</div>;
+
+                const likelyBase64 =
+                  /^[A-Za-z0-9+/=]+$/.test(inner) && (inner.length === 22 || inner.length === 24);
+
+                if (likelyBase64) {
+                  try {
+                    const binary = atob(inner.replace(/-/g, '+').replace(/_/g, '/'));
+                    if (binary.length === 16) {
+                      const hex = Array.from(binary)
+                        .map((b) => ('0' + b.charCodeAt(0).toString(16)).slice(-2))
+                        .join('');
+                      const canonical =
+                        hex.slice(0, 8) +
+                        '-' +
+                        hex.slice(8, 12) +
+                        '-' +
+                        hex.slice(12, 16) +
+                        '-' +
+                        hex.slice(16, 20) +
+                        '-' +
+                        hex.slice(20);
+                      if (uuidValidate(canonical)) {
+                        const ver = uuidVersion(canonical);
+                        return (
+                          <div className="text-green-400 text-sm leading-snug">
+                            ✅ Valid ({`v${ver}`}) – Base64 format
+                            {input !== inner && (
+                              <p className="text-yellow-300 text-xs mt-1">⚠️ Prefix/suffix detected</p>
+                            )}
+                            <p className="text-slate-400 text-xs mt-1">
+                              🧩 Canonical UUID: <code>{canonical}</code>
                             </p>
-                          )}
-                          <p className="text-slate-400 text-xs mt-1">
-                            🧩 Canonical UUID: <code>{canonical}</code>
-                          </p>
-                        </div>
-                      );
+                          </div>
+                        );
+                      }
                     }
+                  } catch {
+                    return <div className="text-red-400">❌ Invalid Base64 UUID</div>;
                   }
-                } catch {
-                  return <div className="text-red-400">❌ Invalid Base64 UUID</div>;
                 }
-              }
-            
-              // --- Handle Compact UUID (32 hex chars) ---
-              if (/^[0-9a-fA-F]{32}$/.test(inner)) {
-                const canonical =
-                  inner.slice(0, 8) +
-                  "-" +
-                  inner.slice(8, 12) +
-                  "-" +
-                  inner.slice(12, 16) +
-                  "-" +
-                  inner.slice(16, 20) +
-                  "-" +
-                  inner.slice(20);
-                if (uuidValidate(canonical)) {
-                  const ver = uuidVersion(canonical);
+
+                if (/^[0-9a-fA-F]{32}$/.test(inner)) {
+                  const canonical =
+                    inner.slice(0, 8) +
+                    '-' +
+                    inner.slice(8, 12) +
+                    '-' +
+                    inner.slice(12, 16) +
+                    '-' +
+                    inner.slice(16, 20) +
+                    '-' +
+                    inner.slice(20);
+                  if (uuidValidate(canonical)) {
+                    const ver = uuidVersion(canonical);
+                    return (
+                      <div className="text-green-400 text-sm leading-snug">
+                        ✅ Valid ({`v${ver}`}) – Compact format
+                        {input !== inner && (
+                          <p className="text-yellow-300 text-xs mt-1">⚠️ Prefix/suffix detected</p>
+                        )}
+                        <p className="text-slate-400 text-xs mt-1">
+                          🧩 Canonical UUID: <code>{canonical}</code>
+                        </p>
+                      </div>
+                    );
+                  }
+                }
+
+                if (uuidValidate(inner)) {
+                  const ver = uuidVersion(inner);
                   return (
                     <div className="text-green-400 text-sm leading-snug">
-                      ✅ Valid ({`v${ver}`}) – Compact format
+                      ✅ Valid ({`v${ver}`})
                       {input !== inner && (
-                        <p className="text-yellow-300 text-xs mt-1">
-                          ⚠️ Prefix/suffix detected
-                        </p>
+                        <p className="text-yellow-300 text-xs mt-1">⚠️ Prefix/suffix detected</p>
                       )}
-                      <p className="text-slate-400 text-xs mt-1">
-                        🧩 Canonical UUID: <code>{canonical}</code>
-                      </p>
                     </div>
                   );
                 }
-              }
-            
-              // --- Handle Canonical (Hyphenated) UUID ---
-              if (uuidValidate(inner)) {
-                const ver = uuidVersion(inner);
-                return (
-                  <div className="text-green-400 text-sm leading-snug">
-                    ✅ Valid ({`v${ver}`})
-                    {input !== inner && (
-                      <p className="text-yellow-300 text-xs mt-1">
-                        ⚠️ Prefix/suffix detected
-                      </p>
-                    )}
-                  </div>
-                );
-              }
-            
-              return <div className="text-red-400">❌ Invalid UUID</div>;
-            })()}
 
-
-
-      </div>
-    </div>
-  
-    <p className="text-xs text-slate-500 mt-2">
-      Smart validation: detects valid UUIDs even if wrapped with extra text.
-    </p>
-  </div>
-
-        {/*-----------------------seo content----------------------------------*/}
-
-          <div className="rounded-2xl p-8 mb-8">
-            <h2 className="text-3xl font-bold text-white mb-4">About UUID Generator</h2>
-            <h3 className="text-xl text-slate-300 mb-4">
-              What is a UUID and Why Do You Need a UUID Generator?
-            </h3>
-          
-            <div className="space-y-4 text-slate-300 leading-relaxed">
-              <p>
-                A <strong>UUID (Universally Unique Identifier)</strong> is a 128-bit value used to uniquely identify information across systems and applications.
-                It ensures that every generated ID is unique — even when created on different machines at the same time.
-                UUIDs are widely used in databases, APIs, authentication systems, and distributed applications.
-              </p>
-          
-              <p>
-                The <strong>UUID Generator by CalculatorHub</strong> helps you quickly create unique IDs based on the
-                <strong> UUID Version 1, 4, and 5 </strong> standards. It also allows you to generate multiple UUIDs at once,
-                copy them instantly, download as a file, and even view timestamps (for v1 UUIDs).
-              </p>
-          
-              <p>
-                UUIDs are globally unique, collision-resistant, and don’t require a central authority.
-                This makes them ideal for identifying users, transactions, files, or sessions where duplication is unacceptable.
-              </p>
-          
-              <h2 className="text-yellow-500 mt-6"><strong>How Does a UUID Work?</strong></h2>
-              <p>
-                A UUID is composed of hexadecimal digits and divided into 5 groups separated by hyphens.  
-                The standard format looks like this:
-              </p>
-              <p className="bg-slate-800 p-3 rounded-lg font-mono text-yellow-300 text-center">
-                xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx
-              </p>
-              <p>
-                Each version follows a specific generation logic:
-                <ul className="list-disc list-inside space-y-2 ml-4 mt-2">
-                  <li><strong>Version 1:</strong> Generated using timestamp and MAC address (includes time & device info).</li>
-                  <li><strong>Version 4:</strong> Randomly generated using pseudo-random numbers.</li>
-                  <li><strong>Version 5:</strong> Deterministically generated using a namespace + input name (hashed with SHA-1).</li>
-                </ul>
-              </p>
-          
-              <h2 className="text-yellow-500 mt-6"><strong>Why Use UUIDs?</strong></h2>
-              <p>
-                UUIDs are essential in software development for creating globally unique references that never clash.
-                Unlike auto-incrementing IDs, UUIDs prevent duplication even across servers and databases.
-                They’re widely used in APIs, distributed systems, and cloud applications.
-              </p>
-          
-              <h2 className="text-yellow-500 mt-6"><strong>Benefits of Using UUID Generator</strong></h2>
-              <ul className="list-disc list-inside space-y-2 ml-4">
-                <li>⚙️ Generate multiple UUIDs at once (bulk mode supported)</li>
-                <li>🔢 Choose between versions: V1, V4, or V5</li>
-                <li>📂 Export your UUIDs as <strong>.txt</strong> files for development use</li>
-                <li>🧩 Supports different formats – hyphenated, compact, Base64, or URN</li>
-                <li>🕒 View timestamps for Version 1 UUIDs</li>
-                <li>✍️ Add prefixes or suffixes to your UUIDs for organization</li>
-                <li>📱 Fully responsive, mobile-friendly design</li>
-              </ul>
-          
-              <h2 className="text-yellow-500 mt-6"><strong>When Should You Use UUIDs?</strong></h2>
-              <p>
-                Use UUIDs whenever you need unique identifiers without collisions or central coordination. Common use cases include:
-              </p>
-              <ul className="list-disc list-inside space-y-2 ml-4">
-                <li>Database primary keys and distributed record IDs</li>
-                <li>Session and authentication tokens</li>
-                <li>File and document identifiers</li>
-                <li>API keys and transaction IDs</li>
-                <li>Device identifiers and IoT tracking</li>
-              </ul>
-          
-              <p>
-                In short, UUIDs ensure <strong>global uniqueness, scalability, and reliability</strong> — essential for any modern software system.
-              </p>
-          
-              <AdBanner type="bottom" />
-          
-              {/* ======== FAQ SECTION ======== */}
-              <section className="space-y-4 mt-10">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                  ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
-                </h2>
-          
-                <div className="space-y-4 text-slate-100 leading-relaxed">
-                  <div className="bg-slate-800/60 p-4 rounded-lg">
-                    <h3 className="font-semibold text-xl">
-                      <span className="text-yellow-300">Q1:</span> What is a UUID?
-                    </h3>
-                    <p>
-                      A UUID (Universally Unique Identifier) is a 128-bit value that uniquely identifies resources such as users,
-                      transactions, or files without requiring a central authority.
-                    </p>
-                  </div>
-          
-                  <div className="bg-slate-800/60 p-4 rounded-lg">
-                    <h3 className="font-semibold text-xl">
-                      <span className="text-yellow-300">Q2:</span> How does the UUID Generator work?
-                    </h3>
-                    <p>
-                      The generator creates UUIDs based on your selected version (v1, v4, or v5).
-                      Version 1 uses timestamps, version 4 uses random numbers, and version 5 uses name-based hashing.
-                    </p>
-                  </div>
-          
-                  <div className="bg-slate-800/60 p-4 rounded-lg">
-                    <h3 className="font-semibold text-xl">
-                      <span className="text-yellow-300">Q3:</span> What is the difference between UUID v1, v4, and v5?
-                    </h3>
-                    <p>
-                      UUID v1 includes timestamp & hardware info, v4 is random-based, and v5 is generated from a name and namespace.
-                      Version 4 is the most common for general use.
-                    </p>
-                  </div>
-          
-                  <div className="bg-slate-800/60 p-4 rounded-lg">
-                    <h3 className="font-semibold text-xl">
-                      <span className="text-yellow-300">Q4:</span> Can UUIDs ever repeat?
-                    </h3>
-                    <p>
-                      The probability of two UUIDs colliding is extremely small — practically impossible for most use cases.
-                    </p>
-                  </div>
-          
-                  <div className="bg-slate-800/60 p-4 rounded-lg">
-                    <h3 className="font-semibold text-xl">
-                      <span className="text-yellow-300">Q5:</span> What is the length of a UUID?
-                    </h3>
-                    <p>
-                      A UUID consists of 36 characters (32 hexadecimal + 4 hyphens) or 128 bits when stored in binary form.
-                    </p>
-                  </div>
-          
-                  <div className="bg-slate-800/60 p-4 rounded-lg">
-                    <h3 className="font-semibold text-xl">
-                      <span className="text-yellow-300">Q6:</span> Can I convert UUIDs to different formats?
-                    </h3>
-                    <p>
-                      Yes! This tool supports converting between hyphenated, compact, Base64, and URN formats instantly.
-                    </p>
-                  </div>
-          
-                  <div className="bg-slate-800/60 p-4 rounded-lg">
-                    <h3 className="font-semibold text-xl">
-                      <span className="text-yellow-300">Q7:</span> Is this UUID Generator free to use?
-                    </h3>
-                    <p>
-                      Absolutely! The CalculatorHub UUID Generator is 100% free, with no registration required.
-                      You can generate unlimited unique IDs anytime.
-                    </p>
-                  </div>
-                </div>
-              </section>
-          
+                return <div className="text-red-400">❌ Invalid UUID</div>;
+              })()}
             </div>
           </div>
 
-          
-        
+          <p className="text-xs text-slate-500 mt-2">
+            Smart validation: detects valid UUIDs even if wrapped with extra text.
+          </p>
+        </div>
+
+        {/* ---------- SEO CONTENT (kept, light spacing polish) ---------- */}
+        <div className="rounded-2xl p-5 sm:p-8 mb-8 bg-slate-900/50 border border-slate-800">
+          <h2 className="text-3xl font-bold text-white mb-4">About UUID Generator</h2>
+          <h3 className="text-xl text-slate-300 mb-4">
+            What is a UUID and Why Do You Need a UUID Generator?
+          </h3>
+
+          <div className="space-y-4 text-slate-300 leading-relaxed">
+            <p>
+              A <strong>UUID (Universally Unique Identifier)</strong> is a 128-bit value used to uniquely
+              identify information across systems and applications. It ensures that every generated ID is unique —
+              even when created on different machines at the same time. UUIDs are widely used in databases, APIs,
+              authentication systems, and distributed applications.
+            </p>
+
+            <p>
+              The <strong>UUID Generator by CalculatorHub</strong> helps you quickly create unique IDs based on the
+              <strong> UUID Version 1, 4, and 5 </strong> standards. It also allows you to generate multiple UUIDs at once,
+              copy them instantly, download as a file, and even view timestamps (for v1 UUIDs).
+            </p>
+
+            <p>
+              UUIDs are globally unique, collision-resistant, and don’t require a central authority.
+              This makes them ideal for identifying users, transactions, files, or sessions where duplication is unacceptable.
+            </p>
+
+            <h2 className="text-yellow-500 mt-6"><strong>How Does a UUID Work?</strong></h2>
+            <p>
+              A UUID is composed of hexadecimal digits and divided into 5 groups separated by hyphens.
+              The standard format looks like this:
+            </p>
+            <p className="bg-slate-800 p-3 rounded-lg font-mono text-yellow-300 text-center overflow-x-auto">
+              xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx
+            </p>
+            <div>
+              <p>Each version follows a specific generation logic:</p>
+              <ul className="list-disc list-inside space-y-2 ml-4 mt-2">
+                <li><strong>Version 1:</strong> Generated using timestamp and MAC address (includes time &amp; device info).</li>
+                <li><strong>Version 4:</strong> Randomly generated using pseudo-random numbers.</li>
+                <li><strong>Version 5:</strong> Deterministically generated using a namespace + input name (hashed with SHA-1).</li>
+              </ul>
+            </div>
+
+            <h2 className="text-yellow-500 mt-6"><strong>Why Use UUIDs?</strong></h2>
+            <p>
+              UUIDs are essential in software development for creating globally unique references that never clash.
+              Unlike auto-incrementing IDs, UUIDs prevent duplication even across servers and databases. They’re widely
+              used in APIs, distributed systems, and cloud applications.
+            </p>
+
+            <h2 className="text-yellow-500 mt-6"><strong>Benefits of Using UUID Generator</strong></h2>
+            <ul className="list-disc list-inside space-y-2 ml-4">
+              <li>⚙️ Generate multiple UUIDs at once (bulk mode supported)</li>
+              <li>🔢 Choose between versions: V1, V4, or V5</li>
+              <li>📂 Export your UUIDs as <strong>.txt</strong>, <strong>.json</strong>, or <strong>.csv</strong></li>
+              <li>🧩 Supports different formats – hyphenated, compact, Base64, or URN</li>
+              <li>🕒 View timestamps for Version 1 UUIDs</li>
+              <li>✍️ Add prefixes or suffixes to your UUIDs for organization</li>
+              <li>📱 Fully responsive, mobile-friendly design</li>
+            </ul>
+
+            <h2 className="text-yellow-500 mt-6"><strong>When Should You Use UUIDs?</strong></h2>
+            <p>Use UUIDs whenever you need unique identifiers without collisions or central coordination. Common use cases include:</p>
+            <ul className="list-disc list-inside space-y-2 ml-4">
+              <li>Database primary keys and distributed record IDs</li>
+              <li>Session and authentication tokens</li>
+              <li>File and document identifiers</li>
+              <li>API keys and transaction IDs</li>
+              <li>Device identifiers and IoT tracking</li>
+            </ul>
+
+            <p>
+              In short, UUIDs ensure <strong>global uniqueness, scalability, and reliability</strong> — essential for any modern software system.
+            </p>
+
+            <AdBanner type="bottom" />
+
+            {/* ======== FAQ SECTION ======== */}
+            <section className="space-y-4 mt-10">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
+              </h2>
+
+              <div className="space-y-4 text-slate-100 leading-relaxed">
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                  <h3 className="font-semibold text-xl">
+                    <span className="text-yellow-300">Q1:</span> What is a UUID?
+                  </h3>
+                  <p>
+                    A UUID (Universally Unique Identifier) is a 128-bit value that uniquely identifies resources such as users,
+                    transactions, or files without requiring a central authority.
+                  </p>
+                </div>
+
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                  <h3 className="font-semibold text-xl">
+                    <span className="text-yellow-300">Q2:</span> How does the UUID Generator work?
+                  </h3>
+                  <p>
+                    The generator creates UUIDs based on your selected version (v1, v4, or v5).
+                    Version 1 uses timestamps, version 4 uses random numbers, and version 5 uses name-based hashing.
+                  </p>
+                </div>
+
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                  <h3 className="font-semibold text-xl">
+                    <span className="text-yellow-300">Q3:</span> What is the difference between UUID v1, v4, and v5?
+                  </h3>
+                  <p>
+                    UUID v1 includes timestamp &amp; hardware info, v4 is random-based, and v5 is generated from a name and namespace.
+                    Version 4 is the most common for general use.
+                  </p>
+                </div>
+
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                  <h3 className="font-semibold text-xl">
+                    <span className="text-yellow-300">Q4:</span> Can UUIDs ever repeat?
+                  </h3>
+                  <p>
+                    The probability of two UUIDs colliding is extremely small — practically impossible for most use cases.
+                  </p>
+                </div>
+
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                  <h3 className="font-semibold text-xl">
+                    <span className="text-yellow-300">Q5:</span> What is the length of a UUID?
+                  </h3>
+                  <p>
+                    A UUID consists of 36 characters (32 hexadecimal + 4 hyphens) or 128 bits when stored in binary form.
+                  </p>
+                </div>
+
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                  <h3 className="font-semibold text-xl">
+                    <span className="text-yellow-300">Q6:</span> Can I convert UUIDs to different formats?
+                  </h3>
+                  <p>
+                    Yes! This tool supports converting between hyphenated, compact, Base64, and URN formats instantly.
+                  </p>
+                </div>
+
+                <div className="bg-slate-800/60 p-4 rounded-lg">
+                  <h3 className="font-semibold text-xl">
+                    <span className="text-yellow-300">Q7:</span> Is this UUID Generator free to use?
+                  </h3>
+                  <p>
+                    Absolutely! The CalculatorHub UUID Generator is 100% free, with no registration required.
+                    You can generate unlimited unique IDs anytime.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+
         <RelatedCalculators currentPath="/uuid-generator" />
 
         {/* ===================== UUID GENERATOR ENHANCED SEO SCHEMAS ===================== */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebPage",
-            "name": "UUID Generator - Create Unique Identifiers Online",
-            "url": "https://calculatorhub.site/uuid-generator",
-            "description":
-              "Generate UUIDs (Universally Unique Identifiers) instantly. Supports versions 1, 4, and 5 with options for Base64, Compact, and Hyphenated formats. Copy, export, and validate unique IDs easily.",
-            "breadcrumb": {
-              "@type": "BreadcrumbList",
-              "itemListElement": [
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebPage",
+              "name": "UUID Generator - Create Unique Identifiers Online",
+              "url": "https://calculatorhub.site/uuid-generator",
+              "description":
+                "Generate UUIDs (Universally Unique Identifiers) instantly. Supports versions 1, 4, and 5 with options for Base64, Compact, and Hyphenated formats. Copy, export, and validate unique IDs easily.",
+              "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  { "@type": "ListItem", "position": 1, "name": "Misc Tools", "item": "https://calculatorhub.site/category/misc-tools" },
+                  { "@type": "ListItem", "position": 2, "name": "UUID Generator", "item": "https://calculatorhub.site/uuid-generator" }
+                ]
+              },
+              "about": [
+                "UUID generator online",
+                "UUID v1 v4 v5 generator",
+                "UUID converter tool",
+                "Base64 and Compact UUID formats",
+                "UUID validator"
+              ],
+              "publisher": {
+                "@type": "Organization",
+                "name": "CalculatorHub",
+                "url": "https://calculatorhub.site",
+                "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/assets/logo.png" }
+              }
+            })
+          }}
+        />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
                 {
-                  "@type": "ListItem",
-                  "position": 1,
-                  "name": "Misc Tools",
-                  "item": "https://calculatorhub.site/category/misc-tools"
+                  "@type": "Question",
+                  "name": "What is a UUID?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A UUID (Universally Unique Identifier) is a 128-bit value used to uniquely identify data, users, or objects in systems and applications. It ensures global uniqueness without central coordination."
+                  }
                 },
                 {
-                  "@type": "ListItem",
-                  "position": 2,
-                  "name": "UUID Generator",
-                  "item": "https://calculatorhub.site/uuid-generator"
+                  "@type": "Question",
+                  "name": "How does the UUID Generator work?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The UUID Generator creates identifiers based on version 1, 4, or 5 standards. Version 1 uses timestamps, version 4 uses random numbers, and version 5 uses namespace and name-based hashing."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Why use UUIDs?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "UUIDs ensure unique identification for records, files, sessions, and transactions across distributed systems, making them ideal for modern applications and databases."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What are UUID versions 1, 4, and 5?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Version 1 UUIDs use timestamps and MAC addresses, Version 4 uses random numbers, and Version 5 uses cryptographic hashing (SHA-1) with namespace and name inputs."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can UUIDs repeat?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The probability of two UUIDs repeating is practically zero. They are statistically guaranteed to be unique across devices and systems."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I convert UUIDs between different formats?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! The tool allows conversion between Hyphenated, Compact, Base64, and URN formats easily. You can also add prefixes and suffixes to your UUIDs."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Is this UUID Generator free to use?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, CalculatorHub’s UUID Generator is completely free to use. No login or signup required — generate unlimited UUIDs instantly."
+                  }
                 }
               ]
-            },
-            "about": [
-              "UUID generator online",
-              "UUID v1 v4 v5 generator",
-              "UUID converter tool",
-              "Base64 and Compact UUID formats",
-              "UUID validator"
-            ],
-            "publisher": {
-              "@type": "Organization",
-              "name": "CalculatorHub",
-              "url": "https://calculatorhub.site",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://calculatorhub.site/assets/logo.png"
-              }
-            }
-          })
-        }}
-      />
-      
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            "mainEntity": [
-              {
-                "@type": "Question",
-                "name": "What is a UUID?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text":
-                    "A UUID (Universally Unique Identifier) is a 128-bit value used to uniquely identify data, users, or objects in systems and applications. It ensures global uniqueness without central coordination."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "How does the UUID Generator work?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text":
-                    "The UUID Generator creates identifiers based on version 1, 4, or 5 standards. Version 1 uses timestamps, version 4 uses random numbers, and version 5 uses namespace and name-based hashing."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Why use UUIDs?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text":
-                    "UUIDs ensure unique identification for records, files, sessions, and transactions across distributed systems, making them ideal for modern applications and databases."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "What are UUID versions 1, 4, and 5?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text":
-                    "Version 1 UUIDs use timestamps and MAC addresses, Version 4 uses random numbers, and Version 5 uses cryptographic hashing (SHA-1) with namespace and name inputs."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Can UUIDs repeat?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text":
-                    "The probability of two UUIDs repeating is practically zero. They are statistically guaranteed to be unique across devices and systems."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Can I convert UUIDs between different formats?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text":
-                    "Yes! The tool allows conversion between Hyphenated, Compact, Base64, and URN formats easily. You can also add prefixes and suffixes to your UUIDs."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Is this UUID Generator free to use?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text":
-                    "Yes, CalculatorHub’s UUID Generator is completely free to use. No login or signup required — generate unlimited UUIDs instantly."
-                }
-              }
-            ]
-          })
-        }}
-      />
-      
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            "name": "UUID Generator",
-            "operatingSystem": "All",
-            "applicationCategory": "DeveloperApplication",
-            "url": "https://calculatorhub.site/uuid-generator",
-            "description":
-              "Generate and validate UUIDs (v1, v4, v5) instantly. Supports Base64, Compact, and Hyphenated formats, prefix/suffix customization, timestamp viewing, and bulk generation.",
-            "featureList": [
-              "Supports UUID versions 1, 4, and 5",
-              "Generate multiple UUIDs at once",
-              "Copy, validate, and export UUIDs",
-              "Format support: Hyphenated, Compact, Base64, URN",
-              "Add custom prefixes or suffixes",
-              "Timestamp display for version 1 UUIDs",
-              "Responsive, mobile-friendly interface"
-            ],
-            "aggregateRating": {
-              "@type": "AggregateRating",
-              "ratingValue": "4.9",
-              "reviewCount": "1750"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "CalculatorHub",
-              "url": "https://calculatorhub.site",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://calculatorhub.site/assets/logo.png"
-              }
-            }
-          })
-        }}
-      />
+            })
+          }}
+        />
 
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              "name": "UUID Generator",
+              "operatingSystem": "All",
+              "applicationCategory": "DeveloperApplication",
+              "url": "https://calculatorhub.site/uuid-generator",
+              "description":
+                "Generate and validate UUIDs (v1, v4, v5) instantly. Supports Base64, Compact, and Hyphenated formats, prefix/suffix customization, timestamp viewing, and bulk generation.",
+              "featureList": [
+                "Supports UUID versions 1, 4, and 5",
+                "Generate multiple UUIDs at once",
+                "Copy, validate, and export UUIDs",
+                "Format support: Hyphenated, Compact, Base64, URN",
+                "Add custom prefixes or suffixes",
+                "Timestamp display for version 1 UUIDs",
+                "Responsive, mobile-friendly interface"
+              ],
+              "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "reviewCount": "1750" },
+              "publisher": {
+                "@type": "Organization",
+                "name": "CalculatorHub",
+                "url": "https://calculatorhub.site",
+                "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/assets/logo.png" }
+              }
+            })
+          }}
+        />
       </div>
     </>
   );
