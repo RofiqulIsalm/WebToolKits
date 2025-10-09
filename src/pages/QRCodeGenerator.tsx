@@ -1268,13 +1268,10 @@ const generateQRCode = async () => {
                   <li>Optimized for <strong>mobile devices</strong> and all major browsers.</li>
                 </ul>
                 <p className="mt-4">
-                  You might also like our other developer tools: 
-                  <a href="/password-generator" className="text-blue-400 hover:underline ml-1">Password Generator</a>, 
-                  <a href="/random-number-generator" className="text-blue-400 hover:underline ml-1">Random Number Generator</a>, 
-                  <a href="/roman-numeral-converter" className="text-blue-400 hover:underline ml-1">Roman Numeral Converter</a>, 
-                  <a href="/color-converter" className="text-blue-400 hover:underline ml-1">Color Converter</a>, and 
-                  <a href="/uuid-generator" className="text-blue-400 hover:underline ml-1">UUID Generator</a>.
-                </p>
+                  You can also try our
+                  <a href="/password-generator" className="text-blue-400 hover:underline ml-1">Password Generator</a>  and 
+                  <a href="/uuid-generator" className="text-blue-400 hover:underline ml-1">UUID Generator</a>for enhanced data security
+                </p> 
               </section>
           
               {/* === FAQ Section === */}
