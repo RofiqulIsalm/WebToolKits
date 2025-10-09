@@ -844,7 +844,8 @@ const RomanNumeralConverter: React.FC = () => {
             </div>
           
             {quizOn && (
-              <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 flex-wrap">
+
                 {/* Left: Question + Input */}
                 <div className="md:col-span-2 p-4 rounded-lg bg-slate-800/60 border border-slate-700">
                   <p className="text-sm text-slate-300 mb-2">
