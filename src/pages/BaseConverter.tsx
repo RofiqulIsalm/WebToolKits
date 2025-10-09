@@ -544,7 +544,7 @@ const BaseConverter: React.FC = () => {
             type: 'website',
             locale: 'en_US',
             site_name: 'CalculatorHub',
-            image: 'https://calculatorhub.site/images/base-converter-binary-decimal-hex-custom-online-tool.jpg',
+            image: 'https://calculatorhub.site/public/images/base-converter-binary-decimal-hex-custom-online-tool.png',
             imageAlt: 'Base Converter interface showing binary, decimal, hex, and custom base results with step-by-step math explanation.',
           }}
           twitter={{
@@ -552,7 +552,7 @@ const BaseConverter: React.FC = () => {
             title: 'Base Converter – Binary, Decimal, Hex & Custom (2–30)',
             description:
               'Convert between binary, decimal, hex, and custom bases with precision. Auto-detects prefixes and explains the math behind every conversion.',
-            image: 'https://calculatorhub.site/images/base-converter-binary-decimal-hex-custom-online-tool.jpg',
+            image: 'https://calculatorhub.site/public/images/base-converter-binary-decimal-hex-custom-online-tool.png',
             creator: '@CalculatorHub',
           }}
         />
