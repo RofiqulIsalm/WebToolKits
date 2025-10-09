@@ -436,45 +436,48 @@ const RandomNumberGenerator: React.FC = () => {
   return (
     <>
       <SEOHead
-        title={
-          seoData.randomNumber?.title ||
-          'Random Number Generator – Dice Roller, Missing Number Game & Quiz'
-        }
-        description={
-          seoData.randomNumber?.description ||
-          'Generate random numbers (unique or duplicates), roll dice, play a missing-number game, and even/odd quiz. Copy, share, and view history. Fast and mobile-friendly.'
-        }
-        canonical="https://calculatorhub.site/random-number-generator"
-        schemaData={combinedSchema}
-        breadcrumbs={[
-          { name: 'Misc Tools', url: '/category/misc-tools' },
-          { name: 'Random Number Generator', url: '/random-number-generator' },
-        ]}
-        openGraph={{
-          title:
-            'Random Number Generator – Dice Roller, Missing Number Game & Quiz',
-          description:
-            'Free online RNG with dice, unique numbers, copy/share, history, sounds, and games. Perfect for raffles, study, and fun.',
-          url: 'https://calculatorhub.site/random-number-generator',
-          type: 'website',
-          locale: 'en_US',
-          site_name: 'CalculatorHub',
-          image:
-            'https://calculatorhub.site/images/random-number-generator-dice-game.jpg',
-          imageAlt:
-            'Random Number Generator with dice roller and missing number game interface.',
-        }}
-        twitter={{
-          card: 'summary_large_image',
-          title:
-            'Random Number Generator – Dice Roller & Missing Number Game',
-          description:
-            'Generate random numbers, roll dice, play a missing-number game and even/odd quiz. Copy and share results instantly.',
-          image:
-            'https://calculatorhub.site/images/random-number-generator-dice-game.jpg',
-          creator: '@CalculatorHub',
-        }}
-      /> 
+          title={
+            seoData.randomNumber?.title ||
+            '🎲 Random Number Generator – Free RNG, Dice Roller, Missing Number Game & Quick Quiz'
+          }
+          description={
+            seoData.randomNumber?.description ||
+            'Free online Random Number Generator (RNG) by CalculatorHub – create random numbers instantly, roll virtual dice, play missing-number memory games, and test even/odd quizzes. Copy, share, and save results. Fast, secure, and mobile-friendly.'
+          }
+          canonical="https://calculatorhub.site/random-number-generator"
+          schemaData={combinedSchema}
+          breadcrumbs={[
+            { name: 'Misc Tools', url: '/category/misc-tools' },
+            { name: 'Random Number Generator', url: '/random-number-generator' },
+          ]}
+          openGraph={{
+            title:
+              'Random Number Generator – Dice Roller, Missing Number Game & Quiz | CalculatorHub',
+            description:
+              'Generate random numbers instantly with CalculatorHub’s RNG. Includes Dice Roller, Missing Number Game, Quick Quiz, Copy & Share, Sound, and History. 100% Free and mobile-ready.',
+            url: 'https://calculatorhub.site/random-number-generator',
+            type: 'website',
+            locale: 'en_US',
+            site_name: 'CalculatorHub',
+            image:
+              'https://calculatorhub.site/images/random-number-generator-dice-game.jpg',
+            imageAlt:
+              'Screenshot of the Random Number Generator showing dice roller, missing number game, and quiz interface on CalculatorHub.',
+            imageWidth: 1200,
+            imageHeight: 630,
+          }}
+          twitter={{
+            card: 'summary_large_image',
+            title:
+              '🎲 Random Number Generator – Dice Roller & Fun Quiz | CalculatorHub',
+            description:
+              'Generate random numbers, roll dice, and play brain games online for free. Fast, responsive, and fun RNG tool by CalculatorHub.',
+            image:
+              'https://calculatorhub.site/images/random-number-generator-dice-game.jpg',
+            creator: '@CalculatorHub',
+          }}
+        />
+
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <Breadcrumbs
