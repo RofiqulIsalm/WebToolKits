@@ -1269,7 +1269,8 @@ const generateQRCode = async () => {
                 </ul>
                 <p className="mt-4">
                   You can also try our
-                  <a href="/password-generator" className="text-blue-400 hover:underline ml-1">Password Generator</a>  and 
+                  <a href="/password-generator" className="text-blue-400 hover:underline ml-1">Password Generator</a>
+                  <a href="/base-converter" className="text-blue-400 hover:underline ml-1">Base Convertor</a> and 
                   <a href="/uuid-generator" className="text-blue-400 hover:underline ml-1">UUID Generator</a>for enhanced data security
                 </p> 
               </section>
