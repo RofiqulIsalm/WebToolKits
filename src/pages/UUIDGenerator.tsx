@@ -37,8 +37,8 @@ const ADVANCED_LS_KEY = 'uuid-advanced-enabled';
 
 const UUIDGenerator: React.FC = () => {
   // --- Basic controls ---
-  const [count, setCount] = useState<number>(5);
-  const [version, setVersion] = useState<UuidVersion>('v4');
+  const [count, setCount] = useState<number>(1);
+  const [version, setVersion] = useState<UuidVersion>('v1');
 
   // --- Advanced controls ---
   const [advancedEnabled, setAdvancedEnabled] = useState<boolean>(false);
@@ -304,7 +304,7 @@ const UUIDGenerator: React.FC = () => {
             </div>
 
             {/* Generate button (basic) */}
-            <div className="flex items-end">
+            <div className="flex items-end"> 
               <button
                 onClick={generate}
                 className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all flex items-center justify-center gap-2"
@@ -641,7 +641,8 @@ const UUIDGenerator: React.FC = () => {
         </div>
 
         {/* ---------- SEO CONTENT (kept, light spacing polish) ---------- */}
-        <div className="rounded-2xl p-5 sm:p-8 mb-8 bg-slate-900/50 border border-slate-800">
+        
+        <div className="">
           <h2 className="text-3xl font-bold text-white mb-4">About UUID Generator</h2>
           <h3 className="text-xl text-slate-300 mb-4">
             What is a UUID and Why Do You Need a UUID Generator?
@@ -668,20 +669,94 @@ const UUIDGenerator: React.FC = () => {
 
             <h2 className="text-yellow-500 mt-6"><strong>How Does a UUID Work?</strong></h2>
             <p>
-              A UUID is composed of hexadecimal digits and divided into 5 groups separated by hyphens.
-              The standard format looks like this:
+              A <strong>UUID</strong> (Universally Unique Identifier) is a 128-bit value represented as hexadecimal characters.
+              It is divided into <strong>five groups</strong> separated by hyphens and typically looks like this:
             </p>
+            
             <p className="bg-slate-800 p-3 rounded-lg font-mono text-yellow-300 text-center overflow-x-auto">
               xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx
             </p>
-            <div>
-              <p>Each version follows a specific generation logic:</p>
-              <ul className="list-disc list-inside space-y-2 ml-4 mt-2">
-                <li><strong>Version 1:</strong> Generated using timestamp and MAC address (includes time &amp; device info).</li>
-                <li><strong>Version 4:</strong> Randomly generated using pseudo-random numbers.</li>
-                <li><strong>Version 5:</strong> Deterministically generated using a namespace + input name (hashed with SHA-1).</li>
-              </ul>
-            </div>
+            
+            <p>
+              Each section in the UUID has a specific meaning:
+            </p>
+            
+            <ul className="list-disc list-inside space-y-1 ml-4 text-slate-300">
+              <li><strong>xxxxxxxx</strong> – time_low (or random bits)</li>
+              <li><strong>xxxx</strong> – time_mid (or random bits)</li>
+              <li><strong>Mxxx</strong> – the “version” field (defines how the UUID is generated)</li>
+              <li><strong>Nxxx</strong> – the “variant” field (defines the UUID layout type)</li>
+              <li><strong>xxxxxxxxxxxx</strong> – node or random component</li>
+            </ul>
+            
+            <h3 className="text-lg font-semibold text-yellow-400 mt-4">🔹 Version 1 – Time-Based Logic</h3>
+            <p>
+              Version 1 UUIDs are created using the current timestamp (in 100-nanosecond precision)
+              combined with the device’s <strong>MAC address</strong> and a random clock sequence.
+              This means two UUIDv1 values generated on the same machine at the same time are still unique.
+            </p>
+            
+            <p className="font-mono bg-slate-800 text-yellow-300 p-3 rounded-lg text-sm overflow-x-auto">
+              Example (Hyphenated): 550e8400-e29b-11d4-a716-446655440000<br />
+              Example (Compact): 550e8400e29b11d4a716446655440000<br />
+              Example (URN): urn:uuid:550e8400-e29b-11d4-a716-446655440000<br />
+              Example (Base64): VQ6EAOKbEdSnFkRmVUQAAA==
+            </p>
+            
+            <p>
+              You can even decode its embedded timestamp to find <strong>when it was generated</strong>.
+              That’s why this generator shows “Timestamp (from V1)” next to v1 results.
+            </p>
+            
+            <h3 className="text-lg font-semibold text-yellow-400 mt-4">🔹 Version 4 – Random Logic</h3>
+            <p>
+              Version 4 UUIDs are purely random. All 122 bits (except version and variant bits) are filled with random data.
+              This provides around <strong>5.3 × 10³⁶</strong> possible unique combinations — making collisions practically impossible.
+            </p>
+            
+            <p className="font-mono bg-slate-800 text-yellow-300 p-3 rounded-lg text-sm overflow-x-auto">
+              Example (Hyphenated): 3f50b7b2-9c82-4b2f-a6f3-0dcd1b2a6c09<br />
+              Example (Compact): 3f50b7b29c824b2fa6f30dcd1b2a6c09<br />
+              Example (URN): urn:uuid:3f50b7b2-9c82-4b2f-a6f3-0dcd1b2a6c09<br />
+              Example (Base64): P1C3spyCSy+m8w3NGypsCQ==
+            </p>
+            
+            <p>
+              UUIDv4 is the most common and preferred version for general use — it’s fast, simple, and completely independent of hardware or network data.
+            </p>
+            
+            <h3 className="text-lg font-semibold text-yellow-400 mt-4">🔹 Version 5 – Name-Based Logic (SHA-1)</h3>
+            <p>
+              Version 5 UUIDs are generated using a <strong>namespace UUID</strong> and a <strong>name string</strong>.
+              The two are hashed together using the <strong>SHA-1 algorithm</strong> to create a deterministic UUID.
+              That means if you use the same namespace and name again, you’ll always get the same UUID.
+            </p>
+            
+            <p className="font-mono bg-slate-800 text-yellow-300 p-3 rounded-lg text-sm overflow-x-auto">
+              Namespace: 6ba7b811-9dad-11d1-80b4-00c04fd430c8<br />
+              Name: calculatorhub.site<br /><br />
+              Example (Hyphenated): 4f4d49f1-c1e7-5a84-885b-7a6a81602d52<br />
+              Example (Compact): 4f4d49f1c1e75a84885b7a6a81602d52<br />
+              Example (URN): urn:uuid:4f4d49f1-c1e7-5a84-885b-7a6a81602d52<br />
+              Example (Base64): T01J8cHnWoSIS3pqgWAtUg==
+            </p>
+            
+            <p>
+              UUIDv5 is ideal for generating consistent identifiers for URLs, usernames, or domain names — anywhere you need a reproducible yet globally unique value.
+            </p>
+            
+            <h3 className="text-lg font-semibold text-yellow-400 mt-4">🔹 Different Output Formats Explained</h3>
+            <ul className="list-disc list-inside space-y-2 ml-4 text-slate-300">
+              <li><strong>Hyphenated:</strong> The standard format used by most systems (<code>550e8400-e29b-41d4-a716-446655440000</code>).</li>
+              <li><strong>Compact:</strong> Same UUID but without hyphens, ideal for databases or filenames (<code>550e8400e29b41d4a716446655440000</code>).</li>
+              <li><strong>Base64:</strong> Encoded binary version that’s shorter and URL-safe (<code>VQ6EAOKbEdSnFkRmVUQAAA==</code>).</li>
+              <li><strong>URN:</strong> URI-style format that starts with <code>urn:uuid:</code>, often used in XML or RDF data (<code>urn:uuid:550e8400-e29b-41d4-a716-446655440000</code>).</li>
+            </ul>
+            
+            <p className="mt-3">
+              Each format represents the same 128-bit data — just encoded differently for various use cases like networking, storage, or compact transmission.
+            </p>
+
 
             <h2 className="text-yellow-500 mt-6"><strong>Why Use UUIDs?</strong></h2>
             <p>
