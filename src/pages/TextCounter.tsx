@@ -415,25 +415,25 @@ const TextToolsPage: React.FC = () => {
             className={`px-4 py-2 rounded-xl font-semibold ${selectedTab === 'textCounter' ? 'bg-blue-600 text-white' : 'bg-slate-700 text-slate-300'}`}
             onClick={() => setSelectedTab('textCounter')}
           >
-            Text Counter
+            Text
           </button>
           <button
             className={`px-4 py-2 rounded-xl font-semibold ${selectedTab === 'loremIpsum' ? 'bg-green-600 text-white' : 'bg-slate-700 text-slate-300'}`}
             onClick={() => setSelectedTab('loremIpsum')}
           >
-            Lorem Ipsum Generator
+            Lorem
           </button> 
           <button
             className={`px-4 py-2 rounded-xl font-semibold ${selectedTab === 'binarytotext' ? 'bg-violet-600 text-white' : 'bg-slate-700 text-slate-300'}`}
             onClick={() => setSelectedTab('binarytotext')}
           >
-            Binary ↔ Text 
+            Binary
           </button>
           <button
             className={`px-4 py-2 rounded-xl font-semibold ${selectedTab === 'numberConverter' ? 'bg-yellow-600 text-white' : 'bg-slate-700 text-slate-300'}`}
             onClick={() => setSelectedTab('numberConverter')}
           >
-            Number ↔ Words
+            Number
           </button>
         </div>
 
@@ -1051,6 +1051,22 @@ const TextToolsPage: React.FC = () => {
             <AdBanner type="bottom" />
           </div>
         </div>
+        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+            <div className="flex items-center gap-3">
+              <img
+                src="/images/calculatorhub-author.jpg"
+                alt="CalculatorHub Security Tools Team"
+                className="w-12 h-12 rounded-full border border-gray-600"
+                loading="lazy"
+              />
+              <div>
+                <p className="font-semibold text-white">Written by the CalculatorHub Security Tools Team</p>
+                <p className="text-sm text-slate-400">
+                  Experts in web security and online calculator development. Last updated: <time dateTime="2025-10-10">October 10, 2025</time>.
+                </p>
+              </div>
+            </div>
+          </section>
 
         <RelatedCalculators currentPath="/text-tools" />
 
