@@ -237,8 +237,9 @@ Use our free password generator to instantly create strong, unique passwords for
                       <button onClick={() => setShowPassword(!showPassword)} className="text-gray-500 hover:text-gray-700">
                         {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       </button>
-                      <button onClick={() => copyToClipboard(item.pwd)} className="text-gray-500 hover:text-gray-700">
+                      <button aria-label="Toggle password visibility" onClick={() => copyToClipboard(item.pwd)} className="text-gray-500 hover:text-gray-700">
                         <Copy className="h-4 w-4" />
+                        
                       </button>
                     </div>
                   </div>
@@ -327,7 +328,16 @@ Use our free password generator to instantly create strong, unique passwords for
                 <li><strong>Update passwords regularly</strong> — Change your passwords every few months to reduce the risk of unauthorized access.</li>
               </ul>
               <p>By following these<strong> strong password creation tips</strong>, you’ll enhance your online security and keep your personal and financial information protected.</p>
-         
+
+              <section className="bg-slate-800/50 rounded-lg p-6 mt-8 text-slate-300">
+                  <h3 className="text-xl font-semibold text-white mb-3">Explore More Security Tools</h3>
+                  <ul className="list-disc list-inside space-y-1">
+                    <li><a href="/uuid-generator" className="text-blue-400 hover:underline">UUID Generator</a> – Create unique identifiers for secure tokens.</li>
+                    <li><a href="/hash-generator" className="text-blue-400 hover:underline">Base Convertor</a> – Generate MD5, SHA-1, and SHA-256 hashes instantly.</li>
+                    <li><a href="/qr-code-generator" className="text-blue-400 hover:underline">QR Code Generator</a> – Encode your secure data into QR codes.</li>
+                  </ul>
+                </section>
+
               
               <AdBanner type="bottom" />
 
