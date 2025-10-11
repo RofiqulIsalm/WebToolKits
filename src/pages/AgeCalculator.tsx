@@ -44,15 +44,26 @@ const clampDateISO = (value: string) => {
 // Simple regional life expectancy table (years).
 // Note: simplified averages for UX; user can override manually.
 const LIFE_EXPECTANCY_TABLE: Record<string, Record<string, number>> = {
-  'Global': { Male: 70, Female: 75, Other: 73 },
-  'USA': { Male: 74, Female: 80, Other: 77 },
-  'UK': { Male: 79, Female: 83, Other: 81 },
-  'EU': { Male: 78, Female: 83, Other: 81 },
-  'Canada': { Male: 80, Female: 84, Other: 82 },
-  'Australia': { Male: 81, Female: 85, Other: 83 },
-  'India': { Male: 69, Female: 72, Other: 70 },
-  'Bangladesh': { Male: 71, Female: 74, Other: 72 },
-  'Japan': { Male: 81, Female: 87, Other: 84 }
+  "Global": { Male: 70.9, Female: 76.2, Other: 73.5 },
+  "Japan": { Male: 81.99, Female: 88.03, Other: 85.0 },
+  "USA": { Male: 77.22, Female: 82.11, Other: 79.5 },
+  "Canada": { Male: 80.74, Female: 85.03, Other: 82.9 },
+  "UK": { Male: 79.72, Female: 83.45, Other: 81.6 },
+  "Australia": { Male: 82.43, Female: 85.97, Other: 84.2 },
+  "India": { Male: 75.65, Female: 81.25, Other: 78.5 },
+  "China": { Male: 76.18, Female: 81.52, Other: 79.0 },
+  "Germany": { Male: 79.42, Female: 84.01, Other: 81.7 },
+  "France": { Male: 80.73, Female: 86.31, Other: 83.5 },
+  "Italy": { Male: 81.94, Female: 86.01, Other: 84.0 },
+  "Spain": { Male: 81.27, Female: 86.59, Other: 83.0 },
+  "Switzerland": { Male: 82.34, Female: 86.06, Other: 84.2 },
+  "South Korea": { Male: 81.44, Female: 87.40, Other: 84.5 },
+  "Brazil": { Male: 73.14, Female: 79.30, Other: 76.2 },
+  "Russia": { Male: 68.7, Female: 78.0, Other: 73.3 },
+  "Mexico": { Male: 74.5, Female: 80.9, Other: 77.7 },
+  "South Africa": { Male: 62.95, Female: 69.97, Other: 66.5 },
+  "Bangladesh": { Male: 74.0, Female: 77.8, Other: 75.9 },
+  "Nigeria": { Male: 54.45, Female: 55.12, Other: 54.8 },
 };
 
 const DEFAULT_REGION = 'Global';
@@ -545,21 +556,128 @@ const AgeCalculator: React.FC = () => {
             <RelatedCalculators currentPath="/age-calculator" category="date-time-tools" />
           </Suspense>
 
-          {/* FAQ */}
-          <section className="mt-12 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-lg p-6 shadow-xl">
-            <h2 className="text-2xl font-bold text-slate-100 mb-4">Frequently Asked Questions</h2>
-            <div className="prose prose-invert max-w-none">
-              <h3>How accurate is the life countdown?</h3>
-              <p>
-                It is based on average life expectancy and your birth date. This is a statistical estimate only; you can adjust the life expectancy value,
-                and real outcomes vary by many personal factors.
+          {/* SEO Content Section */}
+            <section className=" mt-5">
+              <h2 className="text-3xl md:text-4xl text-white ">
+               <strong>What Is an Age Calculator..?</strong>
+              </h2>
+              <p className="text-slate-300 py-3 leading-relaxed">
+                An <strong>Age Calculator</strong> is a smart online tool that helps you determine your exact age in years, months,
+                days, and even seconds. Instead of manually counting days or using spreadsheets, this calculator instantly
+                computes your age based on the date of birth and a chosen reference date. It’s accurate, fast, and designed
+                to handle leap years, time zones, and date differences automatically.
               </p>
-              <h3>Can I change the life expectancy?</h3>
-              <p>Yes. Use the input in Advanced Mode to enter any value (in years). Your choice is saved in your browser for next time.</p>
-              <h3>What does the progress bar mean?</h3>
-              <p>It estimates the percentage of your expected lifespan already lived, based on your birth date and the life expectancy setting.</p>
-            </div>
-          </section>
+            
+              <h2 className="text-3xl md:text-4xl text-white ">
+                <strong>How Does Our Age Calculator Work..?</strong>
+              </h2>
+              <p className="text-slate-300 py-3 leading-relaxed">
+                You simply enter your date of birth and the date you want to calculate your age for. The algorithm calculates
+                the exact time difference between those two dates. It then displays your age in <strong>years, months, days,
+                hours, minutes, and seconds</strong>. For example, if you were born on January 1, 2000, and today is October 10,
+                2025, you’ll instantly see your full age and total time lived.
+              </p>
+            
+              <h2 className="text-3xl md:text-4xl text-white">
+                <strong>Why Use CalculatorHub’s Age Calculator..?</strong>
+              </h2>
+              <ul className="list-disc py-3 pl-6 text-slate-300 space-y-2">
+                <li>⚡ Instantly calculate your age without complex formulas or errors.</li>
+                <li>📆 Check your age for visa applications, legal forms, or health purposes.</li>
+                <li>🎂 Know exactly how many days, weeks, or months you’ve lived.</li>
+                <li>🧠 Explore unique insights like your total hours or seconds of life.</li>
+                <li>💡 Compare ages with our <a href="/age-difference-calculator" className="text-teal-400 hover:underline">Age Difference Calculator</a>.</li>
+              </ul>
+            
+              <h2 className="text-3xl md:text-4xl text-white ">
+               <strong>Features and Benefits</strong>
+              </h2>
+              <ul className="list-disc py-3 pl-6 text-slate-300 space-y-2">
+                <li>🎯 Accurate down to the second — no manual calculation required.</li>
+                <li>🌐 Works in all modern browsers, mobile, and desktop devices.</li>
+                <li>💾 Uses <strong>localStorage</strong> to remember your last settings automatically.</li>
+                <li>🧭 Features a sleek dark UI with readable contrast and responsive design.</li>
+                <li>🔒 100% secure — no data leaves your browser.</li>
+                <li>🧮 Integrates with other tools like the <a href="/date-calculator" className="text-teal-400 hover:underline">Date Calculator</a> and <a href="/bmi-calculator" className="text-teal-400 hover:underline">BMI Calculator</a>.</li>
+              </ul>
+            
+              <h2 className="text-3xl md:text-4xl text-white ">
+               <strong> Advanced Mode: Live Life Countdown</strong>
+              </h2>
+              <p className=" py-3 text-slate-300 leading-relaxed">
+                What sets CalculatorHub apart is our <strong>Advanced Mode</strong>. Based on the <a href="https://en.wikipedia.org/wiki/Life_expectancy" target="_blank" rel="noopener noreferrer nofollow" className="text-teal-400 hover:underline">average life expectancy</a> of your region, gender, and preferences, the calculator estimates how much time you may have left — and visualizes it in a <strong>live countdown</strong> and a dynamic progress bar.
+              </p>
+              <p className="text-slate-300 py-3 leading-relaxed">
+                For example, if your regional life expectancy is 80 years, the tool shows you how many <strong>years, months, days, hours, and seconds</strong> are remaining, updating in real time. It’s both enlightening and motivational — helping you make the most of every moment.
+              </p>
+            
+              
+            
+              <h2 className="text-3xl md:text-4xl text-white">
+                <strong>Reliable Data Sources</strong>
+              </h2>
+              <p className="text-slate-300 p-3 leading-relaxed">
+                Our life expectancy estimates are based on trusted global health data from the{" "}
+                <a href="https://www.who.int/data/gho/data/themes/topics/topic-details/GHO/life-expectancy" target="_blank" rel="noopener noreferrer nofollow" className="text-teal-400 hover:underline">World Health Organization</a>,{" "}
+                <a href="https://www.worldometers.info/demographics/life-expectancy/" target="_blank" rel="noopener noreferrer nofollow" className="text-teal-400 hover:underline">Worldometer</a>, and{" "}
+                <a href="https://worldpopulationreview.com/country-rankings/life-expectancy-by-country" target="_blank" rel="noopener noreferrer nofollow" className="text-teal-400 hover:underline">World Population Review</a>.
+              </p>
+            
+              <section className="space-y-4">
+                  <h2 className="text-3xl md:text-4xl text-white mb-4"><strong>❓ Frequently Asked Questions (<span className="text-yellow-300"> FAQ </span>)</strong></h2>
+                  <div className="space-y-4 text-lg text-slate-100 leading-relaxed">
+                    <div>
+                      <div className="bg-slate-800/60 p-4 mt-3 rounded-lg">
+                          <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q1</span>: Is this Age Calculator accurate?</h3>
+                          <p>
+      			Yes, it uses real-time date difference calculations with millisecond precision to ensure the results are exact.
+                          </p>
+                      </div>
+                      <div className="bg-slate-800/60 p-4 mt-3 rounded-lg">
+                          <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q2</span>: Can I use it for official forms or visas?</h3>
+                          <p>
+      		Absolutely. The calculator provides verified date outputs ideal for forms, applications, and documentation.
+                          </p>
+                      </div>
+                      <div className="bg-slate-800/60 p-4 mt-3 rounded-lg">
+                          <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q3</span>: Does it save my personal data?</h3>
+                          <p>
+      			No personal data is collected or stored. Only your preferred settings are cached locally for convenience.
+                          </p>
+                      </div>
+                      <div className="bg-slate-800/60 p-4mt-3 rounded-lg">
+                          <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q4</span>: Can I compare ages between two people?</h3>
+                          <p>
+      			 Yes, try our <a href="/age-difference-calculator" className="text-teal-400 hover:underline">Age Difference Calculator</a> to compare two birthdates instantly.
+                          </p>
+                      </div>
+                   </div>
+                 </div>
+                </section>
+
+              <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+                  <div className="flex items-center gap-3">
+                    <img
+                      src="/images/calculatorhub-author.jpg"
+                      alt="CalculatorHub Security Tools Team"
+                      className="w-12 h-12 rounded-full border border-gray-600"
+                      loading="lazy"
+                    />
+                    <div>
+                      <p className="font-semibold text-white">Written by the CalculatorHub Security Tools Team</p>
+                      <p className="text-sm text-slate-400">
+                        Experts in web security and online calculator development. Last updated: <time dateTime="2025-10-10">October 10, 2025</time>.
+                      </p>
+                    </div>
+                  </div>
+                </section>
+            
+              <p className="text-center text-slate-400 text-sm mt-8">
+                © {new Date().getFullYear()} CalculatorHub. Discover more powerful tools in our{" "}
+                <a href="/category/date-time-tools" className="text-teal-400 hover:underline">Date & Time Tools</a> collection.
+              </p>
+            </section>
+
         </div>
       </div>
     </>
