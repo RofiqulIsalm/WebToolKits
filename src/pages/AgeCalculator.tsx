@@ -314,7 +314,7 @@ const AgeCalculator: React.FC = () => {
       />
 
       {/* Static gradient background wrapper */}
-      <div className="min-h-screen w-full bg-gradient-to-b from-slate-900 to-slate-800 py-10">
+      <div className="min-h-screen w-full  from-slate-900 to-slate-800 py-10">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <Breadcrumbs
             items={[
@@ -577,6 +577,82 @@ const AgeCalculator: React.FC = () => {
                 hours, minutes, and seconds</strong>. For example, if you were born on January 1, 2000, and today is October 10,
                 2025, you’ll instantly see your full age and total time lived.
               </p>
+
+
+              {/* Logic & Formula Section */}
+                <h2 className="text-3xl md:text-4xl text-white">
+                  <strong> How the Age Calculator Works (Logic & Formula)</strong>
+                </h2>
+              
+                <p className="text-slate-300 leading-relaxed mb-4">
+                  Our <strong>Age Calculator</strong> uses precise date-time algorithms to find the difference between your birth date and
+                  the current or selected date. It accounts for leap years, months with different day counts, and even time zone differences
+                  to ensure 100% accuracy. Below is a simplified look at the logic:
+                </p>
+              
+                <div className="bg-slate-800/60 rounded-xl p-4 border border-slate-700 overflow-x-auto">
+                  <pre className="text-sm text-blue-300 font-mono">
+              {`const calculateAge = (birthDate, currentDate) => {
+                const birth = new Date(birthDate);
+                const today = new Date(currentDate);
+              
+                let years = today.getFullYear() - birth.getFullYear();
+                let months = today.getMonth() - birth.getMonth();
+                let days = today.getDate() - birth.getDate();
+              
+                if (days < 0) {
+                  months--;
+                  const lastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+                  days += lastMonth.getDate();
+                }
+                if (months < 0) {
+                  years--;
+                  months += 12;
+                }
+              
+                const totalDays = Math.floor((today - birth) / (1000 * 60 * 60 * 24));
+                return { years, months, days, totalDays };
+              };`}
+                  </pre>
+                </div>
+              
+                <p className="text-slate-300 mt-4 leading-relaxed">
+                  This logic ensures that your age is always accurate, even across leap years or month-end transitions.
+                  Every time you update a date, the algorithm recalculates and updates the results instantly.
+                </p>
+              
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                  <div className="p-4 bg-blue-500/10 border border-blue-400/20 rounded-xl text-center">
+                    <h3 className="text-xl font-semibold text-blue-300 mb-1">📅 Year Logic</h3>
+                    <p className="text-slate-300 text-sm">Subtracts full calendar years between two dates.</p>
+                  </div>
+                  <div className="p-4 bg-teal-500/10 border border-teal-400/20 rounded-xl text-center">
+                    <h3 className="text-xl font-semibold text-teal-300 mb-1">🗓️ Month Logic</h3>
+                    <p className="text-slate-300 text-sm">Adjusts months when the current day is earlier than the birth day.</p>
+                  </div>
+                  <div className="p-4 bg-amber-500/10 border border-amber-400/20 rounded-xl text-center">
+                    <h3 className="text-xl font-semibold text-amber-300 mb-1">📆 Day Logic</h3>
+                    <p className="text-slate-300 text-sm">Calculates remaining days by adding the previous month’s total days.</p>
+                  </div>
+                </div>
+              
+                <p className="text-slate-300 mt-6 leading-relaxed">
+                  The final output includes <span className="text-teal-400 font-semibold">total days, weeks, months, hours, minutes</span>,
+                  and even <span className="text-blue-400 font-semibold">seconds lived</span>. These values are calculated by converting
+                  the total millisecond difference using the standard formulas:
+                </p>
+              
+                <ul className="list-disc pl-6 mt-3 text-slate-300 space-y-2">
+                  <li><code className="text-teal-400">Total Days = (currentDate − birthDate) / (1000 × 60 × 60 × 24)</code></li>
+                  <li><code className="text-blue-400">Total Weeks = Total Days / 7</code></li>
+                  <li><code className="text-amber-400">Total Months = Years × 12 + Months</code></li>
+                </ul>
+              
+                <p className="mt-4 text-slate-400 text-sm">
+                  🧠 <em>Did you know?</em> Our calculator even supports a real-time countdown mode for your life expectancy
+                  in the <strong>Advanced Mode</strong> section.
+                </p>
+
             
               <h2 className="text-3xl md:text-4xl text-white">
                 <strong>Why Use CalculatorHub’s Age Calculator..?</strong>
@@ -658,7 +734,7 @@ const AgeCalculator: React.FC = () => {
               <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
                   <div className="flex items-center gap-3">
                     <img
-                      src="/images/calculatorhub-author.jpg"
+                      src="/images/calculatorhub-author.webp"
                       alt="CalculatorHub Security Tools Team"
                       className="w-12 h-12 rounded-full border border-gray-600"
                       loading="lazy"
@@ -672,7 +748,7 @@ const AgeCalculator: React.FC = () => {
                   </div>
                 </section>
             
-              <p className="text-center text-slate-400 text-sm mt-8">
+              <p className="text-slate-400 text-sm mt-8">
                 © {new Date().getFullYear()} CalculatorHub. Discover more powerful tools in our{" "}
                 <a href="/category/date-time-tools" className="text-teal-400 hover:underline">Date & Time Tools</a> collection.
               </p>
