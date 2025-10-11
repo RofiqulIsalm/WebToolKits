@@ -82,8 +82,8 @@ const getInitialLocal = <T,>(key: string, fallback: T): T => {
 
 const AgeCalculator: React.FC = () => {
   // Base age state
-  const [birthDate, setBirthDate] = useState<string>('1990-01-01');
-  const [toDate, setToDate] = useState<string>(new Date().toISOString().split('T')[0]);
+  const [birthDate, setBirthDate] = useState<string>('0000-00-00');
+  const [toDate, setToDate] = useState<string>('0000-00-00');
   const [age, setAge] = useState<AgeBreakdown>({
     years: 0,
     months: 0,
@@ -149,40 +149,56 @@ const AgeCalculator: React.FC = () => {
   };
 
   const calculateAge = useCallback(() => {
-    const birth = new Date(birthDate);
-    const to = new Date(toDate);
-
-    if (isNaN(birth.getTime()) || isNaN(to.getTime())) {
-      setError('Please enter valid dates.');
-      return;
-    }
-    if (birth > to) {
-      setError('Birth date cannot be later than the “as on” date.');
-      return;
-    }
-    setError('');
-
-    const ymd = diffYMD(birth, to);
-    const diffMs = to.getTime() - birth.getTime();
-    const totalDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    const totalWeeks = Math.floor(totalDays / 7);
-    const totalMonths = ymd.years * 12 + ymd.months;
-    const totalHours = totalDays * 24;
-    const totalMinutes = totalHours * 60;
-    const totalSeconds = totalMinutes * 60;
-
+  if (birthDate === '0000-00-00' || toDate === '0000-00-00') {
     setAge({
-      years: ymd.years,
-      months: ymd.months,
-      days: ymd.days,
-      totalDays,
-      totalMonths,
-      totalWeeks,
-      totalHours,
-      totalMinutes,
-      totalSeconds,
+      years: 0,
+      months: 0,
+      days: 0,
+      totalDays: 0,
+      totalMonths: 0,
+      totalWeeks: 0,
+      totalHours: 0,
+      totalMinutes: 0,
+      totalSeconds: 0,
     });
-  }, [birthDate, toDate]);
+    return;
+  }
+
+  const birth = new Date(birthDate);
+  const to = new Date(toDate);
+
+  if (isNaN(birth.getTime()) || isNaN(to.getTime())) {
+    setError('Please enter valid dates.');
+    return;
+  }
+  if (birth > to) {
+    setError('Birth date cannot be later than the “as on” date.');
+    return;
+  }
+  setError('');
+
+  const ymd = diffYMD(birth, to);
+  const diffMs = to.getTime() - birth.getTime();
+  const totalDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const totalWeeks = Math.floor(totalDays / 7);
+  const totalMonths = ymd.years * 12 + ymd.months;
+  const totalHours = totalDays * 24;
+  const totalMinutes = totalHours * 60;
+  const totalSeconds = totalMinutes * 60;
+
+  setAge({
+    years: ymd.years,
+    months: ymd.months,
+    days: ymd.days,
+    totalDays,
+    totalMonths,
+    totalWeeks,
+    totalHours,
+    totalMinutes,
+    totalSeconds,
+  });
+}, [birthDate, toDate]);
+
 
   useEffect(() => {
     calculateAge();
@@ -338,8 +354,9 @@ const AgeCalculator: React.FC = () => {
             {/* Inputs */}
             <section className="rounded-2xl border border-white/10 bg-white/10 backdrop-blur-lg p-6 shadow-xl">
               <h2 className="text-xl font-semibold text-slate-100 mb-4">Date Input</h2>
-
+            
               <div className="space-y-5">
+                {/* Birth Date */}
                 <div>
                   <label htmlFor="birth-date" className="block text-sm font-medium text-slate-200 mb-2">
                     Birth Date
@@ -348,13 +365,20 @@ const AgeCalculator: React.FC = () => {
                     id="birth-date"
                     aria-label="Enter your birth date"
                     type="date"
-                    value={birthDate}
+                    value={birthDate === '0000-00-00' ? '' : birthDate}
+                    placeholder="Select your birth date"
                     max={clampDateISO(toDate)}
-                    onChange={(e) => setBirthDate(clampDateISO(e.target.value))}
-                    className="w-full px-4 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    onChange={(e) => {
+                      const val = e.target.value || '0000-00-00';
+                      setBirthDate(val);
+                    }}
+                    className="w-full px-4 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 
+                               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                               placeholder-slate-500"
                   />
                 </div>
-
+            
+                {/* To Date */}
                 <div>
                   <label htmlFor="to-date" className="block text-sm font-medium text-slate-200 mb-2">
                     Calculate Age As On
@@ -363,23 +387,37 @@ const AgeCalculator: React.FC = () => {
                     id="to-date"
                     aria-label="Enter the reference date to calculate age on"
                     type="date"
-                    value={toDate}
-                    min={clampDateISO(birthDate)}
+                    value={toDate === '0000-00-00' ? '' : toDate}
+                    placeholder="Select date to calculate"
+                    min={birthDate && birthDate !== '0000-00-00' ? clampDateISO(birthDate) : undefined}
                     max={new Date().toISOString().split('T')[0]}
-                    onChange={(e) => setToDate(clampDateISO(e.target.value))}
-                    className="w-full px-4 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    onChange={(e) => {
+                      const val = e.target.value || '0000-00-00';
+                      setToDate(val);
+                    }}
+                    className="w-full px-4 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 
+                               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                               placeholder-slate-500"
                   />
                 </div>
-
+            
+                {/* Calculate Today */}
                 <button
-                  type="button"
-                  onClick={() => setToDate(new Date().toISOString().split('T')[0])}
-                  className="w-full px-4 py-2 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-500 transition-colors shadow-sm"
-                  aria-label="Set the calculation date to today"
-                >
-                  Calculate Age Today
-                </button>
+                    type="button"
+                    disabled={birthDate === '0000-00-00'}
+                    onClick={() => setToDate(new Date().toISOString().split('T')[0])}
+                    className={`w-full px-4 py-2 rounded-xl font-medium transition-colors shadow-sm ${
+                      birthDate === '0000-00-00'
+                        ? 'bg-slate-700 text-slate-400 cursor-not-allowed'
+                        : 'bg-blue-600 text-white hover:bg-blue-500'
+                    }`}
+                    aria-label="Set the calculation date to today"
+                  >
+                    Calculate Age Today
+                  </button>
 
+            
+                {/* Error */}
                 {error && (
                   <p className="text-sm text-red-400" role="alert">
                     {error}
@@ -387,6 +425,7 @@ const AgeCalculator: React.FC = () => {
                 )}
               </div>
             </section>
+
 
             {/* Results */}
             <section className="rounded-2xl border border-white/10 bg-white/10 backdrop-blur-lg p-6 shadow-xl">
