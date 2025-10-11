@@ -102,14 +102,12 @@ const AgeCalculator: React.FC = () => {
 
   // Advanced mode state
   const [advanced, setAdvanced] = useState<boolean>(() => getInitialLocal('adv_enabled', false));
-  const [region, setRegion] = useState<string>(() => getInitialLocal('adv_region', DEFAULT_REGION));
-  const [gender, setGender] = useState<string>(() => getInitialLocal('adv_gender', DEFAULT_GENDER));
+  const [region, setRegion] = useState<string>(() => getInitialLocal('adv_region', ''));
+  const [gender, setGender] = useState<string>(() => getInitialLocal('adv_gender', ''));
   const [lifeExpectancy, setLifeExpectancy] = useState<number>(() => {
-    const saved = getInitialLocal<number>('adv_expectancy', -1);
-    if (saved > 0) return saved;
-    const byRegion = LIFE_EXPECTANCY_TABLE[DEFAULT_REGION]?.[DEFAULT_GENDER] ?? 75;
-    return byRegion;
-  });
+    const saved = getInitialLocal<number>('adv_expectancy', 0);
+    return saved > 0 ? saved : 0;
+});
   const [lifeLeft, setLifeLeft] = useState<LifeLeft | null>(null);
 
   // Persist advanced settings
@@ -248,6 +246,43 @@ const AgeCalculator: React.FC = () => {
     return () => clearInterval(id);
   }, [advanced, recalcLifeLeft]);
 
+  // reset button funtionality
+  
+    const handleReset = useCallback(() => {
+    // Reset all base states
+    setBirthDate('0000-00-00');
+    setToDate('0000-00-00');
+    setError('');
+    setAge({
+      years: 0,
+      months: 0,
+      days: 0,
+      totalDays: 0,
+      totalMonths: 0,
+      totalWeeks: 0,
+      totalHours: 0,
+      totalMinutes: 0,
+      totalSeconds: 0,
+    });
+    setCopied(false);
+  
+    // Reset advanced mode
+    setAdvanced(false);
+    setRegion('');
+    setGender('');
+    setLifeExpectancy(0);
+    setLifeLeft(null);
+  
+    // Clear saved data
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('adv_enabled');
+      localStorage.removeItem('adv_region');
+      localStorage.removeItem('adv_gender');
+      localStorage.removeItem('adv_expectancy');
+    }
+  }, []);
+
+
   // Update expectancy automatically when region/gender changes
   useEffect(() => {
     const tableVal = LIFE_EXPECTANCY_TABLE[region]?.[gender];
@@ -353,8 +388,18 @@ const AgeCalculator: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Inputs */}
             <section className="rounded-2xl border border-white/10 bg-white/10 backdrop-blur-lg p-6 shadow-xl">
-              <h2 className="text-xl font-semibold text-slate-100 mb-4">Date Input</h2>
-            
+              <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-semibold text-slate-100">Date Input</h2>
+                  <button
+                    onClick={handleReset}
+                    type="button"
+                    className="text-white bg-yellow-700 hover:bg-yellow-800 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-2.5 py-1.5 text-center me-2 mb-2 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800"
+                    aria-label="Reset all fields"
+                  >
+                    Reset
+                  </button>
+               
+                </div>
               <div className="space-y-5">
                 {/* Birth Date */}
                 <div>
@@ -514,26 +559,28 @@ const AgeCalculator: React.FC = () => {
                     <div>
                       <label className="block text-sm font-medium text-slate-200 mb-1">Region</label>
                       <select
-                        className="w-full px-3 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        value={region}
-                        onChange={(e) => setRegion(e.target.value)}
-                      >
-                        {Object.keys(LIFE_EXPECTANCY_TABLE).map(r => (
-                          <option key={r} value={r}>{r}</option>
-                        ))}
-                      </select>
+                          className="w-full px-3 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          value={region}
+                          onChange={(e) => setRegion(e.target.value)}
+                        >
+                          <option value="">Select Region</option>
+                          {Object.keys(LIFE_EXPECTANCY_TABLE).map(r => (
+                            <option key={r} value={r}>{r}</option>
+                          ))}
+                        </select>
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-slate-200 mb-1">Gender</label>
                       <select
-                        className="w-full px-3 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        value={gender}
-                        onChange={(e) => setGender(e.target.value)}
-                      >
-                        {Object.keys(LIFE_EXPECTANCY_TABLE[region] || { Male: 0, Female: 0, Other: 0 }).map(g => (
-                          <option key={g} value={g}>{g}</option>
-                        ))}
-                      </select>
+                          className="w-full px-3 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          value={gender}
+                          onChange={(e) => setGender(e.target.value)}
+                        >
+                          <option value="">Select Gender</option>
+                          {region && Object.keys(LIFE_EXPECTANCY_TABLE[region] || { Male: 0, Female: 0, Other: 0 }).map(g => (
+                            <option key={g} value={g}>{g}</option>
+                          ))}
+                        </select>
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-slate-200 mb-1">
@@ -544,7 +591,8 @@ const AgeCalculator: React.FC = () => {
                         min={1}
                         max={130}
                         className="w-full px-3 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        value={lifeExpectancy}
+                        value={lifeExpectancy || 0}
+                        placeholder="Enter life expectancy"
                         onChange={(e) => setLifeExpectancy(Math.max(1, Math.min(130, Number(e.target.value) || 75)))}
                       />
                       <p className="text-xs text-slate-400 mt-1">Override the regional estimate if you prefer.</p>
@@ -552,7 +600,7 @@ const AgeCalculator: React.FC = () => {
                   </div>
 
                   {/* Countdown + Summary */}
-                  {lifeLeft && (
+                  {lifeLeft && lifeExpectancy > 0 && region && gender && (
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                       <div className="p-4 rounded-xl border border-white/10 bg-slate-900/40">
                         <h3 className="font-semibold text-slate-200 mb-2">⏳ Life Countdown</h3>
