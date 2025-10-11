@@ -319,6 +319,7 @@ const AgeCalculator: React.FC = () => {
           "text": "Enter your date of birth and a reference date. The calculator returns your exact age in years, months and days, along with totals (weeks, days, hours, minutes, seconds)."
         }
       },
+      
       {
         "@type": "Question",
         "name": "What is Advanced Mode in the Age Calculator?",
@@ -334,10 +335,27 @@ const AgeCalculator: React.FC = () => {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Age Calculator – CalculatorHub",
-    "url": "https://calculatorhub.com/age-calculator",
+    "url": "https://calculatorhub.site/age-calculator",
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Any",
     "offers": { "@type": "Offer", "price": "0" }
+  }), []);
+  
+  const articleSchema = useMemo(() => ({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Age Calculator – Calculate Exact Age and Life Countdown",
+      "author": {
+        "@type": "Organization",
+        "name": "CalculatorHub Security Tools Team"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "CalculatorHub",
+        "logo": { "@type": "ImageObject", "url":       "https://calculatorhub.site/images/calculatorhub-logo.webp" }
+      },
+      "datePublished": "2025-10-10",
+      "dateModified": "2025-10-20"
   }), []);
 
   const schemaArray = useMemo(() => ([
@@ -356,13 +374,26 @@ const AgeCalculator: React.FC = () => {
       <SEOHead
         title={seoData.ageCalculator.title}
         description={seoData.ageCalculator.description}
-        canonical="https://calculatorhub.com/age-calculator"
+        canonical="https://calculatorhub.site/age-calculator"
         schemaData={schemaArray}
         breadcrumbs={[
           { name: 'Date & Time Tools', url: '/category/date-time-tools' },
           { name: 'Age Calculator', url: '/age-calculator' }
+
+        
         ]}
+        
       />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
+      <meta property="og:title" content="Age Calculator – Calculate Your Exact Age | CalculatorHub" />
+      <meta property="og:description" content="Find your exact age in years, months, days, hours, and seconds with CalculatorHub’s free Age Calculator. Includes life expectancy countdown and more!" />
+      <meta property="og:image" content="https://calculatorhub.site/images/age-calculator-preview.webp" />
+      <meta property="og:type" content="website" />
+      <meta name="twitter:card" content="summary_large_image" />
+
 
       {/* Static gradient background wrapper */}
       <div className="min-h-screen w-full  from-slate-900 to-slate-800 py-10">
@@ -665,6 +696,14 @@ const AgeCalculator: React.FC = () => {
                 2025, you’ll instantly see your full age and total time lived.
               </p>
 
+              <h2 className="text-3xl md:text-4xl text-white"><strong>Pro Tips for Better Time Insights</strong></h2>
+                <ul className="list-disc pl-6 py-3 text-slate-300 space-y-2">
+                  <li>Try our <a href="/date-difference-calculator" className="text-teal-400 hover:underline">Date Difference Calculator</a> to measure time spans between events.</li>
+                  <li>Bookmark your result — it stays saved with localStorage.</li>
+                  <li>Use Advanced Mode weekly to track your progress toward personal goals.</li>
+                </ul>
+
+
 
               {/* Logic & Formula Section */}
                 <h2 className="text-3xl md:text-4xl text-white">
@@ -821,6 +860,8 @@ const AgeCalculator: React.FC = () => {
               <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
                   <div className="flex items-center gap-3">
                     <img
+                      decoding="async"
+                      fetchpriority="low"
                       src="/images/calculatorhub-author.webp"
                       alt="CalculatorHub Security Tools Team"
                       className="w-12 h-12 rounded-full border border-gray-600"
