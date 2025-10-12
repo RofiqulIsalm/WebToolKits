@@ -1008,7 +1008,6 @@ const DateDifferencePro: React.FC = () => {
               </ul>
             </section>
         
-            <AdBanner type="bottom" />
         
             {/* ===================== FAQ SCHEMA (SEO Rich Results) ===================== */}
             <script
