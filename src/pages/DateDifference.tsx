@@ -667,6 +667,45 @@ const DateDifferencePro: React.FC = () => {
       noteTitle: notesEnabled && noteTitle ? noteTitle : undefined,
       noteBody: notesEnabled && noteBody ? noteBody : undefined,
     };
+
+  // Save to history and clear note fields if successful
+  const addToHistoryWithNotes = () => {
+    if (fromDateTime === SENTINEL_ZERO && toDateTime === SENTINEL_ZERO) {
+      setErrorMsg("Values are zero — cannot save history.");
+      return;
+    }
+    if (!isValidInput(fromDateTime) || !isValidInput(toDateTime)) {
+      setErrorMsg("Please select valid From and To dates.");
+      return;
+    }
+    const fTs = new Date(fromDateTime).getTime();
+    const tTs = new Date(toDateTime).getTime();
+    if (fTs > tTs) {
+      setErrorMsg("From must be earlier than or equal to To.");
+      return;
+    }
+    setErrorMsg("");
+    const f = new Date(fromDateTime);
+    const t = new Date(toDateTime);
+    const item: HistoryItem = {
+      id: `${Date.now()}`,
+      fromISO: f.toISOString(),
+      toISO: t.toISOString(),
+      createdAtISO: new Date().toISOString(),
+      summary: buildDynamicSummary(calcDateTimeDiff(fromDateTime, toDateTime)),
+      noteTitle: notesEnabled && noteTitle ? noteTitle : undefined,
+      noteBody: notesEnabled && noteBody ? noteBody : undefined,
+    };
+    const next = clampHistory([item, ...history]);
+    setHistory(next);
+    saveHistory(next);
+    // clear notes
+    setNotesEnabled(false);
+    setNoteTitle("");
+    setNoteBody("");
+    setNoticeMsg("Saved to history with note.");
+  };
+
     const next = clampHistory([item, ...history]);
     setHistory(next);
     saveHistory(next);
@@ -862,7 +901,18 @@ const DateDifferencePro: React.FC = () => {
                     className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
-              </div>
+              
+                <div className="pt-1">
+                  <button
+                    type="button"
+                    onClick={addToHistoryWithNotes}
+                    className="w-full sm:w-auto px-4 py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded-lg"
+                    title="Save to History (with note)"
+                  >
+                    Save to History (with note)
+                  </button>
+                </div>
+</div>
             )}
 
 <div className="flex flex-col sm:flex-row gap-2 mb-2">
