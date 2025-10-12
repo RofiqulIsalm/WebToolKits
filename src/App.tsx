@@ -25,6 +25,7 @@ import AgeCalculator from './pages/AgeCalculator';
 import DateDifference from './pages/DateDifference';
 import QRCodeGenerator from './pages/QRCodeGenerator';
 import PasswordGenerator from './pages/PasswordGenerator';
+import AddSubtract from './pages/AddSubtract';
 
 // Misc Tools
 import RandomNumberGenerator from './pages/RandomNumberGenerator';
