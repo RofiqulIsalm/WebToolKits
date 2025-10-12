@@ -119,7 +119,7 @@ function App() {
             <Route path="/equation-solver" element={<ComingSoon title="Equation Solver" />} />
 
             {/* ✅ Coming Soon Calculators - Date & Time Tools */}
-            <Route path="/AddSubtract" element={<ComingSoon title="Add/Subtract Days Calculator" />} />
+            <Route path="/AddSubtract" element={<AddSubtract>} />
             <Route path="/weekday-finder" element={<ComingSoon title="Weekday Finder" />} />
             <Route path="/business-days-calculator" element={<ComingSoon title="Business Days Calculator" />} />
             <Route path="/countdown-timer" element={<ComingSoon title="Countdown Timer" />} />
