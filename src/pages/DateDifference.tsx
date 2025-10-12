@@ -769,56 +769,98 @@ const DateDifferencePro: React.FC = () => {
             </div>
 
             {showAdvanced && (
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-2">
-                <button
-                  type="button"
-                  onClick={swapDates}
-                  className="px-3 py-2 rounded-lg bg-blue-50 border border-blue-200 text-blue-800 hover:bg-blue-100 inline-flex items-center justify-center gap-2"
-                  title="Swap From and To"
-                >
-                  <ArrowLeftRight className="w-4 h-4" />
-                  Swap
-                </button>
-                <button
-                  type="button"
-                  onClick={quickSetFromNow}
-                  className="px-3 py-2 rounded-lg bg-gray-50 border border-gray-200 hover:bg-gray-100 inline-flex items-center justify-center gap-2"
-                  title="Set From = Now"
-                >
-                  From = Now
-                </button>
-                <button
-                  type="button"
-                  onClick={quickSetToNow}
-                  className="px-3 py-2 rounded-lg bg-gray-50 border border-gray-200 hover:bg-gray-100 inline-flex items-center justify-center gap-2"
-                  title="Set To = Now"
-                >
-                  To = Now
-                </button>
-                <button
-                  type="button"
-                  onClick={() => addDaysToTo(1)}
-                  className="px-3 py-2 rounded-lg bg-gray-50 border border-gray-200 hover:bg-gray-100 inline-flex items-center justify-center gap-2"
-                  title="Set To = Now + 1 day"
-                >
-                  +1 day
-                </button>
-                <button
-                  type="button"
-                  onClick={() => addDaysToTo(7)}
-                  className="px-3 py-2 rounded-lg bg-gray-50 border border-gray-200 hover:bg-gray-100 inline-flex items-center justify-center gap-2"
-                  title="Set To = Now + 7 days"
-                >
-                  +7 days
-                </button>
-                <button
-                  type="button"
-                  onClick={() => addDaysToTo(30)}
-                  className="px-3 py-2 rounded-lg bg-gray-50 border border-gray-200 hover:bg-gray-100 inline-flex items-center justify-center gap-2"
-                  title="Set To = Now + 30 days"
-                >
-                  +30 days
-                </button>
+              <div className="grid grid-cols-2 sm:grid-cols-6 gap-2 mb-2">
+                  <button
+                      type="button"
+                      onClick={quickSetFromNow}
+                      className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
+                        ${anchor === 'from' ? 'bg-blue-100 border-blue-300 text-blue-900' : 'bg-gray-50 border-gray-200 hover:bg-gray-100'}
+                      `}
+                      title="Set From = Now"
+                    >
+                      From = Now
+                    </button>
+                  
+                    <button
+                      type="button"
+                      onClick={quickSetToNow}
+                      className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
+                        ${anchor === 'to' ? 'bg-blue-100 border-blue-300 text-blue-900' : 'bg-gray-50 border-gray-200 hover:bg-gray-100'}
+                      `}
+                      title="Set To = Now"
+                    >
+                      To = Now
+                    </button>
+                  
+                    {/* PLUS days – enabled only when anchor === 'from' */}
+                    <button
+                      type="button"
+                      onClick={() => applyPlusDays(1)}
+                      disabled={anchor !== 'from'}
+                      className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
+                        ${anchor === 'from' ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
+                      `}
+                      title={anchor === 'from' ? 'Add +1 day to TO' : 'Enable From = Now to use +days'}
+                    >
+                      +1 day
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => applyPlusDays(7)}
+                      disabled={anchor !== 'from'}
+                      className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
+                        ${anchor === 'from' ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
+                      `}
+                      title={anchor === 'from' ? 'Add +7 days to TO' : 'Enable From = Now to use +days'}
+                    >
+                      +7 days
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => applyPlusDays(30)}
+                      disabled={anchor !== 'from'}
+                      className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
+                        ${anchor === 'from' ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
+                      `}
+                      title={anchor === 'from' ? 'Add +30 days to TO' : 'Enable From = Now to use +days'}
+                    >
+                      +30 days
+                    </button>
+                  
+                    {/* MINUS days – enabled only when anchor === 'to' */}
+                    <button
+                      type="button"
+                      onClick={() => applyMinusDays(1)}
+                      disabled={anchor !== 'to'}
+                      className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
+                        ${anchor === 'to' ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
+                      `}
+                      title={anchor === 'to' ? 'Subtract -1 day from FROM' : 'Enable To = Now to use -days'}
+                    >
+                      −1 day
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => applyMinusDays(7)}
+                      disabled={anchor !== 'to'}
+                      className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
+                        ${anchor === 'to' ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
+                      `}
+                      title={anchor === 'to' ? 'Subtract -7 days from FROM' : 'Enable To = Now to use -days'}
+                    >
+                      −7 days
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => applyMinusDays(30)}
+                      disabled={anchor !== 'to'}
+                      className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
+                        ${anchor === 'to' ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
+                      `}
+                      title={anchor === 'to' ? 'Subtract -30 days from FROM' : 'Enable To = Now to use -days'}
+                    >
+                      −30 days
+                    </button>
               </div>
             )}
 
