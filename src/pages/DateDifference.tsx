@@ -918,6 +918,159 @@ const DateDifferencePro: React.FC = () => {
           )}
         </section>
 
+        {/* Trust & About snippet (for snippet/featured box potential) */}
+        <div className="rounded-2xl p-6 mb-8 bg-slate-800/50 mt-8 text-slate-300">
+          <h2 className="text-2xl font-bold text-white mb-2">About This Date Difference Calculator</h2>
+          <p className="mb-2">
+            Fast, private, and accurate — this calculator runs <strong>100% locally in your browser</strong> and never uploads your data.
+            Instantly find the exact time between two date-times with calendar-aware precision (years, months, days, hours, minutes, seconds).
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <span className="inline-flex items-center rounded-full bg-green-600/20 px-3 py-1 text-xs text-green-300 ring-1 ring-green-600/40">
+              📅 Calendar-aware math
+            </span>
+            <span className="inline-flex items-center rounded-full bg-blue-600/20 px-3 py-1 text-xs text-blue-300 ring-1 ring-blue-600/40">
+              🔒 No tracking
+            </span>
+            <span className="inline-flex items-center rounded-full bg-yellow-600/20 px-3 py-1 text-xs text-yellow-300 ring-1 ring-yellow-600/40">
+              ⚡ Real-time countdown
+            </span>
+            <span className="inline-flex items-center rounded-full bg-purple-600/20 px-3 py-1 text-xs text-purple-300 ring-1 ring-purple-600/40">
+              📝 Notes & History
+            </span>
+          </div>
+        </div>
+        
+        <div className="rounded-2xl p-8 mb-8">
+          <h2 className="text-3xl font-bold text-white mb-4">Date Difference Calculator – Find Days, Weeks, or Exact Time Between Dates</h2>
+          <div className="space-y-4 text-slate-300">
+            <p>
+              Planning a project, tracking deadlines, or curious how long until an event? This <strong>Date Difference Calculator</strong> gives you precise
+              results in real time — from total days and weeks to a <strong>dynamic calendar breakdown</strong> (years, months, days, hours, minutes, seconds).
+              It also includes a <strong>live countdown</strong> when your “To” date is in the future.
+            </p>
+        
+            {/* Image 1 */}
+            <figure className="rounded-xl overflow-hidden border border-slate-700/50">
+              <img
+                src="/images/date-difference-hero.webp"
+                alt="Date Difference Calculator interface with inputs and dynamic results"
+                loading="lazy"
+                className="w-full h-auto object-cover"
+              />
+              <figcaption className="px-3 py-2 text-sm text-slate-400">Calculate the exact time between two dates — including totals and a live countdown.</figcaption>
+            </figure>
+        
+            <p>
+              Enter your <strong>From</strong> and <strong>To</strong> dates/times, optionally add a note (title + description), and save the entry.
+              Your history is stored locally, and you can export a clean PDF report for sharing or record-keeping.
+            </p>
+        
+            <AdBanner type="bottom" />
+        
+            <h3 className="text-2xl font-semibold text-white mt-6">Why Use a Date Difference Calculator?</h3>
+            <ul className="list-disc list-inside space-y-2 ml-4">
+              <li><strong>Accurate Planning</strong> – Schedule sprints, product launches, or study plans with exact durations.</li>
+              <li><strong>Event Tracking</strong> – Count down to weddings, trips, exams, or holidays precisely.</li>
+              <li><strong>Work & Payroll</strong> – Calculate days/hours between shifts or billing milestones.</li>
+              <li><strong>Personal Goals</strong> – Track streaks, habits, and progress over time.</li>
+            </ul>
+        
+            {/* Image 2 */}
+            <figure className="rounded-xl overflow-hidden border border-slate-700/50">
+              <img
+                src="/images/calendar-countdown.webp"
+                alt="Calendar with highlight and countdown overlay"
+                loading="lazy"
+                className="w-full h-auto object-cover"
+              />
+              <figcaption className="px-3 py-2 text-sm text-slate-400">See totals in days/weeks and a clean calendar-style breakdown.</figcaption>
+            </figure>
+        
+            <h3 className="text-2xl font-semibold text-white mt-6">Key Features</h3>
+            <ul className="list-disc list-inside space-y-2 ml-4">
+              <li><strong>Calendar-aware difference</strong> – Handles months of different lengths correctly.</li>
+              <li><strong>Totals at a glance</strong> – Days, weeks, hours, minutes, and seconds.</li>
+              <li><strong>Live countdown</strong> – Only shown when the “To” date is valid and in the future.</li>
+              <li><strong>Notes & History</strong> – Add a reason and description; view notes via a mobile-friendly modal.</li>
+              <li><strong>Privacy by design</strong> – All calculations happen in your browser.</li>
+              <li><strong>PDF export</strong> – Share or archive your results in one click.</li>
+            </ul>
+        
+            {/* Helpful internal backlinks (3–4) */}
+            <section className="bg-slate-800/50 rounded-lg p-6 mt-8 text-slate-300">
+              <h3 className="text-xl font-semibold text-white mb-3">More Date & Time Tools</h3>
+              <ul className="list-disc list-inside space-y-1">
+                <li><a href="/age-calculator" className="text-blue-400 hover:underline">Age Calculator</a> – Find exact age in years, months, and days.</li>
+                <li><a href="/time-add-subtract" className="text-blue-400 hover:underline">Time Add/Subtract</a> – Add or subtract hours, minutes, or days.</li>
+                <li><a href="/countdown-timer" className="text-blue-400 hover:underline">Countdown Timer</a> – Create a real-time countdown for any event.</li>
+                <li><a href="/unix-timestamp-converter" className="text-blue-400 hover:underline">Unix Timestamp Converter</a> – Convert between dates and epoch time.</li>
+              </ul>
+            </section>
+        
+            <AdBanner type="bottom" />
+        
+            {/* ===================== FAQ SCHEMA (SEO Rich Results) ===================== */}
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "FAQPage",
+                  "mainEntity": [
+                    {
+                      "@type": "Question",
+                      "name": "Is the Date Difference Calculator free?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes. It’s completely free and runs locally in your browser without sending data to a server."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "Does it handle months with different lengths?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes. The calculator is calendar-aware and accounts for variable month lengths when breaking down years, months, and days."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "Can I save and annotate my calculations?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Absolutely. Add a title and description, save to history, and reopen your notes anytime via the Info button."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "When does the live countdown show?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "The countdown appears only when your “To” date is valid and still in the future. It hides automatically after completion."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "Can I export results?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes. Export a PDF report that includes your input dates, summary, totals, and saved history."
+                      }
+                    }
+                  ]
+                })
+              }}
+            />
+        
+            <p className="mt-4">
+              Use this <strong>Date Difference Calculator</strong> to plan confidently — from personal events to professional projects.
+              It’s simple, accurate, and private by design.
+            </p>
+          </div>
+        </div>
+
+
         <AdBanner type="bottom" />
 
         <RelatedCalculators currentPath="/date-difference" category="date-time-tools" />
