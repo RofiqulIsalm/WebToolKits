@@ -812,7 +812,7 @@ const DateDifferencePro: React.FC = () => {
             </div>
             <button
                 onClick={handleExportPDF}
-                className="flex-1 px-4 py-2 bg-indigo-800 text-white rounded-lg hover:bg-indigo-700 transition-colors inline-flex items-center justify-center gap-2"
+                className="flex-1 w-full px-4 py-2 bg-indigo-800 text-white rounded-lg hover:bg-indigo-700 transition-colors inline-flex items-center justify-center gap-2"
               >
                 <FileDown className="w-5 h-5" /> Export PDF
               </button>
