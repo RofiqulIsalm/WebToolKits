@@ -808,13 +808,14 @@ const DateDifferencePro: React.FC = () => {
               >
                 <RotateCcw className="w-4 h-4" /> Reset
               </button>
-              <button
+              
+            </div>
+            <button
                 onClick={handleExportPDF}
                 className="flex-1 px-4 py-2 bg-indigo-800 text-white rounded-lg hover:bg-indigo-700 transition-colors inline-flex items-center justify-center gap-2"
               >
                 <FileDown className="w-5 h-5" /> Export PDF
               </button>
-            </div>
 
             {/* Error message area (red text) */}
             {errorMsg && (
