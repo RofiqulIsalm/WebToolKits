@@ -1,22 +1,13 @@
 
 /**
- * DateDifferencePro – Full Feature Page (Patched + Anchor Guards + Order Constraint)
- * -----------------------------------------------------------------------------
- * - Treats "0" as INVALID input everywhere (no more 1970 diffs)
- * - Adds "anchor" logic: when From=Now, +/- adjusts TO and cannot cross FROM;
- *   when To=Now, only minus adjusts FROM and cannot cross TO (plus disabled).
- * - Enforces ordering constraint: FROM <= TO at all times.
- * - Dynamic summary & countdown show only non-zero parts.
+ * DateDifferencePro – Final (notes + modal + order constraint + no quick actions)
+ * - FROM must be ≤ TO (auto-corrects on input changes)
+ * - Countdown shows only if TO is valid and in the future (> 0 remaining)
+ * - Optional notes via checkbox; "Save with note" button resets notes after save
+ * - History rows show an Info button if notes exist; opens mobile-friendly modal
  */
 
-import React, {
-  useEffect,
-  useMemo,
-  useState,
-  memo,
-  PropsWithChildren,
-  ReactNode,
-} from "react";
+import React, { useEffect, useMemo, useState, memo, PropsWithChildren, ReactNode } from "react";
 import {
   Clock,
   History as HistoryIcon,
@@ -25,7 +16,7 @@ import {
   Edit3,
   Trash2,
   CalendarClock,
-  Info,
+  Info as InfoIcon,
   CheckCircle2,
   AlertTriangle,
 } from "lucide-react";
@@ -74,7 +65,6 @@ const SENTINEL_ZERO = "0";
 const pad2 = (n: number) => String(Math.abs(n)).padStart(2, "0");
 const isValidDate = (d: Date) => !Number.isNaN(d.getTime());
 
-// Treat sentinel "0" (and empty) as invalid input
 const isValidInput = (iso: string): boolean => {
   if (!iso || iso === SENTINEL_ZERO) return false;
   const d = new Date(iso);
@@ -125,7 +115,6 @@ const toLocalDateTimeValue = (d: Date) => {
  * ========================================================================== */
 
 function calcDateTimeDiff(fromISO: string, toISO: string): DiffResult {
-  // Guard against sentinel "0" and empty
   if (!isValidInput(fromISO) || !isValidInput(toISO)) {
     return {
       years: 0,
@@ -292,25 +281,22 @@ const HistoryRow = memo(function HistoryRow({
         </div>
         <div className="text-sm text-gray-800">{item.summary}</div>
         <div className="text-xs text-gray-500">Saved {fmtDateTime(item.createdAtISO)}</div>
-        <div className="text-sm font-semibold text-indigo-700 mt-1">{countdownLabel}</div>
+        {!completed && (
+          <div className="text-sm font-semibold text-indigo-700 mt-1">{countdownLabel}</div>
+        )}
       </div>
       <div className="flex gap-2 flex-wrap">
-        
         {onInfo && (item.noteTitle || item.noteBody) && (
           <button
             onClick={() => onInfo(item)}
             className="px-3 py-1.5 rounded-lg bg-white border border-gray-300 text-gray-800 hover:bg-gray-50 text-sm inline-flex items-center gap-1"
             title="View details"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
+            <InfoIcon className="w-4 h-4" />
             Info
           </button>
         )}
-    <button
+        <button
           onClick={onEdit}
           className="px-3 py-1.5 rounded-lg bg-blue-800 text-white hover:bg-blue-700 text-sm inline-flex items-center gap-1"
           title="Edit"
@@ -351,7 +337,6 @@ const SectionDivider = ({ label }: { label: string }) => (
     <div className="h-px bg-gray-200 flex-1" />
   </div>
 );
-
 
 /** Simple accessible modal */
 const InlineModal = ({
@@ -403,7 +388,6 @@ const InlineModal = ({
   );
 };
 
-
 /* ==========================================================================
  * Main Component
  * ========================================================================== */
@@ -412,58 +396,44 @@ const DateDifferencePro: React.FC = () => {
   const [fromDateTime, setFromDateTime] = useState<string>(SENTINEL_ZERO);
   const [toDateTime, setToDateTime] = useState<string>(SENTINEL_ZERO);
 
-  const [diff, setDiff] = useState<DiffResult>(() => calcDateTimeDiff(fromDateTime, toDateTime));
-
   const [nowISO, setNowISO] = useState<string>(() => new Date().toISOString());
 
   const [history, setHistory] = useState<HistoryItem[]>(() => loadHistory());
   const [errorMsg, setErrorMsg] = useState<string>("");
   const [noticeMsg, setNoticeMsg] = useState<string>("");
+
   // Optional notes UI state
   const [notesEnabled, setNotesEnabled] = useState<boolean>(false);
   const [noteTitle, setNoteTitle] = useState<string>("");
   const [noteBody, setNoteBody] = useState<string>("");
 
-  const [showAdvanced, setShowAdvanced] = useState<boolean>(true);
-  const [anchor, setAnchor] = useState<'from' | 'to' | null>(null);
   // Modal for history item details
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [modalTitle, setModalTitle] = useState<string>("");
   const [modalBody, setModalBody] = useState<string>("");
 
-  // Recalculate diff
-  useEffect(() => {
-    setDiff(calcDateTimeDiff(fromDateTime, toDateTime));
-  }, [fromDateTime, toDateTime]);
-
-  // 1-second ticker
   useEffect(() => {
     const id = setInterval(() => setNowISO(new Date().toISOString()), 1000);
     return () => clearInterval(id);
   }, []);
 
-  const abs = (n: number) => Math.abs(n);
-
-  // Enforce ordering: FROM <= TO
-  const enforceOrderAfterSet = (which: 'from' | 'to', val: string) => {
+  // Enforce ordering: FROM <= TO, immediately on changes
+  const enforceOrderAfterSet = (which: "from" | "to", val: string) => {
     if (!isValidInput(val)) return;
-    if (which === 'from') {
+    if (which === "from") {
       if (isValidInput(toDateTime)) {
         const f = new Date(val).getTime();
         const t = new Date(toDateTime).getTime();
         if (f > t) {
-          // push TO up to FROM
           setToDateTime(val);
           setNoticeMsg("Adjusted: To aligned to From to keep order.");
         }
       }
     } else {
-      // which === 'to'
       if (isValidInput(fromDateTime)) {
         const f = new Date(fromDateTime).getTime();
         const t = new Date(val).getTime();
         if (t < f) {
-          // pull FROM down to TO
           setFromDateTime(val);
           setNoticeMsg("Adjusted: From aligned to To to keep order.");
         }
@@ -471,8 +441,9 @@ const DateDifferencePro: React.FC = () => {
     }
   };
 
-  // Countdown active only when TO is valid input
-    // Countdown shows only when TO is valid and remaining time > 0
+  const abs = (n: number) => Math.abs(n);
+
+  // Countdown shows only when TO valid and future
   const countdownActive = useMemo(() => {
     if (!isValidInput(toDateTime)) return false;
     const now = new Date(nowISO).getTime();
@@ -498,7 +469,6 @@ const DateDifferencePro: React.FC = () => {
     return parts.length ? parts.join(" ") : "0s";
   }, [nowISO, toDateTime]);
 
-  // Day-of-week labels
   const fromDow = useMemo(() => {
     return isValidInput(fromDateTime)
       ? new Date(fromDateTime).toLocaleDateString(undefined, { weekday: "long" })
@@ -527,117 +497,12 @@ const DateDifferencePro: React.FC = () => {
       if (hH) parts.push(`${pad2(hH)}h`);
       if (mM) parts.push(`${pad2(mM)}m`);
       if (sS) parts.push(`${pad2(sS)}s`);
-      const label = remain <= 0 ? "Completed" : `${parts.join(" ")} remaining`
+      const label = remain <= 0 ? "Completed" : `${parts.join(" ")} remaining`;
       return { id: h.id, complete: remain <= 0, label };
     });
   }, [history, nowISO]);
 
   const findHistoryCountdown = (id: string) => historyCountdowns.find((x) => x.id === id);
-
-  /* -----------------------------------------------------------------------
-   * Anchor guards: prevent crossing & disable plus when To=Now
-   * --------------------------------------------------------------------- */
-
-  const canApplyStep = (stepDays: number): boolean => {
-    if (!anchor) return false;
-
-    if (anchor === 'from') {
-      // adjusting TO; TO must stay >= FROM
-      if (!isValidInput(fromDateTime)) return true;
-      const anchorDate = new Date(fromDateTime);
-      const base = isValidInput(toDateTime) ? new Date(toDateTime) : new Date();
-      const candidate = new Date(base);
-      candidate.setDate(candidate.getDate() + stepDays);
-      return candidate.getTime() >= anchorDate.getTime();
-    } else {
-      // anchor === 'to' -> adjusting FROM; FROM must stay <= TO
-      if (stepDays > 0) return false; // plus disabled when To=Now
-      if (!isValidInput(toDateTime)) return true;
-      const anchorDate = new Date(toDateTime);
-      const base = isValidInput(fromDateTime) ? new Date(fromDateTime) : new Date();
-      const candidate = new Date(base);
-      candidate.setDate(candidate.getDate() + stepDays);
-      return candidate.getTime() <= anchorDate.getTime();
-    }
-  };
-
-  // Adjust +/- days on the *non-anchored* field (accumulate) with clamping
-  const adjustDays = (n: number) => {
-    if (!anchor) return;
-
-    if (!canApplyStep(n)) {
-      setNoticeMsg(anchor === 'from'
-        ? "Cannot move TO earlier than FROM."
-        : (n > 0 ? "When To = Now, +days are disabled." : "Cannot move FROM later than TO."));
-      return;
-    }
-
-    if (anchor === 'from') {
-      // modify TO, clamp so it never goes earlier than FROM
-      const base = isValidInput(toDateTime) ? new Date(toDateTime) : new Date();
-      const next = new Date(base);
-      next.setDate(next.getDate() + n);
-
-      if (isValidInput(fromDateTime)) {
-        const from = new Date(fromDateTime);
-        if (next.getTime() < from.getTime()) {
-          setToDateTime(toLocalDateTimeValue(from));
-          return;
-        }
-      }
-      setToDateTime(toLocalDateTimeValue(next));
-    } else {
-      // anchor === 'to' -> modify FROM, clamp so it never goes later than TO
-      const base = isValidInput(fromDateTime) ? new Date(fromDateTime) : new Date();
-      const next = new Date(base);
-      next.setDate(next.getDate() + n);
-
-      if (isValidInput(toDateTime)) {
-        const to = new Date(toDateTime);
-        if (next.getTime() > to.getTime()) {
-          setFromDateTime(toLocalDateTimeValue(to));
-          return;
-        }
-      }
-      setFromDateTime(toLocalDateTimeValue(next));
-    }
-  };
-
-  /* -----------------------------------------------------------------------
-   * Actions
-   * --------------------------------------------------------------------- */
-
-  const resetDates = () => {
-    setFromDateTime(SENTINEL_ZERO);
-    setToDateTime(SENTINEL_ZERO);
-    setErrorMsg("");
-    setNoticeMsg("");
-    setAnchor(null);
-  };
-
-  const quickSetFromNow = () => {
-    const v = toLocalDateTimeValue(new Date());
-    setFromDateTime(v);
-    setAnchor('from');
-    setNoticeMsg("From set to current time.");
-    enforceOrderAfterSet('from', v);
-  };
-
-  const quickSetToNow = () => {
-    const v = toLocalDateTimeValue(new Date());
-    setToDateTime(v);
-    setAnchor('to');
-    setNoticeMsg("To set to current time.");
-    enforceOrderAfterSet('to', v);
-  };
-
-  const swapDates = () => {
-    setFromDateTime((prevFrom) => {
-      const nextFrom = toDateTime;
-      setToDateTime(prevFrom);
-      return nextFrom;
-    });
-  };
 
   const addToHistory = () => {
     if (fromDateTime === SENTINEL_ZERO && toDateTime === SENTINEL_ZERO) {
@@ -648,7 +513,6 @@ const DateDifferencePro: React.FC = () => {
       setErrorMsg("Please select valid From and To dates.");
       return;
     }
-    // Enforce order before saving
     const fTs = new Date(fromDateTime).getTime();
     const tTs = new Date(toDateTime).getTime();
     if (fTs > tTs) {
@@ -667,8 +531,12 @@ const DateDifferencePro: React.FC = () => {
       noteTitle: notesEnabled && noteTitle ? noteTitle : undefined,
       noteBody: notesEnabled && noteBody ? noteBody : undefined,
     };
+    const next = clampHistory([item, ...history]);
+    setHistory(next);
+    saveHistory(next);
+    setNoticeMsg("Saved to history.");
+  };
 
-  // Save to history and clear note fields if successful
   const addToHistoryWithNotes = () => {
     if (fromDateTime === SENTINEL_ZERO && toDateTime === SENTINEL_ZERO) {
       setErrorMsg("Values are zero — cannot save history.");
@@ -699,17 +567,10 @@ const DateDifferencePro: React.FC = () => {
     const next = clampHistory([item, ...history]);
     setHistory(next);
     saveHistory(next);
-    // clear notes
     setNotesEnabled(false);
     setNoteTitle("");
     setNoteBody("");
     setNoticeMsg("Saved to history with note.");
-  };
-
-    const next = clampHistory([item, ...history]);
-    setHistory(next);
-    saveHistory(next);
-    setNoticeMsg("Saved to history.");
   };
 
   const deleteHistoryItem = (id: string) => {
@@ -787,13 +648,13 @@ const DateDifferencePro: React.FC = () => {
         title={seoData?.dateDifference?.title ?? "Date Difference Calculator"}
         description={
           seoData?.dateDifference?.description ??
-          "Calculate the exact difference between two dates and times — with history, voice input, and PDF export."
+          "Calculate the exact difference between two dates and times — with history, notes, and PDF export."
         }
         canonical="https://calculatorhub.com/date-difference"
         schemaData={generateCalculatorSchema(
           "Date Difference Calculator",
           seoData?.dateDifference?.description ??
-            "Calculate the exact difference between two dates and times — with history, voice input, and PDF export.",
+            "Calculate the exact difference between two dates and times — with history, notes, and PDF export.",
           "/date-difference",
           seoData?.dateDifference?.keywords ?? []
         )}
@@ -817,18 +678,18 @@ const DateDifferencePro: React.FC = () => {
             Date Difference Calculator
           </h1>
           <p className="text-slate-300">
-            Calculate the exact difference between two dates and times — with history, quick add/subtract days, and PDF export.
+            Calculate the exact difference between two date-times — with history, optional notes, and PDF export.
           </p>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Inputs + Actions Panel */}
+          {/* Inputs + Actions */}
           <section className="lg:col-span-1 bg-white rounded-lg shadow-sm border border-gray-200 p-6" aria-label="Input and actions">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Select Date &amp; Time</h2>
 
             {noticeMsg && (
               <div className="mb-3">
-                <InlineAlert variant="info" icon={<Info className="w-4 h-4" />}>{noticeMsg}</InlineAlert>
+                <InlineAlert variant="info" icon={<InfoIcon className="w-4 h-4" />}>{noticeMsg}</InlineAlert>
               </div>
             )}
 
@@ -841,7 +702,7 @@ const DateDifferencePro: React.FC = () => {
                   onChange={(e) => {
                     const v = e.target.value || SENTINEL_ZERO;
                     setFromDateTime(v);
-                    if (v !== SENTINEL_ZERO) enforceOrderAfterSet('from', v);
+                    if (v !== SENTINEL_ZERO) enforceOrderAfterSet("from", v);
                   }}
                   className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   aria-invalid={fromDateTime === SENTINEL_ZERO}
@@ -858,7 +719,7 @@ const DateDifferencePro: React.FC = () => {
                   onChange={(e) => {
                     const v = e.target.value || SENTINEL_ZERO;
                     setToDateTime(v);
-                    if (v !== SENTINEL_ZERO) enforceOrderAfterSet('to', v);
+                    if (v !== SENTINEL_ZERO) enforceOrderAfterSet("to", v);
                   }}
                   className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   aria-invalid={toDateTime === SENTINEL_ZERO}
@@ -866,7 +727,7 @@ const DateDifferencePro: React.FC = () => {
               </div>
             </LabeledField>
 
-            {/* Optional notes toggle */}
+            {/* Optional notes */}
             <div className="mt-2 mb-2">
               <label className="inline-flex items-center gap-2 text-sm text-gray-700">
                 <input
@@ -875,7 +736,7 @@ const DateDifferencePro: React.FC = () => {
                   checked={notesEnabled}
                   onChange={(e) => setNotesEnabled(e.target.checked)}
                 />
-                Add reason & description (optional)
+                Add reason &amp; description (optional)
               </label>
             </div>
 
@@ -901,7 +762,6 @@ const DateDifferencePro: React.FC = () => {
                     className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
-              
                 <div className="pt-1">
                   <button
                     type="button"
@@ -912,10 +772,10 @@ const DateDifferencePro: React.FC = () => {
                     Save to History (with note)
                   </button>
                 </div>
-</div>
+              </div>
             )}
 
-<div className="flex flex-col sm:flex-row gap-2 mb-2">
+            <div className="flex flex-col sm:flex-row gap-2 mb-2">
               <button
                 onClick={addToHistory}
                 className="flex-1 px-4 py-2 bg-emerald-800 text-white rounded-lg hover:bg-emerald-700 transition-colors inline-flex items-center justify-center gap-2"
@@ -923,7 +783,12 @@ const DateDifferencePro: React.FC = () => {
                 <HistoryIcon className="w-4 h-4" /> Save to History
               </button>
               <button
-                onClick={resetDates}
+                onClick={() => {
+                  setFromDateTime(SENTINEL_ZERO);
+                  setToDateTime(SENTINEL_ZERO);
+                  setErrorMsg("");
+                  setNoticeMsg("");
+                }}
                 className="flex-1 px-4 py-2 bg-gray-100 text-gray-900 rounded-lg hover:bg-gray-200 transition-colors inline-flex items-center justify-center gap-2"
               >
                 <RotateCcw className="w-4 h-4" /> Reset
@@ -938,7 +803,7 @@ const DateDifferencePro: React.FC = () => {
             </button>
 
             {errorMsg && (
-              <div className="mt-1" aria-live="assertive">
+              <div className="mt-2" aria-live="assertive">
                 <InlineAlert variant="danger" icon={<AlertTriangle className="w-4 h-4" />} data-testid="error-alert">
                   {errorMsg}
                 </InlineAlert>
@@ -951,7 +816,6 @@ const DateDifferencePro: React.FC = () => {
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Time Difference</h2>
 
             <div className="space-y-6">
-              {/* Calendar difference summary */}
               <div className="grid md:grid-cols-1 gap-4">
                 <div className="text-center p-4 bg-blue-50 rounded-lg">
                   <Clock className="h-8 w-8 text-blue-800 mx-auto mb-2" />
@@ -963,7 +827,6 @@ const DateDifferencePro: React.FC = () => {
                   </div>
                 </div>
 
-                {/* From/To box */}
                 <div className="text-center p-4 bg-slate-50 rounded-lg">
                   <div className="text-xl font-semibold text-gray-900" data-testid="from-label">
                     {fromDateTime === SENTINEL_ZERO ? "---" : fmtDateTime(fromDateTime)}
@@ -980,7 +843,6 @@ const DateDifferencePro: React.FC = () => {
                 </div>
               </div>
 
-              {/* Totals */}
               {isValidInput(fromDateTime) && isValidInput(toDateTime) && (
                 <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
                   {(() => {
@@ -997,7 +859,6 @@ const DateDifferencePro: React.FC = () => {
                 </div>
               )}
 
-              {/* Live Countdown */}
               {countdownActive && (
                 <div className="p-5 rounded-xl bg-indigo-50 border border-indigo-200">
                   <div className="text-sm text-indigo-700">Live Countdown to the “To” date</div>
@@ -1055,7 +916,11 @@ const DateDifferencePro: React.FC = () => {
                       }
                     }}
                     onDelete={() => deleteHistoryItem(h.id)}
-                    onInfo={(item) => { setModalTitle(item.noteTitle || 'Details'); setModalBody(item.noteBody || ''); setModalOpen(true); }}
+                    onInfo={(item) => {
+                      setModalTitle(item.noteTitle || "Details");
+                      setModalBody(item.noteBody || "");
+                      setModalOpen(true);
+                    }}
                   />
                 );
               })}
@@ -1067,7 +932,6 @@ const DateDifferencePro: React.FC = () => {
 
         <RelatedCalculators currentPath="/date-difference" category="date-time-tools" />
 
-
         {/* Details Modal */}
         <InlineModal
           open={modalOpen}
@@ -1075,7 +939,6 @@ const DateDifferencePro: React.FC = () => {
           description={modalBody}
           onClose={() => setModalOpen(false)}
         />
-
       </div>
     </>
   );
