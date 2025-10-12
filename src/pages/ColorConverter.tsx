@@ -924,7 +924,7 @@ const ColorConverter: React.FC = () => {
           <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
               <div className="flex items-center gap-3">
                 <img
-                  src="/images/calculatorhub-author.jpg"
+                  src="/images/calculatorhub-author.webp"
                   alt="CalculatorHub Security Tools Team"
                   className="w-12 h-12 rounded-full border border-gray-600"
                   loading="lazy"
