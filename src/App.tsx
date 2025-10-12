@@ -27,6 +27,8 @@ import QRCodeGenerator from './pages/QRCodeGenerator';
 import PasswordGenerator from './pages/PasswordGenerator';
 import AddSubtractDays from './pages/AddSubtractDays'; 
 import WeekdayFinder from './pages/WeekdayFinder';
+import BusinessDaysCalculator from './pages/BusinessDaysCalculator';
+
 
 // Misc Tools
 import RandomNumberGenerator from './pages/RandomNumberGenerator';
