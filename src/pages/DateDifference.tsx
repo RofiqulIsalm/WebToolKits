@@ -1,39 +1,16 @@
 
 /**
- * DateDifferencePro – Full Feature Page (Extended 750+ lines)
+ * DateDifferencePro – Full Feature Page (Patched)
  * -----------------------------------------------------------------------------
- * This file is intentionally verbose and heavily documented to exceed 750 lines,
- * per user request, while keeping production-ready TypeScript/React code.
- *
- * Key behavior (from user requirements):
- * 1) If both From and To use the default sentinel ("0"), do NOT save to history and
- *    show a red inline message: "Values are zero — cannot save history."
- * 2) In the second "Time Difference" box, when defaults are present, show placeholders:
- *      ---
- *      From • ---
- *      ---
- *      To • ---
- *    (i.e., do not display fake dates like Jan 01, 2000).
- * 3) Calendar difference output is dynamic: only show the non-zero parts.
- *    Example: input 20 days and 4 hours -> show "20d, 4h" (not "0y, 0m, 20d, 4h, 0m, 0s").
- *    Apply the same logic to the Live Countdown (no zero segments).
- *
- * Additional notes:
- * - This component keeps the original imports present in the user's app structure.
- * - We include some small a11y and UX helpers (like aria-live regions, titles, etc.).
- * - The file includes additional helper utilities and well-commented code for clarity.
- * - Code is split into small presentational components for readability while staying
- *   in a single file as requested.
- *
- * This file is designed to be dropped into a Next.js/React project as
- * `DateDifferencePro_full.tsx` or similar.
- * -----------------------------------------------------------------------------
+ * This version patches the sentinel "0" handling:
+ * - Treats "0" as INVALID input everywhere (no more 1970 diffs)
+ * - Updates countdown, history save, DOW labels, adjustDays bases, and PDF validity
+ * - Keeps dynamic summary + anchor-based +/- day adjustments
  */
 
 import React, {
   useEffect,
   useMemo,
-  useRef,
   useState,
   memo,
   PropsWithChildren,
@@ -41,7 +18,6 @@ import React, {
 } from "react";
 import {
   Clock,
-  Mic,
   History as HistoryIcon,
   FileDown,
   RotateCcw,
@@ -63,11 +39,6 @@ import { seoData, generateCalculatorSchema } from "../utils/seoData";
  * Types
  * ========================================================================== */
 
-/**
- * DiffResult represents a precise difference using two models:
- * - Calendar components (Y/M/D H/M/S) relative to aligned dates
- * - Absolute totals (days/weeks/hours/minutes/seconds)
- */
 export type DiffResult = {
   years: number;
   months: number;
@@ -83,9 +54,6 @@ export type DiffResult = {
   negative: boolean;
 };
 
-/**
- * An item saved in local history.
- */
 export type HistoryItem = {
   id: string;
   fromISO: string;
@@ -99,29 +67,18 @@ export type HistoryItem = {
  * ========================================================================== */
 
 const LS_KEY = "dateDiffHistory_v2";
-
-/**
- * A sentinel for "blank/invalid" input fields. Matches the user's original code.
- * Using an explicit sentinel avoids ambiguous empty strings for state transitions.
- */
 const SENTINEL_ZERO = "0";
+
+const pad2 = (n: number) => String(Math.abs(n)).padStart(2, "0");
+const isValidDate = (d: Date) => !Number.isNaN(d.getTime());
+
+// Treat sentinel "0" (and empty) as invalid input
 const isValidInput = (iso: string): boolean => {
   if (!iso || iso === SENTINEL_ZERO) return false;
   const d = new Date(iso);
   return !Number.isNaN(d.getTime());
 };
 
-
-/** Left-pad a number to 2 digits (absolute value) */
-const pad2 = (n: number) => String(Math.abs(n)).padStart(2, "0");
-
-/** Is a Date valid? */
-const isValidDate = (d: Date) => !Number.isNaN(d.getTime());
-
-/**
- * Format an ISO string into a localized, concise datetime label.
- * If invalid, prints em-dash.
- */
 const fmtDateTime = (iso: string) => {
   const d = new Date(iso);
   if (!isValidDate(d)) return "—";
@@ -134,10 +91,8 @@ const fmtDateTime = (iso: string) => {
   });
 };
 
-/** Clamp history length for performance */
 const clampHistory = (items: HistoryItem[], max = 20) => items.slice(0, max);
 
-/** Robustly load local history, SSR-safe */
 function loadHistory(): HistoryItem[] {
   if (typeof window === "undefined") return [];
   try {
@@ -149,17 +104,11 @@ function loadHistory(): HistoryItem[] {
     return [];
   }
 }
-
-/** Robustly save local history, SSR-safe */
 function saveHistory(items: HistoryItem[]) {
   if (typeof window === "undefined") return;
   localStorage.setItem(LS_KEY, JSON.stringify(clampHistory(items)));
 }
 
-/**
- * Convert Date -> input[type=datetime-local] value.
- * This expects local time without timezone suffix.
- */
 const toLocalDateTimeValue = (d: Date) => {
   const year = d.getFullYear();
   const month = pad2(d.getMonth() + 1);
@@ -169,17 +118,13 @@ const toLocalDateTimeValue = (d: Date) => {
   return `${year}-${month}-${day}T${hour}:${min}`;
 };
 
-/**
- * calcDateTimeDiff
- * - Computes a calendar-aware difference (Y/M/D; borrowing days from months)
- * - Computes time-of-day difference (H/M/S) after aligning Y/M/D
- * - Returns absolute totals for convenience (days/weeks/hours/minutes/seconds)
- */
-function calcDateTimeDiff(fromISO: string, toISO: string): DiffResult {
-  const from = new Date(fromISO);
-  const to = new Date(toISO);
+/* ==========================================================================
+ * Core diff
+ * ========================================================================== */
 
-  if (!isValidDate(from) || !isValidDate(to)) {
+function calcDateTimeDiff(fromISO: string, toISO: string): DiffResult {
+  // Guard against sentinel "0" and empty
+  if (!isValidInput(fromISO) || !isValidInput(toISO)) {
     return {
       years: 0,
       months: 0,
@@ -196,11 +141,13 @@ function calcDateTimeDiff(fromISO: string, toISO: string): DiffResult {
     };
   }
 
+  const from = new Date(fromISO);
+  const to = new Date(toISO);
+
   const isNegative = from > to;
   const start = isNegative ? to : from;
   const end = isNegative ? from : to;
 
-  // Calendar-based difference
   let years = end.getFullYear() - start.getFullYear();
   let months = end.getMonth() - start.getMonth();
   let days = end.getDate() - start.getDate();
@@ -215,7 +162,6 @@ function calcDateTimeDiff(fromISO: string, toISO: string): DiffResult {
     months += 12;
   }
 
-  // Align start to end for time-of-day delta
   const alignedStart = new Date(start);
   alignedStart.setFullYear(start.getFullYear() + years);
   alignedStart.setMonth(start.getMonth() + months);
@@ -251,16 +197,6 @@ function calcDateTimeDiff(fromISO: string, toISO: string): DiffResult {
   };
 }
 
-
-/**
- * buildDynamicSummary
- * Returns a concise, only-non-zero parts summary string.
- * Examples:
- *   0y 0m 20d 4h 0m 0s -> "20d, 4h"
- *   1y 0m 0d 0h 0m 0s -> "1y"
- *   0y 0m 0d 0h 0m 3s -> "3s"
- *   all zeros -> "0s"
- */
 const buildDynamicSummary = (d: DiffResult) => {
   const abs = (v: number) => Math.abs(v);
   const parts: string[] = [];
@@ -277,10 +213,6 @@ const buildDynamicSummary = (d: DiffResult) => {
  * Small Presentational Components
  * ========================================================================== */
 
-/**
- * InlineAlert – lightweight alert line with icon and color.
- * variant: "info" | "success" | "warning" | "danger"
- */
 type InlineAlertProps = {
   variant?: "info" | "success" | "warning" | "danger";
   icon?: ReactNode;
@@ -295,12 +227,12 @@ const InlineAlert = memo(function InlineAlert({
   className = "",
   ...rest
 }: InlineAlertProps) {
-  const styles: Record<typeof variant, string> = {
+  const styles: Record<"info" | "success" | "warning" | "danger", string> = {
     info: "bg-blue-50 text-blue-800 border-blue-200",
     success: "bg-emerald-50 text-emerald-800 border-emerald-200",
     warning: "bg-yellow-50 text-yellow-800 border-yellow-200",
     danger: "bg-red-50 text-red-800 border-red-200",
-  } as const;
+  };
   return (
     <div
       className={`rounded-lg border px-3 py-2 text-sm inline-flex items-center gap-2 ${styles[variant]} ${className}`}
@@ -314,7 +246,6 @@ const InlineAlert = memo(function InlineAlert({
   );
 });
 
-/** StatCard – single metric card */
 type StatCardProps = {
   label: string;
   value: ReactNode;
@@ -330,7 +261,6 @@ const StatCard = memo(function StatCard({ label, value, className = "", ...rest 
   );
 });
 
-/** HistoryRow – a single row in the History list */
 type HistoryRowProps = {
   item: HistoryItem;
   countdownLabel: string;
@@ -382,9 +312,6 @@ const HistoryRow = memo(function HistoryRow({
   );
 });
 
-/**
- * LabeledField – wrapper for label + children with consistent spacing
- */
 type LabeledFieldProps = PropsWithChildren<{
   label: string;
   htmlFor?: string;
@@ -398,9 +325,6 @@ const LabeledField = ({ label, htmlFor, children }: LabeledFieldProps) => (
   </div>
 );
 
-/**
- * Divider with label for visual grouping
- */
 const SectionDivider = ({ label }: { label: string }) => (
   <div className="flex items-center gap-3 my-2" role="separator" aria-label={label}>
     <div className="h-px bg-gray-200 flex-1" />
@@ -414,64 +338,41 @@ const SectionDivider = ({ label }: { label: string }) => (
  * ========================================================================== */
 
 const DateDifferencePro: React.FC = () => {
-  /**
-   * Core state (inputs & derived)
-   * ------------------------------------------------------------------------
-   * We keep the sentinel "0" to represent a blank/invalid state to preserve
-   * compatibility with the user's original logic.
-   */
   const [fromDateTime, setFromDateTime] = useState<string>(SENTINEL_ZERO);
   const [toDateTime, setToDateTime] = useState<string>(SENTINEL_ZERO);
 
-  /** Difference is recalculated whenever either input changes */
   const [diff, setDiff] = useState<DiffResult>(() => calcDateTimeDiff(fromDateTime, toDateTime));
 
-  /**
-   * nowISO is used for live countdowns. We tick every second with an interval.
-   * For accessibility, we keep countdown text readable and concise.
-   */
   const [nowISO, setNowISO] = useState<string>(() => new Date().toISOString());
 
-  /** Local history & inline error message area */
   const [history, setHistory] = useState<HistoryItem[]>(() => loadHistory());
   const [errorMsg, setErrorMsg] = useState<string>("");
-
-  /** Optional convenience: “warnings” area for non-blocking hints */
   const [noticeMsg, setNoticeMsg] = useState<string>("");
 
-  /** Whether to show advanced controls (swap, set quick values) */
   const [showAdvanced, setShowAdvanced] = useState<boolean>(true);
-  const [anchor, setAnchor] = useState<'from' | 'to' | null>(null); // which NOW button is     active
+  const [anchor, setAnchor] = useState<'from' | 'to' | null>(null);
 
-  /* -----------------------------------------------------------------------
-   * Effects
-   * --------------------------------------------------------------------- */
-
-  // Recalculate diff when inputs change
+  // Recalculate diff
   useEffect(() => {
     setDiff(calcDateTimeDiff(fromDateTime, toDateTime));
   }, [fromDateTime, toDateTime]);
 
-  // 1-second ticker for countdowns
+  // 1-second ticker
   useEffect(() => {
     const id = setInterval(() => setNowISO(new Date().toISOString()), 1000);
     return () => clearInterval(id);
   }, []);
 
-  /* -----------------------------------------------------------------------
-   * Derived helpers & memoized values
-   * --------------------------------------------------------------------- */
-
   const abs = (n: number) => Math.abs(n);
 
-  /** Is a valid target for countdown? */
-  const countdownActive = useMemo(() => isValidDate(new Date(toDateTime)), [toDateTime]);
+  // Countdown active only when TO is valid input
+  const countdownActive = useMemo(() => isValidInput(toDateTime), [toDateTime]);
 
-  // Countdown display parts (dynamic – no zero parts)
   const countdownText = useMemo(() => {
     const now = new Date(nowISO);
-    const target = new Date(toDateTime);
-    const cdMs = isValidDate(target) ? Math.max(0, target.getTime() - now.getTime()) : 0;
+    const cdMs = isValidInput(toDateTime)
+      ? Math.max(0, new Date(toDateTime).getTime() - now.getTime())
+      : 0;
     const cdSec = Math.floor(cdMs / 1000);
     const cdDays = Math.floor(cdSec / 86400);
     const cdHours = Math.floor((cdSec % 86400) / 3600);
@@ -485,17 +386,20 @@ const DateDifferencePro: React.FC = () => {
     return parts.length ? parts.join(" ") : "0s";
   }, [nowISO, toDateTime]);
 
-  // Day-of-week labels (or blank when invalid)
+  // Day-of-week labels
   const fromDow = useMemo(() => {
-    const d = new Date(fromDateTime);
-    return isValidDate(d) ? d.toLocaleDateString(undefined, { weekday: "long" }) : "";
+    return isValidInput(fromDateTime)
+      ? new Date(fromDateTime).toLocaleDateString(undefined, { weekday: "long" })
+      : "";
   }, [fromDateTime]);
+
   const toDow = useMemo(() => {
-    const d = new Date(toDateTime);
-    return isValidDate(d) ? d.toLocaleDateString(undefined, { weekday: "long" }) : "";
+    return isValidInput(toDateTime)
+      ? new Date(toDateTime).toLocaleDateString(undefined, { weekday: "long" })
+      : "";
   }, [toDateTime]);
 
-  // History live countdowns, computed from nowISO
+  // History countdowns
   const historyCountdowns = useMemo(() => {
     const nowTs = new Date(nowISO).getTime();
     return history.map((h) => {
@@ -511,7 +415,7 @@ const DateDifferencePro: React.FC = () => {
       if (hH) parts.push(`${pad2(hH)}h`);
       if (mM) parts.push(`${pad2(mM)}m`);
       if (sS) parts.push(`${pad2(sS)}s`);
-      const label = remain <= 0 ? "Completed" : `${parts.join(" ")} remaining`;
+      const label = remain <= 0 ? "Completed" : `${parts.join(" ")} remaining`
       return { id: h.id, complete: remain <= 0, label };
     });
   }, [history, nowISO]);
@@ -527,15 +431,7 @@ const DateDifferencePro: React.FC = () => {
     setToDateTime(SENTINEL_ZERO);
     setErrorMsg("");
     setNoticeMsg("");
-  };
-
-  const swapDates = () => {
-    // Safe swap with state
-    setFromDateTime((prevFrom) => {
-      const nextFrom = toDateTime;
-      setToDateTime(prevFrom);
-      return nextFrom;
-    });
+    setAnchor(null);
   };
 
   const quickSetFromNow = () => {
@@ -552,57 +448,44 @@ const DateDifferencePro: React.FC = () => {
     setNoticeMsg("To set to current time.");
   };
 
-  const addDaysToTo = (n: number) => {
-    const base = new Date();
-    base.setDate(base.getDate() + n);
-    setToDateTime(toLocalDateTimeValue(base));
-    setNoticeMsg(`To set to now + ${n} day${n === 1 ? "" : "s"}.`);
+  // Adjust +/- days on the *non-anchored* field (accumulate)
+  const adjustDays = (n: number) => {
+    if (!anchor) return;
+    if (anchor === 'from') {
+      // modify TO
+      const base = isValidInput(toDateTime) ? new Date(toDateTime) : new Date();
+      const next = new Date(base);
+      next.setDate(next.getDate() + n);
+      setToDateTime(toLocalDateTimeValue(next));
+    } else {
+      // anchor === 'to' -> modify FROM
+      const base = isValidInput(fromDateTime) ? new Date(fromDateTime) : new Date();
+      const next = new Date(base);
+      next.setDate(next.getDate() + n);
+      setFromDateTime(toLocalDateTimeValue(next));
+    }
   };
-  // put below your other helpers
-  const addDays = (date: Date, n: number) => {
-    const d = new Date(date);
-    d.setDate(d.getDate() + n);
-    return d;
+
+  const swapDates = () => {
+    setFromDateTime((prevFrom) => {
+      const nextFrom = toDateTime;
+      setToDateTime(prevFrom);
+      return nextFrom;
+    });
   };
-  
-  // When From=Now is active -> +days modify TO (accumulate).
-  // When To=Now is active -> +days are disabled, and -days modify FROM (accumulate).
-  // Adjust +/- days on the *non-anchored* field, accumulating each click.
-// anchor === 'from'  => adjust TO by n days
-// anchor === 'to'    => adjust FROM by n days
-const adjustDays = (n: number) => {
-  if (!anchor) return; // no active 'now' anchor
-
-  if (anchor === 'from') {
-    // modify TO
-    const base = isValidDate(new Date(toDateTime)) ? new Date(toDateTime) : new Date();
-    const next = new Date(base);
-    next.setDate(next.getDate() + n);
-    setToDateTime(toLocalDateTimeValue(next));
-  } else {
-    // anchor === 'to' -> modify FROM
-    const base = isValidDate(new Date(fromDateTime)) ? new Date(fromDateTime) : new Date();
-    const next = new Date(base);
-    next.setDate(next.getDate() + n);
-    setFromDateTime(toLocalDateTimeValue(next));
-  }
-};
-
-
 
   const addToHistory = () => {
-    // User rule: if both are defaults, do not save; show red text
     if (fromDateTime === SENTINEL_ZERO && toDateTime === SENTINEL_ZERO) {
       setErrorMsg("Values are zero — cannot save history.");
       return;
     }
-    const f = new Date(fromDateTime);
-    const t = new Date(toDateTime);
-    if (!isValidDate(f) || !isValidDate(t)) {
+    if (!isValidInput(fromDateTime) || !isValidInput(toDateTime)) {
       setErrorMsg("Please select valid From and To dates.");
       return;
     }
     setErrorMsg("");
+    const f = new Date(fromDateTime);
+    const t = new Date(toDateTime);
     const item: HistoryItem = {
       id: `${Date.now()}`,
       fromISO: f.toISOString(),
@@ -627,9 +510,7 @@ const adjustDays = (n: number) => {
       const mod = await import("jspdf");
       const { jsPDF } = mod as any;
       const doc = new jsPDF();
-      const line = (y: number, text: string) => {
-        doc.text(text, 14, y);
-      };
+      const line = (y: number, text: string) => doc.text(text, 14, y);
 
       let y = 14;
       doc.setFontSize(16);
@@ -640,9 +521,8 @@ const adjustDays = (n: number) => {
       line(y, `Generated: ${fmtDateTime(new Date().toISOString())}`);
       y += 8;
 
-      // Print dates safely
-      const fValid = isValidDate(new Date(fromDateTime));
-      const tValid = isValidDate(new Date(toDateTime));
+      const fValid = isValidInput(fromDateTime);
+      const tValid = isValidInput(toDateTime);
       line(y, `From: ${fValid ? fmtDateTime(new Date(fromDateTime).toISOString()) : "—"}`);
       y += 6;
       line(y, `To:   ${tValid ? fmtDateTime(new Date(toDateTime).toISOString()) : "—"}`);
@@ -680,7 +560,6 @@ const adjustDays = (n: number) => {
       doc.save("date-difference.pdf");
     } catch (e) {
       alert("PDF export failed. Make sure 'jspdf' is installed.");
-      // npm i jspdf
     }
   };
 
@@ -690,14 +569,17 @@ const adjustDays = (n: number) => {
 
   return (
     <>
-      {/* SEO / Breadcrumbs header section */}
       <SEOHead
         title={seoData?.dateDifference?.title ?? "Date Difference Calculator"}
-        description={seoData?.dateDifference?.description ?? "Calculate the exact difference between two dates and times — with history, voice input, and PDF export."}
+        description={
+          seoData?.dateDifference?.description ??
+          "Calculate the exact difference between two dates and times — with history, voice input, and PDF export."
+        }
         canonical="https://calculatorhub.com/date-difference"
         schemaData={generateCalculatorSchema(
           "Date Difference Calculator",
-          seoData?.dateDifference?.description ?? "Calculate the exact difference between two dates and times — with history, voice input, and PDF export.",
+          seoData?.dateDifference?.description ??
+            "Calculate the exact difference between two dates and times — with history, voice input, and PDF export.",
           "/date-difference",
           seoData?.dateDifference?.keywords ?? []
         )}
@@ -721,23 +603,18 @@ const adjustDays = (n: number) => {
             Date Difference Calculator
           </h1>
           <p className="text-slate-300">
-            Calculate the exact difference between two dates and times — with history, voice input, and PDF export.
+            Calculate the exact difference between two dates and times — with history, quick add/subtract days, and PDF export.
           </p>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Inputs + Actions Panel */}
-          <section
-            className="lg:col-span-1 bg-white rounded-lg shadow-sm border border-gray-200 p-6"
-            aria-label="Input and actions"
-          >
+          <section className="lg:col-span-1 bg-white rounded-lg shadow-sm border border-gray-200 p-6" aria-label="Input and actions">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Select Date &amp; Time</h2>
 
             {noticeMsg && (
               <div className="mb-3">
-                <InlineAlert variant="info" icon={<Info className="w-4 h-4" />}>
-                  {noticeMsg}
-                </InlineAlert>
+                <InlineAlert variant="info" icon={<Info className="w-4 h-4" />}>{noticeMsg}</InlineAlert>
               </div>
             )}
 
@@ -767,7 +644,6 @@ const adjustDays = (n: number) => {
               </div>
             </LabeledField>
 
-            {/* Advanced quick actions (optional togglable) */}
             <div className="mb-2 flex items-center justify-between">
               <SectionDivider label="Quick actions" />
               <label className="flex items-center gap-2 text-sm text-gray-600">
@@ -783,102 +659,140 @@ const adjustDays = (n: number) => {
 
             {showAdvanced && (
               <div className="grid grid-cols-2 sm:grid-cols-7 gap-2 mb-2">
-                  {/* Anchors */}
-                  <button
-                    type="button"
-                    onClick={quickSetFromNow}
-                    className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
-                      ${anchor === 'from' ? 'bg-blue-100 border-blue-300 text-blue-900' : 'bg-gray-50 border-gray-200 hover:bg-gray-100'}
-                    `}
-                    title="Set From = Now (adjust TO with +/−)"
-                  >
-                    From = Now
-                  </button>
-                
-                  <button
-                    type="button"
-                    onClick={quickSetToNow}
-                    className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
-                      ${anchor === 'to' ? 'bg-blue-100 border-blue-300 text-blue-900' : 'bg-gray-50 border-gray-200 hover:bg-gray-100'}
-                    `}
-                    title="Set To = Now (adjust FROM with +/−)"
-                  >
-                    To = Now
-                  </button>
-                
-                  {/* PLUS days (enabled when anchor is set) */}
-                  <button
-                    type="button"
-                    onClick={() => adjustDays(1)}
-                    disabled={!anchor}
-                    className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
-                      ${anchor ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
-                    `}
-                    title={anchor === 'from' ? 'Add +1 day to TO' : anchor === 'to' ? 'Add +1 day to FROM' : 'Activate From/To = Now first'}
-                  >
-                    +1 day
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => adjustDays(7)}
-                    disabled={!anchor}
-                    className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
-                      ${anchor ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
-                    `}
-                    title={anchor === 'from' ? 'Add +7 days to TO' : anchor === 'to' ? 'Add +7 days to FROM' : 'Activate From/To = Now first'}
-                  >
-                    +7 days
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => adjustDays(30)}
-                    disabled={!anchor}
-                    className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
-                      ${anchor ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
-                    `}
-                    title={anchor === 'from' ? 'Add +30 days to TO' : anchor === 'to' ? 'Add +30 days to FROM' : 'Activate From/To = Now first'}
-                  >
-                    +30 days
-                  </button>
-                
-                  {/* MINUS days (enabled when anchor is set) */}
-                  <button
-                    type="button"
-                    onClick={() => adjustDays(-1)}
-                    disabled={!anchor}
-                    className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
-                      ${anchor ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
-                    `}
-                    title={anchor === 'from' ? 'Subtract −1 day from TO' : anchor === 'to' ? 'Subtract −1 day from FROM' : 'Activate From/To = Now first'}
-                  >
-                    −1 day
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => adjustDays(-7)}
-                    disabled={!anchor}
-                    className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
-                      ${anchor ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
-                    `}
-                    title={anchor === 'from' ? 'Subtract −7 days from TO' : anchor === 'to' ? 'Subtract −7 days from FROM' : 'Activate From/To = Now first'}
-                  >
-                    −7 days
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => adjustDays(-30)}
-                    disabled={!anchor}
-                    className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
-                      ${anchor ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
-                    `}
-                    title={anchor === 'from' ? 'Subtract −30 days from TO' : anchor === 'to' ? 'Subtract −30 days from FROM' : 'Activate From/To = Now first'}
-                  >
-                    −30 days
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={quickSetFromNow}
+                  className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2 ${
+                    anchor === "from"
+                      ? "bg-blue-100 border-blue-300 text-blue-900"
+                      : "bg-gray-50 border-gray-200 hover:bg-gray-100"
+                  }`}
+                  title="Set From = Now (adjust TO with +/−)"
+                >
+                  From = Now
+                </button>
+
+                <button
+                  type="button"
+                  onClick={quickSetToNow}
+                  className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2 ${
+                    anchor === "to"
+                      ? "bg-blue-100 border-blue-300 text-blue-900"
+                      : "bg-gray-50 border-gray-200 hover:bg-gray-100"
+                  }`}
+                  title="Set To = Now (adjust FROM with +/−)"
+                >
+                  To = Now
+                </button>
+
+                {/* PLUS days (enabled when anchor is set) */}
+                <button
+                  type="button"
+                  onClick={() => adjustDays(1)}
+                  disabled={!anchor}
+                  className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2 ${
+                    anchor ? "bg-gray-50 border-gray-200 hover:bg-gray-100" : "bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed"
+                  }`}
+                  title={
+                    anchor === "from"
+                      ? "Add +1 day to TO"
+                      : anchor === "to"
+                      ? "Add +1 day to FROM"
+                      : "Activate From/To = Now first"
+                  }
+                >
+                  +1 day
+                </button>
+                <button
+                  type="button"
+                  onClick={() => adjustDays(7)}
+                  disabled={!anchor}
+                  className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2 ${
+                    anchor ? "bg-gray-50 border-gray-200 hover:bg-gray-100" : "bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed"
+                  }`}
+                  title={
+                    anchor === "from"
+                      ? "Add +7 days to TO"
+                      : anchor === "to"
+                      ? "Add +7 days to FROM"
+                      : "Activate From/To = Now first"
+                  }
+                >
+                  +7 days
+                </button>
+                <button
+                  type="button"
+                  onClick={() => adjustDays(30)}
+                  disabled={!anchor}
+                  className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2 ${
+                    anchor ? "bg-gray-50 border-gray-200 hover:bg-gray-100" : "bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed"
+                  }`}
+                  title={
+                    anchor === "from"
+                      ? "Add +30 days to TO"
+                      : anchor === "to"
+                      ? "Add +30 days to FROM"
+                      : "Activate From/To = Now first"
+                  }
+                >
+                  +30 days
+                </button>
+
+                {/* MINUS days (enabled when anchor is set) */}
+                <button
+                  type="button"
+                  onClick={() => adjustDays(-1)}
+                  disabled={!anchor}
+                  className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2 ${
+                    anchor ? "bg-gray-50 border-gray-200 hover:bg-gray-100" : "bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed"
+                  }`}
+                  title={
+                    anchor === "from"
+                      ? "Subtract −1 day from TO"
+                      : anchor === "to"
+                      ? "Subtract −1 day from FROM"
+                      : "Activate From/To = Now first"
+                  }
+                >
+                  −1 day
+                </button>
+                <button
+                  type="button"
+                  onClick={() => adjustDays(-7)}
+                  disabled={!anchor}
+                  className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2 ${
+                    anchor ? "bg-gray-50 border-gray-200 hover:bg-gray-100" : "bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed"
+                  }`}
+                  title={
+                    anchor === "from"
+                      ? "Subtract −7 days from TO"
+                      : anchor === "to"
+                      ? "Subtract −7 days from FROM"
+                      : "Activate From/To = Now first"
+                  }
+                >
+                  −7 days
+                </button>
+                <button
+                  type="button"
+                  onClick={() => adjustDays(-30)}
+                  disabled={!anchor}
+                  className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2 ${
+                    anchor ? "bg-gray-50 border-gray-200 hover:bg-gray-100" : "bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed"
+                  }`}
+                  title={
+                    anchor === "from"
+                      ? "Subtract −30 days from TO"
+                      : anchor === "to"
+                      ? "Subtract −30 days from FROM"
+                      : "Activate From/To = Now first"
+                  }
+                >
+                  −30 days
+                </button>
+              </div>
             )}
 
-            {/* Action buttons */}
             <div className="flex flex-col sm:flex-row gap-2 mb-2">
               <button
                 onClick={addToHistory}
@@ -892,16 +806,15 @@ const adjustDays = (n: number) => {
               >
                 <RotateCcw className="w-4 h-4" /> Reset
               </button>
-              
             </div>
-            <button
-                onClick={handleExportPDF}
-                className="flex-1 w-full px-4 py-2 bg-indigo-800 text-white rounded-lg hover:bg-indigo-700 transition-colors inline-flex items-center justify-center gap-2"
-              >
-                <FileDown className="w-5 h-5" /> Export PDF
-              </button>
 
-            {/* Error message area (red text) */}
+            <button
+              onClick={handleExportPDF}
+              className="flex-1 w-full px-4 py-2 bg-indigo-800 text-white rounded-lg hover:bg-indigo-700 transition-colors inline-flex items-center justify-center gap-2"
+            >
+              <FileDown className="w-5 h-5" /> Export PDF
+            </button>
+
             {errorMsg && (
               <div className="mt-1" aria-live="assertive">
                 <InlineAlert variant="danger" icon={<AlertTriangle className="w-4 h-4" />} data-testid="error-alert">
@@ -912,10 +825,7 @@ const adjustDays = (n: number) => {
           </section>
 
           {/* Results Panel */}
-          <section
-            className="lg:col-span-1 bg-white rounded-lg shadow-sm border border-gray-200 p-6"
-            aria-label="Results and totals"
-          >
+          <section className="lg:col-span-1 bg-white rounded-lg shadow-sm border border-gray-200 p-6" aria-label="Results and totals">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Time Difference</h2>
 
             <div className="space-y-6">
@@ -950,36 +860,17 @@ const adjustDays = (n: number) => {
 
               {/* Totals */}
               <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
-                <StatCard
-                  label="Total Days"
-                  value={abs(diff.totalDays).toLocaleString()}
-                  className="bg-green-50 border-green-200"
-                />
-                <StatCard
-                  label="Total Weeks"
-                  value={abs(diff.totalWeeks).toLocaleString()}
-                  className="bg-yellow-50 border-yellow-200"
-                />
-                <StatCard
-                  label="Total Hours"
-                  value={abs(diff.totalHours).toLocaleString()}
-                  className="bg-purple-50 border-purple-200"
-                />
-                <StatCard
-                  label="Total Minutes"
-                  value={abs(diff.totalMinutes).toLocaleString()}
-                  className="bg-red-50 border-red-200"
-                />
+                <StatCard label="Total Days" value={abs(diff.totalDays).toLocaleString()} className="bg-green-50 border-green-200" />
+                <StatCard label="Total Weeks" value={abs(diff.totalWeeks).toLocaleString()} className="bg-yellow-50 border-yellow-200" />
+                <StatCard label="Total Hours" value={abs(diff.totalHours).toLocaleString()} className="bg-purple-50 border-purple-200" />
+                <StatCard label="Total Minutes" value={abs(diff.totalMinutes).toLocaleString()} className="bg-red-50 border-red-200" />
               </div>
 
               {/* Live Countdown */}
               {countdownActive && (
                 <div className="p-5 rounded-xl bg-indigo-50 border border-indigo-200">
                   <div className="text-sm text-indigo-700">Live Countdown to the “To” date</div>
-                  <div
-                    className="mt-2 text-3xl font-bold text-indigo-900 tracking-wide"
-                    data-testid="countdown"
-                  >
+                  <div className="mt-2 text-3xl font-bold text-indigo-900 tracking-wide" data-testid="countdown">
                     {countdownText}
                   </div>
                 </div>
@@ -995,11 +886,7 @@ const adjustDays = (n: number) => {
               <HistoryIcon className="w-5 h-5" /> History
             </h2>
             <div className="flex items-center gap-2">
-              <InlineAlert
-                variant="success"
-                icon={<CheckCircle2 className="w-4 h-4" />}
-                className="hidden md:flex"
-              >
+              <InlineAlert variant="success" icon={<CheckCircle2 className="w-4 h-4" />} className="hidden md:flex">
                 Saved items keep a live countdown.
               </InlineAlert>
               <button
@@ -1011,7 +898,7 @@ const adjustDays = (n: number) => {
               >
                 Clear
               </button>
-            </div> 
+            </div>
           </div>
 
           {history.length === 0 ? (
@@ -1052,71 +939,4 @@ const adjustDays = (n: number) => {
   );
 };
 
-/* ==========================================================================
- * Export
- * ========================================================================== */
-
 export default DateDifferencePro;
-
-/* ==========================================================================
- * Appendix: Extra Documentation & Notes (pure comments to satisfy 750+ lines)
- * ========================================================================== */
-
-/**
- * Why keep a sentinel string "0" instead of empty strings?
- * -------------------------------------------------------
- * - The user's original implementation used "0" as a special value to mark
- *   inputs as "unset" to decouple UI clearing from state transitions that
- *   might otherwise briefly hold an empty string and be confused with a valid
- *   formatted value. We preserve this convention for compatibility.
- *
- * Why not parse/format in UTC consistently?
- * ----------------------------------------
- * - `input[type="datetime-local"]` expects a local datetime string without
- *   timezone marks. Showing/consuming local time avoids surprising the user
- *   with UTC offsets when they type values.
- *
- * Can we store timezones?
- * -----------------------
- * - You can extend this file by adding a timezone selector and normalizing all
- *   calculations to UTC internally. For now, the user didn’t request that.
- *
- * What about leap seconds and DST?
- * --------------------------------
- * - The built-in Date object handles DST transitions and leap years but not
- *   leap seconds explicitly. For most practical purposes here, this is fine.
- *   If you need astronomical precision, consider a specialized library.
- *
- * How to add localization/i18n?
- * -----------------------------
- * - Wrap text labels with an i18n function and swap `toLocaleString` options
- *   depending on the user’s locale. The structure here supports that easily.
- *
- * Testing ideas:
- * --------------
- * - Unit-test `calcDateTimeDiff` with edge cases (month boundaries, leap year,
- *   end-of-month borrowing, negative ordering, same timestamps, etc.).
- * - Snapshot-test the component with various inputs.
- *
- * Accessibility notes:
- * --------------------
- * - The InlineAlert components use `role=\"status\"` and `aria-live` for SRs.
- * - Inputs are labeled via `LabeledField`.
- * - Buttons include titles where the icon alone might be ambiguous.
- *
- * Performance notes:
- * ------------------
- * - History is clamped to 20 items by default.
- * - Countdown recomputes only once per second with a single interval.
- *
- * Security notes:
- * ---------------
- * - LocalStorage is used for history. If you need cross-device sync, pair with
- *   a backend and auth. Avoid saving sensitive user data.
- *
- * PDF export:
- * -----------
- * - We import `jspdf` dynamically. Make sure to install it: `npm i jspdf`.
- *
- * End of file.
- */
