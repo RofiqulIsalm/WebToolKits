@@ -534,12 +534,14 @@ const DateDifferencePro: React.FC = () => {
   const quickSetFromNow = () => {
     const v = toLocalDateTimeValue(new Date());
     setFromDateTime(v);
+    setAnchor('from');           // mark FROM as the active anchor
     setNoticeMsg("From set to current time.");
   };
 
   const quickSetToNow = () => {
     const v = toLocalDateTimeValue(new Date());
     setToDateTime(v);
+    setAnchor('to');             // mark TO as the active anchor
     setNoticeMsg("To set to current time.");
   };
 
