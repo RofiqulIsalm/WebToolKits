@@ -1,11 +1,12 @@
 
 /**
- * DateDifferencePro – Full Feature Page (Patched)
+ * DateDifferencePro – Full Feature Page (Patched + Anchor Guards + Order Constraint)
  * -----------------------------------------------------------------------------
- * This version patches the sentinel "0" handling:
  * - Treats "0" as INVALID input everywhere (no more 1970 diffs)
- * - Updates countdown, history save, DOW labels, adjustDays bases, and PDF validity
- * - Keeps dynamic summary + anchor-based +/- day adjustments
+ * - Adds "anchor" logic: when From=Now, +/- adjusts TO and cannot cross FROM;
+ *   when To=Now, only minus adjusts FROM and cannot cross TO (plus disabled).
+ * - Enforces ordering constraint: FROM <= TO at all times.
+ * - Dynamic summary & countdown show only non-zero parts.
  */
 
 import React, {
@@ -23,7 +24,6 @@ import {
   RotateCcw,
   Edit3,
   Trash2,
-  ArrowLeftRight,
   CalendarClock,
   Info,
   CheckCircle2,
@@ -365,6 +365,33 @@ const DateDifferencePro: React.FC = () => {
 
   const abs = (n: number) => Math.abs(n);
 
+  // Enforce ordering: FROM <= TO
+  const enforceOrderAfterSet = (which: 'from' | 'to', val: string) => {
+    if (!isValidInput(val)) return;
+    if (which === 'from') {
+      if (isValidInput(toDateTime)) {
+        const f = new Date(val).getTime();
+        const t = new Date(toDateTime).getTime();
+        if (f > t) {
+          // push TO up to FROM
+          setToDateTime(val);
+          setNoticeMsg("Adjusted: To aligned to From to keep order.");
+        }
+      }
+    } else {
+      // which === 'to'
+      if (isValidInput(fromDateTime)) {
+        const f = new Date(fromDateTime).getTime();
+        const t = new Date(val).getTime();
+        if (t < f) {
+          // pull FROM down to TO
+          setFromDateTime(val);
+          setNoticeMsg("Adjusted: From aligned to To to keep order.");
+        }
+      }
+    }
+  };
+
   // Countdown active only when TO is valid input
   const countdownActive = useMemo(() => isValidInput(toDateTime), [toDateTime]);
 
@@ -423,6 +450,75 @@ const DateDifferencePro: React.FC = () => {
   const findHistoryCountdown = (id: string) => historyCountdowns.find((x) => x.id === id);
 
   /* -----------------------------------------------------------------------
+   * Anchor guards: prevent crossing & disable plus when To=Now
+   * --------------------------------------------------------------------- */
+
+  const canApplyStep = (stepDays: number): boolean => {
+    if (!anchor) return false;
+
+    if (anchor === 'from') {
+      // adjusting TO; TO must stay >= FROM
+      if (!isValidInput(fromDateTime)) return true;
+      const anchorDate = new Date(fromDateTime);
+      const base = isValidInput(toDateTime) ? new Date(toDateTime) : new Date();
+      const candidate = new Date(base);
+      candidate.setDate(candidate.getDate() + stepDays);
+      return candidate.getTime() >= anchorDate.getTime();
+    } else {
+      // anchor === 'to' -> adjusting FROM; FROM must stay <= TO
+      if (stepDays > 0) return false; // plus disabled when To=Now
+      if (!isValidInput(toDateTime)) return true;
+      const anchorDate = new Date(toDateTime);
+      const base = isValidInput(fromDateTime) ? new Date(fromDateTime) : new Date();
+      const candidate = new Date(base);
+      candidate.setDate(candidate.getDate() + stepDays);
+      return candidate.getTime() <= anchorDate.getTime();
+    }
+  };
+
+  // Adjust +/- days on the *non-anchored* field (accumulate) with clamping
+  const adjustDays = (n: number) => {
+    if (!anchor) return;
+
+    if (!canApplyStep(n)) {
+      setNoticeMsg(anchor === 'from'
+        ? "Cannot move TO earlier than FROM."
+        : (n > 0 ? "When To = Now, +days are disabled." : "Cannot move FROM later than TO."));
+      return;
+    }
+
+    if (anchor === 'from') {
+      // modify TO, clamp so it never goes earlier than FROM
+      const base = isValidInput(toDateTime) ? new Date(toDateTime) : new Date();
+      const next = new Date(base);
+      next.setDate(next.getDate() + n);
+
+      if (isValidInput(fromDateTime)) {
+        const from = new Date(fromDateTime);
+        if (next.getTime() < from.getTime()) {
+          setToDateTime(toLocalDateTimeValue(from));
+          return;
+        }
+      }
+      setToDateTime(toLocalDateTimeValue(next));
+    } else {
+      // anchor === 'to' -> modify FROM, clamp so it never goes later than TO
+      const base = isValidInput(fromDateTime) ? new Date(fromDateTime) : new Date();
+      const next = new Date(base);
+      next.setDate(next.getDate() + n);
+
+      if (isValidInput(toDateTime)) {
+        const to = new Date(toDateTime);
+        if (next.getTime() > to.getTime()) {
+          setFromDateTime(toLocalDateTimeValue(to));
+          return;
+        }
+      }
+      setFromDateTime(toLocalDateTimeValue(next));
+    }
+  };
+
+  /* -----------------------------------------------------------------------
    * Actions
    * --------------------------------------------------------------------- */
 
@@ -439,6 +535,7 @@ const DateDifferencePro: React.FC = () => {
     setFromDateTime(v);
     setAnchor('from');
     setNoticeMsg("From set to current time.");
+    enforceOrderAfterSet('from', v);
   };
 
   const quickSetToNow = () => {
@@ -446,24 +543,7 @@ const DateDifferencePro: React.FC = () => {
     setToDateTime(v);
     setAnchor('to');
     setNoticeMsg("To set to current time.");
-  };
-
-  // Adjust +/- days on the *non-anchored* field (accumulate)
-  const adjustDays = (n: number) => {
-    if (!anchor) return;
-    if (anchor === 'from') {
-      // modify TO
-      const base = isValidInput(toDateTime) ? new Date(toDateTime) : new Date();
-      const next = new Date(base);
-      next.setDate(next.getDate() + n);
-      setToDateTime(toLocalDateTimeValue(next));
-    } else {
-      // anchor === 'to' -> modify FROM
-      const base = isValidInput(fromDateTime) ? new Date(fromDateTime) : new Date();
-      const next = new Date(base);
-      next.setDate(next.getDate() + n);
-      setFromDateTime(toLocalDateTimeValue(next));
-    }
+    enforceOrderAfterSet('to', v);
   };
 
   const swapDates = () => {
@@ -483,6 +563,13 @@ const DateDifferencePro: React.FC = () => {
       setErrorMsg("Please select valid From and To dates.");
       return;
     }
+    // Enforce order before saving
+    const fTs = new Date(fromDateTime).getTime();
+    const tTs = new Date(toDateTime).getTime();
+    if (fTs > tTs) {
+      setErrorMsg("From must be earlier than or equal to To.");
+      return;
+    }
     setErrorMsg("");
     const f = new Date(fromDateTime);
     const t = new Date(toDateTime);
@@ -491,7 +578,7 @@ const DateDifferencePro: React.FC = () => {
       fromISO: f.toISOString(),
       toISO: t.toISOString(),
       createdAtISO: new Date().toISOString(),
-      summary: buildDynamicSummary(diff),
+      summary: buildDynamicSummary(calcDateTimeDiff(fromDateTime, toDateTime)),
     };
     const next = clampHistory([item, ...history]);
     setHistory(next);
@@ -528,13 +615,14 @@ const DateDifferencePro: React.FC = () => {
       line(y, `To:   ${tValid ? fmtDateTime(new Date(toDateTime).toISOString()) : "—"}`);
       y += 8;
 
-      const summary = buildDynamicSummary(diff);
+      const summary = buildDynamicSummary(calcDateTimeDiff(fromDateTime, toDateTime));
       line(y, `Summary: ${summary}`);
       y += 6;
 
+      const tmp = calcDateTimeDiff(fromDateTime, toDateTime);
       line(
         y,
-        `Totals: ${Math.abs(diff.totalDays).toLocaleString()} days | ${Math.abs(diff.totalWeeks).toLocaleString()} weeks | ${Math.abs(diff.totalHours).toLocaleString()} hours | ${Math.abs(diff.totalMinutes).toLocaleString()} minutes | ${Math.abs(diff.totalSeconds).toLocaleString()} seconds`
+        `Totals: ${Math.abs(tmp.totalDays).toLocaleString()} days | ${Math.abs(tmp.totalWeeks).toLocaleString()} weeks | ${Math.abs(tmp.totalHours).toLocaleString()} hours | ${Math.abs(tmp.totalMinutes).toLocaleString()} minutes | ${Math.abs(tmp.totalSeconds).toLocaleString()} seconds`
       );
       y += 10;
 
@@ -624,7 +712,11 @@ const DateDifferencePro: React.FC = () => {
                   id="from-datetime"
                   type="datetime-local"
                   value={fromDateTime === SENTINEL_ZERO ? "" : fromDateTime}
-                  onChange={(e) => setFromDateTime(e.target.value || SENTINEL_ZERO)}
+                  onChange={(e) => {
+                    const v = e.target.value || SENTINEL_ZERO;
+                    setFromDateTime(v);
+                    if (v !== SENTINEL_ZERO) enforceOrderAfterSet('from', v);
+                  }}
                   className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   aria-invalid={fromDateTime === SENTINEL_ZERO}
                 />
@@ -637,163 +729,17 @@ const DateDifferencePro: React.FC = () => {
                   id="to-datetime"
                   type="datetime-local"
                   value={toDateTime === SENTINEL_ZERO ? "" : toDateTime}
-                  onChange={(e) => setToDateTime(e.target.value || SENTINEL_ZERO)}
+                  onChange={(e) => {
+                    const v = e.target.value || SENTINEL_ZERO;
+                    setToDateTime(v);
+                    if (v !== SENTINEL_ZERO) enforceOrderAfterSet('to', v);
+                  }}
                   className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   aria-invalid={toDateTime === SENTINEL_ZERO}
                 />
               </div>
             </LabeledField>
-
-            <div className="mb-2 flex items-center justify-between">
-              <SectionDivider label="Quick actions" />
-              <label className="flex items-center gap-2 text-sm text-gray-600">
-                <input
-                  type="checkbox"
-                  className="rounded border-gray-300"
-                  checked={showAdvanced}
-                  onChange={(e) => setShowAdvanced(e.target.checked)}
-                />
-                Show
-              </label>
-            </div>
-
-            {showAdvanced && (
-              <div className="grid grid-cols-2 sm:grid-cols-7 gap-2 mb-2">
-                <button
-                  type="button"
-                  onClick={quickSetFromNow}
-                  className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2 ${
-                    anchor === "from"
-                      ? "bg-blue-100 border-blue-300 text-blue-900"
-                      : "bg-gray-50 border-gray-200 hover:bg-gray-100"
-                  }`}
-                  title="Set From = Now (adjust TO with +/−)"
-                >
-                  From = Now
-                </button>
-
-                <button
-                  type="button"
-                  onClick={quickSetToNow}
-                  className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2 ${
-                    anchor === "to"
-                      ? "bg-blue-100 border-blue-300 text-blue-900"
-                      : "bg-gray-50 border-gray-200 hover:bg-gray-100"
-                  }`}
-                  title="Set To = Now (adjust FROM with +/−)"
-                >
-                  To = Now
-                </button>
-
-                {/* PLUS days (enabled when anchor is set) */}
-                <button
-                  type="button"
-                  onClick={() => adjustDays(1)}
-                  disabled={!anchor}
-                  className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2 ${
-                    anchor ? "bg-gray-50 border-gray-200 hover:bg-gray-100" : "bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed"
-                  }`}
-                  title={
-                    anchor === "from"
-                      ? "Add +1 day to TO"
-                      : anchor === "to"
-                      ? "Add +1 day to FROM"
-                      : "Activate From/To = Now first"
-                  }
-                >
-                  +1 day
-                </button>
-                <button
-                  type="button"
-                  onClick={() => adjustDays(7)}
-                  disabled={!anchor}
-                  className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2 ${
-                    anchor ? "bg-gray-50 border-gray-200 hover:bg-gray-100" : "bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed"
-                  }`}
-                  title={
-                    anchor === "from"
-                      ? "Add +7 days to TO"
-                      : anchor === "to"
-                      ? "Add +7 days to FROM"
-                      : "Activate From/To = Now first"
-                  }
-                >
-                  +7 days
-                </button>
-                <button
-                  type="button"
-                  onClick={() => adjustDays(30)}
-                  disabled={!anchor}
-                  className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2 ${
-                    anchor ? "bg-gray-50 border-gray-200 hover:bg-gray-100" : "bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed"
-                  }`}
-                  title={
-                    anchor === "from"
-                      ? "Add +30 days to TO"
-                      : anchor === "to"
-                      ? "Add +30 days to FROM"
-                      : "Activate From/To = Now first"
-                  }
-                >
-                  +30 days
-                </button>
-
-                {/* MINUS days (enabled when anchor is set) */}
-                <button
-                  type="button"
-                  onClick={() => adjustDays(-1)}
-                  disabled={!anchor}
-                  className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2 ${
-                    anchor ? "bg-gray-50 border-gray-200 hover:bg-gray-100" : "bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed"
-                  }`}
-                  title={
-                    anchor === "from"
-                      ? "Subtract −1 day from TO"
-                      : anchor === "to"
-                      ? "Subtract −1 day from FROM"
-                      : "Activate From/To = Now first"
-                  }
-                >
-                  −1 day
-                </button>
-                <button
-                  type="button"
-                  onClick={() => adjustDays(-7)}
-                  disabled={!anchor}
-                  className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2 ${
-                    anchor ? "bg-gray-50 border-gray-200 hover:bg-gray-100" : "bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed"
-                  }`}
-                  title={
-                    anchor === "from"
-                      ? "Subtract −7 days from TO"
-                      : anchor === "to"
-                      ? "Subtract −7 days from FROM"
-                      : "Activate From/To = Now first"
-                  }
-                >
-                  −7 days
-                </button>
-                <button
-                  type="button"
-                  onClick={() => adjustDays(-30)}
-                  disabled={!anchor}
-                  className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2 ${
-                    anchor ? "bg-gray-50 border-gray-200 hover:bg-gray-100" : "bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed"
-                  }`}
-                  title={
-                    anchor === "from"
-                      ? "Subtract −30 days from TO"
-                      : anchor === "to"
-                      ? "Subtract −30 days from FROM"
-                      : "Activate From/To = Now first"
-                  }
-                >
-                  −30 days
-                </button>
-              </div>
-            )}
-
-            <div className="flex flex-col sm:flex-row gap-2 mb-2">
+<div className="flex flex-col sm:flex-row gap-2 mb-2">
               <button
                 onClick={addToHistory}
                 className="flex-1 px-4 py-2 bg-emerald-800 text-white rounded-lg hover:bg-emerald-700 transition-colors inline-flex items-center justify-center gap-2"
@@ -834,10 +780,10 @@ const DateDifferencePro: React.FC = () => {
                 <div className="text-center p-4 bg-blue-50 rounded-lg">
                   <Clock className="h-8 w-8 text-blue-800 mx-auto mb-2" />
                   <div className="text-2xl font-bold text-gray-900" data-testid="calendar-diff">
-                    {buildDynamicSummary(diff)}
+                    {buildDynamicSummary(calcDateTimeDiff(fromDateTime, toDateTime))}
                   </div>
                   <div className="text-sm text-gray-800">
-                    {diff.negative ? "From date is after To date" : "Calendar difference"}
+                    {calcDateTimeDiff(fromDateTime, toDateTime).negative ? "From date is after To date" : "Calendar difference"}
                   </div>
                 </div>
 
@@ -859,12 +805,21 @@ const DateDifferencePro: React.FC = () => {
               </div>
 
               {/* Totals */}
-              <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
-                <StatCard label="Total Days" value={abs(diff.totalDays).toLocaleString()} className="bg-green-50 border-green-200" />
-                <StatCard label="Total Weeks" value={abs(diff.totalWeeks).toLocaleString()} className="bg-yellow-50 border-yellow-200" />
-                <StatCard label="Total Hours" value={abs(diff.totalHours).toLocaleString()} className="bg-purple-50 border-purple-200" />
-                <StatCard label="Total Minutes" value={abs(diff.totalMinutes).toLocaleString()} className="bg-red-50 border-red-200" />
-              </div>
+              {isValidInput(fromDateTime) && isValidInput(toDateTime) && (
+                <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+                  {(() => {
+                    const d = calcDateTimeDiff(fromDateTime, toDateTime);
+                    return (
+                      <>
+                        <StatCard label="Total Days" value={abs(d.totalDays).toLocaleString()} className="bg-green-50 border-green-200" />
+                        <StatCard label="Total Weeks" value={abs(d.totalWeeks).toLocaleString()} className="bg-yellow-50 border-yellow-200" />
+                        <StatCard label="Total Hours" value={abs(d.totalHours).toLocaleString()} className="bg-purple-50 border-purple-200" />
+                        <StatCard label="Total Minutes" value={abs(d.totalMinutes).toLocaleString()} className="bg-red-50 border-red-200" />
+                      </>
+                    );
+                  })()}
+                </div>
+              )}
 
               {/* Live Countdown */}
               {countdownActive && (
@@ -925,7 +880,7 @@ const DateDifferencePro: React.FC = () => {
                     }}
                     onDelete={() => deleteHistoryItem(h.id)}
                   />
-                ); 
+                );
               })}
             </div>
           )}
