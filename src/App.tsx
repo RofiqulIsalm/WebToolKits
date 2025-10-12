@@ -86,7 +86,7 @@ function App() {
             <Route path="/date-difference" element={<DateDifference />} />
             <Route path="/qr-code-generator" element={<QRCodeGenerator />} />
             <Route path="/password-generator" element={<PasswordGenerator />} />
-            <Route path="/AddSubtract" element={<AddSubtract />} />
+            <Route path="/add-subtract-days" element={<AddSubtractDays />} />
 
             {/* ✅ Admin Pages */}
             <Route path="/admin/upload-image" element={<AdminImageUpload />} />
