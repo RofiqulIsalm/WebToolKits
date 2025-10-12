@@ -1,16 +1,11 @@
 /**
- * DateDifferencePro – 10/10 SEO Edition
+ * DateDifferencePro – 10/10 SEO + UX Edition (with contextual links + clean note reset)
  * -----------------------------------------------------------------------------
- * What’s new in this version (to push for Top-3 rankings):
- * - Strong, concise intro above the fold with primary variants/keywords
- * - Memoized diff computation (no duplicate work in render)
- * - Countdown shows only if TO is valid and in the future (>0ms) – already enforced
- * - 7 visible FAQs + perfectly matching 7-item FAQPage JSON-LD
- * - Added WebApplication & BreadcrumbList JSON-LD
- * - Images include width/height attributes to reduce CLS
- * - Internal backlinks (4) and trust/author box
- * - Accessible modal for notes; notes saved with history
- * - Minimal icon imports; dynamic jspdf import preserved
+ * - Punchier SEO title/description for CTR
+ * - Instant Answers snippet under H1 (Featured Snippet bait)
+ * - Contextual internal links inside body copy (plus the links block)
+ * - Notes reset immediately on successful save (no setTimeout)
+ * - Memoized diff, countdown only if future, JSON-LDs preserved
  */
 
 import React, { useEffect, useMemo, useState, memo, PropsWithChildren, ReactNode } from "react";
@@ -465,20 +460,21 @@ const DateDifferencePro: React.FC = () => {
 
   const findHistoryCountdown = (id: string) => historyCountdowns.find((x) => x.id === id);
 
-  const addToHistory = () => {
+  /** Save and return boolean for success; consumer can reset notes immediately */
+  const addToHistory = (): boolean => {
     if (fromDateTime === SENTINEL_ZERO && toDateTime === SENTINEL_ZERO) {
       setErrorMsg("Values are zero — cannot save history.");
-      return;
+      return false;
     }
     if (!isValidInput(fromDateTime) || !isValidInput(toDateTime)) {
       setErrorMsg("Please select valid From and To dates.");
-      return;
+      return false;
     }
     const fTs = new Date(fromDateTime).getTime();
     const tTs = new Date(toDateTime).getTime();
     if (fTs > tTs) {
       setErrorMsg("From must be earlier than or equal to To.");
-      return;
+      return false;
     }
     setErrorMsg("");
     const f = new Date(fromDateTime);
@@ -496,19 +492,17 @@ const DateDifferencePro: React.FC = () => {
     setHistory(next);
     saveHistory(next);
     setNoticeMsg("Saved to history.");
+    return true;
   };
 
   const addToHistoryWithNotes = () => {
-    const before = history.length;
-    addToHistory();
-    // If successfully saved (history length increased), clear notes
-    setTimeout(() => {
-      if (history.length > before) {
-        setNotesEnabled(false);
-        setNoteTitle("");
-        setNoteBody("");
-      }
-    }, 0);
+    const ok = addToHistory();
+    if (ok) {
+      // Reset note fields immediately on successful save
+      setNotesEnabled(false);
+      setNoteTitle("");
+      setNoteBody("");
+    }
   };
 
   const deleteHistoryItem = (id: string) => {
@@ -582,16 +576,16 @@ const DateDifferencePro: React.FC = () => {
   return (
     <>
       <SEOHead
-        title={seoData?.dateDifference?.title ?? "Date Difference Calculator"}
+        title={seoData?.dateDifference?.title ?? "Date Difference Calculator: Days Between Dates (Free)"}
         description={
           seoData?.dateDifference?.description ??
-          "Calculate exact time between two date-times — days, weeks, months, and a dynamic Y/M/D/H/M/S breakdown. Private, fast, and free."
+          "Find days between dates and exact Y/M/D/H/M/S. Private, fast, and free—live countdown, notes, and PDF export. Try the Date Difference Calculator now."
         }
         canonical="https://calculatorhub.com/date-difference"
         schemaData={generateCalculatorSchema(
           "Date Difference Calculator",
           seoData?.dateDifference?.description ??
-            "Calculate exact time between two date-times — days, weeks, months, and a dynamic Y/M/D/H/M/S breakdown. Private, fast, and free.",
+            "Find days between dates and exact Y/M/D/H/M/S. Private, fast, and free—live countdown, notes, and PDF export.",
           "/date-difference",
           seoData?.dateDifference?.keywords ?? ["date difference", "days between dates", "countdown", "time between dates"]
         )}
@@ -642,15 +636,27 @@ const DateDifferencePro: React.FC = () => {
         />
 
         {/* Above-the-fold intro with primary variants */}
-        <header className="mb-6 md:mb-8">
+        <header className="mb-4 md:mb-6">
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg flex items-center gap-3">
             <CalendarClock className="w-8 h-8 text-white/90" />
             Date Difference Calculator
           </h1>
           <p className="text-slate-300">
-            Find days between dates, total weeks, or the exact <strong>Y/M/D/H/M/S</strong> difference — plus an optional live countdown when your “To” date is in the future.  
-            Works 100% locally in your browser, with notes, history, and PDF export.
+            Find <a href="/days-between-dates" className="text-blue-300 underline underline-offset-2 hover:text-blue-200">days between dates</a>, total weeks, or the exact <strong>Y/M/D/H/M/S</strong> difference.  
+            Works 100% locally in your browser, with notes, history, and PDF export. Need a simple countdown? Try the{" "}
+            <a href="/countdown-timer" className="text-blue-300 underline underline-offset-2 hover:text-blue-200">Countdown Timer</a>.
           </p>
+
+          {/* Instant Answers / Featured Snippet bait */}
+          <div className="mt-4 rounded-xl bg-white/5 ring-1 ring-white/10 p-4 text-slate-200">
+            <h2 className="text-lg font-semibold text-white">How to calculate days between two dates</h2>
+            <ol className="list-decimal ml-5 mt-2 space-y-1">
+              <li>Enter <strong>From</strong> and <strong>To</strong> date-times above.</li>
+              <li>See totals in days/weeks plus exact Y/M/D/H/M/S.</li>
+              <li>Optionally add a note, then <em>Save to History</em> or <a href="/time-add-subtract" className="text-blue-300 underline hover:text-blue-200">add/subtract time</a>.</li>
+            </ol>
+            <p className="mt-2 text-sm">Tip: For birthdays or age, use the <a href="/age-calculator" className="text-blue-300 underline hover:text-blue-200">Age Calculator</a>.</p>
+          </div>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -888,6 +894,7 @@ const DateDifferencePro: React.FC = () => {
           <p className="mb-2">
             Fast, private, and accurate — this calculator runs <strong>100% locally in your browser</strong> and never uploads your data.
             Instantly find the exact time between two date-times with calendar-aware precision (years, months, days, hours, minutes, seconds).
+            For quick conversions, try the <a href="/unix-timestamp-converter" className="text-blue-300 underline hover:text-blue-200">Unix Timestamp Converter</a>.
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
             <span className="inline-flex items-center rounded-full bg-green-600/20 px-3 py-1 text-xs text-green-300 ring-1 ring-green-600/40">📅 Calendar-aware math</span>
@@ -903,7 +910,8 @@ const DateDifferencePro: React.FC = () => {
             <p>
               Planning a project, tracking deadlines, or counting down to an event? This <strong>Date Difference Calculator</strong> gives you precise
               results in real time — from total days and weeks to a <strong>dynamic calendar breakdown</strong> (years, months, days, hours, minutes, seconds).
-              It also includes a <strong>live countdown</strong> when your “To” date is in the future.
+              It also includes a <strong>live countdown</strong> when your “To” date is in the future. For adding hours/minutes quickly, see{" "}
+              <a href="/time-add-subtract" className="text-blue-300 underline hover:text-blue-200">Time Add/Subtract</a>.
             </p>
 
             {/* Image 1 (add width/height to minimize CLS) */}
@@ -921,7 +929,8 @@ const DateDifferencePro: React.FC = () => {
 
             <p>
               Enter your <strong>From</strong> and <strong>To</strong> dates/times, optionally add a note (title + description), and save the entry.
-              Your history is stored locally, and you can export a clean PDF report for sharing or record-keeping.
+              Your history is stored locally, and you can export a clean PDF report for sharing or record-keeping.  
+              Want to calculate birthdays or tenure? Use our <a href="/age-calculator" className="text-blue-300 underline hover:text-blue-200">Age Calculator</a>.
             </p>
 
             <AdBanner type="bottom" />
