@@ -534,14 +534,14 @@ const DateDifferencePro: React.FC = () => {
   const quickSetFromNow = () => {
     const v = toLocalDateTimeValue(new Date());
     setFromDateTime(v);
-    setAnchor('from');           // mark FROM as the active anchor
+    setAnchor('from');
     setNoticeMsg("From set to current time.");
   };
 
   const quickSetToNow = () => {
     const v = toLocalDateTimeValue(new Date());
     setToDateTime(v);
-    setAnchor('to');             // mark TO as the active anchor
+    setAnchor('to');
     setNoticeMsg("To set to current time.");
   };
 
@@ -775,99 +775,100 @@ const adjustDays = (n: number) => {
             </div>
 
             {showAdvanced && (
-              <div className="grid grid-cols-2 sm:grid-cols-6 gap-2 mb-2">
+              <div className="grid grid-cols-2 sm:grid-cols-7 gap-2 mb-2">
+                  {/* Anchors */}
                   <button
-                      type="button"
-                      onClick={quickSetFromNow}
-                      className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
-                        ${anchor === 'from' ? 'bg-blue-100 border-blue-300 text-blue-900' : 'bg-gray-50 border-gray-200 hover:bg-gray-100'}
-                      `}
-                      title="Set From = Now"
-                    >
-                      From = Now
-                    </button>
-                  
-                    <button
-                      type="button"
-                      onClick={quickSetToNow}
-                      className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
-                        ${anchor === 'to' ? 'bg-blue-100 border-blue-300 text-blue-900' : 'bg-gray-50 border-gray-200 hover:bg-gray-100'}
-                      `}
-                      title="Set To = Now"
-                    >
-                      To = Now
-                    </button>
-                  
-                    {/* PLUS days – enabled only when anchor === 'from' */}
-                    <button
-                      type="button"
-                      onClick={() => applyPlusDays(1)}
-                      disabled={anchor !== 'from'}
-                      className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
-                        ${anchor === 'from' ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
-                      `}
-                      title={anchor === 'from' ? 'Add +1 day to TO' : 'Enable From = Now to use +days'}
-                    >
-                      +1 day
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => applyPlusDays(7)}
-                      disabled={anchor !== 'from'}
-                      className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
-                        ${anchor === 'from' ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
-                      `}
-                      title={anchor === 'from' ? 'Add +7 days to TO' : 'Enable From = Now to use +days'}
-                    >
-                      +7 days
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => applyPlusDays(30)}
-                      disabled={anchor !== 'from'}
-                      className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
-                        ${anchor === 'from' ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
-                      `}
-                      title={anchor === 'from' ? 'Add +30 days to TO' : 'Enable From = Now to use +days'}
-                    >
-                      +30 days
-                    </button>
-                  
-                    {/* MINUS days – enabled only when anchor === 'to' */}
-                    <button
-                      type="button"
-                      onClick={() => applyMinusDays(1)}
-                      disabled={anchor !== 'to'}
-                      className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
-                        ${anchor === 'to' ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
-                      `}
-                      title={anchor === 'to' ? 'Subtract -1 day from FROM' : 'Enable To = Now to use -days'}
-                    >
-                      −1 day
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => applyMinusDays(7)}
-                      disabled={anchor !== 'to'}
-                      className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
-                        ${anchor === 'to' ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
-                      `}
-                      title={anchor === 'to' ? 'Subtract -7 days from FROM' : 'Enable To = Now to use -days'}
-                    >
-                      −7 days
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => applyMinusDays(30)}
-                      disabled={anchor !== 'to'}
-                      className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
-                        ${anchor === 'to' ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
-                      `}
-                      title={anchor === 'to' ? 'Subtract -30 days from FROM' : 'Enable To = Now to use -days'}
-                    >
-                      −30 days
-                    </button>
-              </div>
+                    type="button"
+                    onClick={quickSetFromNow}
+                    className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
+                      ${anchor === 'from' ? 'bg-blue-100 border-blue-300 text-blue-900' : 'bg-gray-50 border-gray-200 hover:bg-gray-100'}
+                    `}
+                    title="Set From = Now (adjust TO with +/−)"
+                  >
+                    From = Now
+                  </button>
+                
+                  <button
+                    type="button"
+                    onClick={quickSetToNow}
+                    className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
+                      ${anchor === 'to' ? 'bg-blue-100 border-blue-300 text-blue-900' : 'bg-gray-50 border-gray-200 hover:bg-gray-100'}
+                    `}
+                    title="Set To = Now (adjust FROM with +/−)"
+                  >
+                    To = Now
+                  </button>
+                
+                  {/* PLUS days (enabled when anchor is set) */}
+                  <button
+                    type="button"
+                    onClick={() => adjustDays(1)}
+                    disabled={!anchor}
+                    className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
+                      ${anchor ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
+                    `}
+                    title={anchor === 'from' ? 'Add +1 day to TO' : anchor === 'to' ? 'Add +1 day to FROM' : 'Activate From/To = Now first'}
+                  >
+                    +1 day
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => adjustDays(7)}
+                    disabled={!anchor}
+                    className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
+                      ${anchor ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
+                    `}
+                    title={anchor === 'from' ? 'Add +7 days to TO' : anchor === 'to' ? 'Add +7 days to FROM' : 'Activate From/To = Now first'}
+                  >
+                    +7 days
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => adjustDays(30)}
+                    disabled={!anchor}
+                    className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
+                      ${anchor ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
+                    `}
+                    title={anchor === 'from' ? 'Add +30 days to TO' : anchor === 'to' ? 'Add +30 days to FROM' : 'Activate From/To = Now first'}
+                  >
+                    +30 days
+                  </button>
+                
+                  {/* MINUS days (enabled when anchor is set) */}
+                  <button
+                    type="button"
+                    onClick={() => adjustDays(-1)}
+                    disabled={!anchor}
+                    className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
+                      ${anchor ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
+                    `}
+                    title={anchor === 'from' ? 'Subtract −1 day from TO' : anchor === 'to' ? 'Subtract −1 day from FROM' : 'Activate From/To = Now first'}
+                  >
+                    −1 day
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => adjustDays(-7)}
+                    disabled={!anchor}
+                    className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
+                      ${anchor ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
+                    `}
+                    title={anchor === 'from' ? 'Subtract −7 days from TO' : anchor === 'to' ? 'Subtract −7 days from FROM' : 'Activate From/To = Now first'}
+                  >
+                    −7 days
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => adjustDays(-30)}
+                    disabled={!anchor}
+                    className={`px-3 py-2 rounded-lg border inline-flex items-center justify-center gap-2
+                      ${anchor ? 'bg-gray-50 border-gray-200 hover:bg-gray-100' : 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'}
+                    `}
+                    title={anchor === 'from' ? 'Subtract −30 days from TO' : anchor === 'to' ? 'Subtract −30 days from FROM' : 'Activate From/To = Now first'}
+                  >
+                    −30 days
+                  </button>
+                </div>
             )}
 
             {/* Action buttons */}
