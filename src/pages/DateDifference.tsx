@@ -549,6 +549,31 @@ const DateDifferencePro: React.FC = () => {
     setToDateTime(toLocalDateTimeValue(base));
     setNoticeMsg(`To set to now + ${n} day${n === 1 ? "" : "s"}.`);
   };
+  // put below your other helpers
+  const addDays = (date: Date, n: number) => {
+    const d = new Date(date);
+    d.setDate(d.getDate() + n);
+    return d;
+  };
+  
+  // When From=Now is active -> +days modify TO (accumulate).
+  // When To=Now is active -> +days are disabled, and -days modify FROM (accumulate).
+  const applyPlusDays = (n: number) => {
+    if (anchor === 'from') {
+      const base = isValidDate(new Date(toDateTime)) ? new Date(toDateTime) : new Date();
+      setToDateTime(toLocalDateTimeValue(addDays(base, n)));
+    }
+    // if anchor === 'to' we keep +days disabled in UI (no-op)
+  };
+  
+  const applyMinusDays = (n: number) => {
+    if (anchor === 'to') {
+      const base = isValidDate(new Date(fromDateTime)) ? new Date(fromDateTime) : new Date();
+      setFromDateTime(toLocalDateTimeValue(addDays(base, -n)));
+    }
+    // if anchor === 'from' we keep -days disabled in UI (no-op)
+  };
+
 
   const addToHistory = () => {
     // User rule: if both are defaults, do not save; show red text
