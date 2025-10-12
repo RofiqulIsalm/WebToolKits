@@ -26,6 +26,7 @@ import DateDifference from './pages/DateDifference';
 import QRCodeGenerator from './pages/QRCodeGenerator';
 import PasswordGenerator from './pages/PasswordGenerator';
 import AddSubtractDays from './pages/AddSubtractDays'; 
+import WeekdayFinder from './pages/WeekdayFinder';
 
 // Misc Tools
 import RandomNumberGenerator from './pages/RandomNumberGenerator';
@@ -87,6 +88,7 @@ function App() {
             <Route path="/qr-code-generator" element={<QRCodeGenerator />} />
             <Route path="/password-generator" element={<PasswordGenerator />} />
             <Route path="/add-subtract-days" element={<AddSubtractDays />} />
+            
 
             {/* ✅ Admin Pages */}
             <Route path="/admin/upload-image" element={<AdminImageUpload />} />
