@@ -105,6 +105,12 @@ const LS_KEY = "dateDiffHistory_v2";
  * Using an explicit sentinel avoids ambiguous empty strings for state transitions.
  */
 const SENTINEL_ZERO = "0";
+const isValidInput = (iso: string): boolean => {
+  if (!iso || iso === SENTINEL_ZERO) return false;
+  const d = new Date(iso);
+  return !Number.isNaN(d.getTime());
+};
+
 
 /** Left-pad a number to 2 digits (absolute value) */
 const pad2 = (n: number) => String(Math.abs(n)).padStart(2, "0");
@@ -244,6 +250,7 @@ function calcDateTimeDiff(fromISO: string, toISO: string): DiffResult {
     negative: isNegative,
   };
 }
+
 
 /**
  * buildDynamicSummary
