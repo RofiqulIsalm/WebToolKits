@@ -60,6 +60,8 @@ export type HistoryItem = {
   toISO: string;
   createdAtISO: string;
   summary: string;
+  noteTitle?: string;
+  noteBody?: string;
 };
 
 /* ==========================================================================
@@ -267,6 +269,7 @@ type HistoryRowProps = {
   completed: boolean;
   onEdit: () => void;
   onDelete: () => void;
+  onInfo?: (item: HistoryItem) => void;
 };
 const HistoryRow = memo(function HistoryRow({
   item,
@@ -274,6 +277,7 @@ const HistoryRow = memo(function HistoryRow({
   completed,
   onEdit,
   onDelete,
+  onInfo,
 }: HistoryRowProps) {
   return (
     <div
@@ -290,8 +294,23 @@ const HistoryRow = memo(function HistoryRow({
         <div className="text-xs text-gray-500">Saved {fmtDateTime(item.createdAtISO)}</div>
         <div className="text-sm font-semibold text-indigo-700 mt-1">{countdownLabel}</div>
       </div>
-      <div className="flex gap-2">
-        <button
+      <div className="flex gap-2 flex-wrap">
+        
+        {onInfo && (item.noteTitle || item.noteBody) && (
+          <button
+            onClick={() => onInfo(item)}
+            className="px-3 py-1.5 rounded-lg bg-white border border-gray-300 text-gray-800 hover:bg-gray-50 text-sm inline-flex items-center gap-1"
+            title="View details"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            Info
+          </button>
+        )}
+    <button
           onClick={onEdit}
           className="px-3 py-1.5 rounded-lg bg-blue-800 text-white hover:bg-blue-700 text-sm inline-flex items-center gap-1"
           title="Edit"
@@ -333,6 +352,58 @@ const SectionDivider = ({ label }: { label: string }) => (
   </div>
 );
 
+
+/** Simple accessible modal */
+const InlineModal = ({
+  open,
+  title,
+  description,
+  onClose,
+}: {
+  open: boolean;
+  title?: string;
+  description?: string;
+  onClose: () => void;
+}) => {
+  if (!open) return null;
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40 p-0 sm:p-4"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div className="bg-white w-full sm:max-w-lg sm:rounded-xl sm:shadow-lg sm:border sm:border-gray-200">
+        <div className="px-4 py-3 border-b border-gray-200 flex items-center justify-between">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-900 truncate">{title || "Details"}</h3>
+          <button
+            onClick={onClose}
+            className="text-gray-600 hover:text-gray-900 px-2 py-1 rounded-md focus:outline-none focus:ring"
+            aria-label="Close"
+          >
+            ✕
+          </button>
+        </div>
+        <div className="p-4 sm:p-5">
+          {description ? (
+            <p className="text-sm sm:text-base text-gray-800 whitespace-pre-wrap">{description}</p>
+          ) : (
+            <p className="text-sm text-gray-600">No description provided.</p>
+          )}
+        </div>
+        <div className="px-4 py-3 border-t border-gray-200 flex justify-end">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 text-sm sm:text-base"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
 /* ==========================================================================
  * Main Component
  * ========================================================================== */
@@ -348,9 +419,17 @@ const DateDifferencePro: React.FC = () => {
   const [history, setHistory] = useState<HistoryItem[]>(() => loadHistory());
   const [errorMsg, setErrorMsg] = useState<string>("");
   const [noticeMsg, setNoticeMsg] = useState<string>("");
+  // Optional notes UI state
+  const [notesEnabled, setNotesEnabled] = useState<boolean>(false);
+  const [noteTitle, setNoteTitle] = useState<string>("");
+  const [noteBody, setNoteBody] = useState<string>("");
 
   const [showAdvanced, setShowAdvanced] = useState<boolean>(true);
   const [anchor, setAnchor] = useState<'from' | 'to' | null>(null);
+  // Modal for history item details
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [modalTitle, setModalTitle] = useState<string>("");
+  const [modalBody, setModalBody] = useState<string>("");
 
   // Recalculate diff
   useEffect(() => {
@@ -585,6 +664,8 @@ const DateDifferencePro: React.FC = () => {
       toISO: t.toISOString(),
       createdAtISO: new Date().toISOString(),
       summary: buildDynamicSummary(calcDateTimeDiff(fromDateTime, toDateTime)),
+      noteTitle: notesEnabled && noteTitle ? noteTitle : undefined,
+      noteBody: notesEnabled && noteBody ? noteBody : undefined,
     };
     const next = clampHistory([item, ...history]);
     setHistory(next);
@@ -885,6 +966,7 @@ const DateDifferencePro: React.FC = () => {
                       }
                     }}
                     onDelete={() => deleteHistoryItem(h.id)}
+                    onInfo={(item) => { setModalTitle(item.noteTitle || 'Details'); setModalBody(item.noteBody || ''); setModalOpen(true); }}
                   />
                 );
               })}
@@ -895,6 +977,16 @@ const DateDifferencePro: React.FC = () => {
         <AdBanner type="bottom" />
 
         <RelatedCalculators currentPath="/date-difference" category="date-time-tools" />
+
+
+        {/* Details Modal */}
+        <InlineModal
+          open={modalOpen}
+          title={modalTitle}
+          description={modalBody}
+          onClose={() => setModalOpen(false)}
+        />
+
       </div>
     </>
   );
