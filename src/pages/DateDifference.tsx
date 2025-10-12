@@ -393,7 +393,13 @@ const DateDifferencePro: React.FC = () => {
   };
 
   // Countdown active only when TO is valid input
-  const countdownActive = useMemo(() => isValidInput(toDateTime), [toDateTime]);
+    // Countdown shows only when TO is valid and remaining time > 0
+  const countdownActive = useMemo(() => {
+    if (!isValidInput(toDateTime)) return false;
+    const now = new Date(nowISO).getTime();
+    const tgt = new Date(toDateTime).getTime();
+    return tgt - now > 0;
+  }, [toDateTime, nowISO]);
 
   const countdownText = useMemo(() => {
     const now = new Date(nowISO);
