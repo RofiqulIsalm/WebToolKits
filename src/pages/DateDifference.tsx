@@ -762,22 +762,12 @@ const DateDifferencePro: React.FC = () => {
                     className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
-                <div className="pt-1">
-                  <button
-                    type="button"
-                    onClick={addToHistoryWithNotes}
-                    className="w-full sm:w-auto px-4 py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded-lg"
-                    title="Save to History (with note)"
-                  >
-                    Save to History (with note)
-                  </button>
-                </div>
               </div>
             )}
 
             <div className="flex flex-col sm:flex-row gap-2 mb-2">
               <button
-                onClick={addToHistory}
+                onClick={addToHistoryWithNotes}
                 className="flex-1 px-4 py-2 bg-emerald-800 text-white rounded-lg hover:bg-emerald-700 transition-colors inline-flex items-center justify-center gap-2"
               >
                 <HistoryIcon className="w-4 h-4" /> Save to History
