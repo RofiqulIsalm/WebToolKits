@@ -86,6 +86,7 @@ function App() {
             <Route path="/date-difference" element={<DateDifference />} />
             <Route path="/qr-code-generator" element={<QRCodeGenerator />} />
             <Route path="/password-generator" element={<PasswordGenerator />} />
+            <Route path="/AddSubtract" element={<AddSubtract />} />
 
             {/* ✅ Admin Pages */}
             <Route path="/admin/upload-image" element={<AdminImageUpload />} />
@@ -119,7 +120,7 @@ function App() {
             <Route path="/equation-solver" element={<ComingSoon title="Equation Solver" />} />
 
             {/* ✅ Coming Soon Calculators - Date & Time Tools */}
-            <Route path="/AddSubtract" element={<AddSubtract>} />
+            
             <Route path="/weekday-finder" element={<ComingSoon title="Weekday Finder" />} />
             <Route path="/business-days-calculator" element={<ComingSoon title="Business Days Calculator" />} />
             <Route path="/countdown-timer" element={<ComingSoon title="Countdown Timer" />} />
