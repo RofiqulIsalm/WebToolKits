@@ -91,6 +91,7 @@ function App() {
             <Route path="/password-generator" element={<PasswordGenerator />} />
             <Route path="/add-subtract-days" element={<AddSubtractDays />} />
             <Route path="/weekday-finder" element={<WeekdayFinder />} />
+            <Route path="/business-days-calculator" element={<BusinessDaysCalculator />} />
             
 
             {/* ✅ Admin Pages */}
@@ -125,9 +126,7 @@ function App() {
             <Route path="/equation-solver" element={<ComingSoon title="Equation Solver" />} />
 
             {/* ✅ Coming Soon Calculators - Date & Time Tools */}
-            
-            <Route path="/weekday-finder" element={<ComingSoon title="Weekday Finder" />} />
-            <Route path="/business-days-calculator" element={<ComingSoon title="Business Days Calculator" />} />
+
             <Route path="/countdown-timer" element={<ComingSoon title="Countdown Timer" />} />
             <Route path="/time-zone-converter" element={<ComingSoon title="Time Zone Converter" />} />
             <Route path="/time-duration-calculator" element={<ComingSoon title="Time Duration Calculator" />} />
