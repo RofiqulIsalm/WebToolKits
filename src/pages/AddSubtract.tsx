@@ -1041,4 +1041,4 @@ const AddSubtractDays: React.FC = () => {
   );
 };
 
-export default AddSubtractDays;
+export default AddSubtract;
