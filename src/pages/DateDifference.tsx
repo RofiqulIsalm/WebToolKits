@@ -434,6 +434,7 @@ const DateDifferencePro: React.FC = () => {
 
   /** Whether to show advanced controls (swap, set quick values) */
   const [showAdvanced, setShowAdvanced] = useState<boolean>(true);
+  const [anchor, setAnchor] = useState<'from' | 'to' | null>(null); // which NOW button is     active
 
   /* -----------------------------------------------------------------------
    * Effects
