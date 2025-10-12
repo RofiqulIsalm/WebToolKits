@@ -1007,6 +1007,106 @@ const DateDifferencePro: React.FC = () => {
                 <li><a href="/unix-timestamp-converter" className="text-blue-400 hover:underline">Unix Timestamp Converter</a> – Convert between dates and epoch time.</li>
               </ul>
             </section>
+
+            <section className="space-y-4">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                ❓ Frequently Asked Questions (<span className="text-yellow-300"> FAQ </span>)
+              </h2>
+            
+              <div className="space-y-4 text-lg text-slate-100 leading-relaxed">
+                {/* Q1 */}
+                <div>
+                  <div className="bg-slate-800/60 p-4 mt-3 rounded-lg">
+                    <h3 className="font-semibold text-xl">
+                      <span className="text-yellow-300">Q1</span>: How does the Date Difference Calculator work?
+                    </h3>
+                    <p>
+                      Enter a <strong>From</strong> date/time and a <strong>To</strong> date/time. The tool calculates the exact difference with
+                      calendar awareness (years, months, days) and shows totals (days, weeks, hours, minutes, seconds). If the “To” date is in the future,
+                      you’ll also see a live countdown.
+                    </p>
+                  </div>
+                </div>
+            
+                {/* Q2 */}
+                <div>
+                  <div className="bg-slate-800/60 p-4 mt-3 rounded-lg">
+                    <h3 className="font-semibold text-xl">
+                      <span className="text-yellow-300">Q2</span>: Why do I see “From must be earlier than or equal to To”?
+                    </h3>
+                    <p>
+                      The calculator enforces logical ordering to keep results accurate. If you set <strong>From</strong> after <strong>To</strong>,
+                      it auto-aligns or shows a message so your range always remains valid (From ≤ To).
+                    </p>
+                  </div>
+                </div>
+            
+                {/* Q3 */}
+                <div>
+                  <div className="bg-slate-800/60 p-4 mt-3 rounded-lg">
+                    <h3 className="font-semibold text-xl">
+                      <span className="text-yellow-300">Q3</span>: When does the countdown appear or hide?
+                    </h3>
+                    <p>
+                      The countdown appears only when your <strong>To</strong> date is valid and still in the future. Once the target time is reached,
+                      the countdown hides automatically and completed items in history show “Completed” instead of a ticking timer.
+                    </p>
+                  </div>
+                </div>
+            
+                {/* Q4 */}
+                <div>
+                  <div className="bg-slate-800/60 p-4 mt-3 rounded-lg">
+                    <h3 className="font-semibold text-xl">
+                      <span className="text-yellow-300">Q4</span>: Does it handle different month lengths and leap years?
+                    </h3>
+                    <p>
+                      Yes. The calendar-aware logic borrows days between months and respects varying month lengths and leap years,
+                      so year/month/day breakdowns are realistic, not just simple totals.
+                    </p>
+                  </div>
+                </div>
+            
+                {/* Q5 */}
+                <div>
+                  <div className="bg-slate-800/60 p-4 mt-3 rounded-lg">
+                    <h3 className="font-semibold text-xl">
+                      <span className="text-yellow-300">Q5</span>: Can I add notes or descriptions to a calculation?
+                    </h3>
+                    <p>
+                      Enable the <strong>“Add reason &amp; description (optional)”</strong> checkbox to reveal note fields.
+                      When you save to history, those notes are stored and can be viewed later via the <strong>Info</strong> (ⓘ) button in each history row.
+                    </p>
+                  </div>
+                </div>
+            
+                {/* Q6 */}
+                <div>
+                  <div className="bg-slate-800/60 p-4 mt-3 rounded-lg">
+                    <h3 className="font-semibold text-xl">
+                      <span className="text-yellow-300">Q6</span>: Is my data private? Do you upload anything to a server?
+                    </h3>
+                    <p>
+                      Your data stays on your device. Calculations are performed <strong>100% locally in your browser</strong>.
+                      History is stored in your local storage, and you can clear it anytime. No tracking, no uploads.
+                    </p>
+                  </div>
+                </div>
+            
+                {/* Q7 */}
+                <div>
+                  <div className="bg-slate-800/60 p-4 mt-3 rounded-lg">
+                    <h3 className="font-semibold text-xl">
+                      <span className="text-yellow-300">Q7</span>: Can I export results or share them?
+                    </h3>
+                    <p>
+                      Yes. Use the <strong>Export PDF</strong> button to generate a clean report including your input dates,
+                      dynamic summary, totals, and a history table (with timestamps). It’s ideal for planning, reporting, or record-keeping.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
         
         
             {/* ===================== FAQ SCHEMA (SEO Rich Results) ===================== */}
