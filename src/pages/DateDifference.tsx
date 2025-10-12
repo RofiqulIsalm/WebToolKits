@@ -560,21 +560,27 @@ const DateDifferencePro: React.FC = () => {
   
   // When From=Now is active -> +days modify TO (accumulate).
   // When To=Now is active -> +days are disabled, and -days modify FROM (accumulate).
-  const applyPlusDays = (n: number) => {
-    if (anchor === 'from') {
-      const base = isValidDate(new Date(toDateTime)) ? new Date(toDateTime) : new Date();
-      setToDateTime(toLocalDateTimeValue(addDays(base, n)));
-    }
-    // if anchor === 'to' we keep +days disabled in UI (no-op)
-  };
-  
-  const applyMinusDays = (n: number) => {
-    if (anchor === 'to') {
-      const base = isValidDate(new Date(fromDateTime)) ? new Date(fromDateTime) : new Date();
-      setFromDateTime(toLocalDateTimeValue(addDays(base, -n)));
-    }
-    // if anchor === 'from' we keep -days disabled in UI (no-op)
-  };
+  // Adjust +/- days on the *non-anchored* field, accumulating each click.
+// anchor === 'from'  => adjust TO by n days
+// anchor === 'to'    => adjust FROM by n days
+const adjustDays = (n: number) => {
+  if (!anchor) return; // no active 'now' anchor
+
+  if (anchor === 'from') {
+    // modify TO
+    const base = isValidDate(new Date(toDateTime)) ? new Date(toDateTime) : new Date();
+    const next = new Date(base);
+    next.setDate(next.getDate() + n);
+    setToDateTime(toLocalDateTimeValue(next));
+  } else {
+    // anchor === 'to' -> modify FROM
+    const base = isValidDate(new Date(fromDateTime)) ? new Date(fromDateTime) : new Date();
+    const next = new Date(base);
+    next.setDate(next.getDate() + n);
+    setFromDateTime(toLocalDateTimeValue(next));
+  }
+};
+
 
 
   const addToHistory = () => {
