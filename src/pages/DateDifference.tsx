@@ -648,15 +648,7 @@ const DateDifferencePro: React.FC = () => {
           </p>
 
           {/* Instant Answers / Featured Snippet bait */}
-          <div className="mt-4 rounded-xl bg-white/5 ring-1 ring-white/10 p-4 text-slate-200">
-            <h2 className="text-lg font-semibold text-white">How to calculate days between two dates</h2>
-            <ol className="list-decimal ml-5 mt-2 space-y-1">
-              <li>Enter <strong>From</strong> and <strong>To</strong> date-times above.</li>
-              <li>See totals in days/weeks plus exact Y/M/D/H/M/S.</li>
-              <li>Optionally add a note, then <em>Save to History</em> or <a href="/time-add-subtract" className="text-blue-300 underline hover:text-blue-200">add/subtract time</a>.</li>
-            </ol>
-            <p className="mt-2 text-sm">Tip: For birthdays or age, use the <a href="/age-calculator" className="text-blue-300 underline hover:text-blue-200">Age Calculator</a>.</p>
-          </div>
+          
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
