@@ -88,6 +88,7 @@ function App() {
             <Route path="/qr-code-generator" element={<QRCodeGenerator />} />
             <Route path="/password-generator" element={<PasswordGenerator />} />
             <Route path="/add-subtract-days" element={<AddSubtractDays />} />
+            <Route path="/weekday-finder" element={<WeekdayFinder />} />
             
 
             {/* ✅ Admin Pages */}
