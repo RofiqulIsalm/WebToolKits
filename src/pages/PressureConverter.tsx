@@ -47,7 +47,7 @@ const PressureConverter: React.FC = () => {
       <SEOHead
         title={seoData.pressureConverter.title}
         description={seoData.pressureConverter.description}
-        canonical="https://calculatorhub.com/pressure-converter"
+        canonical="https://calculatorhub.site/pressure-converter"
         schemaData={generateCalculatorSchema(
           "Pressure Converter",
           seoData.pressureConverter.description,
