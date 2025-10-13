@@ -244,7 +244,7 @@ const CurrencyConverter: React.FC = () => {
       <SEOHead
         title={seoData.currencyConverter.title}
         description={seoData.currencyConverter.description}
-        canonical="https://calculatorhub.com/currency-converter"
+        canonical="https://calculatorhub.site/currency-converter"
         schemaData={generateCalculatorSchema(
           "Currency Converter",
           seoData.currencyConverter.description,
