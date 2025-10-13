@@ -67,7 +67,7 @@ const TimezoneConverter: React.FC = () => {
       <div className="max-w-3xl mx-auto">
         <Breadcrumbs
           items={[
-            { name: "Time Tools", url: "/category/time-tools" },
+            { name: "Time Tools", url: "/category/date-time-tools" },
             { name: "Timezone Converter", url: "/timezone-converter" },
           ]}
         />
