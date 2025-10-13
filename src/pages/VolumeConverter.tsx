@@ -51,7 +51,7 @@ const VolumeConverter: React.FC = () => {
       <SEOHead
         title={seoData.volumeConverter.title}
         description={seoData.volumeConverter.description}
-        canonical="https://calculatorhub.com/volume-converter"
+        canonical="https://calculatorhub.site/volume-converter"
         schemaData={generateCalculatorSchema(
           "Volume Converter",
           seoData.volumeConverter.description,
