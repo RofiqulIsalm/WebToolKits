@@ -44,7 +44,7 @@ const TimeDurationCalculator: React.FC = () => {
           seoData.timeDurationCalculator?.description ||
           "Find the exact time duration between two dates or times."
         }
-        canonical="https://calculatorhub.com/time-duration-calculator"
+        canonical="https://calculatorhub.site/time-duration-calculator"
         schemaData={generateCalculatorSchema(
           "Time Duration Calculator",
           "Calculate the time difference between two dates or times easily.",
