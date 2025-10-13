@@ -58,6 +58,15 @@ import LogCalculator  from './pages/LogCalculator';
 import VolumeConverter  from './pages/VolumeConverter';
 import EnergyConverter  from './pages/EnergyConverter';
 import DataStorageConverter  from './pages/DataStorageConverter';
+import MortgageCalculator  from './pages/MortgageCalculator';
+import SIPCalculator  from './pages/SIPCalculator';
+import FDCalculator  from './pages/FDCalculator';
+import RDCalculator  from './pages/RDCalculator';
+import RetirementCalculator  from './pages/RetirementCalculator';
+import InflationCalculator  from './pages/InflationCalculator';
+import CreditCardPayoff  from './pages/CreditCardPayoff';
+import SavingsGoalCalculator  from './pages/SavingsGoalCalculator';
+import ROICalculator  from './pages/ROICalculator';
 
 
 // Admin Pages
@@ -125,17 +134,18 @@ function App() {
             {/* ✅ Admin Pages */}
             <Route path="/admin/upload-image" element={<AdminImageUpload />} />
 
+
             {/* ✅ Coming Soon Calculators - Currency & Finance */}
-            <Route path="/mortgage-calculator" element={<ComingSoon title="Mortgage Calculator" />} />
-            <Route path="/sip-calculator" element={<ComingSoon title="SIP Calculator" />} />
-            <Route path="/fd-calculator" element={<ComingSoon title="FD Calculator" />} />
-            <Route path="/rd-calculator" element={<ComingSoon title="RD Calculator" />} />
-            <Route path="/retirement-calculator" element={<ComingSoon title="Retirement Calculator" />} />
-            <Route path="/inflation-calculator" element={<ComingSoon title="Inflation Calculator" />} />
-            <Route path="/credit-card-payoff-calculator" element={<ComingSoon title="Credit Card Payoff Calculator" />} />
-            <Route path="/savings-goal-calculator" element={<ComingSoon title="Savings Goal Calculator" />} />
-            <Route path="/simple-interest-calculator" element={<ComingSoon title="Simple Interest Calculator" />} />
-            <Route path="/roi-calculator" element={<ComingSoon title="ROI Calculator" />} />
+            <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
+            <Route path="/sip-calculator" element={<SIPCalculator />} />
+            <Route path="/fd-calculator" element={<FDCalculator />} />
+            <Route path="/rd-calculator" element={<RDCalculator />} />
+            <Route path="/retirement-calculator" element={<RetirementCalculator />} />
+            <Route path="/inflation-calculator" element={<InflationCalculator />} />
+            <Route path="/credit-card-payoff-calculator" element={<CreditCardPayoff />} />
+            <Route path="/savings-goal-calculator" element={<SavingsGoalCalculator />} />
+            <Route path="/simple-interest-calculator" element={<SimpleInterestCalculator />} />
+            <Route path="/roi-calculator" element={<ROICalculator />} />
 
             {/* ✅ Coming Soon Calculators - Unit Converters */}
             <Route path="/volume-converter" element={<VolumeConverter />} />
