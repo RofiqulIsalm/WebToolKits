@@ -54,7 +54,7 @@ import QuadraticEquationSolver from './pages/QuadraticEquationSolver';
 import FactorialCalculator from './pages/FactorialCalculator';
 import StatisticsCalculator  from './pages/StatisticsCalculator';
 import GCDLCMCalculator  from './pages/GCDLCMCalculator';
-import LogCalculator  from './pages/LogCalculator';
+import LogCalculator  from './pages/LogCalculator'; 
 import VolumeConverter  from './pages/VolumeConverter';
 import EnergyConverter  from './pages/EnergyConverter';
 import DataStorageConverter  from './pages/DataStorageConverter';
@@ -66,7 +66,7 @@ import RDCalculator  from './pages/RDCalculator';
 import RetirementCalculator  from './pages/RetirementCalculator';
 import InflationCalculator  from './pages/InflationCalculator';
 import CreditCardPayoff  from './pages/CreditCardPayoff';
-import SimpleInterestCalculator  from './pages/SimpleInterestCalculator';
+// import SimpleInterestCalculator  from './pages/SimpleInterestCalculator';
 import ROICalculator  from './pages/ROICalculator';
 
 
