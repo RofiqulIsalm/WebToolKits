@@ -71,7 +71,7 @@ const TaxCalculator: React.FC = () => {
       <SEOHead
         title={seoData.taxCalculator.title}
         description={seoData.taxCalculator.description}
-        canonical="https://calculatorhub.com/tax-calculator"
+        canonical="https://calculatorhub.site/tax-calculator"
         schemaData={generateCalculatorSchema(
           "Tax Calculator",
           seoData.taxCalculator.description,
