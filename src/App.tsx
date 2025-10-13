@@ -102,6 +102,7 @@ function App() {
             <Route path="/countdown-timer" element={<CountdownTimer />} />
             <Route path="/time-zone-converter" element={<TimezoneConverter />} />
             <Route path="/time-duration-calculator" element={<TimeDurationCalculator />} />
+            <Route path="/week-number-finder" element={<WeekNumberFinder />} />
  
             
 
@@ -140,8 +141,7 @@ function App() {
 
             {/* ✅ Coming Soon Calculators - Date & Time Tools */}
 
-            <Route path="/time-duration-calculator" element={<ComingSoon title="Time Duration Calculator" />} />
-            <Route path="/week-number-finder" element={<ComingSoon title="Week Number Finder" />} />
+
             <Route path="/calendar-generator" element={<ComingSoon title="Calendar Generator" />} />
 
             {/* ✅ Misc Tools */}
