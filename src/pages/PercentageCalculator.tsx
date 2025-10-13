@@ -33,7 +33,7 @@ const PercentageCalculator: React.FC = () => {
       <SEOHead
         title={seoData.percentageCalculator.title}
         description={seoData.percentageCalculator.description}
-        canonical="https://calculatorhub.com/percentage-calculator"
+        canonical="https://calculatorhub.site/percentage-calculator"
         schemaData={generateCalculatorSchema(
           "Percentage Calculator",
           seoData.percentageCalculator.description,
