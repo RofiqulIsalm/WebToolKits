@@ -48,6 +48,7 @@ import FuelCostCalculator from './pages/FuelCostCalculator';
 import WeekNumberFinder from './pages/WeekNumberFinder';
 import CalendarGenerator from './pages/CalendarGenerator';
 import QuadraticEquationSolver from './pages/QuadraticEquationSolver';
+import FactorialCalculator from './pages/FactorialCalculator';
 
 
 // Admin Pages
@@ -136,7 +137,7 @@ function App() {
 
             {/* ✅ Coming Soon Calculators - Math Tools */}
             <Route path="/quadratic-equation-solver" element={<QuadraticEquationSolver />} />
-            <Route path="/factorial-calculator" element={<ComingSoon title="Factorial Calculator" />} />
+            <Route path="/factorial-calculator" element={<FactorialCalculator />} />
             <Route path="/prime-number-checker" element={<ComingSoon title="Prime Number Checker" />} />
             <Route path="/statistics-calculator" element={<ComingSoon title="Statistics Calculator" />} />
             <Route path="/gcd-lcm-calculator" element={<ComingSoon title="GCD LCM Calculator" />} />
