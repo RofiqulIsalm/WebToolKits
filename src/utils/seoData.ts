@@ -213,7 +213,7 @@ export const seoData = {
     description: "Create countdown timers for events, deadlines, and special occasions. Free countdown calculator with days, hours, minutes display.",
     keywords: "countdown timer, event countdown, deadline calculator, time remaining calculator"
   },
-  timeZoneConverter: {
+  timezoneconverter: {
     title: "Time Zone Converter - World Time Calculator",
     description: "Convert time between different time zones worldwide. Free time zone converter with daylight saving time adjustments.",
     keywords: "time zone converter, world time calculator, timezone conversion, time difference"
