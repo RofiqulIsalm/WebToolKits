@@ -31,6 +31,7 @@ import BusinessDaysCalculator from './pages/BusinessDaysCalculator';
 import CountdownTimer from './pages/CountdownTimer';
 import TimezoneConverter from './pages/TimezoneConverter';
 import TimeDurationCalculator from './pages/TimeDurationCalculator';
+import PrimeNumberChecker from './pages/PrimeNumberChecker';
 
 
 
@@ -138,7 +139,7 @@ function App() {
             {/* ✅ Coming Soon Calculators - Math Tools */}
             <Route path="/quadratic-equation-solver" element={<QuadraticEquationSolver />} />
             <Route path="/factorial-calculator" element={<FactorialCalculator />} />
-            <Route path="/prime-number-checker" element={<ComingSoon title="Prime Number Checker" />} />
+            <Route path="/prime-number-checker" element={<PrimeNumberChecker />} />
             <Route path="/statistics-calculator" element={<ComingSoon title="Statistics Calculator" />} />
             <Route path="/gcd-lcm-calculator" element={<ComingSoon title="GCD LCM Calculator" />} />
             <Route path="/log-calculator" element={<ComingSoon title="Log Calculator" />} />
