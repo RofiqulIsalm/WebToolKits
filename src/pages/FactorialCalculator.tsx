@@ -49,7 +49,7 @@ const FactorialCalculator: React.FC = () => {
       <SEOHead
         title="Factorial Calculator | CalculatorHub"
         description="Calculate the factorial of any number instantly. Get step-by-step results, number of digits, and detailed factorial breakdown."
-        canonical="https://calculatorhub.com/factorial-calculator"
+        canonical="https://calculatorhub.site/factorial-calculator"
         schemaData={generateCalculatorSchema(
           "Factorial Calculator",
           "Calculate the factorial of any number instantly with detailed results.",
