@@ -47,7 +47,7 @@ const DataStorageConverter: React.FC = () => {
       <SEOHead
         title={seoData.dataStorageConverter.title}
         description={seoData.dataStorageConverter.description}
-        canonical="https://calculatorhub.com/data-storage-converter"
+        canonical="https://calculatorhub.site/data-storage-converter"
         schemaData={generateCalculatorSchema(
           "Data Storage Converter",
           seoData.dataStorageConverter.description,
