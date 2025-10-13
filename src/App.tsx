@@ -29,7 +29,7 @@ import AddSubtractDays from './pages/AddSubtractDays';
 import WeekdayFinder from './pages/WeekdayFinder';
 import BusinessDaysCalculator from './pages/BusinessDaysCalculator';
 import CountdownTimer from './pages/CountdownTimer';
-import TimezoneConverter from './pages/TimeZoneConveter';
+import TimezoneConverter from './pages/TimezoneConverter';
 
 
 
