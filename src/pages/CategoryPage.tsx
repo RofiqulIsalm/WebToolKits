@@ -18,7 +18,7 @@ const CategoryPage: React.FC = () => {
         <SEOHead
           title="Category Not Found | CalculatorHub"
           description="The category you're looking for doesn't exist. Browse our collection of free online calculators and tools."
-          canonical={`https://calculatorhub.com/category/${categorySlug}`}
+          canonical={`https://calculatorhub.site/category/${categorySlug}`}
         />
       <div className="max-w-4xl mx-auto text-center">
         <h1 className="text-3xl font-bold text-white mb-4">Category Not Found</h1>
@@ -42,7 +42,7 @@ const CategoryPage: React.FC = () => {
       <SEOHead
         title={categoryData?.title || `${category.category} | CalculatorHub`}
         description={categoryData?.description || `Free ${category.category.toLowerCase()} tools and calculators`}
-        canonical={`https://calculatorhub.com/category/${categorySlug}`}
+        canonical={`https://calculatorhub.site/category/${categorySlug}`}
         breadcrumbs={[
           { name: category.category, url: `/category/${categorySlug}` }
         ]}
