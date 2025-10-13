@@ -46,6 +46,7 @@ import UUIDGenerator from './pages/UUIDGenerator';
 import BaseConverter from './pages/BaseConverter';
 import FuelCostCalculator from './pages/FuelCostCalculator';
 import WeekNumberFinder from './pages/WeekNumberFinder';
+import CalendarGenerator from './pages/CalendarGenerator';
 
 
 // Admin Pages
@@ -104,6 +105,7 @@ function App() {
             <Route path="/time-zone-converter" element={<TimezoneConverter />} />
             <Route path="/time-duration-calculator" element={<TimeDurationCalculator />} />
             <Route path="/week-number-finder" element={<WeekNumberFinder />} />
+            <Route path="/calendar-generator" element={<CalendarGenerator />} />
  
             
 
@@ -143,7 +145,7 @@ function App() {
             {/* ✅ Coming Soon Calculators - Date & Time Tools */}
 
 
-            <Route path="/calendar-generator" element={<ComingSoon title="Calendar Generator" />} />
+            
 
             {/* ✅ Misc Tools */}
             <Route path="/random-number-generator" element={<RandomNumberGenerator />} />
