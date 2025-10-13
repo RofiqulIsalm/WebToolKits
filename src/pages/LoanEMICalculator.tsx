@@ -40,7 +40,7 @@ const LoanEMICalculator: React.FC = () => {
       <SEOHead
         title={seoData.loanEmiCalculator.title}
         description={seoData.loanEmiCalculator.description}
-        canonical="https://calculatorhub.com/loan-emi-calculator"
+        canonical="https://calculatorhub.site/loan-emi-calculator"
         schemaData={generateCalculatorSchema(
           "Loan EMI Calculator",
           seoData.loanEmiCalculator.description,
