@@ -33,6 +33,7 @@ import TimezoneConverter from './pages/TimezoneConverter';
 import TimeDurationCalculator from './pages/TimeDurationCalculator';
 import PrimeNumberChecker from './pages/PrimeNumberChecker';
 import EquationSolver from './pages/EquationSolver';
+import PressureConverter from './pages/PressureConverter';
 
 
 
@@ -136,7 +137,7 @@ function App() {
 
             {/* ✅ Coming Soon Calculators - Unit Converters */}
             <Route path="/volume-converter" element={<VolumeConverter />} />
-            <Route path="/pressure-converter" element={<ComingSoon title="Pressure Converter" />} />
+            <Route path="/pressure-converter" element={<Pressure Converter />} />
             <Route path="/energy-converter" element={<ComingSoon title="Energy Converter" />} />
             <Route path="/data-storage-converter" element={<ComingSoon title="Data Storage Converter" />} />
             <Route path="/fuel-efficiency-converter" element={<ComingSoon title="Fuel Efficiency Converter" />} />
