@@ -56,6 +56,9 @@ import StatisticsCalculator  from './pages/StatisticsCalculator';
 import GCDLCMCalculator  from './pages/GCDLCMCalculator';
 import LogCalculator  from './pages/LogCalculator';
 import VolumeConverter  from './pages/VolumeConverter';
+import EnergyConverter  from './pages/EnergyConverter';
+import DataStorageConverter  from './pages/DataStorageConverter';
+import FuelEfficiencyConverter  from './pages/FuelEfficiencyConverter';
 
 
 // Admin Pages
@@ -138,9 +141,9 @@ function App() {
             {/* ✅ Coming Soon Calculators - Unit Converters */}
             <Route path="/volume-converter" element={<VolumeConverter />} />
             <Route path="/pressure-converter" element={<PressureConverter />} />
-            <Route path="/energy-converter" element={<ComingSoon title="Energy Converter" />} />
-            <Route path="/data-storage-converter" element={<ComingSoon title="Data Storage Converter" />} />
-            <Route path="/fuel-efficiency-converter" element={<ComingSoon title="Fuel Efficiency Converter" />} />
+            <Route path="/energy-converter" element={<EnergyConverter />} />
+            <Route path="/data-storage-converter" element={<DataStorageConverter />} />
+            <Route path="/fuel-efficiency-converter" element={<FuelEfficiencyConverter />} />
 
             {/* ✅ Coming Soon Calculators - Math Tools */}
             <Route path="/quadratic-equation-solver" element={<QuadraticEquationSolver />} />
