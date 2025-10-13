@@ -51,7 +51,7 @@ const GcdLcmCalculator: React.FC = () => {
       <SEOHead
         title="GCD & LCM Calculator | CalculatorHub"
         description="Find the Greatest Common Divisor (GCD) and Least Common Multiple (LCM) of two or more numbers instantly with this online GCD LCM calculator."
-        canonical="https://calculatorhub.com/gcd-lcm-calculator"
+        canonical="https://calculatorhub.site/gcd-lcm-calculator"
         schemaData={generateCalculatorSchema(
           "GCD & LCM Calculator",
           "Find the Greatest Common Divisor (GCD) and Least Common Multiple (LCM) of two or more numbers instantly.",
