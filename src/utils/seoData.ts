@@ -123,13 +123,7 @@ export const seoData = {
     title: "Data Storage Converter - Bytes, KB, MB, GB, TB",
     description: "Convert between bytes, kilobytes, megabytes, gigabytes, terabytes, and more. Free data storage converter for digital file sizes.",
     keywords: "data storage converter, file size converter, bytes to GB, storage calculator"
-  },
-  fuelEfficiencyConverter: {
-    title: "Fuel Efficiency Converter - MPG, L/100km Converter",
-    description: "Convert between MPG, L/100km, km/L, and other fuel efficiency units. Free fuel economy converter for vehicle efficiency calculations.",
-    keywords: "fuel efficiency converter, MPG converter, fuel economy calculator, gas mileage converter"
-  },
-
+  }
   // Math Tools
   bmiCalculator: {
     title: "BMI Calculator - Body Mass Index Calculator",
