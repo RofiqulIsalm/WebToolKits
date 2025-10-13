@@ -9,55 +9,12 @@ import Homepage from './pages/Homepage';
 import CategoryPage from './pages/CategoryPage';
 
 // Existing Calculators
+
+// Currency & Finance
 import CurrencyConverter from './pages/CurrencyConverter';
-import LengthConverter from './pages/LengthConverter';
-import WeightConverter from './pages/WeightConverter';
-import TemperatureConverter from './pages/TemperatureConverter';
-import AreaConverter from './pages/AreaConverter';
-import SpeedConverter from './pages/SpeedConverter';
 import LoanEMICalculator from './pages/LoanEMICalculator';
 import CompoundInterestCalculator from './pages/CompoundInterestCalculator';
 import TaxCalculator from './pages/TaxCalculator';
-import BMICalculator from './pages/BMICalculator';
-import PercentageCalculator from './pages/PercentageCalculator';
-import AverageCalculator from './pages/AverageCalculator';
-import AgeCalculator from './pages/AgeCalculator';
-import DateDifference from './pages/DateDifference';
-import QRCodeGenerator from './pages/QRCodeGenerator';
-import PasswordGenerator from './pages/PasswordGenerator';
-import AddSubtractDays from './pages/AddSubtractDays'; 
-import WeekdayFinder from './pages/WeekdayFinder';
-import BusinessDaysCalculator from './pages/BusinessDaysCalculator';
-import CountdownTimer from './pages/CountdownTimer';
-import TimezoneConverter from './pages/TimezoneConverter';
-import TimeDurationCalculator from './pages/TimeDurationCalculator';
-import PrimeNumberChecker from './pages/PrimeNumberChecker';
-import EquationSolver from './pages/EquationSolver';
-import PressureConverter from './pages/PressureConverter';
-
-
-
- 
-
-// Misc Tools
-import RandomNumberGenerator from './pages/RandomNumberGenerator';
-import ColorConverter from './pages/ColorConverter';
-import TextCounter from './pages/TextCounter';
-import TipCalculator from './pages/TipCalculator';
-import RomanNumeralConverter from './pages/RomanNumeralConverter';
-import UUIDGenerator from './pages/UUIDGenerator';
-import BaseConverter from './pages/BaseConverter';
-import FuelCostCalculator from './pages/FuelCostCalculator';
-import WeekNumberFinder from './pages/WeekNumberFinder';
-import CalendarGenerator from './pages/CalendarGenerator';
-import QuadraticEquationSolver from './pages/QuadraticEquationSolver';
-import FactorialCalculator from './pages/FactorialCalculator';
-import StatisticsCalculator  from './pages/StatisticsCalculator';
-import GCDLCMCalculator  from './pages/GCDLCMCalculator';
-import LogCalculator  from './pages/LogCalculator'; 
-import VolumeConverter  from './pages/VolumeConverter';
-import EnergyConverter  from './pages/EnergyConverter';
-import DataStorageConverter  from './pages/DataStorageConverter';
 import MortgageCalculator  from './pages/MortgageCalculator';
 import SIPCalculator  from './pages/SIPCalculator';
 import FDCalculator  from './pages/FDCalculator';
@@ -67,8 +24,92 @@ import InflationCalculator  from './pages/InflationCalculator';
 import CreditCardPayoff  from './pages/CreditCardPayoff';
 import ROICalculator  from './pages/ROICalculator';
 import SavingsGoalCalculator from './pages/SavingsGoalCalculator';
-
 import SimpleInterestCalculator from './pages/SimpleInterestCalculator';
+
+
+// Unit Converters
+import LengthConverter from './pages/LengthConverter';
+import WeightConverter from './pages/WeightConverter';
+import TemperatureConverter from './pages/TemperatureConverter';
+import AreaConverter from './pages/AreaConverter';
+import SpeedConverter from './pages/SpeedConverter';
+import PressureConverter from './pages/PressureConverter';
+import VolumeConverter  from './pages/VolumeConverter';
+import EnergyConverter  from './pages/EnergyConverter';
+import DataStorageConverter  from './pages/DataStorageConverter';
+
+
+// Math Tools
+import PercentageCalculator from './pages/PercentageCalculator';
+import AverageCalculator from './pages/AverageCalculator';
+import PrimeNumberChecker from './pages/PrimeNumberChecker';
+import EquationSolver from './pages/EquationSolver';
+import QuadraticEquationSolver from './pages/QuadraticEquationSolver';
+import FactorialCalculator from './pages/FactorialCalculator';
+import StatisticsCalculator  from './pages/StatisticsCalculator';
+import GCDLCMCalculator  from './pages/GCDLCMCalculator';
+import LogCalculator  from './pages/LogCalculator'; 
+
+
+// Date & Time Tools
+import AgeCalculator from './pages/AgeCalculator';
+import DateDifference from './pages/DateDifference';
+import AddSubtractDays from './pages/AddSubtractDays'; 
+import WeekdayFinder from './pages/WeekdayFinder';
+import BusinessDaysCalculator from './pages/BusinessDaysCalculator';
+import CountdownTimer from './pages/CountdownTimer';
+import TimezoneConverter from './pages/TimezoneConverter';
+import TimeDurationCalculator from './pages/TimeDurationCalculator';
+import WeekNumberFinder from './pages/WeekNumberFinder';
+import CalendarGenerator from './pages/CalendarGenerator';
+
+// Misc Tools
+import QRCodeGenerator from './pages/QRCodeGenerator';
+import PasswordGenerator from './pages/PasswordGenerator';
+import RandomNumberGenerator from './pages/RandomNumberGenerator';
+import ColorConverter from './pages/ColorConverter';
+import TextCounter from './pages/TextCounter';
+import TipCalculator from './pages/TipCalculator';
+import RomanNumeralConverter from './pages/RomanNumeralConverter';
+import UUIDGenerator from './pages/UUIDGenerator';
+import BaseConverter from './pages/BaseConverter';
+import FuelCostCalculator from './pages/FuelCostCalculator';
+
+// Health tools
+import BMICalculator from './pages/BMICalculator';
+// import CalorieIntakeCalculator from './pages/CalorieIntakeCalculator';  
+// import BodyFatPercentageCalculator from './pages/BodyFatPercentageCalculator';
+// import WaterIntakeCalculator from './pages/WaterIntakeCalculator';
+// import PregnancyDueDateCalculator from './pages/PregnancyDueDateCalculator';
+// import SleepDurationCalculator from './pages/SleepDurationCalculator';
+// import Waist-to-HipRatioCalculator from './pages/Waist-to-HipRatioCalculator';
+// import TDEECalculator from './pages/TDEECalculator';
+// import LeanBodyMassCalculator from './pages/LeanBodyMassCalculator';
+// import BloodAlcoholContent from './pages/BloodAlcoholContent';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+// Misc Tools
+
+
+
+
+
+
+
 
 
 
