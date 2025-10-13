@@ -338,7 +338,7 @@ export const generateCalculatorSchema = (
   "@type": "SoftwareApplication",
   "name": name,
   "description": description,
-  "url": `https://calculatorhub.com${url}`,
+  "url": `https://calculatorhub.site${url}`,
   "applicationCategory": "UtilityApplication",
   "operatingSystem": "Web Browser",
   "offers": {
@@ -349,7 +349,7 @@ export const generateCalculatorSchema = (
   "creator": {
     "@type": "Organization",
     "name": "CalculatorHub",
-    "url": "https://calculatorhub.com"
+    "url": "https://calculatorhub.site"
   },
   "datePublished": "2025-01-01",
   "dateModified": "2025-01-01",
@@ -370,13 +370,13 @@ export const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "CalculatorHub",
-  "url": "https://calculatorhub.com",
-  "logo": "https://calculatorhub.com/logo.png",
+  "url": "https://calculatorhub.site",
+  "logo": "https://calculatorhub.site/logo.png",
   "description": "Free online calculators and converters for daily use",
   "contactPoint": {
     "@type": "ContactPoint",
     "contactType": "customer service",
-    "email": "support@calculatorhub.com"
+    "email": "support@calculatorhub.site"
   },
   "sameAs": [
     "https://twitter.com/CalculatorHub",
