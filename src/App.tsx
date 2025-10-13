@@ -257,13 +257,51 @@ function App() {
               <Route path="/fuel-cost-calculator" element={<FuelCostCalculator />} />
 
             
-            {/* Health tools */}
+            {/* Health tools */} 
               <Route path="/bmi-calculator" element={<BMICalculator />} />  
+            {/*
+              <Route path="/calorie-intake-calculator" element={<CalorieIntakeCalculator />} />           
+              <Route path="/body-fat-percentage-calculator" element={<BodyFatPercentageCalculator  />} />  
+              <Route path="/water-intake-calculator" element={<WaterIntakeCalculator />} />  
+              <Route path="/pregnancy-due-date-calculator" element={<PregnancyDueDateCalculator />} />  
+              <Route path="/sleep-duration-calculator" element={<SleepDurationCalculator />} />  
+              <Route path="/waist-to-hip-ratio-calculator" element={<WaistToHipRatioCalculator  />} />  
+              <Route path="/tdee-calculator" element={<TDEECalculator />} />  
+              <Route path="/lean-body-mass-calculator" element={<LeanBodyMassCalculator />} />  
+              <Route path="/blood-alcohol-content" element={<BloodAlcoholContent  />} />   
+
+            */}
+
               
             {/* Earning Calculators */}
+            
 
             
             {/* Science Tools */}
+            {/*
+              <Route path="/acceleration-calculator" element={<AccelerationCalculator />} /> 
+              <Route path="/chemical-equation-balancer" element={<ChemicalEquationBalancer />} />  
+              <Route path="/density-calculator" element={<DensityCalculator />} />  
+              <Route path="/dnabase-pair-calculator" element={<DNABasePairCalculator />} />  
+              <Route path="/force-calculator" element={<ForceCalculator />} />  
+              <Route path="/ideal-gaslaw-calculator" element={<IdealGasLawCalculator />} />  
+              <Route path="/molar-mass-calculator" element={<MolarMassCalculator />} />  
+              <Route path="/ohms-law-calculator" element={<OhmsLawCalculator />} />  
+              <Route path="/ph-calculator" element={<PHCalculator />} />  
+              <Route path="/torque-calculator" element={<TorqueCalculator />} /> 
+          */}
+
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
             
 
             
