@@ -52,7 +52,7 @@ const TimeDurationCalculator: React.FC = () => {
           ["time duration calculator", "time difference", "date calculator"]
         )}
         breadcrumbs={[
-          { name: "Time Tools", url: "/category/time-tools" },
+          { name: "Date & Time Tools", url: "/category/date-time-tools" },
           { name: "Time Duration Calculator", url: "/time-duration-calculator" },
         ]}
       />
@@ -60,7 +60,7 @@ const TimeDurationCalculator: React.FC = () => {
       <div className="max-w-3xl mx-auto">
         <Breadcrumbs
           items={[
-            { name: "Time Tools", url: "/category/time-tools" },
+            { name: "Date & Time Tools", url: "/category/date-time-tools" },
             { name: "Time Duration Calculator", url: "/time-duration-calculator" },
           ]}
         />
