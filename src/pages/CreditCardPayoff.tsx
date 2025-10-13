@@ -51,7 +51,7 @@ const CreditCardPayoffCalculator: React.FC = () => {
       <SEOHead
         title={seoData.creditCardPayoffCalculator.title}
         description={seoData.creditCardPayoffCalculator.description}
-        canonical="https://calculatorhub.com/credit-card-payoff-calculator"
+        canonical="https://calculatorhub.site/credit-card-payoff-calculator"
         schemaData={generateCalculatorSchema(
           "Credit Card Payoff Calculator",
           seoData.creditCardPayoffCalculator.description,
