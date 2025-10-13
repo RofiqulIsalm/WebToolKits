@@ -137,7 +137,8 @@ function App() {
 
 
             {/* ✅ Coming Soon Calculators - Currency & Finance */}
-            
+            <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
+
 
             {/* ✅ Coming Soon Calculators - Unit Converters */}
             <Route path="/volume-converter" element={<VolumeConverter />} />
