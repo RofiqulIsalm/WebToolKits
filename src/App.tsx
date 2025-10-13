@@ -32,6 +32,7 @@ import CountdownTimer from './pages/CountdownTimer';
 import TimezoneConverter from './pages/TimezoneConverter';
 import TimeDurationCalculator from './pages/TimeDurationCalculator';
 import PrimeNumberChecker from './pages/PrimeNumberChecker';
+import EquationSolver from './pages/EquationSolver';
 
 
 
@@ -146,7 +147,7 @@ function App() {
             <Route path="/statistics-calculator" element={<StatisticsCalculator />} />
             <Route path="/gcd-lcm-calculator" element={<GCDLCMCalculator />} />
             <Route path="/log-calculator" element={<LogCalculator />} />
-            <Route path="/equation-solver" element={<ComingSoon title="Equation Solver" />} />
+            <Route path="/equation-solver" element={<EquationSolver />} />
 
             {/* ✅ Coming Soon Calculators - Date & Time Tools */}
 
