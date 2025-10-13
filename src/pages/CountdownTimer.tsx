@@ -249,7 +249,7 @@ const CountdownTimer: React.FC = () => {
           seoData?.countdown?.description ??
           "Create a live countdown to any date/time. Titles, descriptions, sound alert, browser notifications, and saved history. Free and private."
         }
-        canonical="https://calculatorhub.com/countdown-timer"
+        canonical="https://calculatorhub.site/countdown-timer"
         schemaData={generateCalculatorSchema(
           "Countdown Timer",
           seoData?.countdown?.description ??
