@@ -49,7 +49,7 @@ const AreaConverter: React.FC = () => {
       <SEOHead
         title={seoData.areaConverter.title}
         description={seoData.areaConverter.description}
-        canonical="https://calculatorhub.com/area-converter"
+        canonical="https://calculatorhub.site/area-converter"
         schemaData={generateCalculatorSchema(
           "Area Converter",
           seoData.areaConverter.description,
