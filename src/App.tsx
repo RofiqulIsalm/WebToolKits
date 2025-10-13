@@ -30,6 +30,7 @@ import WeekdayFinder from './pages/WeekdayFinder';
 import BusinessDaysCalculator from './pages/BusinessDaysCalculator';
 import CountdownTimer from './pages/CountdownTimer';
 import TimezoneConverter from './pages/TimezoneConverter';
+import TimeDurationCalculator from './pages/TimeDurationCalculator';
 
 
 
@@ -100,6 +101,7 @@ function App() {
             <Route path="/business-days-calculator" element={<BusinessDaysCalculator />} />
             <Route path="/countdown-timer" element={<CountdownTimer />} />
             <Route path="/time-zone-converter" element={<TimezoneConverter />} />
+            <Route path="/time-duration-calculator" element={<TimeDurationCalculator />} />
  
             
 
