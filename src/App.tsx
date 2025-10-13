@@ -45,6 +45,7 @@ import RomanNumeralConverter from './pages/RomanNumeralConverter';
 import UUIDGenerator from './pages/UUIDGenerator';
 import BaseConverter from './pages/BaseConverter';
 import FuelCostCalculator from './pages/FuelCostCalculator';
+import WeekNumberFinder from './pages/WeekNumberFinder';
 
 
 // Admin Pages
