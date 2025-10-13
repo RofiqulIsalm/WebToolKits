@@ -581,7 +581,7 @@ const DateDifferencePro: React.FC = () => {
           seoData?.dateDifference?.description ??
           "Find days between dates and exact Y/M/D/H/M/S. Private, fast, and free—live countdown, notes, and PDF export. Try the Date Difference Calculator now."
         }
-        canonical="https://calculatorhub.com/date-difference"
+        canonical="https://calculatorhub.site/date-difference"
         schemaData={generateCalculatorSchema(
           "Date Difference Calculator",
           seoData?.dateDifference?.description ??
@@ -603,11 +603,11 @@ const DateDifferencePro: React.FC = () => {
             "@context": "https://schema.org",
             "@type": "WebApplication",
             "name": "Date Difference Calculator",
-            "url": "https://calculatorhub.com/date-difference",
+            "url": "https://calculatorhub.site/date-difference",
             "applicationCategory": "CalculatorApplication",
             "operatingSystem": "Web",
             "description": "Calculate exact time between two date-times with calendar-aware precision, live countdown, notes, and PDF export.",
-            "image": "https://calculatorhub.com/images/date-difference-hero.webp",
+            "image": "https://calculatorhub.site/images/date-difference-hero.webp",
             "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
           }),
         }}
@@ -620,8 +620,8 @@ const DateDifferencePro: React.FC = () => {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             "itemListElement": [
-              { "@type": "ListItem", "position": 1, "name": "Date & Time Tools", "item": "https://calculatorhub.com/category/date-time-tools" },
-              { "@type": "ListItem", "position": 2, "name": "Date Difference Calculator", "item": "https://calculatorhub.com/date-difference" }
+              { "@type": "ListItem", "position": 1, "name": "Date & Time Tools", "item": "https://calculatorhub.site/category/date-time-tools" },
+              { "@type": "ListItem", "position": 2, "name": "Date Difference Calculator", "item": "https://calculatorhub.site/date-difference" }
             ]
           }),
         }}
