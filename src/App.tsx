@@ -52,6 +52,7 @@ import QuadraticEquationSolver from './pages/QuadraticEquationSolver';
 import FactorialCalculator from './pages/FactorialCalculator';
 import StatisticsCalculator  from './pages/StatisticsCalculator';
 import GCDLCMCalculator  from './pages/GCDLCMCalculator';
+import LogCalculator  from './pages/LogCalculator';
 
 
 // Admin Pages
@@ -144,7 +145,7 @@ function App() {
             <Route path="/prime-number-checker" element={<PrimeNumberChecker />} />
             <Route path="/statistics-calculator" element={<StatisticsCalculator />} />
             <Route path="/gcd-lcm-calculator" element={<GCDLCMCalculator />} />
-            <Route path="/log-calculator" element={<ComingSoon title="Log Calculator" />} />
+            <Route path="/log-calculator" element={<LogCalculator />} />
             <Route path="/equation-solver" element={<ComingSoon title="Equation Solver" />} />
 
             {/* ✅ Coming Soon Calculators - Date & Time Tools */}
