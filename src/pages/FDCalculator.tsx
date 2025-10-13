@@ -44,7 +44,7 @@ const FDCalculator: React.FC = () => {
       <SEOHead
         title={seoData.fdCalculator.title}
         description={seoData.fdCalculator.description}
-        canonical="https://calculatorhub.com/fd-calculator"
+        canonical="https://calculatorhub.site/fd-calculator"
         schemaData={generateCalculatorSchema(
           "FD Calculator",
           seoData.fdCalculator.description,
