@@ -52,7 +52,7 @@ const BMICalculator: React.FC = () => {
       <SEOHead
         title={seoData.bmiCalculator.title}
         description={seoData.bmiCalculator.description}
-        canonical="https://calculatorhub.com/bmi-calculator"
+        canonical="https://calculatorhub.site/bmi-calculator"
         schemaData={generateCalculatorSchema(
           "BMI Calculator",
           seoData.bmiCalculator.description,
