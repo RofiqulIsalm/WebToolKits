@@ -51,7 +51,7 @@ const UUIDGenerator: React.FC = () => {
 
   // V5 inputs
   const [v5Namespace, setV5Namespace] = useState<string>('6ba7b811-9dad-11d1-80b4-00c04fd430c8'); // DNS namespace
-  const [v5Name, setV5Name] = useState<string>('calculatorhub.com');
+  const [v5Name, setV5Name] = useState<string>('calculatorhub.site');
 
   // Output
   const [rawList, setRawList] = useState<RawEntry[]>([]);
@@ -413,7 +413,7 @@ const UUIDGenerator: React.FC = () => {
                     <label className="block text-sm font-medium text-slate-300 mb-2">V5 Name</label>
                     <input
                       type="text"
-                      placeholder="e.g. calculatorhub.com"
+                      placeholder="e.g. calculatorhub.site"
                       value={v5Name}
                       onChange={(e) => setV5Name(e.target.value)}
                       className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
