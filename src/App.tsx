@@ -68,7 +68,7 @@ import CreditCardPayoff  from './pages/CreditCardPayoff';
 import ROICalculator  from './pages/ROICalculator';
 import SavingsGoalCalculator from './pages/SavingsGoalCalculator';
 
-import SimpleInterestCalculator from '/pages/SimpleInterestCalculator';
+import SimpleInterestCalculator from './pages/SimpleInterestCalculator';
 
 
 
