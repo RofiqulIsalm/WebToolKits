@@ -259,13 +259,30 @@ function App() {
             
             {/* Health tools */}
               <Route path="/bmi-calculator" element={<BMICalculator />} />  
+              
             {/* Earning Calculators */}
 
             
             {/* Science Tools */}
+            
 
             
             {/* Business & Management Tools */}
+            {/*
+              <Route path="/breakeven-point-calculator" element={<BreakEvenPointCalculator />} />  
+              <Route path="/cagr-calculator" element={<CAGRCalculator />} />  
+              <Route path="/cost-of-goods-sold-calculator" element={<CostOfGoodsSoldCalculator />} />  
+              <Route path="/employee-bonus-calculator" element={<EmployeeBonusCalculator />} />  
+              <Route path="/loan-affordability-calculator" element={<LoanAffordabilityCalculator />} />  
+              <Route path="/markup-markdown-calculator" element={<MarkupMarkdownCalculator />} />  
+              <Route path="/operating-expense-ratio-calculator" element={<OperatingExpenseRatioCalculator />} />  
+              <Route path="/pay-raise-calculator" element={<PayRaiseCalculator />} />  
+              <Route path="/profit-margin-calculator" element={<ProfitMarginCalculator />} />  
+            */}
+
+
+
+            
 
             
             {/* Design & Digital Tools */}
