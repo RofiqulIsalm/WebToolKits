@@ -139,6 +139,8 @@ function App() {
             {/* ✅ Coming Soon Calculators - Currency & Finance */}
             <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
             <Route path="/sip-calculator" element={<SIPCalculator />} />
+            <Route path="/sip-calculator" element={<SIPCalculator />} />
+ 
 
 
             {/* ✅ Coming Soon Calculators - Unit Converters */}
