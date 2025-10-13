@@ -181,13 +181,6 @@ export const toolsData = [
         icon: HardDrive,
         path: '/data-storage-converter',
         color: 'converter-card'
-      },
-      {
-        name: 'Fuel Efficiency Converter',
-        description: 'Convert between MPG, L/100km, and other units',
-        icon: Car,
-        path: '/fuel-efficiency-converter',
-        color: 'converter-card'
       }
     ]
   },
