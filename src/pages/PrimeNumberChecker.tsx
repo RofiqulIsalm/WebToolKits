@@ -43,7 +43,7 @@ const PrimeNumberChecker: React.FC = () => {
       <SEOHead
         title="Prime Number Checker | CalculatorHub"
         description="Check whether a number is prime or not instantly. See factors, divisor count, and a quick explanation."
-        canonical="https://calculatorhub.com/prime-number-checker"
+        canonical="https://calculatorhub.site/prime-number-checker"
         schemaData={generateCalculatorSchema(
           "Prime Number Checker",
           "Instantly check whether a number is prime or not, view its factors and divisor count.",
