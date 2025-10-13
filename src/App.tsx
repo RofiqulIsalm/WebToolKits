@@ -60,6 +60,7 @@ import EnergyConverter  from './pages/EnergyConverter';
 import DataStorageConverter  from './pages/DataStorageConverter';
 import MortgageCalculator  from './pages/MortgageCalculator';
 import SIPCalculator  from './pages/SIPCalculator';
+import FDCalculator  from './pages/FDCalculator';
 
 
 
@@ -132,8 +133,9 @@ function App() {
 
             {/* ✅ Coming Soon Calculators - Currency & Finance */}
             
-             <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
-             <Route path="/sip-calculator" element={<SIPCalculator />} />
+            <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
+            <Route path="/sip-calculator" element={<SIPCalculator />} />
+            <Route path="/fd-calculator" element={<FDCalculator />} />
 
  
 
