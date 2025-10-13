@@ -50,6 +50,7 @@ import WeekNumberFinder from './pages/WeekNumberFinder';
 import CalendarGenerator from './pages/CalendarGenerator';
 import QuadraticEquationSolver from './pages/QuadraticEquationSolver';
 import FactorialCalculator from './pages/FactorialCalculator';
+import StatisticsCalculator  from './pages/StatisticsCalculator ';
 
 
 // Admin Pages
@@ -140,7 +141,7 @@ function App() {
             <Route path="/quadratic-equation-solver" element={<QuadraticEquationSolver />} />
             <Route path="/factorial-calculator" element={<FactorialCalculator />} />
             <Route path="/prime-number-checker" element={<PrimeNumberChecker />} />
-            <Route path="/statistics-calculator" element={<ComingSoon title="Statistics Calculator" />} />
+            <Route path="/statistics-calculator" element={<StatisticsCalculator />} />
             <Route path="/gcd-lcm-calculator" element={<ComingSoon title="GCD LCM Calculator" />} />
             <Route path="/log-calculator" element={<ComingSoon title="Log Calculator" />} />
             <Route path="/equation-solver" element={<ComingSoon title="Equation Solver" />} />
