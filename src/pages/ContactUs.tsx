@@ -44,7 +44,7 @@ const ContactUs: React.FC = () => {
       <SEOHead
         title={seoData.contactUs.title}
         description={seoData.contactUs.description}
-        canonical="https://calculatorhub.com/contact-us"
+        canonical="https://calculatorhub.site/contact-us"
         breadcrumbs={[
           { name: 'Contact Us', url: '/contact-us' }
         ]}
