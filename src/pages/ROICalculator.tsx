@@ -38,7 +38,7 @@ const ROICalculator: React.FC = () => {
       <SEOHead
         title={seoData.roiCalculator.title}
         description={seoData.roiCalculator.description}
-        canonical="https://calculatorhub.com/roi-calculator"
+        canonical="https://calculatorhub.site/roi-calculator"
         schemaData={generateCalculatorSchema(
           "ROI Calculator",
           seoData.roiCalculator.description,
