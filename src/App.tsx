@@ -39,6 +39,7 @@ import EnergyConverter  from './pages/EnergyConverter';
 import DataStorageConverter  from './pages/DataStorageConverter';
 
 
+
 // Math Tools
 import PercentageCalculator from './pages/PercentageCalculator';
 import AverageCalculator from './pages/AverageCalculator';
@@ -63,6 +64,7 @@ import TimeDurationCalculator from './pages/TimeDurationCalculator';
 import WeekNumberFinder from './pages/WeekNumberFinder';
 import CalendarGenerator from './pages/CalendarGenerator';
 
+
 // Misc Tools
 import QRCodeGenerator from './pages/QRCodeGenerator';
 import PasswordGenerator from './pages/PasswordGenerator';
@@ -75,6 +77,8 @@ import UUIDGenerator from './pages/UUIDGenerator';
 import BaseConverter from './pages/BaseConverter';
 import FuelCostCalculator from './pages/FuelCostCalculator';
 
+
+
 // Health tools
 import BMICalculator from './pages/BMICalculator';
 // import CalorieIntakeCalculator from './pages/CalorieIntakeCalculator';  
@@ -86,6 +90,7 @@ import BMICalculator from './pages/BMICalculator';
 // import TDEECalculator from './pages/TDEECalculator';
 // import LeanBodyMassCalculator from './pages/LeanBodyMassCalculator';
 // import BloodAlcoholContent from './pages/BloodAlcoholContent';
+
 
 
 // Earning Calculators
@@ -102,29 +107,55 @@ import BMICalculator from './pages/BMICalculator';
 
 
 
+// Science Tools
+// import AccelerationCalculator from './pages/AccelerationCalculator';
+// import ChemicalEquationBalancer from './pages/ChemicalEquationBalancer';
+// import DensityCalculator from './pages/DensityCalculator';
+// import DNABasePairCalculator from './pages/DNABasePairCalculator';
+// import ForceCalculator from './pages/ForceCalculator';
+// import IdealGasLawCalculator from './pages/IdealGasLawCalculator';
+// import MolarMassCalculator from './pages/MolarMassCalculator';
+// import OhmsLawCalculator from './pages/OhmsLawCalculator';
+// import PHCalculator from './pages/PHCalculator';
+// import TorqueCalculator from './pages/TorqueCalculator';
 
 
 
 
+// Business & Management Tools
+// import BreakEvenPointCalculator from './pages/BreakEvenPointCalculator';
+// import CAGRCalculator from './pages/CAGRCalculator';
+// import CostOfGoodsSoldCalculator from './pages/CostOfGoodsSoldCalculator';
+// import EmployeeBonusCalculator from './pages/EmployeeBonusCalculator';
+// import LoanAffordabilityCalculator from './pages/LoanAffordabilityCalculator';
+// import MarkupMarkdownCalculator from './pages/MarkupMarkdownCalculator';
+// import OperatingExpenseRatioCalculator from './pages/OperatingExpenseRatioCalculator';
+// import PayRaiseCalculator from './pages/PayRaiseCalculator';
+// import ProfitMarginCalculator from './pages/ProfitMarginCalculator';
 
 
 
+// Design & Digital Tools
+// import AspectRatioCalculator from './pages/AspectRatioCalculator';
+// import ColorContrastChecker from './pages/ColorContrastChecker';
+// import DPIPpiCalculator from './pages/DPIPpiCalculator';
+// import FontSizeConverter from './pages/FontSizeConverter';
+// import ImageResizerTool from './pages/ImageResizerTool';
+// import ResponsiveBreakpointCalculator from './pages/ResponsiveBreakpointCalculator';
 
+
+
+// Education & Study Tools
+// import ExamScoreNeededCalculator from './pages/ExamScoreNeededCalculator';
+// import GPAConverter from './pages/GPAConverter';
+// import GradePercentageCalculator from './pages/GradePercentageCalculator';
+// import PercentageToCGPACalculator from './pages/PercentageToCGPACalculator';
+// import RandomQuestionGenerator from './pages/RandomQuestionGenerator';
+// import StudyTimePlanner from './pages/StudyTimePlanner';
+// import TypingSpeedCalculator from './pages/TypingSpeedCalculator';
 
 
  
-
-// Misc Tools
-
-
-
-
-
-
-
-
-
-
 
 // Admin Pages
 import AdminImageUpload from './pages/AdminImageUpload';
@@ -159,103 +190,112 @@ function App() {
             <Route path="/category/:categorySlug" element={<CategoryPage />} />
 
             {/* ✅ Existing Calculators */}
-            <Route path="/currency-converter" element={<CurrencyConverter />} />
-            <Route path="/length-converter" element={<LengthConverter />} />
-            <Route path="/weight-converter" element={<WeightConverter />} />
-            <Route path="/temperature-converter" element={<TemperatureConverter />} />
-            <Route path="/area-converter" element={<AreaConverter />} />
-            <Route path="/speed-converter" element={<SpeedConverter />} />
-            <Route path="/loan-emi-calculator" element={<LoanEMICalculator />} />
-            <Route path="/compound-interest-calculator" element={<CompoundInterestCalculator />} />
-            <Route path="/tax-calculator" element={<TaxCalculator />} />
-            <Route path="/bmi-calculator" element={<BMICalculator />} />
-            <Route path="/percentage-calculator" element={<PercentageCalculator />} />
-            <Route path="/average-calculator" element={<AverageCalculator />} />
-            <Route path="/age-calculator" element={<AgeCalculator />} />
-            <Route path="/date-difference" element={<DateDifference />} />
-            <Route path="/qr-code-generator" element={<QRCodeGenerator />} />
-            <Route path="/password-generator" element={<PasswordGenerator />} />
-            <Route path="/add-subtract-days" element={<AddSubtractDays />} />
-            <Route path="/weekday-finder" element={<WeekdayFinder />} />
-            <Route path="/business-days-calculator" element={<BusinessDaysCalculator />} />
-            <Route path="/countdown-timer" element={<CountdownTimer />} />
-            <Route path="/time-zone-converter" element={<TimezoneConverter />} />
-            <Route path="/time-duration-calculator" element={<TimeDurationCalculator />} />
-            <Route path="/week-number-finder" element={<WeekNumberFinder />} />
-            <Route path="/calendar-generator" element={<CalendarGenerator />} />
+            {/* Unit Converters */}
+              <Route path="/length-converter" element={<LengthConverter />} />
+              <Route path="/weight-converter" element={<WeightConverter />} />
+              <Route path="/temperature-converter" element={<TemperatureConverter />} />
+              <Route path="/area-converter" element={<AreaConverter />} />
+              <Route path="/speed-converter" element={<SpeedConverter />} />
+              <Route path="/volume-converter" element={<VolumeConverter />} />
+              <Route path="/pressure-converter" element={<PressureConverter />} />
+              <Route path="/energy-converter" element={<EnergyConverter />} />
+              <Route path="/data-storage-converter" element={<DataStorageConverter />} />
+
+            
+            {/* Currency & Finance */}
+              <Route path="/currency-converter" element={<CurrencyConverter />} />
+              <Route path="/tax-calculator" element={<TaxCalculator />} />
+              <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
+              <Route path="/sip-calculator" element={<SIPCalculator />} />
+              <Route path="/fd-calculator" element={<FDCalculator />} />
+              <Route path="/rd-calculator" element={<RDCalculator />} />
+              <Route path="/retirement-calculator" element={<RetirementCalculator />} />
+              <Route path="/inflation-calculator" element={<InflationCalculator />} />
+              <Route path="/credit-card-payoff-calculator" element={<CreditCardPayoff />} />
+              <Route path="/roi-calculator" element={<ROICalculator />} />
+              <Route path="/savings-goal-calculator" element={<SavingsGoalCalculator />} />
+              <Route path="/simple-interest-calculator" element={<SimpleInterestCalculator />} />
+              <Route path="/loan-emi-calculator" element={<LoanEMICalculator />} />
+              <Route path="/compound-interest-calculator" element=        {<CompoundInterestCalculator />} />
+            
+            
+            {/* Math Tools */}
+              <Route path="/percentage-calculator" element={<PercentageCalculator />} />
+              <Route path="/average-calculator" element={<AverageCalculator />} />
+              <Route path="/quadratic-equation-solver" element={<QuadraticEquationSolver />} />
+              <Route path="/factorial-calculator" element={<FactorialCalculator />} />
+              <Route path="/prime-number-checker" element={<PrimeNumberChecker />} />
+              <Route path="/statistics-calculator" element={<StatisticsCalculator />} />
+              <Route path="/gcd-lcm-calculator" element={<GCDLCMCalculator />} />
+              <Route path="/log-calculator" element={<LogCalculator />} />
+              <Route path="/equation-solver" element={<EquationSolver />} />
+
+            
+            {/* Date & Time Tools */}
+              <Route path="/age-calculator" element={<AgeCalculator />} />
+              <Route path="/date-difference" element={<DateDifference />} />
+              <Route path="/add-subtract-days" element={<AddSubtractDays />} />
+              <Route path="/weekday-finder" element={<WeekdayFinder />} />
+              <Route path="/business-days-calculator" element={<BusinessDaysCalculator />} />
+              <Route path="/countdown-timer" element={<CountdownTimer />} />
+              <Route path="/time-zone-converter" element={<TimezoneConverter />} />
+              <Route path="/time-duration-calculator" element={<TimeDurationCalculator />} />
+              <Route path="/week-number-finder" element={<WeekNumberFinder />} />
+              <Route path="/calendar-generator" element={<CalendarGenerator />} />
+            
+            
+            {/* Misc Tools */}
+              <Route path="/qr-code-generator" element={<QRCodeGenerator />} />
+              <Route path="/password-generator" element={<PasswordGenerator />} />
+              <Route path="/random-number-generator" element={<RandomNumberGenerator />} />
+              <Route path="/color-converter" element={<ColorConverter />} />
+              <Route path="/text-counter" element={<TextCounter />} />
+              <Route path="/tip-calculator" element={<TipCalculator />} />
+              <Route path="/roman-numeral-converter" element={<RomanNumeralConverter />} />
+              <Route path="/uuid-generator" element={<UUIDGenerator />} />
+              <Route path="/base-converter" element={<BaseConverter />} />
+              <Route path="/fuel-cost-calculator" element={<FuelCostCalculator />} />
+
+            
+            {/* Health tools */}
+              <Route path="/bmi-calculator" element={<BMICalculator />} />  
+            {/* Earning Calculators */}
+
+            
+            {/* Science Tools */}
+
+            
+            {/* Business & Management Tools */}
+
+            
+            {/* Design & Digital Tools */}
+
+            
+            {/* Education & Study Tools */}
+            
+    
+            
+
+            
+            
  
             
 
             
 
             {/* ✅ Admin Pages */}
-            <Route path="/admin/upload-image" element={<AdminImageUpload />} />
+              <Route path="/admin/upload-image" element={<AdminImageUpload />} />
 
 
-            {/* ✅ Coming Soon Calculators - Currency & Finance */}
-            
-            <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
-            <Route path="/sip-calculator" element={<SIPCalculator />} />
-            <Route path="/fd-calculator" element={<FDCalculator />} />
-            <Route path="/rd-calculator" element={<RDCalculator />} />
-            <Route path="/retirement-calculator" element={<RetirementCalculator />} />
-            <Route path="/inflation-calculator" element={<InflationCalculator />} />
-            <Route path="/credit-card-payoff-calculator" element={<CreditCardPayoff />} />
-            <Route path="/roi-calculator" element={<ROICalculator />} />
-            <Route path="/savings-goal-calculator" element={<SavingsGoalCalculator />} />
-            <Route path="/simple-interest-calculator" element={<SimpleInterestCalculator />} />
-            
-            
-
- 
-
-
-
-
- 
-           
- 
-
-
-            {/* ✅ Coming Soon Calculators - Unit Converters */}
-            <Route path="/volume-converter" element={<VolumeConverter />} />
-            <Route path="/pressure-converter" element={<PressureConverter />} />
-            <Route path="/energy-converter" element={<EnergyConverter />} />
-            <Route path="/data-storage-converter" element={<DataStorageConverter />} />
-            
-
-            {/* ✅ Coming Soon Calculators - Math Tools */}
-            <Route path="/quadratic-equation-solver" element={<QuadraticEquationSolver />} />
-            <Route path="/factorial-calculator" element={<FactorialCalculator />} />
-            <Route path="/prime-number-checker" element={<PrimeNumberChecker />} />
-            <Route path="/statistics-calculator" element={<StatisticsCalculator />} />
-            <Route path="/gcd-lcm-calculator" element={<GCDLCMCalculator />} />
-            <Route path="/log-calculator" element={<LogCalculator />} />
-            <Route path="/equation-solver" element={<EquationSolver />} />
-
-            {/* ✅ Coming Soon Calculators - Date & Time Tools */}
-
-
-            
-
-            {/* ✅ Misc Tools */}
-            <Route path="/random-number-generator" element={<RandomNumberGenerator />} />
-            <Route path="/color-converter" element={<ColorConverter />} />
-            <Route path="/text-counter" element={<TextCounter />} />
-            <Route path="/tip-calculator" element={<TipCalculator />} />
-            <Route path="/roman-numeral-converter" element={<RomanNumeralConverter />} />
-            <Route path="/uuid-generator" element={<UUIDGenerator />} />
-            <Route path="/base-converter" element={<BaseConverter />} />
-            <Route path="/fuel-cost-calculator" element={<FuelCostCalculator />} />
 
             {/* ✅ Legal Pages */}
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/terms-of-service" element={<TermsOfService />} />
-            <Route path="/contact-us" element={<ContactUs />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/terms-of-service" element={<TermsOfService />} />
+              <Route path="/contact-us" element={<ContactUs />} />
 
             {/* ✅ 404 - Fallback */}
-            <Route path="*" element={<ComingSoon title="404 - Page Not Found" />} />
-          </Routes>
+              <Route path="*" element={<ComingSoon title="404 - Page Not Found" />} />
+            </Routes>
         </Layout>
       </Router>
     </HelmetProvider>
