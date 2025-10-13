@@ -15,7 +15,7 @@ const AdminImageUpload: React.FC = () => {
 
   useEffect(() => {
     loadSavedUrl();
-  }, []);
+  }, []);youtube-income-calculator
 
   const loadSavedUrl = async () => {
     try {
