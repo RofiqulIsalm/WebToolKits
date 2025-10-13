@@ -36,7 +36,7 @@ const LogCalculator: React.FC = () => {
       <SEOHead
         title="Log Calculator | CalculatorHub"
         description="Calculate the logarithm of any number with any base. Supports log base 10, natural log (ln), and custom base logs."
-        canonical="https://calculatorhub.com/log-calculator"
+        canonical="https://calculatorhub.site/log-calculator"
         schemaData={generateCalculatorSchema(
           "Log Calculator",
           "Calculate the logarithm of any number with any base. Supports base 10, ln, and custom bases.",
