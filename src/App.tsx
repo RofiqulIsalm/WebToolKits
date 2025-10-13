@@ -64,6 +64,7 @@ import FDCalculator  from './pages/FDCalculator';
 import RDCalculator  from './pages/RDCalculator';
 import RetirementCalculator  from './pages/RetirementCalculator';
 import InflationCalculator  from './pages/InflationCalculator';
+import CreditCardPayoff  from './pages/CreditCardPayoff';
 
 
 
@@ -142,6 +143,7 @@ function App() {
             <Route path="/rd-calculator" element={<RDCalculator />} />
             <Route path="/retirement-calculator" element={<RetirementCalculator />} />
             <Route path="/inflation-calculator" element={<InflationCalculator />} />
+            <Route path="/credit-card-payoff-calculator" element={<CreditCardPayoff />} />
             
 
  
