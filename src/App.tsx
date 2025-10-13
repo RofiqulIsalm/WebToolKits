@@ -99,7 +99,7 @@ function App() {
             <Route path="/weekday-finder" element={<WeekdayFinder />} />
             <Route path="/business-days-calculator" element={<BusinessDaysCalculator />} />
             <Route path="/countdown-timer" element={<CountdownTimer />} />
-            <Route path="/time-zone-conveter" element={<TimeZoneConveter />} />
+            <Route path="/time-zone-converter" element={<TimeZoneConveter />} />
  
             
 
