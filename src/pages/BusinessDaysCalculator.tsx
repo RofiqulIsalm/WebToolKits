@@ -212,7 +212,7 @@ const BusinessDaysCalculator: React.FC = () => {
           seoData?.businessDays?.description ??
           "Calculate business days between dates (excludes weekends, optional holidays). Add or subtract workdays, batch process, and copy results."
         }
-        canonical="https://calculatorhub.com/business-days-calculator"
+        canonical="https://calculatorhub.site/business-days-calculator"
         schemaData={generateCalculatorSchema(
           "Business Days Calculator",
           seoData?.businessDays?.description ??
