@@ -35,7 +35,7 @@ const InflationCalculator: React.FC = () => {
       <SEOHead
         title={seoData.inflationCalculator.title}
         description={seoData.inflationCalculator.description}
-        canonical="https://calculatorhub.com/inflation-calculator"
+        canonical="https://calculatorhub.site/inflation-calculator"
         schemaData={generateCalculatorSchema(
           "Inflation Calculator",
           seoData.inflationCalculator.description,
