@@ -59,7 +59,7 @@ const EquationSolver: React.FC = () => {
       <SEOHead
         title="Equation Solver | CalculatorHub"
         description="Solve linear and quadratic equations instantly. Get roots, discriminant, and step-by-step solutions."
-        canonical="https://calculatorhub.com/equation-solver"
+        canonical="https://calculatorhub.site/equation-solver"
         schemaData={generateCalculatorSchema(
           "Equation Solver",
           "Solve linear and quadratic equations instantly. Get roots, discriminant, and step-by-step solutions.",
