@@ -66,7 +66,6 @@ import RDCalculator  from './pages/RDCalculator';
 import RetirementCalculator  from './pages/RetirementCalculator';
 import InflationCalculator  from './pages/InflationCalculator';
 import CreditCardPayoff  from './pages/CreditCardPayoff';
-// import SimpleInterestCalculator  from './pages/SimpleInterestCalculator';
 import ROICalculator  from './pages/ROICalculator';
 
 
