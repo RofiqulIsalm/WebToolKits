@@ -272,6 +272,18 @@ function App() {
 
             
             {/* Education & Study Tools */}
+            {/*
+                <Route path="/exam-score-needed-calculator" element={<ExamScoreNeededCalculator />} />  
+                <Route path="/gpa-converter" element={<GPAConverter />} />  
+                <Route path="/grade-percentage-calculator" element={<GradePercentageCalculator />} />  
+                <Route path="/percentage-to-cgpa-calculator" element={<PercentageToCGPACalculator />} />  
+                <Route path="/random-question-generator" element={<RandomQuestionGenerator />} />  
+                <Route path="/study-time-planner" element={<StudyTimePlanner />} />  
+                <Route path="/typing-speed-calculator" element={<TypingSpeedCalculator />} />  
+
+            */}
+            
+
             
     
             
