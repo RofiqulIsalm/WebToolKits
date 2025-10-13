@@ -36,7 +36,7 @@ const TemperatureConverter: React.FC = () => {
       <SEOHead
         title={seoData.temperatureConverter.title}
         description={seoData.temperatureConverter.description}
-        canonical="https://calculatorhub.com/temperature-converter"
+        canonical="https://calculatorhub.site/temperature-converter"
         schemaData={generateCalculatorSchema(
           "Temperature Converter",
           seoData.temperatureConverter.description,
