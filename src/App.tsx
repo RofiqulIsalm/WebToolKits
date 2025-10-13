@@ -29,7 +29,7 @@ import AddSubtractDays from './pages/AddSubtractDays';
 import WeekdayFinder from './pages/WeekdayFinder';
 import BusinessDaysCalculator from './pages/BusinessDaysCalculator';
 import CountdownTimer from './pages/CountdownTimer';
-import TimeZoneConveter from './pages/TimeZoneConveter';
+import TimezoneConverter from './pages/TimeZoneConveter';
 
 
 
@@ -99,7 +99,7 @@ function App() {
             <Route path="/weekday-finder" element={<WeekdayFinder />} />
             <Route path="/business-days-calculator" element={<BusinessDaysCalculator />} />
             <Route path="/countdown-timer" element={<CountdownTimer />} />
-            <Route path="/time-zone-converter" element={<TimeZoneConveter />} />
+            <Route path="/time-zone-converter" element={<TimezoneConverter />} />
  
             
 
