@@ -47,6 +47,7 @@ import BaseConverter from './pages/BaseConverter';
 import FuelCostCalculator from './pages/FuelCostCalculator';
 import WeekNumberFinder from './pages/WeekNumberFinder';
 import CalendarGenerator from './pages/CalendarGenerator';
+import QuadraticEquationSolver from './pages/QuadraticEquationSolver';
 
 
 // Admin Pages
@@ -134,7 +135,7 @@ function App() {
             <Route path="/fuel-efficiency-converter" element={<ComingSoon title="Fuel Efficiency Converter" />} />
 
             {/* ✅ Coming Soon Calculators - Math Tools */}
-            <Route path="/quadratic-equation-solver" element={<ComingSoon title="Quadratic Equation Solver" />} />
+            <Route path="/quadratic-equation-solver" element={<QuadraticEquationSolver />} />
             <Route path="/factorial-calculator" element={<ComingSoon title="Factorial Calculator" />} />
             <Route path="/prime-number-checker" element={<ComingSoon title="Prime Number Checker" />} />
             <Route path="/statistics-calculator" element={<ComingSoon title="Statistics Calculator" />} />
