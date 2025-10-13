@@ -59,14 +59,7 @@ import VolumeConverter  from './pages/VolumeConverter';
 import EnergyConverter  from './pages/EnergyConverter';
 import DataStorageConverter  from './pages/DataStorageConverter';
 
-import MortgageCalculator  from './pages/MortgageCalculator';
-import SIPCalculator  from './pages/SIPCalculator';
-import FDCalculator  from './pages/FDCalculator';
-import RDCalculator  from './pages/RDCalculator';
-import RetirementCalculator  from './pages/RetirementCalculator';
-import InflationCalculator  from './pages/InflationCalculator';
-import CreditCardPayoff  from './pages/CreditCardPayoff';
-import ROICalculator  from './pages/ROICalculator';
+
 
 
 // Admin Pages
@@ -136,16 +129,7 @@ function App() {
 
 
             {/* ✅ Coming Soon Calculators - Currency & Finance */}
-            <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
-            <Route path="/sip-calculator" element={<SIPCalculator />} />
-            <Route path="/fd-calculator" element={<FDCalculator />} />
-            <Route path="/rd-calculator" element={<RDCalculator />} />
-            <Route path="/retirement-calculator" element={<RetirementCalculator />} />
-            <Route path="/inflation-calculator" element={<InflationCalculator />} />
-            <Route path="/credit-card-payoff-calculator" element={<CreditCardPayoff />} />
-            <Route path="/savings-goal-calculator" element={<SavingsGoalCalculator />} />
- 
-
+   
 
  
 
