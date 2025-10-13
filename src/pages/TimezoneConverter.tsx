@@ -51,7 +51,7 @@ const TimezoneConverter: React.FC = () => {
           seoData.timezoneConverter?.description ||
           "Easily convert time between different time zones instantly."
         }
-        canonical="https://calculatorhub.com/timezone-converter"
+        canonical="https://calculatorhub.site/timezone-converter"
         schemaData={generateCalculatorSchema(
           "Timezone Converter",
           "Convert time between any two world time zones.",
