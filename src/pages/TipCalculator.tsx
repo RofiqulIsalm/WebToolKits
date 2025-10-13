@@ -119,18 +119,18 @@ useEffect(() => {
       <SEOHead
         title="Tip Calculator - Split Bills, Calculate Gratuity & Per-Person Totals | CalculatorHub"
         description="Use our free online Tip Calculator to calculate restaurant tips, split bills, and find per-person totals instantly. Supports 100+ currencies with a visual pie chart."
-        canonical="https://calculatorhub.com/tip-calculator"
+        canonical="https://calculatorhub.site/tip-calculator"
         openGraph={{
           title: "Tip Calculator - Split Bills & Calculate Gratuity | CalculatorHub",
           description:
             "Quickly calculate tips, split bills among friends, and view per-person totals in any currency. Includes a pie chart visualization.",
-          url: "https://calculatorhub.com/tip-calculator",
+          url: "https://calculatorhub.site/tip-calculator",
           type: "website",
           site_name: "CalculatorHub",
           locale: "en_US",
           images: [
             {
-              url: "https://calculatorhub.com/assets/tip-calculator-og.jpg",
+              url: "https://calculatorhub.site/assets/tip-calculator-og.jpg",
               width: 1200,
               height: 630,
               alt: "Tip Calculator - Split Bills & Calculate Gratuity Online",
@@ -143,13 +143,13 @@ useEffect(() => {
           title: "Tip Calculator - Split Bills & Calculate Gratuity | CalculatorHub",
           description:
             "Free Tip Calculator that helps you calculate restaurant tips, split bills by person, and view totals with ease.",
-          image: "https://calculatorhub.com/assets/tip-calculator-og.jpg",
+          image: "https://calculatorhub.site/assets/tip-calculator-og.jpg",
         }}
         schemaData={{
           "@context": "https://schema.org",
           "@type": "WebPage",
           "name": "Tip Calculator - Split Bills & Calculate Gratuity | CalculatorHub",
-          "url": "https://calculatorhub.com/tip-calculator",
+          "url": "https://calculatorhub.site/tip-calculator",
           "description":
             "Easily calculate restaurant tips, gratuities, and per-person totals with CalculatorHub’s free Tip Calculator. Supports multiple currencies and group bill splitting.",
           "breadcrumb": {
@@ -159,13 +159,13 @@ useEffect(() => {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Misc Tools",
-                "item": "https://calculatorhub.com/category/misc-tools",
+                "item": "https://calculatorhub.site/category/misc-tools",
               },
               {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Tip Calculator",
-                "item": "https://calculatorhub.com/tip-calculator",
+                "item": "https://calculatorhub.site/tip-calculator",
               },
             ],
           },
