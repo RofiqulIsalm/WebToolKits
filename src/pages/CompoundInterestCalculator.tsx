@@ -262,7 +262,7 @@ const CompoundInterestCalculator: React.FC = () => {
       <SEOHead
         title={seoData.compoundInterestCalculator.title}
         description={seoData.compoundInterestCalculator.description}
-        canonical="https://calculatorhub.com/compound-interest-calculator"
+        canonical="https://calculatorhub.site/compound-interest-calculator"
         schemaData={generateCalculatorSchema(
           'Compound Interest Calculator',
           seoData.compoundInterestCalculator.description,
