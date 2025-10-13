@@ -269,6 +269,18 @@ function App() {
 
             
             {/* Design & Digital Tools */}
+            {/*
+              <Route path="/aspect-ratio-calculator" element={<AspectRatioCalculator />} />  
+              <Route path="/color-contrast-checker" element={<ColorContrastChecker />} />  
+              <Route path="/dpippi-calculator" element={<DPIPpiCalculator />} />  
+              <Route path="/font-size-converter" element={<FontSizeConverter />} />  
+              <Route path="/image-resizer-tool" element={<ImageResizerTool />} />  
+              <Route path="/responsive-breakpoint-calculator" element={<ResponsiveBreakpointCalculator />} />  
+          */}
+
+
+
+
 
             
             {/* Education & Study Tools */}
@@ -284,20 +296,10 @@ function App() {
             */}
             
 
-            
-    
-            
 
-            
-            
- 
-            
-
-            
 
             {/* ✅ Admin Pages */}
               <Route path="/admin/upload-image" element={<AdminImageUpload />} />
-
 
 
             {/* ✅ Legal Pages */}
