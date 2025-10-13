@@ -48,7 +48,7 @@ const MortgageCalculator: React.FC = () => {
       <SEOHead
         title={seoData.mortgageCalculator.title}
         description={seoData.mortgageCalculator.description}
-        canonical="https://calculatorhub.com/mortgage-calculator"
+        canonical="https://calculatorhub.site/mortgage-calculator"
         schemaData={generateCalculatorSchema(
           "Mortgage Calculator",
           seoData.mortgageCalculator.description,
