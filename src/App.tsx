@@ -88,6 +88,18 @@ import BMICalculator from './pages/BMICalculator';
 // import BloodAlcoholContent from './pages/BloodAlcoholContent';
 
 
+// Earning Calculators
+// import YouTubeIncomeCalculator from './pages/YouTubeIncomeCalculator';
+// import InstagramIncomeCalculator from './pages/InstagramIncomeCalculator';
+// import FacebookIncomeCalculator from './pages/FacebookIncomeCalculator';
+// import TikTokIncomeCalculator from './pages/TikTokIncomeCalculator';
+// import WebsiteAdRevenue from './pages/WebsiteAdRevenue';
+// import AffiliateIncomeCalculato from './pages/AffiliateIncomeCalculato';
+// import BlogIncomeEstimator from './pages/BlogIncomeEstimator';
+// import FreelancerHourlyRateCalculator from './pages/FreelancerHourlyRateCalculator';
+// import InfluencerDealValueCalculator from './pages/InfluencerDealValueCalculator';
+// import AppRevenueCalculator from './pages/AppRevenueCalculator';
+
 
 
 
