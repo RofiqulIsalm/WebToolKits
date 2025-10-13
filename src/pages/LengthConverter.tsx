@@ -47,7 +47,7 @@ const LengthConverter: React.FC = () => {
       <SEOHead
         title={seoData.lengthConverter.title}
         description={seoData.lengthConverter.description}
-        canonical="https://calculatorhub.com/length-converter"
+        canonical="https://calculatorhub.site/length-converter"
         schemaData={generateCalculatorSchema(
           "Length Converter",
           seoData.lengthConverter.description,
