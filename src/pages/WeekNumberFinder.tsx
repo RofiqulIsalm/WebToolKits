@@ -38,7 +38,7 @@ const WeekNumberFinder: React.FC = () => {
           ["week number", "week calculator", "week of year", "date week finder"]
         )}
         breadcrumbs={[
-          { name: "Time Tools", url: "/category/time-tools" },
+          { name: "Date & Time Tools", url: "/category/date-time-tools" },
           { name: "Week Number Finder", url: "/week-number-finder" },
         ]}
       />
@@ -46,7 +46,7 @@ const WeekNumberFinder: React.FC = () => {
       <div className="max-w-3xl mx-auto">
         <Breadcrumbs
           items={[
-            { name: "Time Tools", url: "/category/time-tools" },
+            { name: "Date & Time Tools", url: "/category/date-time-tools" },
             { name: "Week Number Finder", url: "/week-number-finder" },
           ]}
         />
