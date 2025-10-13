@@ -132,8 +132,6 @@ function App() {
 
             {/* ✅ Coming Soon Calculators - Date & Time Tools */}
 
-            <Route path="/countdown-timer" element={<ComingSoon title="Countdown Timer" />} />
-            <Route path="/time-zone-converter" element={<ComingSoon title="Time Zone Converter" />} />
             <Route path="/time-duration-calculator" element={<ComingSoon title="Time Duration Calculator" />} />
             <Route path="/week-number-finder" element={<ComingSoon title="Week Number Finder" />} />
             <Route path="/calendar-generator" element={<ComingSoon title="Calendar Generator" />} />
