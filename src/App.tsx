@@ -137,7 +137,7 @@ function App() {
 
             {/* ✅ Coming Soon Calculators - Unit Converters */}
             <Route path="/volume-converter" element={<VolumeConverter />} />
-            <Route path="/pressure-converter" element={<Pressure Converter />} />
+            <Route path="/pressure-converter" element={<PressureConverter />} />
             <Route path="/energy-converter" element={<ComingSoon title="Energy Converter" />} />
             <Route path="/data-storage-converter" element={<ComingSoon title="Data Storage Converter" />} />
             <Route path="/fuel-efficiency-converter" element={<ComingSoon title="Fuel Efficiency Converter" />} />
