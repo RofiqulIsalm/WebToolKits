@@ -137,16 +137,7 @@ function App() {
 
 
             {/* ✅ Coming Soon Calculators - Currency & Finance */}
-            <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
-            <Route path="/sip-calculator" element={<SIPCalculator />} />
-            <Route path="/fd-calculator" element={<FDCalculator />} />
-            <Route path="/rd-calculator" element={<RDCalculator />} />
-            <Route path="/retirement-calculator" element={<RetirementCalculator />} />
-            <Route path="/inflation-calculator" element={<InflationCalculator />} />
-            <Route path="/credit-card-payoff-calculator" element={<CreditCardPayoff />} />
-            <Route path="/savings-goal-calculator" element={<SavingsGoalCalculator />} />
-            <Route path="/simple-interest-calculator" element={<SimpleInterestCalculator />} />
-            <Route path="/roi-calculator" element={<ROICalculator />} />
+            
 
             {/* ✅ Coming Soon Calculators - Unit Converters */}
             <Route path="/volume-converter" element={<VolumeConverter />} />
