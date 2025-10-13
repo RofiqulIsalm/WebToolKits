@@ -255,6 +255,7 @@ function App() {
               <Route path="/uuid-generator" element={<UUIDGenerator />} />
               <Route path="/base-converter" element={<BaseConverter />} />
               <Route path="/fuel-cost-calculator" element={<FuelCostCalculator />} />
+            
 
             
             {/* Health tools */} 
@@ -271,9 +272,25 @@ function App() {
               <Route path="/blood-alcohol-content" element={<BloodAlcoholContent  />} />   
 
             */}
+            
 
               
             {/* Earning Calculators */}
+            {/*
+              <Route path="/youtube-income-calculator" element={<YouTubeIncomeCalculator  />} /> 
+              <Route path="/instagram-income-calculator" element={<InstagramIncomeCalculator  />} /> 
+              <Route path="/facebook-income-calculator" element={<FacebookIncomeCalculator  />} /> 
+              <Route path="/tiktok-income-calculator" element={<TikTokIncomeCalculator  />} /> 
+              <Route path="/website-ad-revenue" element={<WebsiteAdRevenue  />} /> 
+              <Route path="/affiliate-income-calculato" element={<AffiliateIncomeCalculato  />} /> 
+              <Route path="/blog-income-estimator" element={<BlogIncomeEstimator  />} /> 
+              <Route path="/freelancer-hourly-rate-calculator" element={<FreelancerHourlyRateCalculator  />} /> 
+              <Route path="/influencer-deal-value-calculator" element={<InfluencerDealValueCalculator  />} /> 
+              <Route path="/app-revenue-calculator" element={<AppRevenueCalculator  />} />
+
+            */}
+ 
+  
             
 
             
