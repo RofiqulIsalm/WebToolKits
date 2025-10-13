@@ -46,7 +46,7 @@ const WeightConverter: React.FC = () => {
       <SEOHead
         title={seoData.weightConverter.title}
         description={seoData.weightConverter.description}
-        canonical="https://calculatorhub.com/weight-converter"
+        canonical="https://calculatorhub.site/weight-converter"
         schemaData={generateCalculatorSchema(
           "Weight Converter",
           seoData.weightConverter.description,
