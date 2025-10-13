@@ -48,7 +48,7 @@ const EnergyConverter: React.FC = () => {
       <SEOHead
         title={seoData.energyConverter.title}
         description={seoData.energyConverter.description}
-        canonical="https://calculatorhub.com/energy-converter"
+        canonical="https://calculatorhub.site/energy-converter"
         schemaData={generateCalculatorSchema(
           "Energy Converter",
           seoData.energyConverter.description,
