@@ -70,7 +70,7 @@ const CalendarGenerator: React.FC = () => {
           seoData.calendarGenerator?.description ||
           "Generate a calendar for any month and year instantly."
         }
-        canonical="https://calculatorhub.com/calendar-generator"
+        canonical="https://calculatorhub.site/calendar-generator"
         schemaData={generateCalculatorSchema(
           "Calendar Generator",
           "Create and view a calendar for any month and year online.",
