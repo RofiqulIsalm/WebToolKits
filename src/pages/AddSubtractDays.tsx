@@ -459,7 +459,7 @@ const AddSubtractDays: React.FC = () => {
           seoData?.addSubtractDays?.description ??
           "Add or subtract days from a date—optionally skip weekends and holidays, and roll to the nearest business day. Make schedules, copy results, and export CSV."
         }
-        canonical="https://calculatorhub.com/add-subtract-days"
+        canonical="https://calculatorhub.site/add-subtract-days"
         schemaData={generateCalculatorSchema(
           "Add/Subtract Days Calculator",
           seoData?.addSubtractDays?.description ??
@@ -481,12 +481,12 @@ const AddSubtractDays: React.FC = () => {
             "@context": "https://schema.org",
             "@type": "WebApplication",
             "name": "Add/Subtract Days Calculator",
-            "url": "https://calculatorhub.com/add-subtract-days",
+            "url": "https://calculatorhub.site/add-subtract-days",
             "applicationCategory": "CalculatorApplication",
             "operatingSystem": "Web",
             "description":
               "Add or subtract calendar/business days from a start date. Skip weekends/holidays, apply rolling rules, and export schedules.",
-            "image": "https://calculatorhub.com/images/add-subtract-days-hero.webp",
+            "image": "https://calculatorhub.site/images/add-subtract-days-hero.webp",
             "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
           }),
         }}
@@ -499,8 +499,8 @@ const AddSubtractDays: React.FC = () => {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             "itemListElement": [
-              { "@type": "ListItem", "position": 1, "name": "Date & Time Tools", "item": "https://calculatorhub.com/category/date-time-tools" },
-              { "@type": "ListItem", "position": 2, "name": "Add/Subtract Days Calculator", "item": "https://calculatorhub.com/add-subtract-days" }
+              { "@type": "ListItem", "position": 1, "name": "Date & Time Tools", "item": "https://calculatorhub.site/category/date-time-tools" },
+              { "@type": "ListItem", "position": 2, "name": "Add/Subtract Days Calculator", "item": "https://calculatorhub.site/add-subtract-days" }
             ]
           }),
         }}
