@@ -59,7 +59,8 @@ const TimezoneConverter: React.FC = () => {
           ["timezone converter", "world clock", "time difference", "UTC conversion"]
         )}
         breadcrumbs={[
-          { name: "Time Tools", url: "/category/time-tools" },
+          { name: "Date & Time Tools
+          ", url: "/category/date-time-tools" },
           { name: "Timezone Converter", url: "/timezone-converter" },
         ]}
       />
@@ -67,7 +68,8 @@ const TimezoneConverter: React.FC = () => {
       <div className="max-w-3xl mx-auto">
         <Breadcrumbs
           items={[
-            { name: "Time Tools", url: "/category/date-time-tools" },
+            { name: "Date & Time Tools
+              ", url: "/category/date-time-tools" },
             { name: "Timezone Converter", url: "/timezone-converter" },
           ]}
         />
