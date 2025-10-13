@@ -123,7 +123,7 @@ export const seoData = {
     title: "Data Storage Converter - Bytes, KB, MB, GB, TB",
     description: "Convert between bytes, kilobytes, megabytes, gigabytes, terabytes, and more. Free data storage converter for digital file sizes.",
     keywords: "data storage converter, file size converter, bytes to GB, storage calculator"
-  }
+  },
   // Math Tools
   bmiCalculator: {
     title: "BMI Calculator - Body Mass Index Calculator",
