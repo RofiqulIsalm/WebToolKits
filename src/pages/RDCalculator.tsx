@@ -42,7 +42,7 @@ const RDCalculator: React.FC = () => {
       <SEOHead
         title={seoData.rdCalculator.title}
         description={seoData.rdCalculator.description}
-        canonical="https://calculatorhub.com/rd-calculator"
+        canonical="https://calculatorhub.site/rd-calculator"
         schemaData={generateCalculatorSchema(
           "RD Calculator",
           seoData.rdCalculator.description,
