@@ -12,7 +12,7 @@ const TermsOfService: React.FC = () => {
       <SEOHead
         title={seoData.termsOfService.title}
         description={seoData.termsOfService.description}
-        canonical="https://calculatorhub.com/terms-of-service"
+        canonical="https://calculatorhub.site/terms-of-service"
         breadcrumbs={[
           { name: 'Terms of Service', url: '/terms-of-service' }
         ]}
