@@ -38,7 +38,7 @@ const SIPCalculator: React.FC = () => {
       <SEOHead
         title={seoData.sipCalculator.title}
         description={seoData.sipCalculator.description}
-        canonical="https://calculatorhub.com/sip-calculator"
+        canonical="https://calculatorhub.site/sip-calculator"
         schemaData={generateCalculatorSchema(
           "SIP Calculator",
           seoData.sipCalculator.description,
