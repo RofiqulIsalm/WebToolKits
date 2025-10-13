@@ -140,7 +140,9 @@ function App() {
             <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
             <Route path="/sip-calculator" element={<SIPCalculator />} />
             <Route path="/fd-calculator" element={<FDCalculator />} />
-             <Route path="/rd-calculator" element={<RDCalculator />} />
+            <Route path="/rd-calculator" element={<RDCalculator />} />
+            <Route path="/retirement-calculator" element={<RetirementCalculator />} />
+
  
            
  
