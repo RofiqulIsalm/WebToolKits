@@ -61,6 +61,7 @@ import DataStorageConverter  from './pages/DataStorageConverter';
 import MortgageCalculator  from './pages/MortgageCalculator';
 import SIPCalculator  from './pages/SIPCalculator';
 import FDCalculator  from './pages/FDCalculator';
+import RDCalculator  from './pages/RDCalculator';
 
 
 
@@ -136,6 +137,8 @@ function App() {
             <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
             <Route path="/sip-calculator" element={<SIPCalculator />} />
             <Route path="/fd-calculator" element={<FDCalculator />} />
+            <Route path="/rd-calculator" element={<RDCalculator />} />
+            
 
  
 
