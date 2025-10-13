@@ -290,13 +290,13 @@ const ColorConverter: React.FC = () => {
             title: "Color Converter - HEX, RGB, HSL, CMYK & Gradient Tool | CalculatorHub",
             description:
               "Convert colors between HEX, RGB, HSL, and CMYK formats. Real-time preview, gradient generator, favorites, and one-click copy for web and print design.",
-            url: "https://calculatorhub.com/color-converter",
+            url: "https://calculatorhub.site/color-converter",
             type: "website",
             site_name: "CalculatorHub",
             locale: "en_US",
             images: [
               {
-                url: "https://calculatorhub.com/assets/color-converter-og.jpg",
+                url: "https://calculatorhub.site/assets/color-converter-og.jpg",
                 width: 1200,
                 height: 630,
                 alt: "Color Converter Tool - HEX, RGB, HSL, CMYK & Gradient Generator",
@@ -310,16 +310,16 @@ const ColorConverter: React.FC = () => {
             title: "Color Converter - HEX, RGB, HSL, CMYK & Gradient Tool",
             description:
               "Free color converter with real-time preview, gradient generator, and one-click copy. Convert between HEX, RGB, HSL, and CMYK effortlessly.",
-            image: "https://calculatorhub.com/assets/color-converter-og.jpg",
+            image: "https://calculatorhub.site/assets/color-converter-og.jpg",
           }}
         
-          canonical="https://calculatorhub.com/color-converter"
+          canonical="https://calculatorhub.site/color-converter"
         
           schemaData={{
             "@context": "https://schema.org",
             "@type": "WebPage",
             "name": "Color Converter - HEX, RGB, HSL, CMYK & Gradient Tool",
-            "url": "https://calculatorhub.com/color-converter",
+            "url": "https://calculatorhub.site/color-converter",
             "description":
               "Convert colors instantly between HEX, RGB, HSL, and CMYK formats. Save favorites, copy codes, and generate gradients with live preview.",
             "mainEntity": {
