@@ -54,6 +54,7 @@ import FactorialCalculator from './pages/FactorialCalculator';
 import StatisticsCalculator  from './pages/StatisticsCalculator';
 import GCDLCMCalculator  from './pages/GCDLCMCalculator';
 import LogCalculator  from './pages/LogCalculator';
+import VolumeConverter  from './pages/VolumeConverter';
 
 
 // Admin Pages
@@ -134,7 +135,7 @@ function App() {
             <Route path="/roi-calculator" element={<ComingSoon title="ROI Calculator" />} />
 
             {/* ✅ Coming Soon Calculators - Unit Converters */}
-            <Route path="/volume-converter" element={<ComingSoon title="Volume Converter" />} />
+            <Route path="/volume-converter" element={<VolumeConverter />} />
             <Route path="/pressure-converter" element={<ComingSoon title="Pressure Converter" />} />
             <Route path="/energy-converter" element={<ComingSoon title="Energy Converter" />} />
             <Route path="/data-storage-converter" element={<ComingSoon title="Data Storage Converter" />} />
