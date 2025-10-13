@@ -63,6 +63,7 @@ import SIPCalculator  from './pages/SIPCalculator';
 import FDCalculator  from './pages/FDCalculator';
 import RDCalculator  from './pages/RDCalculator';
 import RetirementCalculator  from './pages/RetirementCalculator';
+import InflationCalculator  from './pages/InflationCalculator';
 
 
 
@@ -140,6 +141,7 @@ function App() {
             <Route path="/fd-calculator" element={<FDCalculator />} />
             <Route path="/rd-calculator" element={<RDCalculator />} />
             <Route path="/retirement-calculator" element={<RetirementCalculator />} />
+            <Route path="/inflation-calculator" element={<InflationCalculator />} />
             
 
  
