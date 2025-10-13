@@ -51,7 +51,7 @@ const QuadraticEquationSolver: React.FC = () => {
       <SEOHead
         title="Quadratic Equation Solver | CalculatorHub"
         description="Solve quadratic equations instantly using this quadratic equation solver. Find roots, discriminant, and the nature of roots easily."
-        canonical="https://calculatorhub.com/quadratic-equation-solver"
+        canonical="https://calculatorhub.site/quadratic-equation-solver"
         schemaData={generateCalculatorSchema(
           "Quadratic Equation Solver",
           "Solve quadratic equations instantly using this quadratic equation solver.",
