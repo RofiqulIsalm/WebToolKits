@@ -43,7 +43,7 @@ const SavingsGoalCalculator: React.FC = () => {
       <SEOHead
         title={seoData.savingsGoalCalculator.title}
         description={seoData.savingsGoalCalculator.description}
-        canonical="https://calculatorhub.com/savings-goal-calculator"
+        canonical="https://calculatorhub.site/savings-goal-calculator"
         schemaData={generateCalculatorSchema(
           "Savings Goal Calculator",
           seoData.savingsGoalCalculator.description,
