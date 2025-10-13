@@ -78,7 +78,7 @@ const CalendarGenerator: React.FC = () => {
           ["calendar generator", "monthly calendar", "year calendar", "date tool"]
         )}
         breadcrumbs={[
-          { name: "Time Tools", url: "/category/time-tools" },
+          { name: "Date & Time Tools", url: "/category/date-time-tools" },
           { name: "Calendar Generator", url: "/calendar-generator" },
         ]}
       />
@@ -86,7 +86,7 @@ const CalendarGenerator: React.FC = () => {
       <div className="max-w-4xl mx-auto">
         <Breadcrumbs
           items={[
-            { name: "Time Tools", url: "/category/time-tools" },
+            { name: "Date & Time Tools", url: "/category/date-time-tools" },
             { name: "Calendar Generator", url: "/calendar-generator" },
           ]}
         />
