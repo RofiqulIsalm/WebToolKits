@@ -70,7 +70,7 @@ const StatisticsCalculator: React.FC = () => {
       <SEOHead
         title="Statistics Calculator | CalculatorHub"
         description="Calculate mean, median, mode, range, variance, and standard deviation easily using this online statistics calculator."
-        canonical="https://calculatorhub.com/statistics-calculator"
+        canonical="https://calculatorhub.site/statistics-calculator"
         schemaData={generateCalculatorSchema(
           "Statistics Calculator",
           "Calculate mean, median, mode, range, variance, and standard deviation easily using this online statistics calculator.",
