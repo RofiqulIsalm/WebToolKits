@@ -59,6 +59,7 @@ import VolumeConverter  from './pages/VolumeConverter';
 import EnergyConverter  from './pages/EnergyConverter';
 import DataStorageConverter  from './pages/DataStorageConverter';
 import MortgageCalculator  from './pages/MortgageCalculator';
+import SIPCalculator  from './pages/SIPCalculator';
 
 
 
@@ -132,6 +133,7 @@ function App() {
             {/* ✅ Coming Soon Calculators - Currency & Finance */}
             
              <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
+             <Route path="/sip-calculator" element={<SIPCalculator />} />
 
  
 
