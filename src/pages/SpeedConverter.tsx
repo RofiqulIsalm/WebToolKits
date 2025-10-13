@@ -45,7 +45,7 @@ const SpeedConverter: React.FC = () => {
       <SEOHead
         title={seoData.speedConverter.title}
         description={seoData.speedConverter.description}
-        canonical="https://calculatorhub.com/speed-converter"
+        canonical="https://calculatorhub.site/speed-converter"
         schemaData={generateCalculatorSchema(
           "Speed Converter",
           seoData.speedConverter.description,
