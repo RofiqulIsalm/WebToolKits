@@ -13,7 +13,7 @@ const Homepage: React.FC = () => {
       <SEOHead
         title={seoData.homepage.title}
         description={seoData.homepage.description}
-        canonical="https://calculatorhub.com/"
+        canonical="https://calculatorhub.site/"
         ogType="website"
         schemaData={organizationSchema}
       />
