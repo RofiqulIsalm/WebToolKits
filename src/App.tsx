@@ -66,6 +66,7 @@ import RetirementCalculator  from './pages/RetirementCalculator';
 import InflationCalculator  from './pages/InflationCalculator';
 import CreditCardPayoff  from './pages/CreditCardPayoff';
 import ROICalculator  from './pages/ROICalculator';
+import SavingsGoalCalculator from './pages/SavingsGoalCalculator';
 
 
 
@@ -146,6 +147,7 @@ function App() {
             <Route path="/inflation-calculator" element={<InflationCalculator />} />
             <Route path="/credit-card-payoff-calculator" element={<CreditCardPayoff />} />
             <Route path="/roi-calculator" element={<ROICalculator />} />
+            <Route path="/savings-goal-calculator" element={<SavingsGoalCalculator />} />
             
             
 
