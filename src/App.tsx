@@ -146,7 +146,7 @@ function App() {
             <Route path="/credit-card-payoff-calculator" element={<CreditCardPayoff />} />
             <Route path="/savings-goal-calculator" element={<SavingsGoalCalculator />} />
             <Route path="/roi-calculator" element={<ROICalculator />} />
-            <Route path="/simple-interest-calculator" element={<SimpleInterestCalculator />} />
+
  
 
 
