@@ -30,7 +30,7 @@ const WeekNumberFinder: React.FC = () => {
           seoData.weekNumberFinder?.description ||
           "Find the week number for any date of the year."
         }
-        canonical="https://calculatorhub.com/week-number-finder"
+        canonical="https://calculatorhub.site/week-number-finder"
         schemaData={generateCalculatorSchema(
           "Week Number Finder",
           "Find which week of the year a given date falls in.",
