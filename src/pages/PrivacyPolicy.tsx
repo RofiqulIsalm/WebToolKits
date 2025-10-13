@@ -12,7 +12,7 @@ const PrivacyPolicy: React.FC = () => {
       <SEOHead
         title={seoData.privacyPolicy.title}
         description={seoData.privacyPolicy.description}
-        canonical="https://calculatorhub.com/privacy-policy"
+        canonical="https://calculatorhub.site/privacy-policy"
         breadcrumbs={[
           { name: 'Privacy Policy', url: '/privacy-policy' }
         ]}
