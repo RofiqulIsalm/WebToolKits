@@ -66,7 +66,7 @@ const AverageCalculator: React.FC = () => {
       <SEOHead
         title={seoData.averageCalculator.title}
         description={seoData.averageCalculator.description}
-        canonical="https://calculatorhub.com/average-calculator"
+        canonical="https://calculatorhub.site/average-calculator"
         schemaData={generateCalculatorSchema(
           "Average Calculator",
           seoData.averageCalculator.description,
