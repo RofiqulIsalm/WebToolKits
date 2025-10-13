@@ -30,7 +30,7 @@ const SimpleInterestCalculator: React.FC = () => {
       <SEOHead
         title={seoData.simpleInterestCalculator.title}
         description={seoData.simpleInterestCalculator.description}
-        canonical="https://calculatorhub.com/simple-interest-calculator"
+        canonical="https://calculatorhub.site/simple-interest-calculator"
         schemaData={generateCalculatorSchema(
           "Simple Interest Calculator",
           seoData.simpleInterestCalculator.description,
