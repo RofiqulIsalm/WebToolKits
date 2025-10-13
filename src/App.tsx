@@ -50,7 +50,7 @@ import WeekNumberFinder from './pages/WeekNumberFinder';
 import CalendarGenerator from './pages/CalendarGenerator';
 import QuadraticEquationSolver from './pages/QuadraticEquationSolver';
 import FactorialCalculator from './pages/FactorialCalculator';
-import StatisticsCalculator  from './pages/StatisticsCalculator ';
+import StatisticsCalculator  from './pages/StatisticsCalculator';
 
 
 // Admin Pages
