@@ -118,7 +118,7 @@ const WeekdayFinder: React.FC = () => {
           seoData?.weekdayFinder?.description ??
           "Instantly find the weekday for any date. Batch lookup, next/previous weekday, and Nth weekday of a month. Free, fast, and private."
         }
-        canonical="https://calculatorhub.com/weekday-finder"
+        canonical="https://calculatorhub.site/weekday-finder"
         schemaData={generateCalculatorSchema(
           "Weekday Finder",
           seoData?.weekdayFinder?.description ??
