@@ -62,6 +62,7 @@ import MortgageCalculator  from './pages/MortgageCalculator';
 import SIPCalculator  from './pages/SIPCalculator';
 import FDCalculator  from './pages/FDCalculator';
 import RDCalculator  from './pages/RDCalculator';
+import RetirementCalculator  from './pages/RetirementCalculator';
 
 
 
@@ -138,6 +139,7 @@ function App() {
             <Route path="/sip-calculator" element={<SIPCalculator />} />
             <Route path="/fd-calculator" element={<FDCalculator />} />
             <Route path="/rd-calculator" element={<RDCalculator />} />
+            <Route path="/retirement-calculator" element={<RetirementCalculator />} />
             
 
  
