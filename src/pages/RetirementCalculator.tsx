@@ -49,7 +49,7 @@ const RetirementCalculator: React.FC = () => {
       <SEOHead
         title={seoData.retirementCalculator.title}
         description={seoData.retirementCalculator.description}
-        canonical="https://calculatorhub.com/retirement-calculator"
+        canonical="https://calculatorhub.site/retirement-calculator"
         schemaData={generateCalculatorSchema(
           "Retirement Calculator",
           seoData.retirementCalculator.description,
