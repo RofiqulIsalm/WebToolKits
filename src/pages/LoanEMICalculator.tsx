@@ -745,7 +745,7 @@ const LoanEMICalculator_Full: React.FC = () => {
               Show Charts
             </label>
             
-            <label className="flex items-center gap-2 text-slate-300 text-sm cursor-pointer group">
+            <label className="flex items-center gap-2 mt-3 text-slate-300 text-sm cursor-pointer group">
               <span
                 className={`relative w-5 h-5 flex items-center justify-center rounded-md border transition-all duration-200
                   ${showSchedule ? "border-cyan-400 bg-cyan-500/20" : "border-slate-600 bg-slate-800/70 group-hover:border-cyan-500/50"}`}
