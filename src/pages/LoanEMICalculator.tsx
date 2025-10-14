@@ -46,6 +46,14 @@ const LoanEMICalculator: React.FC = () => {
     setTotalInterest(interest);
   };
 
+  const RelatedFinanceTools: React.FC = () => {
+    const tools = [
+      { name: 'Compound Interest Calculator', link: '/compound-interest-calculator', color: 'from-emerald-500 to-teal-600' },
+      { name: 'Mortgage Calculator', link: '/mortgage-calculator', color: 'from-indigo-500 to-blue-600' },
+      { name: 'Fixed Deposit (FD) Calculator', link: '/fd-calculator', color: 'from-green-500 to-emerald-600' },
+      { name: 'ROI Calculator', link: '/roi-calculator', color: 'from-purple-500 to-fuchsia-600' },
+    ];
+
 
   return (
     <>
