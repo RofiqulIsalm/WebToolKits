@@ -1253,80 +1253,205 @@ const ScheduleTable =
  
 
   // ---------------------- Comparison -----------------------------------------
-  const Comparison = mode === "advanced" && (
+// ---------------------- Comparison -----------------------------------------
+const Comparison =
+  mode === "advanced" && (
     <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
       <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm">
-        <div className="flex items-center justify-between">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
           <h3 className="text-lg font-semibold text-cyan-300 flex items-center gap-2">
             <ArrowLeftRight className="w-5 h-5" /> Compare Loans
           </h3>
-          <div className="flex items-center gap-3">
-            <label className="text-slate-300 text-sm">Enable</label>
+
+          <label className="flex items-center gap-2 text-slate-300 text-sm">
             <input
               type="checkbox"
+              className="accent-cyan-500 h-4 w-4"
               checked={compare.enabled}
-              onChange={(e) => setCompare((c) => ({ ...c, enabled: e.target.checked }))}
+              onChange={(e) =>
+                setCompare((c) => ({ ...c, enabled: e.target.checked }))
+              }
             />
-          </div>
+            Enable
+          </label>
         </div>
 
+        {/* Comparison Panels */}
         {compare.enabled && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-            <div className="bg-slate-800/50 p-4 rounded-lg border border-slate-700">
-              <h4 className="text-slate-200 font-semibold mb-2">Loan A (Current)</h4>
-              <div className="grid grid-cols-2 gap-3 text-sm text-slate-300">
-                <div>Rate (p.a.)</div>
-                <div className="text-right">{rateAnnual}%</div>
-                <div>Tenure</div>
-                <div className="text-right">{tenureMonths} months</div>
-                <div>EMI</div>
-                <div className="text-right">{currencyPrefix}{fmt(emi)}</div>
-                <div>Total Interest</div>
-                <div className="text-right">{currencyPrefix}{fmt(totalInterest)}</div>
-                <div>Total Payment</div>
-                <div className="text-right">{currencyPrefix}{fmt(totalAmount)}</div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Loan A */}
+            <div className="bg-slate-800/40 p-4 rounded-lg border border-slate-700">
+              <h4 className="text-slate-200 font-semibold mb-3">
+                Loan A (Current)
+              </h4>
+              <div className="text-sm text-slate-300 space-y-2">
+                <div className="flex justify-between">
+                  <span>Rate (p.a.)</span>
+                  <span>{rateAnnual.toFixed(2)}%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Tenure</span>
+                  <span>{tenureMonths} months</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>EMI</span>
+                  <span>
+                    {currencyPrefix}
+                    {formatNumber(emi)}
+                  </span>
+                </div>
+                <div className="flex justify-between text-amber-400">
+                  <span>Total Interest</span>
+                  <span>
+                    {currencyPrefix}
+                    {formatNumber(totalInterest)}
+                  </span>
+                </div>
+                <div className="flex justify-between font-semibold text-emerald-400">
+                  <span>Total Payment</span>
+                  <span>
+                    {currencyPrefix}
+                    {formatNumber(totalAmount)}
+                  </span>
+                </div>
               </div>
             </div>
 
-            <div className="bg-slate-800/50 p-4 rounded-lg border border-slate-700">
-              <h4 className="text-slate-200 font-semibold mb-2">Loan B (Compare)</h4>
-              <div className="grid grid-cols-2 gap-3">
-                <LabeledNumber
-                  id="cmp-rate"
-                  label="Rate p.a. (%)"
-                  value={compare.loanB.rateAnnual}
-                  onChange={(n) => setCompare((c) => ({ ...c, loanB: { ...c.loanB, rateAnnual: n } }))}
-                  min={0}
-                  step={0.1}
-                />
-                <LabeledNumber
-                  id="cmp-n"
-                  label="Tenure (months)"
-                  value={compare.loanB.tenureMonths}
-                  onChange={(n) =>
-                    setCompare((c) => ({ ...c, loanB: { ...c.loanB, tenureMonths: Math.max(1, Math.floor(n)) } }))
-                  }
-                  min={1}
-                  step={1}
-                />
+            {/* Loan B */}
+            <div className="bg-slate-800/40 p-4 rounded-lg border border-slate-700">
+              <h4 className="text-slate-200 font-semibold mb-3">
+                Loan B (Compare)
+              </h4>
+
+              {/* Input Controls */}
+              <div className="grid grid-cols-2 gap-3 mb-3 text-sm">
+                <div>
+                  <label className="block text-slate-400 mb-1">
+                    Rate (p.a. %)
+                  </label>
+                  <input
+                    type="number"
+                    value={compare.loanB.rateAnnual}
+                    min={0}
+                    step={0.1}
+                    onChange={(e) =>
+                      setCompare((c) => ({
+                        ...c,
+                        loanB: {
+                          ...c.loanB,
+                          rateAnnual: Number(e.target.value),
+                        },
+                      }))
+                    }
+                    className="w-full px-2 py-1.5 rounded-md bg-slate-800/60 border border-slate-700 text-slate-100 text-right focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-400 mb-1">
+                    Tenure (months)
+                  </label>
+                  <input
+                    type="number"
+                    value={compare.loanB.tenureMonths}
+                    min={1}
+                    step={1}
+                    onChange={(e) =>
+                      setCompare((c) => ({
+                        ...c,
+                        loanB: {
+                          ...c.loanB,
+                          tenureMonths: Math.max(
+                            1,
+                            Math.floor(Number(e.target.value))
+                          ),
+                        },
+                      }))
+                    }
+                    className="w-full px-2 py-1.5 rounded-md bg-slate-800/60 border border-slate-700 text-slate-100 text-right focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                  />
+                </div>
               </div>
 
+              {/* Calculated Results */}
               {loanB && (
-                <div className="grid grid-cols-2 gap-3 text-sm text-slate-300 mt-4">
-                  <div>EMI</div>
-                  <div className="text-right">{currencyPrefix}{fmt(loanB.emi)}</div>
-                  <div>Total Interest</div>
-                  <div className="text-right">{currencyPrefix}{fmt(loanB.interest)}</div>
-                  <div>Total Payment</div>
-                  <div className="text-right">{currencyPrefix}{fmt(loanB.total)}</div>
+                <div className="text-sm text-slate-300 space-y-2">
+                  <div className="flex justify-between">
+                    <span>EMI</span>
+                    <span>
+                      {currencyPrefix}
+                      {formatNumber(loanB.emi)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-amber-400">
+                    <span>Total Interest</span>
+                    <span>
+                      {currencyPrefix}
+                      {formatNumber(loanB.interest)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between font-semibold text-emerald-400">
+                    <span>Total Payment</span>
+                    <span>
+                      {currencyPrefix}
+                      {formatNumber(loanB.total)}
+                    </span>
+                  </div>
                 </div>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* Difference Summary */}
+        {compare.enabled && loanB && (
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+            <div className="p-3 bg-slate-800/60 rounded-lg border border-slate-700">
+              <div className="text-slate-400">EMI Difference</div>
+              <div
+                className={`text-lg font-semibold ${
+                  loanB.emi < emi ? "text-emerald-400" : "text-amber-400"
+                }`}
+              >
+                {currencyPrefix}
+                {formatNumber(Math.abs(emi - loanB.emi))}
+              </div>
+            </div>
+            <div className="p-3 bg-slate-800/60 rounded-lg border border-slate-700">
+              <div className="text-slate-400">Total Interest Diff</div>
+              <div
+                className={`text-lg font-semibold ${
+                  loanB.interest < totalInterest
+                    ? "text-emerald-400"
+                    : "text-amber-400"
+                }`}
+              >
+                {currencyPrefix}
+                {formatNumber(
+                  Math.abs(totalInterest - loanB.interest)
+                )}
+              </div>
+            </div>
+            <div className="p-3 bg-slate-800/60 rounded-lg border border-slate-700">
+              <div className="text-slate-400">Total Payment Diff</div>
+              <div
+                className={`text-lg font-semibold ${
+                  loanB.total < totalAmount
+                    ? "text-emerald-400"
+                    : "text-amber-400"
+                }`}
+              >
+                {currencyPrefix}
+                {formatNumber(Math.abs(totalAmount - loanB.total))}
+              </div>
             </div>
           </div>
         )}
       </div>
     </div>
   );
+
 
   // ---------------------- Header ---------------------------------------------
   const Header = (
