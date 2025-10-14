@@ -325,12 +325,15 @@ const CurrencyConverter: React.FC = () => {
           {error && <p className="text-red-400 text-center mb-4">{error}</p>}
           <div className="flex justify-center mb-6">
             <button
-              onClick={swapCurrencies}
-              className="flex items-center space-x-2 px-4 py-2 glow-button text-white rounded-lg transition-all"
-            >
-              <ArrowRightLeft className="h-4 w-4" />
-              <span>Swap</span>
-            </button>
+                onClick={swapCurrencies}
+                disabled={loading}
+                className={`flex items-center space-x-2 px-4 py-2 glow-button text-white rounded-lg transition-all ${
+                  loading ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+              >
+                <ArrowRightLeft className="h-4 w-4" />
+                <span>Swap</span>
+              </button>
           </div>
 
           {exchangeRates[fromCurrency] && exchangeRates[toCurrency] && (
