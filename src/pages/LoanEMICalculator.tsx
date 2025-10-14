@@ -689,7 +689,7 @@ const LoanEMICalculator_Full: React.FC = () => {
       </div>
 
       {/* Basic Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-3">
         <BasicInputs
           currency={currency} setCurrency={setCurrency}
           principal={principalRaw} setPrincipal={setPrincipalRaw}
