@@ -698,14 +698,41 @@ const AdvancedControls = mode === "advanced" && (
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          <Range
-            label="Loan Amount"
-            value={principal}
-            onChange={setPrincipal}
-            min={0}
-            max={10_000_000}
-            step={1000}
-          />
+           {/* Loan Amount Stepper */}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-slate-300">
+                Loan Amount ({currencyPrefix})
+              </label>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setPrincipal((p) => Math.max(0, p - 1000))}
+                  className="px-3 py-1.5 rounded-md bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 hover:border-cyan-500 transition-all text-lg font-semibold"
+                >
+                  –
+                </button>
+          
+                <input
+                  type="number"
+                  min={0}
+                  step={1000}
+                  value={principal}
+                  onChange={(e) => setPrincipal(Math.max(0, Number(e.target.value)))}
+                  className="w-28 text-center px-3 py-2 rounded-md bg-slate-800 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                />
+          
+                <button
+                  type="button"
+                  onClick={() => setPrincipal((p) => p + 1000)}
+                  className="px-3 py-1.5 rounded-md bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 hover:border-cyan-500 transition-all text-lg font-semibold"
+                >
+                  +
+                </button>
+              </div>
+              <p className="text-xs text-slate-400 mt-1">
+                Adjust your loan amount in steps of 1,000.
+              </p>
+            </div>
           {/* Interest Rate Stepper */}
           <div className="space-y-2">
             <label className="block text-sm font-medium text-slate-300">
