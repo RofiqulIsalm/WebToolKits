@@ -690,7 +690,7 @@ const LoanEMICalculator_Full: React.FC = () => {
           >
             <span
               className={`absolute left-1 w-8 h-8 bg-white rounded-full shadow-md transform transition-transform duration-300
-                ${mode === "advanced" ? "translate-x-[4.0rem]" : "translate-x-0"}`}
+                ${mode === "advanced" ? "translate-x-[4.3rem]" : "translate-x-0"}`}
             ></span>
             <span
               className={`text-xs font-semibold w-full text-center transition-colors duration-300
