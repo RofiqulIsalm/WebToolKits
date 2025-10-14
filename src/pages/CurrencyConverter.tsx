@@ -344,6 +344,12 @@ const CurrencyConverter: React.FC = () => {
               </button>
           </div>
 
+          {loading && (
+              <p className="text-center text-slate-300 mt-4 animate-pulse">
+                Fetching latest rates...
+              </p>
+          )}
+
           {exchangeRates[fromCurrency] && exchangeRates[toCurrency] && (
             <div className="result-green rounded-lg p-4 text-center">
               <p className="text-lg font-semibold text-white">
