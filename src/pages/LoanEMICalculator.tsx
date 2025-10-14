@@ -1041,7 +1041,7 @@ const Charts =
                     <RechartsTooltip
                       formatter={(val: number, name: string) => [
                         `${formatNumber(val)}`,
-                        name === "balance" ? "Remaining Balance" : name,
+                        name === "balance" ? "Remaining" : name,
                       ]}
                       contentStyle={{
                         backgroundColor: "#f5f7f7", // soft light tooltip
