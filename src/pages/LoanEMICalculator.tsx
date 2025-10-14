@@ -177,6 +177,34 @@ const LoanEMICalculator: React.FC = () => {
         </div>
       </div>
 
+        {/* ------------Seo content-----------------*/}
+        <div className="seo-content text-white space-y-6 mt-10">
+        <h2 className="text-2xl font-bold">What is a Loan EMI Calculator?</h2>
+        <p>...</p>
+      
+        <h2 className="text-2xl font-bold">How to Calculate EMI Manually</h2>
+        <div className="bg-slate-800/60 p-4 rounded-lg">
+          <code className="text-green-400">
+            EMI = [P × R × (1 + R)^N] / [(1 + R)^N – 1]
+          </code>
+        </div>
+      
+        <h2 className="text-2xl font-bold">Benefits of Using EMI Calculator</h2>
+        <ul className="list-disc list-inside space-y-2">
+          <li>✔ Instant results with accuracy</li>
+          <li>✔ Plan your monthly budget</li>
+          <li>✔ Compare loans and interest rates</li>
+        </ul>
+      
+        <h2 className="text-2xl font-bold">Popular Loan Calculators</h2>
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 list-disc list-inside">
+          <li><a href="/loan-affordability-calculator" className="text-blue-400 hover:underline">Loan Affordability Calculator</a></li>
+          <li><a href="/simple-interest-calculator" className="text-blue-400 hover:underline">Simple Interest Calculator</a></li>
+          <li><a href="/compound-interest-calculator" className="text-blue-400 hover:underline">Compound Interest Calculator</a></li>
+        </ul>
+      </div>
+
+
       <AdBanner type="bottom" />
       
       <RelatedCalculators 
