@@ -1136,6 +1136,7 @@ const Charts =
 
 
   // ---------------------- Schedule Table -------------------------------------
+// ---------------------- Schedule Table -------------------------------------
 const ScheduleTable =
   mode === "advanced" &&
   showSchedule && (
@@ -1189,30 +1190,75 @@ const ScheduleTable =
                       : "bg-slate-800/20 hover:bg-slate-700/30"
                   }`}
                 >
-                  <td className="px-3 py-2 text-right font-medium text-slate-300">
+                  <td
+                    className="px-3 py-2 text-right font-medium text-slate-300"
+                    title={`Month ${r.month}`}
+                  >
                     {r.month}
                   </td>
-                  <td className="px-3 py-2 text-right">
+
+                  <td
+                    className="px-3 py-2 text-right"
+                    title={`${currencyPrefix}${r.opening.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}`}
+                  >
                     {currencyPrefix}
                     {formatNumber(r.opening)}
                   </td>
-                  <td className="px-3 py-2 text-right text-amber-400">
+
+                  <td
+                    className="px-3 py-2 text-right text-amber-400"
+                    title={`${currencyPrefix}${r.interest.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}`}
+                  >
                     {currencyPrefix}
                     {formatNumber(r.interest)}
                   </td>
-                  <td className="px-3 py-2 text-right text-emerald-400">
+
+                  <td
+                    className="px-3 py-2 text-right text-emerald-400"
+                    title={`${currencyPrefix}${r.principalPaid.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}`}
+                  >
                     {currencyPrefix}
                     {formatNumber(r.principalPaid)}
                   </td>
-                  <td className="px-3 py-2 text-right">
+
+                  <td
+                    className="px-3 py-2 text-right"
+                    title={`${currencyPrefix}${r.regularEmi.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}`}
+                  >
                     {currencyPrefix}
                     {formatNumber(r.regularEmi)}
                   </td>
-                  <td className="px-3 py-2 text-right text-cyan-300">
+
+                  <td
+                    className="px-3 py-2 text-right text-cyan-300"
+                    title={`${currencyPrefix}${r.extraPayment.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}`}
+                  >
                     {currencyPrefix}
                     {formatNumber(r.extraPayment)}
                   </td>
-                  <td className="px-3 py-2 text-right font-semibold text-slate-200">
+
+                  <td
+                    className="px-3 py-2 text-right font-semibold text-slate-200"
+                    title={`${currencyPrefix}${r.closing.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}`}
+                  >
                     {currencyPrefix}
                     {formatNumber(r.closing)}
                   </td>
@@ -1233,7 +1279,13 @@ const ScheduleTable =
 
           <div className="p-4 rounded-lg bg-slate-800/60 border border-slate-700">
             <div className="text-slate-400 text-sm">Total Interest (with prepay)</div>
-            <div className="text-white text-lg font-semibold">
+            <div
+              className="text-white text-lg font-semibold"
+              title={`${currencyPrefix}${scheduleTotals.totalInterest.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}`}
+            >
               {currencyPrefix}
               {formatNumber(scheduleTotals.totalInterest)}
             </div>
@@ -1241,7 +1293,13 @@ const ScheduleTable =
 
           <div className="p-4 rounded-lg bg-slate-800/60 border border-slate-700">
             <div className="text-slate-400 text-sm">Total Paid (with prepay)</div>
-            <div className="text-white text-lg font-semibold">
+            <div
+              className="text-white text-lg font-semibold"
+              title={`${currencyPrefix}${scheduleTotals.totalPaid.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}`}
+            >
               {currencyPrefix}
               {formatNumber(scheduleTotals.totalPaid)}
             </div>
@@ -1250,6 +1308,7 @@ const ScheduleTable =
       </div>
     </div>
   );
+
 
 
   // ---------------------- Comparison -----------------------------------------
