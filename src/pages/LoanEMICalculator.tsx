@@ -5,6 +5,7 @@ import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
+import { RotateCcw } from 'lucide-react';
 
 const LoanEMICalculator: React.FC = () => {
   const [principal, setPrincipal] = useState<number>(100000);
