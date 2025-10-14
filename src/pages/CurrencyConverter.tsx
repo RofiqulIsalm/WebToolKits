@@ -17,7 +17,7 @@ const CurrencyConverter: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
 
-  const allCurrencies = [
+  const allCurrencies = React.useMemo(() => [
     { code: 'AED', name: 'UAE Dirham' },
     { code: 'AFN', name: 'Afghan Afghani' },
     { code: 'ALL', name: 'Albanian Lek' },
@@ -179,7 +179,8 @@ const CurrencyConverter: React.FC = () => {
     { code: 'ZAR', name: 'South African Rand' },
     { code: 'ZMW', name: 'Zambian Kwacha' },
     { code: 'ZWL', name: 'Zimbabwean Dollar' }
-    ];
+
+], []);
 
 
   useEffect(() => {
