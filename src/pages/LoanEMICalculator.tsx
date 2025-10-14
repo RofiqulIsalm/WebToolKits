@@ -16,6 +16,7 @@ import SEOHead from "../components/SEOHead";
 import Breadcrumbs from "../components/Breadcrumbs";
 import { seoData, generateCalculatorSchema } from "../utils/seoData";
 import RelatedCalculators from "../components/RelatedCalculators";
+import Range from '../components/Range';
 
 // Charts
 import {
