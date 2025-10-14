@@ -76,22 +76,20 @@ const LoanEMICalculator: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <div className="finance-card rounded-lg p-6">
-            <div class="grid grid-cols-3 gap-4">
-              
-              <h2 className="text-xl col-span-2 font-semibold text-white mb-4">Loan Details</h2>
+            <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold text-white">Loan Details</h2>
                 <button
-                    onClick={() => {
-                      setPrincipal(0);
-                      setRate(0);
-                      setTenure(0);
-                    }}
-                    className="mt-4 flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/70 text-blue-400 hover:text-blue-300 hover:bg-slate-700 transition-all duration-300 shadow-md hover:shadow-blue-500/40"
-                    aria-label="Reset loan inputs"
-                  >
-                    <RotateCcw className="w-5 h-5" />
-                  </button>
-
-            </div>
+                  onClick={() => {
+                    setPrincipal(0);
+                    setRate(0);
+                    setTenure(0);
+                  }}
+                  className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/70 text-blue-400 hover:text-blue-300 hover:bg-slate-700 transition-all duration-300 shadow-md hover:shadow-blue-500/40"
+                  aria-label="Reset loan inputs"
+                >
+                  <RotateCcw className="w-5 h-5" />
+                </button>
+              </div>
 
           
           <div className="space-y-4">
