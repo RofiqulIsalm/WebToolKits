@@ -315,15 +315,15 @@ const CurrencyConverter: React.FC = () => {
                   {allCurrencies.map((currency) => (
                     <option key={currency.code} value={currency.code}>
                       {currency.code} - {currency.name}
-                    </option>
+                    </option> 
                   ))}
                 </select>
               </div>
             </div>
           </div>
 
-          <div className="flex justify-center mb-6">
             {error && <p className="text-red-400 text-center mb-4">{error}</p>}
+          <div className="flex justify-center mb-6">
             <button
               onClick={swapCurrencies}
               className="flex items-center space-x-2 px-4 py-2 glow-button text-white rounded-lg transition-all"
