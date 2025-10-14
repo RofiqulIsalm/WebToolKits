@@ -898,7 +898,7 @@ const AdvancedControls = mode === "advanced" && (
 
 
   // ---------------------- Charts ---------------------------------------------
-  // ---------- Chart Section ----------
+
 const Charts = mode === "advanced" && showCharts && (
   <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
     <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm space-y-6">
