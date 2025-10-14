@@ -653,160 +653,156 @@ const LoanEMICalculator: React.FC = () => {
   );
 
   // ---------------------- Advanced Controls ----------------------------------
-  const AdvancedControls = mode === "advanced" && (
-    <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
-      <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm space-y-6">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-cyan-300 flex items-center gap-2">
-            <SlidersHorizontal className="w-5 h-5" /> Advanced Controls
-          </h3>
-          <div className="flex gap-2">
-            <button
-              onClick={copyShareLink}
-              className="px-3 py-2 rounded-md bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700 flex items-center gap-2"
-              title="Copy shareable link"
-            >
-              <Share2 className="w-4 h-4" /> Copy Link
-            </button>
-            <button
-              onClick={printResults}
-              className="px-3 py-2 rounded-md bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700 flex items-center gap-2"
-              title="Print"
-            >
-              <Printer className="w-4 h-4" /> Print
-            </button>
-          </div>
-        </div>
+const AdvancedControls = mode === "advanced" && (
+  <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
+    <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm space-y-6">
+      
+      {/* Header */}
+      <div className="flex flex-wrap justify-between items-center gap-3">
+        <h3 className="text-lg font-semibold text-cyan-300 flex items-center gap-2">
+          <SlidersHorizontal className="w-5 h-5" /> Advanced Controls
+        </h3>
 
-        {/* Solve Switch */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <label className="text-sm text-slate-300">Solve</label>
-              <div className="flex gap-2">
-                <button
-                  className={`px-3 py-1 rounded-md border ${
-                    solveMode === "by_tenure" ? "bg-cyan-600 text-white border-cyan-500" : "bg-slate-800 border-slate-700 text-slate-300"
-                  }`}
-                  onClick={() => setSolveMode("by_tenure")}
-                >
-                  By Tenure → EMI
-                </button>
-                <button
-                  className={`px-3 py-1 rounded-md border ${
-                    solveMode === "by_emi" ? "bg-cyan-600 text-white border-cyan-500" : "bg-slate-800 border-slate-700 text-slate-300"
-                  }`}
-                  onClick={() => setSolveMode("by_emi")}
-                >
-                  By EMI → Tenure
-                </button>
-              </div>
+        <div className="flex gap-2 flex-wrap">
+          <button
+            onClick={copyShareLink}
+            className="px-3 py-2 rounded-md bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700 flex items-center gap-2 text-sm transition-all"
+            title="Copy shareable link"
+          >
+            <Share2 className="w-4 h-4" /> Copy Link
+          </button>
+          <button
+            onClick={printResults}
+            className="px-3 py-2 rounded-md bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700 flex items-center gap-2 text-sm transition-all"
+            title="Print Results"
+          >
+            <Printer className="w-4 h-4" /> Print
+          </button>
+        </div>
+      </div>
+
+      {/* Loan Sliders Section */}
+      <div className="space-y-4">
+        <h4 className="text-slate-200 font-semibold">Loan Configuration</h4>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <Range
+            label="Loan Amount"
+            value={principal}
+            onChange={setPrincipal}
+            min={0}
+            max={10_000_000}
+            step={1000}
+          />
+          <Range
+            label="Interest Rate (%)"
+            value={rateAnnual}
+            onChange={setRateAnnual}
+            min={0}
+            max={36}
+            step={0.1}
+          />
+          <Range
+            label="Tenure (months)"
+            value={tenureMonths}
+            onChange={(n) => setTenureMonths(Math.max(1, Math.floor(n)))}
+            min={1}
+            max={480}
+            step={1}
+          />
+        </div>
+      </div>
+
+      {/* Prepayment Section */}
+      <div className="space-y-4">
+        <h4 className="text-slate-200 font-semibold">Prepayment Options</h4>
+        <p className="text-slate-400 text-sm">
+          Add lump-sum or extra monthly payments to see how they shorten your loan duration and save interest.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* One-time Prepayment */}
+          <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 space-y-3">
+            <div className="flex justify-between items-center">
+              <label className="text-slate-300 font-medium">One-time Lump Sum</label>
+              <input
+                type="checkbox"
+                checked={prepay.enableOneTime}
+                onChange={(e) =>
+                  setPrepay((s) => ({ ...s, enableOneTime: e.target.checked }))
+                }
+                className="w-4 h-4 accent-cyan-500"
+              />
             </div>
 
-            {solveMode === "by_emi" && (
+            <div
+              className={`grid grid-cols-1 sm:grid-cols-2 gap-3 transition-opacity ${
+                prepay.enableOneTime ? "opacity-100" : "opacity-50 pointer-events-none"
+              }`}
+            >
               <LabeledNumber
-                id="targetEmi"
-                label={`Target EMI (${currencyPrefix})`}
-                value={targetEMI}
-                onChange={setTargetEMI}
+                id="oneTimeAmount"
+                label="Amount"
+                value={prepay.oneTimeAmount}
+                onChange={(n) =>
+                  setPrepay((s) => ({ ...s, oneTimeAmount: Math.max(0, n) }))
+                }
                 min={0}
-                step={10}
-                suffix={`Resulting tenure is computed automatically.`}
+                step={100}
               />
-            )}
-
-            {/* Sliders */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Range
-                label="Loan Amount"
-                value={principal}
-                onChange={setPrincipal}
-                min={0}
-                max={10_000_000}
-                step={1000}
-              />
-              <Range
-                label="Interest Rate (%)"
-                value={rateAnnual}
-                onChange={setRateAnnual}
-                min={0}
-                max={36}
-                step={0.1}
-              />
-              <Range
-                label="Tenure (months)"
-                value={tenureMonths}
-                onChange={(n) => setTenureMonths(Math.max(1, Math.floor(n)))}
+              <LabeledNumber
+                id="oneTimeMonth"
+                label="Month #"
+                value={prepay.oneTimeMonth}
+                onChange={(n) =>
+                  setPrepay((s) => ({ ...s, oneTimeMonth: Math.max(1, Math.floor(n)) }))
+                }
                 min={1}
-                max={480}
                 step={1}
               />
             </div>
           </div>
 
-          {/* Prepayment */}
-          <div className="space-y-3">
-            <h4 className="text-slate-200 font-semibold">Prepayment Options</h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-                <div className="flex items-center justify-between">
-                  <label className="text-slate-300">One-time Lump Sum</label>
-                  <input
-                    type="checkbox"
-                    checked={prepay.enableOneTime}
-                    onChange={(e) => setPrepay((s) => ({ ...s, enableOneTime: e.target.checked }))}
-                  />
-                </div>
-                <div className={`grid grid-cols-2 gap-3 mt-3 ${prepay.enableOneTime ? "" : "opacity-50 pointer-events-none"}`}>
-                  <LabeledNumber
-                    id="oneTimeAmount"
-                    label="Amount"
-                    value={prepay.oneTimeAmount}
-                    onChange={(n) => setPrepay((s) => ({ ...s, oneTimeAmount: Math.max(0, n) }))}
-                    min={0}
-                    step={100}
-                  />
-                  <LabeledNumber
-                    id="oneTimeMonth"
-                    label="Month #"
-                    value={prepay.oneTimeMonth}
-                    onChange={(n) => setPrepay((s) => ({ ...s, oneTimeMonth: Math.max(1, Math.floor(n)) }))}
-                    min={1}
-                    step={1}
-                  />
-                </div>
-              </div>
-
-              <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-                <div className="flex items-center justify-between">
-                  <label className="text-slate-300">Extra Monthly Payment</label>
-                  <input
-                    type="checkbox"
-                    checked={prepay.enableExtraMonthly}
-                    onChange={(e) => setPrepay((s) => ({ ...s, enableExtraMonthly: e.target.checked }))}
-                  />
-                </div>
-                <div className={`mt-3 ${prepay.enableExtraMonthly ? "" : "opacity-50 pointer-events-none"}`}>
-                  <LabeledNumber
-                    id="extraMonthly"
-                    label="Extra per month"
-                    value={prepay.extraMonthly}
-                    onChange={(n) => setPrepay((s) => ({ ...s, extraMonthly: Math.max(0, n) }))}
-                    min={0}
-                    step={50}
-                  />
-                </div>
-              </div>
+          {/* Extra Monthly Prepayment */}
+          <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 space-y-3">
+            <div className="flex justify-between items-center">
+              <label className="text-slate-300 font-medium">Extra Monthly Payment</label>
+              <input
+                type="checkbox"
+                checked={prepay.enableExtraMonthly}
+                onChange={(e) =>
+                  setPrepay((s) => ({ ...s, enableExtraMonthly: e.target.checked }))
+                }
+                className="w-4 h-4 accent-cyan-500"
+              />
             </div>
 
-            <div className="text-xs text-slate-400">
-              With prepayment, the amortization schedule shortens. We simulate month-by-month to reflect earlier payoff.
+            <div
+              className={`transition-opacity ${
+                prepay.enableExtraMonthly ? "opacity-100" : "opacity-50 pointer-events-none"
+              }`}
+            >
+              <LabeledNumber
+                id="extraMonthly"
+                label="Extra per month"
+                value={prepay.extraMonthly}
+                onChange={(n) =>
+                  setPrepay((s) => ({ ...s, extraMonthly: Math.max(0, n) }))
+                }
+                min={0}
+                step={50}
+              />
             </div>
           </div>
         </div>
+
+        <p className="text-xs text-slate-400">
+          💡 With prepayments, we simulate month-by-month reductions — see faster payoff in your amortization schedule.
+        </p>
       </div>
     </div>
-  );
+  </div>
+);
+
 
   // ---------------------- Charts ---------------------------------------------
   const Charts = mode === "advanced" && showCharts && (
