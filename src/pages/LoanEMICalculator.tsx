@@ -489,149 +489,156 @@ const LoanEMICalculator: React.FC = () => {
   }
 
   // ---------------------- Basic Inputs (with Tenure Quick Buttons) -----------
-  const BasicInputs = (
-    <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
-      <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm">
-        <div className="flex flex-wrap gap-3 justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold text-cyan-300 drop-shadow flex items-center gap-2">
-            <Calculator className="w-5 h-5" /> Loan Details
-          </h2>
+ const BasicInputs = (
+  <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
+    <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm">
+      <div className="flex flex-wrap gap-3 justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold text-cyan-300 drop-shadow flex items-center gap-2">
+          <Calculator className="w-5 h-5" /> Loan Details
+        </h2>
 
-          <div className="flex items-center gap-2">
-            <select
-              value={currency}
-              onChange={(e) => setCurrency(e.target.value as Currency)}
-              className="px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg"
-              aria-label="Select Currency"
-            >
-              <option>$</option>
-              <option>₹</option>
-              <option>€</option>
-              <option>£</option>
-            </select>
+        <div className="flex items-center gap-2">
+          <select
+            value={currency}
+            onChange={(e) => setCurrency(e.target.value as Currency)}
+            className="px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg"
+            aria-label="Select Currency"
+          >
+            <option>$</option>
+            <option>₹</option>
+            <option>€</option>
+            <option>£</option>
+          </select>
 
-            <button
-              onClick={resetInputs}
-              className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-800 text-cyan-400 hover:text-white hover:bg-cyan-600 transition-all duration-300 shadow-md hover:shadow-cyan-500/40 transform hover:scale-110"
-              aria-label="Reset loan inputs"
-              title="Reset"
-            >
-              <RotateCcw className="w-5 h-5" />
-            </button>
-          </div>
+          <button
+            onClick={resetInputs}
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-800 text-cyan-400 hover:text-white hover:bg-cyan-600 transition-all duration-300 shadow-md hover:shadow-cyan-500/40 transform hover:scale-110"
+            aria-label="Reset loan inputs"
+            title="Reset"
+          >
+            <RotateCcw className="w-5 h-5" />
+          </button>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {/* Loan Amount */}
-          <LabeledNumber
-            id="principal"
-            label="Loan Amount (Principal)"
-            value={principal}
-            onChange={setPrincipal}
-            min={0}
-            step={100}
-          />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {/* Loan Amount */}
+        <LabeledNumber
+          id="principal"
+          label="Loan Amount (Principal)"
+          value={principal}
+          onChange={setPrincipal}
+          min={0}
+          step={100}
+        />
 
-          {/* Interest Rate */}
-          <LabeledNumber
-            id="rate"
-            label={`Interest Rate (${rateMode === "per_annum" ? "% per annum" : "% per month"})`}
-            value={rateAnnual}
-            onChange={setRateAnnual}
-            min={0}
-            step={0.05}
-            suffix={
-              rateMode === "per_annum"
-                ? "Tip: Switch to monthly if your lender quotes per month."
-                : "Currently interpreting as per month (x12 for annual internally)."
-            }
-          />
+        {/* Interest Rate */}
+        <LabeledNumber
+          id="rate"
+          label={`Interest Rate (${rateMode === "per_annum" ? "% per annum" : rateMode === "per_month" ? "% per month" : "% per year"})`}
+          value={rateAnnual}
+          onChange={setRateAnnual}
+          min={0}
+          step={0.05}
+        />
 
-          {/* Tenure Quick Buttons + Custom */}
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
-              Loan Tenure (months)
-            </label>
+        {/* Tenure Section */}
+        <div>
+          <label className="block text-sm font-medium text-slate-300 mb-2">
+            Loan Tenure
+          </label>
 
-            <div className="flex flex-wrap gap-2 mb-3">
-              {[1, 3, 12].map((m) => (
-                <button
-                  key={m}
-                  type="button"
-                  onClick={() => {
-                    setTenureMonths(m);
-                    setCustomTenure(false);
-                  }}
-                  className={`px-3 py-1.5 rounded-md border transition-all duration-200 text-sm sm:text-base ${
-                    tenureMonths === m && !customTenure
-                      ? "bg-cyan-600 text-white border-cyan-500"
-                      : "bg-slate-800 border-slate-700 text-slate-300 hover:border-cyan-500 hover:text-cyan-300"
-                  }`}
-                >
-                  {m}M
-                </button>
-              ))}
-
+          {/* Quick Select Buttons */}
+          <div className="flex flex-wrap gap-2 mb-3">
+            {[1, 3, 12].map((m) => (
               <button
+                key={m}
                 type="button"
-                onClick={() => setCustomTenure(true)}
+                onClick={() => {
+                  setTenureMonths(m);
+                  setCustomTenure(false);
+                }}
                 className={`px-3 py-1.5 rounded-md border transition-all duration-200 text-sm sm:text-base ${
-                  customTenure
+                  tenureMonths === m && !customTenure
                     ? "bg-cyan-600 text-white border-cyan-500"
                     : "bg-slate-800 border-slate-700 text-slate-300 hover:border-cyan-500 hover:text-cyan-300"
                 }`}
               >
-                Cus
+                {m}M
               </button>
-            </div>
+            ))}
 
-            {customTenure && (
-              <input
-                type="number"
-                value={tenureMonths}
-                onChange={(e) => setTenureMonths(Math.max(1, Number(e.target.value)))}
-                className="w-full px-4 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent placeholder-slate-500"
-                placeholder="Enter custom months"
-              />
-            )}
-
-            <p className="text-xs text-slate-400 mt-1">
-              {Math.floor(tenureMonths / 12)} years {tenureMonths % 12} months
-            </p>
+            <button
+              type="button"
+              onClick={() => setCustomTenure(true)}
+              className={`px-3 py-1.5 rounded-md border transition-all duration-200 text-sm sm:text-base ${
+                customTenure
+                  ? "bg-cyan-600 text-white border-cyan-500"
+                  : "bg-slate-800 border-slate-700 text-slate-300 hover:border-cyan-500 hover:text-cyan-300"
+              }`}
+            >
+              Cus
+            </button>
           </div>
 
-          {/* Rate Mode Toggle */}
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-            <label className="text-sm text-slate-300">Rate Mode</label>
-            <div className="flex gap-2 flex-wrap">
-              <button
-                type="button"
-                className={`px-3 py-1 rounded-md border text-sm sm:text-base ${
-                  rateMode === "per_annum"
-                    ? "bg-cyan-600 text-white border-cyan-500"
-                    : "bg-slate-800 border-slate-700 text-slate-300"
-                }`}
-                onClick={() => setRateMode("per_annum")}
-              >
-                Per Annum
-              </button>
-              <button
-                type="button"
-                className={`px-3 py-1 rounded-md border text-sm sm:text-base ${
-                  rateMode === "per_month"
-                    ? "bg-cyan-600 text-white border-cyan-500"
-                    : "bg-slate-800 border-slate-700 text-slate-300"
-                }`}
-                onClick={() => setRateMode("per_month")}
-              >
-                Per Month
-              </button>
+          {/* Custom Year + Month Inputs */}
+          {customTenure && (
+            <div className="flex gap-3 flex-wrap mb-2">
+              <div className="flex-1 min-w-[100px]">
+                <label className="block text-xs text-slate-400 mb-1">Years</label>
+                <input
+                  type="number"
+                  min={0}
+                  value={Math.floor(tenureMonths / 12)}
+                  onChange={(e) => {
+                    const years = Number(e.target.value);
+                    const months = tenureMonths % 12;
+                    setTenureMonths(years * 12 + months);
+                  }}
+                  className="w-full px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                />
+              </div>
+
+              <div className="flex-1 min-w-[100px]">
+                <label className="block text-xs text-slate-400 mb-1">Months</label>
+                <input
+                  type="number"
+                  min={0}
+                  max={11}
+                  value={tenureMonths % 12}
+                  onChange={(e) => {
+                    const months = Math.min(11, Number(e.target.value));
+                    const years = Math.floor(tenureMonths / 12);
+                    setTenureMonths(years * 12 + months);
+                  }}
+                  className="w-full px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                />
+              </div>
             </div>
-          </div>
+          )}
+
+          <p className="text-xs text-slate-400">
+            {Math.floor(tenureMonths / 12)} years {tenureMonths % 12} months
+          </p>
+        </div>
+
+        {/* Rate Mode Dropdown */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <label className="text-sm text-slate-300">Rate Type</label>
+          <select
+            value={rateMode}
+            onChange={(e) => setRateMode(e.target.value as "per_annum" | "per_month" | "per_year")}
+            className="px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+          >
+            <option value="per_month">Monthly</option>
+            <option value="per_year">Yearly</option>
+            <option value="per_annum">Per Annum</option>
+          </select>
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 
   // ---------------------- Basic Results --------------------------------------
   const BasicResults = (
