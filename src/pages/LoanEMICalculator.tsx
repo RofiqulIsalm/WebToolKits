@@ -1000,6 +1000,7 @@ const Charts =
                         backgroundColor: "#f5f7f7",
                         border: "none",
                         color: "#e2e8f0",
+                        rounded : 16px,
                       }}
                     />
                     <Legend />
