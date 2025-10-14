@@ -721,7 +721,7 @@ const LoanEMICalculator_Full: React.FC = () => {
           <div className="flex gap-3 mb-4 flex-wrap">
             <label className="flex items-center gap-2 text-slate-300 text-sm">
               
-              <input type="checkbox" className="accent-cyan-500 h-4 w-4 w-4 text-green-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" checked={showCharts} onChange={() => setShowCharts(!showCharts)} />
+              <input type="checkbox" className="h-4 w-4 w-4 text-green-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" checked={showCharts} onChange={() => setShowCharts(!showCharts)} />
               Show Charts
             </label>
             <label className="flex items-center gap-2 text-slate-300 text-sm">
