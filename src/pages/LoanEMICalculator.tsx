@@ -1136,70 +1136,121 @@ const Charts =
 
 
   // ---------------------- Schedule Table -------------------------------------
-  const ScheduleTable = mode === "advanced" && showSchedule && (
+const ScheduleTable =
+  mode === "advanced" &&
+  showSchedule && (
     <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
       <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-lg font-semibold text-cyan-300">Amortization Schedule</h3>
-          <div className="flex gap-2">
-            <button
-              onClick={exportCSV}
-              className="px-3 py-2 rounded-md bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700 flex items-center gap-2"
-            >
-              <Download className="w-4 h-4" /> CSV
-            </button>
-          </div>
+        {/* Header */}
+        <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
+          <h3 className="text-lg font-semibold text-cyan-300 flex items-center gap-2">
+            <tableIcon className="w-5 h-5" /> Amortization Schedule
+          </h3>
+
+          <button
+            onClick={exportCSV}
+            className="px-3 py-2 rounded-md bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700 flex items-center gap-2 text-sm transition-all"
+          >
+            <Download className="w-4 h-4" /> Export CSV
+          </button>
         </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full text-sm">
-            <thead className="bg-slate-800 text-slate-200">
+
+        {/* Scrollable Table */}
+        <div className="overflow-x-auto rounded-lg border border-slate-700">
+          <table className="min-w-full text-sm text-slate-100">
+            <thead className="bg-slate-800 text-slate-200 sticky top-0 z-10">
               <tr>
-                <th className="px-3 py-2 text-left">Month</th>
-                <th className="px-3 py-2 text-right">Opening</th>
-                <th className="px-3 py-2 text-right">Interest</th>
-                <th className="px-3 py-2 text-right">Principal</th>
-                <th className="px-3 py-2 text-right">Regular EMI</th>
-                <th className="px-3 py-2 text-right">Extra</th>
-                <th className="px-3 py-2 text-right">Closing</th>
+                {[
+                  "Month",
+                  "Opening",
+                  "Interest",
+                  "Principal",
+                  "Regular EMI",
+                  "Extra",
+                  "Closing",
+                ].map((h) => (
+                  <th
+                    key={h}
+                    className="px-3 py-2 text-right font-semibold text-xs sm:text-sm whitespace-nowrap"
+                  >
+                    {h}
+                  </th>
+                ))}
               </tr>
             </thead>
-            <tbody>
-              {rows.map((r) => (
-                <tr key={r.month} className="odd:bg-slate-800/40 even:bg-slate-800/20">
-                  <td className="px-3 py-2">{r.month}</td>
-                  <td className="px-3 py-2 text-right">{currencyPrefix}{fmt(r.opening)}</td>
-                  <td className="px-3 py-2 text-right">{currencyPrefix}{fmt(r.interest)}</td>
-                  <td className="px-3 py-2 text-right">{currencyPrefix}{fmt(r.principalPaid)}</td>
-                  <td className="px-3 py-2 text-right">{currencyPrefix}{fmt(r.regularEmi)}</td>
-                  <td className="px-3 py-2 text-right">{currencyPrefix}{fmt(r.extraPayment)}</td>
-                  <td className="px-3 py-2 text-right">{currencyPrefix}{fmt(r.closing)}</td>
+
+            <tbody className="divide-y divide-slate-800">
+              {rows.map((r, idx) => (
+                <tr
+                  key={r.month}
+                  className={`transition-colors ${
+                    idx % 2 === 0
+                      ? "bg-slate-800/40 hover:bg-slate-700/40"
+                      : "bg-slate-800/20 hover:bg-slate-700/30"
+                  }`}
+                >
+                  <td className="px-3 py-2 text-right font-medium text-slate-300">
+                    {r.month}
+                  </td>
+                  <td className="px-3 py-2 text-right">
+                    {currencyPrefix}
+                    {formatNumber(r.opening)}
+                  </td>
+                  <td className="px-3 py-2 text-right text-amber-400">
+                    {currencyPrefix}
+                    {formatNumber(r.interest)}
+                  </td>
+                  <td className="px-3 py-2 text-right text-emerald-400">
+                    {currencyPrefix}
+                    {formatNumber(r.principalPaid)}
+                  </td>
+                  <td className="px-3 py-2 text-right">
+                    {currencyPrefix}
+                    {formatNumber(r.regularEmi)}
+                  </td>
+                  <td className="px-3 py-2 text-right text-cyan-300">
+                    {currencyPrefix}
+                    {formatNumber(r.extraPayment)}
+                  </td>
+                  <td className="px-3 py-2 text-right font-semibold text-slate-200">
+                    {currencyPrefix}
+                    {formatNumber(r.closing)}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-          <div className="p-4 rounded-lg bg-slate-800/60">
+        {/* Totals Summary */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+          <div className="p-4 rounded-lg bg-slate-800/60 border border-slate-700">
             <div className="text-slate-400 text-sm">Effective Months</div>
-            <div className="text-white text-lg font-semibold">{scheduleTotals.effectiveMonths}</div>
-          </div>
-          <div className="p-4 rounded-lg bg-slate-800/60">
-            <div className="text-slate-400 text-sm">Total Interest (w/ prepay)</div>
             <div className="text-white text-lg font-semibold">
-              {currencyPrefix}{fmt(scheduleTotals.totalInterest)}
+              {scheduleTotals.effectiveMonths}
             </div>
           </div>
-          <div className="p-4 rounded-lg bg-slate-800/60">
-            <div className="text-slate-400 text-sm">Total Paid (w/ prepay)</div>
+
+          <div className="p-4 rounded-lg bg-slate-800/60 border border-slate-700">
+            <div className="text-slate-400 text-sm">Total Interest (with prepay)</div>
             <div className="text-white text-lg font-semibold">
-              {currencyPrefix}{fmt(scheduleTotals.totalPaid)}
+              {currencyPrefix}
+              {formatNumber(scheduleTotals.totalInterest)}
+            </div>
+          </div>
+
+          <div className="p-4 rounded-lg bg-slate-800/60 border border-slate-700">
+            <div className="text-slate-400 text-sm">Total Paid (with prepay)</div>
+            <div className="text-white text-lg font-semibold">
+              {currencyPrefix}
+              {formatNumber(scheduleTotals.totalPaid)}
             </div>
           </div>
         </div>
       </div>
     </div>
   );
+
 
   // ---------------------- Comparison -----------------------------------------
   const Comparison = mode === "advanced" && (
