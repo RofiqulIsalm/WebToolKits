@@ -299,7 +299,6 @@ const COLORS = ["#22d3ee", "#818cf8", "#10b981", "#f59e0b", "#a78bfa", "#ef4444"
 
 const LoanEMICalculator: React.FC = () => {
   // ---------------------- Base State ----------------------
-  
   const [currency, setCurrency] = useState<Currency>("$");
   const [mode, setMode] = useState<Mode>("basic");
   const [solveMode, setSolveMode] = useState<SolveMode>("by_tenure");
@@ -419,7 +418,6 @@ const LoanEMICalculator: React.FC = () => {
       loanB: { rateAnnual: 9, tenureMonths: 12 },
     });
   }, []);
-  
 
   const copyShareLink = useCallback(async () => {
     const url =
@@ -491,7 +489,6 @@ const LoanEMICalculator: React.FC = () => {
   }, [compare, principal]);
 
   // ---------------------- UI Helpers ----------------------
-  const [customTenure, setCustomTenure] = useState(false);
   const currencyPrefix = useMemo(() => currency, [currency]);
 
   const Header = (
@@ -592,7 +589,7 @@ const LoanEMICalculator: React.FC = () => {
           <h2 className="text-xl font-semibold text-cyan-300 drop-shadow flex items-center gap-2">
             <Calculator className="w-5 h-5" /> Loan Details
           </h2>
-  
+
           <div className="flex items-center gap-2">
             <select
               value={currency}
@@ -605,7 +602,7 @@ const LoanEMICalculator: React.FC = () => {
               <option>€</option>
               <option>£</option>
             </select>
-  
+
             <button
               onClick={resetInputs}
               className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-800 text-cyan-400 hover:text-white hover:bg-cyan-600 transition-all duration-300 shadow-md hover:shadow-cyan-500/40 transform hover:scale-110"
@@ -616,9 +613,8 @@ const LoanEMICalculator: React.FC = () => {
             </button>
           </div>
         </div>
-  
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {/* Loan Amount */}
           <LabeledNumber
             id="principal"
             label="Loan Amount (Principal)"
@@ -627,8 +623,6 @@ const LoanEMICalculator: React.FC = () => {
             min={0}
             step={100}
           />
-  
-          {/* Interest Rate */}
           <LabeledNumber
             id="rate"
             label={`Interest Rate (${rateMode === "per_annum" ? "% per annum" : "% per month"})`}
@@ -642,77 +636,30 @@ const LoanEMICalculator: React.FC = () => {
                 : "Currently interpreting as per month (x12 for annual internally)."
             }
           />
-  
-          {/* Tenure Quick Buttons */}
-          <div className="flex flex-col">
-            <label className="block text-sm font-medium text-slate-300 mb-2">
-              Loan Tenure (months)
-            </label>
-  
-            <div className="flex flex-wrap gap-2 mb-3">
-              {[1, 3, 12].map((m) => (
-                <button
-                  key={m}
-                  onClick={() => {
-                    setTenureMonths(m);
-                    setCustomTenure(false);
-                  }}
-                  className={`px-3 py-1.5 rounded-md border transition-all duration-200 text-sm sm:text-base ${
-                    tenureMonths === m && !customTenure
-                      ? "bg-cyan-600 text-white border-cyan-500"
-                      : "bg-slate-800 border-slate-700 text-slate-300 hover:border-cyan-500 hover:text-cyan-300"
-                  }`}
-                >
-                  {m}M
-                </button>
-              ))}
-  
-              <button
-                onClick={() => setCustomTenure(true)}
-                className={`px-3 py-1.5 rounded-md border transition-all duration-200 text-sm sm:text-base ${
-                  customTenure
-                    ? "bg-cyan-600 text-white border-cyan-500"
-                    : "bg-slate-800 border-slate-700 text-slate-300 hover:border-cyan-500 hover:text-cyan-300"
-                }`}
-              >
-                Cus
-              </button>
-            </div>
-  
-            {customTenure && (
-              <input
-                type="number"
-                value={tenureMonths}
-                onChange={(e) => setTenureMonths(Math.max(1, Number(e.target.value)))}
-                className="w-full px-4 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent placeholder-slate-500"
-                placeholder="Enter custom months"
-              />
-            )}
-  
-            <p className="text-xs text-slate-400 mt-1">
-              {Math.floor(tenureMonths / 12)} years {tenureMonths % 12} months
-            </p>
-          </div>
-  
-          {/* Rate Mode Toggle */}
+          <LabeledNumber
+            id="tenure"
+            label="Loan Tenure (months)"
+            value={tenureMonths}
+            onChange={(n) => setTenureMonths(Math.max(1, Math.floor(n)))}
+            min={1}
+            step={1}
+            suffix={`${Math.floor(tenureMonths / 12)} years ${tenureMonths % 12} months`}
+          />
+
           <div className="flex items-center gap-3">
             <label className="text-sm text-slate-300">Rate Mode</label>
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex gap-2">
               <button
-                className={`px-3 py-1 rounded-md border text-sm sm:text-base ${
-                  rateMode === "per_annum"
-                    ? "bg-cyan-600 text-white border-cyan-500"
-                    : "bg-slate-800 border-slate-700 text-slate-300"
+                className={`px-3 py-1 rounded-md border ${
+                  rateMode === "per_annum" ? "bg-cyan-600 text-white border-cyan-500" : "bg-slate-800 border-slate-700 text-slate-300"
                 }`}
                 onClick={() => setRateMode("per_annum")}
               >
                 Per Annum
               </button>
               <button
-                className={`px-3 py-1 rounded-md border text-sm sm:text-base ${
-                  rateMode === "per_month"
-                    ? "bg-cyan-600 text-white border-cyan-500"
-                    : "bg-slate-800 border-slate-700 text-slate-300"
+                className={`px-3 py-1 rounded-md border ${
+                  rateMode === "per_month" ? "bg-cyan-600 text-white border-cyan-500" : "bg-slate-800 border-slate-700 text-slate-300"
                 }`}
                 onClick={() => setRateMode("per_month")}
               >
@@ -725,6 +672,56 @@ const LoanEMICalculator: React.FC = () => {
     </div>
   );
 
+  const BasicResults = (
+    <div ref={resultRef} className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
+      <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm">
+        <h2 className="text-xl font-semibold text-cyan-300 mb-4 drop-shadow flex items-center gap-2">
+          <BarChart3 className="w-5 h-5" /> EMI Breakdown
+        </h2>
+
+        <div className="space-y-6">
+          <div className="text-center p-4 rounded-lg bg-gradient-to-r from-indigo-600 to-cyan-600 shadow-lg">
+            <PiggyBank className="h-8 w-8 text-white mx-auto mb-2" />
+            <div className="text-2xl font-bold text-white">
+              {currencyPrefix}
+              {emi.toFixed(2)}
+            </div>
+            <div className="text-sm text-slate-200">Monthly EMI</div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="p-4 rounded-lg text-center bg-gradient-to-r from-green-600 to-emerald-600 shadow-md">
+              <div className="text-lg font-semibold text-white">
+                {currencyPrefix}
+                {fmt(principal)}
+              </div>
+              <div className="text-sm text-slate-100">Principal Amount</div>
+            </div>
+
+            <div className="p-4 rounded-lg text-center bg-gradient-to-r from-amber-600 to-orange-600 shadow-md">
+              <div className="text-lg font-semibold text-white">
+                {currencyPrefix}
+                {fmt(totalInterest)}
+              </div>
+              <div className="text-sm text-slate-100">Total Interest</div>
+            </div>
+          </div>
+
+          <div className="p-4 rounded-lg text-center bg-gradient-to-r from-indigo-600 to-cyan-600 shadow-lg">
+            <div className="text-xl font-semibold text-white">
+              {currencyPrefix}
+              {fmt(totalAmount)}
+            </div>
+            <div className="text-sm text-slate-200">Total Amount Payable</div>
+          </div>
+
+          <p className="text-sm text-slate-400 mt-2 text-center">
+            <strong>Note:</strong> Your estimated monthly EMI based on current rate and tenure.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 
   // Advanced Controls
   const AdvancedControls = mode === "advanced" && (
@@ -1244,7 +1241,7 @@ const LoanEMICalculator: React.FC = () => {
         </div>
 
         <AdBanner type="bottom" />
- 
+
         <RelatedCalculators currentPath="/loan-emi-calculator" category="currency-finance" />
       </div>
     </>
