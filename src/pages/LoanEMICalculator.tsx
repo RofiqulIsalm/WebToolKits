@@ -563,6 +563,7 @@ const LoanEMICalculator: React.FC = () => {
             value={rateAnnual}
             onChange={(e) => setRateAnnual(Math.max(0, Number(e.target.value)))}
             min={0}
+            max={100}
             step={0.1}
             className="w-full px-4 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent placeholder-slate-500"
             placeholder="Enter monthly interest rate"
