@@ -58,6 +58,15 @@ interface PrepaymentSettings {
   enableExtraMonthly: boolean;
 }
 
+interface RangeProps {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  step?: number;
+  onChange: (value: number) => void;
+}
+
 interface ScheduleRow {
   month: number;
   opening: number;
