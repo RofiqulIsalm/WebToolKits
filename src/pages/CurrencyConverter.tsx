@@ -280,7 +280,10 @@ const CurrencyConverter: React.FC = () => {
                 <input
                   type="number"
                   value={amount}
-                  onChange={(e) => setAmount(Number(e.target.value))}
+                  onChange={(e) => {
+                    const value = Number(e.target.value);
+                    if (value >= 0) setAmount(value);
+                  }}
                   className="w-full px-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter amount"
                 />
