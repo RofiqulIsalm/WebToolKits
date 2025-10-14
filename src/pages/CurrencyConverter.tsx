@@ -242,16 +242,13 @@ const CurrencyConverter: React.FC = () => {
       }
     };
 
+  
+  
+
   const swapCurrencies = React.useCallback(() => {
     setFromCurrency(toCurrency);
     setToCurrency(fromCurrency);
   }, [fromCurrency, toCurrency]);
-  
-
-  const swapCurrencies = () => {
-    setFromCurrency(toCurrency);
-    setToCurrency(fromCurrency);
-  };
 
 
   return (
