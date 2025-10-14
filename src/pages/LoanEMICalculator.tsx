@@ -489,7 +489,7 @@ const LoanEMICalculator: React.FC = () => {
   }
 
   // ---------------------- Basic Inputs (with Tenure Quick Buttons) -----------
- const BasicInputs = (
+    const BasicInputs = (
   <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
     <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm">
       <div className="flex flex-wrap gap-3 justify-between items-center mb-4">
@@ -521,7 +521,8 @@ const LoanEMICalculator: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      {/* --- Loan Inputs --- */}
+      <div className="space-y-5">
         {/* Loan Amount */}
         <LabeledNumber
           id="principal"
@@ -532,113 +533,72 @@ const LoanEMICalculator: React.FC = () => {
           step={100}
         />
 
-        {/* Interest Rate */}
+        {/* Interest Rate - Monthly only */}
         <LabeledNumber
           id="rate"
-          label={`Interest Rate (${rateMode === "per_annum" ? "% per annum" : rateMode === "per_month" ? "% per month" : "% per year"})`}
+          label="Interest Rate (% per month)"
           value={rateAnnual}
           onChange={setRateAnnual}
           min={0}
-          step={0.05}
+          step={0.1}
         />
 
-        {/* Tenure Section */}
+        {/* Time Period */}
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
-            Loan Tenure
+            Time Period
           </label>
 
-          {/* Quick Select Buttons */}
-          <div className="flex flex-wrap gap-2 mb-3">
-            {[1, 3, 12].map((m) => (
-              <button
-                key={m}
-                type="button"
-                onClick={() => {
-                  setTenureMonths(m);
-                  setCustomTenure(false);
+          <div className="flex gap-3 flex-wrap">
+            <div className="flex-1 min-w-[100px]">
+              <label className="block text-xs text-slate-400 mb-1">Years</label>
+              <input
+                type="number"
+                min={0}
+                value={Math.floor(tenureMonths / 12)}
+                onChange={(e) => {
+                  const years = Number(e.target.value);
+                  const months = tenureMonths % 12;
+                  setTenureMonths(years * 12 + months);
                 }}
-                className={`px-3 py-1.5 rounded-md border transition-all duration-200 text-sm sm:text-base ${
-                  tenureMonths === m && !customTenure
-                    ? "bg-cyan-600 text-white border-cyan-500"
-                    : "bg-slate-800 border-slate-700 text-slate-300 hover:border-cyan-500 hover:text-cyan-300"
-                }`}
-              >
-                {m}M
-              </button>
-            ))}
+                className="w-full px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+              />
+            </div>
 
-            <button
-              type="button"
-              onClick={() => setCustomTenure(true)}
-              className={`px-3 py-1.5 rounded-md border transition-all duration-200 text-sm sm:text-base ${
-                customTenure
-                  ? "bg-cyan-600 text-white border-cyan-500"
-                  : "bg-slate-800 border-slate-700 text-slate-300 hover:border-cyan-500 hover:text-cyan-300"
-              }`}
-            >
-              Cus
-            </button>
+            <div className="flex-1 min-w-[100px]">
+              <label className="block text-xs text-slate-400 mb-1">Months</label>
+              <input
+                type="number"
+                min={0}
+                max={11}
+                value={tenureMonths % 12}
+                onChange={(e) => {
+                  const months = Math.min(11, Number(e.target.value));
+                  const years = Math.floor(tenureMonths / 12);
+                  setTenureMonths(years * 12 + months);
+                }}
+                className="w-full px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+              />
+            </div>
           </div>
 
-          {/* Custom Year + Month Inputs */}
-          {customTenure && (
-            <div className="flex gap-3 flex-wrap mb-2">
-              <div className="flex-1 min-w-[100px]">
-                <label className="block text-xs text-slate-400 mb-1">Years</label>
-                <input
-                  type="number"
-                  min={0}
-                  value={Math.floor(tenureMonths / 12)}
-                  onChange={(e) => {
-                    const years = Number(e.target.value);
-                    const months = tenureMonths % 12;
-                    setTenureMonths(years * 12 + months);
-                  }}
-                  className="w-full px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-                />
-              </div>
-
-              <div className="flex-1 min-w-[100px]">
-                <label className="block text-xs text-slate-400 mb-1">Months</label>
-                <input
-                  type="number"
-                  min={0}
-                  max={11}
-                  value={tenureMonths % 12}
-                  onChange={(e) => {
-                    const months = Math.min(11, Number(e.target.value));
-                    const years = Math.floor(tenureMonths / 12);
-                    setTenureMonths(years * 12 + months);
-                  }}
-                  className="w-full px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-                />
-              </div>
-            </div>
-          )}
-
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-400 mt-1">
             {Math.floor(tenureMonths / 12)} years {tenureMonths % 12} months
           </p>
         </div>
 
-        {/* Rate Mode Dropdown */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-          <label className="text-sm text-slate-300">Rate Type</label>
-          <select
-            value={rateMode}
-            onChange={(e) => setRateMode(e.target.value as "per_annum" | "per_month" | "per_year")}
-            className="px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-          >
-            <option value="per_month">Monthly</option>
-            <option value="per_year">Yearly</option>
-            <option value="per_annum">Per Annum</option>
-          </select>
+        {/* Rate Type Fixed */}
+        <div className="flex items-center gap-3">
+          <label className="text-sm text-slate-300">Rate Type:</label>
+          <span className="text-cyan-400 font-semibold text-sm bg-slate-800 px-3 py-1.5 rounded-md border border-slate-700">
+            Monthly
+          </span>
         </div>
       </div>
     </div>
   </div>
 );
+
 
   // ---------------------- Basic Results --------------------------------------
   const BasicResults = (
