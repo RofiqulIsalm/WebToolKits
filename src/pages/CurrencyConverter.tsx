@@ -188,6 +188,11 @@ const CurrencyConverter: React.FC = () => {
   }, []);
 
   useEffect(() => {
+  document.getElementById("amountInput")?.focus();
+}, []);
+
+  
+  useEffect(() => {
     if (exchangeRates[fromCurrency] && exchangeRates[toCurrency]) {
       const rate = exchangeRates[toCurrency] / exchangeRates[fromCurrency];
       setResult(amount * rate);
