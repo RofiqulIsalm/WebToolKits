@@ -1053,7 +1053,7 @@ const Charts =
 
           {/* Yearly Bars (Unchanged, still fast) */}
           {showYearlyBars && (
-            <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
+            <div className="bg-slate-800/50 rounded-lg p-2 border border-slate-700">
               <h4 className="text-slate-200 mb-1 font-semibold">
                 Yearly Interest vs Principal
               </h4>
