@@ -142,7 +142,7 @@ const LoanEMICalculator: React.FC = () => {
             <div className="text-center p-4 result-purple rounded-lg">
               <PiggyBank className="h-8 w-8 text-white mx-auto mb-2 drop-shadow-lg" />
               <div className="text-2xl font-bold text-white drop-shadow-lg">
-                ₹{emi.toFixed(2)}
+                ${emi.toFixed(2)}
               </div>
               <div className="text-sm text-slate-300">Monthly EMI</div>
             </div>
@@ -150,14 +150,14 @@ const LoanEMICalculator: React.FC = () => {
             <div className="grid grid-cols-2 gap-4">
               <div className="p-4 result-green rounded-lg text-center">
                 <div className="text-lg font-semibold text-white">
-                  ₹{principal.toLocaleString()}
+                  ${principal.toLocaleString()}
                 </div>
                 <div className="text-sm text-slate-300">Principal Amount</div>
               </div>
               
               <div className="p-4 result-amber rounded-lg text-center">
                 <div className="text-lg font-semibold text-white">
-                  ₹{totalInterest.toFixed(0)}
+                  ${totalInterest.toFixed(0)}
                 </div>
                 <div className="text-sm text-slate-300">Total Interest</div>
               </div>
@@ -165,7 +165,7 @@ const LoanEMICalculator: React.FC = () => {
 
             <div className="p-4 result-purple rounded-lg text-center">
               <div className="text-xl font-semibold text-white">
-                ₹{totalAmount.toFixed(0)}
+                ${totalAmount.toFixed(0)}
               </div>
               <div className="text-sm text-slate-300">Total Amount Payable</div>
             </div>
