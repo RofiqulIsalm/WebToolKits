@@ -3,16 +3,12 @@ import {
   PiggyBank,
   RotateCcw,
   SlidersHorizontal,
-  ChevronDown,
-  ChevronRight,
   Share2,
-  Copy,
   Printer,
   Download,
   ArrowLeftRight,
   BarChart3,
   Calculator,
-  LineChart,
   PieChart as PieChartIcon,
 } from "lucide-react";
 import AdBanner from "../components/AdBanner";
@@ -39,29 +35,10 @@ import {
 } from "recharts";
 
 /**
- * LoanEMICalculator (Advanced)
- * -----------------------------------------------------------------------------
- * This component implements a full-featured Loan EMI calculator that supports:
- * - Basic mode (minimal inputs & outputs)
- * - Advanced mode toggle exposing:
- *    • Sliders for principal, rate, tenure
- *    • Amortization schedule (with CSV export)
- *    • Prepayment modeling: one-time & recurring extra payments
- *    • Tenure-vs-EMI toggle: compute tenure for target EMI
- *    • Monthly vs Yearly interest view switch
- *    • Comparison: Loan A vs Loan B
- *    • Visualizations: Pie (Principal vs Interest), Line (Balance over time),
- *      Bar (Yearly interest vs principal)
- *    • Shareable link (copy URL with query params)
- *    • Print-friendly section
- * - Mobile-friendly responsive layout using TailwindCSS
- * - Clean, modern dark-glow palette consistent with site style
- *
- * Notes:
- *  - This file is intentionally verbose (>1000 lines incl. comments) for clarity
- *    and future maintainability as requested.
- *  - Library assumptions: lucide-react, recharts, tailwind are available.
- *  - No external network calls, everything is computed client-side.
+ * LoanEMICalculator (Basic + Advanced)
+ * - Basic Mode: clean inputs, EMI summary, tenure quick buttons (1M, 3M, 12M, Cus)
+ * - Advanced Mode: sliders, prepayment, amortization schedule (CSV), charts,
+ *   compare loans, share link, print
  */
 
 // ----------------------------- Types & Utils ---------------------------------
@@ -89,12 +66,6 @@ interface ScheduleRow {
   regularEmi: number;
   extraPayment: number;
   closing: number;
-}
-
-interface LoanInputs {
-  principal: number;
-  rateAnnual: number;      // as %
-  tenureMonths: number;
 }
 
 interface ComparisonInputs {
@@ -150,32 +121,25 @@ function calcEMI(principal: number, monthlyRate: number, months: number): number
 
 /**
  * Solve tenure (months) for given P, r (monthly), target EMI, using bisection.
- * We search N in [1, 1200] months. If targetEMI is too small to ever amortize,
- * we cap at 1200.
+ * Search N in [1, 1200].
  */
 function solveTenureForEMI(principal: number, monthlyRate: number, targetEMI: number): number {
   const MIN = 1;
   const MAX = 1200;
-  if (targetEMI <= monthlyRate * principal) {
-    return MAX; // won't amortize realistically
-  }
+  if (targetEMI <= monthlyRate * principal) return MAX;
   let lo = MIN;
   let hi = MAX;
   for (let i = 0; i < 60; i++) {
     const mid = Math.floor((lo + hi) / 2);
     const emiMid = calcEMI(principal, monthlyRate, mid);
-    if (emiMid > targetEMI) {
-      lo = mid + 1;
-    } else {
-      hi = mid;
-    }
+    if (emiMid > targetEMI) lo = mid + 1;
+    else hi = mid;
   }
   return hi;
 }
 
 /**
- * Build amortization schedule with optional prepayments (one-time and recurring extra).
- * Returns schedule rows and aggregate totals.
+ * Build amortization schedule with prepayments.
  */
 function buildSchedule(
   principal: number,
@@ -191,28 +155,21 @@ function buildSchedule(
   let sumInterest = 0;
   let sumPaid = 0;
 
-  // We simulate month-by-month, allowing prepayments.
-  while (balance > 0 && month < 2000) {
+  while (balance > 0 && month < 5000) {
     month += 1;
     const opening = balance;
     const interest = opening * rMonthly;
-    // Standard principal component from regular EMI
     let principalComponent = baseEMI - interest;
     if (principalComponent < 0) principalComponent = 0;
 
-    // Extra payments this month
     let extra = 0;
-    if (prepay.enableExtraMonthly && prepay.extraMonthly > 0) {
-      extra += prepay.extraMonthly;
-    }
+    if (prepay.enableExtraMonthly && prepay.extraMonthly > 0) extra += prepay.extraMonthly;
     if (prepay.enableOneTime && prepay.oneTimeAmount > 0 && prepay.oneTimeMonth === month) {
       extra += prepay.oneTimeAmount;
     }
 
-    // Avoid overpaying beyond balance + interest (last month)
     let totalPaymentThisMonth = principalComponent + interest + extra;
     if (totalPaymentThisMonth > opening + interest) {
-      // Limit extra to just close remaining
       extra = opening - principalComponent;
       if (extra < 0) extra = 0;
       totalPaymentThisMonth = principalComponent + interest + extra;
@@ -233,10 +190,7 @@ function buildSchedule(
     sumInterest += interest;
     sumPaid += principalComponent + interest + extra;
     balance = closing <= 1e-6 ? 0 : closing;
-
-    // Stop if we've reached original tenure and there's no balance (or tiny residual)
     if (balance <= 0) break;
-    if (month > 5000) break; // safety
   }
 
   return {
@@ -247,14 +201,11 @@ function buildSchedule(
   };
 }
 
-/** Aggregate yearly interest/principal from schedule rows (for bar chart) */
 function groupByYear(rows: ScheduleRow[]) {
   const yearMap: Record<string, { year: number; interest: number; principal: number }> = {};
   rows.forEach((r) => {
     const year = Math.ceil(r.month / 12);
-    if (!yearMap[year]) {
-      yearMap[year] = { year, interest: 0, principal: 0 };
-    }
+    if (!yearMap[year]) yearMap[year] = { year, interest: 0, principal: 0 };
     yearMap[year].interest += r.interest;
     yearMap[year].principal += r.principalPaid + r.extraPayment;
   });
@@ -265,7 +216,6 @@ function groupByYear(rows: ScheduleRow[]) {
   }));
 }
 
-/** Build CSV string from schedule */
 function scheduleToCSV(rows: ScheduleRow[]): string {
   const headers = [
     "Month",
@@ -298,24 +248,23 @@ function scheduleToCSV(rows: ScheduleRow[]): string {
 const COLORS = ["#22d3ee", "#818cf8", "#10b981", "#f59e0b", "#a78bfa", "#ef4444"];
 
 const LoanEMICalculator: React.FC = () => {
-  // ---------------------- Base State ----------------------
+  // Base State
   const [currency, setCurrency] = useState<Currency>("$");
   const [mode, setMode] = useState<Mode>("basic");
   const [solveMode, setSolveMode] = useState<SolveMode>("by_tenure");
   const [rateMode, setRateMode] = useState<RateMode>("per_annum");
 
-  // Primary inputs
   const [principal, setPrincipal] = useState<number>(100000);
   const [rateAnnual, setRateAnnual] = useState<number>(10);
   const [tenureMonths, setTenureMonths] = useState<number>(12);
-  const [targetEMI, setTargetEMI] = useState<number>(0); // used when solveMode='by_emi'
+  const [targetEMI, setTargetEMI] = useState<number>(0);
+  const [customTenure, setCustomTenure] = useState<boolean>(false);
 
-  // Outputs
   const [emi, setEmi] = useState<number>(0);
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const [totalInterest, setTotalInterest] = useState<number>(0);
 
-  // Advanced: Prepayment & Extra
+  // Prepayment
   const [prepay, setPrepay] = useState<PrepaymentSettings>({
     oneTimeAmount: 0,
     oneTimeMonth: 12,
@@ -324,27 +273,21 @@ const LoanEMICalculator: React.FC = () => {
     enableExtraMonthly: false,
   });
 
-  // Advanced: Comparison Loan B
+  // Comparison
   const [compare, setCompare] = useState<ComparisonInputs>({
     enabled: false,
-    loanB: {
-      rateAnnual: 9,
-      tenureMonths: 12,
-    },
+    loanB: { rateAnnual: 9, tenureMonths: 12 },
   });
 
-  // Advanced: Schedule & Toggles
   const [showSchedule, setShowSchedule] = useState<boolean>(true);
   const [showCharts, setShowCharts] = useState<boolean>(true);
   const [showYearlyBars, setShowYearlyBars] = useState<boolean>(false);
 
-  // Refs
   const resultRef = useRef<HTMLDivElement>(null);
 
-  // ---------------------- Init from Query -----------------
+  // Init from query
   useEffect(() => {
     const q = fromQuery(window.location.search);
-    // Graceful parsing
     if (q.currency && ["$", "₹", "€", "£"].includes(q.currency)) setCurrency(q.currency as Currency);
     if (q.mode && (q.mode === "basic" || q.mode === "advanced")) setMode(q.mode);
     if (q.solve === "by_emi" || q.solve === "by_tenure") setSolveMode(q.solve);
@@ -353,32 +296,29 @@ const LoanEMICalculator: React.FC = () => {
     if (q.r) setRateAnnual(Math.max(0, Number(q.r)));
     if (q.n) setTenureMonths(Math.max(1, Math.floor(Number(q.n))));
     if (q.temi) setTargetEMI(Math.max(0, Number(q.temi)));
-    // Prepay
     if (q.eom) setPrepay((s) => ({ ...s, enableOneTime: q.eom === "1" }));
     if (q.eem) setPrepay((s) => ({ ...s, enableExtraMonthly: q.eem === "1" }));
     if (q.ota) setPrepay((s) => ({ ...s, oneTimeAmount: Math.max(0, Number(q.ota)) }));
     if (q.otm) setPrepay((s) => ({ ...s, oneTimeMonth: Math.max(1, Math.floor(Number(q.otm))) }));
     if (q.xm) setPrepay((s) => ({ ...s, extraMonthly: Math.max(0, Number(q.xm)) }));
-    // Compare
     if (q.cmp === "1") setCompare((c) => ({ ...c, enabled: true }));
     if (q.cr) setCompare((c) => ({ ...c, loanB: { ...c.loanB, rateAnnual: Math.max(0, Number(q.cr)) } }));
     if (q.cn) setCompare((c) => ({ ...c, loanB: { ...c.loanB, tenureMonths: Math.max(1, Math.floor(Number(q.cn))) } }));
   }, []);
 
-  // ---------------------- Derived Rates -------------------
+  // Derived
   const rateMonthly = useMemo(() => {
     const annual = rateMode === "per_annum" ? rateAnnual : rateAnnual * 12;
     return annual / 100 / 12;
   }, [rateMode, rateAnnual]);
 
-  // ---------------------- Main Calculation ----------------
+  // Calculate
   useEffect(() => {
     let months = tenureMonths;
     let emiValue = 0;
     if (solveMode === "by_tenure") {
       emiValue = calcEMI(principal, rateMonthly, months);
     } else {
-      // Solve for tenure
       const emiTarget = targetEMI > 0 ? targetEMI : calcEMI(principal, rateMonthly, tenureMonths);
       months = solveTenureForEMI(principal, rateMonthly, emiTarget);
       emiValue = calcEMI(principal, rateMonthly, months);
@@ -390,7 +330,6 @@ const LoanEMICalculator: React.FC = () => {
     setTotalInterest(interest);
   }, [principal, rateMonthly, tenureMonths, solveMode, targetEMI]);
 
-  // Schedule (considering prepayments) for charts and table
   const { rows, scheduleTotals } = useMemo(() => {
     const base = buildSchedule(principal, rateMonthly * 12 * 100, tenureMonths, emi, prepay);
     return { rows: base.rows, scheduleTotals: base };
@@ -398,7 +337,7 @@ const LoanEMICalculator: React.FC = () => {
 
   const yearlyAgg = useMemo(() => groupByYear(rows), [rows]);
 
-  // ---------------------- Handlers ------------------------
+  // Handlers
   const resetInputs = useCallback(() => {
     setPrincipal(100000);
     setRateAnnual(10);
@@ -406,6 +345,7 @@ const LoanEMICalculator: React.FC = () => {
     setTargetEMI(0);
     setRateMode("per_annum");
     setSolveMode("by_tenure");
+    setCustomTenure(false);
     setPrepay({
       oneTimeAmount: 0,
       oneTimeMonth: 12,
@@ -444,18 +384,7 @@ const LoanEMICalculator: React.FC = () => {
       });
     await copyText(url);
     alert("Sharable link copied to clipboard!");
-  }, [
-    currency,
-    mode,
-    solveMode,
-    rateMode,
-    principal,
-    rateAnnual,
-    tenureMonths,
-    targetEMI,
-    prepay,
-    compare,
-  ]);
+  }, [currency, mode, solveMode, rateMode, principal, rateAnnual, tenureMonths, targetEMI, prepay, compare]);
 
   const exportCSV = useCallback(() => {
     const csv = scheduleToCSV(rows);
@@ -468,42 +397,20 @@ const LoanEMICalculator: React.FC = () => {
     window.URL.revokeObjectURL(url);
   }, [rows]);
 
-  const printResults = useCallback(() => {
-    window.print();
-  }, []);
+  const printResults = useCallback(() => window.print(), []);
 
-  // ---------------------- Comparison Loan B ---------------
   const loanB = useMemo(() => {
     if (!compare.enabled) return null;
     const rM = compare.loanB.rateAnnual / 100 / 12;
     const emiB = calcEMI(principal, rM, compare.loanB.tenureMonths);
     const totalB = emiB * compare.loanB.tenureMonths;
     const intB = totalB - principal;
-    return {
-      emi: emiB,
-      total: totalB,
-      interest: intB,
-      r: compare.loanB.rateAnnual,
-      n: compare.loanB.tenureMonths,
-    };
+    return { emi: emiB, total: totalB, interest: intB, r: compare.loanB.rateAnnual, n: compare.loanB.tenureMonths };
   }, [compare, principal]);
 
-  // ---------------------- UI Helpers ----------------------
   const currencyPrefix = useMemo(() => currency, [currency]);
 
-  const Header = (
-    <div className="mb-8">
-      <h1 className="text-3xl font-bold text-white mb-2 drop-shadow">Loan EMI Calculator</h1>
-      <p className="text-slate-300">
-        Calculate your monthly EMI, interest, and total payment. Switch to{" "}
-        <span className="text-cyan-300 font-semibold">Advanced Mode</span> for prepayments,
-        charts, schedule, and comparisons.
-      </p>
-    </div>
-  );
-
-  // ---------------------- Components: Subsections ---------
-
+  // ---------------------- Reusable Input ------------------
   function LabeledNumber({
     label,
     value,
@@ -581,7 +488,7 @@ const LoanEMICalculator: React.FC = () => {
     );
   }
 
-  // Basic Card
+  // ---------------------- Basic Inputs (with Tenure Quick Buttons) -----------
   const BasicInputs = (
     <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
       <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm">
@@ -615,6 +522,7 @@ const LoanEMICalculator: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {/* Loan Amount */}
           <LabeledNumber
             id="principal"
             label="Loan Amount (Principal)"
@@ -623,6 +531,8 @@ const LoanEMICalculator: React.FC = () => {
             min={0}
             step={100}
           />
+
+          {/* Interest Rate */}
           <LabeledNumber
             id="rate"
             label={`Interest Rate (${rateMode === "per_annum" ? "% per annum" : "% per month"})`}
@@ -636,30 +546,81 @@ const LoanEMICalculator: React.FC = () => {
                 : "Currently interpreting as per month (x12 for annual internally)."
             }
           />
-          <LabeledNumber
-            id="tenure"
-            label="Loan Tenure (months)"
-            value={tenureMonths}
-            onChange={(n) => setTenureMonths(Math.max(1, Math.floor(n)))}
-            min={1}
-            step={1}
-            suffix={`${Math.floor(tenureMonths / 12)} years ${tenureMonths % 12} months`}
-          />
 
-          <div className="flex items-center gap-3">
-            <label className="text-sm text-slate-300">Rate Mode</label>
-            <div className="flex gap-2">
+          {/* Tenure Quick Buttons + Custom */}
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-2">
+              Loan Tenure (months)
+            </label>
+
+            <div className="flex flex-wrap gap-2 mb-3">
+              {[1, 3, 12].map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => {
+                    setTenureMonths(m);
+                    setCustomTenure(false);
+                  }}
+                  className={`px-3 py-1.5 rounded-md border transition-all duration-200 text-sm sm:text-base ${
+                    tenureMonths === m && !customTenure
+                      ? "bg-cyan-600 text-white border-cyan-500"
+                      : "bg-slate-800 border-slate-700 text-slate-300 hover:border-cyan-500 hover:text-cyan-300"
+                  }`}
+                >
+                  {m}M
+                </button>
+              ))}
+
               <button
-                className={`px-3 py-1 rounded-md border ${
-                  rateMode === "per_annum" ? "bg-cyan-600 text-white border-cyan-500" : "bg-slate-800 border-slate-700 text-slate-300"
+                type="button"
+                onClick={() => setCustomTenure(true)}
+                className={`px-3 py-1.5 rounded-md border transition-all duration-200 text-sm sm:text-base ${
+                  customTenure
+                    ? "bg-cyan-600 text-white border-cyan-500"
+                    : "bg-slate-800 border-slate-700 text-slate-300 hover:border-cyan-500 hover:text-cyan-300"
+                }`}
+              >
+                Cus
+              </button>
+            </div>
+
+            {customTenure && (
+              <input
+                type="number"
+                value={tenureMonths}
+                onChange={(e) => setTenureMonths(Math.max(1, Number(e.target.value)))}
+                className="w-full px-4 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent placeholder-slate-500"
+                placeholder="Enter custom months"
+              />
+            )}
+
+            <p className="text-xs text-slate-400 mt-1">
+              {Math.floor(tenureMonths / 12)} years {tenureMonths % 12} months
+            </p>
+          </div>
+
+          {/* Rate Mode Toggle */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+            <label className="text-sm text-slate-300">Rate Mode</label>
+            <div className="flex gap-2 flex-wrap">
+              <button
+                type="button"
+                className={`px-3 py-1 rounded-md border text-sm sm:text-base ${
+                  rateMode === "per_annum"
+                    ? "bg-cyan-600 text-white border-cyan-500"
+                    : "bg-slate-800 border-slate-700 text-slate-300"
                 }`}
                 onClick={() => setRateMode("per_annum")}
               >
                 Per Annum
               </button>
               <button
-                className={`px-3 py-1 rounded-md border ${
-                  rateMode === "per_month" ? "bg-cyan-600 text-white border-cyan-500" : "bg-slate-800 border-slate-700 text-slate-300"
+                type="button"
+                className={`px-3 py-1 rounded-md border text-sm sm:text-base ${
+                  rateMode === "per_month"
+                    ? "bg-cyan-600 text-white border-cyan-500"
+                    : "bg-slate-800 border-slate-700 text-slate-300"
                 }`}
                 onClick={() => setRateMode("per_month")}
               >
@@ -672,6 +633,7 @@ const LoanEMICalculator: React.FC = () => {
     </div>
   );
 
+  // ---------------------- Basic Results --------------------------------------
   const BasicResults = (
     <div ref={resultRef} className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
       <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm">
@@ -723,7 +685,7 @@ const LoanEMICalculator: React.FC = () => {
     </div>
   );
 
-  // Advanced Controls
+  // ---------------------- Advanced Controls ----------------------------------
   const AdvancedControls = mode === "advanced" && (
     <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
       <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm space-y-6">
@@ -782,7 +744,7 @@ const LoanEMICalculator: React.FC = () => {
                 onChange={setTargetEMI}
                 min={0}
                 step={10}
-                suffix={`Resulting tenure is computed to amortize the loan at ~${Math.ceil(targetEMI ? (totalAmount / targetEMI) : tenureMonths)} months.`}
+                suffix={`Resulting tenure is computed automatically.`}
               />
             )}
 
@@ -879,7 +841,7 @@ const LoanEMICalculator: React.FC = () => {
     </div>
   );
 
-  // Charts Section
+  // ---------------------- Charts ---------------------------------------------
   const Charts = mode === "advanced" && showCharts && (
     <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
       <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm space-y-6">
@@ -898,7 +860,7 @@ const LoanEMICalculator: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Pie: Principal vs Interest */}
+          {/* Pie */}
           <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
             <h4 className="text-slate-200 mb-2 font-semibold">Principal vs Interest</h4>
             <div className="h-56">
@@ -914,8 +876,8 @@ const LoanEMICalculator: React.FC = () => {
                     outerRadius="80%"
                     label
                   >
-                    <Cell fill={COLORS[2]} />
-                    <Cell fill={COLORS[5]} />
+                    <Cell fill="#10b981" />
+                    <Cell fill="#f59e0b" />
                   </Pie>
                   <RechartsTooltip />
                 </PieChart>
@@ -923,7 +885,7 @@ const LoanEMICalculator: React.FC = () => {
             </div>
           </div>
 
-          {/* Line: Balance over time */}
+          {/* Line */}
           <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 lg:col-span-2">
             <h4 className="text-slate-200 mb-2 font-semibold">Balance Over Time</h4>
             <div className="h-56">
@@ -964,7 +926,7 @@ const LoanEMICalculator: React.FC = () => {
     </div>
   );
 
-  // Schedule Table
+  // ---------------------- Schedule Table -------------------------------------
   const ScheduleTable = mode === "advanced" && showSchedule && (
     <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
       <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm">
@@ -1030,7 +992,7 @@ const LoanEMICalculator: React.FC = () => {
     </div>
   );
 
-  // Comparison Section
+  // ---------------------- Comparison -----------------------------------------
   const Comparison = mode === "advanced" && (
     <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
       <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm">
@@ -1106,8 +1068,19 @@ const LoanEMICalculator: React.FC = () => {
     </div>
   );
 
-  // ---------------------- Page Render ---------------------
+  // ---------------------- Header ---------------------------------------------
+  const Header = (
+    <div className="mb-8">
+      <h1 className="text-3xl font-bold text-white mb-2 drop-shadow">Loan EMI Calculator</h1>
+      <p className="text-slate-300">
+        Calculate your monthly EMI, interest, and total payment. Switch to{" "}
+        <span className="text-cyan-300 font-semibold">Advanced Mode</span> for prepayments,
+        charts, schedule, and comparisons.
+      </p>
+    </div>
+  );
 
+  // ---------------------- Render ---------------------------------------------
   return (
     <>
       <SEOHead
@@ -1161,10 +1134,7 @@ const LoanEMICalculator: React.FC = () => {
 
         {/* Basic Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Basic Inputs */}
           {BasicInputs}
-
-          {/* Basic Results */}
           {BasicResults}
         </div>
 
