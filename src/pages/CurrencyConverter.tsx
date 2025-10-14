@@ -195,6 +195,23 @@ const CurrencyConverter: React.FC = () => {
   }, [amount, fromCurrency, toCurrency, exchangeRates]);
 
   const [error, setError] = useState<string | null>(null);
+
+  const fetchExchangeRates = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+        setExchangeRates({ USD: 1, ...data.rates });
+      } catch (error) {
+        setError('⚠️ Failed to fetch live exchange rates. Using fallback values.');
+        console.error('Fetch error:', error);
+        setExchangeRates(fallbackRates); // Keep your fallback rates
+      } finally {
+        setLoading(false);
+      }
+    };
   const fetchExchangeRates = async () => {
     setLoading(true);
     try {
