@@ -245,21 +245,18 @@ const CurrencyConverter: React.FC = () => {
 
   return (
     <>
-      <SEOHead
-        title={seoData.currencyConverter.title}
-        description={seoData.currencyConverter.description}
-        canonical="https://calculatorhub.site/currency-converter"
-        schemaData={generateCalculatorSchema(
-          "Currency Converter",
-          seoData.currencyConverter.description,
-          "/currency-converter",
-          seoData.currencyConverter.keywords
-        )}
-        breadcrumbs={[
-          { name: 'Currency & Finance', url: '/category/currency-finance' },
-          { name: 'Currency Converter', url: '/currency-converter' }
-        ]}
-      />
+       <SEOHead
+          title={seoData.currencyConverter.title}
+          description={seoData.currencyConverter.description}
+          keywords={seoData.currencyConverter.keywords} // ✅ Add this line if not already supported
+          canonical="https://calculatorhub.site/currency-converter"
+          schemaData={generateCalculatorSchema(
+            "Currency Converter",
+            seoData.currencyConverter.description,
+            "/currency-converter",
+            seoData.currencyConverter.keywords
+          )}
+        />
       <div className="max-w-4xl mx-auto">
         <Breadcrumbs items={[
           { name: 'Currency & Finance', url: '/category/currency-finance' },
