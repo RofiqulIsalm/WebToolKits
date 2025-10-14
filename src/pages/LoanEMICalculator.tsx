@@ -299,6 +299,7 @@ const COLORS = ["#22d3ee", "#818cf8", "#10b981", "#f59e0b", "#a78bfa", "#ef4444"
 
 const LoanEMICalculator: React.FC = () => {
   // ---------------------- Base State ----------------------
+  const [customTenure, setCustomTenure] = useState(false);
   const [currency, setCurrency] = useState<Currency>("$");
   const [mode, setMode] = useState<Mode>("basic");
   const [solveMode, setSolveMode] = useState<SolveMode>("by_tenure");
@@ -418,6 +419,7 @@ const LoanEMICalculator: React.FC = () => {
       loanB: { rateAnnual: 9, tenureMonths: 12 },
     });
   }, []);
+  
 
   const copyShareLink = useCallback(async () => {
     const url =
@@ -582,146 +584,7 @@ const LoanEMICalculator: React.FC = () => {
   }
 
   // Basic Card
-  const BasicInputs = (
-    <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
-      <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm">
-        <div className="flex flex-wrap gap-3 justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold text-cyan-300 drop-shadow flex items-center gap-2">
-            <Calculator className="w-5 h-5" /> Loan Details
-          </h2>
 
-          <div className="flex items-center gap-2">
-            <select
-              value={currency}
-              onChange={(e) => setCurrency(e.target.value as Currency)}
-              className="px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg"
-              aria-label="Select Currency"
-            >
-              <option>$</option>
-              <option>₹</option>
-              <option>€</option>
-              <option>£</option>
-            </select>
-
-            <button
-              onClick={resetInputs}
-              className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-800 text-cyan-400 hover:text-white hover:bg-cyan-600 transition-all duration-300 shadow-md hover:shadow-cyan-500/40 transform hover:scale-110"
-              aria-label="Reset loan inputs"
-              title="Reset"
-            >
-              <RotateCcw className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <LabeledNumber
-            id="principal"
-            label="Loan Amount (Principal)"
-            value={principal}
-            onChange={setPrincipal}
-            min={0}
-            step={100}
-          />
-          <LabeledNumber 
-            id="rate"
-            label={`Interest Rate (${rateMode === "per_annum" ? "% per annum" : "% per month"})`}
-            value={rateAnnual}
-            onChange={setRateAnnual}
-            min={0}
-            step={0.05}
-            suffix={
-              rateMode === "per_annum"
-                ? "Tip: Switch to monthly if your lender quotes per month."
-                : "Currently interpreting as per month (x12 for annual internally)."
-            }
-          />
-          <LabeledNumber
-            id="tenure"
-            label="Loan Tenure (months)"
-            value={tenureMonths}
-            onChange={(n) => setTenureMonths(Math.max(1, Math.floor(n)))}
-            min={1}
-            step={1}
-            suffix={`${Math.floor(tenureMonths / 12)} years ${tenureMonths % 12} months`}
-          />
-
-          <div className="flex items-center gap-3">
-            <label className="text-sm text-slate-300">Rate Mode</label>
-            <div className="flex gap-2">
-              <button
-                className={`px-3 py-1 rounded-md border ${
-                  rateMode === "per_annum" ? "bg-cyan-600 text-white border-cyan-500" : "bg-slate-800 border-slate-700 text-slate-300"
-                }`}
-                onClick={() => setRateMode("per_annum")}
-              >
-                Per Annum
-              </button>
-              <button
-                className={`px-3 py-1 rounded-md border ${
-                  rateMode === "per_month" ? "bg-cyan-600 text-white border-cyan-500" : "bg-slate-800 border-slate-700 text-slate-300"
-                }`}
-                onClick={() => setRateMode("per_month")}
-              >
-                Per Month
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  const BasicResults = (
-    <div ref={resultRef} className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
-      <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm">
-        <h2 className="text-xl font-semibold text-cyan-300 mb-4 drop-shadow flex items-center gap-2">
-          <BarChart3 className="w-5 h-5" /> EMI Breakdown
-        </h2>
-
-        <div className="space-y-6">
-          <div className="text-center p-4 rounded-lg bg-gradient-to-r from-indigo-600 to-cyan-600 shadow-lg">
-            <PiggyBank className="h-8 w-8 text-white mx-auto mb-2" />
-            <div className="text-2xl font-bold text-white">
-              {currencyPrefix}
-              {emi.toFixed(2)}
-            </div>
-            <div className="text-sm text-slate-200">Monthly EMI</div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="p-4 rounded-lg text-center bg-gradient-to-r from-green-600 to-emerald-600 shadow-md">
-              <div className="text-lg font-semibold text-white">
-                {currencyPrefix}
-                {fmt(principal)}
-              </div>
-              <div className="text-sm text-slate-100">Principal Amount</div>
-            </div>
-
-            <div className="p-4 rounded-lg text-center bg-gradient-to-r from-amber-600 to-orange-600 shadow-md">
-              <div className="text-lg font-semibold text-white">
-                {currencyPrefix}
-                {fmt(totalInterest)}
-              </div>
-              <div className="text-sm text-slate-100">Total Interest</div>
-            </div>
-          </div>
-
-          <div className="p-4 rounded-lg text-center bg-gradient-to-r from-indigo-600 to-cyan-600 shadow-lg">
-            <div className="text-xl font-semibold text-white">
-              {currencyPrefix}
-              {fmt(totalAmount)}
-            </div>
-            <div className="text-sm text-slate-200">Total Amount Payable</div>
-          </div>
-
-          <p className="text-sm text-slate-400 mt-2 text-center">
-            <strong>Note:</strong> Your estimated monthly EMI based on current rate and tenure.
-          </p>
-        </div>
-      </div>
-    </div>
-  );
 
   // Advanced Controls
   const AdvancedControls = mode === "advanced" && (
