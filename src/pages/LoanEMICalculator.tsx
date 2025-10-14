@@ -718,7 +718,7 @@ const LoanEMICalculator_Full: React.FC = () => {
           />
 
           {/* Lazy-ish render: these sections are mounted only when toggled ON */}
-          <div className="flex gap-3 mb-4 flex-wrap">
+          <div className="flex gap-3 mb-4 mt-4 flex-wrap">
             <label className="flex items-center gap-2 text-slate-300 text-sm cursor-pointer group">
               <span
                 className={`relative w-5 h-5 flex items-center justify-center rounded-md border transition-all duration-200
