@@ -197,12 +197,42 @@ const LoanEMICalculator: React.FC = () => {
           <li>✔ Compare loans and interest rates</li>
         </ul>
       
-        <h2 className="text-2xl font-bold">Popular Loan Calculators</h2>
-        <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 list-disc list-inside">
-          <li><a href="/loan-affordability-calculator" className="text-blue-400 hover:underline">Loan Affordability Calculator</a></li>
-          <li><a href="/simple-interest-calculator" className="text-blue-400 hover:underline">Simple Interest Calculator</a></li>
-          <li><a href="/compound-interest-calculator" className="text-blue-400 hover:underline">Compound Interest Calculator</a></li>
-        </ul>
+          {/*----------- Back link -------------*/}
+          <div className="mt-10">
+              <h3 className="text-2xl font-bold text-cyan-300 mb-4 flex items-center gap-2">
+                💼 Related Finance Tools
+              </h3>
+            
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {[
+                  { name: 'Compound Interest Calculator', link: '/compound-interest-calculator', color: 'from-emerald-500 to-teal-600' },
+                  { name: 'Mortgage Calculator', link: '/mortgage-calculator', color: 'from-indigo-500 to-blue-600' },
+                  { name: 'Fixed Deposit (FD) Calculator', link: '/fd-calculator', color: 'from-green-500 to-emerald-600' },
+                  { name: 'ROI Calculator', link: '/roi-calculator', color: 'from-purple-500 to-fuchsia-600' },
+                ].map((tool) => (
+                  <a
+                    key={tool.name}
+                    href={tool.link}
+                    className={`group p-4 rounded-xl bg-gradient-to-r ${tool.color} shadow-md hover:shadow-lg hover:shadow-cyan-500/40 transition-all duration-300 flex items-center justify-between text-white`}
+                  >
+                    <span className="font-medium group-hover:translate-x-1 transition-transform duration-200">
+                      {tool.name}
+                    </span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-5 h-5 opacity-80 group-hover:opacity-100 group-hover:translate-x-1 transition-all"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </a>
+                ))}
+              </div>
+            </div>
+
       </div>
 
 
