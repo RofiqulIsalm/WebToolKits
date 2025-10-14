@@ -194,6 +194,7 @@ const CurrencyConverter: React.FC = () => {
     }
   }, [amount, fromCurrency, toCurrency, exchangeRates]);
 
+  const [error, setError] = useState<string | null>(null);
   const fetchExchangeRates = async () => {
     setLoading(true);
     try {
