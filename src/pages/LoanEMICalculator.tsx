@@ -68,120 +68,115 @@ const LoanEMICalculator: React.FC = () => {
           { name: 'Loan EMI Calculator', url: '/loan-emi-calculator' }
         ]} />
         
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Loan EMI Calculator</h1>
-        <p className="text-gray-600">Calculate your monthly loan EMI, total amount, and interest payable</p>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <div className="finance-card rounded-lg p-6">
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold text-white">Loan Details</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Loan Details Card */}
+          <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
+            <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold text-cyan-300 drop-shadow">Loan Details</h2>
                 <button
                   onClick={() => {
                     setPrincipal(0);
                     setRate(0);
                     setTenure(0);
                   }}
-                  className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-800/70 text-blue-400 hover:text-blue-300 hover:bg-slate-700 transition-all duration-300 shadow-md hover:shadow-blue-500/40"
+                  className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-800 text-cyan-400 hover:text-white hover:bg-cyan-600 transition-all duration-300 shadow-md hover:shadow-cyan-500/40 transform hover:scale-110"
                   aria-label="Reset loan inputs"
                 >
                   <RotateCcw className="w-5 h-5" />
                 </button>
               </div>
-
-          
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                Loan Amount (Principal)
-              </label>
-              <input
-                type="number"
-                aria-label="Loan Amount in doller"
-                value={principal}
-                onChange={(e) => {
-                  const value = Math.max(0, Number(e.target.value));
-                  setPrincipal(value);
-                }}
-                className="w-full px-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
+        
+              <div className="space-y-5">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                    Loan Amount (Principal)
+                  </label>
+                  <input
+                    type="number"
+                    aria-label="Loan Amount in dollars"
+                    value={principal}
+                    onChange={(e) => {
+                      const value = Math.max(0, Number(e.target.value));
+                      setPrincipal(value);
+                    }}
+                    className="w-full px-4 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent placeholder-slate-500"
+                  />
+                </div>
+        
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                    Interest Rate (% per annum)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={rate}
+                    onChange={(e) => setRate(Number(e.target.value))}
+                    className="w-full px-4 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent placeholder-slate-500"
+                  />
+                </div>
+        
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                    Loan Tenure (months)
+                  </label>
+                  <input
+                    type="number"
+                    value={tenure}
+                    onChange={(e) => setTenure(Number(e.target.value))}
+                    className="w-full px-4 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent placeholder-slate-500"
+                  />
+                  <p className="text-sm text-slate-400 mt-1">
+                    {Math.floor(tenure / 12)} years {tenure % 12} months
+                  </p>
+                </div>
+              </div>
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                Interest Rate (% per annum)
-              </label>
-              <input
-                type="number"
-                step="0.1"
-                value={rate}
-                onChange={(e) => setRate(Number(e.target.value))}
-                className="w-full px-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                Loan Tenure (months)
-              </label>
-              <input
-                type="number"
-                value={tenure}
-                onChange={(e) => setTenure(Number(e.target.value))}
-                className="w-full px-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-              <p className="text-sm text-slate-400 mt-1">
-                {Math.floor(tenure / 12)} years {tenure % 12} months
-              </p>
+          </div>
+        
+          {/* EMI Breakdown Card */}
+          <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
+            <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm">
+              <h2 className="text-xl font-semibold text-cyan-300 mb-4 drop-shadow">EMI Breakdown</h2>
+        
+              <div className="space-y-6">
+                <div className="text-center p-4 rounded-lg bg-gradient-to-r from-indigo-600 to-cyan-600 shadow-lg">
+                  <PiggyBank className="h-8 w-8 text-white mx-auto mb-2" />
+                  <div className="text-2xl font-bold text-white">${emi.toFixed(2)}</div>
+                  <div className="text-sm text-slate-200">Monthly EMI</div>
+                </div>
+        
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-4 rounded-lg text-center bg-gradient-to-r from-green-600 to-emerald-600 shadow-md">
+                    <div className="text-lg font-semibold text-white">
+                      ${principal.toLocaleString()}
+                    </div>
+                    <div className="text-sm text-slate-100">Principal Amount</div>
+                  </div>
+        
+                  <div className="p-4 rounded-lg text-center bg-gradient-to-r from-amber-600 to-orange-600 shadow-md">
+                    <div className="text-lg font-semibold text-white">
+                      ${totalInterest.toFixed(0)}
+                    </div>
+                    <div className="text-sm text-slate-100">Total Interest</div>
+                  </div>
+                </div>
+        
+                <div className="p-4 rounded-lg text-center bg-gradient-to-r from-indigo-600 to-cyan-600 shadow-lg">
+                  <div className="text-xl font-semibold text-white">
+                    ${totalAmount.toFixed(0)}
+                  </div>
+                  <div className="text-sm text-slate-200">Total Amount Payable</div>
+                </div>
+        
+                <p className="text-sm text-slate-400 mt-2 text-center">
+                  <strong>Note:</strong> Your estimated monthly EMI based on current rate and tenure.
+                </p>
+              </div>
             </div>
           </div>
         </div>
-        </div>
-
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <div className="finance-card rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-white mb-4">EMI Breakdown</h2>
-          
-          <div className="space-y-6">
-            <div className="text-center p-4 result-purple rounded-lg">
-              <PiggyBank className="h-8 w-8 text-white mx-auto mb-2 drop-shadow-lg" />
-              <div className="text-2xl font-bold text-white drop-shadow-lg">
-                ${emi.toFixed(2)}
-              </div>
-              <div className="text-sm text-slate-300">Monthly EMI</div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 result-green rounded-lg text-center">
-                <div className="text-lg font-semibold text-white">
-                  ${principal.toLocaleString()}
-                </div>
-                <div className="text-sm text-slate-300">Principal Amount</div>
-              </div>
-              
-              <div className="p-4 result-amber rounded-lg text-center">
-                <div className="text-lg font-semibold text-white">
-                  ${totalInterest.toFixed(0)}
-                </div>
-                <div className="text-sm text-slate-300">Total Interest</div>
-              </div>
-            </div>
-
-            <div className="p-4 result-purple rounded-lg text-center">
-              <div className="text-xl font-semibold text-white">
-                ${totalAmount.toFixed(0)}
-              </div>
-              <div className="text-sm text-slate-300">Total Amount Payable</div>
-            </div>
-            <div className="text-sm text-slate-300 mt-2">
-                <strong>Note : </strong>Your estimated monthly EMI based on current rate and tenure.
-            </div>
-          </div>
-        </div>
-        </div>
-      </div>
 
         {/* ------------Seo content-----------------*/}
         <div className="seo-content text-white space-y-6 mt-10">
