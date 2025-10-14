@@ -159,6 +159,9 @@ const LoanEMICalculator: React.FC = () => {
               </div>
               <div className="text-sm text-slate-300">Total Amount Payable</div>
             </div>
+            <div className="text-sm text-slate-300 mt-2">
+                Your estimated monthly EMI based on current rate and tenure.
+            </div>
           </div>
         </div>
         </div>
