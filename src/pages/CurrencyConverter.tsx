@@ -336,7 +336,7 @@ const CurrencyConverter: React.FC = () => {
           )}
 
           {exchangeRates[fromCurrency] && exchangeRates[toCurrency] && (
-            <div className="result-green rounded-lg p-4 text-center">
+            <div className="result-green rounded-lg p-4 text-center" aria-live="polite">
               <p className="text-lg font-semibold text-white">
                 {amount} {fromCurrency} = {result.toFixed(2)} {toCurrency}
               </p>
