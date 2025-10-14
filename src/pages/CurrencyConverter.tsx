@@ -222,7 +222,12 @@ const CurrencyConverter: React.FC = () => {
     }
   };
 
-
+  const rate = React.useMemo(() => {
+    if (exchangeRates[fromCurrency] && exchangeRates[toCurrency]) {
+      return exchangeRates[toCurrency] / exchangeRates[fromCurrency];
+    }
+    return 0;
+  }, [exchangeRates, fromCurrency, toCurrency]);
   
   
 
