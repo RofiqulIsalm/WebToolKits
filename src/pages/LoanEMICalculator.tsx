@@ -213,7 +213,7 @@ const LoanEMICalculator: React.FC = () => {
                   <a
                     key={tool.name}
                     href={tool.link}
-                    className={`group p-4 rounded-xl bg-gradient-to-r ${tool.color} shadow-md hover:shadow-lg hover:shadow-cyan-500/40 transition-all duration-300 flex items-center justify-between text-white`}
+                    className={`group p-4 rounded-xl bg-gradient-to-r ${tool.color} shadow-md hover:shadow-lg  transition-all duration-300 flex items-center justify-between text-white`}
                   >
                     <span className="font-medium group-hover:translate-x-1 transition-transform duration-200">
                       {tool.name}
