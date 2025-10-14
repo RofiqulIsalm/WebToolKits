@@ -296,6 +296,8 @@ function scheduleToCSV(rows: ScheduleRow[]): string {
 // ----------------------------- Component -------------------------------------
 
 const COLORS = ["#22d3ee", "#818cf8", "#10b981", "#f59e0b", "#a78bfa", "#ef4444"];
+const [customTenure, setCustomTenure] = useState(false);
+
 
 const LoanEMICalculator: React.FC = () => {
   // ---------------------- Base State ----------------------
