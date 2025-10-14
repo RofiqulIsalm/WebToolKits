@@ -19,8 +19,8 @@ const LoanEMICalculator: React.FC = () => {
   }, [principal, rate, tenure]);
   
   useEffect(() => {
-  document.getElementById("principalInput")?.focus();
-}, []);
+    document.getElementById("principalInput")?.focus();
+  }, []);
 
   const calculateEMI = () => {
     const monthlyRate = rate / 100 / 12;
