@@ -94,6 +94,7 @@ const LoanEMICalculator: React.FC = () => {
               </label>
               <input
                 type="number"
+                aria-label="Loan Amount in doller"
                 value={principal}
                 onChange={(e) => {
                   const value = Math.max(0, Number(e.target.value));
