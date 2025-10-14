@@ -719,14 +719,58 @@ const LoanEMICalculator_Full: React.FC = () => {
 
           {/* Lazy-ish render: these sections are mounted only when toggled ON */}
           <div className="flex gap-3 mb-4 flex-wrap">
-            <label className="flex items-center gap-2 text-slate-300 text-sm">
-              <input type="checkbox" className="accent-cyan-500 h-4 w-4" checked={showCharts} onChange={() => setShowCharts(!showCharts)} />
+            <label className="flex items-center gap-2 text-slate-300 text-sm cursor-pointer group">
+              <span
+                className={`relative w-5 h-5 flex items-center justify-center rounded-md border transition-all duration-200
+                  ${showCharts ? "border-cyan-400 bg-cyan-500/20" : "border-slate-600 bg-slate-800/70 group-hover:border-cyan-500/50"}`}
+              >
+                <input
+                  type="checkbox"
+                  checked={showCharts}
+                  onChange={() => setShowCharts(!showCharts)}
+                  className="absolute inset-0 opacity-0 cursor-pointer peer"
+                />
+                <svg
+                  className={`w-3 h-3 text-cyan-400 transition-opacity duration-150 ${
+                    showCharts ? "opacity-100" : "opacity-0"
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
               Show Charts
             </label>
-            <label className="flex items-center gap-2 text-slate-300 text-sm">
-              <input type="checkbox" className="accent-cyan-500 h-4 w-4" checked={showSchedule} onChange={() => setShowSchedule(!showSchedule)} />
+            
+            <label className="flex items-center gap-2 text-slate-300 text-sm cursor-pointer group">
+              <span
+                className={`relative w-5 h-5 flex items-center justify-center rounded-md border transition-all duration-200
+                  ${showSchedule ? "border-cyan-400 bg-cyan-500/20" : "border-slate-600 bg-slate-800/70 group-hover:border-cyan-500/50"}`}
+              >
+                <input
+                  type="checkbox"
+                  checked={showSchedule}
+                  onChange={() => setShowSchedule(!showSchedule)}
+                  className="absolute inset-0 opacity-0 cursor-pointer peer"
+                />
+                <svg
+                  className={`w-3 h-3 text-cyan-400 transition-opacity duration-150 ${
+                    showSchedule ? "opacity-100" : "opacity-0"
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
               Show Schedule
             </label>
+
           </div>
 
           {/* Charts Section */}
@@ -747,7 +791,6 @@ const LoanEMICalculator_Full: React.FC = () => {
           {showSchedule ? (
             <Suspense fallback={<BlockSkeleton h={360} />}>
               <ScheduleTable
-                class='mt-3'
                 currencySymbol={currency}
                 rows={rows}
                 totals={{ totalInterest: scheduleTotals.totalInterest, totalPaid: scheduleTotals.totalPaid, effectiveMonths: scheduleTotals.effectiveMonths }}
