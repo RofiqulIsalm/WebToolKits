@@ -898,89 +898,164 @@ const AdvancedControls = mode === "advanced" && (
 
 
   // ---------------------- Charts ---------------------------------------------
-  const Charts = mode === "advanced" && showCharts && (
-    <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
-      <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm space-y-6">
-        <div className="flex justify-between items-center">
-          <h3 className="text-lg font-semibold text-cyan-300 flex items-center gap-2">
-            <PieChartIcon className="w-5 h-5" /> Visualizations
-          </h3>
-          <div className="flex gap-2">
-            <button
-              onClick={() => setShowYearlyBars((s) => !s)}
-              className="px-3 py-2 rounded-md bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700 flex items-center gap-2"
-            >
-              <BarChart3 className="w-4 h-4" /> {showYearlyBars ? "Hide Yearly Bars" : "Show Yearly Bars"}
-            </button>
-          </div>
-        </div>
+  // ---------- Chart Section ----------
+const Charts = mode === "advanced" && showCharts && (
+  <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
+    <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm space-y-6">
+      {/* Header */}
+      <div className="flex justify-between items-center flex-wrap gap-3">
+        <h3 className="text-lg font-semibold text-cyan-300 flex items-center gap-2">
+          <PieChartIcon className="w-5 h-5" /> Visualizations
+        </h3>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Pie */}
-          <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-            <h4 className="text-slate-200 mb-2 font-semibold">Principal vs Interest</h4>
-            <div className="h-56">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={[
-                      { name: "Principal", value: principal },
-                      { name: "Interest", value: totalInterest },
-                    ]}
-                    dataKey="value"
-                    nameKey="name"
-                    outerRadius="80%"
-                    label
-                  >
-                    <Cell fill="#10b981" />
-                    <Cell fill="#f59e0b" />
-                  </Pie>
-                  <RechartsTooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* Line */}
-          <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 lg:col-span-2">
-            <h4 className="text-slate-200 mb-2 font-semibold">Balance Over Time</h4>
-            <div className="h-56">
-              <ResponsiveContainer width="100%" height="100%">
-                <RLineChart data={rows.map((r) => ({ month: r.month, balance: r.closing }))}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                  <XAxis dataKey="month" stroke="#94a3b8" />
-                  <YAxis stroke="#94a3b8" />
-                  <RechartsTooltip />
-                  <Legend />
-                  <Line type="monotone" dataKey="balance" stroke="#22d3ee" dot={false} />
-                </RLineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-        </div>
-
-        {/* Yearly Bars */}
-        {showYearlyBars && (
-          <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-            <h4 className="text-slate-200 mb-2 font-semibold">Yearly Interest vs Principal</h4>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={yearlyAgg}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                  <XAxis dataKey="year" stroke="#94a3b8" />
-                  <YAxis stroke="#94a3b8" />
-                  <Legend />
-                  <RechartsTooltip />
-                  <Bar dataKey="principal" stackId="a" fill="#10b981" />
-                  <Bar dataKey="interest" stackId="a" fill="#f59e0b" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-        )}
+        <button
+          onClick={() => setShowYearlyBars((s) => !s)}
+          className="px-3 py-2 rounded-md bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700 flex items-center gap-2 transition-all text-sm"
+        >
+          <BarChart3 className="w-4 h-4" />{" "}
+          {showYearlyBars ? "Hide Yearly Bars" : "Show Yearly Bars"}
+        </button>
       </div>
+
+      {/* Memoized Chart Data */}
+      {(() => {
+        const pieData = useMemo(
+          () => [
+            { name: "Principal", value: principal },
+            { name: "Interest", value: totalInterest },
+          ],
+          [principal, totalInterest]
+        );
+
+        const lineData = useMemo(
+          () =>
+            rows.map((r) => ({
+              month: r.month,
+              balance: r.closing,
+            })),
+          [rows]
+        );
+
+        const barData = useMemo(() => yearlyAgg, [yearlyAgg]);
+
+        return (
+          <div className="space-y-6">
+            {/* Pie + Line */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Pie Chart */}
+              <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
+                <h4 className="text-slate-200 mb-1 font-semibold">
+                  Principal vs Interest
+                </h4>
+                <p className="text-xs text-slate-400 mb-3">
+                  See how your total loan splits between principal and interest.
+                </p>
+                <div className="h-48 sm:h-56">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={pieData}
+                        dataKey="value"
+                        nameKey="name"
+                        outerRadius="80%"
+                        labelLine={false}
+                        label={({ name, value }) =>
+                          `${name}: ${value.toLocaleString()}`
+                        }
+                      >
+                        <Cell fill="#10b981" />
+                        <Cell fill="#f59e0b" />
+                      </Pie>
+                      <RechartsTooltip
+                        contentStyle={{
+                          backgroundColor: "#1e293b",
+                          border: "none",
+                          color: "#e2e8f0",
+                        }}
+                      />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              {/* Line Chart */}
+              <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 lg:col-span-2">
+                <h4 className="text-slate-200 mb-1 font-semibold">
+                  Balance Over Time
+                </h4>
+                <p className="text-xs text-slate-400 mb-3">
+                  Track how your outstanding loan balance reduces each month.
+                </p>
+                <div className="h-48 sm:h-56">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <RLineChart data={lineData}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                      <XAxis
+                        dataKey="month"
+                        stroke="#94a3b8"
+                        interval={Math.ceil(lineData.length / 12)}
+                      />
+                      <YAxis stroke="#94a3b8" />
+                      <RechartsTooltip
+                        contentStyle={{
+                          backgroundColor: "#1e293b",
+                          border: "none",
+                          color: "#e2e8f0",
+                        }}
+                      />
+                      <Legend />
+                      <Line
+                        type="monotone"
+                        dataKey="balance"
+                        stroke="#22d3ee"
+                        dot={false}
+                        strokeWidth={2}
+                      />
+                    </RLineChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            </div>
+
+            {/* Yearly Bars */}
+            {showYearlyBars && (
+              <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
+                <h4 className="text-slate-200 mb-1 font-semibold">
+                  Yearly Interest vs Principal
+                </h4>
+                <p className="text-xs text-slate-400 mb-3">
+                  Understand how much you pay toward principal and interest each
+                  year.
+                </p>
+                <div className="h-56 sm:h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={barData}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                      <XAxis dataKey="year" stroke="#94a3b8" />
+                      <YAxis stroke="#94a3b8" />
+                      <Legend />
+                      <RechartsTooltip
+                        contentStyle={{
+                          backgroundColor: "#1e293b",
+                          border: "none",
+                          color: "#e2e8f0",
+                        }}
+                      />
+                      <Bar dataKey="principal" stackId="a" fill="#10b981" />
+                      <Bar dataKey="interest" stackId="a" fill="#f59e0b" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })()}
     </div>
-  );
+  </div>
+);
+
 
   // ---------------------- Schedule Table -------------------------------------
   const ScheduleTable = mode === "advanced" && showSchedule && (
