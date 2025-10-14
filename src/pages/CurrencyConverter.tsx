@@ -355,12 +355,13 @@ const CurrencyConverter: React.FC = () => {
               <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
               <span>Refresh Rates</span>
             </button>
-              {lastUpdated && (
+              
+          </div>
+          {lastUpdated && (
               <p className="text-center text-xs text-slate-400 mt-2">
                 Last updated: {lastUpdated}
               </p>
             )}
-          </div>
         </div>
       </div>
       <AdBanner type="bottom" />
