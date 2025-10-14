@@ -557,6 +557,12 @@ const LoanEMICalculator: React.FC = () => {
         />
 
         {/* Interest Rate - Monthly only */}
+        <label
+            htmlFor="rate"
+            className="block text-sm font-medium text-slate-300 mb-2"
+          >
+            Interest Rate (% per month)
+          </label>
         <input
             id="rate"
             type="number"
