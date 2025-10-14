@@ -275,6 +275,7 @@ const CurrencyConverter: React.FC = () => {
               <label className="block text-sm font-medium text-slate-300 mb-2">From</label>
               <div className="space-y-3">
                 <input
+                  id="amountInput"
                   type="number"
                   value={amount}
                   onChange={(e) => {
