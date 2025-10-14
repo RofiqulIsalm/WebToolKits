@@ -546,7 +546,7 @@ const LoanEMICalculator: React.FC = () => {
       <div className="space-y-5">
         <label
             htmlFor="principal"
-            className="block text-sm font-medium text-slate-300 mb-2"
+            className="block text-sm font-medium text-slate-300 "
           >
             Loan Amount (Principal)
           </label>
@@ -565,7 +565,7 @@ const LoanEMICalculator: React.FC = () => {
         {/* Interest Rate - Monthly only */}
         <label
             htmlFor="rate"
-            className="block text-sm font-medium text-slate-300 mb-2"
+            className="block text-sm font-medium text-slate-300 "
           >
             Interest Rate (% per month)
           </label>
