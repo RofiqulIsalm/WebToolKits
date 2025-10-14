@@ -291,6 +291,7 @@ const CurrencyConverter: React.FC = () => {
                   placeholder="Enter amount"
                 />
                 <select
+                  aria-label="Select currency to convert from"
                   value={fromCurrency}
                   onChange={(e) => setFromCurrency(e.target.value)}
                   className="w-full px-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -314,6 +315,7 @@ const CurrencyConverter: React.FC = () => {
                   className="w-full px-4 py-2 glow-input rounded-lg bg-slate-800/50"
                 />
                 <select
+                  aria-label="Select currency to convert to"
                   value={toCurrency}
                   onChange={(e) => setToCurrency(e.target.value)}
                   className="w-full px-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
