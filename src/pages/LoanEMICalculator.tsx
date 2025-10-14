@@ -551,7 +551,7 @@ const LoanEMICalculator: React.FC = () => {
           value={principal}
           onChange={setPrincipal}
           min={0}
-          step={100}
+          step={1000}
         />
 
         {/* Interest Rate - Monthly only */}
@@ -1253,7 +1253,7 @@ const ScheduleTable =
  
 
   // ---------------------- Comparison -----------------------------------------
-// ---------------------- Comparison -----------------------------------------
+
 const Comparison =
   mode === "advanced" && (
     <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
