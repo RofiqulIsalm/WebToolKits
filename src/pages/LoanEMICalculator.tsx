@@ -997,7 +997,7 @@ const Charts =
                         ),
                       ]}
                       contentStyle={{
-                        backgroundColor: "#2a81a3",
+                        backgroundColor: "#31b0eb",
                         border: "none",
                         color: "#e2e8f0",
                       }}
