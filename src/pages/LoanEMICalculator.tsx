@@ -706,49 +706,74 @@ const AdvancedControls = mode === "advanced" && (
             max={10_000_000}
             step={1000}
           />
-          <Range
-            label="Interest Rate (%)"
-            value={rateAnnual}
-            onChange={setRateAnnual}
-            min={0}
-            max={36}
-            step={0.1}
-          />
+          {/* Interest Rate Stepper */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-slate-300">
+              Interest Rate (%)
+            </label>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setRateAnnual((r) => Math.max(0, Number((r - 0.1).toFixed(2))))}
+                className="px-3 py-1.5 rounded-md bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 hover:border-cyan-500 transition-all text-lg font-semibold"
+              >
+                –
+              </button>
+        
+              <input
+                type="number"
+                step={0.1}
+                min={0}
+                max={36}
+                value={rateAnnual}
+                onChange={(e) => setRateAnnual(Math.max(0, Number(e.target.value)))}
+                className="w-24 text-center px-3 py-2 rounded-md bg-slate-800 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+              />
+        
+              <button
+                type="button"
+                onClick={() => setRateAnnual((r) => Math.min(36, Number((r + 0.1).toFixed(2))))}
+                className="px-3 py-1.5 rounded-md bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 hover:border-cyan-500 transition-all text-lg font-semibold"
+              >
+                +
+              </button>
+            </div>
+          </div>
           {/* Tenure Stepper */}
-<div className="space-y-2">
-  <label className="block text-sm font-medium text-slate-300">
-    Tenure (months)
-  </label>
-  <div className="flex items-center gap-3">
-    <button
-      type="button"
-      onClick={() => setTenureMonths((n) => Math.max(1, n - 1))}
-      className="px-3 py-1.5 rounded-md bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 hover:border-cyan-500 transition-all text-lg font-semibold"
-    >
-      –
-    </button>
-
-    <input
-      type="number"
-      min={1}
-      max={480}
-      value={tenureMonths}
-      onChange={(e) => setTenureMonths(Math.max(1, Number(e.target.value)))}
-      className="w-20 text-center px-3 py-2 rounded-md bg-slate-800 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-    />
-
-    <button
-      type="button"
-      onClick={() => setTenureMonths((n) => Math.min(480, n + 1))}
-      className="px-3 py-1.5 rounded-md bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 hover:border-cyan-500 transition-all text-lg font-semibold"
-    >
-      +
-    </button>
-  </div>
-  <p className="text-xs text-slate-400 mt-1">
-    {Math.floor(tenureMonths / 12)} years {tenureMonths % 12} months
-  </p>
-</div>
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-slate-300">
+              Tenure (months)
+            </label>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setTenureMonths((n) => Math.max(1, n - 1))}
+                className="px-3 py-1.5 rounded-md bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 hover:border-cyan-500 transition-all text-lg font-semibold"
+              >
+                –
+              </button>
+          
+              <input
+                type="number"
+                min={1}
+                max={480}
+                value={tenureMonths}
+                onChange={(e) => setTenureMonths(Math.max(1, Number(e.target.value)))}
+                className="w-20 text-center px-3 py-2 rounded-md bg-slate-800 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+              />
+          
+              <button
+                type="button"
+                onClick={() => setTenureMonths((n) => Math.min(480, n + 1))}
+                className="px-3 py-1.5 rounded-md bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 hover:border-cyan-500 transition-all text-lg font-semibold"
+              >
+                +
+              </button>
+            </div>
+            <p className="text-xs text-slate-400 mt-1">
+              {Math.floor(tenureMonths / 12)} years {tenureMonths % 12} months
+            </p>
+          </div>
         </div>
       </div>
 
