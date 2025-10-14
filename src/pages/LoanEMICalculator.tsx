@@ -299,7 +299,7 @@ const COLORS = ["#22d3ee", "#818cf8", "#10b981", "#f59e0b", "#a78bfa", "#ef4444"
 
 const LoanEMICalculator: React.FC = () => {
   // ---------------------- Base State ----------------------
-  const [customTenure, setCustomTenure] = useState(false);
+  
   const [currency, setCurrency] = useState<Currency>("$");
   const [mode, setMode] = useState<Mode>("basic");
   const [solveMode, setSolveMode] = useState<SolveMode>("by_tenure");
@@ -491,6 +491,7 @@ const LoanEMICalculator: React.FC = () => {
   }, [compare, principal]);
 
   // ---------------------- UI Helpers ----------------------
+  const [customTenure, setCustomTenure] = useState(false);
   const currencyPrefix = useMemo(() => currency, [currency]);
 
   const Header = (
