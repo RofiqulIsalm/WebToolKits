@@ -200,7 +200,7 @@ const CurrencyConverter: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch('https://api.exchangerate-apifgf.com/v4/latest/USD');
+        const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
         if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
         setExchangeRates({  USD: 1, EUR: 0.85, GBP: 0.73, JPY: 110, AUD: 1.35, CAD: 1.25, CHF: 0.92, 
@@ -322,7 +322,7 @@ const CurrencyConverter: React.FC = () => {
             </div>
           </div>
 
-            {error && <p className="text-red-400 text-center mb-4">{error}</p>}
+          {error && <p className="text-red-400 text-center mb-4">{error}</p>}
           <div className="flex justify-center mb-6">
             <button
               onClick={swapCurrencies}
