@@ -988,21 +988,27 @@ const Charts =
                     </Pie>
 
                     <RechartsTooltip
-                      formatter={(val: number, name: string) => [
-                        `${formatNumber(val)}`,
-                        name === "Principal" ? (
-                          <span style={{ color: "#f59e0b" }}>{name}</span>
-                        ) : (
-                          <span style={{ color: "#10b981" }}>{name}</span>
-                        ),
-                      ]}
-                      contentStyle={{
-                        backgroundColor: "#f5f7f7",
-                        border: "none",
-                        color: "#e2e8f0",
-                        rounded : 16px,
-                      }}
-                    />
+                        formatter={(val: number, name: string) => [
+                          `${formatNumber(val)}`,
+                          name,
+                        ]}
+                        contentStyle={{
+                          backgroundColor: "#f5f7f7",
+                          border: "none",
+                          borderRadius: "12px",
+                          color: "#0f172a",
+                          boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
+                        }}
+                        itemStyle={{
+                          color: "#0f172a",
+                          fontWeight: 600,
+                        }}
+                        labelStyle={{
+                          color: "#475569",
+                          fontWeight: 500,
+                        }}
+                      />
+
                     <Legend />
                   </PieChart>
                 </ResponsiveContainer>
