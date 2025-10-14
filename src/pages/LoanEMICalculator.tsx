@@ -78,8 +78,11 @@ const LoanEMICalculator: React.FC = () => {
             <div class="grid grid-cols-3 gap-4">
               
               <h2 className="text-xl col-span-2 font-semibold text-white mb-4">Loan Details</h2>
-                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-
+                <button 
+                  type="button"
+                  onClick={() => { setPrincipal(100000); setRate(10); setTenure(12); }}
+                  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                  Reset
                </button>
             </div>
 
