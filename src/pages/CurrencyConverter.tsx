@@ -435,8 +435,8 @@ In short, the logic may be simple, but the impact is powerful: a <strong>currenc
         </ul>
          <p className="mt-6 text-slate-300">
             You may also like our 
-            <a href="/loan-affordability-calculator" className="text-blue-400 hover:underline">Loan Affordability Calculator</a>, 
-            <a href="/roi-calculator" className="text-blue-400 hover:underline">ROI Calculator</a>, 
+            <a href="/loan-affordability-calculator" className="text-blue-400 hover:underline"> Loan Affordability Calculator</a>, 
+            <a href="/roi-calculator" className="text-blue-400 hover:underline"> ROI Calculator</a>, 
             or 
             <a href="/profit-margin-calculator" className="text-blue-400 hover:underline"> Profit Margin Calculator</a>.
           </p>
