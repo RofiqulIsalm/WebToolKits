@@ -296,8 +296,6 @@ function scheduleToCSV(rows: ScheduleRow[]): string {
 // ----------------------------- Component -------------------------------------
 
 const COLORS = ["#22d3ee", "#818cf8", "#10b981", "#f59e0b", "#a78bfa", "#ef4444"];
-const [customTenure, setCustomTenure] = useState(false);
-
 
 const LoanEMICalculator: React.FC = () => {
   // ---------------------- Base State ----------------------
@@ -625,7 +623,7 @@ const LoanEMICalculator: React.FC = () => {
             min={0}
             step={100}
           />
-          <LabeledNumber
+          <LabeledNumber 
             id="rate"
             label={`Interest Rate (${rateMode === "per_annum" ? "% per annum" : "% per month"})`}
             value={rateAnnual}
@@ -638,10 +636,15 @@ const LoanEMICalculator: React.FC = () => {
                 : "Currently interpreting as per month (x12 for annual internally)."
             }
           />
-          {/*start*/}
-   
-
-          {/*end*/}
+          <LabeledNumber
+            id="tenure"
+            label="Loan Tenure (months)"
+            value={tenureMonths}
+            onChange={(n) => setTenureMonths(Math.max(1, Math.floor(n)))}
+            min={1}
+            step={1}
+            suffix={`${Math.floor(tenureMonths / 12)} years ${tenureMonths % 12} months`}
+          />
 
           <div className="flex items-center gap-3">
             <label className="text-sm text-slate-300">Rate Mode</label>
