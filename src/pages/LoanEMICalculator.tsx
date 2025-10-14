@@ -747,6 +747,7 @@ const LoanEMICalculator_Full: React.FC = () => {
           {showSchedule ? (
             <Suspense fallback={<BlockSkeleton h={360} />}>
               <ScheduleTable
+                class='mt-3'
                 currencySymbol={currency}
                 rows={rows}
                 totals={{ totalInterest: scheduleTotals.totalInterest, totalPaid: scheduleTotals.totalPaid, effectiveMonths: scheduleTotals.effectiveMonths }}
