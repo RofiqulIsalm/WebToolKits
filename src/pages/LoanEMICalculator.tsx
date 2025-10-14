@@ -666,8 +666,7 @@ const LoanEMICalculator: React.FC = () => {
 const AdvancedControls = mode === "advanced" && (
   <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
     <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm space-y-6">
-      
-      {/* Header */}
+      {/* Header Section */}
       <div className="flex flex-wrap justify-between items-center gap-3">
         <h3 className="text-lg font-semibold text-cyan-300 flex items-center gap-2">
           <SlidersHorizontal className="w-5 h-5" /> Advanced Controls
@@ -691,9 +690,13 @@ const AdvancedControls = mode === "advanced" && (
         </div>
       </div>
 
-      {/* Loan Sliders Section */}
+      {/* Loan Configuration */}
       <div className="space-y-4">
         <h4 className="text-slate-200 font-semibold">Loan Configuration</h4>
+        <p className="text-slate-400 text-sm mb-2">
+          Adjust your loan details using the sliders below. Results update after releasing each slider.
+        </p>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           <Range
             label="Loan Amount"
@@ -722,15 +725,15 @@ const AdvancedControls = mode === "advanced" && (
         </div>
       </div>
 
-      {/* Prepayment Section */}
+      {/* Prepayment Options */}
       <div className="space-y-4">
         <h4 className="text-slate-200 font-semibold">Prepayment Options</h4>
         <p className="text-slate-400 text-sm">
-          Add lump-sum or extra monthly payments to see how they shorten your loan duration and save interest.
+          Add lump-sum or extra monthly payments to see how they reduce your loan duration and interest cost.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* One-time Prepayment */}
+          {/* One-time Lump Sum */}
           <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 space-y-3">
             <div className="flex justify-between items-center">
               <label className="text-slate-300 font-medium">One-time Lump Sum</label>
@@ -772,7 +775,7 @@ const AdvancedControls = mode === "advanced" && (
             </div>
           </div>
 
-          {/* Extra Monthly Prepayment */}
+          {/* Extra Monthly Payment */}
           <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 space-y-3">
             <div className="flex justify-between items-center">
               <label className="text-slate-300 font-medium">Extra Monthly Payment</label>
@@ -806,12 +809,13 @@ const AdvancedControls = mode === "advanced" && (
         </div>
 
         <p className="text-xs text-slate-400">
-          💡 With prepayments, we simulate month-by-month reductions — see faster payoff in your amortization schedule.
+          💡 Prepayments are applied dynamically in your EMI breakdown and amortization schedule to reflect early payoff and interest savings.
         </p>
       </div>
     </div>
   </div>
 );
+
 
 
   // ---------------------- Charts ---------------------------------------------
