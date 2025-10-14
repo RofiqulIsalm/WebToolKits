@@ -898,8 +898,16 @@ const AdvancedControls = mode === "advanced" && (
 
 
   // ---------------------- Charts ---------------------------------------------
+// ✅ Helper: Format large numbers like 1.2K, 1.5M, 1.2B
+const formatNumber = (num: number): string => {
+  if (num >= 1e12) return (num / 1e12).toFixed(2) + "T";
+  if (num >= 1e9) return (num / 1e9).toFixed(2) + "B";
+  if (num >= 1e6) return (num / 1e6).toFixed(2) + "M";
+  if (num >= 1e3) return (num / 1e3).toFixed(2) + "K";
+  return num.toFixed(2);
+};
 
-// ✅ Memoized Data (Top Level)
+// ✅ Chart Data Memoization
 const pieData = useMemo(
   () => [
     { name: "Principal", value: principal },
@@ -919,7 +927,7 @@ const lineData = useMemo(
 
 const barData = useMemo(() => yearlyAgg, [yearlyAgg]);
 
-// ✅ Chart Section (JSX)
+// ✅ Chart Section JSX
 const Charts =
   mode === "advanced" &&
   showCharts && (
@@ -962,13 +970,32 @@ const Charts =
                       outerRadius="80%"
                       labelLine={false}
                       label={({ name, value }) =>
-                        `${name}: ${value.toLocaleString()}`
+                        `${name}: ${formatNumber(value)}`
                       }
                     >
-                      <Cell fill="#10b981" />
-                      <Cell fill="#f59e0b" />
+                      {/* ✅ Principal = Green slice, hover text = Amber */}
+                      <Cell
+                        fill="#10b981"
+                        stroke="#f59e0b"
+                        strokeWidth={1.5}
+                      />
+                      {/* ✅ Interest = Amber slice, hover text = Green */}
+                      <Cell
+                        fill="#f59e0b"
+                        stroke="#10b981"
+                        strokeWidth={1.5}
+                      />
                     </Pie>
+
                     <RechartsTooltip
+                      formatter={(val: number, name: string) => [
+                        `${formatNumber(val)}`,
+                        name === "Principal" ? (
+                          <span style={{ color: "#f59e0b" }}>{name}</span>
+                        ) : (
+                          <span style={{ color: "#10b981" }}>{name}</span>
+                        ),
+                      ]}
                       contentStyle={{
                         backgroundColor: "#1e293b",
                         border: "none",
@@ -998,8 +1025,12 @@ const Charts =
                       stroke="#94a3b8"
                       interval={Math.ceil(lineData.length / 12)}
                     />
-                    <YAxis stroke="#94a3b8" />
+                    <YAxis
+                      stroke="#94a3b8"
+                      tickFormatter={(v) => formatNumber(v)}
+                    />
                     <RechartsTooltip
+                      formatter={(v: number) => formatNumber(v)}
                       contentStyle={{
                         backgroundColor: "#1e293b",
                         border: "none",
@@ -1020,7 +1051,7 @@ const Charts =
             </div>
           </div>
 
-          {/* Yearly Bars */}
+          {/* Yearly Bars (Unchanged, still fast) */}
           {showYearlyBars && (
             <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
               <h4 className="text-slate-200 mb-1 font-semibold">
@@ -1035,9 +1066,13 @@ const Charts =
                   <BarChart data={barData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                     <XAxis dataKey="year" stroke="#94a3b8" />
-                    <YAxis stroke="#94a3b8" />
+                    <YAxis
+                      stroke="#94a3b8"
+                      tickFormatter={(v) => formatNumber(v)}
+                    />
                     <Legend />
                     <RechartsTooltip
+                      formatter={(v: number) => formatNumber(v)}
                       contentStyle={{
                         backgroundColor: "#1e293b",
                         border: "none",
