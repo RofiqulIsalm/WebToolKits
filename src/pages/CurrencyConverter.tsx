@@ -203,26 +203,7 @@ const CurrencyConverter: React.FC = () => {
         const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
         if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
-        setExchangeRates({ USD: 1, ...data.rates });
-      } catch (error) {
-        setError('⚠️ Failed to fetch live exchange rates. Using fallback values.');
-        console.error('Fetch error:', error);
-        setExchangeRates(fallbackRates); // Keep your fallback rates
-      } finally {
-        setLoading(false);
-      }
-    };
-  const fetchExchangeRates = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
-      const data = await response.json();
-      setExchangeRates({ USD: 1, ...data.rates });
-    } catch (error) {
-      console.error('Failed to fetch exchange rates:', error);
-      // Fallback rates for demo purposes
-      setExchangeRates({
-        USD: 1, EUR: 0.85, GBP: 0.73, JPY: 110, AUD: 1.35, CAD: 1.25, CHF: 0.92, 
+        setExchangeRates({  USD: 1, EUR: 0.85, GBP: 0.73, JPY: 110, AUD: 1.35, CAD: 1.25, CHF: 0.92, 
         CNY: 6.45, INR: 74.5, KRW: 1180, AED: 3.67, AFN: 70, ALL: 92, AMD: 385,
         ANG: 1.79, AOA: 827, ARS: 350, AWG: 1.8, AZN: 1.7, BAM: 1.66, BBD: 2,
         BDT: 110, BGN: 1.66, BHD: 0.38, BIF: 2850, BMD: 1, BND: 1.35, BOB: 6.9,
@@ -245,12 +226,16 @@ const CurrencyConverter: React.FC = () => {
         TRY: 30, TTD: 6.8, TVD: 1.5, TWD: 32, TZS: 2500, UAH: 41, UGX: 3700,
         UYU: 43, UZS: 12800, VED: 36, VES: 36, VND: 24500, VUV: 119, WST: 2.7,
         XAF: 590, XCD: 2.7, XDR: 0.75, XOF: 590, XPF: 107, YER: 250, ZAR: 18,
-        ZMW: 27, ZWL: 6.4
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+        ZMW: 27, ZWL: 6.4 });
+      } catch (error) {
+        setError('⚠️ Failed to fetch live exchange rates. Using fallback values.');
+        console.error('Fetch error:', error);
+        setExchangeRates(fallbackRates); // Keep your fallback rates
+      } finally {
+        setLoading(false);
+      }
+    };
+  
 
   const swapCurrencies = () => {
     setFromCurrency(toCurrency);
