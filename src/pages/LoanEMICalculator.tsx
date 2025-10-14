@@ -544,6 +544,12 @@ const LoanEMICalculator: React.FC = () => {
 
       {/* --- Loan Inputs --- */}
       <div className="space-y-5">
+        <label
+            htmlFor="principal"
+            className="block text-sm font-medium text-slate-300 mb-2"
+          >
+            Loan Amount (Principal)
+          </label>
         {/* Loan Amount */}
         <input
           id="principal"
