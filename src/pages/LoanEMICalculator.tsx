@@ -21,19 +21,24 @@ const LoanEMICalculator: React.FC = () => {
   const calculateEMI = () => {
     const monthlyRate = rate / 100 / 12;
     const months = tenure;
-
+    let emiValue = 0;
+  
     if (monthlyRate === 0) {
-      setEmi(principal / months);
+      emiValue = principal / months;
     } else {
-      const emiValue = (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) / 
-                      (Math.pow(1 + monthlyRate, months) - 1);
-      setEmi(emiValue);
+      emiValue =
+        (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) /
+        (Math.pow(1 + monthlyRate, months) - 1);
     }
-
-    const total = emi * months;
+  
+    const total = emiValue * months;
+    const interest = total - principal;
+  
+    setEmi(emiValue);
     setTotalAmount(total);
-    setTotalInterest(total - principal);
+    setTotalInterest(interest);
   };
+
 
   return (
     <>
