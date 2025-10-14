@@ -689,7 +689,7 @@ const LoanEMICalculator_Full: React.FC = () => {
       </div>
 
       {/* Basic Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 ">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-3">
         <BasicInputs
           currency={currency} setCurrency={setCurrency}
           principal={principalRaw} setPrincipal={setPrincipalRaw}
@@ -718,7 +718,7 @@ const LoanEMICalculator_Full: React.FC = () => {
           />
 
           {/* Lazy-ish render: these sections are mounted only when toggled ON */}
-          <div className="flex gap-3 mb-4 flex-wrap">
+          <div className="flex gap-3 mb-4 flex-wrap "> 
             <label className="flex items-center gap-2 text-slate-300 text-sm">
               <input type="checkbox" className="accent-cyan-500 h-4 w-4" checked={showCharts} onChange={() => setShowCharts(!showCharts)} />
               Show Charts
