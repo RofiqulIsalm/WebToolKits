@@ -5,6 +5,7 @@ import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
+import { fallbackRates } from '../utils/fallbackRates';
 
 
  
@@ -240,6 +241,11 @@ const CurrencyConverter: React.FC = () => {
         setLoading(false);
       }
     };
+
+  const swapCurrencies = React.useCallback(() => {
+    setFromCurrency(toCurrency);
+    setToCurrency(fromCurrency);
+  }, [fromCurrency, toCurrency]);
   
 
   const swapCurrencies = () => {
