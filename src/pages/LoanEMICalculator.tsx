@@ -639,56 +639,7 @@ const LoanEMICalculator: React.FC = () => {
             }
           />
           {/*start*/}
-            {/* Loan Tenure Quick Select */}
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                Loan Tenure (months)
-              </label>
-            
-              <div className="flex flex-wrap gap-2 mb-3">
-                {[1, 3, 12].map((m) => (
-                  <button
-                    key={m}
-                    onClick={() => {
-                      setTenureMonths(m);
-                      setCustomTenure(false);
-                    }}
-                    className={`px-3 py-1.5 rounded-md border transition-all duration-200 ${
-                      tenureMonths === m && !customTenure
-                        ? "bg-cyan-600 text-white border-cyan-500"
-                        : "bg-slate-800 border-slate-700 text-slate-300 hover:border-cyan-500 hover:text-cyan-300"
-                    }`}
-                  >
-                    {m}M
-                  </button>
-                ))}
-            
-                <button
-                  onClick={() => setCustomTenure(true)}
-                  className={`px-3 py-1.5 rounded-md border transition-all duration-200 ${
-                    customTenure
-                      ? "bg-cyan-600 text-white border-cyan-500"
-                      : "bg-slate-800 border-slate-700 text-slate-300 hover:border-cyan-500 hover:text-cyan-300"
-                  }`}
-                >
-                  Cus
-                </button>
-              </div>
-            
-              {customTenure && (
-                <input
-                  type="number"
-                  value={tenureMonths}
-                  onChange={(e) => setTenureMonths(Math.max(1, Number(e.target.value)))}
-                  className="w-full px-4 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent placeholder-slate-500"
-                  placeholder="Enter custom months"
-                />
-              )}
-            
-              <p className="text-xs text-slate-400 mt-1">
-                {Math.floor(tenureMonths / 12)} years {tenureMonths % 12} months
-              </p>
-            </div>
+   
 
           {/*end*/}
 
