@@ -545,24 +545,28 @@ const LoanEMICalculator: React.FC = () => {
       {/* --- Loan Inputs --- */}
       <div className="space-y-5">
         {/* Loan Amount */}
-        <LabeledNumber
+        <input
           id="principal"
-          label="Loan Amount (Principal)"
+          type="number"
           value={principal}
-          onChange={setPrincipal}
+          onChange={(e) => setPrincipal(Math.max(0, Number(e.target.value)))}
           min={0}
           step={1000}
+          className="w-full px-4 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent placeholder-slate-500"
+          placeholder="Enter loan amount"
         />
 
         {/* Interest Rate - Monthly only */}
-        <LabeledNumber
-          id="rate"
-          label="Interest Rate (% per month)"
-          value={rateAnnual}
-          onChange={setRateAnnual}
-          min={0}
-          step={0.1}
-        />
+        <input
+            id="rate"
+            type="number"
+            value={rateAnnual}
+            onChange={(e) => setRateAnnual(Math.max(0, Number(e.target.value)))}
+            min={0}
+            step={0.1}
+            className="w-full px-4 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent placeholder-slate-500"
+            placeholder="Enter monthly interest rate"
+          />
 
         {/* Time Period */}
         <div>
