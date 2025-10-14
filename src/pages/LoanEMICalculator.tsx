@@ -76,6 +76,12 @@ const LoanEMICalculator: React.FC = () => {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <div className="finance-card rounded-lg p-6">
           <h2 className="text-xl font-semibold text-white mb-4">Loan Details</h2>
+          <button
+              onClick={() => { setPrincipal(100000); setRate(10); setTenure(12); }}
+              className="mt-4 text-blue-400 hover:text-blue-300 transition"
+            >
+              Reset
+            </button>
           
           <div className="space-y-4">
             <div>
