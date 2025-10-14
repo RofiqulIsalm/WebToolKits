@@ -327,6 +327,11 @@ const CurrencyConverter: React.FC = () => {
                 <span>Swap</span>
               </button>
           </div>
+          {lastUpdated && (
+            <p className="text-center text-xs text-slate-400 mt-2">
+              Last updated: {lastUpdated}
+            </p>
+          )}
 
           {loading && (
               <p className="text-center text-slate-300 mt-4 animate-pulse">
