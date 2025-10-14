@@ -714,14 +714,41 @@ const AdvancedControls = mode === "advanced" && (
             max={36}
             step={0.1}
           />
-          <Range
-            label="Tenure (months)"
-            value={tenureMonths}
-            onChange={(n) => setTenureMonths(Math.max(1, Math.floor(n)))}
-            min={1}
-            max={480}
-            step={1}
-          />
+          {/* Tenure Stepper */}
+<div className="space-y-2">
+  <label className="block text-sm font-medium text-slate-300">
+    Tenure (months)
+  </label>
+  <div className="flex items-center gap-3">
+    <button
+      type="button"
+      onClick={() => setTenureMonths((n) => Math.max(1, n - 1))}
+      className="px-3 py-1.5 rounded-md bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 hover:border-cyan-500 transition-all text-lg font-semibold"
+    >
+      –
+    </button>
+
+    <input
+      type="number"
+      min={1}
+      max={480}
+      value={tenureMonths}
+      onChange={(e) => setTenureMonths(Math.max(1, Number(e.target.value)))}
+      className="w-20 text-center px-3 py-2 rounded-md bg-slate-800 border border-slate-700 text-white focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+    />
+
+    <button
+      type="button"
+      onClick={() => setTenureMonths((n) => Math.min(480, n + 1))}
+      className="px-3 py-1.5 rounded-md bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 hover:border-cyan-500 transition-all text-lg font-semibold"
+    >
+      +
+    </button>
+  </div>
+  <p className="text-xs text-slate-400 mt-1">
+    {Math.floor(tenureMonths / 12)} years {tenureMonths % 12} months
+  </p>
+</div>
         </div>
       </div>
 
