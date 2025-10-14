@@ -1024,60 +1024,60 @@ const Charts =
                 Track how your outstanding loan balance reduces each month.
               </p>
              <div className="h-48 sm:h-56">
-  <ResponsiveContainer width="100%" height="100%">
-    <RLineChart data={lineData}>
-      <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-      <XAxis
-        dataKey="month"
-        stroke="#94a3b8"
-        interval={Math.ceil(lineData.length / 12)}
-      />
-      <YAxis
-        stroke="#94a3b8"
-        tickFormatter={(v) => formatNumber(v)}
-      />
-
-      {/* ✅ Polished Tooltip */}
-      <RechartsTooltip
-        formatter={(val: number, name: string) => [
-          `${formatNumber(val)}`,
-          name === "balance" ? "Remaining Balance" : name,
-        ]}
-        contentStyle={{
-          backgroundColor: "#f5f7f7", // soft light tooltip
-          border: "none",
-          borderRadius: "12px",
-          color: "#0f172a",
-          boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
-          padding: "10px 14px",
-        }}
-        itemStyle={{
-          color: "#22d3ee", // cyan text to match line color
-          fontWeight: 600,
-        }}
-        labelStyle={{
-          color: "#475569",
-          fontWeight: 500,
-        }}
-      />
-
-      <Legend
-        wrapperStyle={{
-          paddingTop: "8px",
-        }}
-      />
-
-      <Line
-        type="monotone"
-        dataKey="balance"
-        stroke="#22d3ee"
-        dot={false}
-        strokeWidth={2}
-        activeDot={{ r: 5, fill: "#06b6d4" }}
-      />
-    </RLineChart>
-  </ResponsiveContainer>
-</div>
+                <ResponsiveContainer width="100%" height="100%">
+                  <RLineChart data={lineData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                    <XAxis
+                      dataKey="month"
+                      stroke="#94a3b8"
+                      interval={Math.ceil(lineData.length / 12)}
+                    />
+                    <YAxis
+                      stroke="#94a3b8"
+                      tickFormatter={(v) => formatNumber(v)}
+                    />
+              
+                    {/* ✅ Polished Tooltip */}
+                    <RechartsTooltip
+                      formatter={(val: number, name: string) => [
+                        `${formatNumber(val)}`,
+                        name === "balance" ? "Remaining Balance" : name,
+                      ]}
+                      contentStyle={{
+                        backgroundColor: "#f5f7f7", // soft light tooltip
+                        border: "none",
+                        borderRadius: "12px",
+                        color: "#0f172a",
+                        boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
+                        padding: "10px 14px",
+                      }}
+                      itemStyle={{
+                        color: "#22d3ee", // cyan text to match line color
+                        fontWeight: 600,
+                      }}
+                      labelStyle={{
+                        color: "#475569",
+                        fontWeight: 500,
+                      }}
+                    />
+              
+                    <Legend
+                      wrapperStyle={{
+                        paddingTop: "8px",
+                      }}
+                    />
+              
+                    <Line
+                      type="monotone"
+                      dataKey="balance"
+                      stroke="#22d3ee"
+                      dot={false}
+                      strokeWidth={2}
+                      activeDot={{ r: 5, fill: "#06b6d4" }}
+                    />
+                  </RLineChart>
+                </ResponsiveContainer>
+              </div>
 
             </div>
           </div>
