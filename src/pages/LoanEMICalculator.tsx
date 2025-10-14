@@ -1136,7 +1136,7 @@ const LoanEMICalculator: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {BasicInputs}
           {BasicResults}
-        </div}
+        </div>
 
         {/* Advanced Sections */}
         {mode === "advanced" && (
