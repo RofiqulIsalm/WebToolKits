@@ -285,6 +285,50 @@ const BarsYearly: React.FC<{ data: { year: number; principal: number; interest: 
   );
 });
 
+/** -------------------------- SEO Metadata --------------------------- **/
+export const metadata = {
+  title: "Loan EMI Calculator – Fast, Accurate & Mobile-Friendly | Finance Tools",
+  description:
+    "Calculate your EMI, interest, and loan repayment schedule instantly. Supports prepayment, comparison, and charts. Ultra-fast, mobile-optimized EMI calculator with live results.",
+  keywords: [
+    "EMI calculator",
+    "loan calculator",
+    "home loan EMI",
+    "car loan EMI",
+    "personal loan",
+    "prepayment calculator",
+    "loan comparison",
+    "interest calculator",
+    "amortization schedule",
+    "finance tools"
+  ],
+  openGraph: {
+    title: "Loan EMI Calculator – Fast & Accurate Online Tool",
+    description:
+      "Instantly calculate EMI, interest, and total repayment. Includes prepayment and comparison features.",
+    url: "https://yourdomain.com/loan-emi-calculator",
+    siteName: "Finance Tools",
+    images: [
+      {
+        url: "https://yourdomain.com/og-image-loan-emi.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Loan EMI Calculator Online"
+      }
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Loan EMI Calculator – Accurate & Fast",
+    description:
+      "Calculate EMI, prepayments, and loan schedules instantly. No ads. Free, fast, and responsive.",
+    images: ["https://yourdomain.com/og-image-loan-emi.jpg"],
+  },
+};
+
+
 /** ---------------------------- Subcomponents ---------------------------- **/
 const BasicInputs: React.FC<{
   currency: Currency;
