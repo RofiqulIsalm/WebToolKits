@@ -326,7 +326,7 @@ const BasicInputs: React.FC<{
                 }} className="w-full px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500" />
               </div>
             </div>
-            <p className="text-xs text-slate-400 mt-1">{Math.floor(tenureMonths / 12)} years {tenureMonths % 12} months001</p>
+            <p className="text-xs text-slate-400 mt-1">{Math.floor(tenureMonths / 12)} years {tenureMonths % 12} months</p>
             
           </div>
         </div>
