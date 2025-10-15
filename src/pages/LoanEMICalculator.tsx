@@ -713,19 +713,74 @@ const LoanEMICalculator_Full: React.FC = () => {
 
       {/* Basic Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-3">
-        <BasicInputs
-          currency={currency} setCurrency={setCurrency}
-          principal={principalRaw} setPrincipal={setPrincipalRaw}
-          rateAnnual={rateAnnualRaw} setRateAnnual={setRateAnnualRaw}
-          tenureMonths={tenureMonthsRaw} setTenureMonths={setTenureMonthsRaw}
-        />
-        <BasicResults
-          currencySymbol={currency}
-          emi={emiDeferred}
-          principal={principal}
-          totalInterest={totalInterestDeferred}
-          totalAmount={totalAmountDeferred}
-        />
+          {/* Loan Amount */}
+<label htmlFor="principal" className="block text-sm font-medium text-slate-300">
+  Loan Amount (Principal)
+</label>
+<input
+  id="principal"
+  type="number"
+  value={principal === 0 ? "" : principal}
+  onChange={(e) => setPrincipal(Math.max(0, Number(e.target.value)))}
+  min={0}
+  step={1000}
+  className="w-full px-4 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500"
+  placeholder="Enter loan amount"
+/>
+
+{/* Interest Rate */}
+<label htmlFor="rate" className="block text-sm font-medium text-slate-300 mb-2">
+  Interest Rate (% per annum)
+</label>
+<input
+  id="rate"
+  type="number"
+  value={rateAnnual === 0 ? "" : rateAnnual}
+  onChange={(e) => setRateAnnual(Math.max(0, Number(e.target.value)))}
+  min={0}
+  max={100}
+  step={0.1}
+  className="w-full px-4 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500"
+  placeholder="Enter annual interest rate"
+/>
+
+{/* Time Period */}
+<label className="block text-sm font-medium text-slate-300 mb-2">Time Period</label>
+<div className="flex gap-3 flex-wrap">
+  <div className="flex-1 min-w-[100px]">
+    <label className="block text-xs text-slate-400 mb-1">Years</label>
+    <input
+      type="number"
+      min={0}
+      value={Math.floor(tenureMonths / 12) === 0 ? "" : Math.floor(tenureMonths / 12)}
+      onChange={(e) => {
+        const years = Number(e.target.value);
+        const months = tenureMonths % 12;
+        setTenureMonths(years * 12 + months);
+      }}
+      className="w-full px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500"
+      placeholder="Years"
+/>
+  </div>
+
+  <div className="flex-1 min-w-[100px]">
+    <label className="block text-xs text-slate-400 mb-1">Months</label>
+    <input
+      type="number"
+      min={0}
+      max={11}
+      value={tenureMonths % 12 === 0 ? "" : tenureMonths % 12}
+      onChange={(e) => {
+        const months = Math.min(11, Number(e.target.value));
+        const years = Math.floor(tenureMonths / 12);
+        setTenureMonths(years * 12 + months);
+      }}
+      className="w-full px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500"
+      placeholder="Months"
+/>
+  </div>
+</div>
+
       </div>
 
       {/* Advanced Sections */}
