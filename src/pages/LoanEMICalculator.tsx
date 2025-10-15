@@ -722,12 +722,14 @@ const LoanEMICalculator_Full: React.FC = () => {
 
       {/* Basic Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-3">
-          <BasicInputs
-            currency={currency} setCurrency={setCurrency}
-            principal={principalRaw} setPrincipal={setPrincipalRaw}
-            rateAnnual={rateAnnualRaw} setRateAnnual={setRateAnnualRaw}
-            tenureMonths={tenureMonthsRaw} setTenureMonths={setTenureMonthsRaw}
-          />
+          <input
+              id="principal"
+              type="number"
+              value={principal === 0 ? "" : principal}
+              onChange={(e) => setPrincipal(Math.max(0, Number(e.target.value)))}
+              placeholder={placeholders?.principal || "Enter loan amount"}
+              ...
+            />
           <BasicResults
             currencySymbol={currency}
             emi={emiDeferred}
