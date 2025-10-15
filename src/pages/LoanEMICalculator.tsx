@@ -14,6 +14,7 @@ import React, { Suspense, useDeferredValue, useEffect, useMemo, useRef, useState
 import { RotateCcw } from "lucide-react";
 import { Helmet } from "react-helmet";
 
+ 
 /** -------------------------- Types & Helpers --------------------------- **/
 type Mode = "basic" | "advanced";
 type RateMode = "per_annum" | "per_month";
@@ -336,12 +337,12 @@ const BarsYearly: React.FC<{ data: { year: number; principal: number; interest: 
   <meta property="og:title" content="Loan EMI Calculator – Fast & Accurate" />
   <meta property="og:description" content="Instant EMI calculation, charts, and repayment analysis for home, car, or personal loans." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://calculatorhub.site/loan-emi-calculator" />
-  <meta property="og:image" content="https://calculatorhub.site/og-image-loan-emi.jpg" />
+  <meta property="og:url" content="https://yourdomain.com/loan-emi-calculator" />
+  <meta property="og:image" content="https://yourdomain.com/og-image-loan-emi.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Loan EMI Calculator – Accurate & Fast" />
   <meta name="twitter:description" content="Calculate EMI and prepayment instantly. Mobile-friendly and ad-free." />
-</Head> 
+</Head>
 
 /** ---------------------------- Subcomponents ---------------------------- **/
 const BasicInputs: React.FC<{
