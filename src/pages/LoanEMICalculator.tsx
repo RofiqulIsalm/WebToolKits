@@ -301,6 +301,11 @@ export const metadata = {
     { name: "Loan EMI Calculator", url: "/loan-emi-calculator" },
   ]}
 />
+<div className="max-w-4xl mx-auto">
+      <Breadcrumbs items={[
+        { name: 'Unit Converters', url: '/category/unit-converters' },
+        { name: 'Length Converter', url: '/length-converter' }
+      ]} />
 
 /** ---------------------------- Subcomponents (styled to match FuelCost) ---------------------------- **/
 const Card: React.FC<React.PropsWithChildren<{ className?: string }>> = ({ className = "", children }) => (
