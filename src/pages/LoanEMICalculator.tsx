@@ -793,7 +793,7 @@ const LoanEMICalculator_Full: React.FC = () => {
         : "Basic Mode: simple EMI calculation"}
     </div>
   </div>
-</div>
+
 
 
         <div className="text-slate-400 text-sm">Tip: Advanced mode unlocks prepayments, charts, amortization schedule, and comparisons.</div>
