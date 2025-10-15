@@ -561,7 +561,73 @@ const LoanEMICalculator: React.FC = () => {
               <div className="text-xs text-slate-500 mt-2">{years} years {months} months</div>
             </div>
 
-            
+            {/* Advanced: Prepayments (with enable toggles) */}
+            {advanced && (
+              <div className="mt-6 rounded-xl border border-slate-700 bg-slate-900/60 p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <Info className="h-4 w-4 text-indigo-400" />
+                  <div className="font-semibold text-slate-100 text-sm">Prepayments</div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="bg-slate-800/40 p-4 rounded-lg border border-slate-700 space-y-3">
+                    <div className="flex justify-between items-center">
+                      <label className="text-slate-200 font-medium">One-time Lump Sum</label>
+                      <input type="checkbox" className="accent-cyan-500" checked={enableOneTime} onChange={(e) => setEnableOneTime(e.target.checked)} />
+                    </div>
+                    <div className={`grid grid-cols-2 gap-3 ${enableOneTime ? '' : 'opacity-50 pointer-events-none'}`}>
+                      <div>
+                        <label className="block text-xs text-slate-400 mb-1">Amount</label>
+                        <input
+                          type="number"
+                          min={0}
+                          value={oneTimeAmount}
+                          onChange={(e) => setOneTimeAmount(Math.max(0, Number(e.target.value)))}
+                          className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-slate-100"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-slate-400 mb-1">Month #</label>
+                        <input
+                          type="number"
+                          min={1}
+                          value={oneTimeMonth}
+                          onChange={(e) => setOneTimeMonth(Math.max(1, Math.floor(Number(e.target.value))))}
+                          className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-slate-100"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-800/40 p-4 rounded-lg border border-slate-700 space-y-3">
+                    <div className="flex justify-between items-center">
+                      <label className="text-slate-200 font-medium">Extra Monthly Payment</label>
+                      <input type="checkbox" className="accent-cyan-500" checked={enableExtraMonthly} onChange={(e) => setEnableExtraMonthly(e.target.checked)} />
+                    </div>
+                    <div className={`${enableExtraMonthly ? '' : 'opacity-50 pointer-events-none'}`}>
+                      <label className="block text-xs text-slate-400 mb-1">Extra per month</label>
+                      <input
+                        type="number"
+                        min={0}
+                        value={extraMonthly}
+                        onChange={(e) => setExtraMonthly(Math.max(0, Number(e.target.value)))}
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-slate-100"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex gap-2 mt-4">
+                  <button onClick={copyShareLink} className="px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-100 border border-slate-600 text-sm">Copy Link</button>
+                  <button onClick={printResults} className="px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-100 border border-slate-600 text-sm">Print</button>
+                </div>
+
+                <div className="text-xs text-slate-500 mt-3">
+                  Extra/one-time amounts go directly toward principal and can shorten the payoff time substantially.
+                </div>
+              </div>
+            )}
+          </div> 
 
           {/* ------- Right: EMI Breakdown ------- */}
           <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-6 flex flex-col">
