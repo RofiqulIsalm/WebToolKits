@@ -502,8 +502,15 @@ const LoanEMICalculator: React.FC = () => {
     setCompareTenureMonths(240);
   };
 
-  const fmt = (v: number) =>
-    isFinite(v) ? `${currency}${v.toLocaleString(undefined, { maximumFractionDigits: 2 })}` : `${currency}0.00`;
+  const fmt = (v: number) => {
+    if (!isFinite(v)) return `${currency}0`;
+    const abs = Math.abs(v);
+    const fmtCompact = new Intl.NumberFormat(undefined, {
+      notation: abs >= 1000 ? 'compact' : 'standard',
+      maximumFractionDigits: abs >= 1000000 ? 2 : 2,
+    });
+    return `${currency}${fmtCompact.format(v)}`;
+  };
 
   const { push: pushToast } = useToasts(); // local usage if needed
 
