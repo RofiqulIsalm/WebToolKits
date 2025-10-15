@@ -299,8 +299,24 @@ const BasicInputs: React.FC<{
           <h2 className="text-xl font-semibold text-cyan-300 drop-shadow flex items-center gap-2">Loan Details </h2>
           <div className="flex items-center gap-2">
             <select value={currency} onChange={(e) => setCurrency(e.target.value as Currency)} className="px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg">
-              <option>$</option><option>₹</option><option>€</option><option>£</option>
+              <option>$</option>
+              <option>₹</option>
+              <option>€</option>
+              <option>£</option>
             </select>
+            
+            {/* Reset Button */}
+          <button
+            onClick={() => {
+              setPrincipal(0);
+              setRateAnnual(0);
+              setTenureMonths(0);
+            }}
+            className="px-3 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-md border border-slate-700 active:scale-95 transition-all duration-150"
+            title="Reset all inputs"
+          >
+            Reset
+          </button>
           </div>
         </div>
         <div className="space-y-5">
