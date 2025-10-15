@@ -342,6 +342,25 @@ const BarsYearly: React.FC<{ data: { year: number; principal: number; interest: 
   <meta name="twitter:title" content="Loan EMI Calculator – Accurate & Fast" />
   <meta name="twitter:description" content="Calculate EMI and prepayment instantly. Mobile-friendly and ad-free." />
 </Head>
+  <script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FinancialProduct",
+      name: "Loan EMI Calculator",
+      description:
+        "Online EMI calculator for home, car, or personal loans. Includes prepayment and comparison features.",
+      url: "https://yourdomain.com/loan-emi-calculator",
+      offers: {
+        "@type": "Offer",
+        price: "0.00",
+        priceCurrency: "USD",
+      },
+    }),
+  }}
+/>
+
 
 /** ---------------------------- Subcomponents ---------------------------- **/
 const BasicInputs: React.FC<{
