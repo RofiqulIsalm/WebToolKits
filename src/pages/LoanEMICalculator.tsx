@@ -426,7 +426,7 @@ const AdvancedControls: React.FC<{
                 />
                 <svg
                   className={`w-3 h-3 text-cyan-400 transition-opacity duration-150 ${
-                    showSchedule ? "opacity-100" : "opacity-0"
+                    prepay.enableOneTime ? "opacity-100" : "opacity-0"
                   }`}
                   fill="none"
                   stroke="currentColor"
