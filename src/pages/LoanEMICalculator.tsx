@@ -486,7 +486,7 @@ const LoanEMICalculator: React.FC = () => {
               <select
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value as Currency)}
-                className="w-24 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-slate-100"
+                className="w-10 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-slate-100"
               >
                 <option value="$">$</option>
                 <option value="€">€</option>
