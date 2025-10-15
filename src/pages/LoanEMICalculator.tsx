@@ -12,8 +12,7 @@
 */
 import React, { Suspense, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { RotateCcw } from "lucide-react";
-import { Helmet } from "react-helmet";
-
+import Head from "next/head";
  
 /** -------------------------- Types & Helpers --------------------------- **/
 type Mode = "basic" | "advanced";
