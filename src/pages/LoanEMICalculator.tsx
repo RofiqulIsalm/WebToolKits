@@ -8,7 +8,7 @@ import { RotateCcw } from "lucide-react";
 // If you use these in your app, you can re-enable imports or keep as-is
 import Breadcrumbs from "../components/Breadcrumbs";
 import SEOHead from "../components/SEOHead";
-
+ 
 /** -------------------------- Types & Helpers --------------------------- **/
 type Mode = "basic" | "advanced";
 type RateMode = "per_annum" | "per_month";
@@ -301,10 +301,7 @@ export const metadata = {
     { name: "Loan EMI Calculator", url: "/loan-emi-calculator" },
   ]}
 />
-<Breadcrumbs items={[
-        { name: 'Unit Converters', url: '/category/unit-converters' },
-        { name: 'Length Converter', url: '/length-converter' }
-      ]} />
+
 
 
 /** ---------------------------- Subcomponents (styled to match FuelCost) ---------------------------- **/
