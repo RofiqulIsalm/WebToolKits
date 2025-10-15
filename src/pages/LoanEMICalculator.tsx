@@ -1048,49 +1048,56 @@ const LoanEMICalculator: React.FC = () => {
         </h1>
       
         <p>
-          Our <strong>Loan EMI Calculator</strong> is a simple yet powerful tool that helps you calculate your
-          <strong>Equated Monthly Installment (EMI)</strong> in just seconds. Whether you’re planning a
-          <strong>home loan, car loan, or personal loan</strong>, this calculator provides instant results for your
-          monthly payment, total interest, and overall repayment amount.
+          Our <strong>Loan EMI Calculator</strong> is a simple yet powerful tool that helps you calculate your{" "}
+          <strong>Equated Monthly Installment (EMI)</strong> in seconds. Whether you’re planning a{" "}
+          <strong>home loan, car loan, personal loan, or education loan</strong>, this calculator provides instant results
+          for your monthly payment, total interest, and overall repayment amount. It’s designed for speed, accuracy, and
+          clarity so you can budget confidently before applying for credit.
+        </p>
+
+        <p>
+          The EMI math used here follows standard banking practice (reducing balance method). You can also explore{" "}
+          <strong>advanced features</strong> such as one‑time prepayments and extra monthly payments, generate a{" "}
+          <strong>detailed amortization schedule</strong>, compare loan scenarios side‑by‑side, and export a{" "}
+          <strong>CSV</strong> for record‑keeping. Everything runs in your browser—no sign‑up, no personal data, and no tracking.
         </p>
       
+         <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">What Is an EMI?</h2>
         <p>
-          The EMI formula used here is based on standard banking calculations, ensuring accurate and reliable results.
-          You can also explore <strong>advanced features</strong> such as prepayments, extra monthly installments,
-          and a full amortization schedule to understand your loan better.
-        </p>
-      
-        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">What Is an EMI?</h2>
-        <p>
-          EMI stands for <em>Equated Monthly Installment</em> — the fixed payment amount you make every month to
-          repay your loan. Each EMI includes two components:
+          EMI stands for <em>Equated Monthly Installment</em> — a fixed payment that combines{" "}
+          <strong>principal</strong> (the amount you borrowed) and <strong>interest</strong> (the cost of borrowing).
+          At the start of your loan, the interest portion of each EMI is higher. As you keep paying, the interest share
+          declines while the principal share increases, helping you pay down the outstanding balance progressively.
         </p>
         <ul>
-          <li><strong>Principal:</strong> The original loan amount borrowed from the lender.</li>
-          <li><strong>Interest:</strong> The cost of borrowing, calculated on the remaining loan balance.</li>
+          <li>
+            <strong>Principal:</strong> The original loan amount you receive from the lender.
+          </li>
+          <li>
+            <strong>Interest:</strong> Charged on the remaining balance and calculated monthly using the annual rate.
+          </li>
         </ul>
-      
+
         <p>
-          As you continue paying EMIs, the interest portion decreases while the principal portion increases,
-          helping you pay off your loan gradually.
+          Because the calculation is based on a reducing balance, every extra rupee or dollar paid early (as a prepayment)
+          can create meaningful interest savings. Use the <strong>Advanced Mode</strong> in this calculator to simulate
+          your best repayment strategy.
         </p>
       
         <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">How to Use This Loan EMI Calculator</h2>
         <ol className="list-decimal list-inside space-y-2">
           <li>Enter your <strong>loan amount (principal)</strong>.</li>
-          <li>Set the <strong>annual interest rate</strong> offered by your bank or lender.</li>
+          <li>Set the <strong>annual interest rate</strong> from your bank or lender.</li>
           <li>Input the <strong>loan tenure</strong> in years and months.</li>
-          <li>Click “Calculate” to instantly view your monthly EMI, total interest, and total payment.</li>
+          <li>View your <strong>monthly EMI</strong>, <strong>total interest</strong>, and <strong>total payment</strong> instantly.</li>
         </ol>
         <p>
-          In <strong>Advanced Mode</strong>, you can also add <em>one-time prepayments</em> or
-          <em>extra monthly payments</em> to see how much faster you can pay off your loan and save on interest.
+          In <strong>Advanced Mode</strong>, add a <em>one‑time lump‑sum</em> prepayment or an <em>extra monthly amount</em> to see how much
+          faster you can finish the loan and how much interest you can save. You can also export the month‑by‑month schedule as CSV.
         </p>
-      
+
         <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">EMI Calculation Formula</h2>
-        <p>
-          The EMI is calculated using this standard formula:
-        </p>
+        <p>The EMI is calculated using the standard formula:</p>
         <pre className="bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto">
           EMI = [P × R × (1 + R)^N] / [(1 + R)^N – 1]
         </pre>
@@ -1100,33 +1107,77 @@ const LoanEMICalculator: React.FC = () => {
           <li><strong>N</strong> = Loan tenure in months</li>
         </ul>
         <p>
-          This formula ensures precise calculation of your monthly EMI based on reducing balance method, which is
-          used by most banks and NBFCs.
+          This formula ensures precision and transparency, matching the method used by most banks and NBFCs for retail
+          loans. It’s ideal for <strong>home loans</strong>, <strong>car loans</strong>, <strong>personal loans</strong>, and
+          <strong> small business loans</strong>.
         </p>
       
-        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Why Use Our EMI Calculator?</h2>
+       <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Why Use Our EMI Calculator?</h2>
         <ul className="space-y-2">
-          <li>✅ Fast, accurate, and 100% free.</li>
-          <li>✅ Works for <strong>home loans, car loans, personal loans</strong>, or any other loan type.</li>
-          <li>✅ Advanced options for <strong>prepayment and comparison</strong>.</li>
-          <li>✅ Generates a detailed <strong>amortization schedule</strong>.</li>
-          <li>✅ Mobile-friendly, lightweight, and ad-free experience.</li>
+          <li>✅ Instant, accurate, and 100% free.</li>
+          <li>✅ Works for <strong>home, car, education, and personal loans</strong>.</li>
+          <li>✅ Advanced options for <strong>prepayment</strong>, <strong>comparison</strong>, and <strong>CSV export</strong>.</li>
+          <li>✅ Mobile‑friendly, lightweight, and privacy‑friendly.</li>
+          <li>✅ Clear charts and a full <strong>amortization schedule</strong>.</li>
         </ul>
-      
+
         <p>
-          Using this calculator helps you plan your finances better, compare loan options, and make informed decisions
-          before applying for credit.
+          By testing different amounts, rates, and tenures, you can find a comfortable EMI that fits your monthly budget.
+          You’ll also see how shortening the tenure or making small prepayments can reduce the interest paid over time.
         </p>
       
         <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Example: EMI for ₹10 Lakh Loan</h2>
         <p>
           Suppose you take a <strong>₹10,00,000 home loan</strong> for 20 years at an annual interest rate of 8%.
-          The EMI would be approximately ₹8,364 per month. Over the tenure, you’ll pay ₹10,00,000 principal +
-          ₹10,07,360 interest = ₹20,07,360 total.
+          The EMI would be approximately ₹8,364 per month. Over the tenure, you’ll pay ₹10,00,000 principal + ₹10,07,360 interest
+          = ₹20,07,360 total. With modest prepayments—say ₹1,000–₹2,000 per month or a one‑time bonus—you can
+          finish sooner and save significant interest.
         </p>
         <p>
-          You can reduce your total interest drastically by making one-time prepayments or adding a small extra EMI
-          every month — try our <strong>Advanced Mode</strong> to simulate these savings.
+          Try similar scenarios for <a href="/car-loan-calculator" className="text-indigo-400 hover:underline">Car Loan EMIs</a> or{" "}
+          <a href="/personal-loan-calculator" className="text-indigo-400 hover:underline">Personal Loan EMIs</a>, or plan long‑term investing with our{" "}
+          <a href="/sip-calculator" className="text-indigo-400 hover:underline">SIP Calculator</a>.
+        </p>
+
+      
+      
+       <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Understanding Interest Rates & Tenure</h2>
+        <p>
+          The biggest drivers of your EMI are the interest rate and tenure. A lower rate reduces your monthly EMI and
+          total interest. A longer tenure lowers EMI but increases total interest because you pay for more months. A
+          shorter tenure does the opposite—higher EMI but lower overall interest. The sweet spot depends on your cash flow
+          and risk tolerance.
+        </p>
+        <p>
+          For current lending guidelines and definitions, review reputable sources like{" "}
+          <a href="https://www.rbi.org.in/" target="_blank" rel="nofollow noopener noreferrer" className="text-indigo-400 hover:underline">
+            Reserve Bank of India
+          </a>{" "}
+          or introductory primers on{" "}
+          <a href="https://www.investopedia.com/terms/l/loan.asp" target="_blank" rel="nofollow noopener noreferrer" className="text-indigo-400 hover:underline">
+            Investopedia
+          </a>{" "}
+          and{" "}
+          <a href="https://en.wikipedia.org/wiki/Loan" target="_blank" rel="nofollow noopener noreferrer" className="text-indigo-400 hover:underline">
+            Wikipedia
+          </a>.
+        </p>
+        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">How Prepayments Save Interest</h2>
+        <p>
+          Prepayments directly reduce the outstanding principal, which lowers the interest calculation for every future
+          month. Two common methods are supported here:
+        </p>
+        <ul>
+          <li>
+            <strong>One‑time lump‑sum:</strong> Pay a larger amount at a chosen month—helps cut the principal sharply.
+          </li>
+          <li>
+            <strong>Extra monthly amount:</strong> Add a smaller recurring amount each month—compounding savings over time.
+          </li>
+        </ul>
+        <p>
+          Both strategies can shorten the loan tenure considerably. Use Advanced Mode to visualize the effect on your
+          payoff timeline and total savings, and export the schedule for your records.
         </p>
       
         {/* ===================== FAQ SECTION (Styled) ===================== */}
