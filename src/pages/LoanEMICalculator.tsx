@@ -419,38 +419,37 @@ const AdvancedControls: React.FC<{
             <div className="flex justify-between items-center">
               <label className="text-slate-300 font-medium">One-time Lump Sum</label>
                  <label className="relative flex items-center gap-2 cursor-pointer select-none group">
-                  <input
-                    type="checkbox"
-                    checked={prepay.enableOneTime}
-                    onChange={(e) =>
-                      setPrepay((s) => ({ ...s, enableOneTime: e.target.checked }))
-                    }
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer peer"
-                  />
-                  <span
-                    className={`flex items-center justify-center w-5 h-5 rounded-md border-2 transition-all duration-300 ease-in-out 
-                      ${
-                        prepay.enableOneTime
-                          ? "border-cyan-400 bg-cyan-500/20 shadow-[0_0_8px_rgba(34,211,238,0.6)]"
-                          : "border-slate-600 bg-slate-800/70 group-hover:border-cyan-500/40"
-                      }`}
+                <input
+                  type="checkbox"
+                  checked={prepay.enableOneTime}
+                  onChange={(e) =>
+                    setPrepay((s) => ({ ...s, enableOneTime: e.target.checked }))
+                  }
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer peer"
+                />
+                <span
+                  className={`flex items-center justify-center w-5 h-5 rounded-md border-2 transition-all duration-300 ease-in-out 
+                    ${
+                      prepay.enableOneTime
+                        ? "border-cyan-400 bg-cyan-500/20 shadow-[0_0_8px_rgba(34,211,238,0.6)]"
+                        : "border-slate-600 bg-slate-800/70 group-hover:border-cyan-500/40"
+                    }`}
+                >
+                  <svg
+                    className={`w-3 h-3 text-cyan-300 transition-transform duration-200 ${
+                      prepay.enableOneTime
+                        ? "opacity-100 scale-100"
+                        : "opacity-0 scale-75"
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    viewBox="0 0 24 24"
                   >
-                    <svg
-                      className={`w-3 h-3 text-cyan-300 transition-transform duration-200 ${
-                        prepay.enableOneTime
-                          ? "opacity-100 scale-100"
-                          : "opacity-0 scale-75"
-                      }`}
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </span>
-                  <span className="text-slate-300 text-sm">One-Time Lump Sum</span>
-                </label>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+              </label>
 
 
                 
