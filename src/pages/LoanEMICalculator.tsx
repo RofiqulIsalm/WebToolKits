@@ -12,6 +12,7 @@
 */
 import React, { Suspense, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { RotateCcw } from "lucide-react";
+import Head from "next/head";
 
 /** -------------------------- Types & Helpers --------------------------- **/
 type Mode = "basic" | "advanced";
@@ -306,11 +307,11 @@ const BarsYearly: React.FC<{ data: { year: number; principal: number; interest: 
       title: "Loan EMI Calculator – Fast & Accurate Online Tool",
       description:
         "Instantly calculate EMI, interest, and total repayment. Includes prepayment and comparison features.",
-      url: "https://yourdomain.com/loan-emi-calculator",
+      url: "https://calculatorhub.site/loan-emi-calculator",
       siteName: "Finance Tools",
       images: [
         {
-          url: "https://yourdomain.com/og-image-loan-emi.jpg",
+          url: "https://calculatorhub.site/og-image-loan-emi.jpg",
           width: 1200,
           height: 630,
           alt: "Loan EMI Calculator Online"
@@ -324,7 +325,7 @@ const BarsYearly: React.FC<{ data: { year: number; principal: number; interest: 
       title: "Loan EMI Calculator – Accurate & Fast",
       description:
         "Calculate EMI, prepayments, and loan schedules instantly. No ads. Free, fast, and responsive.",
-      images: ["https://yourdomain.com/og-image-loan-emi.jpg"],
+      images: ["https://calculatorhub.site/og-image-loan-emi.jpg"],
     },
   };
 
