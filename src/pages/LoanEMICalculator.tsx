@@ -285,11 +285,21 @@ export const metadata = {
   },
 };
 <SEOHead
-  title="Loan EMI Calculator – Fast, Accurate & Mobile-Friendly | Finance Tools"
-  description="Calculate your EMI, interest, and loan repayment schedule instantly. Supports prepayment, comparison, and charts. Ultra-fast, mobile-optimized EMI calculator with live results."
-  url="https://calculatorhub.site/loan-emi-calculator"
-  image="https://calculatorhub.site/og-image-loan-emi.jpg"
-  keywords="EMI calculator, loan calculator, home loan, car loan, personal loan, prepayment calculator, interest calculator"
+  title="Loan EMI Calculator – Fast, Accurate & Mobile-Friendly"
+  description="Instantly calculate your loan EMI, interest, and total repayment. Supports prepayment, comparison, and charts. Fast, accurate, and mobile-optimized."
+  canonical="https://calculatorhub.site/loan-emi-calculator"
+  ogImage="/og-image-loan-emi.jpg"
+  schemaData={{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Loan EMI Calculator",
+    "description": "Free online Loan EMI Calculator by CalculatorHub. Instantly calculate EMI, interest, and amortization schedule for home, car, and personal loans with prepayment and comparison features.",
+    "url": "https://calculatorhub.site/loan-emi-calculator",
+  }}
+  breadcrumbs={[
+    { name: "Finance Tools", url: "/category/finance-tools" },
+    { name: "Loan EMI Calculator", url: "/loan-emi-calculator" },
+  ]}
 />
 
 /** ---------------------------- Subcomponents (styled to match FuelCost) ---------------------------- **/
