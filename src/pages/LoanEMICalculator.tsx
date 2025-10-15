@@ -505,7 +505,7 @@ const LoanEMICalculator: React.FC = () => {
   const fmt = (v: number) => {
       if (!isFinite(v)) return `${currency}0`;
       const abs = Math.abs(v);
-      if (abs < 1_000_000) {
+      if (abs < 1_000_0000) {
         // Standard formatted number with commas
         return `${currency}${v.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
       } else {
