@@ -329,6 +329,19 @@ const BarsYearly: React.FC<{ data: { year: number; principal: number; interest: 
     },
   };
 
+<Head>
+  <title>Loan EMI Calculator – Fast, Accurate & Mobile-Friendly</title>
+  <meta name="description" content="Calculate EMI, interest, prepayments, and loan comparison instantly. Ultra-fast, responsive EMI calculator with charts and amortization schedule." />
+  <meta name="keywords" content="EMI calculator, loan calculator, prepayment, home loan, interest calculator, finance tools, comparison, amortization schedule" />
+  <meta property="og:title" content="Loan EMI Calculator – Fast & Accurate" />
+  <meta property="og:description" content="Instant EMI calculation, charts, and repayment analysis for home, car, or personal loans." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yourdomain.com/loan-emi-calculator" />
+  <meta property="og:image" content="https://yourdomain.com/og-image-loan-emi.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Loan EMI Calculator – Accurate & Fast" />
+  <meta name="twitter:description" content="Calculate EMI and prepayment instantly. Mobile-friendly and ad-free." />
+</Head>
 
 /** ---------------------------- Subcomponents ---------------------------- **/
 const BasicInputs: React.FC<{
