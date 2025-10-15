@@ -418,11 +418,9 @@ const AdvancedControls: React.FC<{
           <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 space-y-3">
             <div className="flex justify-between items-center">
               <label className="text-slate-300 font-medium">One-time Lump Sum</label>
-              <input 
-                type="checkbox" 
-                checked={prepay.enableOneTime} 
-                onChange={(e) => setPrepay(s => ({ ...s, enableOneTime: e.target.checked }))} 
-                className="w-4 h-4 accent-cyan-500"/>
+              
+
+                
             </div>
             <div className={`grid grid-cols-1 sm:grid-cols-2 gap-3 ${prepay.enableOneTime ? "" : "opacity-50 pointer-events-none"}`}>
               <div>
