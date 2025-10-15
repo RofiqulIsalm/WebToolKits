@@ -1174,6 +1174,22 @@ const LoanEMICalculator_Full: React.FC = () => {
           100% free, secure, and works without any login. No ads, no tracking — just accurate EMI results.
         </p>
       </section>
+      <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+        <div className="flex items-center gap-3">
+          <img
+            src="/images/calculatorhub-author.jpg"
+            alt="CalculatorHub Security Tools Team"
+            className="w-12 h-12 rounded-full border border-gray-600"
+            loading="lazy"
+          />
+          <div>
+            <p className="font-semibold text-white">Written by the CalculatorHub Security Tools Team</p>
+            <p className="text-sm text-slate-400">
+              Experts in web security and online calculator development. Last updated: <time dateTime="2025-10-10">October 10, 2025</time>.
+            </p>
+          </div>
+        </div>
+      </section>
       
      {/* ============= LOAN EMI CALCULATOR ENHANCED SEO SCHEMAS ================ */}
               <script
