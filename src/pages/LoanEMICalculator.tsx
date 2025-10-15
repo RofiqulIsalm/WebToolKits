@@ -891,7 +891,38 @@ const LoanEMICalculator_Full: React.FC = () => {
               <div className="flex items-center justify-between mb-4 gap-3 flex-wrap">
                 <h3 className="text-lg font-semibold text-cyan-300">Compare Loans</h3>
                 <label className="flex items-center gap-2 text-slate-300 text-sm">
-                  <input type="checkbox" className="accent-cyan-500 h-4 w-4" checked={compare.enabled} onChange={(e) => setCompare((c) => ({ ...c, enabled: e.target.checked }))} />
+                  <label className="relative flex items-center gap-2 cursor-pointer select-none group">
+                  <input
+                    type="checkbox"
+                    checked={compare.enabled}
+                    onChange={(e) =>
+                      setCompare((c) => ({ ...c, enabled: e.target.checked }))
+                    }
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer peer"
+                  />
+                  <span
+                    className={`flex items-center justify-center w-5 h-5 rounded-md border-2 transition-all duration-300 ease-in-out 
+                      ${
+                        compare.enabled
+                          ? "border-cyan-400 bg-cyan-500/20 shadow-[0_0_8px_rgba(34,211,238,0.6)]"
+                          : "border-slate-600 bg-slate-800/70 group-hover:border-cyan-500/40"
+                      }`}
+                  >
+                    <svg
+                      className={`w-3 h-3 text-cyan-300 transition-transform duration-200 ${
+                        compare.enabled ? "opacity-100 scale-100" : "opacity-0 scale-75"
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </span>
+                  <span className="text-slate-300 text-sm">Enable Comparison</span>
+                </label>
+
                   Enable
                 </label>
               </div>
