@@ -418,7 +418,23 @@ const AdvancedControls: React.FC<{
           <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 space-y-3">
             <div className="flex justify-between items-center">
               <label className="text-slate-300 font-medium">One-time Lump Sum</label>
-              
+              <input
+                  type="checkbox"
+                  checked={prepay.enableOneTime}
+                  onChange={(e) => setPrepay(s => ({ ...s, enableOneTime: e.target.checked }))} 
+                  className="absolute inset-0 opacity-0 cursor-pointer peer"
+                />
+                <svg
+                  className={`w-3 h-3 text-cyan-400 transition-opacity duration-150 ${
+                    showSchedule ? "opacity-100" : "opacity-0"
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
 
                 
             </div>
