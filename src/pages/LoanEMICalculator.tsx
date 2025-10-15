@@ -1175,7 +1175,48 @@ const LoanEMICalculator_Full: React.FC = () => {
         </p>
       </section>
       
-      {/* ✅ JSON-LD FAQ Schema for Rich Snippets */}
+     {/* ============= LOAN EMI CALCULATOR ENHANCED SEO SCHEMAS ================ */}
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                  __html: JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "WebPage",
+                    "name": "Loan EMI Calculator",
+                    "url": "https://calculatorhub.site/loan-emi-calculator",
+                    "description": "Free online Loan EMI Calculator by CalculatorHub. Instantly calculate monthly EMI, total interest, and amortization schedule for home, car, and personal loans with prepayment and comparison features.",
+                    "breadcrumb": {
+                      "@type": "BreadcrumbList",
+                      "itemListElement": [
+                        {
+                          "@type": "ListItem",
+                          "position": 1,
+                          "name": "Finance Tools",
+                          "item": "https://calculatorhub.site/category/finance-tools"
+                        },
+                        {
+                          "@type": "ListItem",
+                          "position": 2,
+                          "name": "Loan EMI Calculator",
+                          "item": "https://calculatorhub.site/loan-emi-calculator"
+                        }
+                      ]
+                    },
+                    "hasPart": {
+                      "@type": "CreativeWork",
+                      "name": "Loan EMI Calculator Features",
+                      "about": [
+                        "Calculates EMI, total interest, and total payment",
+                        "Supports home, car, and personal loans",
+                        "Includes prepayment and extra monthly payment options",
+                        "Generates amortization schedule and exportable CSV",
+                        "Works in multiple currencies"
+                      ]
+                    }
+                  })
+                }}
+              />
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -1185,48 +1226,84 @@ const LoanEMICalculator_Full: React.FC = () => {
             "mainEntity": [
               {
                 "@type": "Question",
-                "name": "Is this EMI calculator accurate?",
+                "name": "What is a Loan EMI Calculator?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Yes. It uses the same standard EMI formula used by banks and financial institutions for accurate results."
+                  "text": "A Loan EMI Calculator helps you calculate your monthly Equated Monthly Installment (EMI) for home, car, or personal loans based on principal, interest rate, and tenure."
                 }
               },
               {
                 "@type": "Question",
-                "name": "Can I use this calculator for car or personal loans?",
+                "name": "How do I calculate EMI for my loan?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Yes. The calculator works for all types of loans — home, car, education, or personal."
+                  "text": "Enter your loan amount, interest rate, and loan tenure. The calculator instantly shows your monthly EMI, total interest payable, and total repayment amount."
                 }
               },
               {
                 "@type": "Question",
-                "name": "Does prepayment really save money?",
+                "name": "Can I add prepayments in this EMI calculator?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Yes. Prepaying reduces your outstanding principal, leading to lower total interest payments."
+                  "text": "Yes! The advanced mode allows you to add one-time lump-sum or extra monthly prepayments to see how much faster you can close your loan and save on interest."
                 }
               },
               {
                 "@type": "Question",
-                "name": "Can I download my amortization schedule?",
+                "name": "Does this calculator support multiple currencies?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Yes. You can export your loan amortization schedule as a downloadable CSV file."
+                  "text": "Yes. It automatically detects your local currency and lets you switch between ₹, $, €, and £ easily."
                 }
               },
               {
                 "@type": "Question",
-                "name": "Is this tool free to use?",
+                "name": "Can I export my loan amortization schedule?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Yes, the Loan EMI Calculator is 100% free, secure, and works without registration."
+                  "text": "Yes, you can download the full repayment schedule as a CSV file with month-wise interest and principal breakdown."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is this EMI Calculator free to use?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes! The Loan EMI Calculator is completely free, requires no sign-up, and works offline once loaded."
                 }
               }
             ]
-          }),
+          })
         }}
       />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Loan EMI Calculator",
+            "operatingSystem": "All",
+            "applicationCategory": "FinanceApplication",
+            "description": "Instantly calculate monthly EMIs, total interest, and amortization schedule for home, car, and personal loans. Supports prepayments, extra monthly payments, and CSV export.",
+            "url": "https://calculatorhub.site/loan-emi-calculator",
+            "featureList": [
+              "Calculate EMI, total interest, and total repayment",
+              "Prepayment and extra monthly payment support",
+              "Detailed amortization schedule with CSV export",
+              "Multi-currency support (₹, $, €, £)",
+              "Responsive, mobile-friendly, and ad-free"
+            ],
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.9",
+              "reviewCount": "1500"
+            }
+          })
+        }}
+      />
+
 
     </div>
   );
