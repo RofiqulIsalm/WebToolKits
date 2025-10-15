@@ -449,11 +449,9 @@ const AdvancedControls: React.FC<{
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
                 </span>
-              </label>
-
-
-                
+              </label>    
             </div>
+            
             <div className={`grid grid-cols-1 sm:grid-cols-2 gap-3 ${prepay.enableOneTime ? "" : "opacity-50 pointer-events-none"}`}>
               <div>
                 <label className="block text-sm text-slate-400 mb-1">Amount</label>
@@ -470,7 +468,37 @@ const AdvancedControls: React.FC<{
           <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 space-y-3">
             <div className="flex justify-between items-center">
               <label className="text-slate-300 font-medium">Extra Monthly Payment</label>
-              <input type="checkbox" checked={prepay.enableExtraMonthly} onChange={(e) => setPrepay(s => ({ ...s, enableExtraMonthly: e.target.checked }))} className="w-4 h-4 accent-cyan-500"/>
+              <label className="relative flex items-center gap-2 cursor-pointer select-none group">
+              <input
+                type="checkbox"
+                checked={prepay.enableExtraMonthly}
+                onChange={(e) =>
+                  setPrepay((s) => ({ ...s, enableExtraMonthly: e.target.checked }))
+                }
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer peer"
+              />
+              <span
+                className={`flex items-center justify-center w-5 h-5 rounded-md border-2 transition-all duration-300 ease-in-out 
+                  ${
+                    prepay.enableExtraMonthly
+                      ? "border-cyan-400 bg-cyan-500/20 shadow-[0_0_8px_rgba(34,211,238,0.6)]"
+                      : "border-slate-600 bg-slate-800/70 group-hover:border-cyan-500/40"
+                  }`}
+              >
+                <svg
+                  className={`w-3 h-3 text-cyan-300 transition-transform duration-200 ${
+                    prepay.enableExtraMonthly ? "opacity-100 scale-100" : "opacity-0 scale-75"
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+            </label>
+
             </div>
             <div className={`${prepay.enableExtraMonthly ? "" : "opacity-50 pointer-events-none"}`}>
               <label className="block text-sm text-slate-400 mb-1">Extra per month</label>
