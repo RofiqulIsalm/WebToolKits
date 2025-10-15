@@ -763,30 +763,39 @@ const LoanEMICalculator_Full: React.FC = () => {
 
       {/* Mode Toggle */}
       <div className="flex flex-wrap items-center gap-3 mb-6">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setMode(mode === "basic" ? "advanced" : "basic")}
-            className={`relative inline-flex items-center transition-all duration-300 ease-in-out
-              w-28 h-10 rounded-full border border-slate-700 shadow-md
-              ${mode === "advanced" ? "bg-cyan-600" : "bg-slate-800"}`}
-          >
-            <span
-              className={`absolute left-1 w-8 h-8 bg-white rounded-full shadow-md transform transition-transform duration-300
-                ${mode === "advanced" ? "translate-x-[4.5rem]" : "translate-x-0"}`}
-            ></span>
-            <span
-              className={`text-xs font-semibold w-full text-center transition-colors duration-300
-                ${mode === "advanced" ? "text-white" : "text-slate-300"}`}
-            >
-              {mode === "advanced" ? "Advanced" : "Basic"}
-            </span>
-          </button>
-          <div className="text-slate-400 text-sm">
-            {mode === "advanced"
-              ? "Advanced Mode: prepayments, charts & schedule"
-              : "Basic Mode: simple EMI calculation"}
-          </div>
-        </div> 
+        <div className="flex flex-wrap items-center gap-3 mb-4">
+  <div className="flex items-center gap-3 flex-wrap">
+    {/* Mode Switch Button */}
+    <button
+      onClick={() => setMode(mode === "basic" ? "advanced" : "basic")}
+      className={`relative inline-flex items-center justify-center transition-all duration-300 ease-in-out
+        w-32 sm:w-28 h-12 sm:h-10 rounded-full border border-slate-700 shadow-md
+        ${mode === "advanced" ? "bg-cyan-600" : "bg-slate-800"}`}
+    >
+      {/* Toggle Knob */}
+      <span
+        className={`absolute left-1 w-9 h-9 sm:w-8 sm:h-8 bg-white rounded-full shadow-md transform transition-transform duration-300
+          ${mode === "advanced" ? "translate-x-[5.3rem] sm:translate-x-[4.5rem]" : "translate-x-0"}`}
+      ></span>
+
+      {/* Mode Label */}
+      <span
+        className={`relative z-10 text-sm sm:text-xs font-semibold w-full text-center transition-colors duration-300
+          ${mode === "advanced" ? "text-white" : "text-slate-300"}`}
+      >
+        {mode === "advanced" ? "Advanced" : "Basic"}
+      </span>
+    </button>
+
+    {/* Description Text */}
+    <div className="text-slate-400 text-sm sm:text-xs leading-snug max-w-[220px] sm:max-w-none">
+      {mode === "advanced"
+        ? "Advanced Mode: prepayments, charts & schedule"
+        : "Basic Mode: simple EMI calculation"}
+    </div>
+  </div>
+</div>
+
 
         <div className="text-slate-400 text-sm">Tip: Advanced mode unlocks prepayments, charts, amortization schedule, and comparisons.</div>
       </div>
