@@ -338,8 +338,8 @@ const BasicInputs: React.FC<{
 const BasicResults: React.FC<{
   currencySymbol: string; emi: number; principal: number; totalInterest: number; totalAmount: number;
 }> = React.memo(({ currencySymbol, emi, principal, totalInterest, totalAmount }) => (
-  <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
-    <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm">
+  <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-2">
+    <div className="rounded-lg p-6 ">
       <h2 className="text-xl font-semibold text-cyan-300 mb-4 drop-shadow">EMI Breakdown</h2>
       <div className="space-y-6">
         <div className="text-center p-4 rounded-lg bg-gradient-to-r from-indigo-600 to-cyan-600 shadow-lg">
