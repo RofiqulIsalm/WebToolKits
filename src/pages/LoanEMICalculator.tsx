@@ -296,7 +296,7 @@ const BasicInputs: React.FC<{
     <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-2">
       <div className="rounded-lg p-6 ">
         <div className="flex flex-wrap gap-3 justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold text-cyan-300 drop-shadow flex items-center gap-2">Loan Details chack</h2>
+          <h2 className="text-xl font-semibold text-cyan-300 drop-shadow flex items-center gap-2">Loan Details </h2>
           <div className="flex items-center gap-2">
             <select value={currency} onChange={(e) => setCurrency(e.target.value as Currency)} className="px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg">
               <option>$</option><option>₹</option><option>€</option><option>£</option>
