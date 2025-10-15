@@ -1058,6 +1058,176 @@ const LoanEMICalculator_Full: React.FC = () => {
 
       {/* Toasts */}
       <Toasts toasts={toasts} />
+
+      {/* ==================== SEO CONTENT SECTION ==================== */}
+      <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+        <h1 className="text-3xl font-bold text-cyan-400 mb-6">
+          Loan EMI Calculator – Free, Accurate & Instant Results
+        </h1>
+      
+        <p>
+          Our <strong>Loan EMI Calculator</strong> is a simple yet powerful tool that helps you calculate your
+          <strong>Equated Monthly Installment (EMI)</strong> in just seconds. Whether you’re planning a
+          <strong>home loan, car loan, or personal loan</strong>, this calculator provides instant results for your
+          monthly payment, total interest, and overall repayment amount.
+        </p>
+      
+        <p>
+          The EMI formula used here is based on standard banking calculations, ensuring accurate and reliable results.
+          You can also explore <strong>advanced features</strong> such as prepayments, extra monthly installments,
+          and a full amortization schedule to understand your loan better.
+        </p>
+      
+        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">What Is an EMI?</h2>
+        <p>
+          EMI stands for <em>Equated Monthly Installment</em> — the fixed payment amount you make every month to
+          repay your loan. Each EMI includes two components:
+        </p>
+        <ul>
+          <li><strong>Principal:</strong> The original loan amount borrowed from the lender.</li>
+          <li><strong>Interest:</strong> The cost of borrowing, calculated on the remaining loan balance.</li>
+        </ul>
+      
+        <p>
+          As you continue paying EMIs, the interest portion decreases while the principal portion increases,
+          helping you pay off your loan gradually.
+        </p>
+      
+        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">How to Use This Loan EMI Calculator</h2>
+        <ol className="list-decimal list-inside space-y-2">
+          <li>Enter your <strong>loan amount (principal)</strong>.</li>
+          <li>Set the <strong>annual interest rate</strong> offered by your bank or lender.</li>
+          <li>Input the <strong>loan tenure</strong> in years and months.</li>
+          <li>Click “Calculate” to instantly view your monthly EMI, total interest, and total payment.</li>
+        </ol>
+        <p>
+          In <strong>Advanced Mode</strong>, you can also add <em>one-time prepayments</em> or
+          <em>extra monthly payments</em> to see how much faster you can pay off your loan and save on interest.
+        </p>
+      
+        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">EMI Calculation Formula</h2>
+        <p>
+          The EMI is calculated using this standard formula:
+        </p>
+        <pre className="bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto">
+          EMI = [P × R × (1 + R)^N] / [(1 + R)^N – 1]
+        </pre>
+        <ul>
+          <li><strong>P</strong> = Principal loan amount</li>
+          <li><strong>R</strong> = Monthly interest rate (annual rate ÷ 12 ÷ 100)</li>
+          <li><strong>N</strong> = Loan tenure in months</li>
+        </ul>
+        <p>
+          This formula ensures precise calculation of your monthly EMI based on reducing balance method, which is
+          used by most banks and NBFCs.
+        </p>
+      
+        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Why Use Our EMI Calculator?</h2>
+        <ul className="space-y-2">
+          <li>✅ Fast, accurate, and 100% free.</li>
+          <li>✅ Works for <strong>home loans, car loans, personal loans</strong>, or any other loan type.</li>
+          <li>✅ Advanced options for <strong>prepayment and comparison</strong>.</li>
+          <li>✅ Generates a detailed <strong>amortization schedule</strong>.</li>
+          <li>✅ Mobile-friendly, lightweight, and ad-free experience.</li>
+        </ul>
+      
+        <p>
+          Using this calculator helps you plan your finances better, compare loan options, and make informed decisions
+          before applying for credit.
+        </p>
+      
+        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Example: EMI for ₹10 Lakh Loan</h2>
+        <p>
+          Suppose you take a <strong>₹10,00,000 home loan</strong> for 20 years at an annual interest rate of 8%.
+          The EMI would be approximately ₹8,364 per month. Over the tenure, you’ll pay ₹10,00,000 principal +
+          ₹10,07,360 interest = ₹20,07,360 total.
+        </p>
+        <p>
+          You can reduce your total interest drastically by making one-time prepayments or adding a small extra EMI
+          every month — try our <strong>Advanced Mode</strong> to simulate these savings.
+        </p>
+      
+        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Frequently Asked Questions (FAQ)</h2>
+        <h3>1. Is this EMI calculator accurate?</h3>
+        <p>
+          Yes. It uses the same mathematical formula adopted by banks and financial institutions to compute EMI.
+        </p>
+      
+        <h3>2. Can I use this calculator for car or personal loans?</h3>
+        <p>
+          Absolutely. The tool supports any loan type — home, vehicle, education, or personal loans.
+        </p>
+      
+        <h3>3. Does prepayment really save money?</h3>
+        <p>
+          Yes. Even a small extra payment towards principal each month can reduce your total interest by thousands
+          and help you become debt-free sooner.
+        </p>
+      
+        <h3>4. Can I download my amortization schedule?</h3>
+        <p>
+          Yes, you can export your full repayment schedule as a CSV file directly from the calculator.
+        </p>
+      
+        <h3>5. Is this tool free to use?</h3>
+        <p>
+          100% free, secure, and works without any login. No ads, no tracking — just accurate EMI results.
+        </p>
+      </section>
+      
+      {/* ✅ JSON-LD FAQ Schema for Rich Snippets */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Is this EMI calculator accurate?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. It uses the same standard EMI formula used by banks and financial institutions for accurate results."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I use this calculator for car or personal loans?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. The calculator works for all types of loans — home, car, education, or personal."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does prepayment really save money?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Prepaying reduces your outstanding principal, leading to lower total interest payments."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I download my amortization schedule?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. You can export your loan amortization schedule as a downloadable CSV file."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is this tool free to use?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes, the Loan EMI Calculator is 100% free, secure, and works without registration."
+                }
+              }
+            ]
+          }),
+        }}
+      />
+
     </div>
   );
 };
