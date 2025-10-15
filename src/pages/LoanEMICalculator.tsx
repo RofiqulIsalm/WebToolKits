@@ -591,8 +591,10 @@ const LoanEMICalculator_Full: React.FC = () => {
     let months = tenureMonths;
     let emiValue = 0;
     if (solveMode === "by_tenure") {
-      emiValue = calcEMI(principal, rateMonthly, months);
-    } else {
+    emiValue = principal > 0 && rateMonthly > 0 && months > 0
+      ? calcEMI(principal, rateMonthly, months)
+      : 0;
+  } else {
       const emiTarget = targetEMI > 0 ? targetEMI : calcEMI(principal, rateMonthly, tenureMonths);
       months = solveTenureForEMI(principal, rateMonthly, emiTarget);
       emiValue = calcEMI(principal, rateMonthly, months);
