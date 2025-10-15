@@ -1207,7 +1207,7 @@ const LoanEMICalculator: React.FC = () => {
               </p>
             </div>
           </div>
-        </section>``
+        </section>
 
       </section>
       <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
@@ -1227,7 +1227,7 @@ const LoanEMICalculator: React.FC = () => {
         </div>
       
       </section>
-      </div>
+
      {/* ============= LOAN EMI CALCULATOR ENHANCED SEO SCHEMAS ================ */}
               <script
                 type="application/ld+json"
