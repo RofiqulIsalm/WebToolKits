@@ -798,7 +798,7 @@ const LoanEMICalculator_Full: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 md:px-6 py-6">
       
-      </div>
+     
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-white mb-2 drop-shadow">Loan EMI Calculator</h1>
         <p className="text-slate-300">
