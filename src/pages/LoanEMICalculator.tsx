@@ -728,7 +728,7 @@ const LoanEMICalculator_Full: React.FC = () => {
               value={principal === 0 ? "" : principal}
               onChange={(e) => setPrincipal(Math.max(0, Number(e.target.value)))}
               placeholder={placeholders?.principal || "Enter loan amount"}
-              ...
+              
             />
           <BasicResults
             currencySymbol={currency}
