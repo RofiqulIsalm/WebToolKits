@@ -1,6 +1,6 @@
 // LoanEMICalculator.tsx
-import React, { useEffect, useMemo, useState, useDeferredValue, Suspense } from 'react';
-import { Calculator, RefreshCw, ChevronDown, ChevronUp, Info, TrendingUp, RotateCcw } from 'lucide-react';
+import React, { useEffect, useMemo, useState, useDeferredValue } from 'react';
+import { Calculator, RefreshCw, ChevronDown, ChevronUp, Info, TrendingUp } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -8,11 +8,13 @@ import AdBanner from '../components/AdBanner';
 import RelatedCalculators from '../components/RelatedCalculators';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 
+/* ========================== Supabase ========================== */
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
   import.meta.env.VITE_SUPABASE_ANON_KEY
 );
 
+/* ========================== Types ========================== */
 type Currency = '$' | '€' | '£' | '₹' | '¥';
 
 type ScheduleRow = {
@@ -52,7 +54,23 @@ const scheduleToCSV = (rows: ScheduleRow[]) => {
   rows.forEach(r => lines.push([
     r.month, r.openingBalance, r.interest, r.principal, r.prepayment, r.closingBalance
   ].map(n => Number(n).toFixed(2)).join(',')));
-  return lines.join('\n');
+  return lines.join('\\n');
+};
+
+/* ========================== Yearly aggregator ========================== */
+const groupScheduleByYear = (rows: ScheduleRow[]) => {
+  const map: Record<number, { principal: number; interest: number }> = {};
+  rows.forEach(r => {
+    const year = Math.ceil(r.month / 12); // Year 1 = months 1..12
+    if (!map[year]) map[year] = { principal: 0, interest: 0 };
+    map[year].principal += (r.principal + r.prepayment);
+    map[year].interest  += r.interest;
+  });
+  return Object.entries(map).map(([year, v]) => ({
+    year: Number(year),
+    principal: Math.round((v.principal + Number.EPSILON) * 100) / 100,
+    interest:  Math.round((v.interest  + Number.EPSILON) * 100) / 100,
+  }));
 };
 
 /* ========================== Tiny toast (no deps) ========================== */
@@ -76,51 +94,170 @@ const Toasts: React.FC<{ toasts: Toast[] }> = ({ toasts }) => (
   </div>
 );
 
-/* ========================== Micro SVG charts ========================== */
+/* ========================== Micro SVG charts (FAST, no animation) ========================== */
 const PieTwoSlice: React.FC<{ principal: number; interest: number }> = ({ principal, interest }) => {
-  const total = principal + interest || 1;
+  const total = Math.max(1, principal + interest);
   const pPct = principal / total;
-  const size = 180, r = 70, cx = 90, cy = 90, tau = Math.PI * 2;
-  const pAngle = pPct * tau;
+  const iPct = interest / total;
+
+  const r = 74, cx = 100, cy = 100;
+  const startAngle = -Math.PI / 2;
+  const pAngle = pPct * Math.PI * 2;
+  const endAngle = startAngle + pAngle;
+
+  const arc = (angle: number) => [cx + r * Math.cos(angle), cy + r * Math.sin(angle)];
+  const [x1, y1] = arc(startAngle);
+  const [x2, y2] = arc(endAngle);
   const largeArc = pAngle > Math.PI ? 1 : 0;
-  const x1 = cx + r * Math.cos(-Math.PI / 2);
-  const y1 = cy + r * Math.sin(-Math.PI / 2);
-  const x2 = cx + r * Math.cos(-Math.PI / 2 + pAngle);
-  const y2 = cy + r * Math.sin(-Math.PI / 2 + pAngle);
+
   return (
-    <svg viewBox="0 0 180 180" className="w-full h-full">
-      <path d={`M ${cx} ${cy - r} A ${r} ${r} 0 ${pAngle < Math.PI ? 0 : 1} 1 ${cx} ${cy + r} A ${r} ${r} 0 ${pAngle < Math.PI ? 0 : 1} 1 ${cx} ${cy - r}`} fill="#f59e0b" opacity="0.85"/>
-      <path d={`M ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2} L ${cx} ${cy} Z`} fill="#10b981" opacity="0.95"/>
-      <g fontSize="10" textAnchor="middle" fill="#e2e8f0">
-        <text x={cx} y={cy - 2}>Principal: {fmtCompact(principal)}</text>
-        <text x={cx} y={cy + 12}>Interest: {fmtCompact(interest)}</text>
+    <svg viewBox="0 0 200 200" className="w-full h-full">
+      <defs>
+        <radialGradient id="pi-g1" cx="50%" cy="50%">
+          <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.25" />
+          <stop offset="100%" stopColor="#0ea5e9" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id="pi-pr" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#10b981" />
+          <stop offset="1" stopColor="#34d399" />
+        </linearGradient>
+        <linearGradient id="pi-in" x1="1" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#f59e0b" />
+          <stop offset="1" stopColor="#fbbf24" />
+        </linearGradient>
+      </defs>
+
+      {/* subtle glow */}
+      <circle cx={cx} cy={cy} r={r + 6} fill="url(#pi-g1)" />
+
+      {/* Interest (background ring) */}
+      <circle cx={cx} cy={cy} r={r} fill="none" stroke="url(#pi-in)" strokeWidth="28" opacity="0.9" />
+
+      {/* Principal arc */}
+      <path
+        d={`M ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2}`}
+        fill="none"
+        stroke="url(#pi-pr)"
+        strokeWidth="28"
+        strokeLinecap="round"
+      />
+
+      {/* Center labels */}
+      <g fontSize="12" textAnchor="middle" fill="#e2e8f0" fontWeight={600}>
+        <text x={cx} y={cy - 4}>Principal {Math.round(pPct * 100)}%</text>
+        <text x={cx} y={cy + 14}>Interest {Math.round(iPct * 100)}%</text>
       </g>
     </svg>
   );
 };
+
 const LineBalance: React.FC<{ data: { month: number; balance: number }[] }> = ({ data }) => {
-  const padding = { l: 32, r: 8, t: 8, b: 20 };
-  const w = 520, h = 180;
   if (!data.length) return null;
+  const w = 560, h = 220;
+  const pad = { l: 40, r: 12, t: 12, b: 24 };
+
   const maxY = Math.max(...data.map(d => d.balance)) || 1;
   const minY = 0;
-  const x = (i: number) => padding.l + (i / (data.length - 1 || 1)) * (w - padding.l - padding.r);
-  const y = (v: number) => h - padding.b - ((v - minY) / (maxY - minY)) * (h - padding.t - padding.b);
-  const d = data.map((p, i) => `${i === 0 ? 'M' : 'L'} ${x(i)} ${y(p.balance)}`).join(' ');
-  const ticks = 6;
+
+  const x = (i: number) =>
+    pad.l + (i / Math.max(1, data.length - 1)) * (w - pad.l - pad.r);
+  const y = (v: number) =>
+    h - pad.b - ((v - minY) / (maxY - minY)) * (h - pad.t - pad.b);
+
+  const path = data.map((p, i) => `${i === 0 ? 'M' : 'L'} ${x(i)} ${y(p.balance)}`).join(' ');
+  const area = `M ${x(0)} ${y(minY)} L ${data.map((p, i) => `${x(i)} ${y(p.balance)}`).join(' ')} L ${x(data.length-1)} ${y(minY)} Z`;
+
+  // downsample points to ~24 dots max for speed/clarity
+  const step = Math.max(1, Math.floor(data.length / 24));
+
   return (
     <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-full">
-      {Array.from({ length: ticks }).map((_, i) => {
-        const yy = padding.t + ((h - padding.t - padding.b) * i) / (ticks - 1);
-        return <line key={i} x1={padding.l} y1={yy} x2={w - padding.r} y2={yy} stroke="#334155" strokeDasharray="3 3" />;
+      <defs>
+        <linearGradient id="ln-stroke" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#22d3ee" />
+          <stop offset="1" stopColor="#6366f1" />
+        </linearGradient>
+        <linearGradient id="ln-fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#22d3ee" stopOpacity="0.28" />
+          <stop offset="1" stopColor="#22d3ee" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+
+      {/* grid */}
+      {Array.from({ length: 5 }).map((_, i) => {
+        const yy = pad.t + ((h - pad.t - pad.b) * i) / 4;
+        return <line key={i} x1={pad.l} y1={yy} x2={w - pad.r} y2={yy} stroke="#334155" strokeDasharray="3 3" />;
       })}
-      <line x1={padding.l} y1={padding.t} x2={padding.l} y2={h - padding.b} stroke="#64748b" />
-      <line x1={padding.l} y1={h - padding.b} x2={w - padding.r} y2={h - padding.b} stroke="#64748b" />
-      <path d={d} fill="none" stroke="#22d3ee" strokeWidth="2" />
-      <g fontSize="10" fill="#cbd5e1">
-        <text x={padding.l} y={12}>Balance</text>
-        <text x={w - 42} y={h - 6}>Months</text>
+
+      {/* axes */}
+      <line x1={pad.l} y1={pad.t} x2={pad.l} y2={h - pad.b} stroke="#64748b" />
+      <line x1={pad.l} y1={h - pad.b} x2={w - pad.r} y2={h - pad.b} stroke="#64748b" />
+
+      {/* area + line */}
+      <path d={area} fill="url(#ln-fill)" />
+      <path d={path} fill="none" stroke="url(#ln-stroke)" strokeWidth="2.5" />
+
+      {/* points */}
+      {data.map((p, i) => (i % step === 0 || i === data.length - 1) ? (
+        <circle key={i} cx={x(i)} cy={y(p.balance)} r="2.6" fill="#22d3ee" />
+      ) : null)}
+
+      <g fontSize="11" fill="#cbd5e1">
+        <text x={pad.l + 2} y={12}>Balance</text>
+        <text x={w - 44} y={h - 6}>Months</text>
       </g>
+    </svg>
+  );
+};
+
+const BarsYearly: React.FC<{ data: { year: number; principal: number; interest: number }[] }> = ({ data }) => {
+  if (!data.length) return null;
+  const w = 720, h = 240, pad = { l: 48, r: 12, t: 12, b: 28 };
+  const innerW = w - pad.l - pad.r;
+  const innerH = h - pad.t - pad.b;
+
+  const maxV = Math.max(...data.map(d => d.principal + d.interest), 1);
+  const bw = innerW / data.length - 10; // bar width with gap
+
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-full">
+      <defs>
+        <linearGradient id="bar-pr" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0" stopColor="#0ea5e9" />
+          <stop offset="1" stopColor="#22d3ee" />
+        </linearGradient>
+        <linearGradient id="bar-in" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0" stopColor="#f59e0b" />
+          <stop offset="1" stopColor="#fbbf24" />
+        </linearGradient>
+      </defs>
+
+      {/* baseline & grid */}
+      <line x1={pad.l} y1={h - pad.b} x2={w - pad.r} y2={h - pad.b} stroke="#64748b" />
+      {Array.from({ length: 4 }).map((_, i) => {
+        const y = pad.t + (innerH * (i + 1)) / 4;
+        return <line key={i} x1={pad.l} y1={y} x2={w - pad.r} y2={y} stroke="#334155" strokeDasharray="3 3" />;
+      })}
+
+      {/* bars */}
+      {data.map((d, i) => {
+        const x = pad.l + i * (bw + 10);
+        const ih = innerH * (d.interest / maxV);
+        const ph = innerH * (d.principal / maxV);
+
+        const yInterest = h - pad.b - ih;
+        const yPrincipal = yInterest - ph;
+
+        return (
+          <g key={i}>
+            {/* interest (top) */}
+            <rect x={x} y={yInterest} width={bw} height={ih} fill="url(#bar-in)" rx="6" ry="6" />
+            {/* principal (bottom) */}
+            <rect x={x} y={yPrincipal} width={bw} height={ph} fill="url(#bar-pr)" rx="6" ry="6" />
+            <text x={x + bw / 2} y={h - 8} fontSize="11" fill="#cbd5e1" textAnchor="middle">Y{d.year}</text>
+          </g>
+        );
+      })}
     </svg>
   );
 };
@@ -188,7 +325,7 @@ const LoanEMICalculator: React.FC = () => {
     return (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
   }, [principal, monthlyRate, totalMonths]);
 
-  // Smooth typing UI (optional but nice)
+  // Smooth typing UI
   const baseEmiDeferred = useDeferredValue(baseEmi);
 
   // ================================
@@ -288,6 +425,12 @@ const LoanEMICalculator: React.FC = () => {
   const piePrincipal = useMemo(() => principal, [principal]);
   const pieInterest = useMemo(() => totals.totalInterest, [totals.totalInterest]);
 
+  // Yearly bars data
+  const yearlyData = useMemo(
+    () => (advanced && showCharts ? groupScheduleByYear(schedule) : []),
+    [advanced, showCharts, schedule]
+  );
+
   // Comparison (Advanced only)
   const loanB = useMemo(() => {
     if (!advanced || !compareEnabled || principal <= 0) return null;
@@ -361,6 +504,8 @@ const LoanEMICalculator: React.FC = () => {
 
   const fmt = (v: number) =>
     isFinite(v) ? `${currency}${v.toLocaleString(undefined, { maximumFractionDigits: 2 })}` : `${currency}0.00`;
+
+  const { push: pushToast } = useToasts(); // local usage if needed
 
   const copyShareLink = async () => {
     try {
@@ -494,7 +639,7 @@ const LoanEMICalculator: React.FC = () => {
                 <option value="₹">₹</option>
                 <option value="¥">¥</option>
               </select>
-            </div> 
+            </div>
 
             {/* Principal */}
             <div className="mb-4">
@@ -561,7 +706,6 @@ const LoanEMICalculator: React.FC = () => {
               <div className="text-xs text-slate-500 mt-2">{years} years {months} months</div>
             </div>
 
-            
           </div> 
 
           {/* ------- Right: EMI Breakdown ------- */}
@@ -603,108 +747,110 @@ const LoanEMICalculator: React.FC = () => {
 
           </div>
         </div>
+
         {/* Advanced: Prepayments (with enable toggles) */}
-            {advanced && (
-              <div className="mt-6 rounded-xl border border-slate-700 bg-slate-900/60 p-4">
-                <div className="flex items-center gap-2 mb-3">
-                  <Info className="h-4 w-4 text-indigo-400" />
-                  <div className="font-semibold text-slate-100 text-sm">Prepayments</div>
-                </div>
+        {advanced && (
+          <div className="mt-6 rounded-xl border border-slate-700 bg-slate-900/60 p-4">
+            <div className="flex items-center gap-2 mb-3">
+              <Info className="h-4 w-4 text-indigo-400" />
+              <div className="font-semibold text-slate-100 text-sm">Prepayments</div>
+            </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-slate-800/40 p-4 rounded-lg border border-slate-700 space-y-3">
-                    <div className="flex justify-between items-center">
-                      <label className="text-slate-200 font-medium">One-time Lump Sum</label>
-                      <input type="checkbox" className="accent-cyan-500" checked={enableOneTime} onChange={(e) => setEnableOneTime(e.target.checked)} />
-                    </div>
-                    <div className={`grid grid-cols-2 gap-3 ${enableOneTime ? '' : 'opacity-50 pointer-events-none'}`}>
-                      <div>
-                        <label className="block text-xs text-slate-400 mb-1">Amount</label>
-                        <input
-                          type="number"
-                          min={0}
-                          value={oneTimeAmount}
-                          onChange={(e) => setOneTimeAmount(Math.max(0, Number(e.target.value)))}
-                          className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-slate-100"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs text-slate-400 mb-1">Month #</label>
-                        <input
-                          type="number"
-                          min={1}
-                          value={oneTimeMonth}
-                          onChange={(e) => setOneTimeMonth(Math.max(1, Math.floor(Number(e.target.value))))}
-                          className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-slate-100"
-                        />
-                      </div>
-                    </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-slate-800/40 p-4 rounded-lg border border-slate-700 space-y-3">
+                <div className="flex justify-between items-center">
+                  <label className="text-slate-200 font-medium">One-time Lump Sum</label>
+                  <input type="checkbox" className="accent-cyan-500" checked={enableOneTime} onChange={(e) => setEnableOneTime(e.target.checked)} />
+                </div>
+                <div className={`grid grid-cols-2 gap-3 ${enableOneTime ? '' : 'opacity-50 pointer-events-none'}`}>
+                  <div>
+                    <label className="block text-xs text-slate-400 mb-1">Amount</label>
+                    <input
+                      type="number"
+                      min={0}
+                      value={oneTimeAmount}
+                      onChange={(e) => setOneTimeAmount(Math.max(0, Number(e.target.value)))}
+                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-slate-100"
+                    />
                   </div>
-
-                  <div className="bg-slate-800/40 p-4 rounded-lg border border-slate-700 space-y-3">
-                    <div className="flex justify-between items-center">
-                      <label className="text-slate-200 font-medium">Extra Monthly Payment</label>
-                      <input type="checkbox" className="accent-cyan-500" checked={enableExtraMonthly} onChange={(e) => setEnableExtraMonthly(e.target.checked)} />
-                    </div>
-                    <div className={`${enableExtraMonthly ? '' : 'opacity-50 pointer-events-none'}`}>
-                      <label className="block text-xs text-slate-400 mb-1">Extra per month</label>
-                      <input
-                        type="number"
-                        min={0}
-                        value={extraMonthly}
-                        onChange={(e) => setExtraMonthly(Math.max(0, Number(e.target.value)))}
-                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-slate-100"
-                      />
-                    </div>
+                  <div>
+                    <label className="block text-xs text-slate-400 mb-1">Month #</label>
+                    <input
+                      type="number"
+                      min={1}
+                      value={oneTimeMonth}
+                      onChange={(e) => setOneTimeMonth(Math.max(1, Math.floor(Number(e.target.value))))}
+                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-slate-100"
+                    />
                   </div>
-                </div>
-
-                <div className="flex gap-2 mt-4">
-                  <button onClick={copyShareLink} className="px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-100 border border-slate-600 text-sm">Copy Link</button>
-                  <button onClick={printResults} className="px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-100 border border-slate-600 text-sm">Print</button>
-                </div>
-
-                <div className="text-xs text-slate-500 mt-3">
-                  Extra/one-time amounts go directly toward principal and can shorten the payoff time substantially.
                 </div>
               </div>
-            )}
+
+              <div className="bg-slate-800/40 p-4 rounded-lg border border-slate-700 space-y-3">
+                <div className="flex justify-between items-center">
+                  <label className="text-slate-200 font-medium">Extra Monthly Payment</label>
+                  <input type="checkbox" className="accent-cyan-500" checked={enableExtraMonthly} onChange={(e) => setEnableExtraMonthly(e.target.checked)} />
+                </div>
+                <div className={`${enableExtraMonthly ? '' : 'opacity-50 pointer-events-none'}`}>
+                  <label className="block text-xs text-slate-400 mb-1">Extra per month</label>
+                  <input
+                    type="number"
+                    min={0}
+                    value={extraMonthly}
+                    onChange={(e) => setExtraMonthly(Math.max(0, Number(e.target.value)))}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-slate-100"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-2 mt-4">
+              <button onClick={copyShareLink} className="px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-100 border border-slate-600 text-sm">Copy Link</button>
+              <button onClick={printResults} className="px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-100 border border-slate-600 text-sm">Print</button>
+            </div>
+
+            <div className="text-xs text-slate-500 mt-3">
+              Extra/one-time amounts go directly toward principal and can shorten the payoff time substantially.
+            </div>
+          </div>
+        )}
+
         {/* Advanced toggles under results */}
-            {advanced && (
-              <div className="mt-6 flex flex-wrap gap-3 justify-end">
-                <button
-                  onClick={() => setShowCharts(!showCharts)}
-                  className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg border border-slate-600"
-                >
-                  {showCharts ? 'Hide Charts' : 'Show Charts'}
-                </button>
-                <button
-                  onClick={() => setShowSchedule(!showSchedule)}
-                  className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg"
-                >
-                  {showSchedule ? (
-                    <>
-                      Hide Amortization <ChevronUp className="h-4 w-4" />
-                    </>
-                  ) : (
-                    <>
-                      Show Amortization <ChevronDown className="h-4 w-4" />
-                    </>
-                  )}
-                </button>
-              </div>
-            )}
+        {advanced && (
+          <div className="mt-6 flex flex-wrap gap-3 justify-end">
+            <button
+              onClick={() => setShowCharts(!showCharts)}
+              className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg border border-slate-600"
+            >
+              {showCharts ? 'Hide Charts' : 'Show Charts'}
+            </button>
+            <button
+              onClick={() => setShowSchedule(!showSchedule)}
+              className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg"
+            >
+              {showSchedule ? (
+                <>
+                  Hide Amortization <ChevronUp className="h-4 w-4" />
+                </>
+              ) : (
+                <>
+                  Show Amortization <ChevronDown className="h-4 w-4" />
+                </>
+              )}
+            </button>
+          </div>
+        )}
 
         {/* ===== Charts (Advanced only) ===== */}
         {advanced && showCharts && (
           <div className="mt-8 rounded-2xl border border-slate-700 bg-slate-900/70 p-6">
             <h3 className="text-lg font-semibold text-slate-100 mb-4">Visualizations</h3>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-              <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 h-[220px]">
+              <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 h-[240px]">
                 <h4 className="text-slate-200 mb-2 font-semibold">Principal vs Interest</h4>
                 <PieTwoSlice principal={piePrincipal} interest={pieInterest} />
               </div>
-              <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 lg:col-span-2 h-[220px]">
+              <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 lg:col-span-2 h-[240px]">
                 <h4 className="text-slate-200 mb-2 font-semibold">Balance Over Time</h4>
                 <LineBalance data={lineData} />
               </div>
@@ -717,8 +863,14 @@ const LoanEMICalculator: React.FC = () => {
               >
                 {showYearlyBars ? 'Hide Yearly Bars' : 'Show Yearly Bars'}
               </button>
-              {/* Keep placeholder for future stacked bars; omitted here to stay lean */}
             </div>
+
+            {showYearlyBars && (
+              <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 h-[280px] mt-4">
+                <h4 className="text-slate-200 mb-2 font-semibold">Yearly Principal vs Interest</h4>
+                <BarsYearly data={yearlyData} />
+              </div>
+            )}
           </div>
         )}
 
@@ -938,4 +1090,3 @@ const LoanEMICalculator: React.FC = () => {
 };
 
 export default LoanEMICalculator;
- 
