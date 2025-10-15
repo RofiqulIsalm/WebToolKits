@@ -12,6 +12,9 @@
 */
 import React, { Suspense, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { RotateCcw } from "lucide-react"; 
+import Breadcrumbs from "@/components/Breadcrumbs";
+import SEOHead from "@/components/SEOHead";
+
 
 /** -------------------------- Types & Helpers --------------------------- **/
 type Mode = "basic" | "advanced";
