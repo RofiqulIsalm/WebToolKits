@@ -503,14 +503,20 @@ const LoanEMICalculator: React.FC = () => {
   };
 
   const fmt = (v: number) => {
-    if (!isFinite(v)) return `${currency}0`;
-    const abs = Math.abs(v);
-    const fmtCompact = new Intl.NumberFormat(undefined, {
-      notation: abs >= 1000 ? 'compact' : 'standard',
-      maximumFractionDigits: abs >= 1000000 ? 2 : 2,
-    });
-    return `${currency}${fmtCompact.format(v)}`;
-  };
+      if (!isFinite(v)) return `${currency}0`;
+      const abs = Math.abs(v);
+      if (abs < 1_000_000) {
+        // Standard formatted number with commas
+        return `${currency}${v.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
+      } else {
+        // Compact format for 1M and above
+        const fmtCompact = new Intl.NumberFormat(undefined, {
+          notation: 'compact',
+          maximumFractionDigits: 2,
+        });
+        return `${currency}${fmtCompact.format(v)}`;
+      }
+    };
 
   const { push: pushToast } = useToasts(); // local usage if needed
 
