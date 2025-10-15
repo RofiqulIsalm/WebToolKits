@@ -802,6 +802,7 @@ const LoanEMICalculator_Full: React.FC = () => {
         { name: 'Unit Converters', url: '/category/unit-converters' },
         { name: 'Length Converter', url: '/length-converter' }
       ]} />
+      </div>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-white mb-2 drop-shadow">Loan EMI Calculator</h1>
         <p className="text-slate-300">
