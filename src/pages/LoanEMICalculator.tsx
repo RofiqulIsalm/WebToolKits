@@ -6,8 +6,8 @@ import React, { Suspense, useDeferredValue, useEffect, useMemo, useState } from 
 import { RotateCcw } from "lucide-react";
 
 // If you use these in your app, you can re-enable imports or keep as-is
-// import Breadcrumbs from "@/components/Breadcrumbs";
-// import SEOHead from "@/components/SEOHead";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import SEOHead from "@/components/SEOHead";
 
 /** -------------------------- Types & Helpers --------------------------- **/
 type Mode = "basic" | "advanced";
@@ -284,6 +284,13 @@ export const metadata = {
     images: ["https://calculatorhub.site/og-image-loan-emi.jpg"],
   },
 };
+<SEOHead
+  title="Loan EMI Calculator – Fast, Accurate & Mobile-Friendly | Finance Tools"
+  description="Calculate your EMI, interest, and loan repayment schedule instantly. Supports prepayment, comparison, and charts. Ultra-fast, mobile-optimized EMI calculator with live results."
+  url="https://calculatorhub.site/loan-emi-calculator"
+  image="https://calculatorhub.site/og-image-loan-emi.jpg"
+  keywords="EMI calculator, loan calculator, home loan, car loan, personal loan, prepayment calculator, interest calculator"
+/>
 
 /** ---------------------------- Subcomponents (styled to match FuelCost) ---------------------------- **/
 const Card: React.FC<React.PropsWithChildren<{ className?: string }>> = ({ className = "", children }) => (
