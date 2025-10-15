@@ -11,6 +11,7 @@
    - Ready to drop in Next.js /pages or any React app
 */
 import React, { Suspense, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
+import { RotateCcw } from "lucide-react";
 
 /** -------------------------- Types & Helpers --------------------------- **/
 type Mode = "basic" | "advanced";
