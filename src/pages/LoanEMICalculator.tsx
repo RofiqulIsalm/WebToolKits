@@ -554,9 +554,9 @@ const LoanEMICalculator_Full: React.FC = () => {
   const [currency, setCurrency] = useState<Currency>(autoCurrency);
   const [mode, setMode] = useState<Mode>("basic");
 
-  const [principalRaw, setPrincipalRaw] = useState<number>(100000);
-  const [rateAnnualRaw, setRateAnnualRaw] = useState<number>(10);
-  const [tenureMonthsRaw, setTenureMonthsRaw] = useState<number>(240);
+  const [principalRaw, setPrincipalRaw] = useState<number>(0);
+  const [rateAnnualRaw, setRateAnnualRaw] = useState<number>(0);
+  const [tenureMonthsRaw, setTenureMonthsRaw] = useState<number>(0);
   const [solveMode] = useState<SolveMode>("by_tenure");
   const [rateMode] = useState<RateMode>("per_annum");
   const [targetEMI] = useState<number>(0);
