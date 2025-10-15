@@ -291,16 +291,7 @@ const BasicInputs: React.FC<{
   principal: number; setPrincipal: (n: number) => void;
   rateAnnual: number; setRateAnnual: (n: number) => void;
   tenureMonths: number; setTenureMonths: (n: number) => void;
-  placeholders?: {
-    principal?: string;
-    rate?: string;
-    years?: string;
-    months?: string;
-  };
-}> = React.memo(({
-  currency, setCurrency, principal, setPrincipal, rateAnnual, setRateAnnual, tenureMonths, setTenureMonths,
-  placeholders
-}) => {
+}> = React.memo(({ currency, setCurrency, principal, setPrincipal, rateAnnual, setRateAnnual, tenureMonths, setTenureMonths }) => {
   return (
     <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
       <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm">
@@ -722,14 +713,12 @@ const LoanEMICalculator_Full: React.FC = () => {
 
       {/* Basic Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-3">
-          <input
-              id="principal"
-              type="number"
-              value={principal === 0 ? "" : principal}
-              onChange={(e) => setPrincipal(Math.max(0, Number(e.target.value)))}
-              placeholder={placeholders?.principal || "Enter loan amount"}
-              
-            />
+          <BasicInputs
+            currency={currency} setCurrency={setCurrency}
+            principal={principalRaw} setPrincipal={setPrincipalRaw}
+            rateAnnual={rateAnnualRaw} setRateAnnual={setRateAnnualRaw}
+            tenureMonths={tenureMonthsRaw} setTenureMonths={setTenureMonthsRaw}
+          />
           <BasicResults
             currencySymbol={currency}
             emi={emiDeferred}
