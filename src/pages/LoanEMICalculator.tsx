@@ -413,40 +413,134 @@ const AdvancedControls: React.FC<{
         </div>
       </div>
       <div className="space-y-4">
-        <h4 className="text-slate-200 font-semibold">Prepayment Options</h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 space-y-3">
-            <div className="flex justify-between items-center">
-              <label className="text-slate-300 font-medium">One-time Lump Sum</label>
-              <input type="checkbox" checked={prepay.enableOneTime} onChange={(e) => setPrepay(s => ({ ...s, enableOneTime: e.target.checked }))} className="w-4 h-4 accent-cyan-500"/>
-            </div>
-            <div className={`grid grid-cols-1 sm:grid-cols-2 gap-3 ${prepay.enableOneTime ? "" : "opacity-50 pointer-events-none"}`}>
-              <div>
-                <label className="block text-sm text-slate-400 mb-1">Amount</label>
-                <input type="number" value={prepay.oneTimeAmount} onChange={(e) => setPrepay(s => ({ ...s, oneTimeAmount: Math.max(0, Number(e.target.value)) }))}
-                  className="w-full px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg"/>
-              </div>
-              <div>
-                <label className="block text-sm text-slate-400 mb-1">Month #</label>
-                <input type="number" value={prepay.oneTimeMonth} onChange={(e) => setPrepay(s => ({ ...s, oneTimeMonth: Math.max(1, Math.floor(Number(e.target.value))) }))}
-                  className="w-full px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg"/>
-              </div>
-            </div>
-          </div>
-          <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 space-y-3">
-            <div className="flex justify-between items-center">
-              <label className="text-slate-300 font-medium">Extra Monthly Payment</label>
-              <input type="checkbox" checked={prepay.enableExtraMonthly} onChange={(e) => setPrepay(s => ({ ...s, enableExtraMonthly: e.target.checked }))} className="w-4 h-4 accent-cyan-500"/>
-            </div>
-            <div className={`${prepay.enableExtraMonthly ? "" : "opacity-50 pointer-events-none"}`}>
-              <label className="block text-sm text-slate-400 mb-1">Extra per month</label>
-              <input type="number" value={prepay.extraMonthly} onChange={(e) => setPrepay(s => ({ ...s, extraMonthly: Math.max(0, Number(e.target.value)) }))}
-                className="w-full px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg"/>
-            </div>
-          </div>
+  <h4 className="text-slate-200 font-semibold">Prepayment Options</h4>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+    {/* One-time Lump Sum */}
+    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 space-y-3">
+      <div className="flex justify-between items-center">
+        <label className="text-slate-300 font-medium">One-time Lump Sum</label>
+        <span
+          className={`relative w-5 h-5 flex items-center justify-center rounded-md border transition-all duration-200
+            ${prepay.enableOneTime
+              ? "border-cyan-400 bg-cyan-500/20"
+              : "border-slate-600 bg-slate-800/70 hover:border-cyan-500/50"}`}
+        >
+          <input
+            type="checkbox"
+            checked={prepay.enableOneTime}
+            onChange={(e) =>
+              setPrepay((s) => ({ ...s, enableOneTime: e.target.checked }))
+            }
+            className="absolute inset-0 opacity-0 cursor-pointer"
+          />
+          <svg
+            className={`w-3 h-3 text-cyan-400 transition-opacity duration-150 ${
+              prepay.enableOneTime ? "opacity-100" : "opacity-0"
+            }`}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </span>
+      </div>
+
+      <div
+        className={`grid grid-cols-1 sm:grid-cols-2 gap-3 ${
+          prepay.enableOneTime ? "" : "opacity-50 pointer-events-none"
+        }`}
+      >
+        <div>
+          <label className="block text-sm text-slate-400 mb-1">Amount</label>
+          <input
+            type="number"
+            value={prepay.oneTimeAmount}
+            onChange={(e) =>
+              setPrepay((s) => ({
+                ...s,
+                oneTimeAmount: Math.max(0, Number(e.target.value)),
+              }))
+            }
+            placeholder="Enter amount"
+            className="w-full px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500"
+          />
+        </div>
+        <div>
+          <label className="block text-sm text-slate-400 mb-1">Month #</label>
+          <input
+            type="number"
+            value={prepay.oneTimeMonth}
+            onChange={(e) =>
+              setPrepay((s) => ({
+                ...s,
+                oneTimeMonth: Math.max(1, Math.floor(Number(e.target.value))),
+              }))
+            }
+            placeholder="e.g. 12"
+            className="w-full px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500"
+          />
         </div>
       </div>
     </div>
+
+    {/* Extra Monthly Payment */}
+    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700 space-y-3">
+      <div className="flex justify-between items-center">
+        <label className="text-slate-300 font-medium">Extra Monthly Payment</label>
+        <span
+          className={`relative w-5 h-5 flex items-center justify-center rounded-md border transition-all duration-200
+            ${prepay.enableExtraMonthly
+              ? "border-cyan-400 bg-cyan-500/20"
+              : "border-slate-600 bg-slate-800/70 hover:border-cyan-500/50"}`}
+        >
+          <input
+            type="checkbox"
+            checked={prepay.enableExtraMonthly}
+            onChange={(e) =>
+              setPrepay((s) => ({ ...s, enableExtraMonthly: e.target.checked }))
+            }
+            className="absolute inset-0 opacity-0 cursor-pointer"
+          />
+          <svg
+            className={`w-3 h-3 text-cyan-400 transition-opacity duration-150 ${
+              prepay.enableExtraMonthly ? "opacity-100" : "opacity-0"
+            }`}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </span>
+      </div>
+
+      <div
+        className={`${
+          prepay.enableExtraMonthly ? "" : "opacity-50 pointer-events-none"
+        }`}
+      >
+        <label className="block text-sm text-slate-400 mb-1">Extra per month</label>
+        <input
+          type="number"
+          value={prepay.extraMonthly}
+          onChange={(e) =>
+            setPrepay((s) => ({
+              ...s,
+              extraMonthly: Math.max(0, Number(e.target.value)),
+            }))
+          }
+          placeholder="Enter extra amount"
+          className="w-full px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg focus:ring-2 focus:ring-cyan-500"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
   </div>
 ));
 
