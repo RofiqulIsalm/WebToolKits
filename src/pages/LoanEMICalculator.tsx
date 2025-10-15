@@ -19,7 +19,7 @@ type RateMode = "per_annum" | "per_month";
 type SolveMode = "by_tenure" | "by_emi";
 
 type Currency = "$" | "₹" | "€" | "£";
-
+ 
 interface PrepaymentSettings {
   oneTimeAmount: number;
   oneTimeMonth: number;
