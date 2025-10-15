@@ -316,7 +316,7 @@ const BasicInputs: React.FC<{
             className="px-3 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-md border border-slate-700 active:scale-95 transition-all duration-150"
             title="Reset all inputs"
           >
-            Reset
+            <RotateCcw size={16} className="text-white" />
           </button>
           </div>
         </div>
