@@ -394,7 +394,7 @@ const AdvancedControls: React.FC<{
     <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm space-y-6">
       <div className="flex flex-wrap justify-between items-center gap-3">
         <h3 className="text-lg font-semibold text-cyan-300">Advanced Controls</h3>
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex gap-2 flex-wrap max-w-xs">
           <button onClick={onCopyLink} className="px-3 py-2 rounded-md bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700 text-sm">Copy Link</button>
           <button onClick={onPrint} className="px-3 py-2 rounded-md bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700 text-sm">Print</button>
         </div>
