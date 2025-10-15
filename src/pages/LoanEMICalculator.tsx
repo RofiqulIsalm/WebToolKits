@@ -1209,7 +1209,7 @@ const LoanEMICalculator: React.FC = () => {
           </div>
         </section>
 
-      </section>
+ 
       <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
         <div className="flex items-center gap-3">
           <img
