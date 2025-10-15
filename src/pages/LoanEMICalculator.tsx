@@ -291,7 +291,16 @@ const BasicInputs: React.FC<{
   principal: number; setPrincipal: (n: number) => void;
   rateAnnual: number; setRateAnnual: (n: number) => void;
   tenureMonths: number; setTenureMonths: (n: number) => void;
-}> = React.memo(({ currency, setCurrency, principal, setPrincipal, rateAnnual, setRateAnnual, tenureMonths, setTenureMonths }) => {
+  placeholders?: {
+    principal?: string;
+    rate?: string;
+    years?: string;
+    months?: string;
+  };
+}> = React.memo(({
+  currency, setCurrency, principal, setPrincipal, rateAnnual, setRateAnnual, tenureMonths, setTenureMonths,
+  placeholders
+}) => {
   return (
     <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
       <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm">
