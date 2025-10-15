@@ -299,7 +299,7 @@ const BasicInputs: React.FC<{
         <div className="flex flex-wrap gap-3 justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-cyan-300 drop-shadow flex items-center gap-2">Loan Details </h2>
           <div className="flex items-center gap-2">
-            <select value={currency} onChange={(e) => setCurrency(e.target.value as Currency)} className="px-3 py-2 bg-slate-800/70 border border-slate-700 text-white rounded-lg">
+            <select value={currency} onChange={(e) => setCurrency(e.target.value as Currency)} className="px-1 py-1 bg-slate-800/70 border border-slate-700 text-white rounded-lg">
               <option>$</option>
               <option>₹</option>
               <option>€</option>
