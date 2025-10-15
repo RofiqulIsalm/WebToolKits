@@ -291,10 +291,10 @@ const BasicInputs: React.FC<{
   principal: number; setPrincipal: (n: number) => void;
   rateAnnual: number; setRateAnnual: (n: number) => void;
   tenureMonths: number; setTenureMonths: (n: number) => void;
-}> = React.memo(({ currency, setCurrency, principal, setPrincipal, rateAnnual, setRateAnnual, tenureMonths, setTenureMonths }) => {
+}> = React.memo(({ currency, setCurrency, principal, setPrincipal, rateAnnual, setRateAnnual, tenureMonths, setTenureMonths }) => { 
   return (
     <div className="rounded-xl shadow-md bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border border-slate-700 p-6">
-      <div className="rounded-lg p-6  ">
+      <div className="rounded-lg p-6 bg-slate-900/70 backdrop-blur-sm">
         <div className="flex flex-wrap gap-3 justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-cyan-300 drop-shadow flex items-center gap-2">Loan Details</h2>
           <div className="flex items-center gap-2">
