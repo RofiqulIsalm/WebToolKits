@@ -713,7 +713,19 @@ const LoanEMICalculator_Full: React.FC = () => {
 
       {/* Basic Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-3">
-          
+          <BasicInputs
+            currency={currency} setCurrency={setCurrency}
+            principal={principalRaw} setPrincipal={setPrincipalRaw}
+            rateAnnual={rateAnnualRaw} setRateAnnual={setRateAnnualRaw}
+            tenureMonths={tenureMonthsRaw} setTenureMonths={setTenureMonthsRaw}
+          />
+          <BasicResults
+            currencySymbol={currency}
+            emi={emiDeferred}
+            principal={principal}
+            totalInterest={totalInterestDeferred}
+            totalAmount={totalAmountDeferred}
+          />
       </div>
 
       {/* Advanced Sections */}
