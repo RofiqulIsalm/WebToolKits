@@ -6,8 +6,8 @@ import React, { Suspense, useDeferredValue, useEffect, useMemo, useState } from 
 import { RotateCcw } from "lucide-react";
 
 // If you use these in your app, you can re-enable imports or keep as-is
-import Breadcrumbs from "@/components/Breadcrumbs";
-import SEOHead from "@/components/SEOHead";
+import Breadcrumbs from "/components/Breadcrumbs";
+import SEOHead from "../components/SEOHead";
 
 /** -------------------------- Types & Helpers --------------------------- **/
 type Mode = "basic" | "advanced";
