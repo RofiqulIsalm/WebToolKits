@@ -666,33 +666,9 @@ const LoanEMICalculator: React.FC = () => {
               )}
             </div>
 
-            {/* Advanced toggles under results */}
-            {advanced && (
-              <div className="mt-6 flex flex-wrap gap-3 justify-end">
-                <button
-                  onClick={() => setShowCharts(!showCharts)}
-                  className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg border border-slate-600"
-                >
-                  {showCharts ? 'Hide Charts' : 'Show Charts'}
-                </button>
-                <button
-                  onClick={() => setShowSchedule(!showSchedule)}
-                  className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg"
-                >
-                  {showSchedule ? (
-                    <>
-                      Hide Amortization <ChevronUp className="h-4 w-4" />
-                    </>
-                  ) : (
-                    <>
-                      Show Amortization <ChevronDown className="h-4 w-4" />
-                    </>
-                  )}
-                </button>
-              </div>
-            )}
           </div>
         </div>
+        <h2>heelo</h2>
 
         {/* ===== Charts (Advanced only) ===== */}
         {advanced && showCharts && (
