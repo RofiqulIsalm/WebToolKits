@@ -820,6 +820,148 @@ export function calculateBangladeshTax({ income }: TaxInput): TaxResult {
   return { tax, netIncome: income - tax };
 }
 
+/* ======================================================
+   🇧🇪 Belgium (simplified)
+====================================================== */
+export function calculateBelgiumTax({ income }: TaxInput): TaxResult {
+  const brackets = [
+    { limit: 13540, rate: 0.25 },
+    { limit: 23900, rate: 0.4 },
+    { limit: 41460, rate: 0.45 },
+    { limit: Infinity, rate: 0.5 },
+  ];
+  let tax = 0, prev = 0;
+  for (const { limit, rate } of brackets) {
+    if (income <= prev) break;
+    const taxable = Math.min(income - prev, limit - prev);
+    tax += taxable * rate;
+    prev = limit;
+  }
+  return { tax, netIncome: income - tax };
+}
+
+/* ======================================================
+   🇦🇹 Austria (simplified)
+====================================================== */
+export function calculateAustriaTax({ income }: TaxInput): TaxResult {
+  const brackets = [
+    { limit: 11693, rate: 0 },
+    { limit: 19534, rate: 0.2 },
+    { limit: 32155, rate: 0.3 },
+    { limit: 62600, rate: 0.4 },
+    { limit: 93270, rate: 0.48 },
+    { limit: 1000000, rate: 0.5 },
+    { limit: Infinity, rate: 0.55 },
+  ];
+  let tax = 0, prev = 0;
+  for (const { limit, rate } of brackets) {
+    if (income <= prev) break;
+    const taxable = Math.min(income - prev, limit - prev);
+    tax += taxable * rate;
+    prev = limit;
+  }
+  return { tax, netIncome: income - tax };
+}
+
+/* ======================================================
+   🇵🇭 Philippines (simplified)
+====================================================== */
+export function calculatePhilippinesTax({ income }: TaxInput): TaxResult {
+  const brackets = [
+    { limit: 250000, rate: 0 },
+    { limit: 400000, rate: 0.15 },
+    { limit: 800000, rate: 0.2 },
+    { limit: 2000000, rate: 0.25 },
+    { limit: 8000000, rate: 0.3 },
+    { limit: Infinity, rate: 0.35 },
+  ];
+  let tax = 0, prev = 0;
+  for (const { limit, rate } of brackets) {
+    if (income <= prev) break;
+    const taxable = Math.min(income - prev, limit - prev);
+    tax += taxable * rate;
+    prev = limit;
+  }
+  return { tax, netIncome: income - tax };
+}
+
+/* ======================================================
+   🇮🇱 Israel (simplified)
+====================================================== */
+export function calculateIsraelTax({ income }: TaxInput): TaxResult {
+  const brackets = [
+    { limit: 8100, rate: 0.1 },
+    { limit: 11640, rate: 0.14 },
+    { limit: 18740, rate: 0.2 },
+    { limit: 25940, rate: 0.31 },
+    { limit: 53920, rate: 0.35 },
+    { limit: 89400, rate: 0.47 },
+    { limit: Infinity, rate: 0.5 },
+  ];
+  let tax = 0, prev = 0;
+  for (const { limit, rate } of brackets) {
+    if (income <= prev) break;
+    const taxable = Math.min(income - prev, limit - prev);
+    tax += taxable * rate;
+    prev = limit;
+  }
+  return { tax, netIncome: income - tax };
+}
+
+/* ======================================================
+   🇨🇴 Colombia (simplified)
+====================================================== */
+export function calculateColombiaTax({ income }: TaxInput): TaxResult {
+  const brackets = [
+    { limit: 1090, rate: 0 },
+    { limit: 1700, rate: 0.19 },
+    { limit: 4100, rate: 0.28 },
+    { limit: 8670, rate: 0.33 },
+    { limit: 18970, rate: 0.35 },
+    { limit: 31000, rate: 0.37 },
+    { limit: Infinity, rate: 0.39 },
+  ];
+  // assume income is in UVT (approx ~47,000 COP)
+  let tax = 0, prev = 0;
+  for (const { limit, rate } of brackets) {
+    if (income <= prev) break;
+    const taxable = Math.min(income - prev, limit - prev);
+    tax += taxable * rate;
+    prev = limit;
+  }
+  return { tax, netIncome: income - tax };
+}
+
+/* ======================================================
+   🇵🇰 Pakistan (FY 2024–25 simplified)
+====================================================== */
+export function calculatePakistanTax({ income }: TaxInput): TaxResult {
+  let tax = 0;
+  if (income <= 600000) tax = 0;
+  else if (income <= 1200000) tax = (income - 600000) * 0.05;
+  else if (income <= 2400000) tax = 30000 + (income - 1200000) * 0.1;
+  else if (income <= 3600000) tax = 150000 + (income - 2400000) * 0.15;
+  else if (income <= 6000000) tax = 330000 + (income - 3600000) * 0.2;
+  else if (income <= 12000000) tax = 810000 + (income - 6000000) * 0.25;
+  else tax = 2310000 + (income - 12000000) * 0.35;
+  return { tax, netIncome: income - tax };
+}
+
+/* ======================================================
+   🇱🇰 Sri Lanka (2024–25 simplified)
+====================================================== */
+export function calculateSriLankaTax({ income }: TaxInput): TaxResult {
+  let taxable = Math.max(0, income - 1200000);
+  let tax = 0;
+  if (taxable <= 500000) tax = taxable * 0.06;
+  else if (taxable <= 1000000) tax = 30000 + (taxable - 500000) * 0.12;
+  else if (taxable <= 1500000) tax = 90000 + (taxable - 1000000) * 0.18;
+  else if (taxable <= 2000000) tax = 180000 + (taxable - 1500000) * 0.24;
+  else if (taxable <= 3000000) tax = 300000 + (taxable - 2000000) * 0.3;
+  else tax = 600000 + (taxable - 3000000) * 0.36;
+  return { tax, netIncome: income - tax };
+}
+
 
 
 
@@ -879,6 +1021,14 @@ export const TAX_ENGINES: Record<string, (data: TaxInput) => TaxResult> = {
   CL: calculateChileTax,
   KE: calculateKenyaTax,
   BD: calculateBangladeshTax,
+  BE: calculateBelgiumTax,
+  AT: calculateAustriaTax,
+  PH: calculatePhilippinesTax,
+  IL: calculateIsraelTax,
+  CO: calculateColombiaTax,
+  PK: calculatePakistanTax,
+  LK: calculateSriLankaTax,
+
   // all others fallback
 };
 
