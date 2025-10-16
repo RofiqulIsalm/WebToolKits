@@ -799,6 +799,28 @@ export function calculateKenyaTax({ income }: TaxInput): TaxResult {
   return { tax, netIncome: income - tax };
 }
 
+/* ======================================================
+   🇧🇩 Bangladesh (NBR 2024–25 simplified)
+====================================================== */
+export function calculateBangladeshTax({ income }: TaxInput): TaxResult {
+  // All amounts in BDT (Bangladeshi Taka)
+  // Basic exemption: ৳350,000 for general taxpayers
+  let taxable = Math.max(0, income - 350000);
+  let tax = 0;
+
+  if (taxable <= 100000) tax = taxable * 0.05;
+  else if (taxable <= 400000) tax = 5000 + (taxable - 100000) * 0.1;
+  else if (taxable <= 700000) tax = 35000 + (taxable - 400000) * 0.15;
+  else if (taxable <= 1100000) tax = 80000 + (taxable - 700000) * 0.2;
+  else tax = 160000 + (taxable - 1100000) * 0.25;
+
+  // Minimum tax: ৳5,000 for most taxpayers
+  if (tax > 0 && tax < 5000) tax = 5000;
+
+  return { tax, netIncome: income - tax };
+}
+
+
 
 
 
