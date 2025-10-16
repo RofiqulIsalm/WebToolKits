@@ -206,7 +206,7 @@ const TaxCalculator: React.FC = () => {
           )}
           openGraph={{
             title: 'Global Income Tax Calculator 2025 | Estimate Taxes Worldwide',
-            alt: 'Country-specific income tax calculator banner showing flag, calculator, and tax forms for 2025.'
+            alt: 'Country-specific income tax calculator banner showing flag, calculator, and tax forms for 2025.',
             description:
               selectedCountry
                 ? `Estimate your ${countryName} tax for 2025 with detailed breakdowns of deductions, rates, and net income.`
