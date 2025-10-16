@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Globe, Receipt } from 'lucide-react';
+import { Globe, Receipt, CheckCircle, Wrench } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -9,10 +9,8 @@ import { countries } from '../utils/tax/countryMeta';
 import { TAX_ENGINES } from '../utils/tax';
 import supportedCountries from '../utils/tax/supportedCountries.json';
 
-const isSupported = supportedCountries.find(c => c.code === selectedCode)?.hasTaxLogic;
-
 const TaxCalculator: React.FC = () => {
-  const [country, setCountry] = useState('IN'); // Default: India
+  const [country, setCountry] = useState('IN'); // Default India
   const [income, setIncome] = useState<number>(60000);
   const [deductions, setDeductions] = useState<number>(0);
   const [tax, setTax] = useState<number>(0);
@@ -21,6 +19,9 @@ const TaxCalculator: React.FC = () => {
   const selectedCountry = countries.find((c) => c.code === country);
   const currencySymbol = selectedCountry?.symbol ?? '$';
   const countryEmoji = selectedCountry?.emoji ?? '🌍';
+
+  const countrySupport = supportedCountries.find((c) => c.code === country);
+  const isSupported = countrySupport?.hasTaxLogic ?? false;
 
   useEffect(() => {
     calculateTax();
@@ -33,7 +34,7 @@ const TaxCalculator: React.FC = () => {
       setTax(result.tax);
       setNetIncome(result.netIncome);
     } else {
-      // Fallback: flat 10% tax for unsupported countries
+      // Default: flat 10% fallback for unsupported countries
       const flatTax = income * 0.1;
       setTax(flatTax);
       setNetIncome(income - flatTax);
@@ -103,6 +104,21 @@ const TaxCalculator: React.FC = () => {
                     </option>
                   ))}
                 </select>
+
+                {/* Supported / Coming Soon badge */}
+                <div className="mt-2 flex items-center gap-2 text-sm">
+                  {isSupported ? (
+                    <>
+                      <CheckCircle className="h-4 w-4 text-green-600" />
+                      <span className="text-green-700">Fully Supported</span>
+                    </>
+                  ) : (
+                    <>
+                      <Wrench className="h-4 w-4 text-yellow-500" />
+                      <span className="text-yellow-600">Coming Soon (Flat 10%)</span>
+                    </>
+                  )}
+                </div>
               </div>
 
               {/* Income */}
