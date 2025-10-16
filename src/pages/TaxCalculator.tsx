@@ -8,6 +8,7 @@ import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import { countries } from '../utils/tax/countryMeta';
 import { TAX_ENGINES } from '../utils/tax';
 import supportedCountries from '../utils/tax/supportedCountries.json';
+import { TOOLTIP_TEXTS } from '../utils/tax/tooltipTexts';
 
 const TaxCalculator: React.FC = () => {
   const [country, setCountry] = useState(''); // Default: Global
