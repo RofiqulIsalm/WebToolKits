@@ -325,41 +325,17 @@ const TaxCalculator: React.FC = () => {
           </div>
         </div>
 
-{/* ===== Chart + Smart Tax Tips Section ===== */}
+{/* ===== Chart + Smart Tips Section ===== */}
 {income && Number(income) > 0 && (
   <div className="mt-10 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-    {/* ===== Title & Fixed Tip Box ===== */}
-    <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-6">
-      <h3 className="text-lg font-semibold text-gray-900">
-        Tax Insights & Smart Saving Tips
-      </h3>
+    <h3 className="text-lg font-semibold text-gray-900 mb-6 text-center">
+      Tax Insights & Smart Saving Tips
+    </h3>
 
-      {/* 💡 Fixed-size tip box with smooth crossfade */}
-      <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 text-sm text-gray-700 relative shadow-sm w-full lg:w-[440px] h-[100px] flex items-center overflow-hidden">
-        <div className="flex items-start gap-2 w-full">
-          <span className="text-blue-600 text-lg mt-[2px]">💡</span>
-          <div className="flex flex-col w-full">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-sm font-semibold text-gray-900 truncate">
-                {countryEmoji} {countryName} Tip
-              </span>
-            </div>
-
-            {/* Smooth fade animation between tips */}
-            <div className="transition-opacity duration-700 ease-in-out opacity-100 animate-fadeIn">
-              <p className="text-gray-700 text-sm leading-snug">
-                {tipsForCountry[activeTip]}
-              </p>
-            </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-    {/* ===== Chart Section ===== */}
-    <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
-      <div className="w-full lg:w-1/2">
-        <ResponsiveContainer width="100%" height={250}>
+    <div className="flex flex-col lg:flex-row gap-6 items-center justify-center">
+      {/* ===== Left: Pie Chart + Summary ===== */}
+      <div className="flex-1 flex flex-col items-center justify-center">
+        <ResponsiveContainer width="100%" height={220}>
           <PieChart>
             <Pie
               data={data}
@@ -368,29 +344,74 @@ const TaxCalculator: React.FC = () => {
               dataKey="value"
               paddingAngle={2}
             >
-              {data.map((entry, i) => (
-                <Cell key={i} fill={COLORS[i % COLORS.length]} />
+              {data.map((entry, index) => (
+                <Cell key={index} fill={COLORS[index % COLORS.length]} />
               ))}
             </Pie>
             <ChartTooltip />
           </PieChart>
         </ResponsiveContainer>
+
+        {/* Mini Tax Summary */}
+        <ul className="text-sm text-gray-700 mt-4 space-y-1">
+          <li>💰 Total Income: <strong>{formatCurrency(Number(income))}</strong></li>
+          <li>📉 Deductions: <strong>{formatCurrency(Number(deductions) || 0)}</strong></li>
+          <li>💸 Tax Payable: <strong>{formatCurrency(tax)}</strong></li>
+          <li>🏦 Net Income: <strong>{formatCurrency(netIncome)}</strong></li>
+        </ul>
+      </div>
+
+      {/* ===== Right: Rotating Tip Box ===== */}
+      <div className="flex-1 flex flex-col justify-start">
+        <h4 className="text-sm text-gray-500 mb-2 text-center lg:text-left">
+          {countryEmoji} Personalized Tax Tips for {countryName}
+        </h4>
+
+        <div className="bg-blue-50 border border-blue-200 text-blue-900 p-4 rounded-md shadow-sm min-h-[100px] flex items-center justify-center animate-fadeIn transition-all duration-700">
+          <div className="flex items-start gap-2">
+            <span className="text-xl">💡</span>
+            <p className="text-sm font-medium leading-snug text-gray-700 max-w-[300px] text-center lg:text-left">
+              {tipsForCountry[activeTip]}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
 
-    {/* ===== Extra Tips Grid ===== */}
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
-      {extraTips.map((tip, i) => (
-        <div
-          key={i}
-          className="bg-gray-50 p-3 rounded-md text-sm text-gray-700 border border-gray-200 hover:shadow-md transition"
-        >
-          {tip}
-        </div>
-      ))}
+    {/* ===== Quick Tax-Saving Cards ===== */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-8">
+      <div className="p-3 bg-blue-50 rounded-lg text-center hover:bg-blue-100 transition text-sm">
+        📊 Invest in retirement or pension funds.
+      </div>
+      <div className="p-3 bg-green-50 rounded-lg text-center hover:bg-green-100 transition text-sm">
+        🏠 Claim housing rent or home loan interest.
+      </div>
+      <div className="p-3 bg-yellow-50 rounded-lg text-center hover:bg-yellow-100 transition text-sm">
+        💉 Deduct medical & health insurance costs.
+      </div>
+      <div className="p-3 bg-purple-50 rounded-lg text-center hover:bg-purple-100 transition text-sm">
+        🎓 Claim education or child tuition tax credits.
+      </div>
+    </div>
+
+    {/* ===== Country-Specific Facts ===== */}
+    <div className="mt-6 text-xs text-gray-600 text-center">
+      {country === 'US' && (
+        <p>🇺🇸 In the U.S., contributing to 401(k) or HSA plans can reduce taxable income.</p>
+      )}
+      {country === 'IN' && (
+        <p>🇮🇳 In India, Section 80C investments (like ELSS or PPF) help you save tax up to ₹1.5L.</p>
+      )}
+      {country === 'UK' && (
+        <p>🇬🇧 In the UK, using your ISA and pension allowance can save significant taxes.</p>
+      )}
+      {!country && (
+        <p>🌍 Tax-saving opportunities vary by country — explore deductions and investments to lower your burden.</p>
+      )}
     </div>
   </div>
 )}
+
 
 
 
