@@ -593,7 +593,7 @@ const LoanEMICalculator: React.FC = () => {
           ]}
         />
 
-        <h1 className="text-3xl font-bold text-cyan-400 mb-6">
+        <h1 className="text-3xl font-bold text-white mb-6">
           Loan EMI Calculator – Free, Accurate & Instant Results
         </h1>
         {/* ===== Mode Toggle ===== */}
