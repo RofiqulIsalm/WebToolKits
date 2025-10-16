@@ -327,7 +327,7 @@ const TaxCalculator: React.FC = () => {
 
 {/* ===== Tax Insights & Smart Saving Tips ===== */}
         {/* ===== Tips Box (Top, Outside Chart) ===== */}
-    <div className="flex justify-center mb-6">
+    <div className="flex justify-center ">
       <div className="bg-blue-50 border border-blue-200 text-blue-900 px-5 py-3 rounded-md shadow-sm min-h-[90px] w-full sm:w-2/3 lg:w-1/2 flex items-center justify-center animate-fadeIn transition-all duration-700">
         <div className="flex items-start gap-2 text-center sm:text-left">
           <span className="text-xl">💡</span>
