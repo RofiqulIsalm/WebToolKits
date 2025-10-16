@@ -217,7 +217,7 @@ const TaxCalculator: React.FC = () => {
         {/* ===== Calculator Grid ===== */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Input Section */}
-          <div className="from-slate-800 to-slate-900 rounded-lg shadow-sm border border-gray-200 p-6 relative">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 relative">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
                 <Globe className="h-5 w-5 text-blue-600" /> Income Details
@@ -296,7 +296,7 @@ const TaxCalculator: React.FC = () => {
           </div>
 
           {/* Output Section */}
-          <div className="from-slate-800 to-slate-900 rounded-lg shadow-sm border border-gray-200 p-6">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Tax Calculation</h2>
             <div className="space-y-6">
               <div className="text-center p-4 bg-red-50 rounded-lg">
@@ -346,7 +346,7 @@ const TaxCalculator: React.FC = () => {
     </div>
 
     {/* ===== Tax Insights & Smart Saving Tips ===== */}
-    <div className="mt-5 bg-gray-700 rounded-lg shadow-sm border border-gray-200 p-6">
+    <div className="mt-5 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-6 text-center">
         Tax Insights & Smart Saving Tips
       </h3>
