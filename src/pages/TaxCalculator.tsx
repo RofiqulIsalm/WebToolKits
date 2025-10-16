@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Globe, Receipt, CheckCircle, Wrench } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Globe, Receipt, CheckCircle, Wrench, Info } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -24,12 +24,21 @@ const TaxCalculator: React.FC = () => {
   const countrySupport = supportedCountries.find((c) => c.code === country);
   const isSupported = countrySupport?.hasTaxLogic ?? false;
 
+  // Ref for auto-focus
+  const incomeInputRef = useRef<HTMLInputElement>(null);
+
+  // Focus income field when country changes
+  useEffect(() => {
+    if (incomeInputRef.current) {
+      incomeInputRef.current.focus();
+    }
+  }, [country]);
+
   useEffect(() => {
     calculateTax();
   }, [country, income, deductions]);
 
   const calculateTax = () => {
-    // Avoid calculation when no income
     if (income === '' || isNaN(Number(income))) {
       setTax(0);
       setNetIncome(0);
@@ -45,7 +54,6 @@ const TaxCalculator: React.FC = () => {
       setTax(result.tax);
       setNetIncome(result.netIncome);
     } else {
-      // Default: flat 10% tax
       const flatTax = numericIncome * 0.1;
       setTax(flatTax);
       setNetIncome(numericIncome - flatTax);
@@ -147,11 +155,18 @@ const TaxCalculator: React.FC = () => {
               </div>
 
               {/* Income Input */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="relative">
+                <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
                   Annual Income ({currencySymbol})
+                  <div className="relative group cursor-pointer">
+                    <Info className="h-4 w-4 text-gray-500 hover:text-blue-600" />
+                    <div className="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded-md px-2 py-1 top-6 left-0 w-52 shadow-lg z-10">
+                      Total amount earned in a year before taxes and deductions.
+                    </div>
+                  </div>
                 </label>
                 <input
+                  ref={incomeInputRef}
                   type="number"
                   value={income}
                   placeholder={`Enter your annual income in ${currencySymbol}`}
@@ -161,9 +176,15 @@ const TaxCalculator: React.FC = () => {
               </div>
 
               {/* Deductions Input */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="relative">
+                <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
                   Deductions ({currencySymbol})
+                  <div className="relative group cursor-pointer">
+                    <Info className="h-4 w-4 text-gray-500 hover:text-blue-600" />
+                    <div className="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded-md px-2 py-1 top-6 left-0 w-56 shadow-lg z-10">
+                      Expenses or investments that reduce your taxable income — e.g. health insurance, retirement savings, HRA, etc.
+                    </div>
+                  </div>
                 </label>
                 <input
                   type="number"
@@ -178,7 +199,9 @@ const TaxCalculator: React.FC = () => {
 
           {/* ============== Output Section ============== */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Tax Calculation</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              Tax Calculation
+            </h2>
 
             <div className="space-y-6">
               <div className="text-center p-4 bg-red-50 rounded-lg">
