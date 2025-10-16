@@ -605,7 +605,7 @@ const TaxCalculator: React.FC = () => {
           
             <figure className="my-8">
               <img
-                src="/images/global-income-tax-calculator-2025.webp"
+                src="/images/country-specific-income-tax-calculator-2025.webp"
                 alt="Global income tax calculator 2025 banner showing world map and financial charts"
                 title="Global Income Tax Calculator 2025 | Free International Tax Tool"
                 className="rounded-lg shadow-md border border-slate-700 mx-auto"
