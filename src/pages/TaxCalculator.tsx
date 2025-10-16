@@ -231,55 +231,39 @@ const TaxCalculator: React.FC = () => {
     </div>
 
     <div className="space-y-5">
-  {/* Country */}
-  <div>
-    <label className="block text-sm font-medium text-slate-300 mb-2">
-      Select Country
-    </label>
-
-    <div className="relative">
-      <select
-        value={country}
-        onChange={(e) => setCountry(e.target.value)}
-        className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500 appearance-none pr-10"
-      >
-        <option value="">🌍 Global (Default)</option>
-        {countries.map((c) => (
-          <option key={c.code} value={c.code} className="text-black">
-            {c.emoji} {c.name}
-          </option>
-        ))}
-      </select>
-
-      {/* Small chevron icon on right (for better UX) */}
-      <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-        ▼
-      </span>
-    </div>
-
-    {/* Responsive status */}
-    {country && (
-      <div className="mt-2 flex flex-wrap items-center gap-1 text-xs sm:text-sm">
-        {isSupported ? (
-          <>
-            <CheckCircle className="h-4 w-4 text-emerald-400 shrink-0" />
-            <span className="text-emerald-400 whitespace-normal">
-              Fully Supported
-            </span>
-          </>
-        ) : (
-          <>
-            <Wrench className="h-4 w-4 text-yellow-400 shrink-0" />
-            <span className="text-yellow-400 whitespace-normal">
-              Coming Soon (Flat 10%)
-            </span>
-          </>
+      {/* Country */}
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-2">
+          Select Country
+        </label>
+        <select
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
+          className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
+        >
+          <option value="">🌍 Global (Default)</option>
+          {countries.map((c) => (
+            <option key={c.code} value={c.code} className="text-black">
+              {c.emoji} {c.name}
+            </option>
+          ))}
+        </select>
+        {country && (
+          <div className="mt-2 flex items-center gap-2 text-sm">
+            {isSupported ? (
+              <>
+                <CheckCircle className="h-4 w-4 text-emerald-400" />
+                <span className="text-emerald-400">Fully Supported</span>
+              </>
+            ) : (
+              <>
+                <Wrench className="h-4 w-4 text-yellow-400" />
+                <span className="text-yellow-400">Coming Soon (Flat 10%)</span>
+              </>
+            )}
+          </div>
         )}
-      </div>
-    )}
-  </div>
-</div>
-
+      </div> 
 
       {/* Income */}
       <div>
