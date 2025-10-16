@@ -597,19 +597,14 @@ const CompoundInterestCalculator: React.FC = () => {
         )}
 
         {/* ----------- SEO/Content (kept) ----------- */}
-        <div className="max-w-5xl mx-auto p-6 space-y-12 text-white">
-          <h1 className="text-2xl md:text-3xl font-extrabold text-center mb-6">
-            Compound Interest Calculator – Calculate Your Investment Growth Online
-          </h1>
-          <p className="text-lg md:text-xl text-slate-100 text-center mb-6 leading-relaxed">
-            This online calculator helps you quantify the growth of your investments through the power of compounding.
-          </p>
+
+          
           <AdBanner type="bottom" />
           {/* (rest of your long-form content unchanged) */}
           <RelatedCalculators currentPath="/compound-interest-calculator" category="currency-finance" />
-        </div>
+        
 
-        <AdBanner type="bottom" />
+
       </div>
     </>
   );
