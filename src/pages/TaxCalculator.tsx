@@ -9,34 +9,10 @@ import { countries } from '../utils/tax/countryMeta';
 import { TAX_ENGINES } from '../utils/tax';
 import supportedCountries from '../utils/tax/supportedCountries.json';
 
-/* ==========================
-   Default country values
-========================== */
-const DEFAULT_VALUES: Record<
-  string,
-  { income: number; deductions: number }
-> = {
-  "": { income: 50000, deductions: 0 }, // Global default
-  IN: { income: 800000, deductions: 50000 },
-  US: { income: 60000, deductions: 12000 },
-  UK: { income: 40000, deductions: 0 },
-  CA: { income: 70000, deductions: 0 },
-  AU: { income: 85000, deductions: 0 },
-  DE: { income: 50000, deductions: 0 },
-  FR: { income: 48000, deductions: 0 },
-  JP: { income: 5000000, deductions: 380000 },
-  SG: { income: 70000, deductions: 2000 },
-  BR: { income: 60000, deductions: 0 },
-  BD: { income: 800000, deductions: 50000 },
-  CL: { income: 15000000, deductions: 0 },
-};
-
 const TaxCalculator: React.FC = () => {
   const [country, setCountry] = useState(''); // Default: Global
-  const [income, setIncome] = useState<number>(DEFAULT_VALUES[''].income);
-  const [deductions, setDeductions] = useState<number>(
-    DEFAULT_VALUES[''].deductions
-  );
+  const [income, setIncome] = useState<number | ''>(''); // Empty by default
+  const [deductions, setDeductions] = useState<number | ''>(''); // Empty by default
   const [tax, setTax] = useState<number>(0);
   const [netIncome, setNetIncome] = useState<number>(0);
 
@@ -48,30 +24,31 @@ const TaxCalculator: React.FC = () => {
   const countrySupport = supportedCountries.find((c) => c.code === country);
   const isSupported = countrySupport?.hasTaxLogic ?? false;
 
-  /* ==========================
-     Auto-update defaults on country change
-  =========================== */
-  useEffect(() => {
-    const defaults = DEFAULT_VALUES[country] || DEFAULT_VALUES[''];
-    setIncome(defaults.income);
-    setDeductions(defaults.deductions);
-  }, [country]);
-
   useEffect(() => {
     calculateTax();
   }, [country, income, deductions]);
 
   const calculateTax = () => {
+    // Avoid calculation when no income
+    if (income === '' || isNaN(Number(income))) {
+      setTax(0);
+      setNetIncome(0);
+      return;
+    }
+
+    const numericIncome = Number(income);
+    const numericDeductions = Number(deductions) || 0;
+
     const calcFn = country ? TAX_ENGINES[country] : undefined;
     if (calcFn) {
-      const result = calcFn({ income, deductions });
+      const result = calcFn({ income: numericIncome, deductions: numericDeductions });
       setTax(result.tax);
       setNetIncome(result.netIncome);
     } else {
-      // Default flat 10% fallback
-      const flatTax = income * 0.1;
+      // Default: flat 10% tax
+      const flatTax = numericIncome * 0.1;
       setTax(flatTax);
-      setNetIncome(income - flatTax);
+      setNetIncome(numericIncome - flatTax);
     }
   };
 
@@ -108,6 +85,7 @@ const TaxCalculator: React.FC = () => {
           ]}
         />
 
+        {/* ======= Header ======= */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">
             {selectedCountry
@@ -121,6 +99,7 @@ const TaxCalculator: React.FC = () => {
           </p>
         </div>
 
+        {/* ======= Calculator Grid ======= */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* ============== Input Section ============== */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -167,7 +146,7 @@ const TaxCalculator: React.FC = () => {
                 )}
               </div>
 
-              {/* Income */}
+              {/* Income Input */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Annual Income ({currencySymbol})
@@ -175,12 +154,13 @@ const TaxCalculator: React.FC = () => {
                 <input
                   type="number"
                   value={income}
-                  onChange={(e) => setIncome(Number(e.target.value))}
+                  placeholder={`Enter your annual income in ${currencySymbol}`}
+                  onChange={(e) => setIncome(e.target.value === '' ? '' : Number(e.target.value))}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
 
-              {/* Deductions */}
+              {/* Deductions Input */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Deductions ({currencySymbol})
@@ -188,7 +168,8 @@ const TaxCalculator: React.FC = () => {
                 <input
                   type="number"
                   value={deductions}
-                  onChange={(e) => setDeductions(Number(e.target.value))}
+                  placeholder={`Enter total deductions in ${currencySymbol}`}
+                  onChange={(e) => setDeductions(e.target.value === '' ? '' : Number(e.target.value))}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
@@ -197,15 +178,15 @@ const TaxCalculator: React.FC = () => {
 
           {/* ============== Output Section ============== */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">
-              Tax Calculation
-            </h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Tax Calculation</h2>
 
             <div className="space-y-6">
               <div className="text-center p-4 bg-red-50 rounded-lg">
                 <Receipt className="h-8 w-8 text-red-600 mx-auto mb-2" />
                 <div className="text-2xl font-bold text-gray-900">
-                  {tax <= 0
+                  {income === '' || Number(income) <= 0
+                    ? 'Enter income to calculate'
+                    : tax <= 0
                     ? 'No Tax Payable'
                     : `${currencySymbol}${tax.toLocaleString(undefined, {
                         maximumFractionDigits: 2,
@@ -214,25 +195,27 @@ const TaxCalculator: React.FC = () => {
                 <div className="text-sm text-gray-600">Estimated Annual Tax</div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 bg-blue-50 rounded-lg text-center">
-                  <div className="text-lg font-semibold text-gray-900">
-                    {currencySymbol}
-                    {income.toLocaleString()}
+              {income !== '' && Number(income) > 0 && (
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-4 bg-blue-50 rounded-lg text-center">
+                    <div className="text-lg font-semibold text-gray-900">
+                      {currencySymbol}
+                      {Number(income).toLocaleString()}
+                    </div>
+                    <div className="text-sm text-gray-600">Gross Income</div>
                   </div>
-                  <div className="text-sm text-gray-600">Gross Income</div>
-                </div>
 
-                <div className="p-4 bg-green-50 rounded-lg text-center">
-                  <div className="text-lg font-semibold text-gray-900">
-                    {currencySymbol}
-                    {netIncome.toLocaleString(undefined, {
-                      maximumFractionDigits: 2,
-                    })}
+                  <div className="p-4 bg-green-50 rounded-lg text-center">
+                    <div className="text-lg font-semibold text-gray-900">
+                      {currencySymbol}
+                      {netIncome.toLocaleString(undefined, {
+                        maximumFractionDigits: 2,
+                      })}
+                    </div>
+                    <div className="text-sm text-gray-600">Net Income</div>
                   </div>
-                  <div className="text-sm text-gray-600">Net Income</div>
                 </div>
-              </div>
+              )}
 
               {tax > 0 && (
                 <div className="space-y-3">
@@ -253,7 +236,7 @@ const TaxCalculator: React.FC = () => {
                   <div className="flex justify-between text-sm">
                     <span>Effective Tax Rate:</span>
                     <span className="font-medium">
-                      {((tax / income) * 100).toFixed(2)}%
+                      {((tax / Number(income)) * 100).toFixed(2)}%
                     </span>
                   </div>
                 </div>
@@ -263,7 +246,6 @@ const TaxCalculator: React.FC = () => {
         </div>
 
         <AdBanner type="bottom" />
-
         <RelatedCalculators
           currentPath="/tax-calculator"
           category="currency-finance"
@@ -274,4 +256,3 @@ const TaxCalculator: React.FC = () => {
 };
 
 export default TaxCalculator;
- 
