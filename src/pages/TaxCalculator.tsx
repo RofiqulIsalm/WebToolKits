@@ -9,10 +9,34 @@ import { countries } from '../utils/tax/countryMeta';
 import { TAX_ENGINES } from '../utils/tax';
 import supportedCountries from '../utils/tax/supportedCountries.json';
 
+/* ==========================
+   Default country values
+========================== */
+const DEFAULT_VALUES: Record<
+  string,
+  { income: number; deductions: number }
+> = {
+  "": { income: 50000, deductions: 0 }, // Global default
+  IN: { income: 800000, deductions: 50000 },
+  US: { income: 60000, deductions: 12000 },
+  UK: { income: 40000, deductions: 0 },
+  CA: { income: 70000, deductions: 0 },
+  AU: { income: 85000, deductions: 0 },
+  DE: { income: 50000, deductions: 0 },
+  FR: { income: 48000, deductions: 0 },
+  JP: { income: 5000000, deductions: 380000 },
+  SG: { income: 70000, deductions: 2000 },
+  BR: { income: 60000, deductions: 0 },
+  BD: { income: 800000, deductions: 50000 },
+  CL: { income: 15000000, deductions: 0 },
+};
+
 const TaxCalculator: React.FC = () => {
-  const [country, setCountry] = useState(''); // Default: no country selected
-  const [income, setIncome] = useState<number>(60000);
-  const [deductions, setDeductions] = useState<number>(0);
+  const [country, setCountry] = useState(''); // Default: Global
+  const [income, setIncome] = useState<number>(DEFAULT_VALUES[''].income);
+  const [deductions, setDeductions] = useState<number>(
+    DEFAULT_VALUES[''].deductions
+  );
   const [tax, setTax] = useState<number>(0);
   const [netIncome, setNetIncome] = useState<number>(0);
 
@@ -23,6 +47,15 @@ const TaxCalculator: React.FC = () => {
 
   const countrySupport = supportedCountries.find((c) => c.code === country);
   const isSupported = countrySupport?.hasTaxLogic ?? false;
+
+  /* ==========================
+     Auto-update defaults on country change
+  =========================== */
+  useEffect(() => {
+    const defaults = DEFAULT_VALUES[country] || DEFAULT_VALUES[''];
+    setIncome(defaults.income);
+    setDeductions(defaults.deductions);
+  }, [country]);
 
   useEffect(() => {
     calculateTax();
@@ -35,7 +68,7 @@ const TaxCalculator: React.FC = () => {
       setTax(result.tax);
       setNetIncome(result.netIncome);
     } else {
-      // Fallback: flat 10% tax for unsupported or no country
+      // Default flat 10% fallback
       const flatTax = income * 0.1;
       setTax(flatTax);
       setNetIncome(income - flatTax);
@@ -115,7 +148,6 @@ const TaxCalculator: React.FC = () => {
                   ))}
                 </select>
 
-                {/* Supported / Coming Soon badge */}
                 {country && (
                   <div className="mt-2 flex items-center gap-2 text-sm">
                     {isSupported ? (
@@ -165,7 +197,9 @@ const TaxCalculator: React.FC = () => {
 
           {/* ============== Output Section ============== */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Tax Calculation</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              Tax Calculation
+            </h2>
 
             <div className="space-y-6">
               <div className="text-center p-4 bg-red-50 rounded-lg">
@@ -192,7 +226,9 @@ const TaxCalculator: React.FC = () => {
                 <div className="p-4 bg-green-50 rounded-lg text-center">
                   <div className="text-lg font-semibold text-gray-900">
                     {currencySymbol}
-                    {netIncome.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                    {netIncome.toLocaleString(undefined, {
+                      maximumFractionDigits: 2,
+                    })}
                   </div>
                   <div className="text-sm text-gray-600">Net Income</div>
                 </div>
