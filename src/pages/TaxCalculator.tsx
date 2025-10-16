@@ -7,6 +7,9 @@ import RelatedCalculators from '../components/RelatedCalculators';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import { countries } from '../utils/tax/countryMeta';
 import { TAX_ENGINES } from '../utils/tax';
+import supportedCountries from '../utils/tax/supportedCountries.json';
+
+const isSupported = supportedCountries.find(c => c.code === selectedCode)?.hasTaxLogic;
 
 const TaxCalculator: React.FC = () => {
   const [country, setCountry] = useState('IN'); // Default: India
