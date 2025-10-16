@@ -236,18 +236,20 @@ const TaxCalculator: React.FC = () => {
         <label className="block text-sm font-medium text-slate-300 mb-2">
           Select Country
         </label>
-        <select
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
-          className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
-        >
-          <option value="">🌍 Global (Default)</option>
-          {countries.map((c) => (
-            <option key={c.code} value={c.code} className="text-black">
-              {c.emoji} {c.name}
-            </option>
-          ))}
-        </select>
+        <div className="relative">
+          <select
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
+          >
+            <option value="">🌍 Global (Default)</option>
+            {countries.map((c) => (
+              <option key={c.code} value={c.code} className="text-black">
+                {c.emoji} {c.name}
+              </option>
+            ))}
+          </select>
+        </div>
         {country && (
           <div className="mt-2 flex items-center gap-2 text-sm">
             {isSupported ? (
