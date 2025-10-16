@@ -240,7 +240,7 @@ const TaxCalculator: React.FC = () => {
           <select
             value={country}
             onChange={(e) => setCountry(e.target.value)}
-            className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500 appearance-none pr-10"
+            className="w-50% bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500 appearance-none pr-10"
           >
             <option value="">🌍 Global (Default)</option>
             {countries.map((c) => (
