@@ -409,5 +409,23 @@ const TaxCalculator: React.FC = () => {
     </>
   );
 };
+<style>
+{`
+  .fade-enter {
+    opacity: 0;
+    transition: opacity 0.7s ease-in;
+  }
+  .fade-enter-active {
+    opacity: 1;
+  }
+  .fade-exit {
+    opacity: 1;
+    transition: opacity 0.7s ease-out;
+  }
+  .fade-exit-active {
+    opacity: 0;
+  }
+`}
+</style>
 
 export default TaxCalculator;
