@@ -471,7 +471,7 @@ const TaxCalculator: React.FC = () => {
             </p>
           </div>
 
-          <div className="p-4 bg-rose-50 border border-[#334155] rounded-lg text-center shadow-sm hover:border-rose-500 transition">
+          <div className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center shadow-sm hover:border-rose-500 transition">
             <p className="text-sm text-slate-400 flex items-center justify-center gap-1">
               💸 <span>Tax Payable</span>
             </p>
@@ -480,7 +480,7 @@ const TaxCalculator: React.FC = () => {
             </p>
           </div>
 
-          <div className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center shadow-sm hover:border-indigo-500 transition">
+          <div className="p-4 bg-purple-50 border border-[#334155] rounded-lg text-center shadow-sm hover:border-indigo-500 transition">
             <p className="text-sm text-slate-400 flex items-center justify-center gap-1">
               🏦 <span>Net Income</span>
             </p>
