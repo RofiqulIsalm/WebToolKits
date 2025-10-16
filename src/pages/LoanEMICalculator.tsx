@@ -1471,6 +1471,7 @@ const LoanEMICalculator: React.FC = () => {
         }}
       />
 
+
           {/* Optional guide image from Supabase */}
           {guideImageUrl && (
             <div className="mt-6">
