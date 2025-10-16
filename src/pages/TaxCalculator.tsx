@@ -326,13 +326,22 @@ const TaxCalculator: React.FC = () => {
         </div>
 
 {/* ===== Tax Insights & Smart Saving Tips ===== */}
+        {/* ===== Tips Box (Top, Outside Chart) ===== */}
+    <div className="flex justify-center mb-6">
+      <div className="bg-blue-50 border border-blue-200 text-blue-900 px-5 py-3 rounded-md shadow-sm min-h-[90px] w-full sm:w-2/3 lg:w-1/2 flex items-center justify-center animate-fadeIn transition-all duration-700">
+        <div className="flex items-start gap-2 text-center sm:text-left">
+          <span className="text-xl">💡</span>
+          <p className="text-sm font-medium leading-snug text-gray-700">
+            {tipsForCountry[activeTip]}
+          </p>
+        </div>
+      </div>
+    </div>
 {income && Number(income) > 0 && (
   <div className="mt-10 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
     <h3 className="text-lg font-semibold text-gray-900 mb-6 text-center">
       Tax Insights & Smart Saving Tips
     </h3>
-
-    
 
     {/* ===== Chart + Summary Side by Side ===== */}
     <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
