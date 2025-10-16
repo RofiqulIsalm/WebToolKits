@@ -289,7 +289,7 @@ const TaxCalculator: React.FC = () => {
                   className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${Number(deductions) > Number(income) ? 'border-red-500 ring-red-300' : 'border-gray-300'}`}
                 />
                 <input type="range" min="0" max="500000" step="1000" value={deductions || 0}
-                  onChange={(e) => setDeductions(Number(e.target.value))} className="w-full mt-2 accent-green-500" />
+                  onChange={(e) => setDeductions(Number(e.target.value))} className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-black" />
                 {Number(deductions) > Number(income) && (<p className="text-sm text-red-600 mt-2">⚠️ Deductions cannot exceed total income.</p>)}
               </div>
             </div>
