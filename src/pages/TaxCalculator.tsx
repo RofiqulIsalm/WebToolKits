@@ -329,7 +329,7 @@ const TaxCalculator: React.FC = () => {
 {income && Number(income) > 0 && (
   <>
     <div className="mt-4 w-full"> 
-      <div className="bg-blue-50 border border-blue-200 text-blue-900 px-2 py-2 rounded-md shadow-sm min-h-[90px] w-full flex items-center justify-center animate-fadeIn transition-all duration-700">
+      <div className="bg-blue-50 border border-blue-200 text-blue-900 px-2 py-2 rounded-md shadow-sm min-h-[50px] w-full flex items-center justify-center animate-fadeIn transition-all duration-700">
         <div className="flex items-start gap-2 text-center sm:text-left max-w-4xl mx-auto">
           <span className="text-2xl">💡</span>
           <p className="text-base font-medium leading-snug text-gray-700">
