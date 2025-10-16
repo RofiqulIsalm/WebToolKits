@@ -354,7 +354,6 @@ const TaxCalculator: React.FC = () => {
       {/* ===== Chart + Summary Side by Side ===== */}
       <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
         {/* Chart Left */}
-        <div className="flex-1 w-full flex flex-col items-center justify-center min-h-[260px]">
           <div className="w-[90%] sm:w-[80%] md:w-[70%] max-w-[360px] h-[240px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -373,6 +372,7 @@ const TaxCalculator: React.FC = () => {
               </PieChart>
             </ResponsiveContainer>
           </div>
+          
 
         {/* Summary Right */}
         <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
