@@ -203,7 +203,7 @@ const TaxCalculator: React.FC = () => {
                   </div>
                 </div>
               </div>
-                 </div>
+             </div>
 
           {/* ============== Output Section ============== */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
