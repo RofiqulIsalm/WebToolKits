@@ -237,22 +237,20 @@ const TaxCalculator: React.FC = () => {
               Select Country
             </label>
             <div className="relative inline-block w-50% sm:w-44">
-              <select
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
-                className="w-full bg-[#0f172a] text-white text-sm px-3 py-1.5 border border-[#334155] rounded-md focus:ring-2 focus:ring-indigo-500 appearance-none pr-8 hover:border-indigo-400 transition"
-              >
-                <option value="">🌍 Global (Default)</option>
-                {countries.map((c) => (
-                  <option key={c.code} value={c.code} className="text-white w-50%">
-                    {c.emoji} {c.name}
-                  </option>
-                ))}
-              </select>
-              {/* Small chevron icon on right (for better UX) */}
-            <span className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 text-xs">
-              ▼
-            </span> 
+              <button
+                  type="button"
+                  onClick={() => setShowDropdown(!showDropdown)}
+                  className="w-full flex justify-between items-center bg-[#0f172a] text-slate-200 text-sm px-3 py-2 border border-[#334155] rounded-md hover:border-indigo-400 focus:ring-2 focus:ring-indigo-500 transition"
+                >
+                  <span>
+                    {country
+                      ? `${countries.find((c) => c.code === country)?.emoji || ''} ${
+                          countries.find((c) => c.code === country)?.name || 'Select Country'
+                        }`
+                      : '🌍 Global (Default)'}
+                  </span>
+                  <span className="text-slate-400 text-xs">▼</span>
+                </button>
             </div>
             {country && (
               <div className="mt-2 flex flex-wrap items-center gap-1 text-[11px] sm:text-xs">
