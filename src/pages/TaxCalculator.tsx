@@ -236,7 +236,7 @@ const TaxCalculator: React.FC = () => {
             <label className="block text-sm font-medium text-slate-300 mb-2">
               Select Country
             </label>
-            <div className="relative inline-block w-full sm:w-64">
+            <div className="relative inline-block w-full sm:w-44">
               <select
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
