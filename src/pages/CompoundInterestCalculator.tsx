@@ -4,7 +4,7 @@ import { TrendingUp, ChevronDown, ChevronUp } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../components/Breadcrumbs'; 
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
 
@@ -112,28 +112,23 @@ const CompoundInterestCalculator: React.FC = () => {
     }
   };
 
-useEffect(() => {
-  const timeout = setTimeout(() => {
+  useEffect(() => {
     calculateCompoundInterest();
     generateBreakdown();
-  }, 300); // wait 300ms after typing
-
-  return () => clearTimeout(timeout);
-}, [
-  principal,
-  rate,
-  rateUnit,
-  customRate.years,
-  customRate.months,
-  customRate.days,
-  timeData.years,
-  timeData.months,
-  timeData.days,
-  timeUnit,
-  breakdownMode,
-  includeAllDays,
-  selectedDays,
-]);
+    // include customRate & rateUnit so custom interval changes re-run
+  }, [
+    principal,
+    rate,
+    rateUnit,
+    customRate.years,
+    customRate.months,
+    customRate.days,
+    time,
+    timeUnit,
+    breakdownMode,
+    includeAllDays,
+    selectedDays,
+  ]);
 
   // ================================
   // Calculation: compound interest
@@ -295,12 +290,12 @@ useEffect(() => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* ---------------- Investment Inputs ---------------- */}
-          <div className="bbg-slate-900 rounded-2xl shadow-md border border-slate-700 p-6">
-            <h2 className="text-xl font-semibold text-slate-100 mb-4">Investment Details</h2>
+          <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
+            <h2 className="text-xl font-semibold text-slate-800 mb-4">Investment Details</h2>
             <div className="space-y-4">
               {/* Principal */}
               <div> 
-                <label className="block text-sm font-medium text-slate-300 mb-2">Principal Amount ($)</label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Principal Amount ($)</label>
                 <input
                   type="number"
                   placeholder="$$$"
