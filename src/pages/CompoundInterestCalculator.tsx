@@ -113,23 +113,28 @@ const CompoundInterestCalculator: React.FC = () => {
   };
 
   useEffect(() => {
+  const timeout = setTimeout(() => {
     calculateCompoundInterest();
     generateBreakdown();
-  }, [
-    principal,
-    rate,
-    rateUnit,
-    customRate.years,
-    customRate.months,
-    customRate.days,
-    timeData.years,
-    timeData.months,
-    timeData.days,
-    timeUnit,
-    breakdownMode,
-    includeAllDays,
-    selectedDays,
-  ]);
+  }, 300); // wait 300ms after typing
+
+  return () => clearTimeout(timeout);
+}, [
+  principal,
+  rate,
+  rateUnit,
+  customRate.years,
+  customRate.months,
+  customRate.days,
+  timeData.years,
+  timeData.months,
+  timeData.days,
+  timeUnit,
+  breakdownMode,
+  includeAllDays,
+  selectedDays,
+]);
+
 
   // ================================
   // Calculation: compound interest
