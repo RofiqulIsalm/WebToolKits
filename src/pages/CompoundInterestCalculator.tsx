@@ -730,7 +730,21 @@ const CompoundInterestCalculator: React.FC = () => {
                 <strong>Fees and taxes:</strong> Ongoing fees or taxable distributions can offset gains if not managed well.
               </li>
             </ul>
-          
+
+             <div className="my-8 text-center">
+                <img
+                  src="/images/compound_interest_chart.webp"
+                  alt="Compound Interest Growth Example Chart - $1000 at 10% for 20 years"
+                  className="mx-auto rounded-xl shadow-md border border-slate-700"
+                  loading="lazy"
+                  width={800}
+                  height={500}
+                  decoding="async"
+                />
+                <p className="text-slate-400 text-sm mt-2">
+                  Growth of $1000 at 10% annual rate for 20 years — compounding vs. simple interest.
+                </p>
+              </div>
             <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">How to Use This Calculator Effectively</h2>
             <ol className="list-decimal list-inside space-y-2">
               <li>Enter your <strong>principal</strong> (starting amount).</li>
