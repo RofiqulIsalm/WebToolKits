@@ -581,6 +581,220 @@ const TaxCalculator: React.FC = () => {
     )}
 
 
+        {/* ==================== SEO CONTENT SECTION ==================== */}
+          <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+            <h1 className="text-3xl font-bold text-cyan-400 mb-6">
+              Global Income Tax Calculator 2025 – Accurate, Fast & Country-Specific Results
+            </h1>
+          
+            <p>
+              The <strong>Global Income Tax Calculator by CalculatorHub</strong> is a
+              free, advanced online tool that helps individuals and professionals estimate
+              their <strong>annual tax liabilities</strong> in over <strong>50+ countries</strong>.
+              Whether you’re a salaried employee in India, a freelancer in the United States,
+              or a contractor in the United Kingdom, this calculator provides an instant
+              breakdown of <strong>gross income, deductions, tax payable,</strong> and <strong>net income</strong>.
+            </p>
+          
+            <p>
+              Unlike simple calculators that apply a flat rate, our tool uses
+              <strong>country-specific tax logic</strong> and updated tax slabs for 2025.
+              The system is designed to adapt automatically based on your selected country,
+              reflecting local currency symbols, allowances, and deduction rules.
+            </p>
+          
+            <figure className="my-8">
+              <img
+                src="/images/global-income-tax-calculator-2025.webp"
+                alt="Global income tax calculator 2025 banner showing world map and financial charts"
+                title="Global Income Tax Calculator 2025 | Free International Tax Tool"
+                className="rounded-lg shadow-md border border-slate-700 mx-auto"
+                loading="lazy"
+              />
+              <figcaption className="text-center text-sm text-slate-400 mt-2">
+                Visual representation of the Global Income Tax Calculator with international support.
+              </figcaption>
+            </figure>
+          
+            <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              🌍 What Is an Income Tax Calculator?
+            </h2>
+            <p>
+              An <strong>Income Tax Calculator</strong> is an online financial tool that helps
+              you determine how much tax you owe to your country’s government based on your
+              <strong>annual income, deductions,</strong> and <strong>tax laws.</strong>
+              It simplifies the process of manual calculation by instantly computing your
+              payable tax and take-home salary.
+            </p>
+            <p>
+              Every country has different <strong>tax slabs</strong>, <strong>standard deductions</strong>,
+              and <strong>rebate structures</strong>. Our system integrates official
+              tax models for supported countries such as <strong>India, the United States,
+              the United Kingdom, Canada, Australia,</strong> and more — making it one of
+              the most accurate multi-country tax calculators online.
+            </p>
+          
+            <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              💡 How to Use This Income Tax Calculator
+            </h2>
+            <ol className="list-decimal list-inside space-y-2">
+              <li>Select your <strong>country</strong> from the dropdown list.</li>
+              <li>Enter your <strong>annual income</strong> in the local currency.</li>
+              <li>Add any <strong>tax-deductible expenses</strong> such as insurance, home loans, or donations.</li>
+              <li>Click “Calculate” — your total tax, net income, and effective tax rate appear instantly.</li>
+            </ol>
+            <p>
+              The results update dynamically, meaning you can adjust your income or deductions in real time
+              to understand how small changes impact your tax liability.
+            </p>
+          
+            <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              🧮 Tax Calculation Logic Used
+            </h2>
+            <p>
+              CalculatorHub’s tax system uses modular <strong>TAX_ENGINES</strong> — country-specific tax
+              functions coded to mirror official government tax brackets and deduction rules.
+              If your country is not yet supported, the system applies a
+              <strong>flat 10% rate</strong> as a placeholder until localized logic is added.
+            </p>
+            <p>
+              For example:
+            </p>
+            <ul>
+              <li><strong>India (IN):</strong> Uses the new regime slab rates under the Income Tax Act, 2025.</li>
+              <li><strong>United States (US):</strong> Follows the 2025 IRS federal tax brackets.</li>
+              <li><strong>United Kingdom (UK):</strong> Applies HMRC income tax bands and personal allowance rules.</li>
+              <li><strong>Canada (CA):</strong> Combines federal and provincial tax brackets.</li>
+              <li><strong>Australia (AU):</strong> Uses ATO marginal tax rates for the 2025 financial year.</li>
+            </ul>
+          
+            <figure className="my-8">
+              <img
+                src="/images/country-income-tax-calculator-2025.webp"
+                alt="Country-specific income tax calculator 2025 with local flag and tax form"
+                title="Country-Specific Income Tax Calculator 2025 | Localized Tax Estimator"
+                className="rounded-lg shadow-md border border-slate-700 mx-auto"
+                loading="lazy"
+              />
+              <figcaption className="text-center text-sm text-slate-400 mt-2">
+                Example of country-specific income tax calculation with automatic currency and rule detection.
+              </figcaption>
+            </figure>
+          
+            <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              🔍 Where Does Our Country Data Come From?
+            </h2>
+            <p>
+              The calculator uses verified public data from each country’s
+              <strong> tax authority or ministry of finance</strong>. For instance, IRS.gov for
+              the U.S., HMRC for the U.K., ATO for Australia, CRA for Canada, and
+              IncomeTax.gov.in for India. All information is refreshed regularly to reflect
+              the latest fiscal year updates and bracket adjustments.
+            </p>
+            <p>
+              For unsupported regions, a flat tax model is temporarily applied — these will be
+              updated progressively as official data becomes available.
+            </p>
+          
+            <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              ✅ Key Features of the Calculator
+            </h2>
+            <ul className="space-y-2">
+              <li>✔️ Covers <strong>50+ countries</strong> with localized logic and currency.</li>
+              <li>✔️ Real-time <strong>gross-to-net conversion</strong>.</li>
+              <li>✔️ Dynamic charts and breakdown visualization.</li>
+              <li>✔️ Auto-detection of country from previous session.</li>
+              <li>✔️ Secure, lightweight, and privacy-friendly — no data stored online.</li>
+              <li>✔️ Mobile-friendly UI with dark mode optimization.</li>
+            </ul>
+          
+            <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">📘 Example Calculation</h2>
+            <p>
+              Suppose you earn <strong>$75,000 annually</strong> in the U.S. with $5,000 in deductions.
+              Based on 2025 tax brackets, your estimated federal tax would be around <strong>$9,600</strong>,
+              resulting in a <strong>net income</strong> of approximately <strong>$65,400</strong> and an
+              <strong> effective tax rate of 12.8%</strong>.
+            </p>
+          
+            {/* ===================== FAQ SECTION ===================== */}
+            <section className="space-y-6 mt-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
+                ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
+              </h2>
+          
+              <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q1: What is a tax calculator?</h3>
+                  <p>
+                    A <strong>tax calculator</strong> is a tool that automatically estimates
+                    your income tax payable based on your earnings, deductions, and location.
+                    It removes the need for manual spreadsheet calculations.
+                  </p>
+                </div>
+          
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q2: How accurate is this calculator?</h3>
+                  <p>
+                    It uses the most recent tax slabs and official rates for each supported country.
+                    All logic is based on publicly available data from verified tax agencies.
+                  </p>
+                </div>
+          
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q3: Does this support all currencies?</h3>
+                  <p>
+                    Yes, the system auto-adjusts currency symbols based on your selected country
+                    (₹, $, €, £, etc.).
+                  </p>
+                </div>
+          
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q4: Can I use this for business taxes?</h3>
+                  <p>
+                    This calculator focuses on <strong>personal income tax</strong>.
+                    For business or corporate tax computations, please consult an accountant or
+                    official revenue authority.
+                  </p>
+                </div>
+          
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q5: Is my data stored?</h3>
+                  <p>
+                    No. All calculations occur locally in your browser. Your income and
+                    deductions are never transmitted or saved on external servers.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </section>
+          
+          {/* =================== AUTHOR & BACKLINK SECTION =================== */}
+          <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+            <div className="flex items-center gap-3">
+              <img
+                src="/images/calculatorhub-author.webp"
+                alt="CalculatorHub Finance Tools Team"
+                className="w-12 h-12 rounded-full border border-gray-600"
+                loading="lazy"
+              />
+              <div>
+                <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
+                <p className="text-sm text-slate-400">
+                  Experts in tax computation and online financial tools. Last updated:
+                  <time dateTime="2025-10-17">October 17, 2025</time>.
+                </p>
+              </div>
+            </div>
+          
+            <p className="mt-6 text-sm text-slate-400">
+              Explore more tools:
+              <a href="/currency-converter" className="text-indigo-400 hover:underline"> Currency Converter</a>,
+              <a href="/loan-emi-calculator" className="text-indigo-400 hover:underline"> Loan EMI Calculator</a>, and
+              <a href="/gst-calculator" className="text-indigo-400 hover:underline"> GST Calculator</a>.
+            </p>
+          </section>
+
+
 
 
 
