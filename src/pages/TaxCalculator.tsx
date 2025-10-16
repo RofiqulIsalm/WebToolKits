@@ -215,151 +215,150 @@ const TaxCalculator: React.FC = () => {
         </div>
 
        {/* ===== Calculator Grid ===== */}
-<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-  {/* Input Section */}
-  <div className="bg-[#1e293b] rounded-xl shadow-md border border-[#334155] p-6 relative text-slate-200">
-    <div className="flex justify-between items-center mb-4">
-      <h2 className="text-xl font-semibold text-white flex items-center gap-2">
-        <Globe className="h-5 w-5 text-sky-400" /> Income Details
-      </h2>
-      <button
-        onClick={handleReset}
-        className="flex items-center gap-1 text-sm text-slate-300 border border-[#334155] rounded-lg px-2 py-1 hover:bg-[#0f172a] hover:text-white transition"
-      >
-        <RotateCcw className="h-4 w-4 text-indigo-400" /> Reset
-      </button>
-    </div>
-
-    <div className="space-y-5">
-  {/* Country */}
-  <div>
-    <label className="block text-sm font-medium text-slate-300 mb-2">
-      Select Country
-    </label>
-
-    {/* ===== Country Dropdown (Custom Compact Style) ===== */}
-    <div ref={dropdownRef} className="relative inline-block w-full sm:w-64">
-      <button
-        type="button"
-        onClick={() => setShowDropdown(!showDropdown)}
-        className="w-full flex justify-between items-center bg-[#0f172a] text-slate-200 text-sm px-3 py-2 border border-[#334155] rounded-md hover:border-indigo-400 focus:ring-2 focus:ring-indigo-500 transition"
-      >
-        <span>
-          {country
-            ? `${countries.find((c) => c.code === country)?.emoji || ''} ${
-                countries.find((c) => c.code === country)?.name || 'Select Country'
-              }`
-            : '🌍 Global (Default)'}
-        </span>
-        <span className="text-slate-400 text-xs">▼</span>
-      </button>
-
-      {showDropdown && (
-        <div className="absolute z-50 mt-1 w-full bg-[#0f172a] border border-[#334155] rounded-md shadow-lg max-h-48 overflow-y-auto">
-          {countries.map((c) => (
-            <div
-              key={c.code}
-              onClick={() => {
-                setCountry(c.code);
-                setShowDropdown(false);
-              }}
-              className={`px-3 py-1.5 text-sm text-slate-200 cursor-pointer hover:bg-[#1e293b] transition ${
-                c.code === country ? 'bg-[#1e293b] text-indigo-400' : ''
-              }`}
-            >
-              {c.emoji} {c.name}
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      {/* Input Section */}
+      <div className="bg-[#1e293b] rounded-xl shadow-md border border-[#334155] p-6 relative text-slate-200">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+            <Globe className="h-5 w-5 text-sky-400" /> Income Details
+          </h2>
+          <button
+            onClick={handleReset}
+            className="flex items-center gap-1 text-sm text-slate-300 border border-[#334155] rounded-lg px-2 py-1 hover:bg-[#0f172a] hover:text-white transition"
+          >
+            <RotateCcw className="h-4 w-4 text-indigo-400" /> Reset
+          </button>
+        </div>
+    
+        <div className="space-y-5">
+          {/* Country */}
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-2">
+              Select Country
+            </label>
+            <div className="relative inline-block w-full sm:w-64">
+              <select
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+                className="w-full bg-[#0f172a] text-white text-sm px-3 py-1.5 border border-[#334155] rounded-md focus:ring-2 focus:ring-indigo-500 appearance-none pr-8 hover:border-indigo-400 transition"
+              >
+                <option value="">🌍 Global (Default)</option>
+                {countries.map((c) => (
+                  <option key={c.code} value={c.code} className="text-black">
+                    {c.emoji} {c.name}
+                  </option>
+                ))}
+              </select>
+              {/* Small chevron icon on right (for better UX) */}
+            <span className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 text-xs">
+              ▼
+            </span> 
             </div>
-          ))}
-        </div>
-      )}
-    </div>
-  </div>
-</div>
-
-
-      {/* Income */}
-      <div>
-        <div className="flex justify-between items-center mb-1">
-          <label className="text-sm font-medium text-slate-300">
-            Annual Income ({currencySymbol})
-          </label>
-          <Info
-            onClick={() => setShowIncomeInfo(!showIncomeInfo)}
-            className="h-4 w-4 text-slate-400 cursor-pointer hover:text-indigo-400"
-          />
-        </div>
-        {showIncomeInfo && (
-          <div className="mb-1 bg-[#0f172a] text-slate-300 text-xs p-2 rounded-md border border-[#334155]">
-            {tooltips.income}
+            {country && (
+              <div className="mt-2 flex flex-wrap items-center gap-1 text-[11px] sm:text-xs">
+                {isSupported ? (
+                  <>
+                    <CheckCircle className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                    <span className="text-emerald-400">
+                      Fully Supported
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <Wrench className="h-4 w-4 text-yellow-400 shrink-0" />
+                    <span className="text-yellow-400 whitespace-normal">
+                      Coming Soon (Flat 10%)
+                    </span>
+                  </>
+                )}
+              </div>
+            )}
+    
+          </div> 
+    
+          {/* Income */}
+          <div>
+            <div className="flex justify-between items-center mb-1">
+              <label className="text-sm font-medium text-slate-300">
+                Annual Income ({currencySymbol})
+              </label>
+              <Info
+                onClick={() => setShowIncomeInfo(!showIncomeInfo)}
+                className="h-4 w-4 text-slate-400 cursor-pointer hover:text-indigo-400"
+              />
+            </div>
+            {showIncomeInfo && (
+              <div className="mb-1 bg-[#0f172a] text-slate-300 text-xs p-2 rounded-md border border-[#334155]">
+                {tooltips.income}
+              </div>
+            )}
+            <input
+              ref={incomeInputRef}
+              type="number"
+              value={income}
+              placeholder={`Enter your annual income in ${currencySymbol}`}
+              onChange={(e) =>
+                setIncome(e.target.value === '' ? '' : Number(e.target.value))
+              }
+              className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
+            />
+            <input
+              type="range"
+              min="0"
+              max="1000000"
+              step="1000"
+              value={income || 0}
+              onChange={(e) => setIncome(Number(e.target.value))}
+              className="w-full mt-2 accent-indigo-500"
+            />
           </div>
-        )}
-        <input
-          ref={incomeInputRef}
-          type="number"
-          value={income}
-          placeholder={`Enter your annual income in ${currencySymbol}`}
-          onChange={(e) =>
-            setIncome(e.target.value === '' ? '' : Number(e.target.value))
-          }
-          className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
-        />
-        <input
-          type="range"
-          min="0"
-          max="1000000"
-          step="1000"
-          value={income || 0}
-          onChange={(e) => setIncome(Number(e.target.value))}
-          className="w-full mt-2 accent-indigo-500"
-        />
-      </div>
-
-      {/* Deductions */}
-      <div>
-        <div className="flex justify-between items-center mb-1">
-          <label className="text-sm font-medium text-slate-300">
-            Deductions ({currencySymbol})
-          </label>
-          <Info
-            onClick={() => setShowDeductionInfo(!showDeductionInfo)}
-            className="h-4 w-4 text-slate-400 cursor-pointer hover:text-indigo-400"
-          />
-        </div>
-        {showDeductionInfo && (
-          <div className="mb-1 bg-[#0f172a] text-slate-300 text-xs p-2 rounded-md border border-[#334155]">
-            {tooltips.deductions}
+    
+          {/* Deductions */}
+          <div>
+            <div className="flex justify-between items-center mb-1">
+              <label className="text-sm font-medium text-slate-300">
+                Deductions ({currencySymbol})
+              </label>
+              <Info
+                onClick={() => setShowDeductionInfo(!showDeductionInfo)}
+                className="h-4 w-4 text-slate-400 cursor-pointer hover:text-indigo-400"
+              />
+            </div>
+            {showDeductionInfo && (
+              <div className="mb-1 bg-[#0f172a] text-slate-300 text-xs p-2 rounded-md border border-[#334155]">
+                {tooltips.deductions}
+              </div>
+            )}
+            <input
+              type="number"
+              value={deductions}
+              placeholder={`Enter total deductions in ${currencySymbol}`}
+              onChange={(e) =>
+                setDeductions(e.target.value === '' ? '' : Number(e.target.value))
+              }
+              className={`w-full bg-[#0f172a] text-white px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 ${
+                Number(deductions) > Number(income)
+                  ? 'border-rose-500 ring-rose-300'
+                  : 'border-[#334155]'
+              }`}
+            />
+            <input
+              type="range"
+              min="0"
+              max="500000"
+              step="1000"
+              value={deductions || 0}
+              onChange={(e) => setDeductions(Number(e.target.value))}
+              className="w-full mt-2 accent-emerald-500"
+            />
+            {Number(deductions) > Number(income) && (
+              <p className="text-sm text-rose-400 mt-2">
+                ⚠️ Deductions cannot exceed total income.
+              </p>
+            )}
           </div>
-        )}
-        <input
-          type="number"
-          value={deductions}
-          placeholder={`Enter total deductions in ${currencySymbol}`}
-          onChange={(e) =>
-            setDeductions(e.target.value === '' ? '' : Number(e.target.value))
-          }
-          className={`w-full bg-[#0f172a] text-white px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 ${
-            Number(deductions) > Number(income)
-              ? 'border-rose-500 ring-rose-300'
-              : 'border-[#334155]'
-          }`}
-        />
-        <input
-          type="range"
-          min="0"
-          max="500000"
-          step="1000"
-          value={deductions || 0}
-          onChange={(e) => setDeductions(Number(e.target.value))}
-          className="w-full mt-2 accent-emerald-500"
-        />
-        {Number(deductions) > Number(income) && (
-          <p className="text-sm text-rose-400 mt-2">
-            ⚠️ Deductions cannot exceed total income.
-          </p>
-        )}
+        </div>
       </div>
-    </div>
-  </div>
 
   {/* Output Section */}
   <div className="bg-[#1e293b] rounded-xl shadow-md border border-[#334155] p-6 text-slate-200">
