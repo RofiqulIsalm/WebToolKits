@@ -354,24 +354,25 @@ const TaxCalculator: React.FC = () => {
       {/* ===== Chart + Summary Side by Side ===== */}
       <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
         {/* Chart Left */}
-        <div className="flex-1 flex flex-col items-center justify-center">
-          <ResponsiveContainer width="100%" height={220}>
-            <PieChart>
-              <Pie
-                data={data}
-                innerRadius={60}
-                outerRadius={90}
-                dataKey="value"
-                paddingAngle={2}
-              >
-                {data.map((entry, index) => (
-                  <Cell key={index} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <ChartTooltip />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
+        <div className="flex-1 w-full flex flex-col items-center justify-center min-h-[260px]">
+          <div className="w-[90%] sm:w-[80%] md:w-[70%] max-w-[360px] h-[240px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={data}
+                  innerRadius={60}
+                  outerRadius={90}
+                  dataKey="value"
+                  paddingAngle={2}
+                >
+                  {data.map((entry, index) => (
+                    <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <ChartTooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
 
         {/* Summary Right */}
         <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
