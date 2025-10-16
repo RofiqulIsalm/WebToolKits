@@ -380,7 +380,7 @@ const TaxCalculator: React.FC = () => {
       </div>
     </div>
   </div>
-</div>
+
 
 
   {/* Output Section */}
