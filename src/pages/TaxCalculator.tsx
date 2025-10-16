@@ -244,7 +244,7 @@ const TaxCalculator: React.FC = () => {
               >
                 <option value="">🌍 Global (Default)</option>
                 {countries.map((c) => (
-                  <option key={c.code} value={c.code} className="text-white">
+                  <option key={c.code} value={c.code} className="text-white w-full">
                     {c.emoji} {c.name}
                   </option>
                 ))}
