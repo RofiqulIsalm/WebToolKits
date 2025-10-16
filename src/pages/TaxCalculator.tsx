@@ -204,7 +204,7 @@ const TaxCalculator: React.FC = () => {
         {/* ===== Header ===== */}
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">
-            {selectedCountry ? `${countryEmoji} ${countryName} Income Tax Calculator`
+            {selectedCountry ? ` ${countryName} Income Tax Calculator`
               : '🌍 Global Income Tax Calculator'}
           </h1>
           <p className="text-slate-300">
