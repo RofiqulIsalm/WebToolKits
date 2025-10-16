@@ -290,53 +290,53 @@ const CompoundInterestCalculator: React.FC = () => {
 
         {/* Title */}
         <div className="mb-8 text-left text-center">
-          <h1 className="text-center text-white text-2xl font-bold text-slate-900 mb-2">Compounding Calculator – Calculate Compound Interest Online</h1> 
+          <h1 className="text-center text-white text-2xl font-bold text-slate-100 mb-2">Compounding Calculator – Calculate Compound Interest Online</h1> 
           <p className="text-orange-50">Compound interest grows your money faster by reinvesting earnings into the principal. Our compounding calculator shows your future investment value based on principal, rate, and custom time periods.</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* ---------------- Investment Inputs ---------------- */}
-          <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
-            <h2 className="text-xl font-semibold text-slate-800 mb-4">Investment Details</h2>
+          <div className="bg-slate-900 rounded-2xl shadow-md border border-slate-700 p-6">
+            <h2 className="text-xl font-semibold text-slate-100 mb-4">Investment Details</h2>
             <div className="space-y-4">
               {/* Principal */}
               <div> 
-                <label className="block text-sm font-medium text-slate-700 mb-2">Principal Amount ($)</label>
+                <label className="block text-sm font-medium text-slate-300 mb-2">Principal Amount ($)</label>
                 <input
                   type="number"
                   placeholder="$$$"
                   onChange={(e) => setPrincipal(Number(e.target.value))}
-                  className="text-black w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
+                  className="text-white w-full px-4 py-2 border border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-400"
                 />
               </div>
 
               {/* Rate */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Interest Rate (%)</label>
+                <label className="block text-sm font-medium text-slate-300 mb-2">Interest Rate (%)</label>
                 <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-1">
                   <input
                     type="number"                
                     onChange={(e) => setRate(Number(e.target.value))}
-                    className="text-black w-full sm:w-auto flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
+                    className="text-white w-full sm:w-auto flex-1 px-4 py-2 border border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-400"
                     placeholder="%"
                   />
 
                   <select
                     value={rateUnit}
                     onChange={(e) => setRateUnit(e.target.value as any)}
-                    className=" text-black mt-2 sm:mt-0 px-1 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
+                    className=" text-white mt-2 sm:mt-0 px-1 py-2 border border-slate-600 rounded-lg focus:ring-2 focus:ring-indigo-400"
                   >
-                    <option value="daily" className="text-black"
+                    <option value="daily" className="text-white"
 >Daily</option>
-                    <option value="weekly" className="text-black"
+                    <option value="weekly" className="text-white"
 >Weekly</option>
-                    <option value="monthly" className="text-black"
+                    <option value="monthly" className="text-white"
 >Monthly</option>
-                    <option value="quarterly" className="text-black"
+                    <option value="quarterly" className="text-white"
 >Every 3 Months</option>
-                    <option value="yearly" className="text-black"
+                    <option value="yearly" className="text-white"
 >Yearly</option>
-                    <option value="custom" className="text-black"
+                    <option value="custom" className="text-white"
 >Custom...</option>
                   </select>
                 </div>
@@ -345,35 +345,35 @@ const CompoundInterestCalculator: React.FC = () => {
                 {rateUnit === 'custom' && (
                   <div className="mt-3 grid grid-cols-3 gap-2">
                     <div>
-                      <label className="block text-xs text-black mb-1">Years</label>
+                      <label className="block text-xs text-white mb-1">Years</label>
                       <input
                         type="number"
                         min={0}
                        
                         value={customRate.years}
                         onChange={(e) => setCustomRate({ ...customRate, years: Number(e.target.value) })}
-                        className=" text-black w-full px-3 py-2 border border-slate-300 rounded-lg"
+                        className=" text-white w-full px-3 py-2 border border-slate-600 rounded-lg"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-black mb-1">Months</label>
+                      <label className="block text-xs text-white mb-1">Months</label>
                       <input
                         type="number"
                         min={0}
                         value={customRate.months}
                         onChange={(e) => setCustomRate({ ...customRate, months: Number(e.target.value) })}
-                        className="text-black w-full px-3 py-2 border border-slate-300 rounded-lg"
+                        className="text-white w-full px-3 py-2 border border-slate-600 rounded-lg"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-black mb-1">Days</label>
+                      <label className="block text-xs text-white mb-1">Days</label>
                       <input
                         type="number"
                         min={0}
                         placeholder="Years"
                         value={customRate.days}
                         onChange={(e) => setCustomRate({ ...customRate, days: Number(e.target.value) })}
-                        className="text-black w-full px-3 py-2 border border-slate-300 rounded-lg"
+                        className="text-white w-full px-3 py-2 border border-slate-600 rounded-lg"
                       />
                     </div>
                     <p className="text-xs text-slate-500 col-span-3 mt-1">
@@ -386,25 +386,25 @@ const CompoundInterestCalculator: React.FC = () => {
 
               {/* Time Period */}
               <div className="mb-4">
-                <label className="block text-sm font-medium text-black mb-1">Time Period</label>
+                <label className="block text-sm font-medium text-white mb-1">Time Period</label>
                 <div className="flex space-x-2">
                   <input
                     type="number"
                     placeholder="Years"
                     onChange={(e) => setTimeData({ ...timeData, years: Number(e.target.value) })}
-                    className="w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-black"
+                    className="w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-white"
                   />
                   <input
                     type="number"
                     placeholder="Months"
                     onChange={(e) => setTimeData({ ...timeData, months: Number(e.target.value) })}
-                    className="w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-black"
+                    className="w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-white"
                   />
                   <input
                     type="number"
                     placeholder="Days"
                     onChange={(e) => setTimeData({ ...timeData, days: Number(e.target.value) })}
-                    className="w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-black"
+                    className="w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-white"
                   />
                 </div>
               </div>
@@ -412,15 +412,15 @@ const CompoundInterestCalculator: React.FC = () => {
 
               {/* Include Days Toggle */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Include all days</label>
+                <label className="block text-sm font-medium text-slate-300 mb-2">Include all days</label>
                 <button
                   onClick={() => setIncludeAllDays(!includeAllDays)}
                   className={`relative inline-flex h-6 w-12 items-center rounded-full transition-colors ${
-                    includeAllDays ? 'bg-indigo-500' : 'bg-slate-300'
+                    includeAllDays ? 'bg-indigo-900/400' : 'bg-slate-300'
                   }`}
                 >
                   <span
-                    className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${
+                    className={`inline-block h-5 w-5 transform rounded-full bg-slate-900 transition-transform ${
                       includeAllDays ? 'translate-x-6' : 'translate-x-1'
                     }`}
                   />
@@ -434,7 +434,7 @@ const CompoundInterestCalculator: React.FC = () => {
                         key={day}
                         onClick={() => toggleDay(day)}
                         className={`px-3 py-1 rounded-lg border transition ${
-                          selectedDays.includes(day) ? 'bg-indigo-500 text-white' : 'bg-slate-100 text-slate-700'
+                          selectedDays.includes(day) ? 'bg-indigo-900/400 text-white' : 'bg-slate-800 text-slate-300'
                         }`}
                       >
                         {day}
@@ -447,22 +447,22 @@ const CompoundInterestCalculator: React.FC = () => {
           </div>
 
           {/* ---------------- Results ---------------- */}
-          <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-6 flex flex-col justify-between">
+          <div className="bg-slate-900 rounded-2xl shadow-md border border-slate-700 p-6 flex flex-col justify-between">
             <div>
-              <h2 className="text-xl font-semibold text-slate-800 mb-4">Results</h2>
+              <h2 className="text-xl font-semibold text-slate-100 mb-4">Results</h2>
               <div className="space-y-6">
-                <div className="text-center p-4 bg-emerald-50 rounded-lg">
+                <div className="text-center p-4 bg-emerald-900/40 rounded-lg">
                   <TrendingUp className="h-8 w-8 text-emerald-600 mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-slate-900">${finalAmount.toFixed(2)}</div>
+                  <div className="text-2xl font-bold text-slate-100">${finalAmount.toFixed(2)}</div>
                   <div className="text-sm text-slate-600">Final Amount</div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 bg-indigo-50 rounded-lg text-center">
-                    <div className="text-lg font-semibold text-slate-900">${principal.toLocaleString()}</div>
+                  <div className="p-4 bg-indigo-900/40 rounded-lg text-center">
+                    <div className="text-lg font-semibold text-slate-100">${principal.toLocaleString()}</div>
                     <div className="text-sm text-slate-600">Principal</div>
                   </div>
-                  <div className="p-4 bg-amber-50 rounded-lg text-center">
-                    <div className="text-lg font-semibold text-slate-900">${compoundInterest.toFixed(2)}</div>
+                  <div className="p-4 bg-amber-900/40 rounded-lg text-center">
+                    <div className="text-lg font-semibold text-slate-100">${compoundInterest.toFixed(2)}</div>
                     <div className="text-sm text-slate-600">Compound Interest</div>
                   </div>
                 </div>
@@ -473,7 +473,7 @@ const CompoundInterestCalculator: React.FC = () => {
             <div className="flex justify-end mt-6">
               <button
                 onClick={() => setShowBreakdown(!showBreakdown)}
-                className="flex items-center px-4 py-2 bg-indigo-500 text-white rounded-lg shadow hover:bg-indigo-600 transition text-sm"
+                className="flex items-center px-4 py-2 bg-indigo-900/400 text-white rounded-lg shadow hover:bg-indigo-600 transition text-sm"
               >
                 {showBreakdown ? (
                   <>
@@ -491,8 +491,8 @@ const CompoundInterestCalculator: React.FC = () => {
 
         {/* ---------------- Breakdown Section ---------------- */}
         {showBreakdown && (
-          <div className="mt-8 bg-white rounded-2xl shadow-md border border-slate-200 p-6">
-            <h3 className="text-lg font-semibold text-slate-800 mb-4">Breakdown</h3>
+          <div className="mt-8 bg-slate-900 rounded-2xl shadow-md border border-slate-700 p-6">
+            <h3 className="text-lg font-semibold text-slate-100 mb-4">Breakdown</h3>
 
             {/* Mode Buttons */}
             <div className="flex flex-wrap gap-3 mb-4">
@@ -501,7 +501,7 @@ const CompoundInterestCalculator: React.FC = () => {
                   key={mode}
                   onClick={() => setBreakdownMode(mode as any)}
                   className={`px-4 py-2 rounded-lg border transition ${
-                    breakdownMode === mode ? 'bg-indigo-500 text-white' : 'bg-slate-100 text-slate-700'
+                    breakdownMode === mode ? 'bg-indigo-900/400 text-white' : 'bg-slate-800 text-slate-300'
                   }`}
                 >
                   {mode.charAt(0).toUpperCase() + mode.slice(1)}
@@ -511,13 +511,13 @@ const CompoundInterestCalculator: React.FC = () => {
 
             {/* Desktop Table */}
             <div className="overflow-x-auto hidden sm:block">
-              <table className="min-w-full border border-slate-200 text-sm sm:text-base">
+              <table className="min-w-full border border-slate-700 text-sm sm:text-base">
                 <thead className="bg-indigo-100 text-indigo-800">
                   <tr>
-                    <th className="text-black px-4 py-2 border">Period</th>
-                    <th className="text-black px-4 py-2 border">Earnings</th>
-                    <th className="text-black px-4 py-2 border">Total Earnings</th>
-                    <th className="text-black px-4 py-2 border">Balance</th>
+                    <th className="text-white px-4 py-2 border">Period</th>
+                    <th className="text-white px-4 py-2 border">Earnings</th>
+                    <th className="text-white px-4 py-2 border">Total Earnings</th>
+                    <th className="text-white px-4 py-2 border">Balance</th>
                   </tr>
                 </thead> 
                 <tbody>
@@ -528,8 +528,8 @@ const CompoundInterestCalculator: React.FC = () => {
                         row.period === 'TOTAL'
                           ? 'bg-indigo-200 font-semibold'
                           : idx % 2 === 0
-                          ? 'bg-slate-50'
-                          : 'bg-white'
+                          ? 'bg-slate-800'
+                          : 'bg-slate-900'
                       }
                     >
                       <td className="px-4 py-2 border">{row.period}</td>
@@ -548,7 +548,7 @@ const CompoundInterestCalculator: React.FC = () => {
                 <div
                   key={idx}
                   className={`p-4 rounded-lg border shadow-sm ${
-                    row.period === 'TOTAL' ? 'bg-indigo-100 font-semibold' : 'bg-slate-50'
+                    row.period === 'TOTAL' ? 'bg-indigo-100 font-semibold' : 'bg-slate-800'
                   }`}
                 >
                   <p>
