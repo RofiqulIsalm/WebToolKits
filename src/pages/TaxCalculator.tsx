@@ -309,6 +309,7 @@ const TaxCalculator: React.FC = () => {
     </p>
   )}
 </div>
+            </div>
 
 
 
