@@ -878,7 +878,7 @@ export const TAX_ENGINES: Record<string, (data: TaxInput) => TaxResult> = {
   MX: calculateMexicoTax,
   CL: calculateChileTax,
   KE: calculateKenyaTax,
-
+  BD: calculateBangladeshTax,
   // all others fallback
 };
 
