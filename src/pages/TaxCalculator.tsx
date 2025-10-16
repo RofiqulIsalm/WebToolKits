@@ -338,7 +338,7 @@ const TaxCalculator: React.FC = () => {
     
         {/* Text beside icon */}
         <div className="ml-12 w-full">
-          <p className="text-base font-medium leading-snug text-gray-200">
+          <p className="text-base font-medium leading-snug text-gray-300">
             {tipsForCountry[activeTip]}
           </p>
         </div>
