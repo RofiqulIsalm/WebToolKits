@@ -328,22 +328,22 @@ const TaxCalculator: React.FC = () => {
 {/* ===== Smart Tip Box (Full Width Above Chart) ===== */}
 {income && Number(income) > 0 && (
   <>
-    {/* ===== Smart Tip Box (Full Width, Icon Fixed Left) ===== */}
-    <div className="mt-4 w-full relative">
-      <div className="bg-gray-100 border border-gray-300 text-gray-800 px-6 py-4 rounded-md shadow-sm min-h-[50px] w-full flex items-center animate-fadeIn transition-all duration-700 relative">
-        {/* Fixed icon on the left side */}
-        <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center w-8 h-8">
-          <span className="text-2xl">💡</span>
-        </div>
-    
-        {/* Text beside icon */}
-        <div className="ml-12 w-full">
-          <p className="text-base font-medium leading-snug text-gray-700">
-            {tipsForCountry[activeTip]}
-          </p>
-        </div>
-      </div>
+   {/* ===== Smart Tip Box (Full Width, Gray Theme, Icon Fixed Left) ===== */}
+<div className="mt-4 w-full relative">
+  <div className="bg-gray-100 border border-gray-300 text-gray-800 px-6 py-4 rounded-md shadow-sm min-h-[50px] w-full flex items-center animate-fadeIn transition-all duration-700 relative">
+    {/* Fixed icon on the left side */}
+    <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center w-8 h-8">
+      <span className="text-2xl text-gray-700">💡</span>
     </div>
+
+    {/* Text beside icon */}
+    <div className="ml-12 w-full">
+      <p className="text-base font-medium leading-snug text-gray-800">
+        {tipsForCountry[activeTip]}
+      </p>
+    </div>
+  </div>
+</div>
 
     {/* ===== Tax Insights & Smart Saving Tips ===== */}
     <div className="mt-10 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
