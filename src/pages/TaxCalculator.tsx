@@ -255,20 +255,25 @@ const TaxCalculator: React.FC = () => {
         </span>
         </div>
         {country && (
-          <div className="mt-2 flex items-center gap-2 text-sm">
+          <div className="mt-2 flex flex-wrap items-center gap-1 text-xs sm:text-sm">
             {isSupported ? (
               <>
-                <CheckCircle className="h-4 w-4 text-emerald-400" />
-                <span className="text-emerald-400">Fully Supported</span>
+                <CheckCircle className="h-4 w-4 text-emerald-400 shrink-0" />
+                <span className="text-emerald-400 whitespace-normal">
+                  Fully Supported
+                </span>
               </>
             ) : (
               <>
-                <Wrench className="h-4 w-4 text-yellow-400" />
-                <span className="text-yellow-400">Coming Soon (Flat 10%)</span>
+                <Wrench className="h-4 w-4 text-yellow-400 shrink-0" />
+                <span className="text-yellow-400 whitespace-normal">
+                  Coming Soon (Flat 10%)
+                </span>
               </>
             )}
           </div>
         )}
+
       </div> 
 
       {/* Income */}
