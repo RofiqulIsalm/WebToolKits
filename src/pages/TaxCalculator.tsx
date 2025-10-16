@@ -21,6 +21,7 @@ const TaxCalculator: React.FC = () => {
   const currencySymbol = selectedCountry?.symbol ?? '$';
   const countryEmoji = selectedCountry?.emoji ?? '🌍';
   const countryName = selectedCountry?.name ?? 'Global';
+  const tooltips = TOOLTIP_TEXTS[country] || TOOLTIP_TEXTS[''];
 
   const countrySupport = supportedCountries.find((c) => c.code === country);
   const isSupported = countrySupport?.hasTaxLogic ?? false;
@@ -161,8 +162,8 @@ const TaxCalculator: React.FC = () => {
                   Annual Income ({currencySymbol})
                   <div className="relative group cursor-pointer">
                     <Info className="h-4 w-4 text-gray-500 hover:text-blue-600" />
-                    <div className="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded-md px-2 py-1 top-6 left-0 w-52 shadow-lg z-10">
-                      Total amount earned in a year before taxes and deductions.
+                    <div className="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded-md px-2 py-1 top-6 left-0 w-56 shadow-lg z-10">
+                      {tooltips.income}
                     </div>
                   </div>
                 </label>
@@ -171,7 +172,9 @@ const TaxCalculator: React.FC = () => {
                   type="number"
                   value={income}
                   placeholder={`Enter your annual income in ${currencySymbol}`}
-                  onChange={(e) => setIncome(e.target.value === '' ? '' : Number(e.target.value))}
+                  onChange={(e) =>
+                    setIncome(e.target.value === '' ? '' : Number(e.target.value))
+                  }
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
@@ -183,7 +186,7 @@ const TaxCalculator: React.FC = () => {
                   <div className="relative group cursor-pointer">
                     <Info className="h-4 w-4 text-gray-500 hover:text-blue-600" />
                     <div className="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded-md px-2 py-1 top-6 left-0 w-56 shadow-lg z-10">
-                      Expenses or investments that reduce your taxable income — e.g. health insurance, retirement savings, HRA, etc.
+                      {tooltips.deductions}
                     </div>
                   </div>
                 </label>
@@ -191,7 +194,11 @@ const TaxCalculator: React.FC = () => {
                   type="number"
                   value={deductions}
                   placeholder={`Enter total deductions in ${currencySymbol}`}
-                  onChange={(e) => setDeductions(e.target.value === '' ? '' : Number(e.target.value))}
+                  onChange={(e) =>
+                    setDeductions(
+                      e.target.value === '' ? '' : Number(e.target.value)
+                    )
+                  }
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
