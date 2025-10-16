@@ -295,12 +295,12 @@ useEffect(() => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* ---------------- Investment Inputs ---------------- */}
-          <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
-            <h2 className="text-xl font-semibold text-slate-800 mb-4">Investment Details</h2>
+          <div className="bbg-slate-900 rounded-2xl shadow-md border border-slate-700 p-6">
+            <h2 className="text-xl font-semibold text-slate-100 mb-4">Investment Details</h2>
             <div className="space-y-4">
               {/* Principal */}
               <div> 
-                <label className="block text-sm font-medium text-slate-700 mb-2">Principal Amount ($)</label>
+                <label className="block text-sm font-medium text-slate-300 mb-2">Principal Amount ($)</label>
                 <input
                   type="number"
                   placeholder="$$$"
