@@ -328,33 +328,27 @@ const TaxCalculator: React.FC = () => {
 {/* ===== Chart + Smart Tax Tips Section ===== */}
 {income && Number(income) > 0 && (
   <div className="mt-10 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-    {/* ===== Title & Fixed Tip Box (Top Right) ===== */}
+    {/* ===== Title & Fixed Tip Box ===== */}
     <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-6">
       <h3 className="text-lg font-semibold text-gray-900">
         Tax Insights & Smart Saving Tips
       </h3>
 
-      {/* 💡 Fixed-size tip box */}
-      <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 text-sm text-gray-700 relative shadow-sm w-full lg:w-[440px] h-[100px] flex items-center transition-all">
+      {/* 💡 Fixed-size tip box with smooth crossfade */}
+      <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 text-sm text-gray-700 relative shadow-sm w-full lg:w-[440px] h-[100px] flex items-center overflow-hidden">
         <div className="flex items-start gap-2 w-full">
           <span className="text-blue-600 text-lg mt-[2px]">💡</span>
-          <div className="flex flex-col w-full overflow-hidden">
+          <div className="flex flex-col w-full">
             <div className="flex items-center gap-2 mb-1">
               <span className="text-sm font-semibold text-gray-900 truncate">
                 {countryEmoji} {countryName} Tip
               </span>
             </div>
 
-            {/* Tip text fades smoothly */}
+            {/* Smooth fade animation between tips */}
             <div
               key={activeTip}
-              className="transition-opacity duration-700 ease-in-out w-full"
-              style={{
-                opacity: 1,
-                minHeight: '2.5rem',
-                display: 'flex',
-                alignItems: 'center',
-              }}
+              className="opacity-0 animate-fadeIn transition-opacity duration-700 ease-in-out"
             >
               <p className="text-gray-700 text-sm leading-snug">
                 {tipsForCountry[activeTip]}
@@ -387,7 +381,7 @@ const TaxCalculator: React.FC = () => {
       </div>
     </div>
 
-    {/* ===== Extra Tips Below ===== */}
+    {/* ===== Extra Tips Grid ===== */}
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
       {extraTips.map((tip, i) => (
         <div
