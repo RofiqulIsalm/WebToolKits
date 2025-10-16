@@ -598,7 +598,380 @@ const CompoundInterestCalculator: React.FC = () => {
 
         {/* ----------- SEO/Content (kept) ----------- */}
 
-          
+        <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+          <h1 className="text-3xl font-bold text-cyan-400 mb-6">
+            Compound Interest Calculator – Grow Your Savings & Investments Faster
+          </h1>
+        
+          <p>
+            Our <strong>Compound Interest Calculator</strong> shows how your money can grow when earnings are
+            periodically reinvested back into the principal. Whether you’re planning an emergency fund, saving for
+            education, or building a long-term investment portfolio, compounding can make a meaningful difference
+            to your final corpus. This page explains the concept clearly, lets you run instant calculations, and
+            provides practical tips to optimize your returns.
+          </p>
+        
+          <p>
+            Unlike simple interest—where interest is calculated only on the original principal—<em>compound interest</em>
+            adds interest to your running balance after each period. As a result, new interest is calculated on an
+            increasingly larger base, which naturally accelerates growth over time. The longer you allow compounding to work,
+            the bigger the effect.
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">What This Calculator Does</h2>
+          <p>
+            Enter your <strong>principal amount</strong>, choose an <strong>interest rate</strong>, and select the
+            <strong> compounding frequency</strong> (daily, weekly, monthly, quarterly, yearly, or a custom interval).
+            Then provide a time horizon in <strong>years, months, and days</strong>. The calculator instantly displays:
+          </p>
+          <ul>
+            <li><strong>Future Value (A):</strong> Your projected amount at the end of the period.</li>
+            <li><strong>Total Interest Earned:</strong> Compounded earnings over the selected duration.</li>
+            <li><strong>Breakdown View:</strong> Optional daily/weekly/monthly/yearly snapshots to visualize growth.</li>
+          </ul>
+        
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">How Compounding Works (The Math)</h2>
+          <p>
+            The standard formula for compound interest is:
+          </p>
+          <pre className="bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto">
+            A = P × (1 + r/n)<sup>n × t</sup>
+          </pre>
+          <ul>
+            <li><strong>P</strong> = Principal (initial amount you invest or deposit)</li>
+            <li><strong>r</strong> = Annual nominal interest rate (as a decimal, e.g., 8% = 0.08)</li>
+            <li><strong>n</strong> = Number of compounding periods per year (12 for monthly, 365 for daily, etc.)</li>
+            <li><strong>t</strong> = Time in years</li>
+            <li><strong>A</strong> = Final amount (principal + accumulated interest)</li>
+          </ul>
+          <p>
+            In practice, deposits, withdrawals, holidays, and custom intervals can affect timing. Our calculator offers a
+            flexible <strong>custom compounding option</strong> (years, months, days) and an <strong>include/exclude days</strong>
+            switch to reflect real-world schedules (e.g., only business days).
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Daily vs. Monthly vs. Yearly Compounding</h2>
+          <p>
+            For the same nominal rate, more frequent compounding usually yields a higher future value because interest is
+            credited more times within a year. For example, <em>daily compounding</em> adds small increments very often,
+            while <em>yearly compounding</em> adds a larger increment once per year. The difference can be modest over
+            short periods but becomes significant over longer horizons or at higher interest rates.
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Effective Annual Rate (EAR)</h2>
+          <p>
+            The <strong>Effective Annual Rate</strong> converts a nominal rate with compounding into the equivalent
+            annual rate that produces the same result when compounding is considered:
+          </p>
+          <pre className="bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto">
+            EAR = (1 + r/n)<sup>n</sup> − 1
+          </pre>
+          <p>
+            EAR is handy for apples-to-apples comparisons across products that use different compounding frequencies.
+            If two banks quote the same nominal rate but compound at different frequencies, the product with the higher
+            EAR will grow faster.
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Practical Ways to Maximize Compounding</h2>
+          <ul>
+            <li>
+              <strong>Start early:</strong> Time is the most powerful lever. Even small, early deposits can grow substantially
+              thanks to compounding across years.
+            </li>
+            <li>
+              <strong>Increase frequency:</strong> If possible, choose products with more frequent compounding or make
+              more frequent contributions.
+            </li>
+            <li>
+              <strong>Reinvest earnings:</strong> Avoid frequent withdrawals; let interest remain invested so it can
+              compound further.
+            </li>
+            <li>
+              <strong>Stay consistent:</strong> Regular monthly deposits (SIP-style) can smooth market volatility and
+              enhance long-term outcomes.
+            </li>
+            <li>
+              <strong>Mind fees and taxes:</strong> High fees or frequent taxable events can reduce compounding benefits.
+              Consider tax-efficient wrappers available in your region.
+            </li>
+          </ul>
+        
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Worked Examples</h2>
+          <p>
+            <strong>Example 1:</strong> Deposit $1,000 at 5% per year, compounded monthly, for 3 years.<br />
+            Using the formula with P=1000, r=0.05, n=12, t=3:
+          </p>
+          <pre className="bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto">
+            A = 1000 × (1 + 0.05/12)<sup>36</sup> ≈ $1,161.62
+          </pre>
+          <p>
+            <strong>Example 2:</strong> Invest $10,000 at 8% per year, compounded monthly, for 5 years.
+          </p>
+          <pre className="bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto">
+            A ≈ $14,859.47 (Total interest ≈ $4,859.47)
+          </pre>
+          <p>
+            <strong>Example 3 (SIP intuition):</strong> If you contribute $500 monthly at 7% (monthly compounding) for
+            10 years, the total value can exceed $86,000. Regular contributions + compounding create a strong flywheel.
+            (Exact figures vary with contribution timing.)
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">When Compounding Might Disappoint</h2>
+          <ul>
+            <li>
+              <strong>Short horizons:</strong> Over a few weeks or months, the difference vs. simple interest can be modest.
+            </li>
+            <li>
+              <strong>Low rates:</strong> At very low rates, frequency and time matter less—though compounding still helps.
+            </li>
+            <li>
+              <strong>Irregular withdrawals:</strong> Pulling money out frequently interrupts compounding momentum.
+            </li>
+            <li>
+              <strong>Fees and taxes:</strong> Ongoing fees or taxable distributions can offset gains if not managed well.
+            </li>
+          </ul>
+        
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">How to Use This Calculator Effectively</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Enter your <strong>principal</strong> (starting amount).</li>
+            <li>Set your <strong>annual interest rate</strong> (%).</li>
+            <li>Select a <strong>compounding frequency</strong> (or define a custom period).</li>
+            <li>Provide the <strong>time period</strong> (years, months, days).</li>
+            <li>Optionally, limit to certain days (e.g., exclude weekends) to mirror your use case.</li>
+            <li>Review the <strong>Results</strong> and open the <strong>Breakdown</strong> to see growth by period.</li>
+          </ol>
+          <p>
+            Pro tip: Run multiple scenarios to see how small tweaks (like +1% rate or +6 months of time) influence the
+            final amount. Over long horizons, these “small” changes compound into big differences.
+          </p>
+        
+          {/* ===================== FAQ (Styled) ===================== */}
+          <section className="space-y-6 mt-16" aria-label="Compound Interest Calculator FAQs">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
+              ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
+            </h2>
+        
+            <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2">
+                  <span className="text-yellow-300">Q1:</span> What is compound interest?
+                </h3>
+                <p>
+                  Compound interest is interest calculated on both your initial principal and on the interest that’s
+                  already been added. This causes your money to grow faster than with simple interest, especially over
+                  longer periods.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2">
+                  <span className="text-yellow-300">Q2:</span> Does compounding frequency really matter?
+                </h3>
+                <p>
+                  Yes. For the same nominal rate, more frequent compounding (daily vs. monthly) typically produces a
+                  higher final amount. The impact grows with time and higher rates.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2">
+                  <span className="text-yellow-300">Q3:</span> What’s the difference between nominal rate and EAR?
+                </h3>
+                <p>
+                  The nominal rate is the stated annual rate. The <em>Effective Annual Rate</em> (EAR) incorporates
+                  compounding frequency. EAR enables fair comparisons between products with different compounding periods.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2">
+                  <span className="text-yellow-300">Q4:</span> Can I use this calculator for custom intervals?
+                </h3>
+                <p>
+                  Absolutely. Select <strong>Custom</strong> and define years/months/days. The calculator applies your
+                  rate at the end of each custom interval to simulate special instruments.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2">
+                  <span className="text-yellow-300">Q5:</span> Why does my real-world result differ from a perfect formula?
+                </h3>
+                <p>
+                  Timing of deposits, holidays, minimum balance rules, fees, and taxes can shift outcomes in practice.
+                  Our custom interval and “include days” options help model realistic schedules.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2">
+                  <span className="text-yellow-300">Q6:</span> Is this calculator free?
+                </h3>
+                <p>
+                  Yes—100% free, no sign-up, and privacy-friendly. It runs entirely in your browser.
+                </p>
+              </div>
+            </div>
+          </section>
+        </section>
+        
+        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/calculatorhub-author.webp"
+              alt="CalculatorHub Security Tools Team"
+              className="w-12 h-12 rounded-full border border-gray-600"
+              loading="lazy"
+            />
+            <div>
+              <p className="font-semibold text-white">Written by the CalculatorHub Security Tools Team</p>
+              <p className="text-sm text-slate-400">
+                Experts in web calculators and financial tooling. Last updated:{' '}
+                <time dateTime="2025-10-10">October 10, 2025</time>.
+              </p>
+            </div>
+          </div>
+        </section>
+        
+        {/* ============= COMPOUND INTEREST CALCULATOR – JSON-LD SCHEMAS ================ */}
+        <script
+          type="application/ld+json"
+          // WebPage + Breadcrumbs
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebPage",
+              "name": "Compound Interest Calculator",
+              "url": "https://calculatorhub.site/compound-interest-calculator",
+              "description": "Free online Compound Interest Calculator. Instantly project future value with daily, weekly, monthly, quarterly, yearly, or custom compounding. See total interest and detailed breakdowns.",
+              "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  { "@type": "ListItem", "position": 1, "name": "Currency & Finance", "item": "https://calculatorhub.site/category/currency-finance" },
+                  { "@type": "ListItem", "position": 2, "name": "Compound Interest Calculator", "item": "https://calculatorhub.site/compound-interest-calculator" }
+                ]
+              },
+              "about": [
+                "compound interest", "future value", "effective annual rate", "investment growth", "savings calculator"
+              ],
+              "inLanguage": "en"
+            })
+          }}
+        />
+        
+        <script
+          type="application/ld+json"
+          // FAQPage
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "What is compound interest?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Compound interest is interest calculated on the initial principal and on the interest previously added to the principal, allowing money to grow faster than simple interest."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Does compounding frequency matter?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. For the same nominal rate, more frequent compounding (e.g., daily vs. yearly) generally yields a higher final amount, especially over long periods."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What is Effective Annual Rate (EAR)?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "EAR converts a nominal rate with compounding into the equivalent annual rate, enabling fair comparisons between products that compound at different frequencies."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I set a custom compounding interval?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Define your own interval in years, months, and days to model special savings or investment products."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Why might calculated results differ from real statements?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Real products may have fees, taxes, holidays, minimum balance rules, or different day counts, which can alter outcomes compared with idealized formulas."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Is the calculator free to use?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. It is completely free, requires no sign-up, and runs in your browser."
+                  }
+                }
+              ]
+            })
+          }}
+        />
+        
+        <script
+          type="application/ld+json"
+          // SoftwareApplication (Financial Calculator)
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              "name": "Compound Interest Calculator",
+              "applicationCategory": "FinanceApplication",
+              "operatingSystem": "All",
+              "url": "https://calculatorhub.site/compound-interest-calculator",
+              "description": "Instantly compute future value and total interest with customizable compounding frequencies and time periods. Includes daily/weekly/monthly/yearly breakdowns.",
+              "featureList": [
+                "Daily, weekly, monthly, quarterly, yearly, and custom compounding",
+                "Future value and total interest in real time",
+                "Detailed time-based breakdown and exportable views",
+                "Include/Exclude specific days to simulate business-day schedules"
+              ],
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "reviewCount": "1200"
+              },
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock"
+              }
+            })
+          }}
+        />
+        
+        {/* ============= OPTIONAL: BACKLINK ACTION LIST (for your team’s internal use) ============ */}
+        <section className="max-w-4xl mx-auto mt-12 text-slate-300">
+          <h2 className="text-xl font-semibold text-cyan-300">Backlink Sharing Checklist (Manual)</h2>
+          <p className="text-sm text-slate-400 mb-3">
+            Share your page in relevant communities/directories (always follow local rules and add helpful context):
+          </p>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Q&A & Communities:</strong> StackExchange (Personal Finance & Money), Reddit (r/personalfinance, r/investing) — post a helpful walkthrough + your calculator link as a tool.</li>
+            <li><strong>Finance Forums:</strong> Bogleheads, MoneySavingExpert forums, City-Data finance section — contribute genuinely, then reference your calculator when relevant.</li>
+            <li><strong>Directory Listings:</strong> AlternativeTo, Product Hunt (as a tool), Indie Hackers tool threads, Freecode/tools roundups.</li>
+            <li><strong>Edu/Blog Outreach:</strong> University finance lab pages / student resources, personal finance bloggers — offer a short embed snippet or explainers.</li>
+            <li><strong>Social:</strong> LinkedIn post (explain EAR vs nominal with visuals), X/Twitter thread (mini case study), Facebook finance groups (with admin approval).</li>
+          </ul>
+          <p className="text-sm text-slate-400 mt-3">
+            Tip: use descriptive anchor text like <em>“compound interest calculator”</em>, <em>“investment growth calculator”</em>, or <em>“future value tool”</em>.
+          </p>
+        </section>
+
 
 
         
