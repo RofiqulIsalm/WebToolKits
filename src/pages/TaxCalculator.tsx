@@ -330,7 +330,7 @@ const TaxCalculator: React.FC = () => {
   <>
     {/* ===== Smart Tip Box (Full Width, Icon Fixed Left) ===== */}
     <div className="mt-4 w-full relative">
-      <div className="bg-blue-50 border border-blue-200 text-blue-900 px-6 py-4 rounded-md shadow-sm min-h-[50px] w-full flex items-center animate-fadeIn transition-all duration-700 relative">
+      <div className="bg-gray-100 border border-gray-300 text-gray-800 px-6 py-4 rounded-md shadow-sm min-h-[50px] w-full flex items-center animate-fadeIn transition-all duration-700 relative">
         {/* Fixed icon on the left side */}
         <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center w-8 h-8">
           <span className="text-2xl">💡</span>
