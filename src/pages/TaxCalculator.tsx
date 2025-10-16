@@ -325,32 +325,47 @@ const TaxCalculator: React.FC = () => {
           </div>
         </div>
 
-       {/* ===== Chart + Smart Tax Tips Section ===== */}
+{/* ===== Chart + Smart Tax Tips Section ===== */}
 {income && Number(income) > 0 && (
   <div className="mt-10 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-    {/* Heading + top-right tip */}
+    {/* ===== Title & Fixed Tip Box (Top Right) ===== */}
     <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-6">
       <h3 className="text-lg font-semibold text-gray-900">
         Tax Insights & Smart Saving Tips
       </h3>
-      <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 text-sm text-gray-700 relative shadow-sm max-w-lg mt-3 lg:mt-0">
-        <div className="flex items-start gap-2">
+
+      {/* 💡 Fixed-size tip box */}
+      <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 text-sm text-gray-700 relative shadow-sm w-full lg:w-[440px] h-[100px] flex items-center transition-all">
+        <div className="flex items-start gap-2 w-full">
           <span className="text-blue-600 text-lg mt-[2px]">💡</span>
-          <div>
+          <div className="flex flex-col w-full overflow-hidden">
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-base font-semibold text-gray-900">
-                Tax Tips for {countryName}
+              <span className="text-sm font-semibold text-gray-900 truncate">
+                {countryEmoji} {countryName} Tip
               </span>
             </div>
-            <p key={activeTip} className="transition-opacity duration-700 ease-in-out">
-              {tipsForCountry[activeTip]}
-            </p>
+
+            {/* Tip text fades smoothly */}
+            <div
+              key={activeTip}
+              className="transition-opacity duration-700 ease-in-out w-full"
+              style={{
+                opacity: 1,
+                minHeight: '2.5rem',
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <p className="text-gray-700 text-sm leading-snug">
+                {tipsForCountry[activeTip]}
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    {/* Chart below */}
+    {/* ===== Chart Section ===== */}
     <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
       <div className="w-full lg:w-1/2">
         <ResponsiveContainer width="100%" height={250}>
@@ -372,7 +387,7 @@ const TaxCalculator: React.FC = () => {
       </div>
     </div>
 
-    {/* Extra Tips Grid */}
+    {/* ===== Extra Tips Below ===== */}
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
       {extraTips.map((tip, i) => (
         <div
@@ -385,6 +400,7 @@ const TaxCalculator: React.FC = () => {
     </div>
   </div>
 )}
+
 
 
         <AdBanner type="bottom" />
