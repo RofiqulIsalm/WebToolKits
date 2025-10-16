@@ -758,6 +758,20 @@ const CompoundInterestCalculator: React.FC = () => {
               Pro tip: Run multiple scenarios to see how small tweaks (like +1% rate or +6 months of time) influence the
               final amount. Over long horizons, these “small” changes compound into big differences.
             </p>
+            <div className="my-8 text-center">
+              <img
+                src="/images/compound_interest_table.webp"
+                alt="Compound Interest Growth Comparison Table for 20 Years"
+                className="mx-auto rounded-xl shadow-md border border-slate-700"
+                loading="lazy"
+                width={900}
+                height={600}
+                decoding="async"
+              />
+              <p className="text-slate-400 text-sm mt-2">
+                Quick comparison of principal, simple interest, and compounded value over time.
+              </p>
+            </div>
           
             {/* ===================== FAQ (Styled) ===================== */}
             <section className="space-y-6 mt-16" aria-label="Compound Interest Calculator FAQs">
