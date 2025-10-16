@@ -344,7 +344,7 @@ const CompoundInterestCalculator: React.FC = () => {
                   <select
                     value={rateUnit}
                     onChange={(e) => setRateUnit(e.target.value as any)}
-                    className="text-white mt-2 sm:mt-0 px-3 py-1 bg-slate-800 border border-slate-700 rounded-lg focus:ring-2 focus:ring-indigo-400"
+                    className="text-white mt-2 sm:mt-0 px-3 py-4 bg-slate-800 border border-slate-700 rounded-lg focus:ring-2 focus:ring-indigo-400"
                   >
                     <option value="daily">Daily</option>
                     <option value="weekly">Weekly</option>
