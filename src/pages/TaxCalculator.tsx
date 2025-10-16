@@ -668,18 +668,6 @@ const TaxCalculator: React.FC = () => {
               <li><strong>Australia (AU):</strong> Uses ATO marginal tax rates for the 2025 financial year.</li>
             </ul>
           
-            <figure className="my-8">
-              <img
-                src="/images/country-income-tax-calculator-2025.webp"
-                alt="Country-specific income tax calculator 2025 with local flag and tax form"
-                title="Country-Specific Income Tax Calculator 2025 | Localized Tax Estimator"
-                className="rounded-lg shadow-md border border-slate-700 mx-auto"
-                loading="lazy"
-              />
-              <figcaption className="text-center text-sm text-slate-400 mt-2">
-                Example of country-specific income tax calculation with automatic currency and rule detection.
-              </figcaption>
-            </figure>
           
             <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
               🔍 Where Does Our Country Data Come From?
