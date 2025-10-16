@@ -156,54 +156,53 @@ const TaxCalculator: React.FC = () => {
                 )}
               </div>
 
-              {/* Income Input */}
+              {/* Annual Income Input */}
               <div className="relative">
-                <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Annual Income ({currencySymbol})
-                  <div className="relative group cursor-pointer">
-                    <Info className="h-4 w-4 text-gray-500 hover:text-blue-600" />
-                    <div className="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded-md px-2 py-1 top-6 left-0 w-56 shadow-lg z-10">
-                      {tooltips.income}
-                    </div>
-                  </div>
                 </label>
-                <input
-                  ref={incomeInputRef}
-                  type="number"
-                  value={income}
-                  placeholder={`Enter your annual income in ${currencySymbol}`}
-                  onChange={(e) =>
-                    setIncome(e.target.value === '' ? '' : Number(e.target.value))
-                  }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
+              
+                <div className="relative group">
+                  <input
+                    ref={incomeInputRef}
+                    type="number"
+                    value={income}
+                    placeholder={`Enter your annual income in ${currencySymbol}`}
+                    onChange={(e) =>
+                      setIncome(e.target.value === '' ? '' : Number(e.target.value))
+                    }
+                    className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                  <Info className="h-4 w-4 text-gray-500 absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer hover:text-blue-600" />
+                  <div className="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded-md px-2 py-1 top-10 right-0 w-56 shadow-lg z-10">
+                    {tooltips.income}
+                  </div>
+                </div>
               </div>
 
-              {/* Deductions Input */}
+
+             {/* Deductions Input */}
               <div className="relative">
-                <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Deductions ({currencySymbol})
-                  <div className="relative group cursor-pointer">
-                    <Info className="h-4 w-4 text-gray-500 hover:text-blue-600" />
-                    <div className="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded-md px-2 py-1 top-6 left-0 w-56 shadow-lg z-10">
-                      {tooltips.deductions}
-                    </div>
-                  </div>
                 </label>
-                <input
-                  type="number"
-                  value={deductions}
-                  placeholder={`Enter total deductions in ${currencySymbol}`}
-                  onChange={(e) =>
-                    setDeductions(
-                      e.target.value === '' ? '' : Number(e.target.value)
-                    )
-                  }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
+              
+                <div className="relative group">
+                  <input
+                    type="number"
+                    value={deductions}
+                    placeholder={`Enter total deductions in ${currencySymbol}`}
+                    onChange={(e) =>
+                      setDeductions(e.target.value === '' ? '' : Number(e.target.value))
+                    }
+                    className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                  <Info className="h-4 w-4 text-gray-500 absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer hover:text-blue-600" />
+                  <div className="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded-md px-2 py-1 top-10 right-0 w-56 shadow-lg z-10">
+                    {tooltips.deductions}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
 
           {/* ============== Output Section ============== */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
