@@ -25,6 +25,8 @@ import supportedCountries from '../utils/tax/supportedCountries.json';
 import { TOOLTIP_TEXTS } from '../utils/tax/tooltipTexts';
 
 const COLORS = ['#ef4444', '#22c55e']; // red = tax, green = net
+const [showDropdown, setShowDropdown] = useState(false);
+const dropdownRef = useRef<HTMLDivElement>(null);
 
 // ✅ Country-specific tax tips (10+ each)
 const COUNTRY_TAX_TIPS: Record<string, string[]> = {
@@ -151,6 +153,16 @@ const TaxCalculator: React.FC = () => {
       setNetIncome(numericIncome - flatTax);
     }
   };
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
 
   const handleReset = () => {
     setIncome(''); setDeductions(''); setTax(0); setNetIncome(0);
@@ -230,42 +242,71 @@ const TaxCalculator: React.FC = () => {
       </button>
     </div>
 
-    {/* ===== Country Dropdown (Custom Compact Style) ===== */}
-<div className="relative inline-block w-full sm:w-64">
-  <button
-    type="button"
-    onClick={() => setShowDropdown(!showDropdown)}
-    className="w-full flex justify-between items-center bg-[#0f172a] text-slate-200 text-sm px-3 py-2 border border-[#334155] rounded-md hover:border-indigo-400 focus:ring-2 focus:ring-indigo-500 transition"
-  >
-    <span>
-      {country
-        ? `${countries.find((c) => c.code === country)?.emoji || ''} ${
-            countries.find((c) => c.code === country)?.name || 'Select Country'
-          }`
-        : '🌍 Global (Default)'}
-    </span>
-    <span className="text-slate-400 text-xs">▼</span>
-  </button>
+    <div className="space-y-5">
+      {/* Country */}
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-2">
+          Select Country
+        </label>
 
-  {showDropdown && (
-    <div className="absolute z-50 mt-1 w-full bg-[#0f172a] border border-[#334155] rounded-md shadow-lg max-h-48 overflow-y-auto">
-      {countries.map((c) => (
-        <div
-          key={c.code}
-          onClick={() => {
-            setCountry(c.code);
-            setShowDropdown(false);
-          }}
-          className={`px-3 py-1.5 text-sm text-slate-200 cursor-pointer hover:bg-[#1e293b] transition ${
-            c.code === country ? 'bg-[#1e293b] text-indigo-400' : ''
-          }`}
-        >
-          {c.emoji} {c.name}
+        {/* 🌍 Custom Dropdown */}
+        <div className="relative inline-block w-full sm:w-64">
+          <button
+            type="button"
+            onClick={() => setShowDropdown(!showDropdown)}
+            className="w-full flex justify-between items-center bg-[#0f172a] text-slate-200 text-sm px-3 py-2 border border-[#334155] rounded-md hover:border-indigo-400 focus:ring-2 focus:ring-indigo-500 transition"
+          >
+            <span>
+              {country
+                ? `${countries.find((c) => c.code === country)?.emoji || ''} ${
+                    countries.find((c) => c.code === country)?.name || 'Select Country'
+                  }`
+                : '🌍 Global (Default)'}
+            </span>
+            <span className="text-slate-400 text-xs">▼</span>
+          </button>
+
+          {/* Dropdown Menu */}
+          {showDropdown && (
+            <div
+              className="absolute z-50 mt-1 w-full bg-[#0f172a] border border-[#334155] rounded-md shadow-lg max-h-48 overflow-y-auto"
+              ref={dropdownRef}
+            >
+              {countries.map((c) => (
+                <div
+                  key={c.code}
+                  onClick={() => {
+                    setCountry(c.code);
+                    setShowDropdown(false);
+                  }}
+                  className={`px-3 py-1.5 text-sm text-slate-200 cursor-pointer hover:bg-[#1e293b] transition ${
+                    c.code === country ? 'bg-[#1e293b] text-indigo-400' : ''
+                  }`}
+                >
+                  {c.emoji} {c.name}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-      ))}
-    </div>
-  )}
-</div>
+
+        {/* Status */}
+        {country && (
+          <div className="mt-2 flex flex-wrap items-center gap-1 text-[11px] sm:text-xs">
+            {isSupported ? (
+              <>
+                <CheckCircle className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                <span className="text-emerald-400">Fully Supported</span>
+              </>
+            ) : (
+              <>
+                <Wrench className="h-3.5 w-3.5 text-yellow-400 shrink-0" />
+                <span className="text-yellow-400">Coming Soon (Flat 10%)</span>
+              </>
+            )}
+          </div>
+        )}
+      </div>
 
       {/* Income */}
       <div>
@@ -350,6 +391,8 @@ const TaxCalculator: React.FC = () => {
       </div>
     </div>
   </div>
+</div>
+
 
   {/* Output Section */}
   <div className="bg-[#1e293b] rounded-xl shadow-md border border-[#334155] p-6 text-slate-200">
