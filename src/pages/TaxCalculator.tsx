@@ -252,26 +252,25 @@ const TaxCalculator: React.FC = () => {
                   <span className="text-slate-400 text-xs">▼</span>
                 </button>
             </div>
-                 {showDropdown && (
-                  <div
-                    className="absolute z-50 mt-1 w-full bg-[#0f172a] border border-[#334155] rounded-md shadow-lg max-h-[10.5rem] overflow-y-auto"
-                  >
-                    {countries.map((c) => (
-                      <div
-                        key={c.code}
-                        onClick={() => {
-                          setCountry(c.code);
-                          setShowDropdown(false);
-                        }}
-                        className={`px-3 py-1.5 text-sm text-slate-200 cursor-pointer hover:bg-[#1e293b] transition ${
-                          c.code === country ? 'bg-[#1e293b] text-indigo-400' : ''
-                        }`}
-                      >
-                        {c.emoji} {c.name}
-                      </div>
-                    ))}
-                  </div>
+            {country && (
+              <div className="mt-2 flex flex-wrap items-center gap-1 text-[11px] sm:text-xs">
+                {isSupported ? (
+                  <>
+                    <CheckCircle className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                    <span className="text-emerald-400">
+                      Fully Supported
+                    </span>
+                  </>
+                ) : (
+                  <> 
+                    <Wrench className="h-4 w-4 text-yellow-400 shrink-0" />
+                    <span className="text-yellow-400 whitespace-normal">
+                      Coming Soon (Flat 10%)
+                    </span>
+                  </>
                 )}
+              </div>
+            )}
     
           </div> 
     
