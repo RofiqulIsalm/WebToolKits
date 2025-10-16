@@ -325,15 +325,28 @@ const TaxCalculator: React.FC = () => {
           </div>
         </div>
 
-{/* ===== Chart + Smart Tips Section ===== */}
+{/* ===== Tax Insights & Smart Saving Tips ===== */}
 {income && Number(income) > 0 && (
   <div className="mt-10 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
     <h3 className="text-lg font-semibold text-gray-900 mb-6 text-center">
       Tax Insights & Smart Saving Tips
     </h3>
 
-    <div className="flex flex-col lg:flex-row gap-6 items-center justify-center">
-      {/* ===== Left: Pie Chart + Summary ===== */}
+    {/* ===== Tips Box (Top, Outside Chart) ===== */}
+    <div className="flex justify-center mb-6">
+      <div className="bg-blue-50 border border-blue-200 text-blue-900 px-5 py-3 rounded-md shadow-sm min-h-[90px] w-full sm:w-2/3 lg:w-1/2 flex items-center justify-center animate-fadeIn transition-all duration-700">
+        <div className="flex items-start gap-2 text-center sm:text-left">
+          <span className="text-xl">💡</span>
+          <p className="text-sm font-medium leading-snug text-gray-700">
+            {tipsForCountry[activeTip]}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    {/* ===== Chart + Summary Side by Side ===== */}
+    <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
+      {/* Chart Left */}
       <div className="flex-1 flex flex-col items-center justify-center">
         <ResponsiveContainer width="100%" height={220}>
           <PieChart>
@@ -351,29 +364,42 @@ const TaxCalculator: React.FC = () => {
             <ChartTooltip />
           </PieChart>
         </ResponsiveContainer>
-
-        {/* Mini Tax Summary */}
-        <ul className="text-sm text-gray-700 mt-4 space-y-1">
-          <li>💰 Total Income: <strong>{formatCurrency(Number(income))}</strong></li>
-          <li>📉 Deductions: <strong>{formatCurrency(Number(deductions) || 0)}</strong></li>
-          <li>💸 Tax Payable: <strong>{formatCurrency(tax)}</strong></li>
-          <li>🏦 Net Income: <strong>{formatCurrency(netIncome)}</strong></li>
-        </ul>
       </div>
 
-      {/* ===== Right: Rotating Tip Box ===== */}
-      <div className="flex-1 flex flex-col justify-start">
-        <h4 className="text-sm text-gray-500 mb-2 text-center lg:text-left">
-          {countryEmoji} Personalized Tax Tips for {countryName}
-        </h4>
+      {/* Summary Right */}
+      <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+        <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
+          <p className="text-sm text-gray-600 flex items-center justify-center gap-1">
+            💰 <span>Total Income</span>
+          </p>
+          <p className="font-semibold text-gray-900">
+            {formatCurrency(Number(income))}
+          </p>
+        </div>
 
-        <div className="bg-blue-50 border border-blue-200 text-blue-900 p-4 rounded-md shadow-sm min-h-[100px] flex items-center justify-center animate-fadeIn transition-all duration-700">
-          <div className="flex items-start gap-2">
-            <span className="text-xl">💡</span>
-            <p className="text-sm font-medium leading-snug text-gray-700 max-w-[300px] text-center lg:text-left">
-              {tipsForCountry[activeTip]}
-            </p>
-          </div>
+        <div className="p-4 bg-green-50 border border-green-200 rounded-lg text-center">
+          <p className="text-sm text-gray-600 flex items-center justify-center gap-1">
+            📉 <span>Deductions</span>
+          </p>
+          <p className="font-semibold text-gray-900">
+            {formatCurrency(Number(deductions) || 0)}
+          </p>
+        </div>
+
+        <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-center">
+          <p className="text-sm text-gray-600 flex items-center justify-center gap-1">
+            💸 <span>Tax Payable</span>
+          </p>
+          <p className="font-semibold text-gray-900">{formatCurrency(tax)}</p>
+        </div>
+
+        <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg text-center">
+          <p className="text-sm text-gray-600 flex items-center justify-center gap-1">
+            🏦 <span>Net Income</span>
+          </p>
+          <p className="font-semibold text-gray-900">
+            {formatCurrency(netIncome)}
+          </p>
         </div>
       </div>
     </div>
@@ -411,6 +437,7 @@ const TaxCalculator: React.FC = () => {
     </div>
   </div>
 )}
+
 
 
 
