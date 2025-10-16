@@ -328,10 +328,16 @@ const TaxCalculator: React.FC = () => {
 {/* ===== Smart Tip Box (Full Width Above Chart) ===== */}
 {income && Number(income) > 0 && (
   <>
-    <div className="mt-4 w-full"> 
-      <div className="bg-blue-50 border border-blue-200 text-blue-900 px-4 py-2 rounded-md shadow-sm min-h-[50px] w-full flex items-center justify-center animate-fadeIn transition-all duration-700">
-        <div className="flex items-start gap-2 text-center sm:text-left max-w-4xl mx-auto">
+    {/* ===== Smart Tip Box (Full Width, Icon Fixed Left) ===== */}
+    <div className="mt-4 w-full relative">
+      <div className="bg-blue-50 border border-blue-200 text-blue-900 px-6 py-4 rounded-md shadow-sm min-h-[90px] w-full flex items-center animate-fadeIn transition-all duration-700 relative">
+        {/* Fixed icon on the left side */}
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center w-8 h-8">
           <span className="text-2xl">💡</span>
+        </div>
+    
+        {/* Text beside icon */}
+        <div className="ml-12 w-full">
           <p className="text-base font-medium leading-snug text-gray-700">
             {tipsForCountry[activeTip]}
           </p>
