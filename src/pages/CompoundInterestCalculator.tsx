@@ -115,7 +115,6 @@ const CompoundInterestCalculator: React.FC = () => {
   useEffect(() => {
     calculateCompoundInterest();
     generateBreakdown();
-    // include customRate & rateUnit so custom interval changes re-run
   }, [
     principal,
     rate,
@@ -123,7 +122,9 @@ const CompoundInterestCalculator: React.FC = () => {
     customRate.years,
     customRate.months,
     customRate.days,
-    time,
+    timeData.years,
+    timeData.months,
+    timeData.days,
     timeUnit,
     breakdownMode,
     includeAllDays,
