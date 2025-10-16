@@ -264,50 +264,52 @@ const TaxCalculator: React.FC = () => {
               </div>
 
              {/* Deductions */}
-              <div className="relative">
-                <div className="flex justify-between items-center mb-1">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Deductions ({currencySymbol})
-                  </label>
-                  <Info
-                    onClick={() => setShowDeductionInfo(!showDeductionInfo)}
-                    className="h-4 w-4 text-gray-500 cursor-pointer hover:text-blue-600"
-                  />
-                </div>
-              
-                {showDeductionInfo && (
-                  <div className="mb-1 bg-gray-100 text-gray-700 text-xs p-2 rounded-md">
-                    {tooltips.deductions}
-                  </div>
-                )}
-              
-                <input
-                  type="number"
-                  value={deductions}
-                  placeholder={`Enter total deductions in ${currencySymbol}`}
-                  onChange={(e) =>
-                    setDeductions(e.target.value === '' ? '' : Number(e.target.value))
-                  }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              
-                <input
-                  type="range"
-                  min="0"
-                  max="500000"
-                  step="1000"
-                  value={deductions || 0}
-                  onChange={(e) => setDeductions(Number(e.target.value))}
-                  className="w-full mt-2 accent-green-500"
-                />
-              
-                {/* 🚨 Warning if deductions > income */}
-                {Number(deductions) > Number(income) && (
-                  <p className="text-sm text-red-600 mt-2">
-                    ⚠️ Deductions cannot exceed total income.
-                  </p>
-                )}
-              </div>
+             {/* Deductions */}
+<div className="relative">
+  <div className="flex justify-between items-center mb-1">
+    <label className="block text-sm font-medium text-gray-700">
+      Deductions ({currencySymbol})
+    </label>
+    <Info
+      onClick={() => setShowDeductionInfo(!showDeductionInfo)}
+      className="h-4 w-4 text-gray-500 cursor-pointer hover:text-blue-600"
+    />
+  </div>
+
+  {showDeductionInfo && (
+    <div className="mb-1 bg-gray-100 text-gray-700 text-xs p-2 rounded-md">
+      {tooltips.deductions}
+    </div>
+  )}
+
+  <input
+    type="number"
+    value={deductions}
+    placeholder={`Enter total deductions in ${currencySymbol}`}
+    onChange={(e) =>
+      setDeductions(e.target.value === '' ? '' : Number(e.target.value))
+    }
+    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+  />
+
+  <input
+    type="range"
+    min="0"
+    max="500000"
+    step="1000"
+    value={deductions || 0}
+    onChange={(e) => setDeductions(Number(e.target.value))}
+    className="w-full mt-2 accent-green-500"
+  />
+
+  {/* 🚨 Warning if deductions > income */}
+  {Number(deductions) > Number(income) && (
+    <p className="text-sm text-red-600 mt-2">
+      ⚠️ Deductions cannot exceed total income.
+    </p>
+  )}
+</div>
+
 
 
           {/* ========== Output Section ========== */}
