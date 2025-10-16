@@ -1471,6 +1471,24 @@ const LoanEMICalculator: React.FC = () => {
         }}
       />
 
+      <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "CalculatorHub Team",
+              "url": "https://calculatorhub.site/about",
+              "jobTitle": "Financial Tool Developer",
+              "worksFor": {
+                "@type": "Organization",
+                "name": "CalculatorHub"
+              }
+            })
+          }}
+        />
+
+
 
           {/* Optional guide image from Supabase */}
           {guideImageUrl && (
