@@ -394,191 +394,191 @@ const TaxCalculator: React.FC = () => {
         </div>
       </div>
 
-  {/* Output Section */}
-  <div className="bg-[#1e293b] rounded-xl shadow-md border border-[#334155] p-6 text-slate-200">
-    <h2 className="text-xl font-semibold text-white mb-4">Tax Calculation</h2>
-    <div className="space-y-6">
-      <div className="text-center p-4 bg-[#0f172a] rounded-lg border border-[#334155]">
-        <Receipt className="h-8 w-8 text-indigo-400 mx-auto mb-2" />
-        <div className="text-2xl font-bold text-white">
-          
-          {income === '' || Number(income) <= 0 ? '0' : formatCurrency(tax)}
-        </div>
-        <div className="text-sm text-slate-400">Estimated Annual Tax</div>
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="p-4 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
-          <div className="text-lg font-semibold text-white">
-            {currencySymbol}
-            {Number(income || 0).toLocaleString()}
+      {/* Output Section */}
+      <div className="bg-[#1e293b] rounded-xl shadow-md border border-[#334155] p-6 text-slate-200">
+        <h2 className="text-xl font-semibold text-white mb-4">Tax Calculation</h2>
+        <div className="space-y-6">
+          <div className="text-center p-4 bg-[#0f172a] rounded-lg border border-[#334155]">
+            <Receipt className="h-8 w-8 text-indigo-400 mx-auto mb-2" />
+            <div className="text-2xl font-bold text-white">
+              
+              {income === '' || Number(income) <= 0 ? '0' : formatCurrency(tax)}
+            </div>
+            <div className="text-sm text-slate-400">Estimated Annual Tax</div>
           </div>
-          <div className="text-sm text-slate-400">Gross Income</div>
-        </div>
-        <div className="p-4 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
-          <div className="text-lg font-semibold text-white">
-            {currencySymbol}
-            {netIncome.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="p-4 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
+              <div className="text-lg font-semibold text-white">
+                {currencySymbol}
+                {Number(income || 0).toLocaleString()}
+              </div>
+              <div className="text-sm text-slate-400">Gross Income</div>
+            </div>
+            <div className="p-4 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
+              <div className="text-lg font-semibold text-white">
+                {currencySymbol}
+                {netIncome.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+              </div>
+              <div className="text-sm text-slate-400">Net Income</div>
+            </div>
           </div>
-          <div className="text-sm text-slate-400">Net Income</div>
-        </div>
-      </div>
-      <div className="space-y-3 text-sm text-slate-300">
-        <div className="flex justify-between">
-          <span>Monthly Tax:</span>
-          <span className="font-medium text-indigo-300">
-            {currencySymbol}
-            {(tax / 12).toFixed(2)}
-          </span>
-        </div>
-        <div className="flex justify-between">
-          <span>Monthly Take-home:</span>
-          <span className="font-medium text-emerald-300">
-            {currencySymbol}
-            {(netIncome / 12).toFixed(2)}
-          </span>
-        </div>
-        <div className="flex justify-between">
-          <span>Effective Tax Rate:</span>
-          <span className="font-medium text-yellow-300">
-            {taxRate}% ({effectiveBracket})
-          </span>
+          <div className="space-y-3 text-sm text-slate-300">
+            <div className="flex justify-between">
+              <span>Monthly Tax:</span>
+              <span className="font-medium text-indigo-300">
+                {currencySymbol}
+                {(tax / 12).toFixed(2)}
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span>Monthly Take-home:</span>
+              <span className="font-medium text-emerald-300">
+                {currencySymbol}
+                {(netIncome / 12).toFixed(2)}
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span>Effective Tax Rate:</span>
+              <span className="font-medium text-yellow-300">
+                {taxRate}% ({effectiveBracket})
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-
-{/* ===== Smart Tip Box (Full Width Above Chart) ===== */}
-{income && Number(income) > 0 && (
-  <>
-    {/* ===== Smart Tip Box (Dark Premium Theme) ===== */}
-    <div className="mt-4 w-full relative">
-      <div className="bg-[#1e293b] border border-[#334155] text-slate-200 px-6 py-4 rounded-md shadow-sm min-h-[50px] w-full flex items-center animate-fadeIn transition-all duration-700 relative">
-        {/* Fixed icon on the left side */}
-        <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center w-8 h-8">
-          <span className="text-2xl text-indigo-400">💡</span>
-        </div>
-
-        {/* Text beside icon */}
-        <div className="ml-12 w-full">
-          <p className="text-base font-medium leading-snug text-slate-300">
-            {tipsForCountry[activeTip]}
-          </p>
-        </div>
-      </div>
-    </div>
-
-    {/* ===== Tax Insights & Smart Saving Tips ===== */}
-    <div className="mt-5 bg-[#1e293b] rounded-xl shadow-md border border-[#334155] p-6 text-slate-200">
-      <h3 className="text-lg font-semibold text-white mb-6 text-center">
-        Tax Insights & Smart Saving Tips
-      </h3>
-
-      {/* ===== Chart + Summary Side by Side ===== */}
-      <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
-        {/* Chart Left */}
-        <div className="w-[90%] sm:w-[80%] md:w-[70%] max-w-[360px] h-[240px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={data}
-                innerRadius={60}
-                outerRadius={90}
-                dataKey="value"
-                paddingAngle={2}
-              >
-                {data.map((entry, index) => (
-                  <Cell key={index} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <ChartTooltip />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Summary Right */}
-        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-          <div className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center shadow-sm hover:border-indigo-500 transition">
-            <p className="text-sm text-slate-400 flex items-center justify-center gap-1">
-              💰 <span>Total Income</span>
-            </p>
-            <p className="font-semibold text-white text-lg">
-              {formatCurrency(Number(income))}
-            </p>
-          </div>
-
-          <div className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center shadow-sm hover:border-emerald-500 transition">
-            <p className="text-sm text-slate-400 flex items-center justify-center gap-1">
-              📉 <span>Deductions</span>
-            </p>
-            <p className="font-semibold text-white text-lg">
-              {formatCurrency(Number(deductions) || 0)}
-            </p>
-          </div>
-
-          <div className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center shadow-sm hover:border-rose-500 transition">
-            <p className="text-sm text-slate-400 flex items-center justify-center gap-1">
-              💸 <span>Tax Payable</span>
-            </p>
-            <p className="font-semibold text-white text-lg">
-              {formatCurrency(tax)} 
-            </p>
-          </div>
-
-          <div className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center shadow-sm hover:border-indigo-500 transition">
-            <p className="text-sm text-slate-400 flex items-center justify-center gap-1">
-              🏦 <span>Net Income</span>
-            </p>
-            <p className="font-semibold text-white text-lg">
-              {formatCurrency(netIncome)}
-            </p>
+    
+    
+    {/* ===== Smart Tip Box (Full Width Above Chart) ===== */}
+    {income && Number(income) > 0 && (
+      <>
+        {/* ===== Smart Tip Box (Dark Premium Theme) ===== */}
+        <div className="mt-4 w-full relative">
+          <div className="bg-[#1e293b] border border-[#334155] text-slate-200 px-6 py-4 rounded-md shadow-sm min-h-[50px] w-full flex items-center animate-fadeIn transition-all duration-700 relative">
+            {/* Fixed icon on the left side */}
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center w-8 h-8">
+              <span className="text-2xl text-indigo-400">💡</span>
+            </div>
+    
+            {/* Text beside icon */}
+            <div className="ml-12 w-full">
+              <p className="text-base font-medium leading-snug text-slate-300">
+                {tipsForCountry[activeTip]}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* ===== Quick Tax-Saving Cards ===== */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-8">
-        <div className="p-3 bg-[#0f172a] border border-[#334155] rounded-lg text-center hover:border-indigo-500 transition text-sm shadow-sm">
-          📊 Invest in retirement or pension funds.
+    
+        {/* ===== Tax Insights & Smart Saving Tips ===== */}
+        <div className="mt-5 bg-[#1e293b] rounded-xl shadow-md border border-[#334155] p-6 text-slate-200">
+          <h3 className="text-lg font-semibold text-white mb-6 text-center">
+            Tax Insights & Smart Saving Tips
+          </h3>
+    
+          {/* ===== Chart + Summary Side by Side ===== */}
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
+            {/* Chart Left */}
+            <div className="w-[90%] sm:w-[80%] md:w-[70%] max-w-[360px] h-[240px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={data}
+                    innerRadius={60}
+                    outerRadius={90}
+                    dataKey="value"
+                    paddingAngle={2}
+                  >
+                    {data.map((entry, index) => (
+                      <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <ChartTooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+    
+            {/* Summary Right */}
+            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+              <div className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center shadow-sm hover:border-indigo-500 transition">
+                <p className="text-sm text-slate-400 flex items-center justify-center gap-1">
+                  💰 <span>Total Income</span>
+                </p>
+                <p className="font-semibold text-white text-lg">
+                  {formatCurrency(Number(income))}
+                </p>
+              </div>
+    
+              <div className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center shadow-sm hover:border-emerald-500 transition">
+                <p className="text-sm text-slate-400 flex items-center justify-center gap-1">
+                  📉 <span>Deductions</span>
+                </p>
+                <p className="font-semibold text-white text-lg">
+                  {formatCurrency(Number(deductions) || 0)}
+                </p>
+              </div>
+    
+              <div className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center shadow-sm hover:border-rose-500 transition">
+                <p className="text-sm text-slate-400 flex items-center justify-center gap-1">
+                  💸 <span>Tax Payable</span>
+                </p>
+                <p className="font-semibold text-white text-lg">
+                  {formatCurrency(tax)} 
+                </p>
+              </div>
+    
+              <div className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center shadow-sm hover:border-indigo-500 transition">
+                <p className="text-sm text-slate-400 flex items-center justify-center gap-1">
+                  🏦 <span>Net Income</span>
+                </p>
+                <p className="font-semibold text-white text-lg">
+                  {formatCurrency(netIncome)}
+                </p>
+              </div>
+            </div>
+          </div>
+    
+          {/* ===== Quick Tax-Saving Cards ===== */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-8">
+            <div className="p-3 bg-[#0f172a] border border-[#334155] rounded-lg text-center hover:border-indigo-500 transition text-sm shadow-sm">
+              📊 Invest in retirement or pension funds.
+            </div>
+            <div className="p-3 bg-[#0f172a] border border-[#334155] rounded-lg text-center hover:border-emerald-500 transition text-sm shadow-sm">
+              🏠 Claim housing rent or home loan interest.
+            </div>
+            <div className="p-3 bg-[#0f172a] border border-[#334155] rounded-lg text-center hover:border-amber-500 transition text-sm shadow-sm">
+              💉 Deduct medical & health insurance costs.
+            </div>
+            <div className="p-3 bg-[#0f172a] border border-[#334155] rounded-lg text-center hover:border-indigo-500 transition text-sm shadow-sm">
+              🎓 Claim education or child tuition tax credits.
+            </div>
+          </div>
+    
+          {/* ===== Country-Specific Facts ===== */}
+          <div className="mt-6 text-xs text-slate-400 text-center">
+            {country === 'US' && (
+              <p>
+                🇺🇸 In the U.S., contributing to 401(k) or HSA plans can reduce taxable income.
+              </p>
+            )}
+            {country === 'IN' && (
+              <p>
+                🇮🇳 In India, Section 80C investments (like ELSS or PPF) help you save tax up to ₹1.5L.
+              </p>
+            )}
+            {country === 'UK' && (
+              <p>
+                🇬🇧 In the UK, using your ISA and pension allowance can save significant taxes.
+              </p>
+            )}
+            {!country && (
+              <p>
+                🌍 Tax-saving opportunities vary by country — explore deductions and investments to lower your burden.
+              </p>
+            )}
+          </div>
         </div>
-        <div className="p-3 bg-[#0f172a] border border-[#334155] rounded-lg text-center hover:border-emerald-500 transition text-sm shadow-sm">
-          🏠 Claim housing rent or home loan interest.
-        </div>
-        <div className="p-3 bg-[#0f172a] border border-[#334155] rounded-lg text-center hover:border-amber-500 transition text-sm shadow-sm">
-          💉 Deduct medical & health insurance costs.
-        </div>
-        <div className="p-3 bg-[#0f172a] border border-[#334155] rounded-lg text-center hover:border-indigo-500 transition text-sm shadow-sm">
-          🎓 Claim education or child tuition tax credits.
-        </div>
-      </div>
-
-      {/* ===== Country-Specific Facts ===== */}
-      <div className="mt-6 text-xs text-slate-400 text-center">
-        {country === 'US' && (
-          <p>
-            🇺🇸 In the U.S., contributing to 401(k) or HSA plans can reduce taxable income.
-          </p>
-        )}
-        {country === 'IN' && (
-          <p>
-            🇮🇳 In India, Section 80C investments (like ELSS or PPF) help you save tax up to ₹1.5L.
-          </p>
-        )}
-        {country === 'UK' && (
-          <p>
-            🇬🇧 In the UK, using your ISA and pension allowance can save significant taxes.
-          </p>
-        )}
-        {!country && (
-          <p>
-            🌍 Tax-saving opportunities vary by country — explore deductions and investments to lower your burden.
-          </p>
-        )}
-      </div>
-    </div>
-  </>
-)}
+      </>
+    )}
 
 
 
