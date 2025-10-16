@@ -239,6 +239,7 @@ const TaxCalculator: React.FC = () => {
             <div className="relative inline-block w-50% sm:w-44">
               <select
                 value={country}
+                size={5} 
                 onChange={(e) => setCountry(e.target.value)}
                 className="w-full bg-[#0f172a] text-white text-sm px-3 py-1.5 border border-[#334155] rounded-md focus:ring-2 focus:ring-indigo-500 appearance-none pr-8 hover:border-indigo-400 transition"
               >
