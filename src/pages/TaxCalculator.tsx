@@ -214,116 +214,194 @@ const TaxCalculator: React.FC = () => {
           </p>
         </div>
 
-        {/* ===== Calculator Grid ===== */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Input Section */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 relative">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-                <Globe className="h-5 w-5 text-blue-600" /> Income Details
-              </h2>
-              <button
-                onClick={handleReset}
-                className="flex items-center gap-1 text-sm text-gray-700 border border-gray-300 rounded-lg px-2 py-1 hover:bg-gray-100"
-              >
-                <RotateCcw className="h-4 w-4" /> Reset
-              </button>
-            </div>
+       {/* ===== Calculator Grid ===== */}
+<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+  {/* Input Section */}
+  <div className="bg-[#1e293b] rounded-xl shadow-md border border-[#334155] p-6 relative text-slate-200">
+    <div className="flex justify-between items-center mb-4">
+      <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+        <Globe className="h-5 w-5 text-sky-400" /> Income Details
+      </h2>
+      <button
+        onClick={handleReset}
+        className="flex items-center gap-1 text-sm text-slate-300 border border-[#334155] rounded-lg px-2 py-1 hover:bg-[#0f172a] hover:text-white transition"
+      >
+        <RotateCcw className="h-4 w-4 text-indigo-400" /> Reset
+      </button>
+    </div>
 
-            <div className="space-y-5">
-              {/* Country */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Select Country</label>
-                <select
-                  value={country}
-                  onChange={(e) => setCountry(e.target.value)}
-                  className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="">🌍 Global (Default)</option>
-                  {countries.map((c) => (
-                    <option key={c.code} value={c.code}>
-                      {c.emoji} {c.name}
-                    </option>
-                  ))}
-                </select>
-                {country && (
-                  <div className="mt-2 flex items-center gap-2 text-sm">
-                    {isSupported
-                      ? (<><CheckCircle className="h-4 w-4 text-green-600" /><span className="text-green-700">Fully Supported</span></>)
-                      : (<><Wrench className="h-4 w-4 text-yellow-500" /><span className="text-yellow-600">Coming Soon (Flat 10%)</span></>)}
-                  </div>
-                )}
-              </div>
-
-              {/* Income */}
-              <div>
-                <div className="flex justify-between items-center mb-1">
-                  <label className="text-sm font-medium text-gray-700">Annual Income ({currencySymbol})</label>
-                  <Info onClick={() => setShowIncomeInfo(!showIncomeInfo)} className="h-4 w-4 text-gray-500 cursor-pointer hover:text-blue-600" />
-                </div>
-                {showIncomeInfo && (<div className="mb-1 bg-gray-100 text-gray-700 text-xs p-2 rounded-md">{tooltips.income}</div>)}
-                <input
-                  ref={incomeInputRef}
-                  type="number"
-                  value={income}
-                  placeholder={`Enter your annual income in ${currencySymbol}`}
-                  onChange={(e) => setIncome(e.target.value === '' ? '' : Number(e.target.value))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                />
-                <input type="range" min="0" max="1000000" step="1000" value={income || 0}
-                  onChange={(e) => setIncome(Number(e.target.value))} className="w-full mt-2 accent-blue-500" />
-              </div>
-
-              {/* Deductions */}
-              <div>
-                <div className="flex justify-between items-center mb-1">
-                  <label className="text-sm font-medium text-gray-700">Deductions ({currencySymbol})</label>
-                  <Info onClick={() => setShowDeductionInfo(!showDeductionInfo)} className="h-4 w-4 text-gray-500 cursor-pointer hover:text-blue-600" />
-                </div>
-                {showDeductionInfo && (<div className="mb-1 bg-gray-100 text-gray-700 text-xs p-2 rounded-md">{tooltips.deductions}</div>)}
-                <input
-                  type="number"
-                  value={deductions}
-                  placeholder={`Enter total deductions in ${currencySymbol}`}
-                  onChange={(e) => setDeductions(e.target.value === '' ? '' : Number(e.target.value))}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${Number(deductions) > Number(income) ? 'border-red-500 ring-red-300' : 'border-gray-300'}`}
-                />
-                <input type="range" min="0" max="500000" step="1000" value={deductions || 0}
-                  onChange={(e) => setDeductions(Number(e.target.value))} className="w-full mt-2 accent-green-500" />
-                {Number(deductions) > Number(income) && (<p className="text-sm text-red-600 mt-2">⚠️ Deductions cannot exceed total income.</p>)}
-              </div>
-            </div>
+    <div className="space-y-5">
+      {/* Country */}
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-2">
+          Select Country
+        </label>
+        <select
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
+          className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
+        >
+          <option value="">🌍 Global (Default)</option>
+          {countries.map((c) => (
+            <option key={c.code} value={c.code} className="text-black">
+              {c.emoji} {c.name}
+            </option>
+          ))}
+        </select>
+        {country && (
+          <div className="mt-2 flex items-center gap-2 text-sm">
+            {isSupported ? (
+              <>
+                <CheckCircle className="h-4 w-4 text-emerald-400" />
+                <span className="text-emerald-400">Fully Supported</span>
+              </>
+            ) : (
+              <>
+                <Wrench className="h-4 w-4 text-yellow-400" />
+                <span className="text-yellow-400">Coming Soon (Flat 10%)</span>
+              </>
+            )}
           </div>
- 
-          {/* Output Section */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Tax Calculation</h2>
-            <div className="space-y-6">
-              <div className="text-center p-4 bg-red-50 rounded-lg">
-                <Receipt className="h-8 w-8 text-red-600 mx-auto mb-2" />
-                <div className="text-2xl font-bold text-gray-900">
-                  {income === '' || Number(income) <= 0 ? '$0' : formatCurrency(tax)}
-                </div>
-                <div className="text-sm text-gray-600">Estimated Annual Tax</div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 bg-blue-50 rounded-lg text-center">
-                  <div className="text-lg font-semibold text-gray-900">{currencySymbol}{Number(income || 0).toLocaleString()}</div>
-                  <div className="text-sm text-gray-600">Gross Income</div>
-                </div>
-                <div className="p-4 bg-green-50 rounded-lg text-center">
-                  <div className="text-lg font-semibold text-gray-900">{currencySymbol}{netIncome.toLocaleString(undefined, { maximumFractionDigits: 2 })}</div>
-                  <div className="text-sm text-gray-600">Net Income</div>
-                </div>
-              </div>
-              <div className="space-y-3 text-sm text-gray-700">
-                <div className="flex justify-between"><span>Monthly Tax:</span><span className="font-medium">{currencySymbol}{(tax / 12).toFixed(2)}</span></div>
-                <div className="flex justify-between"><span>Monthly Take-home:</span><span className="font-medium">{currencySymbol}{(netIncome / 12).toFixed(2)}</span></div>
-                <div className="flex justify-between"><span>Effective Tax Rate:</span><span className="font-medium">{taxRate}% ({effectiveBracket})</span></div>
-              </div>
-            </div>
-          </div>
+        )}
+      </div>
+
+      {/* Income */}
+      <div>
+        <div className="flex justify-between items-center mb-1">
+          <label className="text-sm font-medium text-slate-300">
+            Annual Income ({currencySymbol})
+          </label>
+          <Info
+            onClick={() => setShowIncomeInfo(!showIncomeInfo)}
+            className="h-4 w-4 text-slate-400 cursor-pointer hover:text-indigo-400"
+          />
         </div>
+        {showIncomeInfo && (
+          <div className="mb-1 bg-[#0f172a] text-slate-300 text-xs p-2 rounded-md border border-[#334155]">
+            {tooltips.income}
+          </div>
+        )}
+        <input
+          ref={incomeInputRef}
+          type="number"
+          value={income}
+          placeholder={`Enter your annual income in ${currencySymbol}`}
+          onChange={(e) =>
+            setIncome(e.target.value === '' ? '' : Number(e.target.value))
+          }
+          className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
+        />
+        <input
+          type="range"
+          min="0"
+          max="1000000"
+          step="1000"
+          value={income || 0}
+          onChange={(e) => setIncome(Number(e.target.value))}
+          className="w-full mt-2 accent-indigo-500"
+        />
+      </div>
+
+      {/* Deductions */}
+      <div>
+        <div className="flex justify-between items-center mb-1">
+          <label className="text-sm font-medium text-slate-300">
+            Deductions ({currencySymbol})
+          </label>
+          <Info
+            onClick={() => setShowDeductionInfo(!showDeductionInfo)}
+            className="h-4 w-4 text-slate-400 cursor-pointer hover:text-indigo-400"
+          />
+        </div>
+        {showDeductionInfo && (
+          <div className="mb-1 bg-[#0f172a] text-slate-300 text-xs p-2 rounded-md border border-[#334155]">
+            {tooltips.deductions}
+          </div>
+        )}
+        <input
+          type="number"
+          value={deductions}
+          placeholder={`Enter total deductions in ${currencySymbol}`}
+          onChange={(e) =>
+            setDeductions(e.target.value === '' ? '' : Number(e.target.value))
+          }
+          className={`w-full bg-[#0f172a] text-white px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 ${
+            Number(deductions) > Number(income)
+              ? 'border-rose-500 ring-rose-300'
+              : 'border-[#334155]'
+          }`}
+        />
+        <input
+          type="range"
+          min="0"
+          max="500000"
+          step="1000"
+          value={deductions || 0}
+          onChange={(e) => setDeductions(Number(e.target.value))}
+          className="w-full mt-2 accent-emerald-500"
+        />
+        {Number(deductions) > Number(income) && (
+          <p className="text-sm text-rose-400 mt-2">
+            ⚠️ Deductions cannot exceed total income.
+          </p>
+        )}
+      </div>
+    </div>
+  </div>
+
+  {/* Output Section */}
+  <div className="bg-[#1e293b] rounded-xl shadow-md border border-[#334155] p-6 text-slate-200">
+    <h2 className="text-xl font-semibold text-white mb-4">Tax Calculation</h2>
+    <div className="space-y-6">
+      <div className="text-center p-4 bg-[#0f172a] rounded-lg border border-[#334155]">
+        <Receipt className="h-8 w-8 text-indigo-400 mx-auto mb-2" />
+        <div className="text-2xl font-bold text-white">
+          {income === '' || Number(income) <= 0 ? '$0' : formatCurrency(tax)}
+        </div>
+        <div className="text-sm text-slate-400">Estimated Annual Tax</div>
+      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="p-4 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
+          <div className="text-lg font-semibold text-white">
+            {currencySymbol}
+            {Number(income || 0).toLocaleString()}
+          </div>
+          <div className="text-sm text-slate-400">Gross Income</div>
+        </div>
+        <div className="p-4 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
+          <div className="text-lg font-semibold text-white">
+            {currencySymbol}
+            {netIncome.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+          </div>
+          <div className="text-sm text-slate-400">Net Income</div>
+        </div>
+      </div>
+      <div className="space-y-3 text-sm text-slate-300">
+        <div className="flex justify-between">
+          <span>Monthly Tax:</span>
+          <span className="font-medium text-indigo-300">
+            {currencySymbol}
+            {(tax / 12).toFixed(2)}
+          </span>
+        </div>
+        <div className="flex justify-between">
+          <span>Monthly Take-home:</span>
+          <span className="font-medium text-emerald-300">
+            {currencySymbol}
+            {(netIncome / 12).toFixed(2)}
+          </span>
+        </div>
+        <div className="flex justify-between">
+          <span>Effective Tax Rate:</span>
+          <span className="font-medium text-yellow-300">
+            {taxRate}% ({effectiveBracket})
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 {/* ===== Smart Tip Box (Full Width Above Chart) ===== */}
 {income && Number(income) > 0 && (
