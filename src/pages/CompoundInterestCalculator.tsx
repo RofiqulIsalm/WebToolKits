@@ -763,7 +763,7 @@ const CompoundInterestCalculator: React.FC = () => {
           {/* ==================== Compound Interest Growth Table ==================== */}
         <div className="my-8 text-center">
           <img
-            src="/images/compound_interest_table.webp"
+            src="/images/compound_interest_table.webp" 
             alt="Compound Interest Growth Comparison Table for 20 Years"
             className="mx-auto rounded-xl shadow-md border border-slate-700"
             loading="lazy"
