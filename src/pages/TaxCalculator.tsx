@@ -325,52 +325,67 @@ const TaxCalculator: React.FC = () => {
           </div>
         </div>
 
-        {/* ===== Chart + Smart Tips Section ===== */}
-        {income && Number(income) > 0 && (
-          <div className="mt-10 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6 text-center">
-              Tax Insights & Smart Saving Tips
-            </h3>
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
-              {/* Chart */}
-              <div className="w-full lg:w-1/2">
-                <ResponsiveContainer width="100%" height={250}>
-                  <PieChart>
-                    <Pie data={data} innerRadius={60} outerRadius={90} dataKey="value" paddingAngle={2}>
-                      {data.map((entry, i) => (<Cell key={i} fill={COLORS[i % COLORS.length]} />))}
-                    </Pie>
-                    <ChartTooltip />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-
-              {/* Tips */}
-              <div className="w-full lg:w-1/2">
-                <div className="mb-3 flex items-center justify-center lg:justify-start gap-2">
-                  <span className="text-2xl">{countryEmoji}</span>
-                  <h4 className="text-base font-semibold text-gray-900">
-                    Personalized Tax Tips for {countryName}
-                  </h4>
-                </div>
-                <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 text-sm text-gray-700 relative shadow-sm transition-all">
-                  <span className="absolute left-3 top-3 text-blue-600 text-lg">💡</span>
-                  <p key={activeTip} className="pl-8 transition-opacity duration-700 ease-in-out">
-                    {tipsForCountry[activeTip]}
-                  </p>
-                </div>
-              </div>
+       {/* ===== Chart + Smart Tax Tips Section ===== */}
+{income && Number(income) > 0 && (
+  <div className="mt-10 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    {/* Heading + top-right tip */}
+    <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-6">
+      <h3 className="text-lg font-semibold text-gray-900">
+        Tax Insights & Smart Saving Tips
+      </h3>
+      <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 text-sm text-gray-700 relative shadow-sm max-w-lg mt-3 lg:mt-0">
+        <div className="flex items-start gap-2">
+          <span className="text-blue-600 text-lg mt-[2px]">💡</span>
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-base font-semibold text-gray-900">
+                {countryEmoji} Personalized Tax Tips for {countryName}
+              </span>
             </div>
-
-            {/* Extra Tips Grid */}
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
-              {extraTips.map((tip, i) => (
-                <div key={i} className="bg-gray-50 p-3 rounded-md text-sm text-gray-700 border border-gray-200 hover:shadow-md transition">
-                  {tip}
-                </div>
-              ))}
-            </div>
+            <p key={activeTip} className="transition-opacity duration-700 ease-in-out">
+              {tipsForCountry[activeTip]}
+            </p>
           </div>
-        )}
+        </div>
+      </div>
+    </div>
+
+    {/* Chart below */}
+    <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
+      <div className="w-full lg:w-1/2">
+        <ResponsiveContainer width="100%" height={250}>
+          <PieChart>
+            <Pie
+              data={data}
+              innerRadius={60}
+              outerRadius={90}
+              dataKey="value"
+              paddingAngle={2}
+            >
+              {data.map((entry, i) => (
+                <Cell key={i} fill={COLORS[i % COLORS.length]} />
+              ))}
+            </Pie>
+            <ChartTooltip />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+
+    {/* Extra Tips Grid */}
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+      {extraTips.map((tip, i) => (
+        <div
+          key={i}
+          className="bg-gray-50 p-3 rounded-md text-sm text-gray-700 border border-gray-200 hover:shadow-md transition"
+        >
+          {tip}
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/tax-calculator" category="currency-finance" />
