@@ -26,6 +26,82 @@ import { TOOLTIP_TEXTS } from '../utils/tax/tooltipTexts';
 
 const COLORS = ['#ef4444', '#22c55e']; // red = tax, green = net
 
+// ✅ Country-specific tax tips (10+ each)
+const COUNTRY_TAX_TIPS: Record<string, string[]> = {
+  IN: [
+    'Invest in ELSS, NPS, or PPF to claim deductions under Section 80C.',
+    'Pay health insurance premiums to claim Section 80D benefits.',
+    'Claim HRA exemption and home loan interest deduction under Section 24(b).',
+    'Make donations to registered charities under Section 80G.',
+    'Contribute to EPF or VPF to boost retirement savings and reduce taxes.',
+    'Use Section 80E benefits for education loan interest.',
+    'Claim leave travel allowance (LTA) for eligible travel expenses.',
+    'Submit Form 15G/15H to avoid unnecessary TDS if income is below limit.',
+    'Use the new regime comparison tool to choose the better tax option annually.',
+    'Invest in long-term infrastructure bonds for extra deductions.',
+  ],
+  US: [
+    'Contribute to 401(k), IRA, or Roth IRA to lower taxable income.',
+    'Max out your HSA or FSA accounts for tax-free medical spending.',
+    'Deduct mortgage interest and property taxes if you itemize.',
+    'Use educational credits like Lifetime Learning or AOC.',
+    'Claim the Child Tax Credit and Earned Income Tax Credit (EITC) if eligible.',
+    'Bundle charitable donations into one year to cross itemization thresholds.',
+    'Deduct eligible business or remote-work expenses.',
+    'Sell losing investments to offset capital gains.',
+    'Use municipal bonds for tax-free investment income.',
+    'Review your W-4 to prevent over-withholding during the year.',
+  ],
+  UK: [
+    'Contribute to a workplace or personal pension to reduce income tax.',
+    'Maximize your ISA allowance for tax-free growth.',
+    'Claim marriage allowance if eligible.',
+    'Use the dividend and capital-gains allowance before April 5.',
+    'Track work-from-home or uniform expenses for deductions.',
+    'Gift up to £3,000 annually to avoid inheritance tax later.',
+    'Donate via Gift Aid to add 25% extra tax-free to charities.',
+    'Use salary-sacrifice benefits for car or childcare savings.',
+    'Claim rent-a-room relief for up to £7,500 of rental income.',
+    'File a Self Assessment early to plan payments smartly.',
+  ],
+  CA: [
+    'Contribute to your RRSP before the deadline to lower your tax bill.',
+    'Use TFSA for tax-free investment gains.',
+    'Claim child-care, tuition, and medical expense credits.',
+    'Deduct moving expenses if relocating for work.',
+    'Split pension income with your spouse to reduce taxes.',
+    'File returns even with low income to receive GST/HST credits.',
+    'Contribute to RESP for your children’s education and get grants.',
+    'Deduct home-office expenses if working remotely.',
+    'Keep receipts for charitable donations and medical bills.',
+    'Pay property taxes on time to avoid penalties.',
+  ],
+  AU: [
+    'Contribute to your superannuation to reduce taxable income.',
+    'Prepay deductible expenses before June 30 to claim early.',
+    'Claim home-office, phone, and internet expenses if you work remotely.',
+    'Use salary-sacrifice for car lease, super, or electronics to save tax.',
+    'Keep receipts for all eligible deductions — ATO may request them.',
+    'Claim self-education expenses related to your work.',
+    'Donate to registered charities for deduction eligibility.',
+    'Use low- and middle-income tax offsets if you qualify.',
+    'Declare all crypto or side income to avoid penalties.',
+    'Lodge returns early to get quicker refunds before EOFY rush.',
+  ],
+  default: [
+    'Contribute to government-approved pension or retirement funds.',
+    'Track eligible deductions such as health insurance and education costs.',
+    'Invest in tax-efficient savings accounts or bonds.',
+    'Donate to verified charities for potential exemptions.',
+    'Plan tax-saving investments early in the year.',
+    'Keep detailed proof of all deductible expenses.',
+    'Consult a licensed tax advisor for optimized filing.',
+    'Review tax brackets annually — laws change often.',
+    'Claim family, education, or elder-care benefits if applicable.',
+    'File returns even if your income is below the taxable limit.',
+  ],
+};
+
 const TaxCalculator: React.FC = () => {
   const [country, setCountry] = useState(() => localStorage.getItem('country') || '');
   const [income, setIncome] = useState<number | ''>(
@@ -34,8 +110,8 @@ const TaxCalculator: React.FC = () => {
   const [deductions, setDeductions] = useState<number | ''>(
     localStorage.getItem('deductions') ? Number(localStorage.getItem('deductions')) : ''
   );
-  const [tax, setTax] = useState<number>(0);
-  const [netIncome, setNetIncome] = useState<number>(0);
+  const [tax, setTax] = useState(0);
+  const [netIncome, setNetIncome] = useState(0);
   const [showIncomeInfo, setShowIncomeInfo] = useState(false);
   const [showDeductionInfo, setShowDeductionInfo] = useState(false);
 
@@ -47,40 +123,23 @@ const TaxCalculator: React.FC = () => {
 
   const countrySupport = supportedCountries.find((c) => c.code === country);
   const isSupported = countrySupport?.hasTaxLogic ?? false;
-
   const incomeInputRef = useRef<HTMLInputElement>(null);
 
-  // Auto-focus income field when switching country
-  useEffect(() => {
-    if (incomeInputRef.current) incomeInputRef.current.focus();
-  }, [country]);
-
-  // Save to localStorage
+  // Focus & storage
+  useEffect(() => { if (incomeInputRef.current) incomeInputRef.current.focus(); }, [country]);
   useEffect(() => {
     localStorage.setItem('country', country);
     if (income !== '') localStorage.setItem('income', String(income));
     if (deductions !== '') localStorage.setItem('deductions', String(deductions));
   }, [country, income, deductions]);
 
-  useEffect(() => {
-    calculateTax();
-  }, [country, income, deductions]);
+  useEffect(() => { calculateTax(); }, [country, income, deductions]);
 
   const calculateTax = () => {
-    if (income === '' || isNaN(Number(income))) {
-      setTax(0);
-      setNetIncome(0);
-      return;
-    }
-  
+    if (income === '' || isNaN(Number(income))) { setTax(0); setNetIncome(0); return; }
     const numericIncome = Number(income);
     let numericDeductions = Number(deductions) || 0;
-  
-    // 🛑 Prevent deductions from exceeding income
-    if (numericDeductions > numericIncome) {
-      numericDeductions = numericIncome;
-    }
-  
+    if (numericDeductions > numericIncome) numericDeductions = numericIncome;
     const calcFn = country ? TAX_ENGINES[country] : undefined;
     if (calcFn) {
       const result = calcFn({ income: numericIncome, deductions: numericDeductions });
@@ -94,55 +153,42 @@ const TaxCalculator: React.FC = () => {
   };
 
   const handleReset = () => {
-    setIncome('');
-    setDeductions('');
-    setTax(0);
-    setNetIncome(0);
-    localStorage.removeItem('income');
-    localStorage.removeItem('deductions');
+    setIncome(''); setDeductions(''); setTax(0); setNetIncome(0);
+    localStorage.removeItem('income'); localStorage.removeItem('deductions');
   };
 
-  const formatCurrency = (value: number) =>
-    `${currencySymbol}${value.toLocaleString(undefined, {
-      maximumFractionDigits: 2,
-    })}`;
-
+  const formatCurrency = (v: number) =>
+    `${currencySymbol}${v.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
   const taxRate = income ? ((tax / Number(income)) * 100).toFixed(2) : '0';
-  const data = [
-    { name: 'Tax', value: tax },
-    { name: 'Net Income', value: netIncome },
-  ];
-
+  const data = [{ name: 'Tax', value: tax }, { name: 'Net Income', value: netIncome }];
   const effectiveBracket =
-    taxRate === '0'
-      ? 'No Tax'
-      : Number(taxRate) <= 10
-      ? 'Low'
-      : Number(taxRate) <= 20
-      ? 'Moderate'
-      : Number(taxRate) <= 30
-      ? 'High'
-      : 'Very High';
+    taxRate === '0' ? 'No Tax' :
+    Number(taxRate) <= 10 ? 'Low' :
+    Number(taxRate) <= 20 ? 'Moderate' :
+    Number(taxRate) <= 30 ? 'High' : 'Very High';
+
+  // 🎯 Tips logic
+  const tipsForCountry =
+    COUNTRY_TAX_TIPS[country as keyof typeof COUNTRY_TAX_TIPS] ||
+    COUNTRY_TAX_TIPS.default;
+  const [activeTip, setActiveTip] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => {
+      setActiveTip((p) => (p + 1) % tipsForCountry.length);
+    }, 5000);
+    return () => clearInterval(t);
+  }, [country]);
+
+  // Some extra bottom tips
+  const extraTips = tipsForCountry.slice(0, 3);
 
   return (
     <>
       <SEOHead
-        title={
-          selectedCountry
-            ? `${countryName} Income Tax Calculator`
-            : 'Global Income Tax Calculator'
-        }
-        description={
-          seoData.taxCalculator.description ||
-          'Calculate your income tax across 50+ countries worldwide.'
-        }
+        title={selectedCountry ? `${countryName} Income Tax Calculator` : 'Global Income Tax Calculator'}
+        description={seoData.taxCalculator.description || 'Calculate your income tax across 50+ countries worldwide.'}
         canonical="https://calculatorhub.site/tax-calculator"
-        schemaData={generateCalculatorSchema(
-          'Tax Calculator',
-          'Calculate your tax in multiple countries worldwide',
-          '/tax-calculator',
-          seoData.taxCalculator.keywords
-        )}
+        schemaData={generateCalculatorSchema('Tax Calculator','Calculate your tax in multiple countries worldwide','/tax-calculator',seoData.taxCalculator.keywords)}
         breadcrumbs={[
           { name: 'Currency & Finance', url: '/category/currency-finance' },
           { name: 'Tax Calculator', url: '/tax-calculator' },
@@ -150,18 +196,15 @@ const TaxCalculator: React.FC = () => {
       />
 
       <div className="max-w-5xl mx-auto">
-        <Breadcrumbs
-          items={[
-            { name: 'Currency & Finance', url: '/category/currency-finance' },
-            { name: 'Tax Calculator', url: '/tax-calculator' },
-          ]}
-        />
+        <Breadcrumbs items={[
+          { name: 'Currency & Finance', url: '/category/currency-finance' },
+          { name: 'Tax Calculator', url: '/tax-calculator' },
+        ]} />
 
         {/* ===== Header ===== */}
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">
-            {selectedCountry
-              ? `${countryEmoji} ${countryName} Income Tax Calculator`
+            {selectedCountry ? `${countryEmoji} ${countryName} Income Tax Calculator`
               : '🌍 Global Income Tax Calculator'}
           </h1>
           <p className="text-slate-300">
@@ -173,16 +216,15 @@ const TaxCalculator: React.FC = () => {
 
         {/* ===== Calculator Grid ===== */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* ========== Input Section ========== */}
+          {/* Input Section */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 relative">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-                <Globe className="h-5 w-5 text-blue-600" />
-                Income Details
+                <Globe className="h-5 w-5 text-blue-600" /> Income Details
               </h2>
               <button
                 onClick={handleReset}
-                className="flex items-center gap-1 text-sm text-gray-700 border border-gray-300 rounded-lg px-2 py-1 hover:bg-gray-100 transition"
+                className="flex items-center gap-1 text-sm text-gray-700 border border-gray-300 rounded-lg px-2 py-1 hover:bg-gray-100"
               >
                 <RotateCcw className="h-4 w-4" /> Reset
               </button>
@@ -191,13 +233,11 @@ const TaxCalculator: React.FC = () => {
             <div className="space-y-5">
               {/* Country */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Select Country
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Select Country</label>
                 <select
                   value={country}
                   onChange={(e) => setCountry(e.target.value)}
-                  className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">🌍 Global (Default)</option>
                   {countries.map((c) => (
@@ -206,204 +246,129 @@ const TaxCalculator: React.FC = () => {
                     </option>
                   ))}
                 </select>
-
                 {country && (
                   <div className="mt-2 flex items-center gap-2 text-sm">
-                    {isSupported ? (
-                      <>
-                        <CheckCircle className="h-4 w-4 text-green-600" />
-                        <span className="text-green-700">Fully Supported</span>
-                      </>
-                    ) : (
-                      <>
-                        <Wrench className="h-4 w-4 text-yellow-500" />
-                        <span className="text-yellow-600">
-                          Coming Soon (Flat 10%)
-                        </span>
-                      </>
-                    )}
+                    {isSupported
+                      ? (<><CheckCircle className="h-4 w-4 text-green-600" /><span className="text-green-700">Fully Supported</span></>)
+                      : (<><Wrench className="h-4 w-4 text-yellow-500" /><span className="text-yellow-600">Coming Soon (Flat 10%)</span></>)}
                   </div>
                 )}
               </div>
 
               {/* Income */}
-              <div className="relative">
+              <div>
                 <div className="flex justify-between items-center mb-1">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Annual Income ({currencySymbol})
-                  </label>
-                  <Info
-                    onClick={() => setShowIncomeInfo(!showIncomeInfo)}
-                    className="h-4 w-4 text-gray-500 cursor-pointer hover:text-blue-600"
-                  />
+                  <label className="text-sm font-medium text-gray-700">Annual Income ({currencySymbol})</label>
+                  <Info onClick={() => setShowIncomeInfo(!showIncomeInfo)} className="h-4 w-4 text-gray-500 cursor-pointer hover:text-blue-600" />
                 </div>
-                {showIncomeInfo && (
-                  <div className="mb-1 bg-gray-100 text-gray-700 text-xs p-2 rounded-md">
-                    {tooltips.income}
-                  </div>
-                )}
+                {showIncomeInfo && (<div className="mb-1 bg-gray-100 text-gray-700 text-xs p-2 rounded-md">{tooltips.income}</div>)}
                 <input
                   ref={incomeInputRef}
                   type="number"
                   value={income}
                   placeholder={`Enter your annual income in ${currencySymbol}`}
-                  onChange={(e) =>
-                    setIncome(e.target.value === '' ? '' : Number(e.target.value))
-                  }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  onChange={(e) => setIncome(e.target.value === '' ? '' : Number(e.target.value))}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 />
-                <input
-                  type="range"
-                  min="0"
-                  max="1000000"
-                  step="1000"
-                  value={income || 0}
-                  onChange={(e) => setIncome(Number(e.target.value))}
-                  className="w-full mt-2 accent-blue-500"
-                />
+                <input type="range" min="0" max="1000000" step="1000" value={income || 0}
+                  onChange={(e) => setIncome(Number(e.target.value))} className="w-full mt-2 accent-blue-500" />
               </div>
 
-             
               {/* Deductions */}
-              <div className="relative">
+              <div>
                 <div className="flex justify-between items-center mb-1">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Deductions ({currencySymbol})
-                  </label>
-                  <Info
-                    onClick={() => setShowDeductionInfo(!showDeductionInfo)}
-                    className="h-4 w-4 text-gray-500 cursor-pointer hover:text-blue-600"
-                  />
+                  <label className="text-sm font-medium text-gray-700">Deductions ({currencySymbol})</label>
+                  <Info onClick={() => setShowDeductionInfo(!showDeductionInfo)} className="h-4 w-4 text-gray-500 cursor-pointer hover:text-blue-600" />
                 </div>
-              
-                {showDeductionInfo && (
-                  <div className="mb-1 bg-gray-100 text-gray-700 text-xs p-2 rounded-md">
-                    {tooltips.deductions}
-                  </div>
-                )}
-              
+                {showDeductionInfo && (<div className="mb-1 bg-gray-100 text-gray-700 text-xs p-2 rounded-md">{tooltips.deductions}</div>)}
                 <input
                   type="number"
                   value={deductions}
                   placeholder={`Enter total deductions in ${currencySymbol}`}
-                  onChange={(e) =>
-                    setDeductions(e.target.value === '' ? '' : Number(e.target.value))
-                  }
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    Number(deductions) > Number(income)
-                      ? 'border-red-500 ring-red-300'
-                      : 'border-gray-300'
-                  }`}
+                  onChange={(e) => setDeductions(e.target.value === '' ? '' : Number(e.target.value))}
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${Number(deductions) > Number(income) ? 'border-red-500 ring-red-300' : 'border-gray-300'}`}
                 />
-              
-                <input
-                  type="range"
-                  min="0"
-                  max="500000"
-                  step="1000"
-                  value={deductions || 0}
-                  onChange={(e) => setDeductions(Number(e.target.value))}
-                  className="w-full mt-2 accent-green-500"
-                />
-              
-                {/* 🚨 Warning if deductions > income */}
-                {Number(deductions) > Number(income) && (
-                  <p className="text-sm text-red-600 mt-2">
-                    ⚠️ Deductions cannot exceed total income.
-                  </p>
-                )}
+                <input type="range" min="0" max="500000" step="1000" value={deductions || 0}
+                  onChange={(e) => setDeductions(Number(e.target.value))} className="w-full mt-2 accent-green-500" />
+                {Number(deductions) > Number(income) && (<p className="text-sm text-red-600 mt-2">⚠️ Deductions cannot exceed total income.</p>)}
               </div>
-
             </div>
-
           </div>
 
-
-          {/* ========== Output Section ========== */}
+          {/* Output Section */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">
-              Tax Calculation
-            </h2>
-
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Tax Calculation</h2>
             <div className="space-y-6">
               <div className="text-center p-4 bg-red-50 rounded-lg">
                 <Receipt className="h-8 w-8 text-red-600 mx-auto mb-2" />
                 <div className="text-2xl font-bold text-gray-900">
-                  {income === '' || Number(income) <= 0
-                    ? '$0'
-                    : formatCurrency(tax)}
+                  {income === '' || Number(income) <= 0 ? '$0' : formatCurrency(tax)}
                 </div>
                 <div className="text-sm text-gray-600">Estimated Annual Tax</div>
               </div>
-
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 bg-blue-50 rounded-lg text-center">
-                  <div className="text-lg font-semibold text-gray-900">
-                    {currencySymbol}
-                    {Number(income || 0).toLocaleString()}
-                  </div>
+                  <div className="text-lg font-semibold text-gray-900">{currencySymbol}{Number(income || 0).toLocaleString()}</div>
                   <div className="text-sm text-gray-600">Gross Income</div>
                 </div>
-
                 <div className="p-4 bg-green-50 rounded-lg text-center">
-                  <div className="text-lg font-semibold text-gray-900">
-                    {currencySymbol}
-                    {netIncome.toLocaleString(undefined, {
-                      maximumFractionDigits: 2,
-                    })}
-                  </div>
+                  <div className="text-lg font-semibold text-gray-900">{currencySymbol}{netIncome.toLocaleString(undefined, { maximumFractionDigits: 2 })}</div>
                   <div className="text-sm text-gray-600">Net Income</div>
                 </div>
               </div>
-
               <div className="space-y-3 text-sm text-gray-700">
-                <div className="flex justify-between">
-                  <span>Monthly Tax:</span>
-                  <span className="font-medium">
-                    {currencySymbol}
-                    {(tax / 12).toFixed(2)}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Monthly Take-home:</span>
-                  <span className="font-medium">
-                    {currencySymbol}
-                    {(netIncome / 12).toFixed(2)}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Effective Tax Rate:</span>
-                  <span className="font-medium">
-                    {taxRate}% ({effectiveBracket})
-                  </span>
-                </div>
+                <div className="flex justify-between"><span>Monthly Tax:</span><span className="font-medium">{currencySymbol}{(tax / 12).toFixed(2)}</span></div>
+                <div className="flex justify-between"><span>Monthly Take-home:</span><span className="font-medium">{currencySymbol}{(netIncome / 12).toFixed(2)}</span></div>
+                <div className="flex justify-between"><span>Effective Tax Rate:</span><span className="font-medium">{taxRate}% ({effectiveBracket})</span></div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* ===== Chart + Summary Section ===== */}
+        {/* ===== Chart + Smart Tips Section ===== */}
         {income && Number(income) > 0 && (
           <div className="mt-10 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
-              Tax vs Net Income
+            <h3 className="text-lg font-semibold text-gray-900 mb-6 text-center">
+              Tax Insights & Smart Saving Tips
             </h3>
-            <ResponsiveContainer width="100%" height={220}>
-              <PieChart>
-                <Pie
-                  data={data}
-                  innerRadius={60}
-                  outerRadius={90}
-                  dataKey="value"
-                  paddingAngle={2}
-                >
-                  {data.map((entry, index) => (
-                    <Cell key={index} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <ChartTooltip />
-              </PieChart>
-            </ResponsiveContainer>
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+              {/* Chart */}
+              <div className="w-full lg:w-1/2">
+                <ResponsiveContainer width="100%" height={250}>
+                  <PieChart>
+                    <Pie data={data} innerRadius={60} outerRadius={90} dataKey="value" paddingAngle={2}>
+                      {data.map((entry, i) => (<Cell key={i} fill={COLORS[i % COLORS.length]} />))}
+                    </Pie>
+                    <ChartTooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+
+              {/* Tips */}
+              <div className="w-full lg:w-1/2">
+                <div className="mb-3 flex items-center justify-center lg:justify-start gap-2">
+                  <span className="text-2xl">{countryEmoji}</span>
+                  <h4 className="text-base font-semibold text-gray-900">
+                    Personalized Tax Tips for {countryName}
+                  </h4>
+                </div>
+                <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 text-sm text-gray-700 relative shadow-sm transition-all">
+                  <span className="absolute left-3 top-3 text-blue-600 text-lg">💡</span>
+                  <p key={activeTip} className="pl-8 transition-opacity duration-700 ease-in-out">
+                    {tipsForCountry[activeTip]}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Extra Tips Grid */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+              {extraTips.map((tip, i) => (
+                <div key={i} className="bg-gray-50 p-3 rounded-md text-sm text-gray-700 border border-gray-200 hover:shadow-md transition">
+                  {tip}
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
