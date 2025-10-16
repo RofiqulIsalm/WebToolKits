@@ -248,6 +248,153 @@ export function calculateSouthAfricaTax({ income }: TaxInput): TaxResult {
 }
 
 /* ======================================================
+   🇮🇹 Italy (simplified 2024)
+====================================================== */
+export function calculateItalyTax({ income }: TaxInput): TaxResult {
+  const brackets = [
+    { limit: 15000, rate: 0.23 },
+    { limit: 28000, rate: 0.25 },
+    { limit: 50000, rate: 0.35 },
+    { limit: Infinity, rate: 0.43 },
+  ];
+  let tax = 0, prev = 0;
+  for (const { limit, rate } of brackets) {
+    if (income <= prev) break;
+    const taxable = Math.min(income - prev, limit - prev);
+    tax += taxable * rate;
+    prev = limit;
+  }
+  return { tax, netIncome: income - tax };
+}
+
+/* ======================================================
+   🇪🇸 Spain (simplified national scale)
+====================================================== */
+export function calculateSpainTax({ income }: TaxInput): TaxResult {
+  const brackets = [
+    { limit: 12450, rate: 0.19 },
+    { limit: 20200, rate: 0.24 },
+    { limit: 35200, rate: 0.3 },
+    { limit: 60000, rate: 0.37 },
+    { limit: 300000, rate: 0.45 },
+    { limit: Infinity, rate: 0.47 },
+  ];
+  let tax = 0, prev = 0;
+  for (const { limit, rate } of brackets) {
+    if (income <= prev) break;
+    const taxable = Math.min(income - prev, limit - prev);
+    tax += taxable * rate;
+    prev = limit;
+  }
+  return { tax, netIncome: income - tax };
+}
+
+/* ======================================================
+   🇳🇱 Netherlands
+====================================================== */
+export function calculateNetherlandsTax({ income }: TaxInput): TaxResult {
+  let tax = 0;
+  if (income <= 75000) tax = income * 0.3697;
+  else tax = 75000 * 0.3697 + (income - 75000) * 0.495;
+  return { tax, netIncome: income - tax };
+}
+
+/* ======================================================
+   🇸🇪 Sweden
+====================================================== */
+export function calculateSwedenTax({ income }: TaxInput): TaxResult {
+  let tax = 0;
+  if (income <= 59800) tax = income * 0.32; // municipal avg
+  else tax = 59800 * 0.32 + (income - 59800) * 0.52; // incl. national
+  return { tax, netIncome: income - tax };
+}
+
+/* ======================================================
+   🇳🇴 Norway
+====================================================== */
+export function calculateNorwayTax({ income }: TaxInput): TaxResult {
+  const brackets = [
+    { limit: 208050, rate: 0 },
+    { limit: 292850, rate: 0.017 },
+    { limit: 670000, rate: 0.04 },
+    { limit: 937900, rate: 0.136 },
+    { limit: 1350000, rate: 0.166 },
+    { limit: Infinity, rate: 0.176 },
+  ];
+  let tax = 0, prev = 0;
+  for (const { limit, rate } of brackets) {
+    if (income <= prev) break;
+    const taxable = Math.min(income - prev, limit - prev);
+    tax += taxable * rate;
+    prev = limit;
+  }
+  return { tax, netIncome: income - tax };
+}
+
+/* ======================================================
+   🇨🇭 Switzerland (federal only)
+====================================================== */
+export function calculateSwitzerlandTax({ income }: TaxInput): TaxResult {
+  let tax = 0;
+  if (income <= 14500) tax = 0;
+  else if (income <= 31500) tax = (income - 14500) * 0.0088;
+  else if (income <= 41500) tax = 150 + (income - 31500) * 0.0264;
+  else if (income <= 55500) tax = 414 + (income - 41500) * 0.044;
+  else if (income <= 72500) tax = 1030 + (income - 55500) * 0.088;
+  else tax = 2526 + (income - 72500) * 0.11;
+  return { tax, netIncome: income - tax };
+}
+
+/* ======================================================
+   🇮🇪 Ireland
+====================================================== */
+export function calculateIrelandTax({ income }: TaxInput): TaxResult {
+  const standardRateCutOff = 42000;
+  const standardRate = 0.2;
+  const higherRate = 0.4;
+  let tax = 0;
+  if (income <= standardRateCutOff) tax = income * standardRate;
+  else tax = standardRateCutOff * standardRate + (income - standardRateCutOff) * higherRate;
+  return { tax, netIncome: income - tax };
+}
+
+/* ======================================================
+   🇦🇪 United Arab Emirates (no income tax)
+====================================================== */
+export function calculateUaeTax({ income }: TaxInput): TaxResult {
+  return { tax: 0, netIncome: income };
+}
+
+/* ======================================================
+   🇸🇦 Saudi Arabia (no income tax)
+====================================================== */
+export function calculateSaudiArabiaTax({ income }: TaxInput): TaxResult {
+  return { tax: 0, netIncome: income };
+}
+
+/* ======================================================
+   🇹🇷 Turkey (simplified)
+====================================================== */
+export function calculateTurkeyTax({ income }: TaxInput): TaxResult {
+  const brackets = [
+    { limit: 11000, rate: 0.15 },
+    { limit: 50000, rate: 0.2 },
+    { limit: 88000, rate: 0.27 },
+    { limit: 190000, rate: 0.35 },
+    { limit: Infinity, rate: 0.4 },
+  ];
+  let tax = 0, prev = 0;
+  for (const { limit, rate } of brackets) {
+    if (income <= prev) break;
+    const taxable = Math.min(income - prev, limit - prev);
+    tax += taxable * rate;
+    prev = limit;
+  }
+  return { tax, netIncome: income - tax };
+}
+
+
+/* ======================================================
    🌍 Default Flat 10% Tax (for remaining countries)
 ====================================================== */
 export const defaultTax = ({ income }: TaxInput): TaxResult => {
@@ -271,6 +418,16 @@ export const TAX_ENGINES: Record<string, (data: TaxInput) => TaxResult> = {
   BR: calculateBrazilTax,
   NZ: calculateNewZealandTax,
   ZA: calculateSouthAfricaTax,
+  IT: calculateItalyTax,
+  ES: calculateSpainTax,
+  NL: calculateNetherlandsTax,
+  SE: calculateSwedenTax,
+  NO: calculateNorwayTax,
+  CH: calculateSwitzerlandTax,
+  IE: calculateIrelandTax,
+  AE: calculateUaeTax,
+  SA: calculateSaudiArabiaTax,
+  TR: calculateTurkeyTax,
   // all others fallback
 };
 
