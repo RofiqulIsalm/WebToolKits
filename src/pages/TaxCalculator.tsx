@@ -327,6 +327,10 @@ const TaxCalculator: React.FC = () => {
 
 {/* ===== Tax Insights & Smart Saving Tips ===== */}
         {/* ===== Tips Box (Top, Outside Chart) ===== */}
+   
+{/* ===== Smart Tip Box (Above Chart) ===== */}
+{income && Number(income) > 0 && (
+  <>
     <div className="flex justify-center mt-4">
       <div className="bg-blue-50 border border-blue-200 text-blue-900 px-5 py-3 rounded-md shadow-sm min-h-[90px] w-full sm:w-2/3 lg:w-1/2 flex items-center justify-center animate-fadeIn transition-all duration-700">
         <div className="flex items-start gap-2 text-center sm:text-left">
@@ -337,106 +341,121 @@ const TaxCalculator: React.FC = () => {
         </div>
       </div>
     </div>
-{income && Number(income) > 0 && (
-  <div className="mt-10 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-    <h3 className="text-lg font-semibold text-gray-900 mb-6 text-center">
-      Tax Insights & Smart Saving Tips
-    </h3>
 
-    {/* ===== Chart + Summary Side by Side ===== */}
-    <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
-      {/* Chart Left */}
-      <div className="flex-1 flex flex-col items-center justify-center">
-        <ResponsiveContainer width="100%" height={220}>
-          <PieChart>
-            <Pie
-              data={data}
-              innerRadius={60}
-              outerRadius={90}
-              dataKey="value"
-              paddingAngle={2}
-            >
-              {data.map((entry, index) => (
-                <Cell key={index} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-            <ChartTooltip />
-          </PieChart>
-        </ResponsiveContainer>
+    {/* ===== Tax Insights & Smart Saving Tips ===== */}
+    <div className="mt-10 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <h3 className="text-lg font-semibold text-gray-900 mb-6 text-center">
+        Tax Insights & Smart Saving Tips
+      </h3>
+
+      {/* ===== Chart + Summary Side by Side ===== */}
+      <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
+        {/* Chart Left */}
+        <div className="flex-1 flex flex-col items-center justify-center">
+          <ResponsiveContainer width="100%" height={220}>
+            <PieChart>
+              <Pie
+                data={data}
+                innerRadius={60}
+                outerRadius={90}
+                dataKey="value"
+                paddingAngle={2}
+              >
+                {data.map((entry, index) => (
+                  <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <ChartTooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Summary Right */}
+        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+          <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-center shadow-sm hover:shadow-md transition">
+            <p className="text-sm text-gray-600 flex items-center justify-center gap-1">
+              💰 <span>Total Income</span>
+            </p>
+            <p className="font-semibold text-gray-900 text-lg">
+              {formatCurrency(Number(income))}
+            </p>
+          </div>
+
+          <div className="p-4 bg-green-50 border border-green-200 rounded-lg text-center shadow-sm hover:shadow-md transition">
+            <p className="text-sm text-gray-600 flex items-center justify-center gap-1">
+              📉 <span>Deductions</span>
+            </p>
+            <p className="font-semibold text-gray-900 text-lg">
+              {formatCurrency(Number(deductions) || 0)}
+            </p>
+          </div>
+
+          <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-center shadow-sm hover:shadow-md transition">
+            <p className="text-sm text-gray-600 flex items-center justify-center gap-1">
+              💸 <span>Tax Payable</span>
+            </p>
+            <p className="font-semibold text-gray-900 text-lg">
+              {formatCurrency(tax)}
+            </p>
+          </div>
+
+          <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg text-center shadow-sm hover:shadow-md transition">
+            <p className="text-sm text-gray-600 flex items-center justify-center gap-1">
+              🏦 <span>Net Income</span>
+            </p>
+            <p className="font-semibold text-gray-900 text-lg">
+              {formatCurrency(netIncome)}
+            </p>
+          </div>
+        </div>
       </div>
 
-      {/* Summary Right */}
-      <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-        <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
-          <p className="text-sm text-gray-600 flex items-center justify-center gap-1">
-            💰 <span>Total Income</span>
-          </p>
-          <p className="font-semibold text-gray-900">
-            {formatCurrency(Number(income))}
-          </p>
+      {/* ===== Quick Tax-Saving Cards ===== */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-8">
+        <div className="p-3 bg-blue-50 rounded-lg text-center hover:bg-blue-100 transition text-sm shadow-sm">
+          📊 Invest in retirement or pension funds.
         </div>
+        <div className="p-3 bg-green-50 rounded-lg text-center hover:bg-green-100 transition text-sm shadow-sm">
+          🏠 Claim housing rent or home loan interest.
+        </div>
+        <div className="p-3 bg-yellow-50 rounded-lg text-center hover:bg-yellow-100 transition text-sm shadow-sm">
+          💉 Deduct medical & health insurance costs.
+        </div>
+        <div className="p-3 bg-purple-50 rounded-lg text-center hover:bg-purple-100 transition text-sm shadow-sm">
+          🎓 Claim education or child tuition tax credits.
+        </div>
+      </div>
 
-        <div className="p-4 bg-green-50 border border-green-200 rounded-lg text-center">
-          <p className="text-sm text-gray-600 flex items-center justify-center gap-1">
-            📉 <span>Deductions</span>
+      {/* ===== Country-Specific Facts ===== */}
+      <div className="mt-6 text-xs text-gray-600 text-center">
+        {country === 'US' && (
+          <p>
+            🇺🇸 In the U.S., contributing to 401(k) or HSA plans can reduce
+            taxable income.
           </p>
-          <p className="font-semibold text-gray-900">
-            {formatCurrency(Number(deductions) || 0)}
+        )}
+        {country === 'IN' && (
+          <p>
+            🇮🇳 In India, Section 80C investments (like ELSS or PPF) help you
+            save tax up to ₹1.5L.
           </p>
-        </div>
-
-        <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-center">
-          <p className="text-sm text-gray-600 flex items-center justify-center gap-1">
-            💸 <span>Tax Payable</span>
+        )}
+        {country === 'UK' && (
+          <p>
+            🇬🇧 In the UK, using your ISA and pension allowance can save
+            significant taxes.
           </p>
-          <p className="font-semibold text-gray-900">{formatCurrency(tax)}</p>
-        </div>
-
-        <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg text-center">
-          <p className="text-sm text-gray-600 flex items-center justify-center gap-1">
-            🏦 <span>Net Income</span>
+        )}
+        {!country && (
+          <p>
+            🌍 Tax-saving opportunities vary by country — explore deductions and
+            investments to lower your burden.
           </p>
-          <p className="font-semibold text-gray-900">
-            {formatCurrency(netIncome)}
-          </p>
-        </div>
+        )}
       </div>
     </div>
-
-    {/* ===== Quick Tax-Saving Cards ===== */}
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-8">
-      <div className="p-3 bg-blue-50 rounded-lg text-center hover:bg-blue-100 transition text-sm">
-        📊 Invest in retirement or pension funds.
-      </div>
-      <div className="p-3 bg-green-50 rounded-lg text-center hover:bg-green-100 transition text-sm">
-        🏠 Claim housing rent or home loan interest.
-      </div>
-      <div className="p-3 bg-yellow-50 rounded-lg text-center hover:bg-yellow-100 transition text-sm">
-        💉 Deduct medical & health insurance costs.
-      </div>
-      <div className="p-3 bg-purple-50 rounded-lg text-center hover:bg-purple-100 transition text-sm">
-        🎓 Claim education or child tuition tax credits.
-      </div>
-    </div>
-
-    {/* ===== Country-Specific Facts ===== */}
-    <div className="mt-6 text-xs text-gray-600 text-center">
-      {country === 'US' && (
-        <p>🇺🇸 In the U.S., contributing to 401(k) or HSA plans can reduce taxable income.</p>
-      )}
-      {country === 'IN' && (
-        <p>🇮🇳 In India, Section 80C investments (like ELSS or PPF) help you save tax up to ₹1.5L.</p>
-      )}
-      {country === 'UK' && (
-        <p>🇬🇧 In the UK, using your ISA and pension allowance can save significant taxes.</p>
-      )}
-      {!country && (
-        <p>🌍 Tax-saving opportunities vary by country — explore deductions and investments to lower your burden.</p>
-      )}
-    </div>
-  </div>
+  </>
 )}
-
 
 
 
