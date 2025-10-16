@@ -249,6 +249,10 @@ const TaxCalculator: React.FC = () => {
               </option>
             ))}
           </select>
+          {/* Small chevron icon on right (for better UX) */}
+        <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+          ▼
+        </span>
         </div>
         {country && (
           <div className="mt-2 flex items-center gap-2 text-sm">
