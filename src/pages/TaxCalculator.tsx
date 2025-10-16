@@ -10,7 +10,7 @@ import { TAX_ENGINES } from '../utils/tax';
 import supportedCountries from '../utils/tax/supportedCountries.json';
 
 const TaxCalculator: React.FC = () => {
-  const [country, setCountry] = useState('IN'); // Default India
+  const [country, setCountry] = useState(''); // Default: no country selected
   const [income, setIncome] = useState<number>(60000);
   const [deductions, setDeductions] = useState<number>(0);
   const [tax, setTax] = useState<number>(0);
@@ -19,6 +19,7 @@ const TaxCalculator: React.FC = () => {
   const selectedCountry = countries.find((c) => c.code === country);
   const currencySymbol = selectedCountry?.symbol ?? '$';
   const countryEmoji = selectedCountry?.emoji ?? '🌍';
+  const countryName = selectedCountry?.name ?? 'Global';
 
   const countrySupport = supportedCountries.find((c) => c.code === country);
   const isSupported = countrySupport?.hasTaxLogic ?? false;
@@ -28,13 +29,13 @@ const TaxCalculator: React.FC = () => {
   }, [country, income, deductions]);
 
   const calculateTax = () => {
-    const calcFn = TAX_ENGINES[country];
+    const calcFn = country ? TAX_ENGINES[country] : undefined;
     if (calcFn) {
       const result = calcFn({ income, deductions });
       setTax(result.tax);
       setNetIncome(result.netIncome);
     } else {
-      // Default: flat 10% fallback for unsupported countries
+      // Fallback: flat 10% tax for unsupported or no country
       const flatTax = income * 0.1;
       setTax(flatTax);
       setNetIncome(income - flatTax);
@@ -44,7 +45,11 @@ const TaxCalculator: React.FC = () => {
   return (
     <>
       <SEOHead
-        title={seoData.taxCalculator.title || 'Global Tax Calculator'}
+        title={
+          selectedCountry
+            ? `${countryName} Income Tax Calculator`
+            : 'Global Income Tax Calculator'
+        }
         description={
           seoData.taxCalculator.description ||
           'Calculate your income tax across 50+ countries worldwide.'
@@ -72,10 +77,14 @@ const TaxCalculator: React.FC = () => {
 
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">
-            {countryEmoji} Global Income Tax Calculator
+            {selectedCountry
+              ? `${countryEmoji} ${countryName} Income Tax Calculator`
+              : '🌍 Global Income Tax Calculator'}
           </h1>
           <p className="text-slate-300">
-            Calculate your income tax for {selectedCountry?.name || 'any country'} instantly.
+            {selectedCountry
+              ? `Calculate your income tax for ${countryName} instantly.`
+              : 'Calculate your income tax for 50+ countries instantly.'}
           </p>
         </div>
 
@@ -98,6 +107,7 @@ const TaxCalculator: React.FC = () => {
                   onChange={(e) => setCountry(e.target.value)}
                   className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
+                  <option value="">🌍 Global (Default)</option>
                   {countries.map((c) => (
                     <option key={c.code} value={c.code}>
                       {c.emoji} {c.name}
@@ -106,19 +116,23 @@ const TaxCalculator: React.FC = () => {
                 </select>
 
                 {/* Supported / Coming Soon badge */}
-                <div className="mt-2 flex items-center gap-2 text-sm">
-                  {isSupported ? (
-                    <>
-                      <CheckCircle className="h-4 w-4 text-green-600" />
-                      <span className="text-green-700">Fully Supported</span>
-                    </>
-                  ) : (
-                    <>
-                      <Wrench className="h-4 w-4 text-yellow-500" />
-                      <span className="text-yellow-600">Coming Soon (Flat 10%)</span>
-                    </>
-                  )}
-                </div>
+                {country && (
+                  <div className="mt-2 flex items-center gap-2 text-sm">
+                    {isSupported ? (
+                      <>
+                        <CheckCircle className="h-4 w-4 text-green-600" />
+                        <span className="text-green-700">Fully Supported</span>
+                      </>
+                    ) : (
+                      <>
+                        <Wrench className="h-4 w-4 text-yellow-500" />
+                        <span className="text-yellow-600">
+                          Coming Soon (Flat 10%)
+                        </span>
+                      </>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Income */}
