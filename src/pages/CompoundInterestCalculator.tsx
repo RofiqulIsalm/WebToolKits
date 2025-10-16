@@ -954,23 +954,7 @@ const CompoundInterestCalculator: React.FC = () => {
           }}
         />
         
-        {/* ============= OPTIONAL: BACKLINK ACTION LIST (for your team’s internal use) ============ */}
-        <section className="max-w-4xl mx-auto mt-12 text-slate-300">
-          <h2 className="text-xl font-semibold text-cyan-300">Backlink Sharing Checklist (Manual)</h2>
-          <p className="text-sm text-slate-400 mb-3">
-            Share your page in relevant communities/directories (always follow local rules and add helpful context):
-          </p>
-          <ul className="list-disc list-inside space-y-1">
-            <li><strong>Q&A & Communities:</strong> StackExchange (Personal Finance & Money), Reddit (r/personalfinance, r/investing) — post a helpful walkthrough + your calculator link as a tool.</li>
-            <li><strong>Finance Forums:</strong> Bogleheads, MoneySavingExpert forums, City-Data finance section — contribute genuinely, then reference your calculator when relevant.</li>
-            <li><strong>Directory Listings:</strong> AlternativeTo, Product Hunt (as a tool), Indie Hackers tool threads, Freecode/tools roundups.</li>
-            <li><strong>Edu/Blog Outreach:</strong> University finance lab pages / student resources, personal finance bloggers — offer a short embed snippet or explainers.</li>
-            <li><strong>Social:</strong> LinkedIn post (explain EAR vs nominal with visuals), X/Twitter thread (mini case study), Facebook finance groups (with admin approval).</li>
-          </ul>
-          <p className="text-sm text-slate-400 mt-3">
-            Tip: use descriptive anchor text like <em>“compound interest calculator”</em>, <em>“investment growth calculator”</em>, or <em>“future value tool”</em>.
-          </p>
-        </section>
+       
 
 
 
