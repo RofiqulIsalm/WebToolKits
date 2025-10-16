@@ -339,7 +339,7 @@ const TaxCalculator: React.FC = () => {
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className="text-base font-semibold text-gray-900">
-                {countryEmoji}Tax Tips for {countryName}
+                Tax Tips for {countryName}
               </span>
             </div>
             <p key={activeTip} className="transition-opacity duration-700 ease-in-out">
