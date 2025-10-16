@@ -236,11 +236,11 @@ const TaxCalculator: React.FC = () => {
         <label className="block text-sm font-medium text-slate-300 mb-2">
           Select Country
         </label>
-        <div className="relative">
+        <div className="relative inline-block w-full sm:w-64">
           <select
             value={country}
             onChange={(e) => setCountry(e.target.value)}
-            className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500 appearance-none pr-10"
+            className="w-full bg-[#0f172a] text-white text-sm px-3 py-1.5 border border-[#334155] rounded-md focus:ring-2 focus:ring-indigo-500 appearance-none pr-8 hover:border-indigo-400 transition"
           >
             <option value="">🌍 Global (Default)</option>
             {countries.map((c) => (
@@ -250,23 +250,23 @@ const TaxCalculator: React.FC = () => {
             ))}
           </select>
           {/* Small chevron icon on right (for better UX) */}
-        <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+        <span className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 text-xs">
           ▼
         </span>
         </div>
         {country && (
-          <div className="mt-2 flex flex-wrap items-center gap-1 text-xs sm:text-sm">
+          <div className="mt-2 flex flex-wrap items-center gap-1 text-[11px] sm:text-xs">
             {isSupported ? (
               <>
-                <CheckCircle className="h-4 w-4 text-emerald-400 shrink-0" />
-                <span className="text-emerald-400 whitespace-normal">
+                <CheckCircle className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                <span className="text-emerald-400">
                   Fully Supported
                 </span>
               </>
             ) : (
               <>
-                <Wrench className="h-4 w-4 text-yellow-400 shrink-0" />
-                <span className="text-yellow-400 whitespace-normal">
+                <Wrench className="h-3.5 w-3.5 text-yellow-400 shrink-0" />
+                <span className="text-yellow-400">
                   Coming Soon (Flat 10%)
                 </span>
               </>
