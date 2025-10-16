@@ -205,15 +205,14 @@ const TaxCalculator: React.FC = () => {
             seoData.taxCalculator.keywords
           )}
           openGraph={{
-            title: selectedCountry
-              ? `${countryName} Income Tax Calculator`
-              : 'Global Income Tax Calculator',
+            title: 'Global Income Tax Calculator 2025 | Estimate Taxes Worldwide',
+            alt: 'Country-specific income tax calculator banner showing flag, calculator, and tax forms for 2025.'
             description:
               selectedCountry
                 ? `Estimate your ${countryName} tax for 2025 with detailed breakdowns of deductions, rates, and net income.`
                 : 'Estimate income tax for 50+ countries with this free tax calculator.',
             url: 'https://calculatorhub.site/tax-calculator',
-            image: 'https://calculatorhub.site/images/tax-calculator-og.jpg',
+            image: 'https://calculatorhub.site/images/global-income-tax-calculator-2025.webp',
             type: 'website',
           }}
           twitter={{
@@ -225,7 +224,7 @@ const TaxCalculator: React.FC = () => {
               selectedCountry
                 ? `Calculate your ${countryName} tax instantly with our 2025 income tax estimator.`
                 : 'Free Global Tax Calculator for 2025 with detailed tax breakdowns and smart saving tips.',
-            image: 'https://calculatorhub.site/images/tax-calculator-og.jpg',
+            image: 'https://calculatorhub.site/images/global-income-tax-calculator-2025.webp',
           }}
         />
 
