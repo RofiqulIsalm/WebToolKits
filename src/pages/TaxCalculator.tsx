@@ -296,7 +296,8 @@ const TaxCalculator: React.FC = () => {
           </div>
 
           {/* Output Section */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div className="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl shadow-lg p-6">
+
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Tax Calculation</h2>
             <div className="space-y-6">
               <div className="text-center p-4 bg-red-50 rounded-lg">
