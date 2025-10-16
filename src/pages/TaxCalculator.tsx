@@ -72,10 +72,15 @@ const TaxCalculator: React.FC = () => {
       setNetIncome(0);
       return;
     }
-
+  
     const numericIncome = Number(income);
-    const numericDeductions = Number(deductions) || 0;
-
+    let numericDeductions = Number(deductions) || 0;
+  
+    // 🛑 Prevent deductions from exceeding income
+    if (numericDeductions > numericIncome) {
+      numericDeductions = numericIncome;
+    }
+  
     const calcFn = country ? TAX_ENGINES[country] : undefined;
     if (calcFn) {
       const result = calcFn({ income: numericIncome, deductions: numericDeductions });
