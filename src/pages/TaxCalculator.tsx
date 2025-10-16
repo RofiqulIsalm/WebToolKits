@@ -367,6 +367,7 @@ const TaxCalculator: React.FC = () => {
       <div className="text-center p-4 bg-[#0f172a] rounded-lg border border-[#334155]">
         <Receipt className="h-8 w-8 text-indigo-400 mx-auto mb-2" />
         <div className="text-2xl font-bold text-white">
+          {currencySymbol}
           {income === '' || Number(income) <= 0 ? '$0' : formatCurrency(tax)}
         </div>
         <div className="text-sm text-slate-400">Estimated Annual Tax</div>
