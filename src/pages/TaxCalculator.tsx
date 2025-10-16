@@ -213,7 +213,7 @@ const TaxCalculator: React.FC = () => {
                 ? `Estimate your ${countryName} tax for 2025 with detailed breakdowns of deductions, rates, and net income.`
                 : 'Estimate income tax for 50+ countries with this free tax calculator.',
             url: 'https://calculatorhub.site/tax-calculator',
-            image: 'https://calculatorhub.site/assets/tax-calculator-og.jpg',
+            image: 'https://calculatorhub.site/images/tax-calculator-og.jpg',
             type: 'website',
           }}
           twitter={{
@@ -225,7 +225,7 @@ const TaxCalculator: React.FC = () => {
               selectedCountry
                 ? `Calculate your ${countryName} tax instantly with our 2025 income tax estimator.`
                 : 'Free Global Tax Calculator for 2025 with detailed tax breakdowns and smart saving tips.',
-            image: 'https://calculatorhub.site/assets/tax-calculator-og.jpg',
+            image: 'https://calculatorhub.site/images/tax-calculator-og.jpg',
           }}
         />
 
@@ -242,11 +242,11 @@ const TaxCalculator: React.FC = () => {
             {selectedCountry ? ` ${countryName} Income Tax Calculator`
               : '🌍 Global Income Tax Calculator'}
           </h1>
-          <p className="text-slate-300">
-            {selectedCountry
-              ? `Calculate your income tax for ${countryName} instantly.`
-              : 'Calculate your income tax for 50+ countries instantly.'}
-          </p>
+          <p className="mt-3 text-slate-400 text-sm leading-relaxed">
+  Our {selectedCountry ? countryName : 'global'} income tax calculator helps you estimate your
+  annual tax liability with precision. Enter your income and deductions to get a detailed
+  breakdown of payable tax, effective rate, and smart saving suggestions.
+</p>
         </div>
 
        {/* ===== Calculator Grid ===== */}
