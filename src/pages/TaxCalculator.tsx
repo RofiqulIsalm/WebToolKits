@@ -346,18 +346,15 @@ const TaxCalculator: React.FC = () => {
             </div>
 
             {/* Smooth fade animation between tips */}
-            <div
-              key={activeTip}
-              className="opacity-0 animate-fadeIn transition-opacity duration-700 ease-in-out"
-            >
+            <div className="transition-opacity duration-700 ease-in-out opacity-100 animate-fadeIn">
               <p className="text-gray-700 text-sm leading-snug">
                 {tipsForCountry[activeTip]}
               </p>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
     {/* ===== Chart Section ===== */}
     <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
