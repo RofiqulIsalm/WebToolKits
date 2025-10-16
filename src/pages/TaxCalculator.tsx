@@ -230,51 +230,42 @@ const TaxCalculator: React.FC = () => {
       </button>
     </div>
 
-    <div className="space-y-5">
-      {/* Country */}
-      <div>
-        <label className="block text-sm font-medium text-slate-300 mb-2">
-          Select Country
-        </label>
-        <div className="relative inline-block w-full sm:w-64">
-          <select
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            className="w-full bg-[#0f172a] text-white text-sm px-3 py-1.5 border border-[#334155] rounded-md focus:ring-2 focus:ring-indigo-500 appearance-none pr-8 hover:border-indigo-400 transition"
-          >
-            <option value="">🌍 Global (Default)</option>
-            {countries.map((c) => (
-              <option key={c.code} value={c.code} className="text-black">
-                {c.emoji} {c.name}
-              </option>
-            ))}
-          </select>
-          {/* Small chevron icon on right (for better UX) */}
-        <span className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 text-xs">
-          ▼
-        </span>
-        </div>
-        {country && (
-          <div className="mt-2 flex flex-wrap items-center gap-1 text-[11px] sm:text-xs">
-            {isSupported ? (
-              <>
-                <CheckCircle className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
-                <span className="text-emerald-400">
-                  Fully Supported
-                </span>
-              </>
-            ) : (
-              <>
-                <Wrench className="h-3.5 w-3.5 text-yellow-400 shrink-0" />
-                <span className="text-yellow-400">
-                  Coming Soon (Flat 10%)
-                </span>
-              </>
-            )}
-          </div>
-        )}
+    {/* ===== Country Dropdown (Custom Compact Style) ===== */}
+<div className="relative inline-block w-full sm:w-64">
+  <button
+    type="button"
+    onClick={() => setShowDropdown(!showDropdown)}
+    className="w-full flex justify-between items-center bg-[#0f172a] text-slate-200 text-sm px-3 py-2 border border-[#334155] rounded-md hover:border-indigo-400 focus:ring-2 focus:ring-indigo-500 transition"
+  >
+    <span>
+      {country
+        ? `${countries.find((c) => c.code === country)?.emoji || ''} ${
+            countries.find((c) => c.code === country)?.name || 'Select Country'
+          }`
+        : '🌍 Global (Default)'}
+    </span>
+    <span className="text-slate-400 text-xs">▼</span>
+  </button>
 
-      </div> 
+  {showDropdown && (
+    <div className="absolute z-50 mt-1 w-full bg-[#0f172a] border border-[#334155] rounded-md shadow-lg max-h-48 overflow-y-auto">
+      {countries.map((c) => (
+        <div
+          key={c.code}
+          onClick={() => {
+            setCountry(c.code);
+            setShowDropdown(false);
+          }}
+          className={`px-3 py-1.5 text-sm text-slate-200 cursor-pointer hover:bg-[#1e293b] transition ${
+            c.code === country ? 'bg-[#1e293b] text-indigo-400' : ''
+          }`}
+        >
+          {c.emoji} {c.name}
+        </div>
+      ))}
+    </div>
+  )}
+</div>
 
       {/* Income */}
       <div>
