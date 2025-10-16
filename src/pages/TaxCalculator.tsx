@@ -346,7 +346,7 @@ const TaxCalculator: React.FC = () => {
     </div>
 
     {/* ===== Tax Insights & Smart Saving Tips ===== */}
-    <div className="mt-10 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div className="mt-5 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-6 text-center">
         Tax Insights & Smart Saving Tips
       </h3>
