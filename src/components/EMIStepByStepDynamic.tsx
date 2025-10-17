@@ -199,21 +199,37 @@ EMI = \dfrac{${calculated.numerator.toFixed(
       </div>
 
       {/* Final Answer */}
-      <div className="p-3 sm:p-4 bg-[#0b1220] rounded-lg border border-indigo-600 text-center">
-        <p className="text-sm text-indigo-400 mb-2">Final Answers</p>
-        <div className="overflow-x-auto space-y-2">
-          <BlockMath
-            math={String.raw`\boxed{EMI = ${calculated.emi.toFixed(2)} \text{ per month}}`}
-          />
-          <BlockMath
-            math={String.raw`\boxed{Total Payment = ${calculated.totalPayment.toFixed(2)}}`}
-          />
-          <BlockMath
-            math={String.raw`\boxed{Total Interest = ${calculated.totalInterest.toFixed(2)}}`}
-          />
-        </div>
-      </div>
+<div className="p-4 bg-[#0b1220] rounded-lg border border-indigo-600">
+  <p className="text-sm text-indigo-400 mb-4 text-center">Final Results</p>
+
+  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    {/* Monthly EMI */}
+    <div className="bg-indigo-900/40 border border-indigo-600 rounded-xl p-4 text-center shadow-md">
+      <p className="text-xs text-indigo-300 uppercase mb-1 tracking-wide">Monthly EMI</p>
+      <p className="text-xl font-bold text-indigo-100">
+        {calculated.emi.toFixed(2)}
+      </p>
+      <p className="text-[11px] text-indigo-400 mt-1">per month</p>
     </div>
+
+    {/* Total Payment */}
+    <div className="bg-emerald-900/30 border border-emerald-600 rounded-xl p-4 text-center shadow-md">
+      <p className="text-xs text-emerald-300 uppercase mb-1 tracking-wide">Total Payment</p>
+      <p className="text-xl font-bold text-emerald-100">
+        {calculated.totalPayment.toFixed(2)}
+      </p>
+    </div>
+
+    {/* Total Interest */}
+    <div className="bg-amber-900/30 border border-amber-600 rounded-xl p-4 text-center shadow-md">
+      <p className="text-xs text-amber-300 uppercase mb-1 tracking-wide">Total Interest</p>
+      <p className="text-xl font-bold text-amber-100">
+        {calculated.totalInterest.toFixed(2)}
+      </p>
+    </div>
+  </div>
+</div>
+</div>
   );
 };
 
