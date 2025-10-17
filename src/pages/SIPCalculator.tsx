@@ -338,7 +338,7 @@ const SIPCalculator: React.FC = () => {
                 </div>
               ))}
             </div>
-
+ 
             <div className=\"mt-4 space-y-2 text-xs sm:text-sm text-slate-300\">
               <div className=\"flex justify-between\"><span>Duration:</span><span>{timePeriod} years</span></div>
               <div className=\"flex justify-between\"><span>Return:</span><span>{returnRate}% p.a.</span></div>
