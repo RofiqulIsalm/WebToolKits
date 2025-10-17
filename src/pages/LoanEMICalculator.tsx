@@ -1,5 +1,6 @@
 // LoanEMICalculator.tsx
-import React, { useEffect, useMemo, useState, useDeferredValue } from 'react';
+import React, { useEffect, useMemo, useState, useDeferredValue, useRef } from 'react';
+
 import { Calculator, RefreshCw, ChevronDown, ChevronUp, Info, TrendingUp } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
 import SEOHead from '../components/SEOHead';
@@ -27,6 +28,9 @@ type ScheduleRow = {
   prepayment: number; // one-time + extra monthly actually paid this month
   closingBalance: number;
 };
+
+const principalRef = useRef<HTMLInputElement>(null);
+useEffect(() => { principalRef.current?.focus(); }, [currency]); // or on mount []
 
 /* ========================== Small utilities ========================== */
 const round2 = (n: number) => Math.round((n + Number.EPSILON) * 100) / 100;
@@ -450,39 +454,35 @@ const LoanEMICalculator: React.FC = () => {
   // ================================
   
   // 🧠 Initialize from localStorage OR URL query
-  useEffect(() => {
-    // 1️⃣ Load saved local data
-    const saved = JSON.parse(localStorage.getItem("loanInputs") || "{}");
-  
-    // 2️⃣ Load from URL query (higher priority if exists)
-    const q = fromQuery(typeof window !== 'undefined' ? window.location.search : '');
-  
-    const finalCurrency = q.currency && ['$', '₹', '€', '£', '¥'].includes(q.currency)
-      ? (q.currency as Currency)
-      : saved.currency || autoCurrency;
-  
-    const finalPrincipal = q.p ? Math.max(0, Number(q.p)) : saved.principal || 0;
-    const finalRate = q.r ? Math.max(0, Number(q.r)) : saved.annualRate || 0;
-    const finalYears = q.y ? Math.max(0, Math.floor(Number(q.y))) : saved.years || 0;
-    const finalMonths = q.m ? Math.max(0, Math.floor(Number(q.m))) : saved.months || 0;
-  
-    // 3️⃣ Apply final state
-    setCurrency(finalCurrency);
-    setPrincipal(finalPrincipal);
-    setAnnualRate(finalRate);
-    setYears(finalYears);
-    setMonths(finalMonths);
-  
-    // 4️⃣ Save prepayment / comparison (optional)
-    if (q.eom) setEnableOneTime(q.eom === '1');
-    if (q.eem) setEnableExtraMonthly(q.eem === '1');
-    if (q.ota) setOneTimeAmount(Math.max(0, Number(q.ota)));
-    if (q.otm) setOneTimeMonth(Math.max(1, Math.floor(Number(q.otm))));
-    if (q.xm) setExtraMonthly(Math.max(0, Number(q.xm)));
-    if (q.cmp === '1') setCompareEnabled(true);
-    if (q.cr) setCompareRateAnnual(Math.max(0, Number(q.cr)));
-    if (q.cn) setCompareTenureMonths(Math.max(1, Math.floor(Number(q.cn))));
-  }, []);
+    useEffect(() => {
+      const saved = JSON.parse(localStorage.getItem("loanInputs") || "{}");
+      const q = fromQuery(typeof window !== 'undefined' ? window.location.search : '');
+    
+      const finalCurrency = q.currency && ['$', '₹', '€', '£', '¥'].includes(q.currency)
+        ? (q.currency as Currency)
+        : saved.currency || autoCurrency;
+    
+      const finalPrincipal = q.p ? Math.max(0, Number(q.p)) : saved.principal || 0;
+      const finalRate = q.r ? Math.max(0, Number(q.r)) : saved.annualRate || 0;
+      const finalYears = q.y ? Math.max(0, Math.floor(Number(q.y))) : saved.years || 0;
+      const finalMonths = q.m ? Math.max(0, Math.floor(Number(q.m))) : saved.months || 0;
+    
+      setCurrency(finalCurrency);
+      setPrincipal(finalPrincipal);
+      setAnnualRate(finalRate);
+      setYears(finalYears);
+      setMonths(finalMonths);
+    
+      if (q.eom) setEnableOneTime(q.eom === '1');
+      if (q.eem) setEnableExtraMonthly(q.eem === '1');
+      if (q.ota) setOneTimeAmount(Math.max(0, Number(q.ota)));
+      if (q.otm) setOneTimeMonth(Math.max(1, Math.floor(Number(q.otm))));
+      if (q.xm) setExtraMonthly(Math.max(0, Number(q.xm)));
+      if (q.cmp === '1') setCompareEnabled(true);
+      if (q.cr) setCompareRateAnnual(Math.max(0, Number(q.cr)));
+      if (q.cn) setCompareTenureMonths(Math.max(1, Math.floor(Number(q.cn))));
+    }, []);
+
 
 
   // 💾 Auto-save whenever input changes
@@ -508,23 +508,7 @@ const LoanEMICalculator: React.FC = () => {
   }, []);
 
   // Init from URL query (shareable state)
-  useEffect(() => {
-    const q = fromQuery(typeof window !== 'undefined' ? window.location.search : '');
-    if (q.currency && ['$', '₹', '€', '£', '¥'].includes(q.currency)) setCurrency(q.currency as Currency);
-    if (q.p) setPrincipal(Math.max(0, Number(q.p)));
-    if (q.r) setAnnualRate(Math.max(0, Number(q.r)));
-    if (q.y) setYears(Math.max(0, Math.floor(Number(q.y))));
-    if (q.m) setMonths(Math.max(0, Math.floor(Number(q.m))));
-    if (q.eom) setEnableOneTime(q.eom === '1');
-    if (q.eem) setEnableExtraMonthly(q.eem === '1');
-    if (q.ota) setOneTimeAmount(Math.max(0, Number(q.ota)));
-    if (q.otm) setOneTimeMonth(Math.max(1, Math.floor(Number(q.otm))));
-    if (q.xm) setExtraMonthly(Math.max(0, Number(q.xm)));
-    if (q.cmp === '1') setCompareEnabled(true);
-    if (q.cr) setCompareRateAnnual(Math.max(0, Number(q.cr)));
-    if (q.cn) setCompareTenureMonths(Math.max(1, Math.floor(Number(q.cn))));
-  }, []);
-
+  
   // ================================
   // Handlers
   // ================================
@@ -548,6 +532,7 @@ const LoanEMICalculator: React.FC = () => {
     localStorage.removeItem("loanInputs");
   };
 
+  const currencySymbol = currency;
   const fmt = (v: number) => {
       if (!isFinite(v)) return `${currency}0`;
       const abs = Math.abs(v);
@@ -564,7 +549,6 @@ const LoanEMICalculator: React.FC = () => {
       }
     };
 
-  const { push: pushToast } = useToasts(); // local usage if needed
 
   const copyShareLink = async () => {
     try {
@@ -642,7 +626,7 @@ const LoanEMICalculator: React.FC = () => {
         <h1 className="text-3xl font-bold text-white ">
           Loan EMI Calculator – Free, Accurate & Instant Results
         </h1>
-        <p class='mb-6'>Instantly calculate your monthly EMI, total interest, and payoff amount — fast, accurate, and 100% free</p>
+        <p className='mb-6'>Instantly calculate your monthly EMI, total interest, and payoff amount — fast, accurate, and 100% free</p>
         {/* ===== Mode Toggle ===== */}
         <div className="bg-slate-800/70 border border-slate-700 rounded-2xl p-4 sm:p-5 mb-6 text-slate-200">
           
@@ -711,13 +695,13 @@ const LoanEMICalculator: React.FC = () => {
               <div className="flex items-center gap-2">
                 <button type="button" onClick={() => setPrincipal(Math.max(0, principal - 1000))} className="px-3 py-2 bg-slate-800 border border-slate-700 text-white rounded-lg">–</button>
                 <input
-                  type="number"
-                  min={0}
-                  value={principal} 
-                  onChange={(e) => setPrincipal(Number(e.target.value))}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-slate-100 text-right"
-                  placeholder="Enter Loan Amount"
-                />
+                    type="number"
+                    min={0}
+                    value={principal}
+                    onChange={(e) => setPrincipal(Number(e.target.value))}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-slate-100 text-right"
+                    placeholder={`Enter amount in ${currencySymbol}`}
+                  />
                 <button type="button" onClick={() => setPrincipal(principal + 1000)} className="px-3 py-2 bg-slate-800 border border-slate-700 text-white rounded-lg">+</button>
               </div>
             </div>
@@ -728,14 +712,14 @@ const LoanEMICalculator: React.FC = () => {
               <div className="flex items-center gap-2">
                 <button type="button" onClick={() => setAnnualRate(Math.max(0, Number((annualRate - 0.1).toFixed(2))))} className="px-3 py-2 bg-slate-800 border border-slate-700 text-white rounded-lg">–</button>
                 <input
-                  type="number"
-                  min={0}
-                  step="0.01"
-                  value={annualRate}
-                  onChange={(e) => setAnnualRate(Number(e.target.value))}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-slate-100 text-right"
-                  placeholder="0"
-                />
+                    type="number"
+                    min={0}
+                    step="0.01"
+                    value={annualRate}
+                    onChange={(e) => setAnnualRate(Number(e.target.value))}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-slate-100 text-right"
+                    placeholder="Enter annual rate (e.g., 8.5)"
+                  />
                 <button type="button" onClick={() => setAnnualRate(Number((annualRate + 0.1).toFixed(2)))} className="px-3 py-2 bg-slate-800 border border-slate-700 text-white rounded-lg">+</button>
               </div>
             </div>
@@ -830,12 +814,13 @@ const LoanEMICalculator: React.FC = () => {
                   <div>
                     <label className="block text-xs text-slate-400 mb-1">Amount</label>
                     <input
-                      type="number"
-                      min={0}
-                      value={oneTimeAmount}
-                      onChange={(e) => setOneTimeAmount(Math.max(0, Number(e.target.value)))}
-                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-slate-100"
-                    />
+                        type="number"
+                        min={0}
+                        value={oneTimeAmount}
+                        onChange={(e) => setOneTimeAmount(Math.max(0, Number(e.target.value)))}
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-slate-100"
+                        placeholder={`e.g., ${currencySymbol}50,000`}
+                      />
                   </div>
                   <div>
                     <label className="block text-xs text-slate-400 mb-1">Month #</label>
@@ -858,12 +843,13 @@ const LoanEMICalculator: React.FC = () => {
                 <div className={`${enableExtraMonthly ? '' : 'opacity-50 pointer-events-none'}`}>
                   <label className="block text-xs text-slate-400 mb-1">Extra per month</label>
                   <input
-                    type="number"
-                    min={0}
-                    value={extraMonthly}
-                    onChange={(e) => setExtraMonthly(Math.max(0, Number(e.target.value)))}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-slate-100"
-                  />
+                      type="number"
+                      min={0}
+                      value={extraMonthly}
+                      onChange={(e) => setExtraMonthly(Math.max(0, Number(e.target.value)))}
+                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-slate-100"
+                      placeholder={`e.g., ${currencySymbol}2,000 per month`}
+                    />
                 </div>
               </div>
             </div>
