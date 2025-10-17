@@ -644,31 +644,18 @@ const CompoundInterestCalculator: React.FC = () => {
               <li><strong>t</strong> = Time in years</li>
               <li><strong>A</strong> = Final amount (principal + accumulated interest)</li>
             </ul>
-
-              <Suspense fallback={<div className="text-center text-slate-400">Loading math breakdown...</div>}>
-              {principal > 0 && rate > 0 && totalDays > 0 && (
-                <CompoundInterestStepByStep
+            <CompoundInterestStepByStep
                   principal={principal}
-                  annualRate={rate}
-                  years={timeData.years + timeData.months / 12 + timeData.days / 365}
-                  compoundingPerYear={
-                    rateUnit === 'daily'
-                      ? 365
-                      : rateUnit === 'weekly'
-                      ? 52
-                      : rateUnit === 'monthly'
-                      ? 12
-                      : rateUnit === 'quarterly'
-                      ? 4
-                      : rateUnit === 'yearly'
-                      ? 1
-                      : 12
-                  }
-                  contribution={0}
-                  contributionTiming="end"
+                  rate={rate}
+                  rateUnit={rateUnit}
+                  timeData={timeData}
+                  includeAllDays={includeAllDays}
+                  selectedDays={selectedDays}
+                  customRate={customRate}
+                  finalAmount={finalAmount}
                 />
-              )}
-            </Suspense>
+
+              
 
   
             <p>
