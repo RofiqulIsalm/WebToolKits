@@ -528,6 +528,7 @@ useEffect(() => {
     setCompareEnabled(false);
     setCompareRateAnnual(9);
     setCompareTenureMonths(240);
+    localStorage.removeItem("loanInputs");
   };
 
   const fmt = (v: number) => {
