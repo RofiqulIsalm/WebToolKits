@@ -645,14 +645,28 @@ const CompoundInterestCalculator: React.FC = () => {
               <li><strong>A</strong> = Final amount (principal + accumulated interest)</li>
             </ul>
 
-              <CompoundInterestStepByStep
-                principal={principal}             // number
-                annualRate={annualRate}           // % per year
-                years={years}                     // in years
-                compoundingPerYear={compounds}    // 1, 4, 12, 365, etc.
-                contribution={periodicContribution}        // optional (default 0)
-                contributionTiming={contribTiming}         // "end" | "begin" (default "end")
-              />
+              {principal > 0 && rate > 0 && totalDays > 0 && (
+                <CompoundInterestStepByStep
+                  principal={principal}
+                  annualRate={rate}
+                  years={timeData.years + timeData.months / 12 + timeData.days / 365}
+                  compoundingPerYear={
+                    rateUnit === 'daily'
+                      ? 365
+                      : rateUnit === 'weekly'
+                      ? 52
+                      : rateUnit === 'monthly'
+                      ? 12
+                      : rateUnit === 'quarterly'
+                      ? 4
+                      : rateUnit === 'yearly'
+                      ? 1
+                      : 12
+                  }
+                  contribution={0}
+                  contributionTiming="end"
+                />
+              )}
   
             <p>
               In practice, deposits, withdrawals, holidays, and custom intervals can affect timing. Our calculator offers a
