@@ -6,6 +6,15 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
 
+const formatCurrency = (num: number) => {
+  if (isNaN(num)) return '₹0';
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: 0,
+  }).format(num);
+};
+
 const MortgageCalculator: React.FC = () => {
   const [loanAmount, setLoanAmount] = useState<number>(3000000);
   const [interestRate, setInterestRate] = useState<number>(8.5);
@@ -19,10 +28,19 @@ const MortgageCalculator: React.FC = () => {
   }, [loanAmount, interestRate, loanTerm]);
 
   const calculateMortgage = () => {
+    // Basic input validation
+    if (loanAmount <= 0 || loanTerm <= 0 || interestRate < 0) {
+      setMonthlyPayment(0);
+      setTotalPayment(0);
+      setTotalInterest(0);
+      return;
+    }
+
     const principal = loanAmount;
     const monthlyRate = interestRate / 12 / 100;
     const months = loanTerm * 12;
 
+    // If interest rate is 0% (edge case)
     if (interestRate === 0) {
       const emi = principal / months;
       setMonthlyPayment(emi);
@@ -93,6 +111,7 @@ const MortgageCalculator: React.FC = () => {
                 <input
                   type="number"
                   value={loanAmount}
+                  min={0}
                   onChange={(e) => setLoanAmount(Number(e.target.value))}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
@@ -106,6 +125,7 @@ const MortgageCalculator: React.FC = () => {
                   type="number"
                   step="0.01"
                   value={interestRate}
+                  min={0}
                   onChange={(e) => setInterestRate(Number(e.target.value))}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
@@ -118,6 +138,7 @@ const MortgageCalculator: React.FC = () => {
                 <input
                   type="number"
                   value={loanTerm}
+                  min={1}
                   onChange={(e) => setLoanTerm(Number(e.target.value))}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
@@ -135,7 +156,7 @@ const MortgageCalculator: React.FC = () => {
               <div className="text-center p-4 bg-blue-50 rounded-lg">
                 <Home className="h-8 w-8 text-blue-600 mx-auto mb-2" />
                 <div className="text-2xl font-bold text-gray-900">
-                  ₹{monthlyPayment.toFixed(0).toLocaleString()}
+                  {formatCurrency(monthlyPayment)}
                 </div>
                 <div className="text-sm text-gray-600">Monthly EMI</div>
               </div>
@@ -143,14 +164,14 @@ const MortgageCalculator: React.FC = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 bg-green-50 rounded-lg text-center">
                   <div className="text-lg font-semibold text-gray-900">
-                    ₹{totalPayment.toFixed(0).toLocaleString()}
+                    {formatCurrency(totalPayment)}
                   </div>
                   <div className="text-sm text-gray-600">Total Payment</div>
                 </div>
 
                 <div className="p-4 bg-red-50 rounded-lg text-center">
                   <div className="text-lg font-semibold text-gray-900">
-                    ₹{totalInterest.toFixed(0).toLocaleString()}
+                    {formatCurrency(totalInterest)}
                   </div>
                   <div className="text-sm text-gray-600">Total Interest</div>
                 </div>
