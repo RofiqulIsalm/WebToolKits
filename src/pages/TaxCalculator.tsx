@@ -104,6 +104,11 @@ const COUNTRY_TAX_TIPS: Record<string, string[]> = {
 };
 
 const TaxCalculator: React.FC = () => {
+  const [grossIncome, setGrossIncome] = useState(0);
+  const [deductions, setDeductions] = useState(0);
+  const [taxableIncome, setTaxableIncome] = useState(0);
+  const [totalTax, setTotalTax] = useState(0);
+  const [netIncome, setNetIncome] = useState(0);
   const [country, setCountry] = useState(() => localStorage.getItem('country') || '');
   const [income, setIncome] = useState<number | ''>(
     localStorage.getItem('income') ? Number(localStorage.getItem('income')) : ''
