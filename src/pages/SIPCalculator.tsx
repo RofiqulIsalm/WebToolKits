@@ -199,10 +199,10 @@ const SIPCalculator: React.FC = () => {
   }, []);
 
   const handleReset = () => {
-  setMonthlyInvestment(0);
-  setReturnRate(0);
-  setTimePeriod(0);
-  setStepUp(0);
+  setMonthlyInvestment('');
+  setReturnRate('');
+  setTimePeriod('');
+  setStepUp('');
   amountRef.current?.focus();
 };
   const shareUrl = () => {
