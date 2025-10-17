@@ -1,4 +1,3 @@
-// components/CompoundInterestStepByStep.tsx
 import React, { useMemo } from "react";
 
 interface Props {
@@ -54,26 +53,47 @@ const CompoundInterestStepByStep: React.FC<Props> = ({
   if (!steps) return null;
 
   return (
-    <div className="bg-slate-800/50 p-4 rounded-xl mt-6 text-slate-200 space-y-2">
-      <h3 className="text-xl font-semibold text-cyan-300 mb-3">
+    <div className="bg-slate-800/60 border border-slate-700 p-4 sm:p-6 rounded-2xl mt-6 text-slate-100">
+      <h3 className="text-lg sm:text-xl font-semibold text-cyan-300 mb-3 text-center">
         Step-by-Step Calculation
       </h3>
 
-      <pre className="text-slate-300">
-        FV = P × (1 + r/n)^(n×t)
-      </pre>
+      <div className="flex flex-col space-y-3 text-sm sm:text-base leading-relaxed overflow-hidden">
+        <div className="bg-slate-900/60 p-3 rounded-lg overflow-x-auto text-center sm:text-left">
+          <code className="whitespace-pre-wrap break-words block text-cyan-200 text-[0.9rem] sm:text-base">
+            FV = P × (1 + r/n)^(n×t)
+          </code>
+        </div>
 
-      <pre className="text-slate-300">
-        FV = {steps.P.toLocaleString()} × (1 + {steps.r.toFixed(2)}/ {steps.n})^({steps.n}×{steps.t.toFixed(4)})
-      </pre>
+        <div className="bg-slate-900/60 p-3 rounded-lg overflow-x-auto">
+          <code className="whitespace-pre-wrap break-words block text-slate-300">
+            FV = {steps.P.toLocaleString()} × (1 + {steps.r.toFixed(2)}/{steps.n})^(
+            {steps.n}×{steps.t.toFixed(4)})
+          </code>
+        </div>
 
-      <pre>r/n = {(steps.ratePerPeriod).toFixed(8)}</pre>
-      <pre>n×t = {steps.totalPeriods.toFixed(4)}</pre>
-      <pre>(1 + r/n)^(n×t) = {steps.factor.toFixed(6)}</pre>
-      <pre>
-        FV = {steps.P.toLocaleString()} × {steps.factor.toFixed(6)} ={" "}
-        {steps.FV.toLocaleString(undefined, { maximumFractionDigits: 2 })}
-      </pre>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div className="bg-slate-900/60 p-3 rounded-lg text-center sm:text-left">
+            <code>r/n = {steps.ratePerPeriod.toFixed(8)}</code>
+          </div>
+          <div className="bg-slate-900/60 p-3 rounded-lg text-center sm:text-left">
+            <code>n×t = {steps.totalPeriods.toFixed(4)}</code>
+          </div>
+        </div>
+
+        <div className="bg-slate-900/60 p-3 rounded-lg text-center sm:text-left">
+          <code>(1 + r/n)^(n×t) = {steps.factor.toFixed(6)}</code>
+        </div>
+
+        <div className="bg-slate-900/60 p-3 rounded-lg text-center sm:text-left font-semibold">
+          <code>
+            FV = {steps.P.toLocaleString()} × {steps.factor.toFixed(6)} ={" "}
+            <span className="text-emerald-400 font-bold">
+              {steps.FV.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+            </span>
+          </code>
+        </div>
+      </div>
     </div>
   );
 };
