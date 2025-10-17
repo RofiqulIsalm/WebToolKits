@@ -408,7 +408,9 @@ const SIPCalculator: React.FC = () => {
                 { label: 'Wealth Gain', val: estimatedProfit }
               ].map((x, i)=>(
                 <div key={i} className="p-4 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
-                  <div className="text-base sm:text-lg font-semibold text-white">{formatCurrency(x.val, selectedCurrency.code, selectedCurrency.locale)}</div>
+                  <div className="text-lg font-semibold text-white">
+                    {formatReadableNumber(x.val, selectedCurrency.locale, selectedCurrency.code)}
+                  </div>
                   <div className="text-xs sm:text-sm text-slate-400">{x.label}</div>
                 </div>
               ))}
