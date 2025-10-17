@@ -645,15 +645,13 @@ const CompoundInterestCalculator: React.FC = () => {
               <li><strong>A</strong> = Final amount (principal + accumulated interest)</li>
             </ul>
             <CompoundInterestStepByStep
-                  principal={principal}
-                  rate={rate}
-                  rateUnit={rateUnit}
-                  timeData={timeData}
-                  includeAllDays={includeAllDays}
-                  selectedDays={selectedDays}
-                  customRate={customRate}
-                  finalAmount={finalAmount}
-                />
+                principal={principal}
+                rate={rate}
+                rateUnit={rateUnit}
+                timeData={timeData}
+                customRate={customRate}
+                finalAmount={finalAmount}
+              />
 
               
 
