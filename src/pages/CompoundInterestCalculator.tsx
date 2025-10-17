@@ -66,22 +66,20 @@ function blockBadKeys(e: React.KeyboardEvent<HTMLInputElement>) {
 
 const CompoundInterestCalculator: React.FC = () => {
   // Inputs
-  const [principal, setPrincipal] = useState<number>(() => loadFromStorage("ci_principal", 0));
-  const [rate, setRate] = useState<number>(() => loadFromStorage("ci_rate", 0));
+  const [principal, setPrincipal] = useState<number>(0);
+  const [rate, setRate] = useState<number>(0);
 
   const [rateUnit, setRateUnit] = useState<
     'daily' | 'weekly' | 'monthly' | 'yearly' | 'quarterly' | 'custom'
-  >(() => loadFromStorage("ci_rateUnit", "daily"));
+  >('daily');
 
-  const [customRate, setCustomRate] = useState(() =>
-    loadFromStorage("ci_customRate", { years: 0, months: 0, days: 0 })
-  ); 
+  const [customRate, setCustomRate] = useState<{ years: number; months: number; days: number }>({
+    years: 0,
+    months: 0,
+    days: 0
+  });
 
-  const [timeData, setTimeData] = useState(() =>
-    loadFromStorage("ci_timeData", { years: 0, months: 0, days: 0 })
-  );
-
-  
+  const [timeData, setTimeData] = useState({ years: 0, months: 0, days: 0 });
 
   // Results
   const [finalAmount, setFinalAmount] = useState<number>(0);
@@ -89,13 +87,8 @@ const CompoundInterestCalculator: React.FC = () => {
 
   // Breakdown
   const [breakdownMode, setBreakdownMode] = useState<'daily' | 'weekly' | 'monthly' | 'yearly'>('daily');
-  const [includeAllDays, setIncludeAllDays] = useState<boolean>(() =>
-    loadFromStorage("ci_includeAllDays", true)
-  );
-  cconst [selectedDays, setSelectedDays] = useState<string[]>(() =>
-    loadFromStorage("ci_selectedDays", ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'])
-  );
-  
+  const [includeAllDays, setIncludeAllDays] = useState<boolean>(true);
+  const [selectedDays, setSelectedDays] = useState<string[]>(['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA']);
   const [breakdownData, setBreakdownData] = useState<any[]>([]);
   const [showBreakdown, setShowBreakdown] = useState<boolean>(false);
 
@@ -104,25 +97,7 @@ const CompoundInterestCalculator: React.FC = () => {
 
   /* ====================== Helpers / Memos ====================== */
 
-  // Save calculator inputs to localStorage
-  function saveToStorage(key: string, data: any) {
-    try {
-      localStorage.setItem(key, JSON.stringify(data));
-    } catch (e) {
-      console.warn("LocalStorage save failed:", e);
-    }
-  }
-  
-  // Load calculator inputs from localStorage
-  function loadFromStorage<T>(key: string, fallback: T): T {
-    try {
-      const stored = localStorage.getItem(key);
-      return stored ? JSON.parse(stored) : fallback;
-    } catch {
-      return fallback;
-    }
-  }
-
+   
 
 
   const customIntervalDays = useMemo(
@@ -197,18 +172,6 @@ const CompoundInterestCalculator: React.FC = () => {
     selectedDays,
     showBreakdown
   ]);
-
-  // Persist user input to localStorage whenever something changes
-  useEffect(() => {
-    saveToStorage("ci_principal", principal);
-    saveToStorage("ci_rate", rate);
-    saveToStorage("ci_rateUnit", rateUnit);
-    saveToStorage("ci_customRate", customRate);
-    saveToStorage("ci_timeData", timeData);
-    saveToStorage("ci_includeAllDays", includeAllDays);
-    saveToStorage("ci_selectedDays", selectedDays);
-  }, [principal, rate, rateUnit, customRate, timeData, includeAllDays, selectedDays]);
-
 
   /* ====================== Calculations ====================== */
 
@@ -360,30 +323,7 @@ const CompoundInterestCalculator: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* -------- Inputs -------- */}
           <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-6">
-             <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-slate-100">Investment Details</h2>
-                <button
-                  onClick={() => {
-                    setPrincipal(0);
-                    setRate(0);
-                    setRateUnit('daily');
-                    setCustomRate({ years: 0, months: 0, days: 0 });
-                    setTimeData({ years: 0, months: 0, days: 0 });
-                    setIncludeAllDays(true);
-                    setSelectedDays(['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA']);
-                    localStorage.removeItem("ci_principal");
-                    localStorage.removeItem("ci_rate");
-                    localStorage.removeItem("ci_rateUnit");
-                    localStorage.removeItem("ci_customRate");
-                    localStorage.removeItem("ci_timeData");
-                    localStorage.removeItem("ci_includeAllDays");
-                    localStorage.removeItem("ci_selectedDays");
-                  }}
-                  className="text-sm px-3 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 transition border border-slate-500"
-                >
-                  Reset
-                </button>
-              </div>
+            <h2 className="text-xl font-semibold text-slate-100 mb-4">Investment Details</h2>
 
             <div className="space-y-4">
               {/* Principal */}
