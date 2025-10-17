@@ -541,7 +541,7 @@ const LoanEMICalculator: React.FC = () => {
     setOneTimeAmount(0);
     setOneTimeMonth(1);
     setShowSchedule(false);
-    setShowCharts(false);
+    setShowCharts(false); 
     setCompareEnabled(false);
     setCompareRateAnnual(9);
     setCompareTenureMonths(240);
