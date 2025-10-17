@@ -485,11 +485,10 @@ const LoanEMICalculator: React.FC = () => {
 
 
 
-  // 💾 Auto-save whenever input changes
-  useEffect(() => {
-    const data = { currency, principal, annualRate, years, months };
-    localStorage.setItem("loanInputs", JSON.stringify(data));
-  }, [currency, principal, annualRate, years, months]);
+useEffect(() => {
+  const data = { currency, principal, annualRate, years, months };
+  localStorage.setItem("loanInputs", JSON.stringify(data));
+}, [currency, principal, annualRate, years, months]);
   
   useEffect(() => {
     const loadGuideImage = async () => {
