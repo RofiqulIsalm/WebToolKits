@@ -29,8 +29,7 @@ type ScheduleRow = {
   closingBalance: number;
 };
 
-const principalRef = useRef<HTMLInputElement>(null);
-useEffect(() => { principalRef.current?.focus(); }, [currency]); // or on mount []
+
 
 /* ========================== Small utilities ========================== */
 const round2 = (n: number) => Math.round((n + Number.EPSILON) * 100) / 100;
@@ -270,6 +269,12 @@ const BarsYearly: React.FC<{ data: { year: number; principal: number; interest: 
 
 /* ========================== Component ========================== */
 const LoanEMICalculator: React.FC = () => {
+
+  const principalRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    principalRef.current?.focus();
+  }, []);
   // ---------------- Auto-currency by locale (overrideable) ----------------
   const autoCurrency = useMemo<Currency>(() => {
     try {
@@ -694,6 +699,7 @@ useEffect(() => {
               <div className="flex items-center gap-2">
                 <button type="button" onClick={() => setPrincipal(Math.max(0, principal - 1000))} className="px-3 py-2 bg-slate-800 border border-slate-700 text-white rounded-lg">–</button>
                 <input
+                    ref={principalRef}
                     type="number"
                     min={0}
                     value={principal}
