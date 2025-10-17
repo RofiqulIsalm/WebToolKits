@@ -395,11 +395,7 @@ const SIPCalculator: React.FC = () => {
             <div className="text-center p-4 bg-[#0f172a] rounded-lg border border-[#334155] mb-4">
               <TrendingUp className="h-8 w-8 text-emerald-400 mx-auto mb-2" />
               <div className="text-xl sm:text-2xl font-bold text-white">
-                {formatCurrency(
-                  fvRegular,
-                  selectedCurrency.code,
-                  selectedCurrency.locale
-                )}
+                 {formatReadableNumber(fvRegular, selectedCurrency.locale, selectedCurrency.code)}
               </div>
               <p className="text-xs sm:text-sm text-slate-400">
                 Maturity Value
