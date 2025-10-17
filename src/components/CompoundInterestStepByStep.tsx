@@ -1,26 +1,28 @@
+// components/CompoundInterestStepByStep.tsx
 import React, { useMemo } from "react";
-import { MathJaxContext, MathJax } from "better-react-mathjax";
 
 interface Props {
   principal: number;
   rate: number;
-  rateUnit: "daily" | "weekly" | "monthly" | "quarterly" | "yearly" | "custom";
+  rateUnit: string;
   timeData: { years: number; months: number; days: number };
   finalAmount: number;
 }
 
 const CompoundInterestStepByStep: React.FC<Props> = ({
-  principal = 0,
-  rate = 0,
+  principal,
+  rate,
   rateUnit,
   timeData,
-  finalAmount,
+  finalAmount
 }) => {
-  const s = useMemo(() => {
-    const P = principal;
-    const r = rate / 100;
+  const steps = useMemo(() => {
+    if (!principal || !rate || (!timeData.years && !timeData.months && !timeData.days)) return null;
+
+    // Convert time to years
     const t = timeData.years + timeData.months / 12 + timeData.days / 365;
 
+    // Compounding frequency
     const n =
       rateUnit === "daily"
         ? 365
@@ -32,42 +34,46 @@ const CompoundInterestStepByStep: React.FC<Props> = ({
         ? 4
         : 1;
 
-    const rp = r / n;
-    const np = n * t;
-    const f = Math.pow(1 + rp, np);
-    const FV = finalAmount || P * f;
-    return { P, r, n, t, rp, np, f, FV };
+    const r = rate / 100;
+    const ratePerPeriod = r / n;
+    const totalPeriods = n * t;
+    const factor = Math.pow(1 + ratePerPeriod, totalPeriods);
+
+    return {
+      P: principal,
+      r,
+      n,
+      t,
+      ratePerPeriod,
+      totalPeriods,
+      factor,
+      FV: finalAmount || principal * factor
+    };
   }, [principal, rate, rateUnit, timeData, finalAmount]);
 
-  if (!s.P || !s.r) return null;
+  if (!steps) return null;
 
   return (
-    <div className="bg-slate-800/50 p-6 rounded-xl mt-6 text-center text-slate-100">
-      <h3 className="text-xl font-semibold text-cyan-300 mb-4">
+    <div className="bg-slate-800/50 p-4 rounded-xl mt-6 text-slate-200 space-y-2">
+      <h3 className="text-xl font-semibold text-cyan-300 mb-3">
         Step-by-Step Calculation
       </h3>
-      <MathJaxContext>
-        <div className="space-y-4 text-lg leading-relaxed">
-          <MathJax>{`\\[FV = P \\times (1 + r/n)^{n \\times t}\\]`}</MathJax>
-          <MathJax>{`\\[FV = ${s.P.toLocaleString()} \\times (1 + ${s.r.toFixed(
-            2
-          )}/${s.n})^{${s.n}\\times${s.t.toFixed(4)}}\\]`}</MathJax>
-          <MathJax>{`\\[\\frac{${s.r.toFixed(2)}}{${s.n}} = ${s.rp.toFixed(
-            8
-          )}\\]`}</MathJax>
-          <MathJax>{`\\[${s.n}\\times${s.t.toFixed(4)} = ${s.np.toFixed(
-            4
-          )}\\]`}</MathJax>
-          <MathJax>{`\\[(1 + ${s.rp.toFixed(8)})^{${s.np.toFixed(
-            4
-          )}} = ${s.f.toFixed(6)}\\]`}</MathJax>
-          <MathJax>{`\\[FV = ${s.P.toLocaleString()} \\times ${s.f.toFixed(
-            6
-          )} = \\textbf{${s.FV.toLocaleString(undefined, {
-            maximumFractionDigits: 2,
-          })}}\\]`}</MathJax>
-        </div>
-      </MathJaxContext>
+
+      <pre className="text-slate-300">
+        FV = P × (1 + r/n)^(n×t)
+      </pre>
+
+      <pre className="text-slate-300">
+        FV = {steps.P.toLocaleString()} × (1 + {steps.r.toFixed(2)}/ {steps.n})^({steps.n}×{steps.t.toFixed(4)})
+      </pre>
+
+      <pre>r/n = {(steps.ratePerPeriod).toFixed(8)}</pre>
+      <pre>n×t = {steps.totalPeriods.toFixed(4)}</pre>
+      <pre>(1 + r/n)^(n×t) = {steps.factor.toFixed(6)}</pre>
+      <pre>
+        FV = {steps.P.toLocaleString()} × {steps.factor.toFixed(6)} ={" "}
+        {steps.FV.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+      </pre>
     </div>
   );
 };
