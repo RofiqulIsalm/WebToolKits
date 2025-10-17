@@ -36,12 +36,59 @@ const SIP_TIPS = [
 ];
 
 const CURRENCIES = [
-  { code: "INR", symbol: "₹", locale: "en-IN" },
-  { code: "USD", symbol: "$", locale: "en-US" },
-  { code: "GBP", symbol: "£", locale: "en-GB" },
-  { code: "EUR", symbol: "€", locale: "de-DE" },
-  { code: "AUD", symbol: "A$", locale: "en-AU" },
+  { code: "INR", symbol: "₹", locale: "en-IN" }, // India
+  { code: "USD", symbol: "$", locale: "en-US" }, // United States
+  { code: "EUR", symbol: "€", locale: "de-DE" }, // Eurozone
+  { code: "GBP", symbol: "£", locale: "en-GB" }, // United Kingdom
+  { code: "AUD", symbol: "A$", locale: "en-AU" }, // Australia
+  { code: "CAD", symbol: "C$", locale: "en-CA" }, // Canada
+  { code: "SGD", symbol: "S$", locale: "en-SG" }, // Singapore
+  { code: "NZD", symbol: "NZ$", locale: "en-NZ" }, // New Zealand
+  { code: "CHF", symbol: "CHF", locale: "de-CH" }, // Switzerland
+  { code: "JPY", symbol: "¥", locale: "ja-JP" }, // Japan
+  { code: "CNY", symbol: "¥", locale: "zh-CN" }, // China
+  { code: "HKD", symbol: "HK$", locale: "en-HK" }, // Hong Kong
+  { code: "SEK", symbol: "kr", locale: "sv-SE" }, // Sweden
+  { code: "NOK", symbol: "kr", locale: "nb-NO" }, // Norway
+  { code: "DKK", symbol: "kr", locale: "da-DK" }, // Denmark
+  { code: "AED", symbol: "د.إ", locale: "ar-AE" }, // UAE
+  { code: "SAR", symbol: "﷼", locale: "ar-SA" }, // Saudi Arabia
+  { code: "ZAR", symbol: "R", locale: "en-ZA" }, // South Africa
+  { code: "BRL", symbol: "R$", locale: "pt-BR" }, // Brazil
+  { code: "MXN", symbol: "$", locale: "es-MX" }, // Mexico
+  { code: "ARS", symbol: "$", locale: "es-AR" }, // Argentina
+  { code: "CLP", symbol: "$", locale: "es-CL" }, // Chile
+  { code: "COP", symbol: "$", locale: "es-CO" }, // Colombia
+  { code: "PEN", symbol: "S/", locale: "es-PE" }, // Peru
+  { code: "KRW", symbol: "₩", locale: "ko-KR" }, // South Korea
+  { code: "THB", symbol: "฿", locale: "th-TH" }, // Thailand
+  { code: "MYR", symbol: "RM", locale: "ms-MY" }, // Malaysia
+  { code: "IDR", symbol: "Rp", locale: "id-ID" }, // Indonesia
+  { code: "PHP", symbol: "₱", locale: "en-PH" }, // Philippines
+  { code: "VND", symbol: "₫", locale: "vi-VN" }, // Vietnam
+  { code: "TRY", symbol: "₺", locale: "tr-TR" }, // Turkey
+  { code: "EGP", symbol: "£", locale: "ar-EG" }, // Egypt
+  { code: "NGN", symbol: "₦", locale: "en-NG" }, // Nigeria
+  { code: "KES", symbol: "KSh", locale: "en-KE" }, // Kenya
+  { code: "GHS", symbol: "₵", locale: "en-GH" }, // Ghana
+  { code: "UGX", symbol: "USh", locale: "en-UG" }, // Uganda
+  { code: "TZS", symbol: "TSh", locale: "en-TZ" }, // Tanzania
+  { code: "BDT", symbol: "৳", locale: "bn-BD" }, // Bangladesh
+  { code: "LKR", symbol: "Rs", locale: "si-LK" }, // Sri Lanka
+  { code: "PKR", symbol: "₨", locale: "ur-PK" }, // Pakistan
+  { code: "NPR", symbol: "Rs", locale: "ne-NP" }, // Nepal
+  { code: "BHD", symbol: "ب.د", locale: "ar-BH" }, // Bahrain
+  { code: "OMR", symbol: "﷼", locale: "ar-OM" }, // Oman
+  { code: "QAR", symbol: "﷼", locale: "ar-QA" }, // Qatar
+  { code: "KWD", symbol: "د.ك", locale: "ar-KW" }, // Kuwait
+  { code: "ILS", symbol: "₪", locale: "he-IL" }, // Israel
+  { code: "PLN", symbol: "zł", locale: "pl-PL" }, // Poland
+  { code: "CZK", symbol: "Kč", locale: "cs-CZ" }, // Czech Republic
+  { code: "HUF", symbol: "Ft", locale: "hu-HU" }, // Hungary
+  { code: "RUB", symbol: "₽", locale: "ru-RU" }, // Russia
+  { code: "RON", symbol: "lei", locale: "ro-RO" }, // Romania
 ];
+
 
 const formatCurrency = (v: number, currency: string, locale: string) =>
   new Intl.NumberFormat(locale, {
