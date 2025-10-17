@@ -339,7 +339,7 @@ const SIPCalculator: React.FC = () => {
                   min: 1,
                   max: 50,
                   step: 0.1,
-                  accent: "accent-indigo-0",
+                  accent: "accent-indigo-500",
                 },
                 {
                   label: "Time Period (Years)",
