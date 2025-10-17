@@ -23,6 +23,7 @@ import { countries } from '../utils/tax/countryMeta';
 import { TAX_ENGINES } from '../utils/tax';
 import supportedCountries from '../utils/tax/supportedCountries.json';
 import { TOOLTIP_TEXTS } from '../utils/tax/tooltipTexts';
+import TaxSummary from "../components/TaxSummary";
 
 const COLORS = ['#ef4444', '#22c55e']; // red = tax, green = net
 
