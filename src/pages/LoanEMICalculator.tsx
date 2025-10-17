@@ -1112,12 +1112,7 @@ const LoanEMICalculator: React.FC = () => {
           
           {/* Step-by-step example */}
           <EMIExampleSteps />
-        <ul>
-          <li><strong>P</strong> = Principal loan amount</li>
-          <li><strong>R</strong> = Monthly interest rate (annual rate ÷ 12 ÷ 100)</li>
-          <li><strong>N</strong> = Loan tenure in months</li>
-        </ul>
-        <p>
+
           This formula ensures precision and transparency, matching the method used by most banks and NBFCs for retail
           loans. It’s ideal for <strong>home loans</strong>, <strong>car loans</strong>, <strong>personal loans</strong>, and
           <strong> small business loans</strong>.
