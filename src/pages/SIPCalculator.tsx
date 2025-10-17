@@ -332,68 +332,68 @@ const SIPCalculator: React.FC = () => {
                 { label: 'Total Invested', val: investedAmount },
                 { label: 'Wealth Gain', val: estimatedProfit }
               ].map((x, i)=>(
-                <div key={i} className=\"p-4 bg-[#0f172a] rounded-lg text-center border border-[#334155]\">
-                  <div className=\"text-base sm:text-lg font-semibold text-white\">{formatCurrency(x.val, selectedCurrency.code, selectedCurrency.locale)}</div>
-                  <div className=\"text-xs sm:text-sm text-slate-400\">{x.label}</div>
+                <div key={i} className="p-4 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
+                  <div className="text-base sm:text-lg font-semibold text-white">{formatCurrency(x.val, selectedCurrency.code, selectedCurrency.locale)}</div>
+                  <div className="text-xs sm:text-sm text-slate-400">{x.label}</div>
                 </div>
               ))}
             </div>
  
-            <div className=\"mt-4 space-y-2 text-xs sm:text-sm text-slate-300\">
-              <div className=\"flex justify-between\"><span>Duration:</span><span>{timePeriod} years</span></div>
-              <div className=\"flex justify-between\"><span>Return:</span><span>{returnRate}% p.a.</span></div>
-              <div className=\"flex justify-between\"><span>Step-up:</span><span>{stepUp}%/yr</span></div>
+            <div className="mt-4 space-y-2 text-xs sm:text-sm text-slate-300">
+              <div className="flex justify-between"><span>Duration:</span><span>{timePeriod} years</span></div>
+              <div className="flex justify-between"><span>Return:</span><span>{returnRate}% p.a.</span></div>
+              <div className="flex justify-between"><span>Step-up:</span><span>{stepUp}%/yr</span></div>
             </div>
 
-            <div className=\"flex flex-col sm:flex-row items-center sm:justify-start gap-2 pt-4\">
-              <button onClick={copyShare} className=\"flex items-center gap-2 w-full sm:w-auto justify-center px-3 py-2 text-sm rounded-md border border-[#334155] hover:border-indigo-500 hover:bg-[#0f172a] transition\">
-                <Share2 className=\"h-4 w-4\" /> Share
+            <div className="flex flex-col sm:flex-row items-center sm:justify-start gap-2 pt-4">
+              <button onClick={copyShare} className="flex items-center gap-2 w-full sm:w-auto justify-center px-3 py-2 text-sm rounded-md border border-[#334155] hover:border-indigo-500 hover:bg-[#0f172a] transition">
+                <Share2 className="h-4 w-4" /> Share
               </button>
-              <span className=\"text-xs text-slate-400\">Link encodes inputs</span>
+              <span className="text-xs text-slate-400">Link encodes inputs</span>
             </div>
           </div>
         </div>
 
         {/* Smart Tip */}
-        <div className=\"mt-5 bg-[#1e293b] border border-[#334155] px-4 py-3 rounded-md text-slate-200 flex items-center\">
-          <span className=\"text-xl sm:text-2xl text-indigo-400 mr-3\">💡</span>
-          <p className=\"text-sm sm:text-base font-medium text-slate-300\">{SIP_TIPS[activeTip]}</p>
+        <div className="mt-5 bg-[#1e293b] border border-[#334155] px-4 py-3 rounded-md text-slate-200 flex items-center">
+          <span className="text-xl sm:text-2xl text-indigo-400 mr-3">💡</span>
+          <p className="text-sm sm:text-base font-medium text-slate-300">{SIP_TIPS[activeTip]}</p>
         </div>
 
         {/* Chart Section */}
-        <div className=\"mt-6 bg-[#1e293b] rounded-xl border border-[#334155] p-4 sm:p-6 text-slate-200\">
-          <h3 className=\"text-base sm:text-lg font-semibold text-white mb-4 sm:mb-6 text-center\">SIP Growth Overview</h3>
-          <div className=\"w-full h-[250px] sm:h-[320px]\">
-            <ResponsiveContainer width=\"100%\" height=\"100%\">
+        <div className="mt-6 bg-[#1e293b] rounded-xl border border-[#334155] p-4 sm:p-6 text-slate-200">
+          <h3 className="text-base sm:text-lg font-semibold text-white mb-4 sm:mb-6 text-center">SIP Growth Overview</h3>
+          <div className="w-full h-[250px] sm:h-[320px]">
+            <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData} margin={{ top: 10, right: 15, left: -10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray=\"3 3\" />
-                <XAxis dataKey=\"year\" tickFormatter={(y) => `${y}y`} />
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="year" tickFormatter={(y) => `${y}y`} />
                 <YAxis tickFormatter={(v) => formatCompact(v, selectedCurrency.locale)} />
                 <ChartTooltip formatter={(v:any)=>formatCurrency(v, selectedCurrency.code, selectedCurrency.locale)} labelFormatter={(l)=>`Year ${l}`} />
-                <Line type=\"monotone\" dataKey=\"value\" stroke=\"#10b981\" strokeWidth={2} dot={false} name=\"Normal SIP\" />
-                <Line type=\"monotone\" dataKey=\"stepUpValue\" stroke=\"#f472b6\" strokeWidth={2} dot={false} name=\"Step-up SIP\" />
-                <Line type=\"monotone\" dataKey=\"invested\" stroke=\"#6366f1\" strokeWidth={2} dot={false} name=\"Invested\" />
+                <Line type="monotone" dataKey="value" stroke="#10b981" strokeWidth={2} dot={false} name="Normal SIP" />
+                <Line type="monotone" dataKey="stepUpValue" stroke="#f472b6" strokeWidth={2} dot={false} name="Step-up SIP" />
+                <Line type="monotone" dataKey="invested" stroke="#6366f1" strokeWidth={2} dot={false} name="Invested" />
               </LineChart>
             </ResponsiveContainer>
           </div>
 
           {/* Comparison */}
-          <div className=\"grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-5\">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-5">
             {[ 
               { title: 'Normal SIP', val: fvRegular },
               { title: 'Step-up SIP', val: fvStep },
               { title: 'Step-up Invested', val: investedStep }
             ].map((x,i)=>(
-              <div key={i} className=\"p-3 bg-[#0f172a] border border-[#334155] rounded-lg text-center\">
-                <p className=\"text-xs sm:text-sm text-slate-400\">{x.title}</p>
-                <p className=\"text-sm sm:text-base font-semibold text-white\">{formatCurrency(x.val, selectedCurrency.code, selectedCurrency.locale)}</p>
+              <div key={i} className="p-3 bg-[#0f172a] border border-[#334155] rounded-lg text-center\">
+                <p className="text-xs sm:text-sm text-slate-400">{x.title}</p>
+                <p className="text-sm sm:text-base font-semibold text-white">{formatCurrency(x.val, selectedCurrency.code, selectedCurrency.locale)}</p>
               </div>
             ))}
           </div>
         </div>
 
-        <AdBanner type=\"bottom\" />
-        <RelatedCalculators currentPath=\"/sip-calculator\" category=\"currency-finance\" />
+        <AdBanner type="bottom" />
+        <RelatedCalculators currentPath="sip-calculator" category="currency-finance" />
       </div>
     </>
   );
