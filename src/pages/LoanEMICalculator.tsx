@@ -459,6 +459,21 @@ useEffect(() => {
     if (typeof saved.years === "number") setYears(saved.years);
     if (typeof saved.months === "number") setMonths(saved.months);
   }, []);
+
+  // 💾 Save whenever inputs change
+  useEffect(() => {
+    const data = {
+      currency,
+      principal,
+      annualRate,
+      years,
+      months,
+    };
+    localStorage.setItem("loanInputs", JSON.stringify(data));
+  }, [currency, principal, annualRate, years, months]);
+
+
+  
   useEffect(() => {
     const loadGuideImage = async () => {
       try {
