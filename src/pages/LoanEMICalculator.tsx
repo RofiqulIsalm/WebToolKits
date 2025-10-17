@@ -449,30 +449,47 @@ const LoanEMICalculator: React.FC = () => {
   // Supabase: example asset fetch
   // ================================
   
-  // 🧠 Load from localStorage on mount
-useEffect(() => {
+  // 🧠 Initialize from localStorage OR URL query
+  useEffect(() => {
+    // 1️⃣ Load saved local data
     const saved = JSON.parse(localStorage.getItem("loanInputs") || "{}");
   
-    if (saved.currency) setCurrency(saved.currency);
-    if (typeof saved.principal === "number") setPrincipal(saved.principal);
-    if (typeof saved.annualRate === "number") setAnnualRate(saved.annualRate);
-    if (typeof saved.years === "number") setYears(saved.years);
-    if (typeof saved.months === "number") setMonths(saved.months);
+    // 2️⃣ Load from URL query (higher priority if exists)
+    const q = fromQuery(typeof window !== 'undefined' ? window.location.search : '');
+  
+    const finalCurrency = q.currency && ['$', '₹', '€', '£', '¥'].includes(q.currency)
+      ? (q.currency as Currency)
+      : saved.currency || autoCurrency;
+  
+    const finalPrincipal = q.p ? Math.max(0, Number(q.p)) : saved.principal || 0;
+    const finalRate = q.r ? Math.max(0, Number(q.r)) : saved.annualRate || 0;
+    const finalYears = q.y ? Math.max(0, Math.floor(Number(q.y))) : saved.years || 0;
+    const finalMonths = q.m ? Math.max(0, Math.floor(Number(q.m))) : saved.months || 0;
+  
+    // 3️⃣ Apply final state
+    setCurrency(finalCurrency);
+    setPrincipal(finalPrincipal);
+    setAnnualRate(finalRate);
+    setYears(finalYears);
+    setMonths(finalMonths);
+  
+    // 4️⃣ Save prepayment / comparison (optional)
+    if (q.eom) setEnableOneTime(q.eom === '1');
+    if (q.eem) setEnableExtraMonthly(q.eem === '1');
+    if (q.ota) setOneTimeAmount(Math.max(0, Number(q.ota)));
+    if (q.otm) setOneTimeMonth(Math.max(1, Math.floor(Number(q.otm))));
+    if (q.xm) setExtraMonthly(Math.max(0, Number(q.xm)));
+    if (q.cmp === '1') setCompareEnabled(true);
+    if (q.cr) setCompareRateAnnual(Math.max(0, Number(q.cr)));
+    if (q.cn) setCompareTenureMonths(Math.max(1, Math.floor(Number(q.cn))));
   }, []);
 
-  // 💾 Save whenever inputs change
+
+  // 💾 Auto-save whenever input changes
   useEffect(() => {
-    const data = {
-      currency,
-      principal,
-      annualRate,
-      years,
-      months,
-    };
+    const data = { currency, principal, annualRate, years, months };
     localStorage.setItem("loanInputs", JSON.stringify(data));
   }, [currency, principal, annualRate, years, months]);
-
-
   
   useEffect(() => {
     const loadGuideImage = async () => {
