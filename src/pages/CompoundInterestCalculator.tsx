@@ -651,7 +651,6 @@ const CompoundInterestCalculator: React.FC = () => {
                 rate={rate}
                 rateUnit={rateUnit}
                 timeData={timeData}
-                customRate={customRate}
                 finalAmount={finalAmount}
               />
 
