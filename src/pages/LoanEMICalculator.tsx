@@ -1116,7 +1116,7 @@ const LoanEMICalculator: React.FC = () => {
           This formula ensures precision and transparency, matching the method used by most banks and NBFCs for retail
           loans. It’s ideal for <strong>home loans</strong>, <strong>car loans</strong>, <strong>personal loans</strong>, and
           <strong> small business loans</strong>.
-        </p>
+
       
        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Why Use Our EMI Calculator?</h2>
         <ul className="space-y-2">
