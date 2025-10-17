@@ -446,7 +446,12 @@ const SIPCalculator: React.FC = () => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="year" tickFormatter={(y) => `${y}y`} />
                 <YAxis tickFormatter={(v) => formatCompact(v, selectedCurrency.locale)} />
-                <ChartTooltip formatter={(v:any)=>formatCurrency(v, selectedCurrency.code, selectedCurrency.locale)} labelFormatter={(l)=>`Year ${l}`} />
+                <ChartTooltip
+                  formatter={(v: any) =>
+                    formatReadableNumber(v, selectedCurrency.locale, selectedCurrency.code)
+                  }
+                  labelFormatter={(l) => `Year ${l}`}
+                />
                 <Line type="monotone" dataKey="value" stroke="#10b981" strokeWidth={2} dot={false} name="Normal SIP" />
                 <Line type="monotone" dataKey="stepUpValue" stroke="#f472b6" strokeWidth={2} dot={false} name="Step-up SIP" />
                 <Line type="monotone" dataKey="invested" stroke="#6366f1" strokeWidth={2} dot={false} name="Invested" />
