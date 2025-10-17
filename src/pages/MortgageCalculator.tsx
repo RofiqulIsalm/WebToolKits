@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Home } from 'lucide-react';
+import { Home, RotateCcw } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
 
-// Supported currencies with locale & symbol
+// Supported currencies
 const currencyOptions = [
   { code: 'INR', symbol: '₹', locale: 'en-IN', label: 'Indian Rupee (₹)' },
   { code: 'USD', symbol: '$', locale: 'en-US', label: 'US Dollar ($)' },
@@ -15,7 +15,7 @@ const currencyOptions = [
   { code: 'AUD', symbol: 'A$', locale: 'en-AU', label: 'Australian Dollar (A$)' },
 ];
 
-// Helper function to format values with current currency
+// Currency formatting helper
 const formatCurrency = (num: number, locale: string, currency: string) => {
   if (isNaN(num) || num <= 0) return `${currencyOptions.find(c => c.code === currency)?.symbol || ''}0`;
   return new Intl.NumberFormat(locale, {
@@ -28,7 +28,8 @@ const formatCurrency = (num: number, locale: string, currency: string) => {
 const MortgageCalculator: React.FC = () => {
   const [loanAmount, setLoanAmount] = useState<number>(0);
   const [interestRate, setInterestRate] = useState<number>(0);
-  const [loanTerm, setLoanTerm] = useState<number>(0);
+  const [loanYears, setLoanYears] = useState<number>(0);
+  const [loanMonths, setLoanMonths] = useState<number>(0);
   const [monthlyPayment, setMonthlyPayment] = useState<number>(0);
   const [totalInterest, setTotalInterest] = useState<number>(0);
   const [totalPayment, setTotalPayment] = useState<number>(0);
@@ -36,12 +37,15 @@ const MortgageCalculator: React.FC = () => {
 
   const currentLocale = currencyOptions.find(c => c.code === currency)?.locale || 'en-IN';
 
+  // Total months = years * 12 + months
+  const totalMonths = loanYears * 12 + loanMonths;
+
   useEffect(() => {
     calculateMortgage();
-  }, [loanAmount, interestRate, loanTerm]);
+  }, [loanAmount, interestRate, loanYears, loanMonths]);
 
   const calculateMortgage = () => {
-    if (loanAmount <= 0 || loanTerm <= 0 || interestRate < 0) {
+    if (loanAmount <= 0 || totalMonths <= 0 || interestRate < 0) {
       setMonthlyPayment(0);
       setTotalPayment(0);
       setTotalInterest(0);
@@ -50,26 +54,36 @@ const MortgageCalculator: React.FC = () => {
 
     const principal = loanAmount;
     const monthlyRate = interestRate / 12 / 100;
-    const months = loanTerm * 12;
 
     if (interestRate === 0) {
-      const emi = principal / months;
+      const emi = principal / totalMonths;
       setMonthlyPayment(emi);
-      setTotalPayment(emi * months);
+      setTotalPayment(emi * totalMonths);
       setTotalInterest(0);
       return;
     }
 
     const emi =
-      (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) /
-      (Math.pow(1 + monthlyRate, months) - 1);
+      (principal * monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) /
+      (Math.pow(1 + monthlyRate, totalMonths) - 1);
 
-    const totalPay = emi * months;
+    const totalPay = emi * totalMonths;
     const totalInt = totalPay - principal;
 
     setMonthlyPayment(emi);
     setTotalPayment(totalPay);
     setTotalInterest(totalInt);
+  };
+
+  const handleReset = () => {
+    setLoanAmount(0);
+    setInterestRate(0);
+    setLoanYears(0);
+    setLoanMonths(0);
+    setMonthlyPayment(0);
+    setTotalPayment(0);
+    setTotalInterest(0);
+    setCurrency('INR');
   };
 
   return (
@@ -98,13 +112,24 @@ const MortgageCalculator: React.FC = () => {
           ]}
         />
 
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">
-            Mortgage Calculator
-          </h1>
-          <p className="text-slate-300">
-            Estimate your monthly mortgage payment, total interest, and total payment.
-          </p>
+        <div className="mb-8 flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">
+              Mortgage Calculator
+            </h1>
+            <p className="text-slate-300">
+              Estimate your monthly mortgage payment, total interest, and total payment.
+            </p>
+          </div>
+
+          {/* Reset Button */}
+          <button
+            onClick={handleReset}
+            className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition"
+          >
+            <RotateCcw size={18} />
+            Reset
+          </button>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -131,6 +156,7 @@ const MortgageCalculator: React.FC = () => {
             </div>
 
             <div className="space-y-4">
+              {/* Loan Amount */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Loan Amount ({currencyOptions.find(c => c.code === currency)?.symbol})
@@ -145,6 +171,7 @@ const MortgageCalculator: React.FC = () => {
                 />
               </div>
 
+              {/* Interest Rate */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Annual Interest Rate (%)
@@ -160,27 +187,37 @@ const MortgageCalculator: React.FC = () => {
                 />
               </div>
 
+              {/* Loan Term - Years + Months */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Loan Term (Years)
+                  Loan Term
                 </label>
-                <input
-                  type="number"
-                  value={loanTerm || ''}
-                  placeholder="Enter loan term in years"
-                  min={1}
-                  onChange={(e) => setLoanTerm(Number(e.target.value))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
+                <div className="flex gap-4">
+                  <input
+                    type="number"
+                    value={loanYears || ''}
+                    placeholder="Years"
+                    min={0}
+                    onChange={(e) => setLoanYears(Number(e.target.value))}
+                    className="w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                  <input
+                    type="number"
+                    value={loanMonths || ''}
+                    placeholder="Months"
+                    min={0}
+                    max={11}
+                    onChange={(e) => setLoanMonths(Number(e.target.value))}
+                    className="w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
               </div>
             </div>
           </div>
 
           {/* Result Section */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">
-              Mortgage Summary
-            </h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Mortgage Summary</h2>
 
             <div className="space-y-6">
               <div className="text-center p-4 bg-blue-50 rounded-lg">
@@ -210,7 +247,9 @@ const MortgageCalculator: React.FC = () => {
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
                   <span>Loan Term:</span>
-                  <span className="font-medium">{loanTerm || 0} years</span>
+                  <span className="font-medium">
+                    {loanYears || 0} years {loanMonths || 0} months
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Interest Rate:</span>
@@ -218,7 +257,7 @@ const MortgageCalculator: React.FC = () => {
                 </div>
                 <div className="flex justify-between">
                   <span>Monthly Payments:</span>
-                  <span className="font-medium">{loanTerm > 0 ? loanTerm * 12 : 0}</span>
+                  <span className="font-medium">{totalMonths > 0 ? totalMonths : 0}</span>
                 </div>
               </div>
             </div>
