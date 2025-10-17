@@ -7,6 +7,8 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import AdBanner from '../components/AdBanner';
 import RelatedCalculators from '../components/RelatedCalculators';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
+import EMIExampleSteps from "../components/EMIExampleSteps";
+
 
 /* ========================== Supabase ========================== */
 const supabase = createClient(
@@ -1046,6 +1048,7 @@ const LoanEMICalculator: React.FC = () => {
           </div>
         )}
 
+
           {/* ==================== SEO CONTENT SECTION ==================== */}
       <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
         <h2 className="text-3xl font-bold text-cyan-400 mb-6">
@@ -1102,10 +1105,13 @@ const LoanEMICalculator: React.FC = () => {
         </p>
 
         <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">EMI Calculation Formula</h2>
-        <p>The EMI is calculated using the standard formula:</p>
-        <pre className="bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto">
-          EMI = [P × R × (1 + R)^N] / [(1 + R)^N – 1]
-        </pre>
+          <p>The EMI is calculated using the standard formula:</p>
+          <pre className="bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto">
+            EMI = [P × R × (1 + R)^N] / [(1 + R)^N – 1]
+          </pre>
+          
+          {/* Step-by-step example */}
+          <EMIExampleSteps />
         <ul>
           <li><strong>P</strong> = Principal loan amount</li>
           <li><strong>R</strong> = Monthly interest rate (annual rate ÷ 12 ÷ 100)</li>
