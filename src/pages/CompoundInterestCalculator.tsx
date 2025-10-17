@@ -12,6 +12,8 @@ import CompoundInterestStepByStep from "../components/CompoundInterestStepByStep
 const AdBanner = React.lazy(() => import('../components/AdBanner'));
 const RelatedCalculators = React.lazy(() => import('../components/RelatedCalculators'));
 
+
+
 // ============ Supabase ============
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -64,20 +66,22 @@ function blockBadKeys(e: React.KeyboardEvent<HTMLInputElement>) {
 
 const CompoundInterestCalculator: React.FC = () => {
   // Inputs
-  const [principal, setPrincipal] = useState<number>(0);
-  const [rate, setRate] = useState<number>(0);
+  const [principal, setPrincipal] = useState<number>(() => loadFromStorage("ci_principal", 0));
+  const [rate, setRate] = useState<number>(() => loadFromStorage("ci_rate", 0));
 
   const [rateUnit, setRateUnit] = useState<
     'daily' | 'weekly' | 'monthly' | 'yearly' | 'quarterly' | 'custom'
-  >('daily');
+  >(() => loadFromStorage("ci_rateUnit", "daily"));
 
-  const [customRate, setCustomRate] = useState<{ years: number; months: number; days: number }>({
-    years: 0,
-    months: 0,
-    days: 0
-  });
+  const [customRate, setCustomRate] = useState(() =>
+    loadFromStorage("ci_customRate", { years: 0, months: 0, days: 0 })
+  ); 
 
-  const [timeData, setTimeData] = useState({ years: 0, months: 0, days: 0 });
+  const [timeData, setTimeData] = useState(() =>
+    loadFromStorage("ci_timeData", { years: 0, months: 0, days: 0 })
+  );
+
+  
 
   // Results
   const [finalAmount, setFinalAmount] = useState<number>(0);
@@ -85,8 +89,13 @@ const CompoundInterestCalculator: React.FC = () => {
 
   // Breakdown
   const [breakdownMode, setBreakdownMode] = useState<'daily' | 'weekly' | 'monthly' | 'yearly'>('daily');
-  const [includeAllDays, setIncludeAllDays] = useState<boolean>(true);
-  const [selectedDays, setSelectedDays] = useState<string[]>(['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA']);
+  const [includeAllDays, setIncludeAllDays] = useState<boolean>(() =>
+    loadFromStorage("ci_includeAllDays", true)
+  );
+  cconst [selectedDays, setSelectedDays] = useState<string[]>(() =>
+    loadFromStorage("ci_selectedDays", ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'])
+  );
+  
   const [breakdownData, setBreakdownData] = useState<any[]>([]);
   const [showBreakdown, setShowBreakdown] = useState<boolean>(false);
 
@@ -94,6 +103,27 @@ const CompoundInterestCalculator: React.FC = () => {
   const [guideImageUrl, setGuideImageUrl] = useState<string>('');
 
   /* ====================== Helpers / Memos ====================== */
+
+  // Save calculator inputs to localStorage
+  function saveToStorage(key: string, data: any) {
+    try {
+      localStorage.setItem(key, JSON.stringify(data));
+    } catch (e) {
+      console.warn("LocalStorage save failed:", e);
+    }
+  }
+  
+  // Load calculator inputs from localStorage
+  function loadFromStorage<T>(key: string, fallback: T): T {
+    try {
+      const stored = localStorage.getItem(key);
+      return stored ? JSON.parse(stored) : fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
+
 
   const customIntervalDays = useMemo(
     () => customRate.years * 365 + customRate.months * 30 + customRate.days,
@@ -167,6 +197,18 @@ const CompoundInterestCalculator: React.FC = () => {
     selectedDays,
     showBreakdown
   ]);
+
+  // Persist user input to localStorage whenever something changes
+  useEffect(() => {
+    saveToStorage("ci_principal", principal);
+    saveToStorage("ci_rate", rate);
+    saveToStorage("ci_rateUnit", rateUnit);
+    saveToStorage("ci_customRate", customRate);
+    saveToStorage("ci_timeData", timeData);
+    saveToStorage("ci_includeAllDays", includeAllDays);
+    saveToStorage("ci_selectedDays", selectedDays);
+  }, [principal, rate, rateUnit, customRate, timeData, includeAllDays, selectedDays]);
+
 
   /* ====================== Calculations ====================== */
 
