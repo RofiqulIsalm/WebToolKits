@@ -104,11 +104,7 @@ const COUNTRY_TAX_TIPS: Record<string, string[]> = {
 };
 
 const TaxCalculator: React.FC = () => {
-  const [grossIncome, setGrossIncome] = useState(0);
-  const [deductions, setDeductions] = useState(0);
-  const [taxableIncome, setTaxableIncome] = useState(0);
-  const [totalTax, setTotalTax] = useState(0);
-  const [netIncome, setNetIncome] = useState(0);
+  
   const [country, setCountry] = useState(() => localStorage.getItem('country') || '');
   const [income, setIncome] = useState<number | ''>(
     localStorage.getItem('income') ? Number(localStorage.getItem('income')) : ''
@@ -453,6 +449,20 @@ const TaxCalculator: React.FC = () => {
         </div>
       </div>
     </div>
+
+    {/* ✅ Tax Summary Section */}
+    {income && Number(income) > 0 && (
+      <div className="mt-6">
+        <TaxSummary
+          grossIncome={Number(income) || 0}
+          deductions={Number(deductions) || 0}
+          taxableIncome={Math.max(Number(income) - Number(deductions || 0), 0)}
+          totalTax={tax || 0}
+          netIncome={netIncome || 0}
+        />
+      </div>
+    )}
+
     
     
     {/* ===== Smart Tip Box (Full Width Above Chart) ===== */}
