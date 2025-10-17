@@ -653,9 +653,7 @@ const CompoundInterestCalculator: React.FC = () => {
                 contribution={periodicContribution}        // optional (default 0)
                 contributionTiming={contribTiming}         // "end" | "begin" (default "end")
               />
-
-
-            
+  
             <p>
               In practice, deposits, withdrawals, holidays, and custom intervals can affect timing. Our calculator offers a
               flexible <strong>custom compounding option</strong> (years, months, days) and an <strong>include/exclude days</strong>
