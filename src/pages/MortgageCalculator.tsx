@@ -385,7 +385,7 @@ const MortgageCalculator: React.FC = () => {
               <div>
                 <div className="flex justify-between items-center mb-1">
                   <label className="text-sm font-medium text-slate-300">
-                    Down Payment ({findSymbol(currency)})
+                    Down Payment (Optional)
                   </label>
                   <Info className="h-4 w-4 text-slate-400" />
                 </div>
