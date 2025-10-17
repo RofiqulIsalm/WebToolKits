@@ -166,6 +166,37 @@ const SIPCalculator: React.FC = () => {
   const selectedCurrency =
     CURRENCIES.find((c) => c.code === currency) || CURRENCIES[0];
 
+  const formatReadableNumber = (value: number, locale: string, currency: string) => {
+    if (!isFinite(value)) return '0';
+  
+    // Show normal currency for values below 10 million
+    if (value <= 9_999_999) {
+      return new Intl.NumberFormat(locale, {
+        style: 'currency',
+        currency,
+        maximumFractionDigits: 0,
+      }).format(value);
+    }
+  
+    // Compact notation for larger numbers (10M, 1B, 1T)
+    const compact = new Intl.NumberFormat(locale, {
+      notation: 'compact',
+      maximumFractionDigits: 1,
+    }).format(value);
+  
+    // Add currency symbol manually (Intl omits it for compact style)
+    const currencySymbol = new Intl.NumberFormat(locale, {
+      style: 'currency',
+      currency,
+      maximumFractionDigits: 0,
+    })
+      .formatToParts(1)
+      .find((p) => p.type === 'currency')?.value || '';
+  
+    return `${currencySymbol}${compact}`;
+  };
+
+
   // Chart Data
   const chartData = useMemo(() => {
     const r = returnRate / 12 / 100;
