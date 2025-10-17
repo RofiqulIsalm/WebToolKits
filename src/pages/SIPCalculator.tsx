@@ -350,15 +350,7 @@ const SIPCalculator: React.FC = () => {
                   step: 1,
                   accent: "accent-yellow-500",
                 },
-                {
-                  label: "Annual Step-up (%)",
-                  value: stepUp,
-                  set: setStepUp,
-                  min: 0,
-                  max: 20,
-                  step: 1,
-                  accent: "accent-pink-500",
-                },
+               
               ].map((f, i) => (
                 <div key={i}>
                   <label className="block text-sm text-slate-300 mb-1">
