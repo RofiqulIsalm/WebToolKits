@@ -23,17 +23,37 @@ const supabase = createClient(
 // clamp to zero; also guards NaN
 const clamp0 = (n: number) => (isNaN(n) || n < 0 ? 0 : n);
 
-// Compact money when abs(value) >= 9,999,999 → use M/B/T letters; else comma (2dp)
-function moneyFmt(value: number, withSymbol: boolean = true) {
-  if (!isFinite(value)) return withSymbol ? '$0' : '0';
-  const abs = Math.abs(value);
-  const sign = value < 0 ? '-' : '';
-  const sym = withSymbol ? '$' : '';
-  if (abs >= 1_000_000_000_000) return `${sign}${sym}${(abs / 1_000_000_000_000).toFixed(2)}T`;
-  if (abs >= 1_000_000_000) return `${sign}${sym}${(abs / 1_000_000_000).toFixed(2)}B`;
-  if (abs >= 9_999_999) return `${sign}${sym}${(abs / 1_000_000).toFixed(2)}M`;
-  return `${sign}${sym}${abs.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
-}
+// Enhanced compact money formatter – handles up to Centillion range safely
+  function moneyFmt(value: number, withSymbol: boolean = true): string {
+    if (!isFinite(value)) return withSymbol ? "$0" : "0";
+  
+    const abs = Math.abs(value);
+    const sign = value < 0 ? "-" : "";
+    const sym = withSymbol ? "$" : "";
+  
+    // Define suffixes beyond trillions
+    const suffixes = [
+      "", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc",
+      "Ud", "Dd", "Td", "Qd", "Qnd", "Sxd", "Spd", "Ocd", "Nnd", "Vg",
+      "Cv", "Dv", "Tv", "Qv", "Qnv", "Sxv", "Spv", "Ocv", "Nnv", "Trg", "Ct"
+    ];
+  
+    // If small (< 10M) → normal locale format
+    if (abs < 9_999_999)
+      return `${sign}${sym}${abs.toLocaleString(undefined, {
+        maximumFractionDigits: 2,
+      })}`;
+  
+    let tier = Math.floor(Math.log10(abs) / 3);
+    if (tier >= suffixes.length) tier = suffixes.length - 1;
+  
+    const scale = Math.pow(10, tier * 3);
+    const scaled = abs / scale;
+    const suffix = suffixes[tier];
+  
+    return `${sign}${sym}${scaled.toFixed(2)}${suffix}`;
+  }
+
 
 // prevent typing minus/exp/plus in number inputs (avoids negatives & odd values)
 function blockBadKeys(e: React.KeyboardEvent<HTMLInputElement>) {
