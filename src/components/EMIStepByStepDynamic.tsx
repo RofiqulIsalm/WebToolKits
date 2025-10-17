@@ -26,6 +26,8 @@ const EMIStepByStepDynamic: React.FC<Props> = ({
     const numerator = principal * r * pow;
     const denominator = pow - 1;
     const emi = denominator === 0 ? 0 : numerator / denominator;
+    const totalPayment = emi * n;
+    const totalInterest = totalPayment - principal;
 
     return {
       onePlusR,
@@ -33,6 +35,8 @@ const EMIStepByStepDynamic: React.FC<Props> = ({
       numerator,
       denominator,
       emi,
+      totalPayment,
+      totalInterest,
     };
   }, [principal, r, n]);
 
@@ -44,6 +48,7 @@ const EMIStepByStepDynamic: React.FC<Props> = ({
         📘 Step-by-Step EMI Calculation (Based on Your Input)
       </h3>
 
+      {/* Formula */}
       <div className="p-4 bg-slate-900/60 rounded-lg mb-3 border border-slate-700">
         <p className="text-xs text-slate-400 mb-2">Formula</p>
         <BlockMath
@@ -53,6 +58,7 @@ EMI = \dfrac{P \times r \times (1+r)^n}{(1+r)^n - 1}
         />
       </div>
 
+      {/* Inputs */}
       <div className="p-4 bg-slate-900/60 rounded-lg mb-3 border border-slate-700">
         <p className="text-xs text-slate-400 mb-2">Your Input</p>
         <BlockMath
@@ -62,6 +68,7 @@ P = ${principal.toFixed(2)}, \quad r = ${(r).toFixed(6)}, \quad n = ${n}
         />
       </div>
 
+      {/* Step 1 */}
       <div className="p-4 bg-slate-900/60 rounded-lg mb-3 border border-slate-700">
         <p className="text-xs text-slate-400 mb-2">Step 1 — Substitute Values</p>
         <BlockMath
@@ -73,6 +80,7 @@ EMI = \dfrac{${principal.toFixed(2)} \times ${r.toFixed(
         />
       </div>
 
+      {/* Step 2 */}
       <div className="p-4 bg-slate-900/60 rounded-lg mb-3 border border-slate-700">
         <p className="text-xs text-slate-400 mb-2">Step 2 — Simplify</p>
         <BlockMath
@@ -87,6 +95,7 @@ EMI = \dfrac{${principal.toFixed(2)} \times ${r.toFixed(
         />
       </div>
 
+      {/* Step 3 */}
       <div className="p-4 bg-slate-900/60 rounded-lg mb-3 border border-slate-700">
         <p className="text-xs text-slate-400 mb-2">Step 3 — Substitute Simplified Values</p>
         <BlockMath
@@ -100,6 +109,7 @@ EMI = \dfrac{${principal.toFixed(2)} \times ${r.toFixed(
         />
       </div>
 
+      {/* Step 4 */}
       <div className="p-4 bg-slate-900/60 rounded-lg mb-3 border border-slate-700">
         <p className="text-xs text-slate-400 mb-2">Step 4 — Compute Components</p>
         <BlockMath
@@ -118,8 +128,9 @@ EMI = \dfrac{${principal.toFixed(2)} \times ${r.toFixed(
         />
       </div>
 
+      {/* Step 5 */}
       <div className="p-4 bg-slate-900/60 rounded-lg mb-3 border border-slate-700">
-        <p className="text-xs text-slate-400 mb-2">Step 5 — Final Calculation</p>
+        <p className="text-xs text-slate-400 mb-2">Step 5 — Final EMI Calculation</p>
         <BlockMath
           math={String.raw`
 EMI = \dfrac{${calculated.numerator.toFixed(
@@ -129,11 +140,44 @@ EMI = \dfrac{${calculated.numerator.toFixed(
         />
       </div>
 
+      {/* Step 6 */}
+      <div className="p-4 bg-slate-900/60 rounded-lg mb-3 border border-slate-700">
+        <p className="text-xs text-slate-400 mb-2">Step 6 — Total Payment</p>
+        <BlockMath
+          math={String.raw`
+\text{Total Payment} = ${calculated.emi.toFixed(2)} \times ${n} = ${calculated.totalPayment.toFixed(2)}
+`}
+        />
+      </div>
+
+      {/* Step 7 */}
+      <div className="p-4 bg-slate-900/60 rounded-lg mb-3 border border-slate-700">
+        <p className="text-xs text-slate-400 mb-2">Step 7 — Total Interest</p>
+        <BlockMath
+          math={String.raw`
+\text{Total Interest} = ${calculated.totalPayment.toFixed(2)} - ${principal.toFixed(
+            2
+          )} = ${calculated.totalInterest.toFixed(2)}
+`}
+        />
+      </div>
+
+      {/* Final Answer */}
       <div className="p-4 bg-[#0b1220] rounded-lg border border-indigo-600 text-center">
-        <p className="text-sm text-indigo-400 mb-2">Final Answer</p>
+        <p className="text-sm text-indigo-400 mb-2">Final Answers</p>
         <BlockMath
           math={String.raw`
 \boxed{EMI = ${calculated.emi.toFixed(2)} \text{ per month}}
+`}
+        />
+        <BlockMath
+          math={String.raw`
+\boxed{Total Payment = ${calculated.totalPayment.toFixed(2)}}
+`}
+        />
+        <BlockMath
+          math={String.raw`
+\boxed{Total Interest = ${calculated.totalInterest.toFixed(2)}}
 `}
         />
       </div>
