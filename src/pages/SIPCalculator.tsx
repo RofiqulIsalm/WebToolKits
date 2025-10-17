@@ -284,8 +284,7 @@ const SIPCalculator: React.FC = () => {
                 <Line type="monotone" dataKey="value" stroke="#10b981" strokeWidth={2} dot={false} name="Normal SIP" />
                 <Line type="monotone" dataKey="stepUpValue" stroke="#f472b6" strokeWidth={2} dot={false} name="Step-up SIP" />
                 <Line type="monotone" dataKey="invested" stroke="#6366f1" strokeWidth={2} dot={false} name="Invested" />
-              </
-              />
+              </>
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -310,6 +309,7 @@ const SIPCalculator: React.FC = () => {
       <AdBanner type="bottom" />
       <RelatedCalculators currentPath="/sip-calculator" category="currency-finance" />
     </div>
+    
   </>
 );
 };
