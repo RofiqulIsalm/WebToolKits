@@ -39,7 +39,7 @@ const MortgageCalculator: React.FC = () => {
   const currentLocale =
     currencyOptions.find(c => c.code === currency)?.locale || 'en-IN';
 
-  // normalize months > 11
+  // Normalize months > 11
   useEffect(() => {
     if (loanMonths >= 12) {
       const extraYears = Math.floor(loanMonths / 12);
@@ -125,38 +125,35 @@ const MortgageCalculator: React.FC = () => {
           ]}
         />
 
-        <div className="mb-8 flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">
-              Mortgage Calculator
-            </h1>
-            <p className="text-slate-300">
-              Estimate your monthly mortgage payment, total interest, and total
-              payment.
-            </p>
-          </div>
-
-          {/* Reset Button */}
-          <button
-            onClick={handleReset}
-            disabled={isDefault}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition ${
-              isDefault
-                ? 'bg-gray-400 cursor-not-allowed text-white'
-                : 'bg-red-600 hover:bg-red-700 text-white'
-            }`}
-          >
-            <RotateCcw size={18} />
-            Reset
-          </button>
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">
+            Mortgage Calculator
+          </h1>
+          <p className="text-slate-300">
+            Estimate your monthly mortgage payment, total interest, and total payment.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Input Section */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">
-              Loan Details
-            </h2>
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 relative">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold text-gray-900">Loan Details</h2>
+
+              {/* Reset Button inside Loan Details */}
+              <button
+                onClick={handleReset}
+                disabled={isDefault}
+                className={`flex items-center gap-2 px-3 py-1.5 text-sm rounded-md font-medium transition ${
+                  isDefault
+                    ? 'bg-gray-300 cursor-not-allowed text-gray-600'
+                    : 'bg-red-600 hover:bg-red-700 text-white'
+                }`}
+              >
+                <RotateCcw size={16} />
+                Reset
+              </button>
+            </div>
 
             {/* Currency selector */}
             <div className="mb-4">
