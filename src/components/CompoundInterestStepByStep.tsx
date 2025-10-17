@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import MathJax from "react-mathjax";
+import { MathJax, MathJaxContext } from "better-react-mathjax";
 
 interface Props {
   principal: number;
@@ -60,7 +60,6 @@ const CompoundInterestStepByStep: React.FC<Props> = ({
         break;
     }
 
-    // Core math
     const ratePerPeriod = r / n;
     const totalPeriods = n * t;
     const factor = Math.pow(1 + ratePerPeriod, totalPeriods);
@@ -81,68 +80,45 @@ const CompoundInterestStepByStep: React.FC<Props> = ({
 
   if (!steps) return null;
 
-  const format = (v: number, d: number = 6) => v.toFixed(d).replace(/0+$/, "").replace(/\.$/, "");
+  const format = (v: number, d: number = 6) =>
+    v.toFixed(d).replace(/0+$/, "").replace(/\.$/, "");
 
   const { P, r, n, t, ratePerPeriod, totalPeriods, factor, FV, formulaType } = steps;
 
-  // Render formula dynamically
   const renderFormula = () => {
     switch (formulaType) {
       case "daily":
         return (
           <>
-            <MathJax.Node formula={`FV = P \\times (1 + r)^{days}`} />
-            <MathJax.Node
-              formula={`FV = ${P.toLocaleString()} \\times (1 + ${format(r)})^{365}`}
-            />
-            <MathJax.Node formula={`(1 + ${format(r)}) = ${format(1 + r)}`} />
-            <MathJax.Node
-              formula={`${format(1 + r)}^{365} = ${format(factor, 6)}`}
-            />
-            <MathJax.Node
-              formula={`FV = ${P.toLocaleString()} \\times ${format(factor, 6)} = ${FV.toLocaleString(undefined, {
-                maximumFractionDigits: 2,
-              })}`}
-            />
-          </>
-        );
-
-      case "weekly":
-      case "monthly":
-      case "quarterly":
-      case "yearly":
-      case "custom":
-        return (
-          <>
-            <MathJax.Node formula={`FV = P \\times \\left(1 + \\frac{r}{n}\\right)^{n \\times t}`} />
-            <MathJax.Node
-              formula={`FV = ${P.toLocaleString()} \\times \\left(1 + \\frac{${format(r)}}{${n}}\\right)^{${n} \\times ${format(
-                t,
-                4
-              )}}`}
-            />
-            <MathJax.Node
-              formula={`\\frac{${format(r)}}{${n}} = ${format(ratePerPeriod, 8)}`}
-            />
-            <MathJax.Node
-              formula={`${n} \\times ${format(t, 4)} = ${format(totalPeriods, 4)}`}
-            />
-            <MathJax.Node
-              formula={`\\left(1 + ${format(ratePerPeriod, 8)}\\right)^{${format(
-                totalPeriods,
-                4
-              )}} = ${format(factor, 6)}`}
-            />
-            <MathJax.Node
-              formula={`FV = ${P.toLocaleString()} \\times ${format(factor, 6)} = ${FV.toLocaleString(undefined, {
-                maximumFractionDigits: 2,
-              })}`}
-            />
+            <MathJax>{`\\[FV = P \\times (1 + r)^{days}\\]`}</MathJax>
+            <MathJax>{`\\[FV = ${P.toLocaleString()} \\times (1 + ${format(r)})^{365}\\]`}</MathJax>
+            <MathJax>{`\\[(1 + ${format(r)}) = ${format(1 + r)}\\]`}</MathJax>
+            <MathJax>{`\\[(${format(1 + r)})^{365} = ${format(factor, 6)}\\]`}</MathJax>
+            <MathJax>{`\\[FV = ${P.toLocaleString()} \\times ${format(factor, 6)} = ${FV.toLocaleString(undefined, {
+              maximumFractionDigits: 2,
+            })}\\]`}</MathJax>
           </>
         );
 
       default:
-        return null;
+        return (
+          <>
+            <MathJax>{`\\[FV = P \\times \\left(1 + \\frac{r}{n}\\right)^{n \\times t}\\]`}</MathJax>
+            <MathJax>{`\\[FV = ${P.toLocaleString()} \\times \\left(1 + \\frac{${format(r)}}{${n}}\\right)^{${n} \\times ${format(
+              t,
+              4
+            )}}\\]`}</MathJax>
+            <MathJax>{`\\[\\frac{${format(r)}}{${n}} = ${format(ratePerPeriod, 8)}\\]`}</MathJax>
+            <MathJax>{`\\[${n} \\times ${format(t, 4)} = ${format(totalPeriods, 4)}\\]`}</MathJax>
+            <MathJax>{`\\[\\left(1 + ${format(ratePerPeriod, 8)}\\right)^{${format(
+              totalPeriods,
+              4
+            )}} = ${format(factor, 6)}\\]`}</MathJax>
+            <MathJax>{`\\[FV = ${P.toLocaleString()} \\times ${format(factor, 6)} = ${FV.toLocaleString(undefined, {
+              maximumFractionDigits: 2,
+            })}\\]`}</MathJax>
+          </>
+        );
     }
   };
 
@@ -160,9 +136,9 @@ const CompoundInterestStepByStep: React.FC<Props> = ({
       <h3 className="text-xl font-semibold text-cyan-300 mb-4">
         Step-by-Step Calculation ({readableUnit} Compounding)
       </h3>
-      <MathJax.Provider>
+      <MathJaxContext>
         <div className="space-y-4 text-lg leading-relaxed">{renderFormula()}</div>
-      </MathJax.Provider>
+      </MathJaxContext>
     </div>
   );
 };
