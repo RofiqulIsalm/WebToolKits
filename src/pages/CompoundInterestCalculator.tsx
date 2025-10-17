@@ -360,7 +360,30 @@ const CompoundInterestCalculator: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* -------- Inputs -------- */}
           <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-6">
-            <h2 className="text-xl font-semibold text-slate-100 mb-4">Investment Details</h2>
+             <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold text-slate-100">Investment Details</h2>
+                <button
+                  onClick={() => {
+                    setPrincipal(0);
+                    setRate(0);
+                    setRateUnit('daily');
+                    setCustomRate({ years: 0, months: 0, days: 0 });
+                    setTimeData({ years: 0, months: 0, days: 0 });
+                    setIncludeAllDays(true);
+                    setSelectedDays(['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA']);
+                    localStorage.removeItem("ci_principal");
+                    localStorage.removeItem("ci_rate");
+                    localStorage.removeItem("ci_rateUnit");
+                    localStorage.removeItem("ci_customRate");
+                    localStorage.removeItem("ci_timeData");
+                    localStorage.removeItem("ci_includeAllDays");
+                    localStorage.removeItem("ci_selectedDays");
+                  }}
+                  className="text-sm px-3 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 transition border border-slate-500"
+                >
+                  Reset
+                </button>
+              </div>
 
             <div className="space-y-4">
               {/* Principal */}
