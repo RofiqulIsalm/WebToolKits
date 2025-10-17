@@ -64,7 +64,7 @@ const MortgageCalculator: React.FC = () => {
   const [interestRate, setInterestRate] = useState<number>(0);
   const [loanYears, setLoanYears] = useState<number>(0);
   const [loanMonths, setLoanMonths] = useState<number>(0);
-  const [currency, setCurrency] = useState<string>("INR");
+  const [currency, setCurrency] = useState<string>("USD");
 
   /* ---------- Derived & Outputs ---------- */
   const totalMonths = loanYears * 12 + loanMonths;
