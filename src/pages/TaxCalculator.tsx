@@ -705,13 +705,7 @@ const TaxCalculator: React.FC = () => {
               <strong> effective tax rate of 12.8%</strong>.
             </p>
 
-            <TaxSummary
-                grossIncome={grossIncome}
-                deductions={deductions}
-                taxableIncome={taxableIncome}
-                totalTax={totalTax}
-                netIncome={netIncome}
-              />
+    
 
           
             {/* ===================== FAQ SECTION ===================== */}
