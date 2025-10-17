@@ -317,7 +317,7 @@ const MortgageCalculator: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm mb-1">Down Payment</label>
+                  <label className="block text-sm mb-1">Down Payment (Optional)</label>
                   <input
                     type="number"
                     value={downPayment || ""}
