@@ -448,6 +448,17 @@ const LoanEMICalculator: React.FC = () => {
   // ================================
   // Supabase: example asset fetch
   // ================================
+  
+  // 🧠 Load from localStorage on mount
+useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("loanInputs") || "{}");
+  
+    if (saved.currency) setCurrency(saved.currency);
+    if (typeof saved.principal === "number") setPrincipal(saved.principal);
+    if (typeof saved.annualRate === "number") setAnnualRate(saved.annualRate);
+    if (typeof saved.years === "number") setYears(saved.years);
+    if (typeof saved.months === "number") setMonths(saved.months);
+  }, []);
   useEffect(() => {
     const loadGuideImage = async () => {
       try {
