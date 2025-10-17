@@ -107,7 +107,7 @@ const SIPCalculator: React.FC = () => {
   const [monthlyInvestment, setMonthlyInvestment] = useState<number | ''>('');
   const [returnRate, setReturnRate] = useState<number | ''>('');
   const [timePeriod, setTimePeriod] = useState<number | ''>('');
-  const [currency, setCurrency] = useState("INR");
+  const [currency, setCurrency] = useState("USD");
   const [stepUp, setStepUp] = useState(0);
 
   const [maturityValue, setMaturityValue] = useState(0);
