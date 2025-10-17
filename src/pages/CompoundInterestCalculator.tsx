@@ -5,6 +5,8 @@ import { createClient } from '@supabase/supabase-js';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
+import CompoundInterestStepByStep from "../components/CompoundInterestStepByStep";
+
 
 // ✨ Lazy-load non-critical components (saves initial bundle & speeds LCP)
 const AdBanner = React.lazy(() => import('../components/AdBanner'));
