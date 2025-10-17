@@ -104,9 +104,9 @@ const formatCompact = (v: number, locale: string) =>
   }).format(isFinite(v) ? v : 0);
 
 const SIPCalculator: React.FC = () => {
-  const [monthlyInvestment, setMonthlyInvestment] = useState(10000);
-  const [returnRate, setReturnRate] = useState(12);
-  const [timePeriod, setTimePeriod] = useState(10);
+  const [monthlyInvestment, setMonthlyInvestment] = useState<number | ''>('');
+  const [returnRate, setReturnRate] = useState<number | ''>('');
+  const [timePeriod, setTimePeriod] = useState<number | ''>('');
   const [currency, setCurrency] = useState("INR");
   const [stepUp, setStepUp] = useState(0);
 
