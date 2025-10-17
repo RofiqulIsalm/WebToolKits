@@ -24,8 +24,10 @@ import Breadcrumbs from "../components/Breadcrumbs";
 import { seoData, generateCalculatorSchema } from "../utils/seoData";
 import RelatedCalculators from "../components/RelatedCalculators";
 
-/* ----------------------------- Utilities ----------------------------- */
-const LS_KEY = "mortgage_calculator_tax_style_v1";
+/* ============================================================
+   📦 SECTION 1: Constants & Utilities
+   ============================================================ */
+const LS_KEY = "mortgage_calculator_tax_style_v3";
 
 const currencyOptions = [
   { code: "INR", symbol: "₹", locale: "en-IN", label: "Indian Rupee (₹)" },
@@ -52,35 +54,47 @@ const formatCurrency = (num: number, locale: string, currency: string) => {
 const clamp = (v: number, min: number, max: number) =>
   Math.min(max, Math.max(min, v));
 
-/* ----------------------------- Component ----------------------------- */
+/* ============================================================
+   🏠 SECTION 2: Component
+   ============================================================ */
 const MortgageCalculator: React.FC = () => {
-  /* Inputs */
-  const [loanAmount, setLoanAmount] = useState(0);
-  const [downPayment, setDownPayment] = useState(0);
-  const [interestRate, setInterestRate] = useState(0);
-  const [loanYears, setLoanYears] = useState(0);
-  const [loanMonths, setLoanMonths] = useState(0);
-  const [currency, setCurrency] = useState("INR");
+  /* ---------- Inputs ---------- */
+  const [loanAmount, setLoanAmount] = useState<number>(0);
+  const [downPayment, setDownPayment] = useState<number>(0);
+  const [interestRate, setInterestRate] = useState<number>(0);
+  const [loanYears, setLoanYears] = useState<number>(0);
+  const [loanMonths, setLoanMonths] = useState<number>(0);
+  const [currency, setCurrency] = useState<string>("INR");
 
-  /* Derived + Outputs */
+  /* ---------- Derived & Outputs ---------- */
   const totalMonths = loanYears * 12 + loanMonths;
   const principal = Math.max(loanAmount - downPayment, 0);
   const monthlyRate = interestRate / 12 / 100;
 
-  const [monthlyPayment, setMonthlyPayment] = useState(0);
-  const [totalPayment, setTotalPayment] = useState(0);
-  const [totalInterest, setTotalInterest] = useState(0);
+  const [monthlyPayment, setMonthlyPayment] = useState<number>(0);
+  const [totalPayment, setTotalPayment] = useState<number>(0);
+  const [totalInterest, setTotalInterest] = useState<number>(0);
 
-  /* UI states */
-  const [showAmort, setShowAmort] = useState(false);
+  /* ---------- UI state ---------- */
+  const [showAmort, setShowAmort] = useState<boolean>(false);
   const [granularity, setGranularity] = useState<"yearly" | "monthly">("yearly");
   const [copied, setCopied] = useState<"none" | "results" | "link">("none");
+  const [activeTip, setActiveTip] = useState<number>(0);
+
+  /* Info toggles */
+  const [showLoanInfo, setShowLoanInfo] = useState(false);
+  const [showDownPaymentInfo, setShowDownPaymentInfo] = useState(false);
+  const [showInterestInfo, setShowInterestInfo] = useState(false);
+  const [showTermInfo, setShowTermInfo] = useState(false);
 
   const currentLocale = findLocale(currency);
   const isDefault =
     !loanAmount && !downPayment && !interestRate && !loanYears && !loanMonths;
 
-  /* Normalize months > 11 */
+  /* ============================================================
+     🔁 SECTION 3: Normalization & Persistence
+     ============================================================ */
+  // Normalize months >= 12 → carry to years
   useEffect(() => {
     if (loanMonths >= 12) {
       const extraYears = Math.floor(loanMonths / 12);
@@ -89,34 +103,27 @@ const MortgageCalculator: React.FC = () => {
     }
   }, [loanMonths]);
 
-  /* Load & Save state */
+  // Load from URL param (?mc=) first, otherwise from localStorage
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const fromURL = params.get("mc");
     if (fromURL) {
       try {
-        const decoded = JSON.parse(atob(fromURL));
-        applyState(decoded);
+        const s = JSON.parse(atob(fromURL));
+        applyState(s);
         return;
       } catch {}
     }
     const raw = localStorage.getItem(LS_KEY);
     if (raw) {
       try {
-        applyState(JSON.parse(raw));
+        const s = JSON.parse(raw);
+        applyState(s);
       } catch {}
     }
   }, []);
 
-  const applyState = (s: any) => {
-    setLoanAmount(Number(s.loanAmount) || 0);
-    setDownPayment(Number(s.downPayment) || 0);
-    setInterestRate(Number(s.interestRate) || 0);
-    setLoanYears(Number(s.loanYears) || 0);
-    setLoanMonths(Number(s.loanMonths) || 0);
-    setCurrency(typeof s.currency === "string" ? s.currency : "INR");
-  };
-
+  // Save to localStorage
   useEffect(() => {
     localStorage.setItem(
       LS_KEY,
@@ -131,7 +138,19 @@ const MortgageCalculator: React.FC = () => {
     );
   }, [loanAmount, downPayment, interestRate, loanYears, loanMonths, currency]);
 
-  /* Calculation */
+  const applyState = (s: any) => {
+    setLoanAmount(Number(s.loanAmount) || 0);
+    setDownPayment(Number(s.downPayment) || 0);
+    setInterestRate(Number(s.interestRate) || 0);
+    setLoanYears(Number(s.loanYears) || 0);
+    setLoanMonths(Number(s.loanMonths) || 0);
+    setCurrency(typeof s.currency === "string" ? s.currency : "INR");
+  };
+
+  /* ============================================================
+     🧮 SECTION 4: Calculations
+     ============================================================ */
+  // EMI, totals
   useEffect(() => {
     if (principal <= 0 || totalMonths <= 0 || interestRate < 0) {
       setMonthlyPayment(0);
@@ -153,23 +172,15 @@ const MortgageCalculator: React.FC = () => {
     setTotalInterest(emi * totalMonths - principal);
   }, [principal, interestRate, totalMonths, monthlyRate]);
 
-  /* Amortization Schedule */
-  type Row = {
-    period: number;
-    principalPaid: number;
-    interestPaid: number;
-    balance: number;
-  };
-
+  // Amortization schedule rows
+  type Row = { period: number; principalPaid: number; interestPaid: number; balance: number };
   const monthlySchedule: Row[] = useMemo(() => {
     if (principal <= 0 || totalMonths <= 0) return [];
     let balance = principal;
     const rows: Row[] = [];
     const pow = Math.pow(1 + monthlyRate, totalMonths);
     const emi =
-      interestRate === 0
-        ? principal / totalMonths
-        : (principal * monthlyRate * pow) / (pow - 1);
+      interestRate === 0 ? principal / totalMonths : (principal * monthlyRate * pow) / (pow - 1);
     for (let m = 1; m <= totalMonths; m++) {
       const interestPaid = balance * monthlyRate;
       const principalPaid = Math.min(emi - interestPaid, balance);
@@ -186,9 +197,7 @@ const MortgageCalculator: React.FC = () => {
       const slice = monthlySchedule.slice(y * 12, y * 12 + 12);
       const principalPaid = slice.reduce((s, r) => s + r.principalPaid, 0);
       const interestPaid = slice.reduce((s, r) => s + r.interestPaid, 0);
-      const balance = slice.length
-        ? slice[slice.length - 1].balance
-        : principal;
+      const balance = slice.length ? slice[slice.length - 1].balance : principal;
       out.push({ period: y + 1, principalPaid, interestPaid, balance });
     }
     return out;
@@ -196,60 +205,56 @@ const MortgageCalculator: React.FC = () => {
 
   const schedule = granularity === "yearly" ? yearlySchedule : monthlySchedule;
 
-  /* Pie + Tips */
+  /* ============================================================
+     📊 SECTION 5: Pie & Tips
+     ============================================================ */
   const pieData = [
     { name: "Principal", value: Math.max(principal, 0) },
     { name: "Interest", value: Math.max(totalInterest, 0) },
   ];
   const PIE_COLORS = ["#3b82f6", "#a855f7"];
   const interestPct = principal > 0 ? (totalInterest / principal) * 100 : 0;
-  const tips = useMemo(() => {
-    const t: string[] = [];
+
+  const tipsForMortgage = useMemo(() => {
+    const base: string[] = [];
     if (principal && totalInterest)
-      t.push(
-        `Over the term, you'll pay ~${interestPct.toFixed(
-          0
-        )}% of your loan as interest.`
-      );
+      base.push(`Over the term, you'll pay ~${interestPct.toFixed(0)}% of your loan as interest.`);
     if (downPayment)
-      t.push(
+      base.push(
         `Your down payment reduces the financed amount to ${formatCurrency(
           principal,
           findLocale(currency),
           currency
         )}.`
       );
-    t.push(
-      "Tip: Even a small extra monthly prepayment can slash years off your mortgage."
-    );
-    t.push("Tip: Shorter loan terms have higher EMIs but far less total interest.");
-    return t;
+    base.push("Tip: Making extra principal payments can shorten your loan term dramatically.");
+    base.push("Tip: Shorter loan terms usually have higher EMIs but save a lot on total interest.");
+    base.push("Tip: Compare rates across banks — even a 0.5% lower rate saves thousands over time.");
+    return base;
   }, [principal, totalInterest, interestPct, downPayment, currency]);
 
-  /* Copy + Share */
+  useEffect(() => {
+    if (!tipsForMortgage.length) return;
+    const t = setInterval(() => {
+      setActiveTip((prev) => (prev + 1) % tipsForMortgage.length);
+    }, 5000);
+    return () => clearInterval(t);
+  }, [tipsForMortgage]);
+
+  /* ============================================================
+     🔗 SECTION 6: Share / Copy / Reset
+     ============================================================ */
   const copyResults = async () => {
     const text = [
       `Mortgage Summary`,
-      `Loan: ${formatCurrency(loanAmount, findLocale(currency), currency)}`,
-      `Down Payment: ${formatCurrency(
-        downPayment,
-        findLocale(currency),
-        currency
-      )}`,
-      `Principal: ${formatCurrency(principal, findLocale(currency), currency)}`,
+      `Loan: ${formatCurrency(loanAmount, currentLocale, currency)}`,
+      `Down Payment: ${formatCurrency(downPayment, currentLocale, currency)}`,
+      `Principal: ${formatCurrency(principal, currentLocale, currency)}`,
       `Rate: ${interestRate}%`,
       `Term: ${loanYears}y ${loanMonths}m`,
-      `Monthly: ${formatCurrency(
-        monthlyPayment,
-        findLocale(currency),
-        currency
-      )}`,
-      `Total: ${formatCurrency(totalPayment, findLocale(currency), currency)}`,
-      `Interest: ${formatCurrency(
-        totalInterest,
-        findLocale(currency),
-        currency
-      )}`,
+      `Monthly: ${formatCurrency(monthlyPayment, currentLocale, currency)}`,
+      `Total: ${formatCurrency(totalPayment, currentLocale, currency)}`,
+      `Interest: ${formatCurrency(totalInterest, currentLocale, currency)}`,
     ].join("\n");
     await navigator.clipboard.writeText(text);
     setCopied("results");
@@ -258,14 +263,7 @@ const MortgageCalculator: React.FC = () => {
 
   const copyShareLink = async () => {
     const encoded = btoa(
-      JSON.stringify({
-        loanAmount,
-        downPayment,
-        interestRate,
-        loanYears,
-        loanMonths,
-        currency,
-      })
+      JSON.stringify({ loanAmount, downPayment, interestRate, loanYears, loanMonths, currency })
     );
     const url = new URL(window.location.href);
     url.searchParams.set("mc", encoded);
@@ -285,7 +283,9 @@ const MortgageCalculator: React.FC = () => {
     setGranularity("yearly");
   };
 
-  /* ----------------------------- Render ----------------------------- */
+  /* ============================================================
+     🎨 SECTION 7: Render
+     ============================================================ */
   return (
     <>
       <SEOHead
@@ -314,9 +314,8 @@ const MortgageCalculator: React.FC = () => {
             🏠 Mortgage Calculator
           </h1>
           <p className="mt-3 text-slate-400 text-sm leading-relaxed">
-            Estimate your monthly mortgage EMI, total interest, and see a detailed
-            amortization schedule. Use down payment, term in years & months, and
-            multiple currencies for accurate planning.
+            Estimate your monthly mortgage EMI, total interest, and see a detailed amortization schedule.
+            Use down payment, term in years & months, and multiple currencies for accurate planning.
           </p>
         </div>
 
@@ -367,16 +366,22 @@ const MortgageCalculator: React.FC = () => {
                   <label className="text-sm font-medium text-slate-300">
                     Loan Amount ({findSymbol(currency)})
                   </label>
-                  <Info className="h-4 w-4 text-slate-400" />
+                  <Info
+                    onClick={() => setShowLoanInfo(!showLoanInfo)}
+                    className="h-4 w-4 text-slate-400 cursor-pointer hover:text-indigo-400"
+                  />
                 </div>
+                {showLoanInfo && (
+                  <div className="mb-2 bg-[#0f172a] text-slate-300 text-xs p-2 rounded-md border border-[#334155]">
+                    Total property loan amount you are borrowing from the bank.
+                  </div>
+                )}
                 <input
                   type="number"
                   value={loanAmount || ""}
                   placeholder={`Enter total property loan amount in ${findSymbol(currency)}`}
                   min={0}
-                  onChange={(e) =>
-                    setLoanAmount(parseFloat(e.target.value) || 0)
-                  }
+                  onChange={(e) => setLoanAmount(parseFloat(e.target.value) || 0)}
                   className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
@@ -385,19 +390,25 @@ const MortgageCalculator: React.FC = () => {
               <div>
                 <div className="flex justify-between items-center mb-1">
                   <label className="text-sm font-medium text-slate-300">
-                    Down Payment (Optional)
+                    Down Payment ({findSymbol(currency)})
                   </label>
-                  <Info className="h-4 w-4 text-slate-400" />
+                  <Info
+                    onClick={() => setShowDownPaymentInfo(!showDownPaymentInfo)}
+                    className="h-4 w-4 text-slate-400 cursor-pointer hover:text-indigo-400"
+                  />
                 </div>
+                {showDownPaymentInfo && (
+                  <div className="mb-2 bg-[#0f172a] text-slate-300 text-xs p-2 rounded-md border border-[#334155]">
+                    Amount you pay upfront — reduces the financed principal and interest.
+                  </div>
+                )}
                 <input
                   type="number"
                   value={downPayment || ""}
                   placeholder={`Enter down payment in ${findSymbol(currency)}`}
                   min={0}
                   onChange={(e) =>
-                    setDownPayment(
-                      clamp(parseFloat(e.target.value) || 0, 0, loanAmount || 0)
-                    )
+                    setDownPayment(clamp(parseFloat(e.target.value) || 0, 0, loanAmount || 0))
                   }
                   className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-emerald-500"
                 />
@@ -411,27 +422,43 @@ const MortgageCalculator: React.FC = () => {
 
               {/* Interest Rate */}
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">
-                  Annual Interest Rate (%)
-                </label>
+                <div className="flex justify-between items-center mb-1">
+                  <label className="text-sm font-medium text-slate-300">Annual Interest Rate (%)</label>
+                  <Info
+                    onClick={() => setShowInterestInfo(!showInterestInfo)}
+                    className="h-4 w-4 text-slate-400 cursor-pointer hover:text-indigo-400"
+                  />
+                </div>
+                {showInterestInfo && (
+                  <div className="mb-2 bg-[#0f172a] text-slate-300 text-xs p-2 rounded-md border border-[#334155]">
+                    Annual percentage rate (APR) charged on your mortgage loan.
+                  </div>
+                )}
                 <input
                   type="number"
                   step="0.01"
                   value={interestRate || ""}
                   placeholder="Enter annual interest rate"
                   min={0}
-                  onChange={(e) =>
-                    setInterestRate(parseFloat(e.target.value) || 0)
-                  }
+                  onChange={(e) => setInterestRate(parseFloat(e.target.value) || 0)}
                   className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
 
               {/* Loan Term */}
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">
-                  Loan Term
-                </label>
+                <div className="flex justify-between items-center mb-1">
+                  <label className="text-sm font-medium text-slate-300">Loan Term</label>
+                  <Info
+                    onClick={() => setShowTermInfo(!showTermInfo)}
+                    className="h-4 w-4 text-slate-400 cursor-pointer hover:text-indigo-400"
+                  />
+                </div>
+                {showTermInfo && (
+                  <div className="mb-2 bg-[#0f172a] text-slate-300 text-xs p-2 rounded-md border border-[#334155]">
+                    The total loan duration in years and months — usually 15, 20, or 30 years.
+                  </div>
+                )}
                 <div className="flex gap-4">
                   <input
                     type="number"
@@ -447,9 +474,7 @@ const MortgageCalculator: React.FC = () => {
                     placeholder="Months"
                     min={0}
                     max={11}
-                    onChange={(e) =>
-                      setLoanMonths(parseInt(e.target.value) || 0)
-                    }
+                    onChange={(e) => setLoanMonths(parseInt(e.target.value) || 0)}
                     className="w-1/2 bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
@@ -466,9 +491,7 @@ const MortgageCalculator: React.FC = () => {
 
           {/* Output Section */}
           <div className="bg-[#1e293b] rounded-xl shadow-md border border-[#334155] p-6 text-slate-200">
-            <h2 className="text-xl font-semibold text-white mb-4">
-              Mortgage Summary
-            </h2>
+            <h2 className="text-xl font-semibold text-white mb-4">Mortgage Summary</h2>
             <div className="space-y-6">
               <div className="text-center p-4 bg-[#0f172a] rounded-lg border border-[#334155]">
                 <Home className="h-8 w-8 text-indigo-400 mx-auto mb-2" />
@@ -502,9 +525,7 @@ const MortgageCalculator: React.FC = () => {
                 </div>
                 <div className="flex justify-between">
                   <span>Interest Rate:</span>
-                  <span className="font-medium text-indigo-300">
-                    {interestRate || 0}%
-                  </span>
+                  <span className="font-medium text-indigo-300">{interestRate || 0}%</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Number of Payments:</span>
@@ -547,7 +568,7 @@ const MortgageCalculator: React.FC = () => {
               </div>
               <div className="w-full">
                 <p className="text-base font-medium leading-snug text-slate-300">
-                  {tips[0]}
+                  {tipsForMortgage[activeTip]}
                 </p>
               </div>
             </div>
@@ -565,25 +586,12 @@ const MortgageCalculator: React.FC = () => {
             <div className="w-[90%] sm:w-[80%] md:w-[70%] max-w-[360px] h-[240px]">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
-                  <Pie
-                    data={pieData}
-                    innerRadius={60}
-                    outerRadius={90}
-                    dataKey="value"
-                    paddingAngle={2}
-                  >
-                    {pieData.map((entry, index) => (
-                      <Cell
-                        key={index}
-                        fill={["#3b82f6", "#a855f7"][index % 2]}
-                      />
+                  <Pie data={pieData} innerRadius={60} outerRadius={90} dataKey="value" paddingAngle={2}>
+                    {pieData.map((_, index) => (
+                      <Cell key={index} fill={["#3b82f6", "#a855f7"][index % 2]} />
                     ))}
                   </Pie>
-                  <ReTooltip
-                    formatter={(v: any) =>
-                      formatCurrency(Number(v), currentLocale, currency)
-                    }
-                  />
+                  <ReTooltip formatter={(v: any) => formatCurrency(Number(v), currentLocale, currency)} />
                   <Legend />
                 </PieChart>
               </ResponsiveContainer>
@@ -638,7 +646,7 @@ const MortgageCalculator: React.FC = () => {
                 <label className="text-sm text-slate-300">Granularity:</label>
                 <select
                   value={granularity}
-                  onChange={(e) => setGranularity(e.target.value as any)}
+                  onChange={(e) => setGranularity(e.target.value as "yearly" | "monthly")}
                   className="px-3 py-2 bg-transparent border border-[#334155] rounded-md text-slate-100 text-sm"
                 >
                   <option value="yearly">Yearly</option>
@@ -650,9 +658,7 @@ const MortgageCalculator: React.FC = () => {
                 <table className="min-w-full text-sm text-slate-100">
                   <thead>
                     <tr className="bg-[#0f172a]">
-                      <th className="text-left px-4 py-2">
-                        {granularity === "yearly" ? "Year" : "Month"}
-                      </th>
+                      <th className="text-left px-4 py-2">{granularity === "yearly" ? "Year" : "Month"}</th>
                       <th className="text-right px-4 py-2">Principal</th>
                       <th className="text-right px-4 py-2">Interest</th>
                       <th className="text-right px-4 py-2">Balance</th>
@@ -663,11 +669,7 @@ const MortgageCalculator: React.FC = () => {
                       <tr key={r.period} className="border-b border-[#334155]">
                         <td className="px-4 py-2">{r.period}</td>
                         <td className="px-4 py-2 text-right">
-                          {formatCurrency(
-                            r.principalPaid,
-                            currentLocale,
-                            currency
-                          )}
+                          {formatCurrency(r.principalPaid, currentLocale, currency)}
                         </td>
                         <td className="px-4 py-2 text-right">
                           {formatCurrency(r.interestPaid, currentLocale, currency)}
@@ -679,10 +681,7 @@ const MortgageCalculator: React.FC = () => {
                     ))}
                     {schedule.length === 0 && (
                       <tr>
-                        <td
-                          colSpan={4}
-                          className="px-4 py-6 text-center text-slate-400"
-                        >
+                        <td colSpan={4} className="px-4 py-6 text-center text-slate-400">
                           Enter valid details to view schedule.
                         </td>
                       </tr>
@@ -701,17 +700,13 @@ const MortgageCalculator: React.FC = () => {
           </h1>
 
           <p>
-            The <strong>Mortgage Calculator by CalculatorHub</strong> helps you estimate
-            your <strong>monthly EMI</strong>, <strong>total interest</strong>, and
-            <strong> amortization schedule</strong> for home loans in multiple currencies.
-            Enter the loan amount, down payment, interest rate, and term to get an instant,
-            professional-grade breakdown.
+            The <strong>Mortgage Calculator by CalculatorHub</strong> helps you estimate your <strong>monthly EMI</strong>,{" "}
+            <strong>total interest</strong>, and <strong>amortization schedule</strong> for home loans in multiple currencies.
+            Enter the loan amount, down payment, interest rate, and term to get an instant, professional-grade breakdown.
           </p>
 
           <p>
-            This tool uses a standard amortizing mortgage formula and supports mixed terms
-            (years + months), a down-payment field, and a shareable link so you can revisit
-            or send your scenario to others.
+            This tool uses a standard amortizing mortgage formula and supports mixed terms (years + months), a down-payment field, and a shareable link so you can revisit or send your scenario to others.
           </p>
 
           <figure className="my-8">
@@ -727,9 +722,7 @@ const MortgageCalculator: React.FC = () => {
             </figcaption>
           </figure>
 
-          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-            🧮 How EMI is Calculated
-          </h2>
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🧮 How EMI is Calculated</h2>
           <p>We use the standard EMI formula for amortizing loans:</p>
           <pre className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 overflow-x-auto">
 {`EMI = P × r × (1 + r)^n / ((1 + r)^n − 1)
@@ -740,9 +733,7 @@ r = Monthly interest rate (annualRate / 12 / 100)
 n = Total number of months`}
           </pre>
 
-          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-            💡 How to Use This Mortgage Calculator
-          </h2>
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">💡 How to Use This Mortgage Calculator</h2>
           <ol className="list-decimal list-inside space-y-2">
             <li>Select your <strong>currency</strong>.</li>
             <li>Enter <strong>loan amount</strong> and optional <strong>down payment</strong>.</li>
@@ -751,64 +742,46 @@ n = Total number of months`}
             <li>Copy results or share a link with your configuration.</li>
           </ol>
 
-          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-            📘 Example Calculation
-          </h2>
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">📘 Example Calculation</h2>
           <p>
-            Suppose you borrow <strong>$300,000</strong> at <strong>6.5%</strong> for{" "}
-            <strong>30 years</strong> with a <strong>$30,000</strong> down payment. Your
-            financed principal is <strong>$270,000</strong> and your EMI will be around{" "}
-            <strong>$1,706</strong>. Over the term, you will pay roughly{" "}
-            <strong>$344,000</strong> in interest (values approximate).
+            Suppose you borrow <strong>$300,000</strong> at <strong>6.5%</strong> for <strong>30 years</strong> with a <strong>$30,000</strong> down payment.
+            Your financed principal is <strong>$270,000</strong> and your EMI will be around <strong>$1,706</strong>.
+            Over the term, you will pay roughly <strong>$344,000</strong> in interest (values approximate).
           </p>
 
           {/* ===================== FAQ SECTION ===================== */}
           <section className="space-y-6 mt-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
-              ❓ Frequently Asked Questions (
-              <span className="text-yellow-300">FAQ</span>)
+              ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
             </h2>
 
             <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
               <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-                <h3 className="font-semibold text-xl mb-2 text-yellow-300">
-                  Q1: What is a mortgage EMI?
-                </h3>
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q1: What is a mortgage EMI?</h3>
                 <p>
-                  EMI (Equated Monthly Installment) is the fixed monthly payment you
-                  make to repay your mortgage over time. It includes both principal and
-                  interest components.
+                  EMI (Equated Monthly Installment) is the fixed monthly payment you make to repay your mortgage over time.
+                  It includes both principal and interest components.
                 </p>
               </div>
 
               <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-                <h3 className="font-semibold text-xl mb-2 text-yellow-300">
-                  Q2: Does the calculator support down payment?
-                </h3>
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q2: Does the calculator support down payment?</h3>
                 <p>
-                  Yes. Enter a down payment and we automatically reduce the financed
-                  principal before calculating EMI and the schedule.
+                  Yes. Enter a down payment and we automatically reduce the financed principal before calculating EMI and the schedule.
                 </p>
               </div>
 
               <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-                <h3 className="font-semibold text-xl mb-2 text-yellow-300">
-                  Q3: Can I share my results?
-                </h3>
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q3: Can I share my results?</h3>
                 <p>
-                  Use the <strong>Copy Link</strong> button to copy a URL with your
-                  inputs encoded. Opening that link will restore the same scenario.
+                  Use the <strong>Copy Link</strong> button to copy a URL with your inputs encoded. Opening that link will restore the same scenario.
                 </p>
               </div>
 
               <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-                <h3 className="font-semibold text-xl mb-2 text-yellow-300">
-                  Q4: Do you store my data?
-                </h3>
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q4: Do you store my data?</h3>
                 <p>
-                  No. All calculations run locally in your browser. We only use{" "}
-                  <strong>localStorage</strong> to remember your last session on your
-                  device for convenience.
+                  No. All calculations run locally in your browser. We only use <strong>localStorage</strong> to remember your last session on your device for convenience.
                 </p>
               </div>
             </div>
@@ -824,10 +797,8 @@ n = Total number of months`}
               className="w-12 h-12 rounded-full border border-gray-600"
               loading="lazy"
             />
-            <div>
-              <p className="font-semibold text-white">
-                Written by the CalculatorHub Finance Tools Team
-              </p>
+          <div>
+              <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
               <p className="text-sm text-slate-400">
                 Experts in mortgages and online financial tools. Last updated:{" "}
                 <time dateTime="2025-10-17">October 17, 2025</time>.
@@ -837,38 +808,70 @@ n = Total number of months`}
 
           <p className="mt-6 text-sm text-slate-400">
             Explore more tools:
-            <a
-              href="/loan-emi-calculator"
-              className="text-indigo-400 hover:underline"
-            >
-              {" "}
-              Loan EMI Calculator
-            </a>
-            ,
-            <a
-              href="/tax-calculator"
-              className="text-indigo-400 hover:underline"
-            >
-              {" "}
-              Income Tax Calculator
-            </a>
-            , and
-            <a href="/currency-converter" className="text-indigo-400 hover:underline">
-              {" "}
-              Currency Converter
-            </a>
-            .
+            <a href="/loan-emi-calculator" className="text-indigo-400 hover:underline"> Loan EMI Calculator</a>,
+            <a href="/tax-calculator" className="text-indigo-400 hover:underline"> Income Tax Calculator</a>, and
+            <a href="/currency-converter" className="text-indigo-400 hover:underline"> Currency Converter</a>.
           </p>
         </section>
 
         <AdBanner type="bottom" />
-        <RelatedCalculators
-          currentPath="/mortgage-calculator"
-          category="currency-finance"
-        />
+        <RelatedCalculators currentPath="/mortgage-calculator" category="currency-finance" />
       </div>
     </>
   );
 };
 
 export default MortgageCalculator;
+
+// padding 1
+// padding 2
+// padding 3
+// padding 4
+// padding 5
+// padding 6
+// padding 7
+// padding 8
+// padding 9
+// padding 10
+// padding 11
+// padding 12
+// padding 13
+// padding 14
+// padding 15
+// padding 16
+// padding 17
+// padding 18
+// padding 19
+// padding 20
+// padding 21
+// padding 22
+// padding 23
+// padding 24
+// padding 25
+// padding 26
+// padding 27
+// padding 28
+// padding 29
+// padding 30
+// padding 31
+// padding 32
+// padding 33
+// padding 34
+// padding 35
+// padding 36
+// padding 37
+// padding 38
+// padding 39
+// padding 40
+// padding 41
+// padding 42
+// padding 43
+// padding 44
+// padding 45
+// padding 46
+// padding 47
+// padding 48
+// padding 49
+// padding 50
+// padding 51
+// padding 52
