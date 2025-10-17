@@ -645,6 +645,7 @@ const CompoundInterestCalculator: React.FC = () => {
               <li><strong>A</strong> = Final amount (principal + accumulated interest)</li>
             </ul>
 
+              <Suspense fallback={<div className="text-center text-slate-400">Loading math breakdown...</div>}>
               {principal > 0 && rate > 0 && totalDays > 0 && (
                 <CompoundInterestStepByStep
                   principal={principal}
@@ -667,6 +668,8 @@ const CompoundInterestCalculator: React.FC = () => {
                   contributionTiming="end"
                 />
               )}
+            </Suspense>
+
   
             <p>
               In practice, deposits, withdrawals, holidays, and custom intervals can affect timing. Our calculator offers a
