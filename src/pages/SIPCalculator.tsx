@@ -395,15 +395,22 @@ const SIPCalculator: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-2 gap-3 sm:gap-4">
-              {[ 
-                { label: 'Total Invested', val: investedAmount },
-                { label: 'Wealth Gain', val: estimatedProfit }
-              ].map((x, i)=>(
-                <div key={i} className="p-4 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
+              {[
+                { label: "Total Invested", val: investedAmount },
+                { label: "Wealth Gain", val: estimatedProfit },
+              ].map((x, i) => (
+                <div
+                  key={i}
+                  className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center"
+                >
                   <div className="text-lg font-semibold text-white">
-                    {formatReadableNumber(x.val, selectedCurrency.locale, selectedCurrency.code)}
+                    {formatReadableNumber(
+                      x.val,
+                      selectedCurrency.locale,
+                      selectedCurrency.code
+                    )}
                   </div>
-                  <div className="text-xs sm:text-sm text-slate-400">{x.label}</div>
+                  <div className="text-sm text-slate-400">{x.label}</div>
                 </div>
               ))}
             </div>
