@@ -337,7 +337,7 @@ const SIPCalculator: React.FC = () => {
                     ref={i === 0 ? amountRef : undefined}
                     type="number"
                     value={f.value}
-                    placeholder="Enter "{f.label}
+                    placeholder="0"
                     onChange={(e) => f.set(Number(e.target.value))}
                     className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg text-sm sm:text-base"
                   />
