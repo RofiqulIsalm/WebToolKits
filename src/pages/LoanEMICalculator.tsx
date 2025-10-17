@@ -7,7 +7,7 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import AdBanner from '../components/AdBanner';
 import RelatedCalculators from '../components/RelatedCalculators';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
-import EMIExampleSteps from "../components/EMIExampleSteps";
+import EMIStepByStepDynamic from "../components/EMIStepByStepDynamic";
 
 
 /* ========================== Supabase ========================== */
@@ -1110,8 +1110,15 @@ const LoanEMICalculator: React.FC = () => {
             EMI = [P × R × (1 + R)^N] / [(1 + R)^N – 1]
           </pre>
           
-          {/* Step-by-step example */}
-          <EMIExampleSteps />
+          {/* Dynamic Step-by-Step Example */}
+          {principal > 0 && annualRate > 0 && (years > 0 || months > 0) && (
+            <EMIStepByStepDynamic
+              principal={principal}
+              annualRate={annualRate}
+              years={years}
+              months={months}
+            />
+          )}
 
           This formula ensures precision and transparency, matching the method used by most banks and NBFCs for retail
           loans. It’s ideal for <strong>home loans</strong>, <strong>car loans</strong>, <strong>personal loans</strong>, and
