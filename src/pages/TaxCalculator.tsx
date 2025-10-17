@@ -716,13 +716,7 @@ const TaxCalculator: React.FC = () => {
                 <p>Net Income: {netIncome}</p>
               
                 {/* ✅ Add the modern summary box here */}
-                <TaxSummary
-                  grossIncome={grossIncome}
-                  deductions={deductions}
-                  taxableIncome={taxableIncome}
-                  totalTax={totalTax}
-                  netIncome={netIncome}
-                />
+                
               </div>
 
     
