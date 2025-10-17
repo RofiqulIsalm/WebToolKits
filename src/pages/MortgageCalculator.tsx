@@ -38,7 +38,7 @@ const currencyOptions = [
 ];
 
 const findLocale = (code: string) =>
-  currencyOptions.find((c) => c.code === code)?.locale || "en-IN";
+  currencyOptions.find((c) => c.code === code)?.locale || "en-US";
 const findSymbol = (code: string) =>
   currencyOptions.find((c) => c.code === code)?.symbol || "";
 
