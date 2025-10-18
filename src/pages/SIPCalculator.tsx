@@ -661,87 +661,82 @@ const SipCalculator: React.FC = () => {
 
 
 
-{/* ---------- How SIP is Calculated (Enhanced Step-by-Step UI) ---------- */}
+{/* ---------- How SIP is Calculated (Always Open + Conditional Display) ---------- */}
 <div className="mt-10 bg-[#0f172a] border border-slate-700 rounded-xl p-6 shadow-inner">
-  <button
-    onClick={() => setShowSteps((v) => !v)}
-    className="flex justify-between items-center w-full text-left text-white text-lg font-semibold"
-  >
+  <h2 className="flex items-center gap-2 text-white text-lg font-semibold mb-4">
     🧮 How SIP is Calculated
-    {showSteps ? <ChevronUp /> : <ChevronDown />}
-  </button>
+  </h2>
 
-  {showSteps && (
-    <div className="mt-5 text-slate-300 text-sm leading-relaxed space-y-6">
-      {/* Formula explanation */}
-      <div>
-        <p className="text-slate-200 mb-2">
-          SIP Future Value (FV) is calculated using the formula:
+  {/* Show nothing until valid input */}
+  {P > 0 && annualReturn > 0 && years > 0 ? (
+    <div className="text-slate-300 text-sm leading-relaxed space-y-6">
+      {/* Formula Card */}
+      <div className="mt-3 rounded-xl bg-gradient-to-br from-[#0b1220]/90 to-[#1e293b]/80 border border-indigo-600/30 px-5 py-4 ring-1 ring-indigo-500/30 shadow-inner">
+        <h3 className="text-indigo-400 text-base sm:text-lg font-semibold mb-1 flex items-center gap-2">
+          🧮 <span className="text-white/90">Formula:</span>
+        </h3>
+        <p className="text-slate-200 text-center font-mono text-[13.5px] sm:text-base leading-7 break-words">
+          <span className="text-indigo-300 font-semibold">FV</span> ={" "}
+          <span className="text-white">P</span> × ((1 + <span className="text-emerald-400">r</span>)
+          <sup className="text-slate-400">n</sup> − 1) ÷{" "}
+          <span className="text-emerald-400">r</span> × (1 +{" "}
+          <span className="text-emerald-400">r</span>)
         </p>
-        <div className="mt-6 mb-3 rounded-xl bg-gradient-to-br from-[#0b1220]/90 to-[#1e293b]/80 border border-indigo-600/30 px-5 py-4 ring-1 ring-indigo-500/30 shadow-inner">
-            <h2 className="text-indigo-400 text-base sm:text-lg font-semibold mb-1 flex items-center gap-2">
-              🧮 <span className="text-white/90">Formula:</span>
-            </h2>
-            <p className="text-slate-200  text-center font-mono text-[13.5px] sm:text-xl leading-7 break-words">
-              <span className="text-indigo-300 font-semibold">FV</span> ={" "}
-              <span className="text-white">P</span> × ((1 + <span className="text-emerald-400">r</span>)
-              <sup className="text-slate-400">n</sup> − 1) ÷{" "}
-              <span className="text-emerald-400">r</span> × (1 +{" "}
-              <span className="text-emerald-400">r</span>)
-            </p>
-          </div>
+      </div>
 
-          <ul className="list-disc ml-6 mt-3 mb-3 space-y-1">
-            <li>
-              <span className="text-indigo-300 font-medium">P</span> = Monthly investment
-            </li>
-            <li>
-              <span className="text-indigo-300 font-medium">r</span> = Monthly interest rate (annual rate ÷ 12 ÷ 100)
-            </li>
-            <li>
-              <span className="text-indigo-300 font-medium">n</span> = Total number of months
-            </li>
-          </ul>
-        <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-2 border border-slate-700 text-slate-300 text-[13px] whitespace-nowrap font-mono">
+      {/* Definitions */}
+      <ul className="list-disc ml-6 space-y-1">
+        <li>
+          <span className="text-indigo-300 font-medium">P</span> = Monthly investment
+        </li>
+        <li>
+          <span className="text-indigo-300 font-medium">r</span> = Monthly interest rate (annual rate ÷ 12 ÷ 100)
+        </li>
+        <li>
+          <span className="text-indigo-300 font-medium">n</span> = Total number of months
+        </li>
+      </ul>
 
-          
-          <div className="space-y-2 font-mono text-[13px] text-slate-300">
-            <p>p = {formatCurrency(P)}</p>
-            <p>r = {r.toFixed(6)}</p>
-            <p>(1 + r) = {onePlusR.toFixed(6)}</p>
-            <p>(1 + r)<sup>n</sup > = {pow.toFixed(6)}</p>
-            <p>Numerator ((1 + r)<sup>n</sup> - 1) = {numerator.toFixed(6)}</p>
-            <p>Denominator (r) = {denominator.toFixed(6)}</p>
-            <p>Factor ((1 + r)<sup>n</sup> - 1) / r = {factor.toFixed(6)}</p>
-
-          </div>
+      {/* Step 1 - Component values */}
+      <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-2 border border-slate-700 text-slate-300 text-[13px] font-mono">
+        <div className="space-y-2">
+          <p>P = {formatCurrency(P)}</p>
+          <p>r = {r.toFixed(6)}</p>
+          <p>(1 + r) = {onePlusR.toFixed(6)}</p>
+          <p>(1 + r)^n = {pow.toFixed(6)}</p>
+          <p>Numerator ((1 + r)^n − 1) = {numerator.toFixed(6)}</p>
+          <p>Denominator (r) = {denominator.toFixed(6)}</p>
+          <p>Factor ((1 + r)^n − 1) / r = {factor.toFixed(6)}</p>
         </div>
       </div>
 
-    {/* Step 2 - Substitute actual values (4-line notebook style) */}
-      <div>
-        <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-3 border border-slate-700 text-[13.5px] font-mono text-slate-200 leading-7">
-          <pre className="whitespace-pre-wrap"> 
-            {`       FV = ${formatCurrency(P)} × ((1 + ${r.toFixed(6)})^${n} − 1) ÷ ${r.toFixed(6)} × (1 + ${r.toFixed(6)})
-          = ${formatCurrency(P)} × ${(numerator).toFixed(6)} ÷ ${r.toFixed(6)} × ${onePlusR.toFixed(6)}
-          = ${formatCurrency(P)} × ${(factor).toFixed(6)} × ${onePlusR.toFixed(6)}
-          = ${formatCurrency(futureValueCalc)}`}
-          </pre>
-        </div>
+      {/* Step 2 - Substitution */}
+      <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-3 border border-slate-700 text-[13.5px] font-mono text-slate-200 leading-7">
+        <pre className="whitespace-pre-wrap">
+{`FV = ${formatCurrency(P)} × ((1 + ${r.toFixed(6)})^${n} − 1) ÷ ${r.toFixed(6)} × (1 + ${r.toFixed(6)})
+= ${formatCurrency(P)} × ${(numerator).toFixed(6)} ÷ ${r.toFixed(6)} × ${onePlusR.toFixed(6)}
+= ${formatCurrency(P)} × ${(factor).toFixed(6)} × ${onePlusR.toFixed(6)}
+= ${formatCurrency(futureValueCalc)}`}
+        </pre>
       </div>
 
-
-
-      {/* Final FV summary */}
+      {/* Final Value */}
       <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-2 rounded-xl bg-[#0b1220] px-4 py-3 ring-1 ring-indigo-500/30">
-        <span className="text-sm text-indigo-300 whitespace-nowrap">💰 Calculated SIP Maturity Value</span>
+        <span className="text-sm text-indigo-300 whitespace-nowrap">
+          💰 Calculated SIP Maturity Value
+        </span>
         <span className="text-lg sm:text-xl font-bold tracking-wide text-white">
           {formatCurrency(futureValue)}
         </span>
       </div>
     </div>
+  ) : (
+    <div className="text-slate-500 text-sm italic text-center py-4">
+      Enter investment, return rate, and years to view detailed SIP calculation steps.
+    </div>
   )}
 </div>
+
 
 
 
