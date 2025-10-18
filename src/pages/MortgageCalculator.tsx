@@ -916,9 +916,7 @@ const MortgageCalculator: React.FC = () => {
                     ( (  1 + {emiSteps.r.toFixed(8)} )  <sup>{emiSteps.n} {" "}</sup> - 1 )
                   </span>
 
-                   <span > <strong>EMI = </strong>
-
-                   </span>
+                   <p>EMI = </p>
                  
                  </div>
                 
