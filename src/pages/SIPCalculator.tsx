@@ -307,9 +307,11 @@ const SipCalculator: React.FC = () => {
               </div>
 
               {/* Annual Return */}
+              {/* Annual Return with Slider */}
               <div>
-                <label className="text-sm font-medium text-slate-300">
+                <label className="text-sm font-medium text-slate-300 flex justify-between items-center">
                   Expected Annual Return (%)
+                  <span className="text-indigo-400 text-sm font-semibold">{annualReturn}%</span>
                 </label>
                 <input
                   type="number"
@@ -317,23 +319,56 @@ const SipCalculator: React.FC = () => {
                   value={annualReturn || ""}
                   placeholder="Enter expected annual return rate"
                   min={0}
+                  max={30}
                   onChange={(e) => setAnnualReturn(parseFloat(e.target.value) || 0)}
-                  className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-emerald-500"
+                  className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-emerald-500 mb-2"
                 />
+                <input
+                  type="range"
+                  min={0}
+                  max={30}
+                  step={0.1}
+                  value={annualReturn}
+                  onChange={(e) => setAnnualReturn(parseFloat(e.target.value))}
+                  className="w-full accent-emerald-500 cursor-pointer"
+                />
+                <div className="flex justify-between text-xs text-slate-400 mt-1">
+                  <span>0%</span>
+                  <span>15%</span>
+                  <span>30%</span>
+                </div>
               </div>
-
-              {/* Duration */}
+              
+              {/* Duration with Slider */}
               <div>
-                <label className="text-sm font-medium text-slate-300">Investment Period (Years)</label>
+                <label className="text-sm font-medium text-slate-300 flex justify-between items-center">
+                  Investment Period (Years)
+                  <span className="text-indigo-400 text-sm font-semibold">{years}</span>
+                </label>
                 <input
                   type="number"
                   value={years || ""}
                   placeholder="Enter investment duration in years"
                   min={0}
+                  max={50}
                   onChange={(e) => setYears(parseInt(e.target.value) || 0)}
-                  className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
+                  className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500 mb-2"
                 />
+                <input
+                  type="range"
+                  min={0}
+                  max={50}
+                  value={years}
+                  onChange={(e) => setYears(parseInt(e.target.value))}
+                  className="w-full accent-indigo-500 cursor-pointer"
+                />
+                <div className="flex justify-between text-xs text-slate-400 mt-1">
+                  <span>0y</span>
+                  <span>25y</span>
+                  <span>50y</span>
+                </div>
               </div>
+
             </div>
           </div>
 
