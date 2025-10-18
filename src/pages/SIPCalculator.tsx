@@ -608,7 +608,7 @@ const SipCalculator: React.FC = () => {
       <img
         src="/images/calculatorhub-logo.webp"
         alt="CalculatorHub Logo"
-        className="w-6 h-6 rounded-md"
+        className="w-10 h-10 rounded-md"
       />
       <h3 className="text-slate-100 text-lg font-semibold">Future Value</h3>
   </div>
