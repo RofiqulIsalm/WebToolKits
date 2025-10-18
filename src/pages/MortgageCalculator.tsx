@@ -354,15 +354,19 @@ const MortgageCalculator: React.FC = () => {
   };
 
   const reset = () => {
-    setLoanAmount(0);
-    setDownPayment(0);
-    setInterestRate(0);
-    setLoanYears(0);
-    setLoanMonths(0);
-    setCurrency("INR");
-    setShowAmort(false);
-    setGranularity("yearly");
-  };
+  setLoanAmount(0);
+  setDownPayment(0);
+  setInterestRate(0);
+  setLoanYears(0);
+  setLoanMonths(0);
+  setCurrency("USD");
+  setShowAmort(false);
+  setGranularity("yearly");
+
+  // Clear from localStorage
+  localStorage.removeItem(LS_KEY);
+};
+
 
   /* ============================================================
      🎨 SECTION 7: Render
@@ -940,7 +944,7 @@ const MortgageCalculator: React.FC = () => {
               </div>
             ) : (
               <div className="text-slate-300 text-center sm:text-left font-mono">
-                <span className="font-semibold">r = 0</span> ⇒ EMI1 = P / n =
+                <span className="font-semibold">r = 0</span> ⇒ EMI = P / n =
                 {formatCurrency(emiSteps.P, currentLocale, currency)} / {emiSteps.n || 1}
               </div>
             )}
