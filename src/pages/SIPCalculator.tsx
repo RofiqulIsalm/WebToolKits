@@ -680,13 +680,16 @@ const SipCalculator: React.FC = () => {
         </p>
 
         <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-2 border border-slate-700 text-slate-300 text-[13px] whitespace-nowrap font-mono">
-          <div className="min-w-max">
-            <span className="font-semibold text-indigo-400">FV</span> ={" "}
-            <span className="text-white">P</span> ×{" "}
-            <span className="text-white">((1 + r)<sup>n</sup> − 1)</span> ÷{" "}
-            <span className="text-white">r</span> ×{" "}
-            <span className="text-white">(1 + r)</span>
+          <div className="space-y-2 font-mono text-[13px] text-slate-300">
+            <p>r = {r.toFixed(6)}</p>
+            <p>(1 + r) = {onePlusR.toFixed(6)}</p>
+            <p>(1 + r)^n = {pow.toFixed(6)}</p>
+            <p>Numerator ((1 + r)^n - 1) = {numerator.toFixed(6)}</p>
+            <p>Denominator (r) = {denominator.toFixed(6)}</p>
+            <p>Factor ((1 + r)^n - 1) / r = {factor.toFixed(6)}</p>
+            <p className="text-indigo-300 font-semibold">FV = {formatCurrency(futureValueCalc)}</p>
           </div>
+
         </div>
 
         <ul className="list-disc ml-6 mt-3 space-y-1">
