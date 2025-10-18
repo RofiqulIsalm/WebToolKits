@@ -1075,7 +1075,7 @@ useEffect(() => {
           </p>
 
           {/* ===================== FAQ SECTION ===================== */}
-          <section className="space-y-6 mt-16">
+          <section id="faq" className="space-y-6 mt-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
               ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
             </h2>
