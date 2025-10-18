@@ -601,6 +601,15 @@ const SipCalculator: React.FC = () => {
         </div>
       ) : (
        /* BAR CHART VIEW — Modern SIP Future Value Chart */
+    <div className="flex items-center gap-2 mb-3">
+  <img
+    src="/images/calculatorhub-logo.webp"
+    alt="CalculatorHub Logo"
+    className="w-6 h-6 rounded-md"
+  />
+  <h3 className="text-slate-100 text-lg font-semibold">Future Value</h3>
+</div>
+
 <div className="w-full sm:w-[90%] md:w-[80%] h-[280px]">
   <ResponsiveContainer width="100%" height="100%">
     <BarChart data={growthData} barSize={35}>
