@@ -798,16 +798,52 @@ const MortgageCalculator: React.FC = () => {
             </figcaption>
           </figure>
 
-          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🧮 How EMI is Calculated</h2>
-          <p>We use the standard EMI formula for amortizing loans:</p>
-          <pre className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 overflow-x-auto">
-{`EMI = P × r × (1 + r)^n / ((1 + r)^n − 1)
 
-Where:
-P = Principal (loanAmount - downPayment)
-r = Monthly interest rate (annualRate / 12 / 100)
-n = Total number of months`}
-          </pre>
+          {/* Dynamic live math */}
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🧮 How EMI is Calculated</h2>
+          <p className="mb-3">
+            We use the standard EMI formula for amortizing loans:
+          </p>
+          
+          <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 p-5 rounded-xl border border-slate-700 shadow-inner text-slate-200">
+            <p className="text-lg font-mono text-indigo-300 mb-2 text-center">
+              EMI = P × r × (1 + r)<sup>n</sup> / ((1 + r)<sup>n</sup> − 1)
+            </p>
+          
+            <div className="border-t border-slate-700 my-3 opacity-60" />
+          
+            <p className="text-sm mb-1">
+              <span className="font-semibold text-cyan-300">P</span> ={" "}
+              {formatCurrency(principal, currentLocale, currency)}{" "}
+              <span className="text-slate-400">(Principal = Loan − Down Payment)</span>
+            </p>
+          
+            <p className="text-sm mb-1">
+              <span className="font-semibold text-cyan-300">r</span> ={" "}
+              {interestRate
+                ? (interestRate / 12 / 100).toFixed(6)
+                : "0.000000"}{" "}
+              <span className="text-slate-400">(Monthly interest rate = Annual ÷ 12 ÷ 100)</span>
+            </p>
+          
+            <p className="text-sm mb-1">
+              <span className="font-semibold text-cyan-300">n</span> ={" "}
+              {totalMonths || 0}{" "}
+              <span className="text-slate-400">(Total number of months)</span>
+            </p>
+          
+            <div className="border-t border-slate-700 my-3 opacity-60" />
+          
+            <p className="text-sm text-emerald-400 font-semibold">
+              💰 Calculated EMI:{" "}
+              <span className="text-white">
+                {formatCurrency(monthlyPayment, currentLocale, currency)}
+              </span>
+            </p>
+          </div>
+
+
+          
 
           <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">💡 How to Use This Mortgage Calculator</h2>
           <ol className="list-decimal list-inside space-y-2">
