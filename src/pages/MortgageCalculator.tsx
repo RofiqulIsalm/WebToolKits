@@ -254,37 +254,33 @@ const MortgageCalculator: React.FC = () => {
   const schedule = granularity === "yearly" ? yearlySchedule : monthlySchedule;
 
 
-    /* ============================================================
-     📘 SECTION 4.5: Step-by-step EMI Logic
-     ============================================================ */
+   /* ============================================================
+   📘 SECTION 4.5: Step-by-step EMI Logic
+   ============================================================ */
   const emiSteps = useMemo(() => {
     const P = Math.max(principal, 0);
     const n = Math.max(totalMonths, 0);
     const r = Math.max(monthlyRate, 0); // monthly interest rate = interestRate / 12 / 100
-
+  
     const onePlusR = 1 + r;
     const pow = n > 0 ? Math.pow(onePlusR, n) : 1;
-
-    // General formula parts
-    const numerator = P * r * pow;
-    const denominator = pow - 1;
+  
+    // Intermediate & general formula parts
+    const pTimesR = P * r;                // <-- missing step (P × r)
+    const numerator = pTimesR * pow;      // (P × r) × (1 + r)^n
+    const denominator = pow - 1;          // (1 + r)^n - 1
     const generalEmi = denominator !== 0 ? numerator / denominator : 0;
-
+  
     // Zero-rate fallback (when APR is 0, r = 0)
     const zeroRateEmi = n > 0 ? P / n : 0;
-
+  
     // Final EMI (choose branch)
     const emi = interestRate === 0 ? zeroRateEmi : generalEmi;
-
+  
     return {
-      P,
-      r,
-      n,
-      onePlusR,
-      pow,
-      numerator,
-      denominator,
-      emi,
+      P, r, n, onePlusR, pow,
+      pTimesR,            // <-- expose it to UI
+      numerator, denominator, emi,
       isZeroRate: interestRate === 0,
     };
   }, [principal, totalMonths, monthlyRate, interestRate]);
