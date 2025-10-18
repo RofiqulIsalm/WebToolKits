@@ -436,6 +436,7 @@ const SipCalculator: React.FC = () => {
   {/* Decorative Bottom Glow Line */}
   <div className="relative z-0 mt-8 h-[2px] w-full bg-gradient-to-r from-transparent via-indigo-500/70 to-transparent blur-[1px]" />
 </div>
+        </div>
 
 
         {/* Chart Section */}
