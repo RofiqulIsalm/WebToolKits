@@ -433,6 +433,23 @@ useEffect(() => {
           ]}
         />
 
+        {/* ===== Call-to-Action Banner ===== */}
+        <div className="mt-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-fuchsia-600 text-white rounded-lg shadow-lg p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div>
+            <p className="font-semibold text-lg">Compare other finance tools 📊</p>
+            <p className="text-sm text-indigo-100">
+              Try our Loan EMI, Income Tax, or Currency Converter next!
+            </p>
+          </div>
+          <a
+            href="/all-calculators"
+            className="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-md hover:bg-indigo-50 transition"
+          >
+            Explore More Calculators
+          </a>
+        </div>
+
+
         {/* ===== Header ===== */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">
