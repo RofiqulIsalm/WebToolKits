@@ -714,7 +714,7 @@ const SipCalculator: React.FC = () => {
      {/* ---------- How SIP is Calculated (Always Open + Mobile Scrollable) ---------- */}
               <div className="mt-10 ">
                 {/* Outer Scroll Wrapper for Mobile */}
-                <div className="p-6 overflow-x-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent sm:overflow-x-visible">
+                <div className=" overflow-x-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent sm:overflow-x-visible">
                   <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">SIP Calculation Formula</h2>
   <p>
     The SIP maturity amount is calculated using the following compound interest formula:
