@@ -1,18 +1,21 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
+import { Helmet } from "react-helmet";
 import {
-  PiggyBank,
-  TrendingUp,
   RotateCcw,
   Share2,
+  Copy,
+  PieChart as PieChartIcon,
+  ChevronDown,
+  ChevronUp,
+  Info,
 } from "lucide-react";
 import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip as ChartTooltip,
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip as ReTooltip,
+  Legend,
   ResponsiveContainer,
-  CartesianGrid,
 } from "recharts";
 
 import AdBanner from "../components/AdBanner";
@@ -21,461 +24,355 @@ import Breadcrumbs from "../components/Breadcrumbs";
 import RelatedCalculators from "../components/RelatedCalculators";
 import { seoData, generateCalculatorSchema } from "../utils/seoData";
 
-const LS_KEY = "SIP_CALC_V1";
+const LS_KEY = "sip_calculator_v1";
 
-// 💡 Rotating SIP Tips
-const SIP_TIPS = [
-  "Start early — time in the market beats timing the market.",
-  "Increase your SIP by 5–10% every year to fight inflation.",
-  "Stay invested through market cycles; volatility smooths out long-term.",
-  "Align SIP date right after payday to stay disciplined.",
-  "Diversify across 2–3 funds (large/mid/ELSS based on goals).",
-  "Review once a year, not every week — avoid noise.",
-  "Match SIP horizon to your goal (education, house, retirement).",
-  "Use ELSS SIPs to potentially get tax benefits (per local rules).",
-  "Avoid stopping SIPs during downturns — that’s when units are cheaper.",
-  "Rebalance allocation annually to maintain your risk profile.",
+const defaultValues = {
+  monthlyInvestment: 10000,
+  annualReturn: 12,
+  years: 10,
+  currency: "USD",
+};
+
+const currencyOptions = [
+  { code: "USD", symbol: "$", locale: "en-US", label: "US Dollar ($)" },
+  { code: "INR", symbol: "₹", locale: "en-IN", label: "Indian Rupee (₹)" },
+  { code: "EUR", symbol: "€", locale: "de-DE", label: "Euro (€)" },
+  { code: "GBP", symbol: "£", locale: "en-GB", label: "British Pound (£)" },
 ];
 
-const CURRENCIES = [
-  { code: "INR", symbol: "₹", locale: "en-IN" }, // India
-  { code: "USD", symbol: "$", locale: "en-US" }, // United States
-  { code: "EUR", symbol: "€", locale: "de-DE" }, // Eurozone
-  { code: "GBP", symbol: "£", locale: "en-GB" }, // United Kingdom
-  { code: "AUD", symbol: "A$", locale: "en-AU" }, // Australia
-  { code: "CAD", symbol: "C$", locale: "en-CA" }, // Canada
-  { code: "SGD", symbol: "S$", locale: "en-SG" }, // Singapore
-  { code: "NZD", symbol: "NZ$", locale: "en-NZ" }, // New Zealand
-  { code: "CHF", symbol: "CHF", locale: "de-CH" }, // Switzerland
-  { code: "JPY", symbol: "¥", locale: "ja-JP" }, // Japan
-  { code: "CNY", symbol: "¥", locale: "zh-CN" }, // China
-  { code: "HKD", symbol: "HK$", locale: "en-HK" }, // Hong Kong
-  { code: "SEK", symbol: "kr", locale: "sv-SE" }, // Sweden
-  { code: "NOK", symbol: "kr", locale: "nb-NO" }, // Norway
-  { code: "DKK", symbol: "kr", locale: "da-DK" }, // Denmark
-  { code: "AED", symbol: "د.إ", locale: "ar-AE" }, // UAE
-  { code: "SAR", symbol: "﷼", locale: "ar-SA" }, // Saudi Arabia
-  { code: "ZAR", symbol: "R", locale: "en-ZA" }, // South Africa
-  { code: "BRL", symbol: "R$", locale: "pt-BR" }, // Brazil
-  { code: "MXN", symbol: "$", locale: "es-MX" }, // Mexico
-  { code: "ARS", symbol: "$", locale: "es-AR" }, // Argentina
-  { code: "CLP", symbol: "$", locale: "es-CL" }, // Chile
-  { code: "COP", symbol: "$", locale: "es-CO" }, // Colombia
-  { code: "PEN", symbol: "S/", locale: "es-PE" }, // Peru
-  { code: "KRW", symbol: "₩", locale: "ko-KR" }, // South Korea
-  { code: "THB", symbol: "฿", locale: "th-TH" }, // Thailand
-  { code: "MYR", symbol: "RM", locale: "ms-MY" }, // Malaysia
-  { code: "IDR", symbol: "Rp", locale: "id-ID" }, // Indonesia
-  { code: "PHP", symbol: "₱", locale: "en-PH" }, // Philippines
-  { code: "VND", symbol: "₫", locale: "vi-VN" }, // Vietnam
-  { code: "TRY", symbol: "₺", locale: "tr-TR" }, // Turkey
-  { code: "EGP", symbol: "£", locale: "ar-EG" }, // Egypt
-  { code: "NGN", symbol: "₦", locale: "en-NG" }, // Nigeria
-  { code: "KES", symbol: "KSh", locale: "en-KE" }, // Kenya
-  { code: "GHS", symbol: "₵", locale: "en-GH" }, // Ghana
-  { code: "UGX", symbol: "USh", locale: "en-UG" }, // Uganda
-  { code: "TZS", symbol: "TSh", locale: "en-TZ" }, // Tanzania
-  { code: "BDT", symbol: "৳", locale: "bn-BD" }, // Bangladesh
-  { code: "LKR", symbol: "Rs", locale: "si-LK" }, // Sri Lanka
-  { code: "PKR", symbol: "₨", locale: "ur-PK" }, // Pakistan
-  { code: "NPR", symbol: "Rs", locale: "ne-NP" }, // Nepal
-  { code: "BHD", symbol: "ب.د", locale: "ar-BH" }, // Bahrain
-  { code: "OMR", symbol: "﷼", locale: "ar-OM" }, // Oman
-  { code: "QAR", symbol: "﷼", locale: "ar-QA" }, // Qatar
-  { code: "KWD", symbol: "د.ك", locale: "ar-KW" }, // Kuwait
-  { code: "ILS", symbol: "₪", locale: "he-IL" }, // Israel
-  { code: "PLN", symbol: "zł", locale: "pl-PL" }, // Poland
-  { code: "CZK", symbol: "Kč", locale: "cs-CZ" }, // Czech Republic
-  { code: "HUF", symbol: "Ft", locale: "hu-HU" }, // Hungary
-  { code: "RUB", symbol: "₽", locale: "ru-RU" }, // Russia
-  { code: "RON", symbol: "lei", locale: "ro-RO" }, // Romania
-];
+const findLocale = (code: string) =>
+  currencyOptions.find((c) => c.code === code)?.locale || "en-US";
+const findSymbol = (code: string) =>
+  currencyOptions.find((c) => c.code === code)?.symbol || "";
 
-
-const formatCurrency = (v: number, currency: string, locale: string) =>
+const formatCurrency = (num: number, locale: string, currency: string) =>
   new Intl.NumberFormat(locale, {
     style: "currency",
     currency,
     maximumFractionDigits: 0,
-  }).format(isFinite(v) ? v : 0);
+  }).format(num);
 
-const formatCompact = (v: number, locale: string) =>
-  new Intl.NumberFormat(locale, {
-    notation: "compact",
-    maximumFractionDigits: 1,
-  }).format(isFinite(v) ? v : 0);
+const SipCalculator: React.FC = () => {
+  const [monthlyInvestment, setMonthlyInvestment] = useState(defaultValues.monthlyInvestment);
+  const [annualReturn, setAnnualReturn] = useState(defaultValues.annualReturn);
+  const [years, setYears] = useState(defaultValues.years);
+  const [currency, setCurrency] = useState(defaultValues.currency);
+  const [hydrated, setHydrated] = useState(false);
+  const [copied, setCopied] = useState<"none" | "results" | "link">("none");
+  const [showSteps, setShowSteps] = useState(false);
 
-const SIPCalculator: React.FC = () => {
-  const [monthlyInvestment, setMonthlyInvestment] = useState<number | ''>('');
-  const [returnRate, setReturnRate] = useState<number | ''>('');
-  const [timePeriod, setTimePeriod] = useState<number | ''>('');
-  const [currency, setCurrency] = useState("USD");
-  const [stepUp, setStepUp] = useState(0);
+  const months = years * 12;
+  const monthlyRate = annualReturn / 12 / 100;
 
-  const [maturityValue, setMaturityValue] = useState(0);
-  const [investedAmount, setInvestedAmount] = useState(0);
-  const [estimatedProfit, setEstimatedProfit] = useState(0);
+  // Calculation formula for SIP
+  const futureValue = useMemo(() => {
+    if (monthlyRate === 0) return monthlyInvestment * months;
+    return monthlyInvestment * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate);
+  }, [monthlyInvestment, monthlyRate, months]);
 
-  const [activeTip, setActiveTip] = useState(0);
-  const amountRef = useRef<HTMLInputElement>(null);
+  const totalInvestment = monthlyInvestment * months;
+  const totalGains = futureValue - totalInvestment;
 
-  // Parse URL params
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const amount = Number(params.get("amount"));
-    const rate = Number(params.get("rate"));
-    const years = Number(params.get("years"));
-    if (amount) setMonthlyInvestment(amount);
-    if (rate) setReturnRate(rate);
-    if (years) setTimePeriod(years);
-  }, []);
-
-  // Auto focus
-  useEffect(() => {
-    amountRef.current?.focus();
-  }, []);
-
-  // SIP Calculation
-  const calculateSIP = () => {
-    const P = monthlyInvestment;
-    const r = returnRate / 12 / 100;
-    const n = timePeriod * 12;
-    const fvRegular = P * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
-    let fvStep = 0;
-    let investedStep = 0;
-    let monthly = P;
-    for (let year = 1; year <= timePeriod; year++) {
-      for (let m = 1; m <= 12; m++) {
-        const monthsLeft = (timePeriod - year) * 12 + (12 - m + 1);
-        fvStep += monthly * Math.pow(1 + r, monthsLeft);
-        investedStep += monthly;
-      }
-      monthly *= 1 + stepUp / 100;
-    }
-    const invested = P * n;
-    const profit = fvRegular - invested;
-    setMaturityValue(fvRegular);
-    setInvestedAmount(invested);
-    setEstimatedProfit(profit);
-    return { fvRegular, fvStep, investedStep };
+  /* ===================== Persistence ===================== */
+  const applyState = (s: any) => {
+    setMonthlyInvestment(Number(s.monthlyInvestment) || 0);
+    setAnnualReturn(Number(s.annualReturn) || 0);
+    setYears(Number(s.years) || 0);
+    setCurrency(typeof s.currency === "string" ? s.currency : "USD");
   };
 
-  const { fvRegular, fvStep, investedStep } = useMemo(
-    () => calculateSIP(),
-    [monthlyInvestment, returnRate, timePeriod, stepUp]
-  );
-
-  const selectedCurrency =
-    CURRENCIES.find((c) => c.code === currency) || CURRENCIES[0];
-
-  const formatReadableNumber = (value: number, locale: string, currency: string) => {
-    if (!isFinite(value)) return '0';
-  
-    // Show normal currency for values below 10 million
-    if (value <= 9_999_999) {
-      return new Intl.NumberFormat(locale, {
-        style: 'currency',
-        currency,
-        maximumFractionDigits: 0,
-      }).format(value);
-    }
-  
-    // Compact notation for larger numbers (10M, 1B, 1T)
-    const compact = new Intl.NumberFormat(locale, {
-      notation: 'compact',
-      maximumFractionDigits: 1,
-    }).format(value);
-  
-    // Add currency symbol manually (Intl omits it for compact style)
-    const currencySymbol = new Intl.NumberFormat(locale, {
-      style: 'currency',
-      currency,
-      maximumFractionDigits: 0,
-    })
-      .formatToParts(1)
-      .find((p) => p.type === 'currency')?.value || '';
-  
-    return `${currencySymbol}${compact}`;
-  };
-
-
-  // Chart Data
-  const chartData = useMemo(() => {
-    const r = returnRate / 12 / 100;
-    const rows: any[] = [];
-    for (let year = 1; year <= timePeriod; year++) {
-      const invested = monthlyInvestment * year * 12;
-      const value =
-        monthlyInvestment *
-        ((Math.pow(1 + r, year * 12) - 1) / r) *
-        (1 + r);
-      let fvStep = 0;
-      let current = monthlyInvestment;
-      for (let y = 1; y <= year; y++) {
-        for (let m = 1; m <= 12; m++) {
-          const monthsLeft = (year - y) * 12 + (12 - m + 1);
-          fvStep += current * Math.pow(1 + r, monthsLeft);
-        }
-        current *= 1 + stepUp / 100;
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const fromURL = params.get("sip");
+      if (fromURL) {
+        const decoded = JSON.parse(atob(fromURL));
+        applyState(decoded);
+        setHydrated(true);
+        return;
       }
-      rows.push({ year, invested, value, stepUpValue: fvStep });
+      const raw = localStorage.getItem(LS_KEY);
+      if (raw) applyState(JSON.parse(raw));
+    } catch (err) {
+      console.warn("Failed to load SIP state", err);
+    } finally {
+      setHydrated(true);
     }
-    return rows;
-  }, [monthlyInvestment, returnRate, timePeriod, stepUp]);
+  }, []);
 
   useEffect(() => {
-    const t = setInterval(
-      () => setActiveTip((p) => (p + 1) % SIP_TIPS.length),
-      5000
+    if (!hydrated) return;
+    try {
+      localStorage.setItem(
+        LS_KEY,
+        JSON.stringify({ monthlyInvestment, annualReturn, years, currency })
+      );
+    } catch (err) {
+      console.warn("Could not save SIP state", err);
+    }
+  }, [monthlyInvestment, annualReturn, years, currency, hydrated]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    const url = new URL(window.location.href);
+    const state = { monthlyInvestment, annualReturn, years, currency };
+    const encoded = btoa(JSON.stringify(state));
+    url.searchParams.set("sip", encoded);
+    window.history.replaceState({}, "", url);
+  }, [monthlyInvestment, annualReturn, years, currency, hydrated]);
+
+  /* ===================== Copy / Reset ===================== */
+  const currentLocale = findLocale(currency);
+
+  const copyResults = async () => {
+    const text = [
+      "SIP Investment Summary",
+      `Monthly Investment: ${formatCurrency(monthlyInvestment, currentLocale, currency)}`,
+      `Expected Annual Return: ${annualReturn}%`,
+      `Duration: ${years} years`,
+      `Future Value: ${formatCurrency(futureValue, currentLocale, currency)}`,
+      `Total Investment: ${formatCurrency(totalInvestment, currentLocale, currency)}`,
+      `Total Gains: ${formatCurrency(totalGains, currentLocale, currency)}`,
+    ].join("\n");
+    await navigator.clipboard.writeText(text);
+    setCopied("results");
+    setTimeout(() => setCopied("none"), 1500);
+  };
+
+  const copyShareLink = async () => {
+    const encoded = btoa(
+      JSON.stringify({ monthlyInvestment, annualReturn, years, currency })
     );
-    return () => clearInterval(t);
-  }, []);
-
-  
-
-  const handleReset = () => {
-  setMonthlyInvestment('');
-  setReturnRate('');
-  setTimePeriod('');
-  setStepUp('');
-  amountRef.current?.focus();
-};
-  const shareUrl = () => {
-    const params = new URLSearchParams({
-      amount: String(monthlyInvestment),
-      rate: String(returnRate),
-      years: String(timePeriod),
-    });
-    return `${window.location.origin}/sip-calculator?${params.toString()}`;
+    const url = new URL(window.location.href);
+    url.searchParams.set("sip", encoded);
+    await navigator.clipboard.writeText(url.toString());
+    setCopied("link");
+    setTimeout(() => setCopied("none"), 1500);
   };
 
-  const copyShare = async () => {
-    await navigator.clipboard.writeText(shareUrl());
-    alert("Shareable link copied!");
+  const reset = () => {
+    setMonthlyInvestment(defaultValues.monthlyInvestment);
+    setAnnualReturn(defaultValues.annualReturn);
+    setYears(defaultValues.years);
+    setCurrency(defaultValues.currency);
+    localStorage.removeItem(LS_KEY);
   };
 
+  const pieData = [
+    { name: "Invested Amount", value: totalInvestment },
+    { name: "Total Gains", value: totalGains },
+  ];
+
+  /* ===================== Render ===================== */
   return (
     <>
       <SEOHead
-        title={seoData.sipCalculator.title}
-        description={seoData.sipCalculator.description}
+        title="SIP Calculator | Systematic Investment Plan Return Estimator"
+        description="Use CalculatorHub’s SIP Calculator to estimate your investment returns, maturity value, and total gains based on monthly investment, tenure, and return rate."
         canonical="https://calculatorhub.site/sip-calculator"
         schemaData={generateCalculatorSchema(
           "SIP Calculator",
-          seoData.sipCalculator.description,
+          "Estimate SIP maturity amount and investment growth using CalculatorHub’s online SIP Calculator.",
           "/sip-calculator",
-          seoData.sipCalculator.keywords
+          ["sip calculator", "investment returns", "mutual fund calculator"]
         )}
-        breadcrumbs={[
-          { name: "Currency & Finance", url: "/category/currency-finance" },
-          { name: "SIP Calculator", url: "/sip-calculator" },
-        ]}
       />
 
-      <div className="max-w-5xl mx-auto px-3 sm:px-6">
+      <div className="max-w-5xl mx-auto">
         <Breadcrumbs
           items={[
-            { name: "Currency & Finance", url: "/category/currency-finance" },
+            { name: "Investments & Finance", url: "/category/investments" },
             { name: "SIP Calculator", url: "/sip-calculator" },
           ]}
         />
 
-        <div className="mb-6 sm:mb-8 text-center sm:text-left">
-          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2 drop-shadow-lg">
-            SIP Calculator
-          </h1>
-          <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-            Estimate your SIP maturity value, returns, and step-up growth with
-            currency selection and shareable results.
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-white mb-2">📈 SIP Calculator</h1>
+          <p className="mt-3 text-slate-400 text-sm leading-relaxed">
+            Calculate your future SIP returns, maturity amount, and total gains using our systematic investment plan calculator.
           </p>
         </div>
 
-        {/* Inputs + Summary */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Input */}
-          <div className="bg-[#1e293b] rounded-xl border border-[#334155] p-4 sm:p-6 text-slate-200">
-            <div className="flex justify-between items-center mb-3 sm:mb-4 flex-wrap gap-2">
-              <h2 className="text-lg sm:text-xl font-semibold text-white flex items-center gap-2">
-                <PiggyBank className="h-5 w-5 text-emerald-400" /> Investment
-                Details
+          <div className="bg-[#1e293b] rounded-xl border border-[#334155] p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+                💰 Investment Details
               </h2>
               <button
-                onClick={handleReset}
-                className="flex items-center gap-1 text-xs sm:text-sm text-slate-300 border border-[#334155] rounded-lg px-2 py-1 hover:bg-[#0f172a] hover:text-white transition"
+                onClick={reset}
+                className="flex items-center gap-1 text-sm text-slate-300 border border-[#334155] rounded-lg px-2 py-1 hover:bg-[#0f172a]"
               >
                 <RotateCcw className="h-4 w-4 text-indigo-400" /> Reset
               </button>
             </div>
 
-            {/* Fields */}
-            <div className="space-y-4 sm:space-y-5">
+            <div className="space-y-5">
+              {/* Currency */}
               <div>
-                <label className="block text-sm mb-1 text-slate-300">
-                  Currency
-                </label>
+                <label className="text-sm font-medium text-slate-300 mb-2 block">Currency</label>
                 <select
                   value={currency}
                   onChange={(e) => setCurrency(e.target.value)}
-                  className="w-full bg-[#0f172a] text-white px-3 py-2 border border-[#334155] rounded-lg text-sm sm:text-base"
+                  className="bg-[#0f172a] text-white px-3 py-2 rounded-md w-48 border border-[#334155]"
                 >
-                  {CURRENCIES.map((c) => (
+                  {currencyOptions.map((c) => (
                     <option key={c.code} value={c.code}>
-                      {c.symbol} {c.code}
+                      {c.label}
                     </option>
                   ))}
                 </select>
               </div>
 
-              {[
-                {
-                  label: "Monthly Investment",
-                  value: monthlyInvestment,
-                  set: setMonthlyInvestment,
-                  min: 500,
-                  max: 10000000,
-                  step: 500,
-                  accent: "accent-emerald-500",
-                },
-                {
-                  label: "Expected Annual Return (%)",
-                  value: returnRate,
-                  set: setReturnRate,
-                  min: 1,
-                  max: 50,
-                  step: 0.1,
-                  accent: "accent-indigo-500",
-                },
-                {
-                  label: "Time Period (Years)",
-                  value: timePeriod,
-                  set: setTimePeriod,
-                  min: 1,
-                  max: 100,
-                  step: 1,
-                  accent: "accent-yellow-500",
-                },
-               
-              ].map((f, i) => (
-                <div key={i}>
-                  <label className="block text-sm text-slate-300 mb-1">
-                    {f.label}
-                  </label>
-                  <input
-                    ref={i === 0 ? amountRef : undefined}
-                    type="number"
-                    value={f.value}
-                    placeholder="0"
-                    onChange={(e) => f.set(Number(e.target.value))}
-                    className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg text-sm sm:text-base"
-                  />
-                  <input
-                    type="range"
-                    min={f.min}
-                    max={f.max}
-                    step={f.step}
-                    value={f.value}
-                    onChange={(e) => f.set(Number(e.target.value))}
-                    className={`w-full mt-2 ${f.accent}`}
-                  />
-                </div>
-              ))}
+              {/* Monthly Investment */}
+              <div>
+                <label className="text-sm font-medium text-slate-300">
+                  Monthly Investment ({findSymbol(currency)})
+                </label>
+                <input
+                  type="number"
+                  value={monthlyInvestment}
+                  onChange={(e) => setMonthlyInvestment(parseFloat(e.target.value) || 0)}
+                  className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
+
+              {/* Annual Return */}
+              <div>
+                <label className="text-sm font-medium text-slate-300">Expected Annual Return (%)</label>
+                <input
+                  type="number"
+                  step="0.1"
+                  value={annualReturn}
+                  onChange={(e) => setAnnualReturn(parseFloat(e.target.value) || 0)}
+                  className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+
+              {/* Duration */}
+              <div>
+                <label className="text-sm font-medium text-slate-300">Investment Period (Years)</label>
+                <input
+                  type="number"
+                  value={years}
+                  onChange={(e) => setYears(parseInt(e.target.value) || 0)}
+                  className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
             </div>
           </div>
 
           {/* Output */}
-          <div className="bg-[#1e293b] rounded-xl border border-[#334155] p-4 sm:p-6 text-slate-200">
-            <h2 className="text-lg sm:text-xl font-semibold text-white mb-4">
-              SIP Summary
-            </h2>
+          <div className="bg-[#1e293b] rounded-xl border border-[#334155] p-6 text-slate-200">
+            <h2 className="text-xl font-semibold text-white mb-4">SIP Summary</h2>
 
-            <div className="text-center p-4 bg-[#0f172a] rounded-lg border border-[#334155] mb-4">
-              <TrendingUp className="h-8 w-8 text-emerald-400 mx-auto mb-2" />
-              <div className="text-xl sm:text-2xl font-bold text-white">
-                 {formatReadableNumber(fvRegular, selectedCurrency.locale, selectedCurrency.code)}
+            <div className="p-4 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
+              <PieChartIcon className="h-8 w-8 text-indigo-400 mx-auto mb-2" />
+              <div className="text-2xl font-bold text-white">
+                {formatCurrency(futureValue, currentLocale, currency)}
               </div>
-              <p className="text-xs sm:text-sm text-slate-400">
-                Maturity Value
+              <div className="text-sm text-slate-400">Maturity Amount</div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              <div className="p-3 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
+                <div className="font-semibold text-white">
+                  {formatCurrency(totalInvestment, currentLocale, currency)}
+                </div>
+                <div className="text-sm text-slate-400">Total Investment</div>
+              </div>
+              <div className="p-3 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
+                <div className="font-semibold text-white">
+                  {formatCurrency(totalGains, currentLocale, currency)}
+                </div>
+                <div className="text-sm text-slate-400">Total Gains</div>
+              </div>
+            </div>
+
+            <div className="flex gap-3 mt-5 flex-wrap">
+              <button
+                onClick={copyResults}
+                className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-md text-sm"
+              >
+                <Copy size={16} /> Copy Results
+              </button>
+              <button
+                onClick={copyShareLink}
+                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md text-sm"
+              >
+                <Share2 size={16} /> Copy Link
+              </button>
+              {copied !== "none" && (
+                <span className="text-emerald-400 text-sm">
+                  {copied === "results" ? "Results copied!" : "Link copied!"}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Pie Chart */}
+        {totalInvestment > 0 && (
+          <div className="mt-6 bg-[#1e293b] border border-[#334155] rounded-xl p-6">
+            <h3 className="text-center text-white font-semibold mb-6">
+              SIP Growth Breakdown
+            </h3>
+            <div className="flex justify-center">
+              <ResponsiveContainer width="90%" height={250}>
+                <PieChart>
+                  <Pie data={pieData} dataKey="value" outerRadius={90} innerRadius={60}>
+                    {pieData.map((_, i) => (
+                      <Cell key={i} fill={["#3b82f6", "#22c55e"][i]} />
+                    ))}
+                  </Pie>
+                  <ReTooltip formatter={(v: any) => formatCurrency(Number(v), currentLocale, currency)} />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
+
+        {/* How SIP is Calculated */}
+        <div className="mt-10 bg-[#0f172a] border border-[#334155] rounded-xl p-6">
+          <button
+            onClick={() => setShowSteps((v) => !v)}
+            className="flex justify-between items-center w-full text-left text-white text-lg font-semibold"
+          >
+            🧮 How SIP is Calculated
+            {showSteps ? <ChevronUp /> : <ChevronDown />}
+          </button>
+
+          {showSteps && (
+            <div className="mt-4 text-slate-300 text-sm leading-relaxed">
+              <p>
+                SIP future value formula:
+                <br />
+                <code className="text-indigo-300">
+                  FV = P × ((1 + r)<sup>n</sup> − 1) / r × (1 + r)
+                </code>
+              </p>
+              <p className="mt-2">
+                Where:
+                <ul className="list-disc ml-5 mt-1">
+                  <li>P = Monthly investment</li>
+                  <li>r = Monthly interest rate (annual rate ÷ 12 ÷ 100)</li>
+                  <li>n = Total months</li>
+                </ul>
+              </p>
+              <p className="mt-2">
+                Example: Investing {formatCurrency(10000, currentLocale, currency)} monthly for 10 years at 12% annual return will grow to approximately {formatCurrency(2320000, currentLocale, currency)}.
               </p>
             </div>
-
-            <div className="grid grid-cols-2 gap-3 sm:gap-4">
-              {[ 
-                { label: 'Total Invested', val: investedAmount },
-                { label: 'Wealth Gain', val: estimatedProfit }
-              ].map((x, i)=>(
-                <div key={i} className="p-4 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
-                  <div className="text-lg font-semibold text-white">
-                    {formatReadableNumber(x.val, selectedCurrency.locale, selectedCurrency.code)}
-                  </div>
-                  <div className="text-xs sm:text-sm text-slate-400">{x.label}</div>
-                </div>
-              ))}
-            </div>
- 
-            <div className="mt-4 space-y-2 text-xs sm:text-sm text-slate-300">
-              <div className="flex justify-between"><span>Duration:</span><span>{timePeriod} years</span></div>
-              <div className="flex justify-between"><span>Return:</span><span>{returnRate}% p.a.</span></div>
-              <div className="flex justify-between"><span>Step-up:</span><span>{stepUp}%/yr</span></div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-center sm:justify-start gap-2 pt-4">
-              <button onClick={copyShare} className="flex items-center gap-2 w-full sm:w-auto justify-center px-3 py-2 text-sm rounded-md border border-[#334155] hover:border-indigo-500 hover:bg-[#0f172a] transition">
-                <Share2 className="h-4 w-4" /> Share
-              </button>
-              <span className="text-xs text-slate-400">Link encodes inputs</span>
-            </div>
-          </div>
-        </div> 
-
-        {/* Smart Tip */}
-        <div className="mt-5 bg-[#1e293b] border border-[#334155] px-4 py-3 rounded-md text-slate-200 flex items-center">
-          <span className="text-xl sm:text-2xl text-indigo-400 mr-3">💡</span>
-          <p className="text-sm sm:text-base font-medium text-slate-300">{SIP_TIPS[activeTip]}</p>
+          )}
         </div>
 
-        {/* Chart Section */}
-        <div className="mt-6 bg-[#1e293b] rounded-xl border border-[#334155] p-4 sm:p-6 text-slate-200">
-          <h3 className="text-base sm:text-lg font-semibold text-white mb-4 sm:mb-6 text-center">SIP Growth Overview</h3>
-          <div className="w-full h-[250px] sm:h-[320px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={chartData} margin={{ top: 10, right: 15, left: -10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="year" tickFormatter={(y) => `${y}y`} />
-                <YAxis tickFormatter={(v) => formatCompact(v, selectedCurrency.locale)} />
-                <ChartTooltip
-                  formatter={(v: any) =>
-                    formatReadableNumber(v, selectedCurrency.locale, selectedCurrency.code)
-                  }
-                  labelFormatter={(l) => `Year ${l}`}
-                />
-                <Line type="monotone" dataKey="value" stroke="#10b981" strokeWidth={2} dot={false} name="Normal SIP" />
-                <Line type="monotone" dataKey="stepUpValue" stroke="#f472b6" strokeWidth={2} dot={false} name="Step-up SIP" />
-                <Line type="monotone" dataKey="invested" stroke="#6366f1" strokeWidth={2} dot={false} name="Invested" />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-
-          {/* Comparison */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-5">
-            {[ 
-              { title: 'Normal SIP', val: fvRegular },
-              { title: 'Step-up SIP', val: fvStep },
-              { title: 'Step-up Invested', val: investedStep }
-            ].map((x,i)=>(
-              <div key={i} className="p-3 bg-[#0f172a] border border-[#334155] rounded-lg text-center\">
-                <p className="text-xs sm:text-sm text-slate-400">{x.title}</p>
-                <p className="text-sm sm:text-base font-semibold text-white">{formatCurrency(x.val, selectedCurrency.code, selectedCurrency.locale)}</p>
-              </div>
-            ))}
-          </div>
-        </div>
- 
         <AdBanner type="bottom" />
-        <RelatedCalculators currentPath="sip-calculator" category="currency-finance" />
+        <RelatedCalculators currentPath="/sip-calculator" category="investments" />
       </div>
     </>
   );
 };
- 
-export default SIPCalculator;
- 
+
+export default SipCalculator;
