@@ -649,33 +649,89 @@ const SipCalculator: React.FC = () => {
 
 
 
-        {/* How SIP is Calculated Section */}
-        <div className="mt-10 bg-[#0f172a] border border-[#334155] rounded-xl p-6">
-          <button
-            onClick={() => setShowSteps((v) => !v)}
-            className="flex justify-between items-center w-full text-left text-white text-lg font-semibold"
-          >
-            🧮 How SIP is Calculated
-            {showSteps ? <ChevronUp /> : <ChevronDown />}
-          </button>
+      {/* ---------- How SIP is Calculated (Enhanced UI) ---------- */}
+<div className="mt-10 bg-[#0f172a] border border-slate-700 rounded-xl p-6 shadow-inner">
+  <button
+    onClick={() => setShowSteps((v) => !v)}
+    className="flex justify-between items-center w-full text-left text-white text-lg font-semibold"
+  >
+    🧮 How SIP is Calculated
+    {showSteps ? <ChevronUp /> : <ChevronDown />}
+  </button>
 
-          {showSteps && (
-            <div className="mt-4 text-slate-300 text-sm leading-relaxed">
-              <p>
-                SIP future value formula:
-                <br />
-                <code className="text-indigo-300">
-                  FV = P × ((1 + r)<sup>n</sup> − 1) / r × (1 + r)
-                </code>
-              </p>
-              <ul className="list-disc ml-6 mt-2">
-                <li>P = Monthly investment</li>
-                <li>r = Monthly interest rate (annual rate ÷ 12 ÷ 100)</li>
-                <li>n = Total months</li>
-              </ul>
-            </div>
-          )}
+  {showSteps && (
+    <div className="mt-5 text-slate-300 text-sm leading-relaxed space-y-5">
+      {/* Formula description */}
+      <div>
+        <p className="mb-2 text-slate-200">
+          SIP Future Value (FV) is calculated using the formula:
+        </p>
+        <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-2 border border-slate-700 text-slate-300 text-[13px] whitespace-nowrap scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent font-mono">
+          <div className="min-w-max">
+            <span className="font-semibold text-indigo-400">FV</span> ={" "}
+            <span className="text-white">P</span> ×{" "}
+            <span className="text-white">((1 + r)<sup>n</sup> − 1)</span> ÷{" "}
+            <span className="text-white">r</span> ×{" "}
+            <span className="text-white">(1 + r)</span>
+          </div>
         </div>
+        <ul className="list-disc ml-6 mt-3 space-y-1">
+          <li>
+            <span className="text-indigo-300 font-medium">P</span> = Monthly investment
+          </li>
+          <li>
+            <span className="text-indigo-300 font-medium">r</span> = Monthly interest rate (annual rate ÷ 12 ÷ 100)
+          </li>
+          <li>
+            <span className="text-indigo-300 font-medium">n</span> = Total number of months
+          </li>
+        </ul>
+      </div>
+
+      {/* Visual formula breakdown (like EMI) */}
+      <div className="mt-5 overflow-x-auto rounded-md bg-[#0b1220] px-3 py-2 border border-slate-700 text-[13px] whitespace-nowrap scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent">
+        <div className="min-w-max text-slate-300 font-mono">
+          FV = P ×{" "}
+          <span className="text-white">
+            ((1 + {annualReturn / 12 / 100 + 1 ? (annualReturn / 12 / 100).toFixed(5) : "r"})<sup>{months}</sup> − 1)
+          </span>{" "}
+          ÷ <span className="text-white">{(annualReturn / 12 / 100).toFixed(5)}</span> × (1 + r)
+        </div>
+      </div>
+
+      {/* Visual summary boxes */}
+      <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-center">
+          <div className="text-emerald-300 text-xs uppercase">P × ((1 + r)<sup>n</sup> − 1)</div>
+          <div className="font-semibold text-white text-sm truncate">
+            {formatCurrency(totalInvestment)}
+          </div>
+        </div>
+        <div className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-center">
+          <div className="text-rose-300 text-xs uppercase">÷ r × (1 + r)</div>
+          <div className="font-semibold text-white text-sm truncate">
+            {(annualReturn / 12 / 100).toFixed(5)}
+          </div>
+        </div>
+        <div className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-center">
+          <div className="text-sky-300 text-xs uppercase">Future Value (FV)</div>
+          <div className="font-semibold text-white text-sm truncate">
+            {formatCurrency(futureValue)}
+          </div>
+        </div>
+      </div>
+
+      {/* Final FV highlight */}
+      <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-2 rounded-xl bg-[#0b1220] px-4 py-3 ring-1 ring-indigo-500/30">
+        <span className="text-sm text-indigo-300 whitespace-nowrap">💰 Calculated SIP Maturity Value</span>
+        <span className="text-lg sm:text-xl font-bold tracking-wide text-white">
+          {formatCurrency(futureValue)}
+        </span>
+      </div>
+    </div>
+  )}
+</div>
+
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/sip-calculator" category="investments" />
