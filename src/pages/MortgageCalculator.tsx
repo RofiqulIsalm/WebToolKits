@@ -679,7 +679,7 @@ const MortgageCalculator: React.FC = () => {
           </div>
         )}
 
-        {{/* ===== Amortization ===== */}
+        {/* ===== Amortization ===== */}
         {principal > 0 && totalMonths > 0 && (
           <div className="mt-10 bg-gradient-to-br from-[#1e293b] via-[#111827] to-[#0f172a] rounded-2xl border border-indigo-600/40 shadow-xl overflow-hidden">
             {/* Header Button */}
