@@ -734,6 +734,7 @@ const SipCalculator: React.FC = () => {
 
     {/* Step 2 - Substitute actual values (4-line notebook style) */}
       <div>
+        <h2 className="text-indigo-400 font-semibold mb-2"> Formula</h2>
         <h4 className="text-indigo-400 font-semibold mb-2">
            Calculated
         </h4>
