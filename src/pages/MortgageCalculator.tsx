@@ -866,6 +866,11 @@ const MortgageCalculator: React.FC = () => {
                 <span className="text-white">{emiSteps.n}</span>
               </li>
             </ol>
+            <div className="grid sm:grid-cols-3 gap-2 text-sm mb-3">
+                <div><span className="font-semibold text-cyan-300">P</span> = {formatCurrency(emiSteps.P, currentLocale, currency)}</div>
+                <div><span className="font-semibold text-cyan-300">r</span> = {emiSteps.r.toFixed(8)}</div>
+                <div><span className="font-semibold text-cyan-300">n</span> = {emiSteps.n}</div>
+              </div>
           
             <div className="border-t border-slate-700 my-4 opacity-60" />
           
