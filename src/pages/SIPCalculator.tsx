@@ -664,390 +664,310 @@ const SipCalculator: React.FC = () => {
 
 
 
-        {/* ==================== SEO CONTENT SECTION ==================== */}
-        <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
-          <h1 className="text-3xl font-bold text-cyan-400 mb-6">
-            SIP Calculator – Calculate Mutual Fund Returns Instantly
-          </h1>
-        
-          <p>
-            Our <strong>SIP Calculator</strong> helps you estimate the <strong>future value of your mutual fund investments</strong> through a
-            <em> Systematic Investment Plan (SIP)</em>. Whether you’re planning monthly investments in equity, hybrid, or debt funds,
-            this calculator provides instant and accurate projections of your <strong>maturity amount</strong>, <strong>total investment</strong>,
-            and <strong>wealth gained</strong> over time.
-          </p>
-        
-          <p>
-            Using the SIP formula, you can plan your financial goals, compare investment options, and make informed decisions
-            about long-term wealth creation. The tool is free, fast, and works across multiple currencies, including INR, USD, EUR, and GBP.
-          </p>
-        
-          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">What Is a SIP?</h2>
-          <p>
-            A <strong>Systematic Investment Plan (SIP)</strong> is a disciplined way to invest a fixed amount at regular intervals — usually monthly —
-            in mutual funds. It allows you to build wealth gradually by taking advantage of <em>rupee cost averaging</em> and
-            <em>compound growth</em>.
-          </p>
-        
-          <ul>
-            <li><strong>Monthly Investment (P):</strong> The fixed amount you invest each month.</li>
-            <li><strong>Expected Return (r):</strong> The average annual return rate expected from your mutual fund.</li>
-            <li><strong>Investment Tenure (n):</strong> The total duration of your investment in years or months.</li>
-          </ul>
-        
-          <p>
-            SIPs are ideal for investors who prefer <strong>consistent, long-term growth</strong> with lower risk than lump-sum investments.
-          </p>
-        
-          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">How to Use This SIP Calculator</h2>
-          <ol className="list-decimal list-inside space-y-2">
-            <li>Enter your <strong>monthly SIP amount</strong> (the fixed investment per month).</li>
-            <li>Input the <strong>expected annual rate of return</strong> of your chosen mutual fund.</li>
-            <li>Set the <strong>investment duration</strong> in years.</li>
-            <li>The calculator instantly displays your <strong>total investment</strong>, <strong>estimated returns</strong>, and <strong>future value (maturity amount)</strong>.</li>
-          </ol>
-        
-          <p>
-            You can also explore different return rates and durations to compare how small changes impact your wealth creation over time.
-          </p>
-        
-     {/* ---------- How SIP is Calculated (Always Open + Mobile Scrollable) ---------- */}
-              <div className="mt-10 ">
-                {/* Outer Scroll Wrapper for Mobile */}
-                <div className=" overflow-x-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent sm:overflow-x-visible">
-                  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">SIP Calculation Formula</h2>
+  {/* ==================== SEO CONTENT SECTION ==================== */}
+<section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+  <h1 className="text-3xl font-bold text-cyan-400 mb-6">
+    SIP Calculator – Calculate Mutual Fund Returns Instantly
+  </h1>
+
+  {/* Hero / Feature Image */}
+  <div className="mb-6">
+    <img
+      src="/images/sip-calculator-visual.png"
+      alt="SIP calculator dashboard showing future value graph"
+      className="w-full rounded-lg border border-slate-700 shadow-lg"
+      loading="lazy"
+    />
+  </div>
+
   <p>
-    The SIP maturity amount is calculated using the following compound interest formula:
+    Our <strong>SIP Calculator</strong> helps you estimate the <strong>future value of your mutual fund investments</strong> with a simple monthly investment plan –
+    the <em>Systematic Investment Plan (SIP)</em>. Whether you’re investing in equity, hybrid or debt funds, this tool gives you instant projections for
+    your <strong>maturity amount</strong>, <strong>total investment</strong>, and <strong>wealth gained</strong> — in just seconds.
   </p>
-              
-                  {/* Check if user entered valid values */}
-                  {P > 0 && annualReturn > 0 && years > 0 ? (
-                    <>
-                      {/* Formula Card */}
-                      <div className="mt-3 mb-3 rounded-xl bg-gradient-to-br from-[#0b1220]/90 to-[#1e293b]/80 border border-indigo-600/30 px-2 py-1 ring-1 ring-indigo-500/30 shadow-inner min-w-max">
-                        <h3 className="text-indigo-400 text-base sm:text-lg font-semibold mb-1 flex items-center gap-2">
-                          🧮 <span className="text-white/90">Formula:</span>
-                        </h3>
-                        <p className="text-slate-200 text-center font-mono text-[13.5px] sm:text-base leading-7 break-words">
-                          <span className="text-indigo-300 font-semibold">FV</span> ={" "}
-                          <span className="text-white">P</span> × ((1 + <span className="text-emerald-400">r</span>)
-                          <sup className="text-slate-400">n</sup> − 1) ÷{" "}
-                          <span className="text-emerald-400">r</span> × (1 +{" "}
-                          <span className="text-emerald-400">r</span>)
-                        </p>
-                      </div>
-              
-                      {/* Definitions */}
-                      <ul className="list-disc ml-6 space-y-1 mb-4 min-w-max">
-                        <li>
-                          <span className="text-indigo-300 font-medium">P</span> = Monthly investment
-                        </li>
-                        <li>
-                          <span className="text-indigo-300 font-medium">r</span> = Annual rate ÷ 12 ÷ 100
-                        </li>
-                        <li>
-                          <span className="text-indigo-300 font-medium">n</span> = Total number of months
-                        </li>
-                      </ul>
-              
-                      {/* Step 1 - Core components */}
-                      <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-2 border border-slate-700 text-slate-300 text-[13px] font-mono scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent">
-                        <div className="space-y-2 min-w-max">
-                          <p>P = {formatCurrency(P)}</p>
-                          <p>r = {r.toFixed(6)}</p>
-                          <p>(1 + r) = {onePlusR.toFixed(6)}</p>
-                          <p>(1 + r)^n = {pow.toFixed(6)}</p>
-                          <p>Numerator ((1 + r)^n − 1) = {numerator.toFixed(6)}</p>
-                          <p>Denominator (r) = {denominator.toFixed(6)}</p>
-                          <p>Factor ((1 + r)^n − 1) / r = {factor.toFixed(6)}</p>
-                        </div>
-                      </div>
-              
-                      {/* Step 2 - Substitution math */}
-                      <div className="overflow-x-auto mt-2 rounded-md bg-[#0b1220] px-3 py-3 border border-slate-700 text-[13.5px] font-mono text-slate-200 leading-7 scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent">
-                        <pre className="whitespace-pre min-w-max">
-              {`FV = ${formatCurrency(P)} × ((1 + ${r.toFixed(6)})^${n} − 1) ÷ ${r.toFixed(6)} × (1 + ${r.toFixed(6)})
-              = ${formatCurrency(P)} × ${(numerator).toFixed(6)} ÷ ${r.toFixed(6)} × ${onePlusR.toFixed(6)}
-              = ${formatCurrency(P)} × ${(factor).toFixed(6)} × ${onePlusR.toFixed(6)}
-              = ${formatCurrency(futureValueCalc)}`}
-                        </pre>
-                      </div>
-              
-                      {/* Final FV summary */}
-                      <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-2 rounded-xl bg-[#0b1220] px-4 py-3 ring-1 ring-indigo-500/30 min-w-max">
-                        <span className="text-sm text-indigo-300 whitespace-nowrap">
-                          💰 Calculated SIP Maturity Value
-                        </span>
-                        <span className="text-lg sm:text-xl font-bold tracking-wide text-white">
-                          {formatCurrency(futureValue)}
-                        </span>
-                      </div>
-                    </>
-                  ) : (
-                    /* Default view when no inputs */
-                    <div className="text-slate-300 text-sm leading-relaxed space-y-5 min-w-max">
-                      <div className="rounded-xl bg-gradient-to-br from-[#0b1220]/90 to-[#1e293b]/80 border border-indigo-600/30 px-5 py-4 ring-1 ring-indigo-500/30 shadow-inner">
-                        <h3 className="text-indigo-400 text-base sm:text-lg font-semibold mb-1 flex items-center gap-2">
-                          🧮 <span className="text-white/90">Formula:</span>
-                        </h3>
-                        <p className="text-slate-200 text-center font-mono text-[13.5px] sm:text-base leading-7 break-words">
-                          <span className="text-indigo-300 font-semibold">FV</span> ={" "}
-                          <span className="text-white">P</span> × ((1 + <span className="text-emerald-400">r</span>)
-                          <sup className="text-slate-400">n</sup> − 1) ÷{" "}
-                          <span className="text-emerald-400">r</span> × (1 +{" "}
-                          <span className="text-emerald-400">r</span>)
-                        </p>
-                      </div>
-              
-                      <ul className="list-disc ml-6 space-y-1 mb-2 min-w-max">
-                        <li>
-                          <span className="text-indigo-300 font-medium">P</span> = Monthly investment
-                        </li>
-                        <li>
-                          <span className="text-indigo-300 font-medium">r</span> = Monthly interest rate (annual rate ÷ 12 ÷ 100)
-                        </li>
-                        <li>
-                          <span className="text-indigo-300 font-medium">n</span> = Total number of months
-                        </li>
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              </div>
-          <p>
-            This formula assumes monthly compounding and calculates how your regular investments grow over time with reinvested returns.
-          </p>
-        
-          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Why Use Our SIP Calculator?</h2>
-          <ul className="space-y-2">
-            <li>✅ Accurate and instant SIP maturity calculation.</li>
-            <li>✅ Supports <strong>multiple currencies</strong> and compounding frequencies.</li>
-            <li>✅ Compare different return rates and durations easily.</li>
-            <li>✅ Mobile-friendly, ad-free, and 100% free to use.</li>
-            <li>✅ Visual charts for <strong>growth analysis</strong> and investment breakdown.</li>
-          </ul>
-        
-          <p>
-            With our calculator, you can plan long-term goals such as <strong>retirement</strong>, <strong>child’s education</strong>,
-            or <strong>wealth accumulation</strong> more effectively.
-          </p>
-        
-          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Example: SIP of ₹10,000 per Month</h2>
-          <p>
-            Suppose you invest <strong>₹10,000 per month</strong> for 10 years with an expected annual return of 12%.
-            The SIP maturity value will be approximately <strong>₹23.2 lakh</strong>, where:
-          </p>
-          <ul>
-            <li>Total Investment = ₹12,00,000</li>
-            <li>Wealth Gain = ₹11,20,000</li>
-          </ul>
-          <p>
-            By increasing the duration or expected return rate slightly, you can significantly boost your total corpus
-            — showcasing the <strong>power of compounding</strong>.
-          </p>
-        
-          {/* ===================== FAQ SECTION (Styled) ===================== */}
-          <section className="space-y-6 mt-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
-              ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
-            </h2>
-        
-            <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
-              {/* Q1 */}
-              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-                <h3 className="font-semibold text-xl mb-2">
-                  <span className="text-yellow-300">Q1:</span> What is a SIP Calculator?
-                </h3>
-                <p>
-                  A <strong>SIP Calculator</strong> helps you estimate the future value of your mutual fund investments
-                  based on fixed monthly contributions, expected returns, and investment duration.
-                </p>
-              </div>
-        
-              {/* Q2 */}
-              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-                <h3 className="font-semibold text-xl mb-2">
-                  <span className="text-yellow-300">Q2:</span> How does the SIP Calculator work?
-                </h3>
-                <p>
-                  It uses the standard SIP formula:{" "}
-                  <code className="text-cyan-300">FV = P × ((1 + r)ⁿ − 1) ÷ r × (1 + r)</code>, where your monthly investments
-                  grow with compounding returns every month.
-                </p>
-              </div>
-        
-              {/* Q3 */}
-              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-                <h3 className="font-semibold text-xl mb-2">
-                  <span className="text-yellow-300">Q3:</span> Can I use this calculator for different mutual funds?
-                </h3>
-                <p>
-                  Yes! You can use it for <strong>equity, hybrid, debt, or index mutual funds</strong>. Adjust the expected
-                  return rate according to the fund type to get accurate projections.
-                </p>
-              </div>
-        
-              {/* Q4 */}
-              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-                <h3 className="font-semibold text-xl mb-2">
-                  <span className="text-yellow-300">Q4:</span> What is the ideal duration for SIP investment?
-                </h3>
-                <p>
-                  SIPs work best when invested for <strong>long durations (5–15 years)</strong>, allowing compounding
-                  to multiply your returns significantly.
-                </p>
-              </div>
-        
-              {/* Q5 */}
-              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-                <h3 className="font-semibold text-xl mb-2">
-                  <span className="text-yellow-300">Q5:</span> Is the SIP Calculator free to use?
-                </h3>
-                <p>
-                  Yes, it’s completely <strong>free</strong> and requires no registration. You can use it as many times as
-                  needed to plan different investment scenarios.
-                </p>
-              </div>
-            </div>
-          </section>
-        </section>
-        
-        {/* ==================== AUTHOR SECTION ==================== */}
-        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
-          <div className="flex items-center gap-3">
-            <img
-              src="/images/calculatorhub-author.webp"
-              alt="CalculatorHub Investment Tools Team"
-              className="w-12 h-12 rounded-full border border-gray-600"
-              loading="lazy"
-            />
-            <div>
-              <p className="font-semibold text-white">Written by the CalculatorHub Investment Tools Team</p>
-              <p className="text-sm text-slate-400">
-                Experts in financial planning, SIP strategies, and online investment tools. Last updated:{" "}
-                <time dateTime="2025-10-10">October 10, 2025</time>.
-              </p>
-            </div>
-          </div>
-        </section>
-        
-        {/* ============= SIP CALCULATOR ENHANCED SEO SCHEMAS ================ */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebPage",
-              "name": "SIP Calculator",
-              "url": "https://calculatorhub.site/sip-calculator",
-              "description":
-                "Free online SIP Calculator by CalculatorHub. Instantly calculate mutual fund SIP maturity value, total investment, and wealth gain using compound growth. Compare SIP returns and plan your investments easily.",
-              "breadcrumb": {
-                "@type": "BreadcrumbList",
-                "itemListElement": [
-                  {
-                    "@type": "ListItem",
-                    "position": 1,
-                    "name": "Investments & Finance",
-                    "item": "https://calculatorhub.site/category/investments"
-                  },
-                  {
-                    "@type": "ListItem",
-                    "position": 2,
-                    "name": "SIP Calculator",
-                    "item": "https://calculatorhub.site/sip-calculator"
-                  }
-                ]
-              },
-              "hasPart": {
-                "@type": "CreativeWork",
-                "name": "SIP Calculator Features",
-                "about": [
-                  "Calculates SIP maturity value and total investment",
-                  "Supports multiple currencies",
-                  "Provides visual charts for growth and returns",
-                  "Ideal for mutual fund investors",
-                  "Free, fast, and mobile-friendly"
-                ]
-              }
-            })
-          }}
-        />
-        
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              "mainEntity": [
-                {
-                  "@type": "Question",
-                  "name": "What is a SIP Calculator?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text":
-                      "A SIP Calculator helps you estimate the maturity amount and returns from your mutual fund SIP based on monthly investment, expected return rate, and duration."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "How is SIP calculated?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text":
-                      "SIP is calculated using the formula FV = P × ((1 + r)ⁿ − 1) ÷ r × (1 + r), where P is the monthly investment, r is the monthly interest rate, and n is the total number of months."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "Can I use this calculator for mutual funds?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text":
-                      "Yes, it can be used for any mutual fund SIP including equity, hybrid, debt, and index funds."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "Is the SIP Calculator free to use?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text":
-                      "Yes, this SIP Calculator is completely free, requires no sign-up, and supports multiple currencies."
-                  }
-                }
-              ]
-            })
-          }}
-        />
-        
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              "name": "SIP Calculator",
-              "operatingSystem": "All",
-              "applicationCategory": "FinanceApplication",
-              "description":
-                "Instant SIP Calculator to estimate mutual fund returns, total investment, and wealth gained. Works in multiple currencies and provides detailed growth charts.",
-              "url": "https://calculatorhub.site/sip-calculator",
-              "featureList": [
-                "Estimate SIP maturity amount and total gains",
-                "Supports multiple currencies",
-                "Interactive charts for growth tracking",
-                "Free, accurate, and mobile-friendly"
-              ],
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "reviewCount": "1850"
-              }
-            })
-          }}
-        />
+
+  <p>
+    By using this SIP calculator, you can plan your financial goals smarter, compare investment options side-by-side, and make informed decisions about
+    your long‐term growth strategy. The tool is 100% free, ultra-fast, and works across multiple currencies including INR, USD, EUR and GBP.
+  </p>
+
+  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">What Is a SIP?</h2>
+  <p>
+    A <strong>Systematic Investment Plan (SIP)</strong> is a disciplined way to invest a fixed amount at regular intervals — usually monthly — into mutual funds.
+    This approach benefits from <em>rupee-cost averaging</em> and <em>compounded returns</em>, letting you build wealth gradually with less risk than investing all at once.
+  </p>
+
+  <ul className="mb-6">
+    <li><strong>Monthly investment (P):</strong> The amount you commit each month.</li>
+    <li><strong>Expected return (r):</strong> The average annual return you estimate from your chosen fund.</li>
+    <li><strong>Investment tenure (n):</strong> The total duration for your SIP — in years or months.</li>
+  </ul>
+
+  <p>
+    SIPs are ideal for long-term investors who prefer consistent savings and want to take advantage of the market’s growth over time, rather than relying on timing the market.
+  </p>
+
+  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Key Benefits of Using This SIP Calculator</h2>
+  <ul className="space-y-2 mb-6">
+    <li>✅ Estimate your SIP returns quickly and accurately — no manual calculations required.</li>
+    <li>✅ Compare different monthly investments, expected returns and investment durations to see how each scenario affects your wealth.</li>
+    <li>✅ Visual representation: view a breakdown of investment vs. gains with interactive charts.</li>
+    <li>✅ Works in multiple currencies (INR, USD, EUR, GBP) and adapts to your locale.</li>
+    <li>✅ Completely free to use — no registration, no hidden fees, and fully responsive for mobile devices.</li>
+    <li>✅ Helps you plan for retirement, children’s education, or long-term wealth accumulation with confidence.</li>
+  </ul>
+
+  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">How to Use This SIP Calculator</h2>
+  <ol className="list-decimal list-inside space-y-2 mb-6">
+    <li>Enter your <strong>monthly SIP amount</strong> (the fixed amount you’ll invest each month).</li>
+    <li>Input the <strong>expected annual rate of return</strong> for your selected mutual fund or portfolio.</li>
+    <li>Set the <strong>investment duration</strong> in years.</li>
+    <li>Instantly get results: <strong>total investment</strong>, <strong>estimated wealth gain</strong>, and <strong>maturity amount (future value)</strong>.</li>
+  </ol>
+
+  <p>
+    Explore different return-rates and durations to understand how small changes can significantly impact your final corpus — a great way to get financial clarity before you invest.
+  </p>
+
+  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">SIP Calculation Formula</h2>
+  <p>
+    This calculator uses the widely-used compound return formula:
+  </p>
+  <pre className="bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto mb-6">
+    FV = P × ((1 + r)ⁿ − 1) ÷ r × (1 + r)
+  </pre>
+  <ul className="mb-6">
+    <li><strong>FV</strong> = Future Value (maturity amount).</li>
+    <li><strong>P</strong> = Monthly investment amount.</li>
+    <li><strong>r</strong> = Monthly rate of return (annual rate ÷ 12 ÷ 100).</li>
+    <li><strong>n</strong> = Total number of months.</li>
+  </ul>
+
+  <p className="mb-6">
+    This formula assumes monthly compounding and helps you model how regular investments grow when returns are reinvested over time.
+  </p>
+
+  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Why Use Our SIP Calculator?</h2>
+  <ul className="space-y-2 mb-6">
+    <li>✅ Accurate and instant SIP maturity calculation — no spreadsheets or guesswork.</li>
+    <li>✅ Supports multiple currencies and returns scenarios.</li>
+    <li>✅ Compare monthly investments, return rates, and durations effortlessly.</li>
+    <li>✅ Mobile-friendly, ad-free, and quick to load on any device.</li>
+    <li>✅ Visual charts and intuitive interface make it easy for anyone to use.</li>
+  </ul>
+
+  <p className="mb-6">
+    With our tool, you can confidently plan for retirement, your children’s future or long-term wealth accumulation — knowing exactly how your monthly investments stack up over time.
+  </p>
+
+  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Example: SIP of ₹10,000 per Month for 10 Years</h2>
+  <p className="mb-6">
+    Suppose you invest <strong>₹10,000 per month</strong> for 10 years with an expected annual return of 12%.  
+    The expected maturity amount would be approximately <strong>₹23.2 lakh</strong>, where:
+  </p>
+  <ul className="mb-6">
+    <li>Total investment = ₹12,00,000</li>
+    <li>Wealth gain = ₹11,20,000</li>
+  </ul>
+  <p className="mb-8">
+    This example highlights the power of compounding — increasing either your monthly investment or tenure even slightly can lead to significantly higher returns.
+  </p>
+
+  {/* ===================== FAQ SECTION (Styled) ===================== */}
+  <section className="space-y-6 mt-16">
+    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
+      ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
+    </h2>
+
+    <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2">
+          <span className="text-yellow-300">Q1:</span> What is a SIP Calculator?
+        </h3>
+        <p>
+          A <strong>SIP Calculator</strong> helps you estimate the future value of your mutual fund investments
+          based on regular monthly contributions, an expected return rate, and your investment duration.
+        </p>
+      </div>
+
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2">
+          <span className="text-yellow-300">Q2:</span> How is SIP calculated?
+        </h3>
+        <p>
+          SIP is calculated using the formula: <code className="text-cyan-300">FV = P × ((1 + r)ⁿ − 1) ÷ r × (1 + r)</code>, where
+          <strong>P</strong> is your monthly SIP amount, <strong>r</strong> is the monthly rate of return, and <strong>n</strong> is the total
+          number of months. This calculator applies that instantly for you.
+        </p>
+      </div>
+
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2">
+          <span className="text-yellow-300">Q3:</span> Can I use this for different mutual funds?
+        </h3>
+        <p>
+          Yes — whether it’s <strong>equity funds</strong>, <strong>hybrid funds</strong>, <strong>index funds</strong> or <strong>debt funds</strong>, you can simulate the expected returns
+          by adjusting the rate of return in this SIP Calculator.
+        </p>
+      </div>
+
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2">
+          <span className="text-yellow-300">Q4:</span> What is the ideal duration for a SIP?
+        </h3>
+        <p>
+          Longer tenures (5–15 years or more) typically deliver stronger results because of compounding — the longer your money stays invested, the higher the growth potential.
+        </p>
+      </div>
+
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2">
+          <span className="text-yellow-300">Q5:</span> Is this SIP Calculator free?
+        </h3>
+        <p>
+          Yes — this tool is completely <strong>free to use</strong>, with no registration required and fully responsive on all devices.
+        </p>
+      </div>
+    </div>
+  </section>
+</section>
+
+{/* ==================== AUTHOR SECTION ==================== */}
+<section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+  <div className="flex items-center gap-3">
+    <img
+      src="/images/calculatorhub-author.webp"
+      alt="CalculatorHub Investment Tools Team"
+      className="w-12 h-12 rounded-full border border-gray-600"
+      loading="lazy"
+    />
+    <div>
+      <p className="font-semibold text-white">Written by the CalculatorHub Investment Tools Team</p>
+      <p className="text-sm text-slate-400">
+        Experts in financial planning, SIP strategies, and investment calculators. Last updated: <time dateTime="2025-10-10">October 10, 2025</time>.
+      </p>
+    </div>
+  </div>
+</section>
+
+{/* ============= SIP CALCULATOR ENHANCED SEO SCHEMAS ================ */}
+<script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "SIP Calculator",
+      "url": "https://calculatorhub.site/sip-calculator",
+      "description":
+        "Free online SIP Calculator by CalculatorHub. Instantly calculate SIP maturity value, total investment, and wealth gain using compound growth. Compare SIP returns and plan your investments easily.",
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Investments & Finance",
+            "item": "https://calculatorhub.site/category/investments"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "SIP Calculator",
+            "item": "https://calculatorhub.site/sip-calculator"
+          }
+        ]
+      },
+      "hasPart": {
+        "@type": "CreativeWork",
+        "name": "SIP Calculator Features",
+        "about": [
+          "Calculates SIP maturity value and total investment",
+          "Supports multiple currencies",
+          "Provides visual charts for growth and returns",
+          "Ideal for mutual fund investors",
+          "Free, fast, and mobile-friendly"
+        ]
+      }
+    })
+  }}
+/>
+
+<script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is a SIP Calculator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text":
+              "A SIP Calculator helps you estimate the maturity amount and returns from your mutual fund SIP based on monthly investment, expected return rate, and duration."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is SIP calculated?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text":
+              "SIP is calculated using the formula FV = P × ((1 + r)ⁿ − 1) ÷ r × (1 + r), where P is the monthly investment, r is the monthly interest rate, and n is the total number of months."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use this calculator for mutual funds?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text":
+              "Yes, it can be used for any mutual fund SIP including equity, hybrid, debt, and index funds."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is the SIP Calculator free to use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text":
+              "Yes, it’s completely free, requires no sign-up, and supports multiple currencies."
+          }
+        }
+      ]
+    })
+  }}
+/>
+
+<script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "SIP Calculator",
+      "operatingSystem": "All",
+      "applicationCategory": "FinanceApplication",
+      "description":
+        "Instant SIP Calculator to estimate mutual fund returns, total investment, and wealth gained. Works in multiple currencies and provides visual charts for growth tracking.",
+      "url": "https://calculatorhub.site/sip-calculator",
+      "featureList": [
+        "Estimate SIP maturity amount and total gains",
+        "Supports multiple currencies",
+        "Interactive charts for growth tracking",
+        "Free, accurate, and mobile-friendly"
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "1850"
+      }
+    })
+  }}
+/>
+
 
 
 
