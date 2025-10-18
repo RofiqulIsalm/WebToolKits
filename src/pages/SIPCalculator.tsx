@@ -752,9 +752,9 @@ const SipCalculator: React.FC = () => {
     <pre className="whitespace-pre-wrap">
       {`FV = P × ((1 + r)^n − 1) ÷ r × (1 + r)
       FV = ${formatCurrency(P)} × ((1 + ${r.toFixed(6)})^${n} − 1) ÷ ${r.toFixed(6)} × (1 + ${r.toFixed(6)})
-      = ${formatCurrency(P)} × ${(numerator).toFixed(6)} ÷ ${r.toFixed(6)} × ${onePlusR.toFixed(6)}
-      = ${formatCurrency(P)} × ${(factor).toFixed(6)} × ${onePlusR.toFixed(6)}
-      = ${formatCurrency(futureValueCalc)}`}
+         = ${formatCurrency(P)} × ${(numerator).toFixed(6)} ÷ ${r.toFixed(6)} × ${onePlusR.toFixed(6)}
+         = ${formatCurrency(P)} × ${(factor).toFixed(6)} × ${onePlusR.toFixed(6)}
+         = ${formatCurrency(futureValueCalc)}`}
     </pre>
   </div>
 </div>
