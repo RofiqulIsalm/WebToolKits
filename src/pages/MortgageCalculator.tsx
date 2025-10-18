@@ -102,30 +102,30 @@ const clamp = (v: number, min: number, max: number) =>
   Math.min(max, Math.max(min, v));
 
 // ----- Step-by-step EMI intermediates -----
-  const emiSteps = useMemo(() => {
-    const P = Math.max(principal, 0);
-    const n = Math.max(totalMonths, 0);
-    const r = Math.max(monthlyRate, 0); // monthly interest rate = interestRate / 12 / 100
-  
-    const onePlusR = 1 + r;
-    const pow = n > 0 ? Math.pow(onePlusR, n) : 1;
-  
-    // General formula parts
-    const numerator = P * r * pow;
-    const denominator = pow - 1;
-    const generalEmi = denominator !== 0 ? numerator / denominator : 0;
-  
-    // Zero-rate fallback (when APR is 0, r = 0)
-    const zeroRateEmi = n > 0 ? P / n : 0;
-  
-    // Final EMI (choose branch)
-    const emi = interestRate === 0 ? zeroRateEmi : generalEmi;
-  
-    return {
-      P, r, n, onePlusR, pow, numerator, denominator, emi,
-      isZeroRate: interestRate === 0,
-    };
-  }, [principal, totalMonths, monthlyRate, interestRate]);
+const emiSteps = useMemo(() => {
+  const P = Math.max(principal, 0);
+  const n = Math.max(totalMonths, 0);
+  const r = Math.max(monthlyRate, 0); // monthly interest rate = interestRate / 12 / 100
+
+  const onePlusR = 1 + r;
+  const pow = n > 0 ? Math.pow(onePlusR, n) : 1;
+
+  // General formula parts
+  const numerator = P * r * pow;
+  const denominator = pow - 1;
+  const generalEmi = denominator !== 0 ? numerator / denominator : 0;
+
+  // Zero-rate fallback (when APR is 0, r = 0)
+  const zeroRateEmi = n > 0 ? P / n : 0;
+
+  // Final EMI (choose branch)
+  const emi = interestRate === 0 ? zeroRateEmi : generalEmi;
+
+  return {
+    P, r, n, onePlusR, pow, numerator, denominator, emi,
+    isZeroRate: interestRate === 0,
+  };
+}, [principal, totalMonths, monthlyRate, interestRate]);
 
 /* ============================================================
    🏠 SECTION 2: Component
@@ -824,49 +824,88 @@ const MortgageCalculator: React.FC = () => {
             </figcaption>
           </figure>
 
+          {/*Dynamic live math */}
 
-          {/* Dynamic live math */}
           <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🧮 How EMI is Calculated</h2>
-          <p className="mb-3">
-            We use the standard EMI formula for amortizing loans:
-          </p>
+          <p className="mb-3">We use the standard formula and show each step with your inputs:</p>
           
           <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 p-5 rounded-xl border border-slate-700 shadow-inner text-slate-200">
             <p className="text-lg font-mono text-indigo-300 mb-2 text-center">
               EMI = P × r × (1 + r)<sup>n</sup> / ((1 + r)<sup>n</sup> − 1)
             </p>
           
-            <div className="border-t border-slate-700 my-3 opacity-60" />
+            <div className="border-t border-slate-700 my-4 opacity-60" />
           
-            <p className="text-sm mb-1">
-              <span className="font-semibold text-cyan-300">P</span> ={" "}
-              {formatCurrency(principal, currentLocale, currency)}{" "}
-              <span className="text-slate-400">(Principal = Loan − Down Payment)</span>
-            </p>
+            {/* Step 0: Inputs */}
+            <ol className="space-y-2 text-sm">
+              <li>
+                <span className="font-semibold text-cyan-300">P</span> (Principal) =
+                {" "}
+                <span className="text-white">{formatCurrency(emiSteps.P, currentLocale, currency)}</span>
+                {" "}
+                <span className="text-slate-400">(Loan − Down Payment)</span>
+              </li>
+              <li>
+                <span className="font-semibold text-cyan-300">r</span> (Monthly rate) =
+                {" "}
+                <span className="text-white">{emiSteps.r.toFixed(8)}</span>
+                {" "}
+                <span className="text-slate-400">(Annual ÷ 12 ÷ 100)</span>
+              </li>
+              <li>
+                <span className="font-semibold text-cyan-300">n</span> (Total months) =
+                {" "}
+                <span className="text-white">{emiSteps.n}</span>
+              </li>
+            </ol>
           
-            <p className="text-sm mb-1">
-              <span className="font-semibold text-cyan-300">r</span> ={" "}
-              {interestRate
-                ? (interestRate / 12 / 100).toFixed(6)
-                : "0.000000"}{" "}
-              <span className="text-slate-400">(Monthly interest rate = Annual ÷ 12 ÷ 100)</span>
-            </p>
+            <div className="border-t border-slate-700 my-4 opacity-60" />
           
-            <p className="text-sm mb-1">
-              <span className="font-semibold text-cyan-300">n</span> ={" "}
-              {totalMonths || 0}{" "}
-              <span className="text-slate-400">(Total number of months)</span>
-            </p>
+            {/* Step 1: (1 + r)^n */}
+            <div className="text-sm mb-2">
+              <span className="font-semibold text-indigo-300">(1 + r)<sup>n</sup></span> =
+              {" "}
+              <span className="text-white">{emiSteps.pow.toFixed(10)}</span>
+            </div>
           
-            <div className="border-t border-slate-700 my-3 opacity-60" />
+            {/* Step 2: Numerator & Denominator (general formula) */}
+            {!emiSteps.isZeroRate ? (
+              <>
+                <div className="text-sm mb-1">
+                  <span className="font-semibold text-emerald-300">Numerator</span> =
+                  {" "}
+                  P × r × (1 + r)<sup>n</sup> =
+                  {" "}
+                  <span className="text-white">
+                    {formatCurrency(emiSteps.numerator, currentLocale, currency)}
+                  </span>
+                </div>
+                <div className="text-sm mb-3">
+                  <span className="font-semibold text-rose-300">Denominator</span> =
+                  {" "}
+                  (1 + r)<sup>n</sup> − 1 =
+                  {" "}
+                  <span className="text-white">{emiSteps.denominator.toFixed(10)}</span>
+                </div>
+              </>
+            ) : (
+              <div className="text-sm mb-3">
+                Since <span className="font-semibold">r = 0</span>, the formula simplifies to{" "}
+                <span className="font-mono">EMI = P / n</span>.
+              </div>
+            )}
           
+            <div className="border-t border-slate-700 my-4 opacity-60" />
+          
+            {/* Step 3: Final EMI */}
             <p className="text-sm text-emerald-400 font-semibold">
               💰 Calculated EMI:{" "}
               <span className="text-white">
-                {formatCurrency(monthlyPayment, currentLocale, currency)}
+                {formatCurrency(emiSteps.emi, currentLocale, currency)}
               </span>
             </p>
           </div>
+
 
 
           
