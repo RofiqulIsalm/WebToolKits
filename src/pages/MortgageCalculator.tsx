@@ -623,59 +623,61 @@ const MortgageCalculator: React.FC = () => {
         )}
 
         {/* ===== Chart + Quick Summary ===== */}
-        <div className="mt-5 bg-[#1e293b] rounded-xl shadow-md border border-[#334155] p-6 text-slate-200">
-          <h3 className="text-lg font-semibold text-white mb-6 text-center">
-            Mortgage Insights & Breakdown
-          </h3>
-
-          <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
-            {/* Chart Left */}
-            <div className="w-[90%] sm:w-[80%] md:w-[70%] max-w-[360px] h-[240px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie data={pieData} innerRadius={60} outerRadius={90} dataKey="value" paddingAngle={2}>
-                    {pieData.map((_, index) => (
-                      <Cell key={index} fill={["#3b82f6", "#a855f7"][index % 2]} />
-                    ))}
-                  </Pie>
-                  <ReTooltip formatter={(v: any) => formatCurrency(Number(v), currentLocale, currency)} />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-
-            {/* Summary Right */}
-            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-              <div className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center shadow-sm hover:border-indigo-500 transition">
-                <p className="text-sm text-slate-400">Financed Principal</p>
-                <p className="font-semibold text-white text-lg">
-                  {formatCurrency(principal, currentLocale, currency)}
-                </p>
+        {principal > 0 && totalMonths > 0 && (
+          <div className="mt-5 bg-[#1e293b] rounded-xl shadow-md border border-[#334155] p-6 text-slate-200">
+            <h3 className="text-lg font-semibold text-white mb-6 text-center">
+              Mortgage Insights & Breakdown
+            </h3>
+        
+            <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
+              {/* Chart Left */}
+              <div className="w-[90%] sm:w-[80%] md:w-[70%] max-w-[360px] h-[240px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie data={pieData} innerRadius={60} outerRadius={90} dataKey="value" paddingAngle={2}>
+                      {pieData.map((_, index) => (
+                        <Cell key={index} fill={["#3b82f6", "#a855f7"][index % 2]} />
+                      ))}
+                    </Pie>
+                    <ReTooltip formatter={(v: any) => formatCurrency(Number(v), currentLocale, currency)} />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
               </div>
-
-              <div className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center shadow-sm hover:border-emerald-500 transition">
-                <p className="text-sm text-slate-400">Down Payment</p>
-                <p className="font-semibold text-white text-lg">
-                  {formatCurrency(downPayment, currentLocale, currency)}
-                </p>
-              </div>
-
-              <div className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center shadow-sm hover:border-rose-500 transition">
-                <p className="text-sm text-slate-400">Total Interest</p>
-                <p className="font-semibold text-white text-lg">
-                  {formatCurrency(totalInterest, currentLocale, currency)}
-                </p>
-              </div>
-
-              <div className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center shadow-sm hover:border-indigo-500 transition">
-                <p className="text-sm text-slate-400">Total Payment</p>
-                <p className="font-semibold text-white text-lg">
-                  {formatCurrency(totalPayment, currentLocale, currency)}
-                </p>
+        
+              {/* Summary Right */}
+              <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+                <div className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center shadow-sm hover:border-indigo-500 transition">
+                  <p className="text-sm text-slate-400">Financed Principal</p>
+                  <p className="font-semibold text-white text-lg">
+                    {formatCurrency(principal, currentLocale, currency)}
+                  </p>
+                </div>
+        
+                <div className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center shadow-sm hover:border-emerald-500 transition">
+                  <p className="text-sm text-slate-400">Down Payment</p>
+                  <p className="font-semibold text-white text-lg">
+                    {formatCurrency(downPayment, currentLocale, currency)}
+                  </p>
+                </div>
+        
+                <div className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center shadow-sm hover:border-rose-500 transition">
+                  <p className="text-sm text-slate-400">Total Interest</p>
+                  <p className="font-semibold text-white text-lg">
+                    {formatCurrency(totalInterest, currentLocale, currency)}
+                  </p>
+                </div>
+        
+                <div className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center shadow-sm hover:border-indigo-500 transition">
+                  <p className="text-sm text-slate-400">Total Payment</p>
+                  <p className="font-semibold text-white text-lg">
+                    {formatCurrency(totalPayment, currentLocale, currency)}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* ===== Amortization ===== */}
         <div className="mt-8 bg-[#1e293b] rounded-xl shadow-md border border-[#334155]">
