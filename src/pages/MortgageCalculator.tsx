@@ -105,95 +105,95 @@ const clamp = (v: number, min: number, max: number) =>
 /* ============================================================
    🏠 SECTION 2: Component
    ============================================================ */
-const MortgageCalculator: React.FC = () => {
-  /* ---------- Inputs ---------- */
-  const [loanAmount, setLoanAmount] = useState<number>(0);
-  const [downPayment, setDownPayment] = useState<number>(0);
-  const [interestRate, setInterestRate] = useState<number>(0);
-  const [loanYears, setLoanYears] = useState<number>(0);
-  const [loanMonths, setLoanMonths] = useState<number>(0);
-  const [currency, setCurrency] = useState<string>("USD");
-
-  /* ---------- Derived & Outputs ---------- */
-  const totalMonths = loanYears * 12 + loanMonths;
-  const principal = Math.max(loanAmount - downPayment, 0);
-  const monthlyRate = interestRate / 12 / 100;
-
-  const [monthlyPayment, setMonthlyPayment] = useState<number>(0);
-  const [totalPayment, setTotalPayment] = useState<number>(0);
-  const [totalInterest, setTotalInterest] = useState<number>(0);
-
-  /* ---------- UI state ---------- */
-  const [showAmort, setShowAmort] = useState<boolean>(false);
-  const [granularity, setGranularity] = useState<"yearly" | "monthly">("yearly");
-  const [copied, setCopied] = useState<"none" | "results" | "link">("none");
-  const [activeTip, setActiveTip] = useState<number>(0);
-
-  /* Info toggles */
-  const [showLoanInfo, setShowLoanInfo] = useState(false);
-  const [showDownPaymentInfo, setShowDownPaymentInfo] = useState(false);
-  const [showInterestInfo, setShowInterestInfo] = useState(false);
-  const [showTermInfo, setShowTermInfo] = useState(false);
-
-  const currentLocale = findLocale(currency);
-  const isDefault =
-    !loanAmount && !downPayment && !interestRate && !loanYears && !loanMonths;
+  const MortgageCalculator: React.FC = () => {
+    /* ---------- Inputs ---------- */
+    const [loanAmount, setLoanAmount] = useState<number>(0);
+    const [downPayment, setDownPayment] = useState<number>(0);
+    const [interestRate, setInterestRate] = useState<number>(0);
+    const [loanYears, setLoanYears] = useState<number>(0);
+    const [loanMonths, setLoanMonths] = useState<number>(0);
+    const [currency, setCurrency] = useState<string>("USD");
+  
+    /* ---------- Derived & Outputs ---------- */
+    const totalMonths = loanYears * 12 + loanMonths;
+    const principal = Math.max(loanAmount - downPayment, 0);
+    const monthlyRate = interestRate / 12 / 100;
+  
+    const [monthlyPayment, setMonthlyPayment] = useState<number>(0);
+    const [totalPayment, setTotalPayment] = useState<number>(0);
+    const [totalInterest, setTotalInterest] = useState<number>(0);
+  
+    /* ---------- UI state ---------- */
+    const [showAmort, setShowAmort] = useState<boolean>(false);
+    const [granularity, setGranularity] = useState<"yearly" | "monthly">("yearly");
+    const [copied, setCopied] = useState<"none" | "results" | "link">("none");
+    const [activeTip, setActiveTip] = useState<number>(0);
+  
+    /* Info toggles */
+    const [showLoanInfo, setShowLoanInfo] = useState(false);
+    const [showDownPaymentInfo, setShowDownPaymentInfo] = useState(false);
+    const [showInterestInfo, setShowInterestInfo] = useState(false);
+    const [showTermInfo, setShowTermInfo] = useState(false);
+  
+    const currentLocale = findLocale(currency);
+    const isDefault =
+      !loanAmount && !downPayment && !interestRate && !loanYears && !loanMonths;
 
   /* ============================================================
      🔁 SECTION 3: Normalization & Persistence
      ============================================================ */
-  // Normalize months >= 12 → carry to years
-  useEffect(() => {
-    if (loanMonths >= 12) {
-      const extraYears = Math.floor(loanMonths / 12);
-      setLoanYears((p) => p + extraYears);
-      setLoanMonths(loanMonths % 12);
-    }
-  }, [loanMonths]);
-
-  // Load from URL param (?mc=) first, otherwise from localStorage
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const fromURL = params.get("mc");
-    if (fromURL) {
-      try {
-        const s = JSON.parse(atob(fromURL));
-        applyState(s);
-        return;
-      } catch {}
-    }
-    const raw = localStorage.getItem(LS_KEY);
-    if (raw) {
-      try {
-        const s = JSON.parse(raw);
-        applyState(s);
-      } catch {}
-    }
-  }, []);
-
-  // Save to localStorage
-  useEffect(() => {
-    localStorage.setItem(
-      LS_KEY,
-      JSON.stringify({
-        loanAmount,
-        downPayment,
-        interestRate,
-        loanYears,
-        loanMonths,
-        currency, 
-      })
-    );
-  }, [loanAmount, downPayment, interestRate, loanYears, loanMonths, currency]);
-
-  const applyState = (s: any) => {
-    setLoanAmount(Number(s.loanAmount) || 0);
-    setDownPayment(Number(s.downPayment) || 0);
-    setInterestRate(Number(s.interestRate) || 0);
-    setLoanYears(Number(s.loanYears) || 0);
-    setLoanMonths(Number(s.loanMonths) || 0);
-    setCurrency(typeof s.currency === "string" ? s.currency : "USD");
-  };
+    // Normalize months >= 12 → carry to years
+    useEffect(() => {
+      if (loanMonths >= 12) {
+        const extraYears = Math.floor(loanMonths / 12);
+        setLoanYears((p) => p + extraYears);
+        setLoanMonths(loanMonths % 12);
+      }
+    }, [loanMonths]);
+  
+    // Load from URL param (?mc=) first, otherwise from localStorage
+    useEffect(() => {
+      const params = new URLSearchParams(window.location.search);
+      const fromURL = params.get("mc");
+      if (fromURL) {
+        try {
+          const s = JSON.parse(atob(fromURL));
+          applyState(s);
+          return;
+        } catch {}
+      }
+      const raw = localStorage.getItem(LS_KEY);
+      if (raw) {
+        try {
+          const s = JSON.parse(raw);
+          applyState(s);
+        } catch {}
+      }
+    }, []);
+  
+    // Save to localStorage
+    useEffect(() => {
+      localStorage.setItem(
+        LS_KEY,
+        JSON.stringify({
+          loanAmount,
+          downPayment,
+          interestRate,
+          loanYears,
+          loanMonths,
+          currency, 
+        })
+      );
+    }, [loanAmount, downPayment, interestRate, loanYears, loanMonths, currency]);
+  
+    const applyState = (s: any) => {
+      setLoanAmount(Number(s.loanAmount) || 0);
+      setDownPayment(Number(s.downPayment) || 0);
+      setInterestRate(Number(s.interestRate) || 0);
+      setLoanYears(Number(s.loanYears) || 0);
+      setLoanMonths(Number(s.loanMonths) || 0);
+      setCurrency(typeof s.currency === "string" ? s.currency : "USD");
+    };
 
   /* ============================================================
      🧮 SECTION 4: Calculations
