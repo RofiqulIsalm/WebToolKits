@@ -911,7 +911,7 @@ useEffect(() => {
           {/*Dynamic live math */}
 
           {/* ===== Responsive, colorful EMI step-by-step ===== */}
-          <h2 className="mt-12 mb-3 text-2xl font-extrabold tracking-tight text-center sm:text-left">
+          <h2 id="how-emi" className="mt-12 mb-3 text-2xl font-extrabold tracking-tight text-center sm:text-left">
             <span className="bg-gradient-to-r from-cyan-300 via-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">
               🧮 How EMI is Calculated
             </span>
