@@ -679,63 +679,94 @@ const MortgageCalculator: React.FC = () => {
           </div>
         )}
 
-        {/* ===== Amortization ===== */}
+        {{/* ===== Amortization ===== */}
         {principal > 0 && totalMonths > 0 && (
-          <div className="mt-8 bg-[#1e293b] rounded-xl shadow-md border border-[#334155]">
+          <div className="mt-10 bg-gradient-to-br from-[#1e293b] via-[#111827] to-[#0f172a] rounded-2xl border border-indigo-600/40 shadow-xl overflow-hidden">
+            {/* Header Button */}
             <button
               onClick={() => setShowAmort((v) => !v)}
-              className="w-full flex items-center justify-between px-6 py-4 text-slate-200"
+              className="w-full flex items-center justify-between px-6 py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-semibold text-lg tracking-wide hover:opacity-90 transition-all"
             >
-              <span className="text-lg font-semibold">Amortization Schedule</span>
+              <span>📊 Amortization Schedule</span>
               {showAmort ? <ChevronUp /> : <ChevronDown />}
             </button>
         
+            {/* Collapsible Content */}
             {showAmort && (
-              <div className="px-6 pb-6">
-                <div className="flex items-center gap-4 mb-4">
+              <div className="px-6 pb-8 pt-4">
+                {/* Controls */}
+                <div className="flex items-center gap-4 mb-5">
                   <label className="text-sm text-slate-300">Granularity:</label>
                   <select
                     value={granularity}
                     onChange={(e) => setGranularity(e.target.value as "yearly" | "monthly")}
-                    className="px-3 py-2 bg-transparent border border-[#334155] rounded-md text-slate-100 text-sm"
+                    className="px-3 py-2 bg-[#0f172a] border border-indigo-500/40 rounded-md text-slate-100 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all"
                   >
                     <option value="yearly">Yearly</option>
                     <option value="monthly">Monthly</option>
                   </select>
                 </div>
         
-                <div className="overflow-x-auto">
+                {/* Table */}
+                <div className="overflow-x-auto rounded-xl border border-[#334155] shadow-inner">
                   <table className="min-w-full text-sm text-slate-100">
-                    <thead>
-                      <tr className="bg-[#0f172a]">
-                        <th className="text-left px-4 py-2">{granularity === "yearly" ? "Year" : "Month"}</th>
-                        <th className="text-right px-4 py-2">Principal</th>
-                        <th className="text-right px-4 py-2">Interest</th>
-                        <th className="text-right px-4 py-2">Balance</th>
+                    <thead className="bg-[#0f172a]">
+                      <tr>
+                        <th className="text-left px-4 py-3 font-semibold text-indigo-300">
+                          {granularity === "yearly" ? "Year" : "Month"}
+                        </th>
+                        <th className="text-right px-4 py-3 font-semibold text-emerald-300">
+                          Principal
+                        </th>
+                        <th className="text-right px-4 py-3 font-semibold text-rose-300">
+                          Interest
+                        </th>
+                        <th className="text-right px-4 py-3 font-semibold text-cyan-300">
+                          Balance
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
-                      {schedule.map((r) => (
-                        <tr key={r.period} className="border-b border-[#334155]">
+                      {schedule.map((r, i) => (
+                        <tr
+                          key={r.period}
+                          className={`transition-colors duration-200 ${
+                            i % 2 === 0 ? "bg-[#1e293b]/60" : "bg-[#0f172a]/60"
+                          } hover:bg-[#3b82f6]/10`}
+                        >
                           <td className="px-4 py-2">{r.period}</td>
-                          <td className="px-4 py-2 text-right">
+                          <td className="px-4 py-2 text-right text-emerald-300 font-medium">
                             {formatCurrency(r.principalPaid, currentLocale, currency)}
                           </td>
-                          <td className="px-4 py-2 text-right">
+                          <td className="px-4 py-2 text-right text-rose-300 font-medium">
                             {formatCurrency(r.interestPaid, currentLocale, currency)}
                           </td>
-                          <td className="px-4 py-2 text-right">
+                          <td className="px-4 py-2 text-right text-cyan-300 font-medium">
                             {formatCurrency(r.balance, currentLocale, currency)}
                           </td>
                         </tr>
                       ))}
+                      {schedule.length === 0 && (
+                        <tr>
+                          <td
+                            colSpan={4}
+                            className="px-4 py-6 text-center text-slate-400 italic"
+                          >
+                            Enter valid details to view amortization schedule.
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
+        
+                {/* Subtle Footer Glow */}
+                <div className="h-2 w-full mt-6 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-70 blur-[2px]" />
               </div>
             )}
           </div>
         )}
+
 
 
         {/* ==================== SEO CONTENT SECTION ==================== */}
