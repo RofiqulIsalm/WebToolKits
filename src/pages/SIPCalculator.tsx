@@ -23,7 +23,6 @@ import { seoData, generateCalculatorSchema } from "../utils/seoData";
 
 const LS_KEY = "SIP_CALC_V1";
 
-// 💡 Rotating SIP Tips
 const SIP_TIPS = [
   "Start early — time in the market beats timing the market.",
   "Increase your SIP by 5–10% every year to fight inflation.",
@@ -45,50 +44,8 @@ const CURRENCIES = [
   { code: "AUD", symbol: "A$", locale: "en-AU" },
   { code: "CAD", symbol: "C$", locale: "en-CA" },
   { code: "SGD", symbol: "S$", locale: "en-SG" },
-  { code: "NZD", symbol: "NZ$", locale: "en-NZ" },
-  { code: "CHF", symbol: "CHF", locale: "de-CH" },
   { code: "JPY", symbol: "¥", locale: "ja-JP" },
-  { code: "CNY", symbol: "¥", locale: "zh-CN" },
-  { code: "HKD", symbol: "HK$", locale: "en-HK" },
-  { code: "SEK", symbol: "kr", locale: "sv-SE" },
-  { code: "NOK", symbol: "kr", locale: "nb-NO" },
-  { code: "DKK", symbol: "kr", locale: "da-DK" },
-  { code: "AED", symbol: "د.إ", locale: "ar-AE" },
-  { code: "SAR", symbol: "﷼", locale: "ar-SA" },
-  { code: "ZAR", symbol: "R", locale: "en-ZA" },
-  { code: "BRL", symbol: "R$", locale: "pt-BR" },
-  { code: "MXN", symbol: "$", locale: "es-MX" },
-  { code: "ARS", symbol: "$", locale: "es-AR" },
-  { code: "CLP", symbol: "$", locale: "es-CL" },
-  { code: "COP", symbol: "$", locale: "es-CO" },
-  { code: "PEN", symbol: "S/", locale: "es-PE" },
-  { code: "KRW", symbol: "₩", locale: "ko-KR" },
-  { code: "THB", symbol: "฿", locale: "th-TH" },
-  { code: "MYR", symbol: "RM", locale: "ms-MY" },
-  { code: "IDR", symbol: "Rp", locale: "id-ID" },
-  { code: "PHP", symbol: "₱", locale: "en-PH" },
-  { code: "VND", symbol: "₫", locale: "vi-VN" },
-  { code: "TRY", symbol: "₺", locale: "tr-TR" },
-  { code: "EGP", symbol: "£", locale: "ar-EG" },
-  { code: "NGN", symbol: "₦", locale: "en-NG" },
-  { code: "KES", symbol: "KSh", locale: "en-KE" },
-  { code: "GHS", symbol: "₵", locale: "en-GH" },
-  { code: "UGX", symbol: "USh", locale: "en-UG" },
-  { code: "TZS", symbol: "TSh", locale: "en-TZ" },
   { code: "BDT", symbol: "৳", locale: "bn-BD" },
-  { code: "LKR", symbol: "Rs", locale: "si-LK" },
-  { code: "PKR", symbol: "₨", locale: "ur-PK" },
-  { code: "NPR", symbol: "Rs", locale: "ne-NP" },
-  { code: "BHD", symbol: "ب.د", locale: "ar-BH" },
-  { code: "OMR", symbol: "﷼", locale: "ar-OM" },
-  { code: "QAR", symbol: "﷼", locale: "ar-QA" },
-  { code: "KWD", symbol: "د.ك", locale: "ar-KW" },
-  { code: "ILS", symbol: "₪", locale: "he-IL" },
-  { code: "PLN", symbol: "zł", locale: "pl-PL" },
-  { code: "CZK", symbol: "Kč", locale: "cs-CZ" },
-  { code: "HUF", symbol: "Ft", locale: "hu-HU" },
-  { code: "RUB", symbol: "₽", locale: "ru-RU" },
-  { code: "RON", symbol: "lei", locale: "ro-RO" },
 ];
 
 const formatCurrency = (v: number, currency: string, locale: string) =>
@@ -193,7 +150,6 @@ const SIPCalculator: React.FC = () => {
     amountRef.current?.focus();
   };
 
-  // Tip Rotation
   useEffect(() => {
     const t = setInterval(
       () => setActiveTip((p) => (p + 1) % SIP_TIPS.length),
@@ -201,6 +157,16 @@ const SIPCalculator: React.FC = () => {
     );
     return () => clearInterval(t);
   }, []);
+
+  const selectedCurrency =
+    CURRENCIES.find((c) => c.code === currency) || CURRENCIES[0];
+
+  const formatReadableNumber = (value: number, locale: string, currency: string) =>
+    new Intl.NumberFormat(locale, {
+      style: "currency",
+      currency,
+      maximumFractionDigits: 0,
+    }).format(value || 0);
 
   return (
     <>
@@ -214,6 +180,10 @@ const SIPCalculator: React.FC = () => {
           "/sip-calculator",
           seoData.sipCalculator.keywords
         )}
+        breadcrumbs={[
+          { name: "Currency & Finance", url: "/category/currency-finance" },
+          { name: "SIP Calculator", url: "/sip-calculator" },
+        ]}
       />
 
       <div className="max-w-5xl mx-auto px-3 sm:px-6">
@@ -224,19 +194,9 @@ const SIPCalculator: React.FC = () => {
           ]}
         />
 
-        <div className="mb-6 sm:mb-8 text-center sm:text-left">
-          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2 drop-shadow-lg">
-            SIP Calculator
-          </h1>
-          <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-            Estimate your SIP maturity value, returns, and step-up growth with
-            currency selection and shareable results.
-          </p>
-        </div>
-
-        {/* ========== Inputs + Summary ========== */}
+        {/* Inputs + Summary */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-          {/* Input Card */}
+          {/* INPUT CARD */}
           <div className="bg-[#1e293b] rounded-xl border border-[#334155] p-4 sm:p-6 text-slate-200">
             <div className="flex justify-between items-center mb-3 sm:mb-4 flex-wrap gap-2">
               <h2 className="text-lg sm:text-xl font-semibold text-white flex items-center gap-2">
@@ -252,7 +212,9 @@ const SIPCalculator: React.FC = () => {
 
             <div className="space-y-4 sm:space-y-5">
               <div>
-                <label className="block text-sm mb-1 text-slate-300">Currency</label>
+                <label className="block text-sm mb-1 text-slate-300">
+                  Currency
+                </label>
                 <select
                   value={currency}
                   onChange={(e) => setCurrency(e.target.value)}
@@ -267,17 +229,43 @@ const SIPCalculator: React.FC = () => {
               </div>
 
               {[
-                { label: "Monthly Investment", value: monthlyInvestment, set: setMonthlyInvestment, min: 500, max: 10000000, step: 500, accent: "accent-emerald-500" },
-                { label: "Expected Annual Return (%)", value: returnRate, set: setReturnRate, min: 1, max: 50, step: 0.1, accent: "accent-indigo-500" },
-                { label: "Time Period (Years)", value: timePeriod, set: setTimePeriod, min: 1, max: 100, step: 1, accent: "accent-yellow-500" },
+                {
+                  label: "Monthly Investment",
+                  value: monthlyInvestment,
+                  set: setMonthlyInvestment,
+                  min: 500,
+                  max: 10000000,
+                  step: 500,
+                  accent: "accent-emerald-500",
+                },
+                {
+                  label: "Expected Annual Return (%)",
+                  value: returnRate,
+                  set: setReturnRate,
+                  min: 1,
+                  max: 50,
+                  step: 0.1,
+                  accent: "accent-indigo-500",
+                },
+                {
+                  label: "Time Period (Years)",
+                  value: timePeriod,
+                  set: setTimePeriod,
+                  min: 1,
+                  max: 100,
+                  step: 1,
+                  accent: "accent-yellow-500",
+                },
               ].map((f, i) => (
                 <div key={i}>
-                  <label className="block text-sm text-slate-300 mb-1">{f.label}</label>
+                  <label className="block text-sm text-slate-300 mb-1">
+                    {f.label}
+                  </label>
                   <input
                     ref={i === 0 ? amountRef : undefined}
                     type="number"
-                    value={f.value}
                     placeholder="0"
+                    value={f.value}
                     onChange={(e) => f.set(Number(e.target.value))}
                     className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg text-sm sm:text-base"
                   />
@@ -295,25 +283,31 @@ const SIPCalculator: React.FC = () => {
             </div>
           </div>
 
-          {/* Output Card */}
+          {/* OUTPUT CARD */}
           <div className="bg-[#1e293b] rounded-xl border border-[#334155] p-4 sm:p-6 text-slate-200">
-            <h2 className="text-lg sm:text-xl font-semibold text-white mb-4">SIP Summary</h2>
+            <h2 className="text-lg sm:text-xl font-semibold text-white mb-4">
+              SIP Summary
+            </h2>
+
             <div className="text-center p-4 bg-[#0f172a] rounded-lg border border-[#334155] mb-4">
               <TrendingUp className="h-8 w-8 text-emerald-400 mx-auto mb-2" />
               <div className="text-xl sm:text-2xl font-bold text-white">
-                {formatCurrency(maturityValue, selectedCurrency.code, selectedCurrency.locale)}
+                {formatReadableNumber(maturityValue, selectedCurrency.locale, selectedCurrency.code)}
               </div>
               <p className="text-xs sm:text-sm text-slate-400">Maturity Value</p>
             </div>
 
             <div className="grid grid-cols-2 gap-3 sm:gap-4">
-              {[ 
+              {[
                 { label: "Total Invested", val: investedAmount },
                 { label: "Wealth Gain", val: estimatedProfit },
               ].map((x, i) => (
-                <div key={i} className="p-4 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
+                <div
+                  key={i}
+                  className="p-4 bg-[#0f172a] rounded-lg text-center border border-[#334155]"
+                >
                   <div className="text-lg font-semibold text-white">
-                    {formatCurrency(x.val, selectedCurrency.code, selectedCurrency.locale)}
+                    {formatReadableNumber(x.val, selectedCurrency.locale, selectedCurrency.code)}
                   </div>
                   <div className="text-xs sm:text-sm text-slate-400">{x.label}</div>
                 </div>
@@ -322,14 +316,45 @@ const SIPCalculator: React.FC = () => {
           </div>
         </div>
 
-        {/* Smart Tip */}
+        {/* 💡 Tip */}
         <div className="mt-5 bg-[#1e293b] border border-[#334155] px-4 py-3 rounded-md text-slate-200 flex items-center">
           <span className="text-xl sm:text-2xl text-indigo-400 mr-3">💡</span>
           <p className="text-sm sm:text-base font-medium text-slate-300">{SIP_TIPS[activeTip]}</p>
         </div>
 
-        {/* Chart Section (still as-is for now) */}
-        {/* We’ll modify this in Step 2 */}
+        {/* 📈 Chart — Hidden if inputs are 0 */}
+        {monthlyInvestment > 0 && returnRate > 0 && timePeriod > 0 && (
+          <div className="mt-6 bg-[#1e293b] rounded-xl border border-[#334155] p-4 sm:p-6 text-slate-200">
+            <h3 className="text-base sm:text-lg font-semibold text-white mb-4 sm:mb-6 text-center">
+              SIP Growth Overview
+            </h3>
+            <div className="w-full h-[250px] sm:h-[320px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart
+                  data={Array.from({ length: timePeriod }, (_, i) => ({
+                    year: i + 1,
+                    invested: monthlyInvestment * (i + 1) * 12,
+                    value:
+                      monthlyInvestment *
+                      ((Math.pow(1 + returnRate / 12 / 100, (i + 1) * 12) - 1) /
+                        (returnRate / 12 / 100)) *
+                      (1 + returnRate / 12 / 100),
+                  }))}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="year" tickFormatter={(y) => `${y}y`} />
+                  <YAxis tickFormatter={(v) => formatCompact(v, selectedCurrency.locale)} />
+                  <ChartTooltip />
+                  <Line type="monotone" dataKey="value" stroke="#10b981" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="invested" stroke="#6366f1" strokeWidth={2} dot={false} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
+
+        <AdBanner type="bottom" />
+        <RelatedCalculators currentPath="sip-calculator" category="currency-finance" />
       </div>
     </>
   );
