@@ -649,7 +649,7 @@ const SipCalculator: React.FC = () => {
 
 
 
-      {/* ---------- How SIP is Calculated (Enhanced UI) ---------- */}
+{/* ---------- How SIP is Calculated (Enhanced Step-by-Step UI) ---------- */}
 <div className="mt-10 bg-[#0f172a] border border-slate-700 rounded-xl p-6 shadow-inner">
   <button
     onClick={() => setShowSteps((v) => !v)}
@@ -660,13 +660,14 @@ const SipCalculator: React.FC = () => {
   </button>
 
   {showSteps && (
-    <div className="mt-5 text-slate-300 text-sm leading-relaxed space-y-5">
-      {/* Formula description */}
+    <div className="mt-5 text-slate-300 text-sm leading-relaxed space-y-6">
+      {/* Formula explanation */}
       <div>
-        <p className="mb-2 text-slate-200">
+        <p className="text-slate-200 mb-2">
           SIP Future Value (FV) is calculated using the formula:
         </p>
-        <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-2 border border-slate-700 text-slate-300 text-[13px] whitespace-nowrap scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent font-mono">
+
+        <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-2 border border-slate-700 text-slate-300 text-[13px] whitespace-nowrap font-mono">
           <div className="min-w-max">
             <span className="font-semibold text-indigo-400">FV</span> ={" "}
             <span className="text-white">P</span> ×{" "}
@@ -675,6 +676,7 @@ const SipCalculator: React.FC = () => {
             <span className="text-white">(1 + r)</span>
           </div>
         </div>
+
         <ul className="list-disc ml-6 mt-3 space-y-1">
           <li>
             <span className="text-indigo-300 font-medium">P</span> = Monthly investment
@@ -688,40 +690,51 @@ const SipCalculator: React.FC = () => {
         </ul>
       </div>
 
-      {/* Visual formula breakdown (like EMI) */}
-      <div className="mt-5 overflow-x-auto rounded-md bg-[#0b1220] px-3 py-2 border border-slate-700 text-[13px] whitespace-nowrap scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent">
-        <div className="min-w-max text-slate-300 font-mono">
-          FV = P ×{" "}
-          <span className="text-white">
-            ((1 + {annualReturn / 12 / 100 + 1 ? (annualReturn / 12 / 100).toFixed(5) : "r"})<sup>{months}</sup> − 1)
-          </span>{" "}
-          ÷ <span className="text-white">{(annualReturn / 12 / 100).toFixed(5)}</span> × (1 + r)
-        </div>
-      </div>
-
-      {/* Visual summary boxes */}
-      <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
+      {/* Display current P, r, n values */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-center">
-          <div className="text-emerald-300 text-xs uppercase">P × ((1 + r)<sup>n</sup> − 1)</div>
+          <div className="text-emerald-300 text-xs uppercase">P (Monthly Investment)</div>
           <div className="font-semibold text-white text-sm truncate">
-            {formatCurrency(totalInvestment)}
+            {formatCurrency(monthlyInvestment)}
           </div>
         </div>
         <div className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-center">
-          <div className="text-rose-300 text-xs uppercase">÷ r × (1 + r)</div>
+          <div className="text-rose-300 text-xs uppercase">r (Monthly Rate)</div>
           <div className="font-semibold text-white text-sm truncate">
-            {(annualReturn / 12 / 100).toFixed(5)}
+            {(annualReturn / 12 / 100).toFixed(6)}
           </div>
         </div>
         <div className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-center">
-          <div className="text-sky-300 text-xs uppercase">Future Value (FV)</div>
+          <div className="text-sky-300 text-xs uppercase">n (Months)</div>
           <div className="font-semibold text-white text-sm truncate">
-            {formatCurrency(futureValue)}
+            {months}
           </div>
         </div>
       </div>
 
-      {/* Final FV highlight */}
+      {/* Step 1 - Calculate compound growth */}
+      <div>
+        <h4 className="text-indigo-400 font-semibold mb-2">Step 1: Calculate (1 + r)<sup>n</sup> − 1</h4>
+        <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-2 border border-slate-700 text-[13px] font-mono whitespace-nowrap text-slate-300">
+          (1 + { (annualReturn / 12 / 100).toFixed(6) })<sup>{months}</sup> − 1 ={" "}
+          <span className="text-white">
+            {(Math.pow(1 + annualReturn / 12 / 100, months) - 1).toFixed(6)}
+          </span>
+        </div>
+      </div>
+
+      {/* Step 2 - Calculate full FV */}
+      <div>
+        <h4 className="text-indigo-400 font-semibold mb-2">Step 2: Substitute values into FV formula</h4>
+        <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-2 border border-slate-700 text-[13px] font-mono whitespace-nowrap text-slate-300">
+          FV = {formatCurrency(monthlyInvestment)} × (
+          {(Math.pow(1 + annualReturn / 12 / 100, months) - 1).toFixed(6)} ÷{" "}
+          {(annualReturn / 12 / 100).toFixed(6)}) × (1 + { (annualReturn / 12 / 100).toFixed(6) }) ={" "}
+          <span className="text-white">{formatCurrency(futureValue)}</span>
+        </div>
+      </div>
+
+      {/* Final FV summary */}
       <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-2 rounded-xl bg-[#0b1220] px-4 py-3 ring-1 ring-indigo-500/30">
         <span className="text-sm text-indigo-300 whitespace-nowrap">💰 Calculated SIP Maturity Value</span>
         <span className="text-lg sm:text-xl font-bold tracking-wide text-white">
@@ -731,6 +744,7 @@ const SipCalculator: React.FC = () => {
     </div>
   )}
 </div>
+
 
 
         <AdBanner type="bottom" />
