@@ -731,7 +731,7 @@ const SipCalculator: React.FC = () => {
           {(Math.pow(1 + annualReturn / 12 / 100, months) - 1).toFixed(6)} ÷{" "}
           {(annualReturn / 12 / 100).toFixed(6)}) × (1 + { (annualReturn / 12 / 100).toFixed(6) }) ={" "}
           <span className="text-white">{formatCurrency(futureValue)}</span>
-          <p>FV = </p>
+          <p>FV = {formatCurrency(monthlyInvestment)}</p>
         </div>
       </div>
 
