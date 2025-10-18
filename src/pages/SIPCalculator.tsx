@@ -376,54 +376,67 @@ const SipCalculator: React.FC = () => {
 
 
 
-          {/* Output Section */}
-          <div className="bg-[#1e293b] rounded-xl border border-[#334155] p-6 text-slate-200">
-            <h2 className="text-xl font-semibold text-white mb-4">SIP Summary</h2>
+{/* ---------- OUTPUT SECTION ---------- */}
+<div className="relative bg-gradient-to-br from-slate-800/80 via-slate-900/90 to-[#0b1220]/90 border border-indigo-600/20 rounded-2xl shadow-2xl p-6 overflow-hidden backdrop-blur-sm">
+  {/* Decorative Background Glow */}
+  <div className="absolute -top-10 -right-10 w-32 h-32 bg-indigo-600/20 rounded-full blur-3xl" />
+  <div className="absolute bottom-0 left-0 w-24 h-24 bg-fuchsia-600/10 rounded-full blur-2xl" />
 
-            <div className="p-4 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
-              <PieChartIcon className="h-8 w-8 text-indigo-400 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-white">
-                {formatCurrency(futureValue)}
-              </div>
-              <div className="text-sm text-slate-400">Maturity Amount</div>
-            </div>
+  {/* Header */}
+  <h2 className="relative z-10 text-2xl font-semibold text-white mb-6 text-center">
+    ✨ SIP Summary
+  </h2>
 
-            <div className="grid grid-cols-2 gap-4 mt-4">
-              <div className="p-3 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
-                <div className="font-semibold text-white">
-                  {formatCurrency(totalInvestment)}
-                </div>
-                <div className="text-sm text-slate-400">Total Investment</div>
-              </div>
-              <div className="p-3 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
-                <div className="font-semibold text-white">
-                  {formatCurrency(totalGains)}
-                </div>
-                <div className="text-sm text-slate-400">Total Gains</div>
-              </div>
-            </div>
+  {/* Main Highlight Card */}
+  <div className="relative z-10 p-5 bg-gradient-to-br from-[#0f172a]/80 via-slate-800/80 to-[#1e293b]/90 border border-indigo-600/40 rounded-2xl text-center shadow-inner transition-all hover:border-indigo-500/70">
+    <PieChartIcon className="h-10 w-10 text-indigo-400 mx-auto mb-3 drop-shadow-md" />
+    <div className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-cyan-300 to-emerald-400 tracking-tight">
+      {formatCurrency(futureValue)}
+    </div>
+    <div className="text-sm text-slate-400 mt-1">Maturity Amount</div>
+  </div>
 
-            <div className="flex gap-3 mt-5 flex-wrap">
-              <button
-                onClick={copyResults}
-                className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-md text-sm"
-              >
-                <Copy size={16} /> Copy Results
-              </button>
-              <button
-                onClick={copyShareLink}
-                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md text-sm"
-              >
-                <Share2 size={16} /> Copy Link
-              </button>
-              {copied !== "none" && (
-                <span className="text-emerald-400 text-sm">
-                  {copied === "results" ? "Results copied!" : "Link copied!"}
-                </span>
-              )}
-            </div>
-          </div>
-        </div>
+  {/* Investment & Gain Summary */}
+  <div className="relative z-10 grid grid-cols-2 gap-4 mt-6">
+    <div className="p-4 bg-[#0f172a]/80 border border-slate-700 rounded-xl text-center shadow-md hover:border-emerald-400/50 transition-all duration-200">
+      <p className="text-xs text-slate-400 mb-1 uppercase tracking-wide">Total Investment</p>
+      <p className="font-semibold text-emerald-300 text-lg">
+        {formatCurrency(totalInvestment)}
+      </p>
+    </div>
+    <div className="p-4 bg-[#0f172a]/80 border border-slate-700 rounded-xl text-center shadow-md hover:border-fuchsia-400/50 transition-all duration-200">
+      <p className="text-xs text-slate-400 mb-1 uppercase tracking-wide">Total Gains</p>
+      <p className="font-semibold text-fuchsia-300 text-lg">
+        {formatCurrency(totalGains)}
+      </p>
+    </div>
+  </div>
+
+  {/* Buttons */}
+  <div className="relative z-10 flex flex-wrap justify-center gap-3 mt-6">
+    <button
+      onClick={copyResults}
+      className="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white px-4 py-2 rounded-md text-sm font-medium shadow-md hover:shadow-lg transition-all duration-200"
+    >
+      <Copy size={16} /> Copy Results
+    </button>
+    <button
+      onClick={copyShareLink}
+      className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white px-4 py-2 rounded-md text-sm font-medium shadow-md hover:shadow-lg transition-all duration-200"
+    >
+      <Share2 size={16} /> Copy Link
+    </button>
+    {copied !== "none" && (
+      <span className="text-emerald-400 text-sm font-medium animate-pulse">
+        {copied === "results" ? "Results copied!" : "Link copied!"}
+      </span>
+    )}
+  </div>
+
+  {/* Decorative Bottom Glow Line */}
+  <div className="relative z-0 mt-8 h-[2px] w-full bg-gradient-to-r from-transparent via-indigo-500/70 to-transparent blur-[1px]" />
+</div>
+
 
         {/* Chart Section */}
         {futureValue > 0 && (
