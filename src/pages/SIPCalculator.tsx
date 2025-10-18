@@ -596,10 +596,16 @@ const SipCalculator: React.FC = () => {
                 axisLine={{ stroke: "#475569" }}
               />
               <YAxis
-                tickFormatter={(v) => formatCurrency(v)}
-                tick={{ fill: "#cbd5e1", fontSize: 12 }}
-                axisLine={{ stroke: "#475569" }}
-              />
+                  tickFormatter={(v) =>
+                    new Intl.NumberFormat(currentLocale, {
+                      notation: "compact",
+                      compactDisplay: "short",
+                      maximumFractionDigits: 2,
+                    }).format(v)
+                  }
+                  tick={{ fill: "#cbd5e1", fontSize: 12 }}
+                  axisLine={{ stroke: "#475569" }}
+                />
               <ReTooltip
                 formatter={(v: any) => formatCurrency(v)}
                 contentStyle={{
