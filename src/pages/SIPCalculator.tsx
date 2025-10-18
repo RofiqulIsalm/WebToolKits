@@ -111,6 +111,7 @@ const SipCalculator: React.FC = () => {
 
   const months = years * 12;
   const monthlyRate = annualReturn / 12 / 100;
+  
 
   const currentLocale = findLocale(currency);
   const isDefault = !monthlyInvestment && !annualReturn && !years;
@@ -220,10 +221,28 @@ const SipCalculator: React.FC = () => {
   /* ============================================================
      📊 Chart Data
      ============================================================ */
-  const pieData = [
-    { name: "Invested Amount", value: totalInvestment },
-    { name: "Total Gains", value: totalGains > 0 ? totalGains : 0 },
-  ];
+    const [chartType, setChartType] = useState<"pie" | "line">("pie");
+  
+    const pieData = [
+      { name: "Invested Amount", value: totalInvestment },
+      { name: "Total Gains", value: totalGains > 0 ? totalGains : 0 },
+    ];
+
+    const growthData = useMemo(() => {
+    const data: { year: number; value: number }[] = [];
+    if (years <= 0 || monthlyInvestment <= 0 || annualReturn <= 0) return data;
+  
+    let total = 0;
+    const monthlyRate = annualReturn / 12 / 100;
+    for (let y = 1; y <= years; y++) {
+      for (let m = 1; m <= 12; m++) {
+        total = (total + monthlyInvestment) * (1 + monthlyRate);
+      }
+      data.push({ year: y, value: total });
+    }
+    return data;
+  }, [years, monthlyInvestment, annualReturn]);
+
 
   /* ============================================================
      🎨 Render UI
@@ -436,7 +455,7 @@ const SipCalculator: React.FC = () => {
             {/* Decorative Bottom Glow Line */}
             <div className="relative z-0 mt-8 h-[2px] w-full bg-gradient-to-r from-transparent via-indigo-500/70 to-transparent blur-[1px]" />
           </div>
-                  </div>
+      </div>
 
 
        {/* ---------- CHART SECTION ---------- */}
