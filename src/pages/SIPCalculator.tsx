@@ -383,7 +383,7 @@ const SipCalculator: React.FC = () => {
       </div>
     </div>
   </div>
-</div>
+
 
 
           {/* Output Section */}
