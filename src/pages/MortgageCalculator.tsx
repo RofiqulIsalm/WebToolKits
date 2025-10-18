@@ -150,7 +150,7 @@ const clamp = (v: number, min: number, max: number) =>
         setLoanMonths(loanMonths % 12);
       }
     }, [loanMonths]);
-  
+      
     // Load from URL param (?mc=) first, otherwise from localStorage
     useEffect(() => {
       const params = new URLSearchParams(window.location.search);
