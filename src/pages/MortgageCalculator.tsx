@@ -1058,7 +1058,7 @@ useEffect(() => {
 
           
 
-          <h2 id="how-to-use className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">💡 How to Use This Mortgage Calculator</h2>
+          <h2 id="how-to-use" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">💡 How to Use This Mortgage Calculator</h2>
           <ol className="list-decimal list-inside space-y-2">
             <li>Select your <strong>currency</strong>.</li>
             <li>Enter <strong>loan amount</strong> and optional <strong>down payment</strong>.</li>
