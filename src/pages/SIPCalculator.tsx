@@ -706,7 +706,7 @@ const SipCalculator: React.FC = () => {
 
           
           <div className="space-y-2 font-mono text-[13px] text-slate-300">
-            <p>p = ${formatCurrency(P)}</p>
+            <p>p = {formatCurrency(P)}</p>
             <p>r = {r.toFixed(6)}</p>
             <p>(1 + r) = {onePlusR.toFixed(6)}</p>
             <p>(1 + r)<sup>n</sup > = {pow.toFixed(6)}</p>
