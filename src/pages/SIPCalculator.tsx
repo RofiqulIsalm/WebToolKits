@@ -26,7 +26,7 @@ import { seoData, generateCalculatorSchema } from "../utils/seoData";
 // Local Storage Key
 // ===============================
 const LS_KEY = "SIP_CALC_V1";
-
+const [hydrated, setHydrated] = useState(false);
 // ===============================
 // SIP Tips (Auto-Rotating)
 // ===============================
