@@ -662,7 +662,7 @@ const SipCalculator: React.FC = () => {
 
 
          {/* ---------- How SIP is Calculated (Always Open + Mobile Scrollable) ---------- */}
-        <div className="mt-10 bg-[#0f172a] border border-slate-700 rounded-xl shadow-inner">
+        <div className="mt-10 ">
           {/* Outer Scroll Wrapper for Mobile */}
           <div className="p-6 overflow-x-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent sm:overflow-x-visible">
             <h2 className="flex items-center gap-2 text-white text-lg font-semibold mb-4 min-w-max">
