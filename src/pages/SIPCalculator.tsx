@@ -661,15 +661,15 @@ const SipCalculator: React.FC = () => {
 
 
 
-{/* ---------- How SIP is Calculated (Always Open + Conditional Display) ---------- */}
+{/* ---------- How SIP is Calculated (Always Open + Smart Default) ---------- */}
 <div className="mt-10 bg-[#0f172a] border border-slate-700 rounded-xl p-6 shadow-inner">
   <h2 className="flex items-center gap-2 text-white text-lg font-semibold mb-4">
     🧮 How SIP is Calculated
   </h2>
 
-  {/* Show nothing until valid input */}
+  {/* Check if user entered valid values */}
   {P > 0 && annualReturn > 0 && years > 0 ? (
-    <div className="text-slate-300 text-sm leading-relaxed space-y-6">
+    <>
       {/* Formula Card */}
       <div className="mt-3 rounded-xl bg-gradient-to-br from-[#0b1220]/90 to-[#1e293b]/80 border border-indigo-600/30 px-5 py-4 ring-1 ring-indigo-500/30 shadow-inner">
         <h3 className="text-indigo-400 text-base sm:text-lg font-semibold mb-1 flex items-center gap-2">
@@ -685,7 +685,7 @@ const SipCalculator: React.FC = () => {
       </div>
 
       {/* Definitions */}
-      <ul className="list-disc ml-6 space-y-1">
+      <ul className="list-disc ml-6 space-y-1 mb-4">
         <li>
           <span className="text-indigo-300 font-medium">P</span> = Monthly investment
         </li>
@@ -697,7 +697,7 @@ const SipCalculator: React.FC = () => {
         </li>
       </ul>
 
-      {/* Step 1 - Component values */}
+      {/* Step 1 - Core components */}
       <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-2 border border-slate-700 text-slate-300 text-[13px] font-mono">
         <div className="space-y-2">
           <p>P = {formatCurrency(P)}</p>
@@ -710,7 +710,7 @@ const SipCalculator: React.FC = () => {
         </div>
       </div>
 
-      {/* Step 2 - Substitution */}
+      {/* Step 2 - Substitution math */}
       <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-3 border border-slate-700 text-[13.5px] font-mono text-slate-200 leading-7">
         <pre className="whitespace-pre-wrap">
 {`FV = ${formatCurrency(P)} × ((1 + ${r.toFixed(6)})^${n} − 1) ÷ ${r.toFixed(6)} × (1 + ${r.toFixed(6)})
@@ -720,7 +720,7 @@ const SipCalculator: React.FC = () => {
         </pre>
       </div>
 
-      {/* Final Value */}
+      {/* Final FV summary */}
       <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-2 rounded-xl bg-[#0b1220] px-4 py-3 ring-1 ring-indigo-500/30">
         <span className="text-sm text-indigo-300 whitespace-nowrap">
           💰 Calculated SIP Maturity Value
@@ -729,13 +729,38 @@ const SipCalculator: React.FC = () => {
           {formatCurrency(futureValue)}
         </span>
       </div>
-    </div>
+    </>
   ) : (
-    <div className="text-slate-500 text-sm italic text-center py-4">
-      Enter investment, return rate, and years to view detailed SIP calculation steps.
+    /* Default view when no inputs */
+    <div className="text-slate-300 text-sm leading-relaxed space-y-5">
+      <div className="rounded-xl bg-gradient-to-br from-[#0b1220]/90 to-[#1e293b]/80 border border-indigo-600/30 px-5 py-4 ring-1 ring-indigo-500/30 shadow-inner">
+        <h3 className="text-indigo-400 text-base sm:text-lg font-semibold mb-1 flex items-center gap-2">
+          🧮 <span className="text-white/90">Formula:</span>
+        </h3>
+        <p className="text-slate-200 text-center font-mono text-[13.5px] sm:text-base leading-7 break-words">
+          <span className="text-indigo-300 font-semibold">FV</span> ={" "}
+          <span className="text-white">P</span> × ((1 + <span className="text-emerald-400">r</span>)
+          <sup className="text-slate-400">n</sup> − 1) ÷{" "}
+          <span className="text-emerald-400">r</span> × (1 +{" "}
+          <span className="text-emerald-400">r</span>)
+        </p>
+      </div>
+
+      <ul className="list-disc ml-6 space-y-1 mb-2">
+        <li>
+          <span className="text-indigo-300 font-medium">P</span> = Monthly investment
+        </li>
+        <li>
+          <span className="text-indigo-300 font-medium">r</span> = Monthly interest rate (annual rate ÷ 12 ÷ 100)
+        </li>
+        <li>
+          <span className="text-indigo-300 font-medium">n</span> = Total number of months
+        </li>
+      </ul>
     </div>
   )}
 </div>
+
 
 
 
