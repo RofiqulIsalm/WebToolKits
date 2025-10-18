@@ -680,6 +680,18 @@ const SipCalculator: React.FC = () => {
         </p>
 
         <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-2 border border-slate-700 text-slate-300 text-[13px] whitespace-nowrap font-mono">
+
+          <ul className="list-disc ml-6 mt-3 space-y-1">
+            <li>
+              <span className="text-indigo-300 font-medium">P</span> = Monthly investment
+            </li>
+            <li>
+              <span className="text-indigo-300 font-medium">r</span> = Monthly interest rate (annual rate ÷ 12 ÷ 100)
+            </li>
+            <li>
+              <span className="text-indigo-300 font-medium">n</span> = Total number of months
+            </li>
+          </ul>
           <div className="space-y-2 font-mono text-[13px] text-slate-300">
             <p>r = {r.toFixed(6)}</p>
             <p>(1 + r) = {onePlusR.toFixed(6)}</p>
@@ -692,17 +704,7 @@ const SipCalculator: React.FC = () => {
 
         </div>
 
-        <ul className="list-disc ml-6 mt-3 space-y-1">
-          <li>
-            <span className="text-indigo-300 font-medium">P</span> = Monthly investment
-          </li>
-          <li>
-            <span className="text-indigo-300 font-medium">r</span> = Monthly interest rate (annual rate ÷ 12 ÷ 100)
-          </li>
-          <li>
-            <span className="text-indigo-300 font-medium">n</span> = Total number of months
-          </li>
-        </ul>
+        
       </div>
 
       {/* Display current P, r, n values */}
