@@ -868,6 +868,19 @@ useEffect(() => {
 
         {/* ==================== SEO CONTENT SECTION ==================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+
+          {/* ===== Table of Contents ===== */}
+          <nav className="mt-16 mb-8 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-cyan-300 mb-3">📖 Table of Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#how-emi" className="text-indigo-400 hover:underline">How EMI is Calculated</a></li>
+              <li><a href="#how-to-use" className="text-indigo-400 hover:underline">How to Use This Mortgage Calculator</a></li>
+              <li><a href="#example" className="text-indigo-400 hover:underline">Example Calculation</a></li>
+              <li><a href="#faq" className="text-indigo-400 hover:underline">Frequently Asked Questions</a></li>
+            </ol>
+          </nav>
+
+          
           <h1 className="text-3xl font-bold text-cyan-400 mb-6">
             Mortgage Calculator 2025 – Fast, Accurate & Easy EMI Estimator
           </h1>
