@@ -905,6 +905,9 @@ const MortgageCalculator: React.FC = () => {
                 <span className="text-white">
                   {formatCurrency(emiSteps.numerator, currentLocale, currency)}
                 </span>
+                <div className="border-t border-slate-700 my-4 opacity-60" />
+                
+                
               </div>
             </>
           ) : (
@@ -913,6 +916,7 @@ const MortgageCalculator: React.FC = () => {
               <span className="font-mono">EMI = P / n</span>.
             </div>
           )}
+            
           
             <div className="border-t border-slate-700 my-4 opacity-60" />
           
