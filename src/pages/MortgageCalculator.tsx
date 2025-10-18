@@ -427,6 +427,77 @@ useEffect(() => {
               seoData.mortgageCalculator.keywords
             )}
           />
+        {/* ===== Enhanced SEO & Social Metadata ===== */}
+        <>
+          {/* --- Open Graph Meta Tags --- */}
+          <meta property="og:type" content="website" />
+          <meta property="og:title" content={seoData.mortgageCalculator.title} />
+          <meta property="og:description" content={seoData.mortgageCalculator.description} />
+          <meta property="og:url" content="https://calculatorhub.site/mortgage-calculator" />
+          <meta
+            property="og:image"
+            content="https://calculatorhub.site/images/mortgage-calculator-hero.webp"
+          />
+        
+          {/* --- Twitter Card Meta Tags --- */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content={seoData.mortgageCalculator.title} />
+          <meta name="twitter:description" content={seoData.mortgageCalculator.description} />
+          <meta
+            name="twitter:image"
+            content="https://calculatorhub.site/images/mortgage-calculator-hero.webp"
+          />
+        
+          {/* --- FAQPage JSON-LD Schema --- */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": [
+                  {
+                    "@type": "Question",
+                    "name": "What is a mortgage EMI?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text":
+                        "EMI (Equated Monthly Installment) is the fixed monthly payment you make to repay your mortgage over time."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Does the calculator support down payment?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text":
+                        "Yes, you can enter a down payment and we automatically reduce the financed principal before calculating EMI."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Can I share my results?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text":
+                        "Use the Copy Link button to generate a shareable URL with your inputs encoded so anyone can open the same scenario."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Do you store my data?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text":
+                        "No, all calculations run locally in your browser using localStorage only for your convenience."
+                    }
+                  }
+                ]
+              }),
+            }}
+          />
+        </>
+
 
 
       <div className="max-w-5xl mx-auto">
