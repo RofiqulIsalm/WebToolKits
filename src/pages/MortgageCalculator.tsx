@@ -1,3 +1,4 @@
+// all 
 import React, { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet";
 import {
@@ -584,7 +585,7 @@ useEffect(() => {
             </p>
           </div>
           <a
-            href="/all-calculators"
+            href="/category/currency-finance"
             className="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-md hover:bg-indigo-50 transition"
           >
             Explore More Calculators
