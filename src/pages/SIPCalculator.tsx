@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Helmet } from "react-helmet";
 import {
   RotateCcw,
   Share2,
@@ -24,12 +23,15 @@ import Breadcrumbs from "../components/Breadcrumbs";
 import RelatedCalculators from "../components/RelatedCalculators";
 import { seoData, generateCalculatorSchema } from "../utils/seoData";
 
-const LS_KEY = "sip_calculator_v1";
+/* ============================================================
+   ⚙️ Constants
+   ============================================================ */
+const LS_KEY = "sip_calculator_v2";
 
 const defaultValues = {
-  monthlyInvestment: 10000,
-  annualReturn: 12,
-  years: 10,
+  monthlyInvestment: 0,
+  annualReturn: 0,
+  years: 0,
   currency: "USD",
 };
 
@@ -45,13 +47,9 @@ const findLocale = (code: string) =>
 const findSymbol = (code: string) =>
   currencyOptions.find((c) => c.code === code)?.symbol || "";
 
-const formatCurrency = (num: number, locale: string, currency: string) =>
-  new Intl.NumberFormat(locale, {
-    style: "currency",
-    currency,
-    maximumFractionDigits: 0,
-  }).format(num);
-
+/* ============================================================
+   💰 SIP Calculator Component
+   ============================================================ */
 const SipCalculator: React.FC = () => {
   const [monthlyInvestment, setMonthlyInvestment] = useState(defaultValues.monthlyInvestment);
   const [annualReturn, setAnnualReturn] = useState(defaultValues.annualReturn);
@@ -64,8 +62,14 @@ const SipCalculator: React.FC = () => {
   const months = years * 12;
   const monthlyRate = annualReturn / 12 / 100;
 
-  // Calculation formula for SIP
+  const currentLocale = findLocale(currency);
+  const isDefault = !monthlyInvestment && !annualReturn && !years;
+
+  /* ============================================================
+     🧮 Calculation Logic
+     ============================================================ */
   const futureValue = useMemo(() => {
+    if (monthlyInvestment <= 0 || years <= 0) return 0;
     if (monthlyRate === 0) return monthlyInvestment * months;
     return monthlyInvestment * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate);
   }, [monthlyInvestment, monthlyRate, months]);
@@ -73,11 +77,13 @@ const SipCalculator: React.FC = () => {
   const totalInvestment = monthlyInvestment * months;
   const totalGains = futureValue - totalInvestment;
 
-  /* ===================== Persistence ===================== */
+  /* ============================================================
+     💾 Persistence (LocalStorage + URL)
+     ============================================================ */
   const applyState = (s: any) => {
-    setMonthlyInvestment(Number(s.monthlyInvestment) || " ");
-    setAnnualReturn(Number(s.annualReturn) || " ");
-    setYears(Number(s.years) || " ");
+    setMonthlyInvestment(Number(s.monthlyInvestment) || 0);
+    setAnnualReturn(Number(s.annualReturn) || 0);
+    setYears(Number(s.years) || 0);
     setCurrency(typeof s.currency === "string" ? s.currency : "USD");
   };
 
@@ -102,14 +108,10 @@ const SipCalculator: React.FC = () => {
 
   useEffect(() => {
     if (!hydrated) return;
-    try {
-      localStorage.setItem(
-        LS_KEY,
-        JSON.stringify({ monthlyInvestment, annualReturn, years, currency })
-      );
-    } catch (err) {
-      console.warn("Could not save SIP state", err);
-    }
+    localStorage.setItem(
+      LS_KEY,
+      JSON.stringify({ monthlyInvestment, annualReturn, years, currency })
+    );
   }, [monthlyInvestment, annualReturn, years, currency, hydrated]);
 
   useEffect(() => {
@@ -121,18 +123,18 @@ const SipCalculator: React.FC = () => {
     window.history.replaceState({}, "", url);
   }, [monthlyInvestment, annualReturn, years, currency, hydrated]);
 
-  /* ===================== Copy / Reset ===================== */
-  const currentLocale = findLocale(currency);
-
+  /* ============================================================
+     🔗 Copy & Reset
+     ============================================================ */
   const copyResults = async () => {
     const text = [
       "SIP Investment Summary",
-      `Monthly Investment: ${formatCurrency(monthlyInvestment, currentLocale, currency)}`,
+      `Monthly Investment: ${findSymbol(currency)}${monthlyInvestment}`,
       `Expected Annual Return: ${annualReturn}%`,
       `Duration: ${years} years`,
-      `Future Value: ${formatCurrency(futureValue, currentLocale, currency)}`,
-      `Total Investment: ${formatCurrency(totalInvestment, currentLocale, currency)}`,
-      `Total Gains: ${formatCurrency(totalGains, currentLocale, currency)}`,
+      `Future Value: ${findSymbol(currency)}${futureValue.toFixed(2)}`,
+      `Total Investment: ${findSymbol(currency)}${totalInvestment.toFixed(2)}`,
+      `Total Gains: ${findSymbol(currency)}${totalGains.toFixed(2)}`,
     ].join("\n");
     await navigator.clipboard.writeText(text);
     setCopied("results");
@@ -151,19 +153,31 @@ const SipCalculator: React.FC = () => {
   };
 
   const reset = () => {
-    setMonthlyInvestment(defaultValues.monthlyInvestment);
-    setAnnualReturn(defaultValues.annualReturn);
-    setYears(defaultValues.years);
-    setCurrency(defaultValues.currency);
+    setMonthlyInvestment(0);
+    setAnnualReturn(0);
+    setYears(0);
+    setCurrency("USD");
     localStorage.removeItem(LS_KEY);
   };
 
+  const formatCurrency = (num: number) =>
+    new Intl.NumberFormat(currentLocale, {
+      style: "currency",
+      currency,
+      maximumFractionDigits: 0,
+    }).format(num);
+
+  /* ============================================================
+     📊 Chart Data
+     ============================================================ */
   const pieData = [
     { name: "Invested Amount", value: totalInvestment },
-    { name: "Total Gains", value: totalGains },
+    { name: "Total Gains", value: totalGains > 0 ? totalGains : 0 },
   ];
 
-  /* ===================== Render ===================== */
+  /* ============================================================
+     🎨 Render UI
+     ============================================================ */
   return (
     <>
       <SEOHead
@@ -193,8 +207,9 @@ const SipCalculator: React.FC = () => {
           </p>
         </div>
 
+        {/* Grid layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Input */}
+          {/* Input Section */}
           <div className="bg-[#1e293b] rounded-xl border border-[#334155] p-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold text-white flex items-center gap-2">
@@ -202,7 +217,8 @@ const SipCalculator: React.FC = () => {
               </h2>
               <button
                 onClick={reset}
-                className="flex items-center gap-1 text-sm text-slate-300 border border-[#334155] rounded-lg px-2 py-1 hover:bg-[#0f172a]"
+                disabled={isDefault}
+                className="flex items-center gap-1 text-sm text-slate-300 border border-[#334155] rounded-lg px-2 py-1 hover:bg-[#0f172a] hover:text-white transition"
               >
                 <RotateCcw className="h-4 w-4 text-indigo-400" /> Reset
               </button>
@@ -232,7 +248,9 @@ const SipCalculator: React.FC = () => {
                 </label>
                 <input
                   type="number"
-                  value={monthlyInvestment}
+                  value={monthlyInvestment || ""}
+                  placeholder="Enter monthly investment amount"
+                  min={0}
                   onChange={(e) => setMonthlyInvestment(parseFloat(e.target.value) || 0)}
                   className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
                 />
@@ -240,11 +258,15 @@ const SipCalculator: React.FC = () => {
 
               {/* Annual Return */}
               <div>
-                <label className="text-sm font-medium text-slate-300">Expected Annual Return (%)</label>
+                <label className="text-sm font-medium text-slate-300">
+                  Expected Annual Return (%)
+                </label>
                 <input
                   type="number"
                   step="0.1"
-                  value={annualReturn}
+                  value={annualReturn || ""}
+                  placeholder="Enter expected annual return rate"
+                  min={0}
                   onChange={(e) => setAnnualReturn(parseFloat(e.target.value) || 0)}
                   className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-emerald-500"
                 />
@@ -255,7 +277,9 @@ const SipCalculator: React.FC = () => {
                 <label className="text-sm font-medium text-slate-300">Investment Period (Years)</label>
                 <input
                   type="number"
-                  value={years}
+                  value={years || ""}
+                  placeholder="Enter investment duration in years"
+                  min={0}
                   onChange={(e) => setYears(parseInt(e.target.value) || 0)}
                   className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
                 />
@@ -263,14 +287,14 @@ const SipCalculator: React.FC = () => {
             </div>
           </div>
 
-          {/* Output */}
+          {/* Output Section */}
           <div className="bg-[#1e293b] rounded-xl border border-[#334155] p-6 text-slate-200">
             <h2 className="text-xl font-semibold text-white mb-4">SIP Summary</h2>
 
             <div className="p-4 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
               <PieChartIcon className="h-8 w-8 text-indigo-400 mx-auto mb-2" />
               <div className="text-2xl font-bold text-white">
-                {formatCurrency(futureValue, currentLocale, currency)}
+                {formatCurrency(futureValue)}
               </div>
               <div className="text-sm text-slate-400">Maturity Amount</div>
             </div>
@@ -278,13 +302,13 @@ const SipCalculator: React.FC = () => {
             <div className="grid grid-cols-2 gap-4 mt-4">
               <div className="p-3 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
                 <div className="font-semibold text-white">
-                  {formatCurrency(totalInvestment, currentLocale, currency)}
+                  {formatCurrency(totalInvestment)}
                 </div>
                 <div className="text-sm text-slate-400">Total Investment</div>
               </div>
               <div className="p-3 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
                 <div className="font-semibold text-white">
-                  {formatCurrency(totalGains, currentLocale, currency)}
+                  {formatCurrency(totalGains)}
                 </div>
                 <div className="text-sm text-slate-400">Total Gains</div>
               </div>
@@ -312,8 +336,8 @@ const SipCalculator: React.FC = () => {
           </div>
         </div>
 
-        {/* Pie Chart */}
-        {totalInvestment > 0 && (
+        {/* Chart Section */}
+        {futureValue > 0 && (
           <div className="mt-6 bg-[#1e293b] border border-[#334155] rounded-xl p-6">
             <h3 className="text-center text-white font-semibold mb-6">
               SIP Growth Breakdown
@@ -326,7 +350,7 @@ const SipCalculator: React.FC = () => {
                       <Cell key={i} fill={["#3b82f6", "#22c55e"][i]} />
                     ))}
                   </Pie>
-                  <ReTooltip formatter={(v: any) => formatCurrency(Number(v), currentLocale, currency)} />
+                  <ReTooltip formatter={(v: any) => formatCurrency(v)} />
                   <Legend />
                 </PieChart>
               </ResponsiveContainer>
@@ -334,7 +358,7 @@ const SipCalculator: React.FC = () => {
           </div>
         )}
 
-        {/* How SIP is Calculated */}
+        {/* How SIP is Calculated Section */}
         <div className="mt-10 bg-[#0f172a] border border-[#334155] rounded-xl p-6">
           <button
             onClick={() => setShowSteps((v) => !v)}
@@ -353,17 +377,11 @@ const SipCalculator: React.FC = () => {
                   FV = P × ((1 + r)<sup>n</sup> − 1) / r × (1 + r)
                 </code>
               </p>
-              <p className="mt-2">
-                Where:
-                <ul className="list-disc ml-5 mt-1">
-                  <li>P = Monthly investment</li>
-                  <li>r = Monthly interest rate (annual rate ÷ 12 ÷ 100)</li>
-                  <li>n = Total months</li>
-                </ul>
-              </p>
-              <p className="mt-2">
-                Example: Investing {formatCurrency(10000, currentLocale, currency)} monthly for 10 years at 12% annual return will grow to approximately {formatCurrency(2320000, currentLocale, currency)}.
-              </p>
+              <ul className="list-disc ml-6 mt-2">
+                <li>P = Monthly investment</li>
+                <li>r = Monthly interest rate (annual rate ÷ 12 ÷ 100)</li>
+                <li>n = Total months</li>
+              </ul>
             </div>
           )}
         </div>
