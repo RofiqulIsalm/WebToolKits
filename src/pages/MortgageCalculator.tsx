@@ -1067,7 +1067,7 @@ useEffect(() => {
             <li>Copy results or share a link with your configuration.</li>
           </ol>
 
-          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">📘 Example Calculation</h2>
+          <h2 id="example" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">📘 Example Calculation</h2>
           <p>
             Suppose you borrow <strong>$300,000</strong> at <strong>6.5%</strong> for <strong>30 years</strong> with a <strong>$30,000</strong> down payment.
             Your financed principal is <strong>$270,000</strong> and your EMI will be around <strong>$1,706</strong>.
