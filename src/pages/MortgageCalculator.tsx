@@ -834,135 +834,138 @@ const MortgageCalculator: React.FC = () => {
 
           {/*Dynamic live math */}
 
-          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🧮 How EMI is Calculated</h2>
-          <p className="mb-3">We use the standard formula and show each step with your inputs:</p>
-          
-          <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 p-5 rounded-xl border border-slate-700 shadow-inner text-slate-200">
-            <p className="text-lg font-mono text-indigo-300 mb-2 text-center">
-              EMI = P × r × (1 + r)<sup>n</sup> / ((1 + r)<sup>n</sup> − 1)
-            </p>
-          
-            <div className="border-t border-slate-700 my-4 opacity-60" />
-          
-            {/* Step 0: Inputs */}
-            <ol className="space-y-2 text-sm">
-              <li>
-                <span className="font-semibold text-cyan-300">P</span> (Principal) =
-                {" "}
-                <span className="text-white">{formatCurrency(emiSteps.P, currentLocale, currency)}</span>
-                {" "}
-                <span className="text-slate-400">(Loan − Down Payment)</span>
-              </li>
-              <li>
-                <span className="font-semibold text-cyan-300">r</span> (Monthly rate) =
-                {" "}
-                <span className="text-white">{emiSteps.r.toFixed(8)}</span>
-                {" "}
-                <span className="text-slate-400">(Annual ÷ 12 ÷ 100)</span>
-              </li>
-              <li>
-                <span className="font-semibold text-cyan-300">n</span> (Total months) =
-                {" "}
-                <span className="text-white">{emiSteps.n}</span>
-              </li>
-            </ol>
-             
-          
-            <div className="border-t border-slate-700 my-4 opacity-60" />
-          
-            {/* Step 1: (1 + r)^n */}
-            <div className="text-sm mb-2">
-              <span className="font-semibold text-indigo-300">(1 + r)<sup>n</sup></span> =
-              {" "}
-              <span className="text-white">{emiSteps.pow.toFixed(10)}</span>
-            </div>
-           
-            {/* Step 2: Intermediates & fractions (general formula) */}
-          {!emiSteps.isZeroRate ? (
-            <>
-              {/* 2a. P × r */}
-              <div className="text-sm mb-2">
-                <span className="font-semibold text-emerald-300">P × r</span> =
-                {" "}
-                <span className="text-white">
-                  {formatCurrency(emiSteps.pTimesR, currentLocale, currency)}
-                </span>
-              </div>
-          
-              {/* 2b. (1 + r)^n − 1 */}
-              <div className="text-sm mb-2">
-                <span className="font-semibold text-rose-300">(1 + r)<sup>n</sup> − 1</span> =
-                {" "}
-                <span className="text-white">{emiSteps.denominator.toFixed(10)}</span>
-              </div>
-          
-              {/* 2c. Numerator = (P × r) × (1 + r)^n */}
-              <div className="text-sm mb-4">
-                <span className="font-semibold text-indigo-300">Numerator</span> =
-                {" "}
-                (P × r) × (1 + r)<sup>n</sup> =
-                {" "}
-                <span className="text-white">
-                  {formatCurrency(emiSteps.numerator, currentLocale, currency)}
-                </span>
-                <div className="border-t border-slate-700 my-4 opacity-60" />
-                 <div>
-                  <span > <strong>EMI = </strong>
-                  {" "}
-                <span className="text-white">{formatCurrency(emiSteps.P, currentLocale, currency)}</span>
-                {" "} × {" "}
-                <span className="text-white">{emiSteps.r.toFixed(8)}</span>
-                {" "} × ( 1 + {emiSteps.r.toFixed(8)} ) <sup>{emiSteps.n} {" "}</sup> /
-                    ( (  1 + {emiSteps.r.toFixed(8)} )  <sup>{emiSteps.n} {" "}</sup> - 1 )
-                  </span>
+{/* ===== Pretty, colorful EMI step-by-step ===== */}
+<h2 className="mt-12 mb-3 text-2xl font-extrabold tracking-tight">
+  <span className="bg-gradient-to-r from-cyan-300 via-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">
+    🧮 How EMI is Calculated
+  </span>
+</h2>
+<p className="mb-4 text-slate-300">
+  We use the standard formula and show each step with your inputs:
+</p>
 
-                   <p><strong>EMI = </strong> 
-                       {" "}
-                <span className="text-white">
-                  {formatCurrency(emiSteps.pTimesR, currentLocale, currency)}
-                </span> 
-                     {" "} × {emiSteps.pow.toFixed(10)} / ( {emiSteps.pow.toFixed(10)} - 1 ) 
-                   </p>
+<div className="relative rounded-2xl bg-gradient-to-br from-slate-800/90 via-slate-900/90 to-[#0b1220]/90 p-5 ring-1 ring-indigo-500/30 shadow-xl">
+  {/* top glow */}
+  <div className="pointer-events-none absolute inset-x-0 -top-0.5 h-0.5 bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-emerald-500 opacity-60" />
 
-                    <p><strong>EMI = </strong> 
-                         {" "}
-                  <span className="text-white">
-                    {formatCurrency(emiSteps.numerator, currentLocale, currency)}
-                  </span> 
-                      {" "}  / {" "} {emiSteps.denominator.toFixed(10)}
-                     </p>
-                   <p><strong>EMI = </strong> 
-                         {" "}
-                  <span className="text-white">
-                     {formatCurrency(emiSteps.emi, currentLocale, currency)}
-                  </span> 
-                         {" "} 
-                      
-                      
-                     </p>
-                 
-                 </div>
-                
-              </div>
-            </>
-          ) : (
-            <div className="text-sm mb-3">
-              Since <span className="font-semibold">r = 0</span>, the formula simplifies to{" "}
-              <span className="font-mono">EMI = P / n</span>.
-            </div>
-          )}
-            
-          
-            <div className="border-t border-slate-700 my-4 opacity-60" />
-          
-            {/* Step 3: Final EMI */}
-            <p className="text-sm text-emerald-400 font-semibold">
-              💰 Calculated EMI:{" "}
-              <span className="text-white">
-                {formatCurrency(emiSteps.emi, currentLocale, currency)}
-              </span>
-            </p>
-          </div>
+  {/* Formula */}
+  <p className="mb-3 text-center font-mono text-[15px] leading-7">
+    <span className="rounded-md bg-indigo-500/10 px-2 py-1 text-indigo-300 ring-1 ring-indigo-500/30">
+      EMI = P × r × (1 + r)<sup>n</sup> / ((1 + r)<sup>n</sup> − 1)
+    </span>
+  </p>
+
+  <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+
+  {/* Inputs row */}
+  <div className="mb-4 grid gap-3 text-sm sm:grid-cols-3">
+    <div className="flex items-center gap-2">
+      <span className="inline-flex items-center rounded-full border border-cyan-500/40 bg-cyan-500/10 px-2 py-0.5 text-xs font-semibold text-cyan-300">P</span>
+      <span className="text-slate-300">Principal</span>
+      <span className="ml-auto font-semibold text-white">{formatCurrency(emiSteps.P, currentLocale, currency)}</span>
+    </div>
+    <div className="flex items-center gap-2">
+      <span className="inline-flex items-center rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-xs font-semibold text-amber-300">r</span>
+      <span className="text-slate-300">Monthly rate</span>
+      <span className="ml-auto font-semibold text-white">{emiSteps.r.toFixed(8)}</span>
+    </div>
+    <div className="flex items-center gap-2">
+      <span className="inline-flex items-center rounded-full border border-fuchsia-500/40 bg-fuchsia-500/10 px-2 py-0.5 text-xs font-semibold text-fuchsia-300">n</span>
+      <span className="text-slate-300">Months</span>
+      <span className="ml-auto font-semibold text-white">{emiSteps.n}</span>
+    </div>
+  </div>
+
+  <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+
+  {/* Steps */}
+  {!emiSteps.isZeroRate ? (
+    <div className="space-y-2 font-mono text-[13.5px]">
+      {/* (1+r)^n */}
+      <div>
+        <span className="font-semibold text-indigo-300">(1 + r)<sup>n</sup></span>
+        <span className="mx-1 text-slate-400">=</span>
+        <span className="text-white">{emiSteps.pow.toFixed(10)}</span>
+      </div>
+
+      {/* P × r */}
+      <div>
+        <span className="font-semibold text-emerald-300">P × r</span>
+        <span className="mx-1 text-slate-400">=</span>
+        <span className="text-white">{formatCurrency(emiSteps.pTimesR, currentLocale, currency)}</span>
+      </div>
+
+      {/* (1+r)^n − 1 */}
+      <div>
+        <span className="font-semibold text-rose-300">(1 + r)<sup>n</sup> − 1</span>
+        <span className="mx-1 text-slate-400">=</span>
+        <span className="text-white">{emiSteps.denominator.toFixed(10)}</span>
+      </div>
+
+      {/* Numerator */}
+      <div>
+        <span className="font-semibold text-sky-300">Numerator</span>
+        <span className="mx-1 text-slate-400">=</span>
+        <span className="text-slate-300">(P × r) × (1 + r)<sup>n</sup></span>
+        <span className="mx-1 text-slate-400">=</span>
+        <span className="text-white">{formatCurrency(emiSteps.numerator, currentLocale, currency)}</span>
+      </div>
+
+      <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+
+      {/* Pretty stacked calculation */}
+      <div className="space-y-1">
+        <div className="text-slate-300">
+          <span className="font-semibold text-slate-200">EMI</span>
+          <span className="mx-1">=</span>
+          <span className="text-white">{formatCurrency(emiSteps.P, currentLocale, currency)}</span>
+          <span className="mx-1">×</span>
+          <span className="text-white">{emiSteps.r.toFixed(8)}</span>
+          <span className="mx-1">×</span>
+          <span className="text-white">{emiSteps.pow.toFixed(10)}</span>
+          <span className="mx-1">/</span>
+          <span className="text-white">{emiSteps.denominator.toFixed(10)}</span>
+        </div>
+
+        <div className="text-slate-300">
+          <span className="mx-1">=</span>
+          <span className="text-white">{formatCurrency(emiSteps.numerator, currentLocale, currency)}</span>
+          <span className="mx-1">/</span>
+          <span className="text-white">{emiSteps.denominator.toFixed(10)}</span>
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div className="font-mono text-[13.5px] text-slate-300">
+      <span className="font-semibold">r = 0</span>
+      <span className="mx-1">⇒</span>
+      EMI = P / n = {formatCurrency(emiSteps.P, currentLocale, currency)} / {emiSteps.n || 1}
+    </div>
+  )}
+
+  <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-3">
+    <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm">
+      <div className="text-emerald-300">P × r</div>
+      <div className="font-semibold text-white">{formatCurrency(emiSteps.pTimesR, currentLocale, currency)}</div>
+    </div>
+    <div className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-sm">
+      <div className="text-rose-300">(1 + r)<sup>n</sup> − 1</div>
+      <div className="font-semibold text-white">{emiSteps.denominator.toFixed(10)}</div>
+    </div>
+    <div className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-sm">
+      <div className="text-sky-300">Numerator</div>
+      <div className="font-semibold text-white">{formatCurrency(emiSteps.numerator, currentLocale, currency)}</div>
+    </div>
+  </div>
+
+  <div className="mt-5 flex items-center justify-between rounded-xl bg-[#0f172a] px-4 py-3 ring-1 ring-emerald-500/30">
+    <span className="text-sm text-emerald-300">💰 Calculated EMI</span>
+    <span className="text-xl font-bold tracking-wide text-white">
+      {formatCurrency(emiSteps.emi, currentLocale, currency)}
+    </span>
+  </div>
+</div>
+
 
 
 
