@@ -834,137 +834,137 @@ const MortgageCalculator: React.FC = () => {
 
           {/*Dynamic live math */}
 
-{/* ===== Pretty, colorful EMI step-by-step ===== */}
-<h2 className="mt-12 mb-3 text-2xl font-extrabold tracking-tight">
+{/* ===== Responsive, colorful EMI step-by-step ===== */}
+<h2 className="mt-12 mb-3 text-2xl font-extrabold tracking-tight text-center sm:text-left">
   <span className="bg-gradient-to-r from-cyan-300 via-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">
     🧮 How EMI is Calculated
   </span>
 </h2>
-<p className="mb-4 text-slate-300">
+
+<p className="mb-4 text-slate-300 text-sm sm:text-base text-center sm:text-left">
   We use the standard formula and show each step with your inputs:
 </p>
 
-<div className="relative rounded-2xl bg-gradient-to-br from-slate-800/90 via-slate-900/90 to-[#0b1220]/90 p-5 ring-1 ring-indigo-500/30 shadow-xl">
+<div className="relative rounded-2xl bg-gradient-to-br from-slate-800/90 via-slate-900/90 to-[#0b1220]/90 p-4 sm:p-6 ring-1 ring-indigo-500/30 shadow-xl text-[13.5px] sm:text-sm leading-relaxed">
   {/* top glow */}
   <div className="pointer-events-none absolute inset-x-0 -top-0.5 h-0.5 bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-emerald-500 opacity-60" />
 
   {/* Formula */}
-  <p className="mb-3 text-center font-mono text-[15px] leading-7">
-    <span className="rounded-md bg-indigo-500/10 px-2 py-1 text-indigo-300 ring-1 ring-indigo-500/30">
-      EMI = P × r × (1 + r)<sup>n</sup> / ((1 + r)<sup>n</sup> − 1)
-    </span>
+  <p className="mb-4 text-center font-mono text-[15px] leading-7 text-indigo-300">
+    EMI = <span className="text-sky-300">P × r × (1 + r)<sup>n</sup></span> /
+    <span className="text-fuchsia-300">((1 + r)<sup>n</sup> − 1)</span>
   </p>
 
-  <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
-
   {/* Inputs row */}
-  <div className="mb-4 grid gap-3 text-sm sm:grid-cols-3">
-    <div className="flex items-center gap-2">
-      <span className="inline-flex items-center rounded-full border border-cyan-500/40 bg-cyan-500/10 px-2 py-0.5 text-xs font-semibold text-cyan-300">P</span>
+  <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 mb-4">
+    <div className="flex flex-wrap justify-between items-center gap-1 sm:gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-cyan-500/20">
+      <span className="font-semibold text-cyan-300">P</span>
       <span className="text-slate-300">Principal</span>
-      <span className="ml-auto font-semibold text-white">{formatCurrency(emiSteps.P, currentLocale, currency)}</span>
+      <span className="font-semibold text-white truncate">
+        {formatCurrency(emiSteps.P, currentLocale, currency)}
+      </span>
     </div>
-    <div className="flex items-center gap-2">
-      <span className="inline-flex items-center rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-xs font-semibold text-amber-300">r</span>
+
+    <div className="flex flex-wrap justify-between items-center gap-1 sm:gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-amber-500/20">
+      <span className="font-semibold text-amber-300">r</span>
       <span className="text-slate-300">Monthly rate</span>
-      <span className="ml-auto font-semibold text-white">{emiSteps.r.toFixed(8)}</span>
+      <span className="font-semibold text-white truncate">
+        {emiSteps.r.toFixed(8)}
+      </span>
     </div>
-    <div className="flex items-center gap-2">
-      <span className="inline-flex items-center rounded-full border border-fuchsia-500/40 bg-fuchsia-500/10 px-2 py-0.5 text-xs font-semibold text-fuchsia-300">n</span>
+
+    <div className="flex flex-wrap justify-between items-center gap-1 sm:gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-fuchsia-500/20">
+      <span className="font-semibold text-fuchsia-300">n</span>
       <span className="text-slate-300">Months</span>
-      <span className="ml-auto font-semibold text-white">{emiSteps.n}</span>
+      <span className="font-semibold text-white truncate">{emiSteps.n}</span>
     </div>
   </div>
 
   <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
 
-  {/* Steps */}
+  {/* Step details */}
   {!emiSteps.isZeroRate ? (
-    <div className="space-y-2 font-mono text-[13.5px]">
-      {/* (1+r)^n */}
-      <div>
+    <div className="space-y-2 font-mono break-words">
+      <div className="flex flex-wrap justify-between">
         <span className="font-semibold text-indigo-300">(1 + r)<sup>n</sup></span>
-        <span className="mx-1 text-slate-400">=</span>
-        <span className="text-white">{emiSteps.pow.toFixed(10)}</span>
+        <span className="text-white">{emiSteps.pow.toFixed(9)}</span>
       </div>
 
-      {/* P × r */}
-      <div>
+      <div className="flex flex-wrap justify-between">
         <span className="font-semibold text-emerald-300">P × r</span>
-        <span className="mx-1 text-slate-400">=</span>
-        <span className="text-white">{formatCurrency(emiSteps.pTimesR, currentLocale, currency)}</span>
+        <span className="text-white">
+          {formatCurrency(emiSteps.pTimesR, currentLocale, currency)}
+        </span>
       </div>
 
-      {/* (1+r)^n − 1 */}
-      <div>
+      <div className="flex flex-wrap justify-between">
         <span className="font-semibold text-rose-300">(1 + r)<sup>n</sup> − 1</span>
-        <span className="mx-1 text-slate-400">=</span>
-        <span className="text-white">{emiSteps.denominator.toFixed(10)}</span>
+        <span className="text-white">{emiSteps.denominator.toFixed(9)}</span>
       </div>
 
-      {/* Numerator */}
-      <div>
-        <span className="font-semibold text-sky-300">Numerator</span>
-        <span className="mx-1 text-slate-400">=</span>
-        <span className="text-slate-300">(P × r) × (1 + r)<sup>n</sup></span>
-        <span className="mx-1 text-slate-400">=</span>
-        <span className="text-white">{formatCurrency(emiSteps.numerator, currentLocale, currency)}</span>
+      <div className="flex flex-wrap justify-between">
+        <span className="font-semibold text-sky-300">
+          (P × r) × (1 + r)<sup>n</sup>
+        </span>
+        <span className="text-white">
+          {formatCurrency(emiSteps.numerator, currentLocale, currency)}
+        </span>
       </div>
 
       <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
 
-      {/* Pretty stacked calculation */}
-      <div className="space-y-1">
-        <div className="text-slate-300">
-          <span className="font-semibold text-slate-200">EMI</span>
-          <span className="mx-1">=</span>
-          <span className="text-white">{formatCurrency(emiSteps.P, currentLocale, currency)}</span>
-          <span className="mx-1">×</span>
-          <span className="text-white">{emiSteps.r.toFixed(8)}</span>
-          <span className="mx-1">×</span>
-          <span className="text-white">{emiSteps.pow.toFixed(10)}</span>
-          <span className="mx-1">/</span>
-          <span className="text-white">{emiSteps.denominator.toFixed(10)}</span>
+      {/* Calculation formula lines */}
+      <div className="overflow-x-auto rounded-md bg-[#0f172a] px-3 py-2 border border-slate-700 text-slate-300 text-[13px]">
+        <div>
+          <span className="font-semibold text-slate-100">EMI</span> =
+          {formatCurrency(emiSteps.P, currentLocale, currency)} ×{" "}
+          {emiSteps.r.toFixed(8)} × {emiSteps.pow.toFixed(6)} ÷{" "}
+          {emiSteps.denominator.toFixed(6)}
         </div>
-
-        <div className="text-slate-300">
-          <span className="mx-1">=</span>
-          <span className="text-white">{formatCurrency(emiSteps.numerator, currentLocale, currency)}</span>
-          <span className="mx-1">/</span>
-          <span className="text-white">{emiSteps.denominator.toFixed(10)}</span>
+        <div className="text-slate-400">
+          = {formatCurrency(emiSteps.numerator, currentLocale, currency)} ÷{" "}
+          {emiSteps.denominator.toFixed(6)}
         </div>
       </div>
     </div>
   ) : (
-    <div className="font-mono text-[13.5px] text-slate-300">
-      <span className="font-semibold">r = 0</span>
-      <span className="mx-1">⇒</span>
-      EMI = P / n = {formatCurrency(emiSteps.P, currentLocale, currency)} / {emiSteps.n || 1}
+    <div className="text-slate-300 text-center sm:text-left font-mono">
+      <span className="font-semibold">r = 0</span> ⇒ EMI = P / n =
+      {formatCurrency(emiSteps.P, currentLocale, currency)} / {emiSteps.n || 1}
     </div>
   )}
 
-  <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-3">
-    <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm">
-      <div className="text-emerald-300">P × r</div>
-      <div className="font-semibold text-white">{formatCurrency(emiSteps.pTimesR, currentLocale, currency)}</div>
+  {/* Visual summary boxes */}
+  <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
+    <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-center">
+      <div className="text-emerald-300 text-xs uppercase">P × r</div>
+      <div className="font-semibold text-white text-sm truncate">
+        {formatCurrency(emiSteps.pTimesR, currentLocale, currency)}
+      </div>
     </div>
-    <div className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-sm">
-      <div className="text-rose-300">(1 + r)<sup>n</sup> − 1</div>
-      <div className="font-semibold text-white">{emiSteps.denominator.toFixed(10)}</div>
+    <div className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-center">
+      <div className="text-rose-300 text-xs uppercase">(1 + r)<sup>n</sup> − 1</div>
+      <div className="font-semibold text-white text-sm truncate">
+        {emiSteps.denominator.toFixed(9)}
+      </div>
     </div>
-    <div className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-sm">
-      <div className="text-sky-300">Numerator</div>
-      <div className="font-semibold text-white">{formatCurrency(emiSteps.numerator, currentLocale, currency)}</div>
+    <div className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-center">
+      <div className="text-sky-300 text-xs uppercase">Numerator</div>
+      <div className="font-semibold text-white text-sm truncate">
+        {formatCurrency(emiSteps.numerator, currentLocale, currency)}
+      </div>
     </div>
   </div>
 
-  <div className="mt-5 flex items-center justify-between rounded-xl bg-[#0f172a] px-4 py-3 ring-1 ring-emerald-500/30">
-    <span className="text-sm text-emerald-300">💰 Calculated EMI</span>
-    <span className="text-xl font-bold tracking-wide text-white">
+  {/* Final EMI */}
+  <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-2 rounded-xl bg-[#0f172a] px-4 py-3 ring-1 ring-emerald-500/30">
+    <span className="text-sm text-emerald-300 whitespace-nowrap">💰 Calculated EMI</span>
+    <span className="text-lg sm:text-xl font-bold tracking-wide text-white">
       {formatCurrency(emiSteps.emi, currentLocale, currency)}
     </span>
   </div>
 </div>
+
 
 
 
