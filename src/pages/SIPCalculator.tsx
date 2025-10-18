@@ -677,7 +677,7 @@ const SipCalculator: React.FC = () => {
                   <h3 className="text-indigo-400 text-base sm:text-lg font-semibold mb-1 flex items-center gap-2">
                     🧮 <span className="text-white/90">Formula:</span>
                   </h3>
-                  <p className="text-slate-200 text-center font-mono text-[13.5px] sm:text-base leading-7 break-words">
+                  <p className="text-slate-200 font-mono text-[13.5px] sm:text-base leading-7 break-words">
                     <span className="text-indigo-300 font-semibold">FV</span> ={" "}
                     <span className="text-white">P</span> × ((1 + <span className="text-emerald-400">r</span>)
                     <sup className="text-slate-400">n</sup> − 1) ÷{" "}
