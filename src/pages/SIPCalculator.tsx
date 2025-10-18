@@ -514,10 +514,28 @@ const SipCalculator: React.FC = () => {
                 innerRadius={60}
                 paddingAngle={3}
                 stroke="none"
-                label={({ name, percent }) =>
-                  `${name}: ${(percent * 100).toFixed(1)}%`
-                }
                 labelLine={false}
+                label={({ cx, cy, midAngle, innerRadius, outerRadius, percent, name, index }) => {
+                  const RADIAN = Math.PI / 180;
+                  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+                  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+                  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+              
+                  // Only show labels for visible slices (> 3%)
+                  return percent > 0.03 ? (
+                    <text
+                      x={x}
+                      y={y}
+                      fill="#f8fafc"
+                      textAnchor="middle"
+                      dominantBaseline="central"
+                      fontSize={12}
+                      fontWeight={500}
+                    >
+                      {(percent * 100).toFixed(1)}%
+                    </text>
+                  ) : null;
+                }}
               >
                 {pieData.map((_, i) => (
                   <Cell
@@ -527,6 +545,7 @@ const SipCalculator: React.FC = () => {
                   />
                 ))}
               </Pie>
+
             
               {/* Custom Tooltip */}
               <ReTooltip
