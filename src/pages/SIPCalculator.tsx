@@ -250,127 +250,141 @@ const SipCalculator: React.FC = () => {
           ]}
         />
 
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">📈 SIP Calculator</h1>
-          <p className="mt-3 text-slate-400 text-sm leading-relaxed">
-            Calculate your future SIP returns, maturity amount, and total gains using our systematic investment plan calculator.
-          </p>
+       {/* ======= HERO HEADER ======= */}
+<div className="mb-10 text-center relative">
+  <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-24 h-24 bg-indigo-600/30 blur-3xl rounded-full" />
+  <h1 className="relative text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-400 to-fuchsia-400 drop-shadow-md">
+    📈 SIP Calculator
+  </h1>
+  <p className="mt-4 text-slate-400 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+    Plan your investments smarter! Estimate your <span className="text-indigo-300 font-medium">future SIP returns</span>, 
+    <span className="text-emerald-300 font-medium"> maturity amount</span>, and 
+    <span className="text-fuchsia-300 font-medium"> total gains</span> instantly with real-time calculations.
+  </p>
+</div>
+
+{/* ======= CALCULATOR GRID ======= */}
+<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+  {/* ---------- INPUT CARD ---------- */}
+  <div className="relative bg-gradient-to-br from-slate-800/80 via-slate-900/90 to-[#0b1220]/90 border border-indigo-600/20 rounded-2xl shadow-2xl p-6 overflow-hidden backdrop-blur-sm">
+    <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-indigo-500/5 to-transparent" />
+    
+    {/* Header */}
+    <div className="flex justify-between items-center mb-6 relative z-10">
+      <h2 className="text-xl sm:text-2xl font-semibold text-white flex items-center gap-2">
+        💰 Investment Details
+      </h2>
+      <button
+        onClick={reset}
+        disabled={isDefault}
+        className="flex items-center gap-1 text-sm text-slate-300 border border-slate-600 rounded-lg px-2.5 py-1.5 hover:bg-slate-800 hover:text-white transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <RotateCcw className="h-4 w-4 text-indigo-400" /> Reset
+      </button>
+    </div>
+
+    {/* Content */}
+    <div className="space-y-6 relative z-10">
+      {/* Currency */}
+      <div className="bg-[#0f172a]/70 border border-slate-700 rounded-xl p-4 shadow-inner">
+        <label className="block text-sm font-medium text-slate-300 mb-2">Select Currency</label>
+        <select
+          value={currency}
+          onChange={(e) => setCurrency(e.target.value)}
+          className="w-full bg-[#0b1120] text-white text-sm px-3 py-2 border border-slate-700 rounded-md focus:ring-2 focus:ring-indigo-500 hover:border-indigo-400 transition"
+        >
+          {currencyOptions.map((c) => (
+            <option key={c.code} value={c.code}>{c.label}</option>
+          ))}
+        </select>
+      </div>
+
+      {/* Monthly Investment */}
+      <div className="bg-[#0f172a]/70 border border-slate-700 rounded-xl p-4 shadow-inner">
+        <label className="text-sm font-medium text-slate-300 mb-2 block">
+          Monthly Investment ({findSymbol(currency)})
+        </label>
+        <input
+          type="number"
+          value={monthlyInvestment || ""}
+          placeholder="Enter monthly investment amount"
+          min={0}
+          onChange={(e) => setMonthlyInvestment(parseFloat(e.target.value) || 0)}
+          className="w-full bg-[#0b1120] text-white px-4 py-2 border border-slate-700 rounded-lg focus:ring-2 focus:ring-indigo-500 transition-all"
+        />
+      </div>
+
+      {/* Annual Return */}
+      <div className="bg-[#0f172a]/70 border border-slate-700 rounded-xl p-4 shadow-inner">
+        <div className="flex justify-between items-center mb-2">
+          <label className="text-sm font-medium text-slate-300">
+            Expected Annual Return (%)
+          </label>
+          <span className="text-indigo-400 text-sm font-semibold">{annualReturn}%</span>
         </div>
 
-        {/* Grid layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Input Section */}
-          <div className="bg-[#1e293b] rounded-xl border border-[#334155] p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold text-white flex items-center gap-2">
-                💰 Investment Details
-              </h2>
-              <button
-                onClick={reset}
-                disabled={isDefault}
-                className="flex items-center gap-1 text-sm text-slate-300 border border-[#334155] rounded-lg px-2 py-1 hover:bg-[#0f172a] hover:text-white transition"
-              >
-                <RotateCcw className="h-4 w-4 text-indigo-400" /> Reset
-              </button>
-            </div>
+        <input
+          type="number"
+          step="0.1"
+          value={annualReturn || ""}
+          placeholder="Enter expected annual return rate"
+          min={0}
+          max={30}
+          onChange={(e) => setAnnualReturn(parseFloat(e.target.value) || 0)}
+          className="w-full bg-[#0b1120] text-white px-4 py-2 border border-slate-700 rounded-lg focus:ring-2 focus:ring-emerald-500 mb-3"
+        />
+        <input
+          type="range"
+          min={0}
+          max={30}
+          step={0.1}
+          value={annualReturn}
+          onChange={(e) => setAnnualReturn(parseFloat(e.target.value))}
+          className="w-full accent-emerald-500 cursor-pointer"
+        />
+        <div className="flex justify-between text-xs text-slate-400 mt-1">
+          <span>0%</span>
+          <span>15%</span>
+          <span>30%</span>
+        </div>
+      </div>
 
-            <div className="space-y-5">
-              {/* Currency */}
-              <div>
-                <label className="text-sm font-medium text-slate-300 mb-2 block">Currency</label>
-                <select
-                  value={currency}
-                  onChange={(e) => setCurrency(e.target.value)}
-                  className="bg-[#0f172a] text-white px-3 py-2 rounded-md w-48 border border-[#334155]"
-                >
-                  {currencyOptions.map((c) => (
-                    <option key={c.code} value={c.code}>
-                      {c.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
+      {/* Investment Period */}
+      <div className="bg-[#0f172a]/70 border border-slate-700 rounded-xl p-4 shadow-inner">
+        <div className="flex justify-between items-center mb-2">
+          <label className="text-sm font-medium text-slate-300">
+            Investment Period (Years)
+          </label>
+          <span className="text-indigo-400 text-sm font-semibold">{years}</span>
+        </div>
 
-              {/* Monthly Investment */}
-              <div>
-                <label className="text-sm font-medium text-slate-300">
-                  Monthly Investment ({findSymbol(currency)})
-                </label>
-                <input
-                  type="number"
-                  value={monthlyInvestment || ""}
-                  placeholder="Enter monthly investment amount"
-                  min={0}
-                  onChange={(e) => setMonthlyInvestment(parseFloat(e.target.value) || 0)}
-                  className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
-                />
-              </div>
+        <input
+          type="number"
+          value={years || ""}
+          placeholder="Enter investment duration in years"
+          min={0}
+          max={50}
+          onChange={(e) => setYears(parseInt(e.target.value) || 0)}
+          className="w-full bg-[#0b1120] text-white px-4 py-2 border border-slate-700 rounded-lg focus:ring-2 focus:ring-indigo-500 mb-3"
+        />
+        <input
+          type="range"
+          min={0}
+          max={50}
+          value={years}
+          onChange={(e) => setYears(parseInt(e.target.value))}
+          className="w-full accent-indigo-500 cursor-pointer"
+        />
+        <div className="flex justify-between text-xs text-slate-400 mt-1">
+          <span>0y</span>
+          <span>25y</span>
+          <span>50y</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-              {/* Annual Return */}
-              {/* Annual Return with Slider */}
-              <div>
-                <label className="text-sm font-medium text-slate-300 flex justify-between items-center">
-                  Expected Annual Return (%)
-                  <span className="text-indigo-400 text-sm font-semibold">{annualReturn}%</span>
-                </label>
-                <input
-                  type="number"
-                  step="0.1"
-                  value={annualReturn || ""}
-                  placeholder="Enter expected annual return rate"
-                  min={0}
-                  max={30}
-                  onChange={(e) => setAnnualReturn(parseFloat(e.target.value) || 0)}
-                  className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-emerald-500 mb-2"
-                />
-                <input
-                  type="range"
-                  min={0}
-                  max={30}
-                  step={0.1}
-                  value={annualReturn}
-                  onChange={(e) => setAnnualReturn(parseFloat(e.target.value))}
-                  className="w-full accent-emerald-500 cursor-pointer"
-                />
-                <div className="flex justify-between text-xs text-slate-400 mt-1">
-                  <span>0%</span>
-                  <span>15%</span>
-                  <span>30%</span>
-                </div>
-              </div>
-              
-              {/* Duration with Slider */}
-              <div>
-                <label className="text-sm font-medium text-slate-300 flex justify-between items-center">
-                  Investment Period (Years)
-                  <span className="text-indigo-400 text-sm font-semibold">{years}</span>
-                </label>
-                <input
-                  type="number"
-                  value={years || ""}
-                  placeholder="Enter investment duration in years"
-                  min={0}
-                  max={50}
-                  onChange={(e) => setYears(parseInt(e.target.value) || 0)}
-                  className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500 mb-2"
-                />
-                <input
-                  type="range"
-                  min={0}
-                  max={50}
-                  value={years}
-                  onChange={(e) => setYears(parseInt(e.target.value))}
-                  className="w-full accent-indigo-500 cursor-pointer"
-                />
-                <div className="flex justify-between text-xs text-slate-400 mt-1">
-                  <span>0y</span>
-                  <span>25y</span>
-                  <span>50y</span>
-                </div>
-              </div>
-
-            </div>
-          </div>
 
           {/* Output Section */}
           <div className="bg-[#1e293b] rounded-xl border border-[#334155] p-6 text-slate-200">
