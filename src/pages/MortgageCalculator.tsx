@@ -30,6 +30,23 @@ import RelatedCalculators from "../components/RelatedCalculators";
    ============================================================ */
 const LS_KEY = "mortgage_calculator_tax_style_v3";
 
+    interface SEOHeadProps {
+      title: string;
+      description: string;
+      canonical: string;
+      schemaData?: object;
+      extraJsonLd?: object;
+    }
+    
+    const SEOHead: React.FC<SEOHeadProps> = ({
+      title,
+      description,
+      canonical,
+      schemaData,
+      extraJsonLd,
+    }) => {
+      const jsonLdArray = [schemaData, extraJsonLd].filter(Boolean);
+
 const currencyOptions = [
   { code: "USD", symbol: "$", locale: "en-US", label: "US Dollar ($)" },
   { code: "EUR", symbol: "€", locale: "de-DE", label: "Euro (€)" },
