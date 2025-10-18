@@ -678,6 +678,18 @@ const SipCalculator: React.FC = () => {
         <p className="text-slate-200 mb-2">
           SIP Future Value (FV) is calculated using the formula:
         </p>
+        <div className="mt-6 mb-3 rounded-xl bg-gradient-to-br from-[#0b1220]/90 to-[#1e293b]/80 border border-indigo-600/30 px-5 py-4 ring-1 ring-indigo-500/30 shadow-inner">
+            <h2 className="text-indigo-400 text-base sm:text-lg font-semibold mb-1 flex items-center gap-2">
+              🧮 <span className="text-white/90">Formula:</span>
+            </h2>
+            <p className="text-slate-200  text-center font-mono text-[13.5px] sm:text-xl leading-7 break-words">
+              <span className="text-indigo-300 font-semibold">FV</span> ={" "}
+              <span className="text-white">P</span> × ((1 + <span className="text-emerald-400">r</span>)
+              <sup className="text-slate-400">n</sup> − 1) ÷{" "}
+              <span className="text-emerald-400">r</span> × (1 +{" "}
+              <span className="text-emerald-400">r</span>)
+            </p>
+          </div>
 
           <ul className="list-disc ml-6 mt-3 mb-3 space-y-1">
             <li>
@@ -702,34 +714,11 @@ const SipCalculator: React.FC = () => {
             <p>Factor ((1 + r)<sup>n</sup> - 1) / r = {factor.toFixed(6)}</p>
 
           </div>
-
         </div>
-
-        
       </div>
-
-     
-
-
 
     {/* Step 2 - Substitute actual values (4-line notebook style) */}
       <div>
-        <div className="mt-6 mb-3 rounded-xl bg-gradient-to-br from-[#0b1220]/90 to-[#1e293b]/80 border border-indigo-600/30 px-5 py-4 ring-1 ring-indigo-500/30 shadow-inner">
-            <h2 className="text-indigo-400 text-base sm:text-lg font-semibold mb-1 flex items-center gap-2">
-              🧮 <span className="text-white/90">Formula:</span>
-            </h2>
-            <p className="text-slate-200  text-center font-mono text-[13.5px] sm:text-xl leading-7 break-words">
-              <span className="text-indigo-300 font-semibold">FV</span> ={" "}
-              <span className="text-white">P</span> × ((1 + <span className="text-emerald-400">r</span>)
-              <sup className="text-slate-400">n</sup> − 1) ÷{" "}
-              <span className="text-emerald-400">r</span> × (1 +{" "}
-              <span className="text-emerald-400">r</span>)
-            </p>
-          </div>
-
-        
-
-      
         <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-3 border border-slate-700 text-[13.5px] font-mono text-slate-200 leading-7">
           <pre className="whitespace-pre-wrap"> 
             {`       FV = ${formatCurrency(P)} × ((1 + ${r.toFixed(6)})^${n} − 1) ÷ ${r.toFixed(6)} × (1 + ${r.toFixed(6)})
