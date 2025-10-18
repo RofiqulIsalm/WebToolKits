@@ -921,9 +921,16 @@ const MortgageCalculator: React.FC = () => {
                 <span className="text-white">
                   {formatCurrency(emiSteps.pTimesR, currentLocale, currency)}
                 </span> 
-                     {" "} × {emiSteps.pow.toFixed(10)} / ( {emiSteps.pow.toFixed(10)} - 1 )
-                     
+                     {" "} × {emiSteps.pow.toFixed(10)} / ( {emiSteps.pow.toFixed(10)} - 1 ) 
                    </p>
+
+                    <p><strong>EMI = </strong> 
+                         {" "}
+                  <span className="text-white">
+                    {formatCurrency(emiSteps.pTimesR, currentLocale, currency)}
+                  </span> 
+                       {" "} × {emiSteps.pow.toFixed(10)} / ( {emiSteps.pow.toFixed(10)} - 1 ) 
+                     </p>
                  
                  </div>
                 
