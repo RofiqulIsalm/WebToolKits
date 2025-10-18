@@ -661,108 +661,108 @@ const SipCalculator: React.FC = () => {
 
 
 
- {/* ---------- How SIP is Calculated (Always Open + Mobile Scrollable) ---------- */}
-<div className="mt-10 bg-[#0f172a] border border-slate-700 rounded-xl shadow-inner">
-  {/* Outer Scroll Wrapper for Mobile */}
-  <div className="p-6 overflow-x-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent sm:overflow-x-visible">
-    <h2 className="flex items-center gap-2 text-white text-lg font-semibold mb-4 min-w-max">
-      🧮 How SIP is Calculated
-    </h2>
-
-    {/* Check if user entered valid values */}
-    {P > 0 && annualReturn > 0 && years > 0 ? (
-      <>
-        {/* Formula Card */}
-        <div className="mt-3 rounded-xl bg-gradient-to-br from-[#0b1220]/90 to-[#1e293b]/80 border border-indigo-600/30 px-5 py-4 ring-1 ring-indigo-500/30 shadow-inner min-w-max">
-          <h3 className="text-indigo-400 text-base sm:text-lg font-semibold mb-1 flex items-center gap-2">
-            🧮 <span className="text-white/90">Formula:</span>
-          </h3>
-          <p className="text-slate-200 text-center font-mono text-[13.5px] sm:text-base leading-7 break-words">
-            <span className="text-indigo-300 font-semibold">FV</span> ={" "}
-            <span className="text-white">P</span> × ((1 + <span className="text-emerald-400">r</span>)
-            <sup className="text-slate-400">n</sup> − 1) ÷{" "}
-            <span className="text-emerald-400">r</span> × (1 +{" "}
-            <span className="text-emerald-400">r</span>)
-          </p>
-        </div>
-
-        {/* Definitions */}
-        <ul className="list-disc ml-6 space-y-1 mb-4 min-w-max">
-          <li>
-            <span className="text-indigo-300 font-medium">P</span> = Monthly investment
-          </li>
-          <li>
-            <span className="text-indigo-300 font-medium">r</span> = Monthly interest rate (annual rate ÷ 12 ÷ 100)
-          </li>
-          <li>
-            <span className="text-indigo-300 font-medium">n</span> = Total number of months
-          </li>
-        </ul>
-
-        {/* Step 1 - Core components */}
-        <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-2 border border-slate-700 text-slate-300 text-[13px] font-mono scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent">
-          <div className="space-y-2 min-w-max">
-            <p>P = {formatCurrency(P)}</p>
-            <p>r = {r.toFixed(6)}</p>
-            <p>(1 + r) = {onePlusR.toFixed(6)}</p>
-            <p>(1 + r)^n = {pow.toFixed(6)}</p>
-            <p>Numerator ((1 + r)^n − 1) = {numerator.toFixed(6)}</p>
-            <p>Denominator (r) = {denominator.toFixed(6)}</p>
-            <p>Factor ((1 + r)^n − 1) / r = {factor.toFixed(6)}</p>
+           {/* ---------- How SIP is Calculated (Always Open + Mobile Scrollable) ---------- */}
+          <div className="mt-10 bg-[#0f172a] border border-slate-700 rounded-xl shadow-inner">
+            {/* Outer Scroll Wrapper for Mobile */}
+            <div className="p-6 overflow-x-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent sm:overflow-x-visible">
+              <h2 className="flex items-center gap-2 text-white text-lg font-semibold mb-4 min-w-max">
+                🧮 How SIP is Calculated
+              </h2>
+          
+              {/* Check if user entered valid values */}
+              {P > 0 && annualReturn > 0 && years > 0 ? (
+                <>
+                  {/* Formula Card */}
+                  <div className="mt-3 rounded-xl bg-gradient-to-br from-[#0b1220]/90 to-[#1e293b]/80 border border-indigo-600/30 px-5 py-4 ring-1 ring-indigo-500/30 shadow-inner min-w-max">
+                    <h3 className="text-indigo-400 text-base sm:text-lg font-semibold mb-1 flex items-center gap-2">
+                      🧮 <span className="text-white/90">Formula:</span>
+                    </h3>
+                    <p className="text-slate-200 text-center font-mono text-[13.5px] sm:text-base leading-7 break-words">
+                      <span className="text-indigo-300 font-semibold">FV</span> ={" "}
+                      <span className="text-white">P</span> × ((1 + <span className="text-emerald-400">r</span>)
+                      <sup className="text-slate-400">n</sup> − 1) ÷{" "}
+                      <span className="text-emerald-400">r</span> × (1 +{" "}
+                      <span className="text-emerald-400">r</span>)
+                    </p>
+                  </div>
+          
+                  {/* Definitions */}
+                  <ul className="list-disc ml-6 space-y-1 mb-4 min-w-max">
+                    <li>
+                      <span className="text-indigo-300 font-medium">P</span> = Monthly investment
+                    </li>
+                    <li>
+                      <span className="text-indigo-300 font-medium">r</span> = Monthly interest rate (annual rate ÷ 12 ÷ 100)
+                    </li>
+                    <li>
+                      <span className="text-indigo-300 font-medium">n</span> = Total number of months
+                    </li>
+                  </ul>
+          
+                  {/* Step 1 - Core components */}
+                  <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-2 border border-slate-700 text-slate-300 text-[13px] font-mono scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent">
+                    <div className="space-y-2 min-w-max">
+                      <p>P = {formatCurrency(P)}</p>
+                      <p>r = {r.toFixed(6)}</p>
+                      <p>(1 + r) = {onePlusR.toFixed(6)}</p>
+                      <p>(1 + r)^n = {pow.toFixed(6)}</p>
+                      <p>Numerator ((1 + r)^n − 1) = {numerator.toFixed(6)}</p>
+                      <p>Denominator (r) = {denominator.toFixed(6)}</p>
+                      <p>Factor ((1 + r)^n − 1) / r = {factor.toFixed(6)}</p>
+                    </div>
+                  </div>
+          
+                  {/* Step 2 - Substitution math */}
+                  <div className="overflow-x-auto mt-2 rounded-md bg-[#0b1220] px-3 py-3 border border-slate-700 text-[13.5px] font-mono text-slate-200 leading-7 scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent">
+                    <pre className="whitespace-pre min-w-max">
+          {`FV = ${formatCurrency(P)} × ((1 + ${r.toFixed(6)})^${n} − 1) ÷ ${r.toFixed(6)} × (1 + ${r.toFixed(6)})
+          = ${formatCurrency(P)} × ${(numerator).toFixed(6)} ÷ ${r.toFixed(6)} × ${onePlusR.toFixed(6)}
+          = ${formatCurrency(P)} × ${(factor).toFixed(6)} × ${onePlusR.toFixed(6)}
+          = ${formatCurrency(futureValueCalc)}`}
+                    </pre>
+                  </div>
+          
+                  {/* Final FV summary */}
+                  <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-2 rounded-xl bg-[#0b1220] px-4 py-3 ring-1 ring-indigo-500/30 min-w-max">
+                    <span className="text-sm text-indigo-300 whitespace-nowrap">
+                      💰 Calculated SIP Maturity Value
+                    </span>
+                    <span className="text-lg sm:text-xl font-bold tracking-wide text-white">
+                      {formatCurrency(futureValue)}
+                    </span>
+                  </div>
+                </>
+              ) : (
+                /* Default view when no inputs */
+                <div className="text-slate-300 text-sm leading-relaxed space-y-5 min-w-max">
+                  <div className="rounded-xl bg-gradient-to-br from-[#0b1220]/90 to-[#1e293b]/80 border border-indigo-600/30 px-5 py-4 ring-1 ring-indigo-500/30 shadow-inner">
+                    <h3 className="text-indigo-400 text-base sm:text-lg font-semibold mb-1 flex items-center gap-2">
+                      🧮 <span className="text-white/90">Formula:</span>
+                    </h3>
+                    <p className="text-slate-200 text-center font-mono text-[13.5px] sm:text-base leading-7 break-words">
+                      <span className="text-indigo-300 font-semibold">FV</span> ={" "}
+                      <span className="text-white">P</span> × ((1 + <span className="text-emerald-400">r</span>)
+                      <sup className="text-slate-400">n</sup> − 1) ÷{" "}
+                      <span className="text-emerald-400">r</span> × (1 +{" "}
+                      <span className="text-emerald-400">r</span>)
+                    </p>
+                  </div>
+          
+                  <ul className="list-disc ml-6 space-y-1 mb-2 min-w-max">
+                    <li>
+                      <span className="text-indigo-300 font-medium">P</span> = Monthly investment
+                    </li>
+                    <li>
+                      <span className="text-indigo-300 font-medium">r</span> = Monthly interest rate (annual rate ÷ 12 ÷ 100)
+                    </li>
+                    <li>
+                      <span className="text-indigo-300 font-medium">n</span> = Total number of months
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-
-        {/* Step 2 - Substitution math */}
-        <div className="overflow-x-auto mt-2 rounded-md bg-[#0b1220] px-3 py-3 border border-slate-700 text-[13.5px] font-mono text-slate-200 leading-7 scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent">
-          <pre className="whitespace-pre min-w-max">
-{`FV = ${formatCurrency(P)} × ((1 + ${r.toFixed(6)})^${n} − 1) ÷ ${r.toFixed(6)} × (1 + ${r.toFixed(6)})
-= ${formatCurrency(P)} × ${(numerator).toFixed(6)} ÷ ${r.toFixed(6)} × ${onePlusR.toFixed(6)}
-= ${formatCurrency(P)} × ${(factor).toFixed(6)} × ${onePlusR.toFixed(6)}
-= ${formatCurrency(futureValueCalc)}`}
-          </pre>
-        </div>
-
-        {/* Final FV summary */}
-        <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-2 rounded-xl bg-[#0b1220] px-4 py-3 ring-1 ring-indigo-500/30 min-w-max">
-          <span className="text-sm text-indigo-300 whitespace-nowrap">
-            💰 Calculated SIP Maturity Value
-          </span>
-          <span className="text-lg sm:text-xl font-bold tracking-wide text-white">
-            {formatCurrency(futureValue)}
-          </span>
-        </div>
-      </>
-    ) : (
-      /* Default view when no inputs */
-      <div className="text-slate-300 text-sm leading-relaxed space-y-5 min-w-max">
-        <div className="rounded-xl bg-gradient-to-br from-[#0b1220]/90 to-[#1e293b]/80 border border-indigo-600/30 px-5 py-4 ring-1 ring-indigo-500/30 shadow-inner">
-          <h3 className="text-indigo-400 text-base sm:text-lg font-semibold mb-1 flex items-center gap-2">
-            🧮 <span className="text-white/90">Formula:</span>
-          </h3>
-          <p className="text-slate-200 text-center font-mono text-[13.5px] sm:text-base leading-7 break-words">
-            <span className="text-indigo-300 font-semibold">FV</span> ={" "}
-            <span className="text-white">P</span> × ((1 + <span className="text-emerald-400">r</span>)
-            <sup className="text-slate-400">n</sup> − 1) ÷{" "}
-            <span className="text-emerald-400">r</span> × (1 +{" "}
-            <span className="text-emerald-400">r</span>)
-          </p>
-        </div>
-
-        <ul className="list-disc ml-6 space-y-1 mb-2 min-w-max">
-          <li>
-            <span className="text-indigo-300 font-medium">P</span> = Monthly investment
-          </li>
-          <li>
-            <span className="text-indigo-300 font-medium">r</span> = Monthly interest rate (annual rate ÷ 12 ÷ 100)
-          </li>
-          <li>
-            <span className="text-indigo-300 font-medium">n</span> = Total number of months
-          </li>
-        </ul>
-      </div>
-    )}
-  </div>
-</div>
 
 
 
