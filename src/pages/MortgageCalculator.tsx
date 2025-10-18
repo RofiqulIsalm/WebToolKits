@@ -680,66 +680,62 @@ const MortgageCalculator: React.FC = () => {
         )}
 
         {/* ===== Amortization ===== */}
-        <div className="mt-8 bg-[#1e293b] rounded-xl shadow-md border border-[#334155]">
-          <button
-            onClick={() => setShowAmort((v) => !v)}
-            className="w-full flex items-center justify-between px-6 py-4 text-slate-200"
-          >
-            <span className="text-lg font-semibold">Amortization Schedule</span>
-            {showAmort ? <ChevronUp /> : <ChevronDown />}
-          </button>
-
-          {showAmort && (
-            <div className="px-6 pb-6">
-              <div className="flex items-center text-black gap-4 mb-4">
-                <label className="text-sm text-slate-300">Granularity:</label>
-                <select
-                  value={granularity}
-                  onChange={(e) => setGranularity(e.target.value as "yearly" | "monthly")}
-                  className="px-3 py-2 text-black bg-white border border-[#334155] rounded-md  text-sm"
-                >
-                  <option value="yearly" >Yearly</option>
-                  <option value="monthly">Monthly</option>
-                </select>
-              </div>
-
-              <div className="overflow-x-auto">
-                <table className="min-w-full text-sm text-slate-100">
-                  <thead>
-                    <tr className="bg-[#0f172a]">
-                      <th className="text-left px-4 py-2">{granularity === "yearly" ? "Year" : "Month"}</th>
-                      <th className="text-right px-4 py-2">Principal</th>
-                      <th className="text-right px-4 py-2">Interest</th>
-                      <th className="text-right px-4 py-2">Balance</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {schedule.map((r) => (
-                      <tr key={r.period} className="border-b border-[#334155]">
-                        <td className="px-4 py-2">{r.period}</td>
-                        <td className="px-4 py-2 text-right">
-                          {formatCurrency(r.principalPaid, currentLocale, currency)}
-                        </td>
-                        <td className="px-4 py-2 text-right">
-                          {formatCurrency(r.interestPaid, currentLocale, currency)}
-                        </td>
-                        <td className="px-4 py-2 text-right">
-                          {formatCurrency(r.balance, currentLocale, currency)}
-                        </td>
+        {principal > 0 && totalMonths > 0 && (
+          <div className="mt-8 bg-[#1e293b] rounded-xl shadow-md border border-[#334155]">
+            <button
+              onClick={() => setShowAmort((v) => !v)}
+              className="w-full flex items-center justify-between px-6 py-4 text-slate-200"
+            >
+              <span className="text-lg font-semibold">Amortization Schedule</span>
+              {showAmort ? <ChevronUp /> : <ChevronDown />}
+            </button>
+        
+            {showAmort && (
+              <div className="px-6 pb-6">
+                <div className="flex items-center gap-4 mb-4">
+                  <label className="text-sm text-slate-300">Granularity:</label>
+                  <select
+                    value={granularity}
+                    onChange={(e) => setGranularity(e.target.value as "yearly" | "monthly")}
+                    className="px-3 py-2 bg-transparent border border-[#334155] rounded-md text-slate-100 text-sm"
+                  >
+                    <option value="yearly">Yearly</option>
+                    <option value="monthly">Monthly</option>
+                  </select>
+                </div>
+        
+                <div className="overflow-x-auto">
+                  <table className="min-w-full text-sm text-slate-100">
+                    <thead>
+                      <tr className="bg-[#0f172a]">
+                        <th className="text-left px-4 py-2">{granularity === "yearly" ? "Year" : "Month"}</th>
+                        <th className="text-right px-4 py-2">Principal</th>
+                        <th className="text-right px-4 py-2">Interest</th>
+                        <th className="text-right px-4 py-2">Balance</th>
                       </tr>
-                    ))}
-                    {schedule.length === 0 && (
-                      <tr>
-                        <td colSpan={4} className="px-4 py-6 text-center text-slate-400">
-                          Enter valid details to view schedule.
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {schedule.map((r) => (
+                        <tr key={r.period} className="border-b border-[#334155]">
+                          <td className="px-4 py-2">{r.period}</td>
+                          <td className="px-4 py-2 text-right">
+                            {formatCurrency(r.principalPaid, currentLocale, currency)}
+                          </td>
+                          <td className="px-4 py-2 text-right">
+                            {formatCurrency(r.interestPaid, currentLocale, currency)}
+                          </td>
+                          <td className="px-4 py-2 text-right">
+                            {formatCurrency(r.balance, currentLocale, currency)}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
+        )}
         </div>
 
         {/* ==================== SEO CONTENT SECTION ==================== */}
