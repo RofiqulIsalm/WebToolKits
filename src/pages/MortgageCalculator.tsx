@@ -694,7 +694,7 @@ const MortgageCalculator: React.FC = () => {
                 <select
                   value={granularity}
                   onChange={(e) => setGranularity(e.target.value as "yearly" | "monthly")}
-                  className="px-3 py-2 bg-transparent border border-[#334155] rounded-md text-slate-100 text-sm"
+                  className="px-3 py-2 text-black bg-transparent border border-[#334155] rounded-md text-slate-100 text-sm"
                 >
                   <option value="yearly">Yearly</option>
                   <option value="monthly">Monthly</option>
