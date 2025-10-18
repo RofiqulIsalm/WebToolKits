@@ -730,34 +730,24 @@ const SipCalculator: React.FC = () => {
         </div>
       </div>
 
-      {/* Step 1 - Calculate compound growth */}
+
+
+    {/* Step 2 - Substitute actual values (4-line notebook style) */}
       <div>
-        <h4 className="text-indigo-400 font-semibold mb-2">Step 1: Calculate (1 + r)<sup>n</sup> − 1</h4>
-        <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-2 border border-slate-700 text-[13px] font-mono whitespace-nowrap text-slate-300">
-          (1 + { (annualReturn / 12 / 100).toFixed(6) })<sup>{months}</sup> − 1 ={" "}
-          <span className="text-white">
-            {(Math.pow(1 + annualReturn / 12 / 100, months) - 1).toFixed(6)}
-          </span>
+        <h4 className="text-indigo-400 font-semibold mb-2">
+           Calculated
+        </h4>
+      
+        <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-3 border border-slate-700 text-[13.5px] font-mono text-slate-200 leading-7">
+          <pre className="whitespace-pre-wrap">
+            {`FV = P × ((1 + r)^n − 1) ÷ r × (1 + r)
+            FV = ${formatCurrency(P)} × ((1 + ${r.toFixed(6)})^${n} − 1) ÷ ${r.toFixed(6)} × (1 + ${r.toFixed(6)})
+               = ${formatCurrency(P)} × ${(numerator).toFixed(6)} ÷ ${r.toFixed(6)} × ${onePlusR.toFixed(6)}
+               = ${formatCurrency(P)} × ${(factor).toFixed(6)} × ${onePlusR.toFixed(6)}
+               = ${formatCurrency(futureValueCalc)}`}
+          </pre>
         </div>
       </div>
-
-      {/* Step 2 - Calculate full FV */}
-    {/* Step 2 - Substitute actual values (4-line notebook style) */}
-<div>
-  <h4 className="text-indigo-400 font-semibold mb-2">
-    Step 2: Substitute values into FV formula
-  </h4>
-
-  <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-3 border border-slate-700 text-[13.5px] font-mono text-slate-200 leading-7">
-    <pre className="whitespace-pre-wrap">
-      {`FV = P × ((1 + r)^n − 1) ÷ r × (1 + r)
-      FV = ${formatCurrency(P)} × ((1 + ${r.toFixed(6)})^${n} − 1) ÷ ${r.toFixed(6)} × (1 + ${r.toFixed(6)})
-         = ${formatCurrency(P)} × ${(numerator).toFixed(6)} ÷ ${r.toFixed(6)} × ${onePlusR.toFixed(6)}
-         = ${formatCurrency(P)} × ${(factor).toFixed(6)} × ${onePlusR.toFixed(6)}
-         = ${formatCurrency(futureValueCalc)}`}
-    </pre>
-  </div>
-</div>
 
 
 
