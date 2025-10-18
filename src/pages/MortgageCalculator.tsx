@@ -101,31 +101,6 @@ const formatCurrency = (num: number, locale: string, currency: string) => {
 const clamp = (v: number, min: number, max: number) =>
   Math.min(max, Math.max(min, v));
 
-// ----- Step-by-step EMI intermediates -----
-const emiSteps = useMemo(() => {
-  const P = Math.max(principal, 0);
-  const n = Math.max(totalMonths, 0);
-  const r = Math.max(monthlyRate, 0); // monthly interest rate = interestRate / 12 / 100
-
-  const onePlusR = 1 + r;
-  const pow = n > 0 ? Math.pow(onePlusR, n) : 1;
-
-  // General formula parts
-  const numerator = P * r * pow;
-  const denominator = pow - 1;
-  const generalEmi = denominator !== 0 ? numerator / denominator : 0;
-
-  // Zero-rate fallback (when APR is 0, r = 0)
-  const zeroRateEmi = n > 0 ? P / n : 0;
-
-  // Final EMI (choose branch)
-  const emi = interestRate === 0 ? zeroRateEmi : generalEmi;
-
-  return {
-    P, r, n, onePlusR, pow, numerator, denominator, emi,
-    isZeroRate: interestRate === 0,
-  };
-}, [principal, totalMonths, monthlyRate, interestRate]);
 
 /* ============================================================
    🏠 SECTION 2: Component
@@ -277,6 +252,43 @@ const MortgageCalculator: React.FC = () => {
   }, [monthlySchedule, totalMonths, principal]);
 
   const schedule = granularity === "yearly" ? yearlySchedule : monthlySchedule;
+
+
+    /* ============================================================
+     📘 SECTION 4.5: Step-by-step EMI Logic
+     ============================================================ */
+  const emiSteps = useMemo(() => {
+    const P = Math.max(principal, 0);
+    const n = Math.max(totalMonths, 0);
+    const r = Math.max(monthlyRate, 0); // monthly interest rate = interestRate / 12 / 100
+
+    const onePlusR = 1 + r;
+    const pow = n > 0 ? Math.pow(onePlusR, n) : 1;
+
+    // General formula parts
+    const numerator = P * r * pow;
+    const denominator = pow - 1;
+    const generalEmi = denominator !== 0 ? numerator / denominator : 0;
+
+    // Zero-rate fallback (when APR is 0, r = 0)
+    const zeroRateEmi = n > 0 ? P / n : 0;
+
+    // Final EMI (choose branch)
+    const emi = interestRate === 0 ? zeroRateEmi : generalEmi;
+
+    return {
+      P,
+      r,
+      n,
+      onePlusR,
+      pow,
+      numerator,
+      denominator,
+      emi,
+      isZeroRate: interestRate === 0,
+    };
+  }, [principal, totalMonths, monthlyRate, interestRate]);
+
 
   /* ============================================================
      📊 SECTION 5: Pie & Tips
