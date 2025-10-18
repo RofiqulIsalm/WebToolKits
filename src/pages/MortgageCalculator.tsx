@@ -914,18 +914,29 @@ const MortgageCalculator: React.FC = () => {
       <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
 
       {/* Calculation formula lines */}
-      <div className="overflow-x-auto rounded-md bg-[#0f172a] px-3 py-2 border border-slate-700 text-slate-300 text-[13px]">
-        <div>
-          <span className="font-semibold text-slate-100">EMI</span> =
-          {formatCurrency(emiSteps.P, currentLocale, currency)} ×{" "}
-          {emiSteps.r.toFixed(8)} × {emiSteps.pow.toFixed(6)} ÷{" "}
-          {emiSteps.denominator.toFixed(6)}
-        </div>
-        <div className="text-slate-400">
-          = {formatCurrency(emiSteps.numerator, currentLocale, currency)} ÷{" "}
-          {emiSteps.denominator.toFixed(6)}
-        </div>
-      </div>
+      <div className="overflow-x-auto rounded-md bg-[#0f172a] px-3 py-2 border border-slate-700 text-slate-300 text-[13px] whitespace-nowrap scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent">
+  <div className="min-w-max">
+    <span className="font-semibold text-slate-100">EMI</span> =
+    <span className="text-white">
+      {" "}{formatCurrency(emiSteps.P, currentLocale, currency)}{" "}
+    </span>
+    × <span className="text-white">{emiSteps.r.toFixed(8)}</span>
+    {" "}×{" "}
+    <span className="text-white">{emiSteps.pow.toFixed(6)}</span>
+    {" "}÷{" "}
+    <span className="text-white">{emiSteps.denominator.toFixed(6)}</span>
+  </div>
+
+  <div className="min-w-max text-slate-400">
+    ={" "}
+    <span className="text-white">
+      {formatCurrency(emiSteps.numerator, currentLocale, currency)}
+    </span>
+    {" "}÷{" "}
+    <span className="text-white">{emiSteps.denominator.toFixed(6)}</span>
+  </div>
+</div>
+
     </div>
   ) : (
     <div className="text-slate-300 text-center sm:text-left font-mono">
