@@ -673,7 +673,7 @@ const SipCalculator: React.FC = () => {
   {/* Hero / Feature Image */}
   <div className="mb-6">
     <img
-      src="/images/sip-calculator-visual.png"
+      src="/images/sip-calculator-visual.webp"
       alt="SIP calculator dashboard showing future value graph"
       className="w-full rounded-lg border border-slate-700 shadow-lg"
       loading="lazy"
@@ -728,6 +728,7 @@ const SipCalculator: React.FC = () => {
   <p>
     Explore different return-rates and durations to understand how small changes can significantly impact your final corpus — a great way to get financial clarity before you invest.
   </p>
+  
   {/*------------------live math start*/}
 
          {/* ---------- How SIP is Calculated (Always Open + Mobile Scrollable) ---------- */}
