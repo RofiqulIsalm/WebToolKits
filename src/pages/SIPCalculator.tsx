@@ -505,14 +505,19 @@ const SipCalculator: React.FC = () => {
         /* PIE CHART VIEW */
         <div className="w-full sm:w-[80%] md:w-[70%] max-w-[380px] h-[260px]">
           <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
+           <PieChart>
               <Pie
                 data={pieData}
                 dataKey="value"
+                nameKey="name"
                 outerRadius={95}
                 innerRadius={60}
                 paddingAngle={3}
                 stroke="none"
+                label={({ name, percent }) =>
+                  `${name}: ${(percent * 100).toFixed(1)}%`
+                }
+                labelLine={false}
               >
                 {pieData.map((_, i) => (
                   <Cell
@@ -522,23 +527,43 @@ const SipCalculator: React.FC = () => {
                   />
                 ))}
               </Pie>
+            
+              {/* Custom Tooltip */}
               <ReTooltip
-                formatter={(v: any) => formatCurrency(v)}
+                formatter={(value: any, name: any) => [formatCurrency(value), name]}
                 contentStyle={{
-                  backgroundColor: "#0f172a",
-                  border: "1px solid #334155",
-                  borderRadius: "8px",
-                  color: "#e2e8f0",
-                  fontSize: "13px",
+                  backgroundColor: "#1e293b",
+                  border: "1px solid #475569",
+                  borderRadius: "10px",
+                  color: "#f8fafc",
+                  fontSize: "14px",
+                  boxShadow: "0 2px 10px rgba(0,0,0,0.4)",
+                  padding: "10px 14px",
+                }}
+                itemStyle={{
+                  color: "#f8fafc",
+                  textTransform: "capitalize",
+                  fontWeight: 500,
+                }}
+                labelStyle={{
+                  color: "#93c5fd",
+                  fontWeight: 600,
+                  marginBottom: "4px",
                 }}
               />
+            
               <Legend
                 verticalAlign="bottom"
                 height={36}
                 iconType="circle"
-                wrapperStyle={{ color: "#cbd5e1", fontSize: "13px" }}
+                wrapperStyle={{
+                  color: "#e2e8f0",
+                  fontSize: "13px",
+                  paddingTop: "10px",
+                }}
               />
             </PieChart>
+
           </ResponsiveContainer>
         </div>
       ) : (
