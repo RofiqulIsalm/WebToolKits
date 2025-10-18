@@ -679,7 +679,7 @@ const SipCalculator: React.FC = () => {
           SIP Future Value (FV) is calculated using the formula:
         </p>
 
-          <ul className="list-disc ml-6 mt-3 space-y-1">
+          <ul className="list-disc ml-6 mt-3 mb-3 space-y-1">
             <li>
               <span className="text-indigo-300 font-medium">P</span> = Monthly investment
             </li>
