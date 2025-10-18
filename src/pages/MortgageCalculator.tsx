@@ -139,9 +139,11 @@ const MortgageCalculator: React.FC = () => {
   const isDefault =
     !loanAmount && !downPayment && !interestRate && !loanYears && !loanMonths;
 
-  /* ============================================================
-   🔁 SECTION 3: Normalization & Persistence (Improved)
+/* ============================================================
+   🔁 SECTION 3: Normalization & Persistence (robust)
    ============================================================ */
+
+const [hydrated, setHydrated] = useState(false); // <-- important
 
 // Normalize months >= 12 → carry over to years automatically
 useEffect(() => {
@@ -152,7 +154,7 @@ useEffect(() => {
   }
 }, [loanMonths]);
 
-// Helper function to apply a saved or URL-decoded state
+// Helper: apply a saved/decoded state to inputs
 const applyState = (s: any) => {
   setLoanAmount(Number(s.loanAmount) || 0);
   setDownPayment(Number(s.downPayment) || 0);
@@ -162,59 +164,76 @@ const applyState = (s: any) => {
   setCurrency(typeof s.currency === "string" ? s.currency : "USD");
 };
 
-// On mount: try loading from URL (?mc=...) first, otherwise from localStorage
+// On mount → try URL (?mc=) first, else localStorage
 useEffect(() => {
   try {
     const params = new URLSearchParams(window.location.search);
     const fromURL = params.get("mc");
 
-    // URL-encoded state takes priority
     if (fromURL) {
       const decoded = JSON.parse(atob(fromURL));
       applyState(decoded);
+      setHydrated(true);
       return;
     }
 
-    // Fallback to previously saved local state
     const raw = localStorage.getItem(LS_KEY);
     if (raw) {
       const saved = JSON.parse(raw);
       applyState(saved);
     }
   } catch (err) {
-    console.error("⚠️ Failed to load saved mortgage state:", err);
+    console.warn("⚠️ Failed to load persisted state:", err);
+  } finally {
+    // even if nothing to load, mark as hydrated so future saves work
+    setHydrated(true);
   }
 }, []);
 
-// Whenever key inputs change → persist to localStorage
+// After hydration, persist to localStorage on any change
 useEffect(() => {
-  const state = {
-    loanAmount,
-    downPayment,
-    interestRate,
-    loanYears,
-    loanMonths,
-    currency,
-  };
+  if (!hydrated) return;
   try {
+    const state = {
+      loanAmount,
+      downPayment,
+      interestRate,
+      loanYears,
+      loanMonths,
+      currency,
+    };
     localStorage.setItem(LS_KEY, JSON.stringify(state));
   } catch (err) {
-    console.warn("⚠️ Could not save state to localStorage:", err);
+    console.warn("⚠️ Could not save to localStorage:", err);
   }
-}, [loanAmount, downPayment, interestRate, loanYears, loanMonths, currency]);
+}, [hydrated, loanAmount, downPayment, interestRate, loanYears, loanMonths, currency]);
 
-// Optional: auto-update the URL (?mc=...) to match local changes
+// (Optional) Mirror state to URL so refresh/share keeps inputs.
+// Only do this after hydration and when not all default zeros.
 useEffect(() => {
+  if (!hydrated) return;
+
+  const allZero =
+    !loanAmount && !downPayment && !interestRate && !loanYears && !loanMonths;
+
   try {
+    const url = new URL(window.location.href);
+
+    if (allZero) {
+      // keep URL clean when at defaults
+      url.searchParams.delete("mc");
+      window.history.replaceState({}, "", url);
+      return;
+    }
+
     const state = { loanAmount, downPayment, interestRate, loanYears, loanMonths, currency };
     const encoded = btoa(JSON.stringify(state));
-    const url = new URL(window.location.href);
     url.searchParams.set("mc", encoded);
     window.history.replaceState({}, "", url);
   } catch (err) {
-    console.warn("⚠️ Failed to update URL params:", err);
+    console.warn("⚠️ Failed to update URL:", err);
   }
-}, [loanAmount, downPayment, interestRate, loanYears, loanMonths, currency]);
+}, [hydrated, loanAmount, downPayment, interestRate, loanYears, loanMonths, currency]);
 
   /* ============================================================
      🧮 SECTION 4: Calculations
