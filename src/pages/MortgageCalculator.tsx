@@ -427,10 +427,12 @@ useEffect(() => {
               seoData.mortgageCalculator.keywords
             )}
           />
-        {/* ===== Enhanced SEO & Social Metadata ===== */}
+        {/* ===== Enhanced SEO & Social Metadata (Optimized for Google & Social) ===== */}
         <>
           {/* --- Open Graph Meta Tags --- */}
           <meta property="og:type" content="website" />
+          <meta property="og:site_name" content="CalculatorHub" />
+          <meta property="og:locale" content="en_US" />
           <meta property="og:title" content={seoData.mortgageCalculator.title} />
           <meta property="og:description" content={seoData.mortgageCalculator.description} />
           <meta property="og:url" content="https://calculatorhub.site/mortgage-calculator" />
@@ -438,65 +440,116 @@ useEffect(() => {
             property="og:image"
             content="https://calculatorhub.site/images/mortgage-calculator-hero.webp"
           />
+          <meta property="og:image:alt" content="Mortgage Calculator by CalculatorHub – EMI, Interest, and Payment Chart" />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
         
           {/* --- Twitter Card Meta Tags --- */}
           <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:site" content="@CalculatorHub" />
+          <meta name="twitter:creator" content="@CalculatorHub" />
           <meta name="twitter:title" content={seoData.mortgageCalculator.title} />
           <meta name="twitter:description" content={seoData.mortgageCalculator.description} />
           <meta
             name="twitter:image"
             content="https://calculatorhub.site/images/mortgage-calculator-hero.webp"
           />
+          <meta
+            name="twitter:image:alt"
+            content="Interactive mortgage calculator showing EMI breakdown and amortization chart"
+          />
         
-          {/* --- FAQPage JSON-LD Schema --- */}
+          {/* --- Rich Schema Markup (FAQ + Breadcrumb + WebPage) --- */}
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
               __html: JSON.stringify({
                 "@context": "https://schema.org",
-                "@type": "FAQPage",
-                "mainEntity": [
+                "@graph": [
                   {
-                    "@type": "Question",
-                    "name": "What is a mortgage EMI?",
-                    "acceptedAnswer": {
-                      "@type": "Answer",
-                      "text":
-                        "EMI (Equated Monthly Installment) is the fixed monthly payment you make to repay your mortgage over time."
-                    }
+                    "@type": "WebPage",
+                    "@id": "https://calculatorhub.site/mortgage-calculator",
+                    "url": "https://calculatorhub.site/mortgage-calculator",
+                    "name": "Mortgage Calculator | Free Home Loan EMI & Interest Estimator",
+                    "description":
+                      "Use CalculatorHub’s Mortgage Calculator to estimate your monthly EMI, total interest, and amortization schedule instantly across multiple currencies.",
+                    "inLanguage": "en-US",
+                    "isPartOf": {
+                      "@type": "WebSite",
+                      "name": "CalculatorHub",
+                      "url": "https://calculatorhub.site"
+                    },
+                    "image": {
+                      "@type": "ImageObject",
+                      "url": "https://calculatorhub.site/images/mortgage-calculator-hero.webp",
+                      "width": 1200,
+                      "height": 630
+                    },
                   },
                   {
-                    "@type": "Question",
-                    "name": "Does the calculator support down payment?",
-                    "acceptedAnswer": {
-                      "@type": "Answer",
-                      "text":
-                        "Yes, you can enter a down payment and we automatically reduce the financed principal before calculating EMI."
-                    }
+                    "@type": "BreadcrumbList",
+                    "itemListElement": [
+                      {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Currency & Finance",
+                        "item": "https://calculatorhub.site/category/currency-finance"
+                      },
+                      {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Mortgage Calculator",
+                        "item": "https://calculatorhub.site/mortgage-calculator"
+                      }
+                    ]
                   },
                   {
-                    "@type": "Question",
-                    "name": "Can I share my results?",
-                    "acceptedAnswer": {
-                      "@type": "Answer",
-                      "text":
-                        "Use the Copy Link button to generate a shareable URL with your inputs encoded so anyone can open the same scenario."
-                    }
-                  },
-                  {
-                    "@type": "Question",
-                    "name": "Do you store my data?",
-                    "acceptedAnswer": {
-                      "@type": "Answer",
-                      "text":
-                        "No, all calculations run locally in your browser using localStorage only for your convenience."
-                    }
+                    "@type": "FAQPage",
+                    "mainEntity": [
+                      {
+                        "@type": "Question",
+                        "name": "What is a mortgage EMI?",
+                        "acceptedAnswer": {
+                          "@type": "Answer",
+                          "text":
+                            "EMI (Equated Monthly Installment) is the fixed monthly payment you make to repay your mortgage over time."
+                        }
+                      },
+                      {
+                        "@type": "Question",
+                        "name": "Does the calculator support down payment?",
+                        "acceptedAnswer": {
+                          "@type": "Answer",
+                          "text":
+                            "Yes, you can enter a down payment and we automatically reduce the financed principal before calculating EMI."
+                        }
+                      },
+                      {
+                        "@type": "Question",
+                        "name": "Can I share my results?",
+                        "acceptedAnswer": {
+                          "@type": "Answer",
+                          "text":
+                            "Use the Copy Link button to generate a shareable URL with your inputs encoded so anyone can open the same scenario."
+                        }
+                      },
+                      {
+                        "@type": "Question",
+                        "name": "Do you store my data?",
+                        "acceptedAnswer": {
+                          "@type": "Answer",
+                          "text":
+                            "No, all calculations run locally in your browser using localStorage only for your convenience."
+                        }
+                      }
+                    ]
                   }
                 ]
               }),
             }}
           />
         </>
+
 
 
 
