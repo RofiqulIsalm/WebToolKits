@@ -760,14 +760,14 @@ const SipCalculator: React.FC = () => {
     With our tool, you can confidently plan for retirement, your children’s future or long-term wealth accumulation — knowing exactly how your monthly investments stack up over time.
   </p>
 
-  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Example: SIP of ₹10,000 per Month for 10 Years</h2>
+  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Example: SIP of $10,000 per Month for 10 Years</h2>
   <p className="mb-6">
-    Suppose you invest <strong>₹10,000 per month</strong> for 10 years with an expected annual return of 12%.  
-    The expected maturity amount would be approximately <strong>₹23.2 lakh</strong>, where:
+    Suppose you invest <strong>$10,000 per month</strong> for 10 years with an expected annual return of 12%.  
+    The expected maturity amount would be approximately <strong>$23.2 lakh</strong>, where:
   </p>
   <ul className="mb-6">
-    <li>Total investment = ₹12,00,000</li>
-    <li>Wealth gain = ₹11,20,000</li>
+    <li>Total investment = $12,00,000</li>
+    <li>Wealth gain = $11,20,000</li>
   </ul>
   <p className="mb-8">
     This example highlights the power of compounding — increasing either your monthly investment or tenure even slightly can lead to significantly higher returns.
