@@ -19,6 +19,8 @@ import {
   Line,
   XAxis,
   YAxis,
+  BarChart,
+  Bar,
 } from "recharts";
 
 import AdBanner from "../components/AdBanner";
