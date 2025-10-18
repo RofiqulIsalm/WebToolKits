@@ -673,7 +673,7 @@ const SipCalculator: React.FC = () => {
             {P > 0 && annualReturn > 0 && years > 0 ? (
               <>
                 {/* Formula Card */}
-                <div className="mt-3 rounded-xl bg-gradient-to-br from-[#0b1220]/90 to-[#1e293b]/80 border border-indigo-600/30 px-2 py-1 ring-1 ring-indigo-500/30 shadow-inner min-w-max">
+                <div className="mt-3 mb-3 rounded-xl bg-gradient-to-br from-[#0b1220]/90 to-[#1e293b]/80 border border-indigo-600/30 px-2 py-1 ring-1 ring-indigo-500/30 shadow-inner min-w-max">
                   <h3 className="text-indigo-400 text-base sm:text-lg font-semibold mb-1 flex items-center gap-2">
                     🧮 <span className="text-white/90">Formula:</span>
                   </h3>
