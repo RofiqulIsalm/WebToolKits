@@ -876,24 +876,34 @@ const MortgageCalculator: React.FC = () => {
               <span className="text-white">{emiSteps.pow.toFixed(10)}</span>
             </div>
           
-            {/* Step 2: Numerator & Denominator (general formula) */}
+            {/* Step 2: Intermediates & fractions (general formula) */}
             {!emiSteps.isZeroRate ? (
               <>
-                <div className="text-sm mb-1">
-                  <span className="font-semibold text-emerald-300">Numerator</span> =
+                {/* 2a. P × r */}
+                <div className="text-sm mb-2">
+                  <span className="font-semibold text-emerald-300">P × r</span> =
                   {" "}
-                  P × r × (1 + r)<sup>n</sup> =
+                  <span className="text-white">
+                    {formatCurrency(emiSteps.pTimesR, currentLocale, currency)}
+                  </span>
+                </div>
+            
+                {/* 2b. (1 + r)^n − 1 */}
+                <div className="text-sm mb-2">
+                  <span className="font-semibold text-rose-300">(1 + r)<sup>n</sup> − 1</span> =
+                  {" "}
+                  <span className="text-white">{emiSteps.denominator.toFixed(10)}</span>
+                </div>
+            
+                {/* 2c. Numerator = (P × r) × (1 + r)^n */}
+                <div className="text-sm mb-4">
+                  <span className="font-semibold text-indigo-300">Numerator</span> =
+                  {" "}
+                  (P × r) × (1 + r)<sup>n</sup> =
                   {" "}
                   <span className="text-white">
                     {formatCurrency(emiSteps.numerator, currentLocale, currency)}
                   </span>
-                </div>
-                <div className="text-sm mb-3">
-                  <span className="font-semibold text-rose-300">Denominator</span> =
-                  {" "}
-                  (1 + r)<sup>n</sup> − 1 =
-                  {" "}
-                  <span className="text-white">{emiSteps.denominator.toFixed(10)}</span>
                 </div>
               </>
             ) : (
