@@ -974,7 +974,6 @@ const SipCalculator: React.FC = () => {
 
 
 
-
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/sip-calculator" category="investments" />
       </div>
