@@ -6,7 +6,7 @@ import {
   Share2,
 } from "lucide-react";
 import {
-  LineChart,
+  LineChart, 
   Line,
   XAxis,
   YAxis,
@@ -15,21 +15,15 @@ import {
   CartesianGrid,
 } from "recharts";
 
-// Import shared components and SEO utilities
 import AdBanner from "../components/AdBanner";
 import SEOHead from "../components/SEOHead";
 import Breadcrumbs from "../components/Breadcrumbs";
 import RelatedCalculators from "../components/RelatedCalculators";
 import { seoData, generateCalculatorSchema } from "../utils/seoData";
 
-// ===============================
-// Local Storage Key
-// ===============================
 const LS_KEY = "SIP_CALC_V1";
 const [hydrated, setHydrated] = useState(false);
-// ===============================
-// SIP Tips (Auto-Rotating)
-// ===============================
+
 const SIP_TIPS = [
   "Start early — time in the market beats timing the market.",
   "Increase your SIP by 5–10% every year to fight inflation.",
@@ -43,9 +37,6 @@ const SIP_TIPS = [
   "Rebalance allocation annually to maintain your risk profile.",
 ];
 
-// ===============================
-// Currency List
-// ===============================
 const CURRENCIES = [
   { code: "INR", symbol: "₹", locale: "en-IN" },
   { code: "USD", symbol: "$", locale: "en-US" },
@@ -58,92 +49,50 @@ const CURRENCIES = [
   { code: "BDT", symbol: "৳", locale: "bn-BD" },
 ];
 
-// ===============================
-// Utility Functions
-// ===============================
-const formatCurrency = (v, currency, locale) =>
+const formatCurrency = (v: number, currency: string, locale: string) =>
   new Intl.NumberFormat(locale, {
     style: "currency",
     currency,
     maximumFractionDigits: 0,
   }).format(isFinite(v) ? v : 0);
 
-const formatCompact = (v, locale) =>
+const formatCompact = (v: number, locale: string) =>
   new Intl.NumberFormat(locale, {
     notation: "compact",
     maximumFractionDigits: 1,
   }).format(isFinite(v) ? v : 0);
 
-// ===============================
-// SIP Calculator Component
-// ===============================
-const SIPCalculator = () => {
-  // ---------- State Hooks ----------
-  const [monthlyInvestment, setMonthlyInvestment] = useState(0);
-  const [returnRate, setReturnRate] = useState(0);
-  const [timePeriod, setTimePeriod] = useState(0);
+const SIPCalculator: React.FC = () => {
+  const [monthlyInvestment, setMonthlyInvestment] = useState<number>(0);
+  const [returnRate, setReturnRate] = useState<number>(0);
+  const [timePeriod, setTimePeriod] = useState<number>(0);
   const [currency, setCurrency] = useState("USD");
-  const [stepUp, setStepUp] = useState(0);
+  const [stepUp, setStepUp] = useState<number>(0);
 
   const [maturityValue, setMaturityValue] = useState(0);
   const [investedAmount, setInvestedAmount] = useState(0);
   const [estimatedProfit, setEstimatedProfit] = useState(0);
 
   const [activeTip, setActiveTip] = useState(0);
-  const [hydrated, setHydrated] = useState(false); // ensures localStorage doesn't overwrite before load
+  const amountRef = useRef<HTMLInputElement>(null);
 
-  const amountRef = useRef(null);
-
-  // ===============================
-  // Load Data from URL or LocalStorage on Mount
-  // ===============================
+  /* ========= 💾 Load from LocalStorage ========= */
   useEffect(() => {
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const urlAmount = Number(params.get("amount"));
-      const urlRate = Number(params.get("rate"));
-      const urlYears = Number(params.get("years"));
-      const urlStepUp = Number(params.get("stepup"));
-      const urlCurr = params.get("currency");
-
-      if (urlAmount > 0) setMonthlyInvestment(urlAmount);
-      if (urlRate > 0) setReturnRate(urlRate);
-      if (urlYears > 0) setTimePeriod(urlYears);
-      if (urlStepUp >= 0) setStepUp(urlStepUp);
-      if (urlCurr) setCurrency(urlCurr);
-
-      const nothingFromURL =
-        !(urlAmount > 0) &&
-        !(urlRate > 0) &&
-        !(urlYears > 0) &&
-        !(urlStepUp >= 0) &&
-        !urlCurr;
-
-      if (nothingFromURL) {
-        const raw = localStorage.getItem(LS_KEY);
-        if (raw) {
-          const s = JSON.parse(raw);
-          if (s) {
-            setMonthlyInvestment(Number(s.monthlyInvestment) || 0);
-            setReturnRate(Number(s.returnRate) || 0);
-            setTimePeriod(Number(s.timePeriod) || 0);
-            setStepUp(Number(s.stepUp) || 0);
-            setCurrency(s.currency || "USD");
-          }
-        }
-      }
-    } catch (e) {
-      console.warn("⚠️ Failed to load SIP data:", e);
-    } finally {
-      setHydrated(true);
+    const saved = localStorage.getItem(LS_KEY);
+    if (saved) {
+      try {
+        const s = JSON.parse(saved);
+        setMonthlyInvestment(Number(s.monthlyInvestment) || 0);
+        setReturnRate(Number(s.returnRate) || 0);
+        setTimePeriod(Number(s.timePeriod) || 0);
+        setStepUp(Number(s.stepUp) || 0);
+        setCurrency(s.currency || "USD");
+      } catch {}
     }
   }, []);
 
-  // ===============================
-  // Save Data to LocalStorage after Hydration
-  // ===============================
+  /* ========= 💾 Save to LocalStorage ========= */
   useEffect(() => {
-    if (!hydrated) return;
     localStorage.setItem(
       LS_KEY,
       JSON.stringify({
@@ -154,42 +103,44 @@ const SIPCalculator = () => {
         currency,
       })
     );
-  }, [hydrated, monthlyInvestment, returnRate, timePeriod, stepUp, currency]);
+  }, [monthlyInvestment, returnRate, timePeriod, stepUp, currency]);
 
-  // ===============================
-  // SIP Calculation Logic
-  // ===============================
+  // SIP Calculation
   const calculateSIP = () => {
     const P = monthlyInvestment;
     const r = returnRate / 12 / 100;
     const n = timePeriod * 12;
-
     if (P === 0 || r === 0 || n === 0) {
       setMaturityValue(0);
       setInvestedAmount(0);
       setEstimatedProfit(0);
       return { fvRegular: 0, fvStep: 0, investedStep: 0 };
     }
-
     const fvRegular = P * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
+    let fvStep = 0;
+    let investedStep = 0;
+    let monthly = P;
+    for (let year = 1; year <= timePeriod; year++) {
+      for (let m = 1; m <= 12; m++) {
+        const monthsLeft = (timePeriod - year) * 12 + (12 - m + 1);
+        fvStep += monthly * Math.pow(1 + r, monthsLeft);
+        investedStep += monthly;
+      }
+      monthly *= 1 + stepUp / 100;
+    }
     const invested = P * n;
     const profit = fvRegular - invested;
-
     setMaturityValue(fvRegular);
     setInvestedAmount(invested);
     setEstimatedProfit(profit);
-
-    return { fvRegular };
+    return { fvRegular, fvStep, investedStep };
   };
 
-  const { fvRegular } = useMemo(
+  const { fvRegular, fvStep, investedStep } = useMemo(
     () => calculateSIP(),
     [monthlyInvestment, returnRate, timePeriod, stepUp]
   );
 
-  // ===============================
-  // Reset Function
-  // ===============================
   const handleReset = () => {
     setMonthlyInvestment(0);
     setReturnRate(0);
@@ -200,9 +151,6 @@ const SIPCalculator = () => {
     amountRef.current?.focus();
   };
 
-  // ===============================
-  // Auto Tip Rotator
-  // ===============================
   useEffect(() => {
     const t = setInterval(
       () => setActiveTip((p) => (p + 1) % SIP_TIPS.length),
@@ -214,19 +162,15 @@ const SIPCalculator = () => {
   const selectedCurrency =
     CURRENCIES.find((c) => c.code === currency) || CURRENCIES[0];
 
-  const formatReadableNumber = (value, locale, currency) =>
+  const formatReadableNumber = (value: number, locale: string, currency: string) =>
     new Intl.NumberFormat(locale, {
       style: "currency",
       currency,
       maximumFractionDigits: 0,
     }).format(value || 0);
 
-  // ===============================
-  // JSX Render
-  // ===============================
   return (
     <>
-      {/* ===== SEO Head Tags ===== */}
       <SEOHead
         title={seoData.sipCalculator.title}
         description={seoData.sipCalculator.description}
@@ -251,9 +195,9 @@ const SIPCalculator = () => {
           ]}
         />
 
-        {/* Inputs and Summary Section */}
+        {/* Inputs + Summary */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-          {/* Input Card */}
+          {/* INPUT CARD */}
           <div className="bg-[#1e293b] rounded-xl border border-[#334155] p-4 sm:p-6 text-slate-200">
             <div className="flex justify-between items-center mb-3 sm:mb-4 flex-wrap gap-2">
               <h2 className="text-lg sm:text-xl font-semibold text-white flex items-center gap-2">
@@ -267,10 +211,11 @@ const SIPCalculator = () => {
               </button>
             </div>
 
-            {/* Input Fields */}
             <div className="space-y-4 sm:space-y-5">
               <div>
-                <label className="block text-sm mb-1 text-slate-300">Currency</label>
+                <label className="block text-sm mb-1 text-slate-300">
+                  Currency
+                </label>
                 <select
                   value={currency}
                   onChange={(e) => setCurrency(e.target.value)}
@@ -339,11 +284,12 @@ const SIPCalculator = () => {
             </div>
           </div>
 
-          {/* Output Card */}
+          {/* OUTPUT CARD */}
           <div className="bg-[#1e293b] rounded-xl border border-[#334155] p-4 sm:p-6 text-slate-200">
             <h2 className="text-lg sm:text-xl font-semibold text-white mb-4">
               SIP Summary
             </h2>
+
             <div className="text-center p-4 bg-[#0f172a] rounded-lg border border-[#334155] mb-4">
               <TrendingUp className="h-8 w-8 text-emerald-400 mx-auto mb-2" />
               <div className="text-xl sm:text-2xl font-bold text-white">
@@ -371,15 +317,13 @@ const SIPCalculator = () => {
           </div>
         </div>
 
-        {/* Tip Section */}
+        {/* 💡 Tip */}
         <div className="mt-5 bg-[#1e293b] border border-[#334155] px-4 py-3 rounded-md text-slate-200 flex items-center">
           <span className="text-xl sm:text-2xl text-indigo-400 mr-3">💡</span>
-          <p className="text-sm sm:text-base font-medium text-slate-300">
-            {SIP_TIPS[activeTip]}
-          </p>
+          <p className="text-sm sm:text-base font-medium text-slate-300">{SIP_TIPS[activeTip]}</p>
         </div>
 
-        {/* Chart Section (Hidden if inputs are 0) */}
+        {/* 📈 Chart — Hidden if inputs are 0 */}
         {monthlyInvestment > 0 && returnRate > 0 && timePeriod > 0 && (
           <div className="mt-6 bg-[#1e293b] rounded-xl border border-[#334155] p-4 sm:p-6 text-slate-200">
             <h3 className="text-base sm:text-lg font-semibold text-white mb-4 sm:mb-6 text-center">
