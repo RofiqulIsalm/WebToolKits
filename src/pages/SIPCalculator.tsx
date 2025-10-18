@@ -458,76 +458,141 @@ const SipCalculator: React.FC = () => {
       </div>
 
 
-       {/* ---------- CHART SECTION ---------- */}
-        {futureValue > 0 && (
-          <div className="relative mt-10 bg-gradient-to-br from-slate-800/80 via-slate-900/90 to-[#0b1220]/90 border border-indigo-600/20 rounded-2xl shadow-2xl p-6 overflow-hidden backdrop-blur-sm">
-            {/* Decorative Background Glows */}
-            <div className="absolute -top-10 right-10 w-24 h-24 bg-indigo-600/20 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-32 h-32 bg-emerald-600/10 rounded-full blur-2xl" />
-        
-            {/* Header */}
-            <h3 className="relative z-10 text-center text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-cyan-300 to-emerald-300 drop-shadow-md mb-8">
-              📊 SIP Growth Breakdown
-            </h3>
-        
-            {/* Chart */}
-            <div className="relative z-10 flex flex-col items-center justify-center gap-6">
-              <div className="w-full sm:w-[80%] md:w-[70%] max-w-[380px] h-[260px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={pieData}
-                      dataKey="value"
-                      outerRadius={95}
-                      innerRadius={60}
-                      paddingAngle={3}
-                      stroke="none"
-                    >
-                      {pieData.map((_, i) => (
-                        <Cell
-                          key={i}
-                          fill={["#3b82f6", "#22c55e"][i]}
-                          className="transition-all duration-300 hover:opacity-80"
-                        />
-                      ))}
-                    </Pie>
-                    <ReTooltip
-                      formatter={(v: any) => formatCurrency(v)}
-                      contentStyle={{
-                        backgroundColor: "#0f172a",
-                        border: "1px solid #334155",
-                        borderRadius: "8px",
-                        color: "#e2e8f0",
-                        fontSize: "13px",
-                      }}
-                    />
-                    <Legend
-                      verticalAlign="bottom"
-                      height={36}
-                      iconType="circle"
-                      wrapperStyle={{ color: "#cbd5e1", fontSize: "13px" }}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-        
-              {/* Quick Summary Labels */}
-              <div className="grid grid-cols-2 gap-4 text-sm text-slate-300 mt-2 w-full sm:w-[70%]">
-                <div className="p-3 bg-[#0f172a]/70 rounded-xl border border-slate-700 text-center hover:border-indigo-400/50 transition-all">
-                  <p className="font-medium text-indigo-300">Total Investment</p>
-                  <p className="text-white font-semibold">{formatCurrency(totalInvestment)}</p>
-                </div>
-                <div className="p-3 bg-[#0f172a]/70 rounded-xl border border-slate-700 text-center hover:border-emerald-400/50 transition-all">
-                  <p className="font-medium text-emerald-300">Total Gains</p>
-                  <p className="text-white font-semibold">{formatCurrency(totalGains)}</p>
-                </div>
-              </div>
-            </div>
-        
-            {/* Decorative Bottom Gradient Line */}
-            <div className="relative z-0 mt-10 h-[2px] w-full bg-gradient-to-r from-transparent via-indigo-500/70 to-transparent blur-[1px]" />
-          </div>
-        )}
+       {/* ---------- CHART SECTION (Enhanced with Toggle) ---------- */}
+{futureValue > 0 && (
+  <div className="relative mt-10 bg-gradient-to-br from-slate-800/80 via-slate-900/90 to-[#0b1220]/90 border border-indigo-600/20 rounded-2xl shadow-2xl p-6 overflow-hidden backdrop-blur-sm">
+    {/* Glows */}
+    <div className="absolute -top-10 right-10 w-24 h-24 bg-indigo-600/20 rounded-full blur-3xl" />
+    <div className="absolute bottom-0 left-0 w-32 h-32 bg-emerald-600/10 rounded-full blur-2xl" />
+
+    {/* Header + Toggle */}
+    <div className="relative z-10 flex flex-col sm:flex-row justify-between items-center mb-6">
+      <h3 className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-cyan-300 to-emerald-300 drop-shadow-md mb-3 sm:mb-0">
+        Investment Growth Analysis
+      </h3>
+
+      <div className="flex bg-[#0f172a]/70 border border-slate-700 rounded-full p-1 text-sm shadow-inner">
+        <button
+          className={`px-4 py-1.5 rounded-full transition-all duration-200 ${
+            chartType === "pie"
+              ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium"
+              : "text-slate-300 hover:text-white"
+          }`}
+          onClick={() => setChartType("pie")}
+        >
+          🥧 Pie
+        </button>
+        <button
+          className={`px-4 py-1.5 rounded-full transition-all duration-200 ${
+            chartType === "line"
+              ? "bg-gradient-to-r from-emerald-600 to-cyan-600 text-white font-medium"
+              : "text-slate-300 hover:text-white"
+          }`}
+          onClick={() => setChartType("line")}
+        >
+          📈 Line
+        </button>
+      </div>
+    </div>
+
+    {/* Chart Area */}
+    <div className="relative z-10 flex flex-col items-center justify-center gap-8">
+      {chartType === "pie" ? (
+        /* PIE CHART VIEW */
+        <div className="w-full sm:w-[80%] md:w-[70%] max-w-[380px] h-[260px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={pieData}
+                dataKey="value"
+                outerRadius={95}
+                innerRadius={60}
+                paddingAngle={3}
+                stroke="none"
+              >
+                {pieData.map((_, i) => (
+                  <Cell
+                    key={i}
+                    fill={["#3b82f6", "#22c55e"][i]}
+                    className="transition-all duration-300 hover:opacity-80"
+                  />
+                ))}
+              </Pie>
+              <ReTooltip
+                formatter={(v: any) => formatCurrency(v)}
+                contentStyle={{
+                  backgroundColor: "#0f172a",
+                  border: "1px solid #334155",
+                  borderRadius: "8px",
+                  color: "#e2e8f0",
+                  fontSize: "13px",
+                }}
+              />
+              <Legend
+                verticalAlign="bottom"
+                height={36}
+                iconType="circle"
+                wrapperStyle={{ color: "#cbd5e1", fontSize: "13px" }}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      ) : (
+        /* LINE CHART VIEW */
+        <div className="w-full sm:w-[90%] md:w-[80%] h-[280px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={growthData}>
+              <XAxis
+                dataKey="year"
+                tick={{ fill: "#cbd5e1", fontSize: 12 }}
+                axisLine={{ stroke: "#475569" }}
+              />
+              <YAxis
+                tickFormatter={(v) => formatCurrency(v)}
+                tick={{ fill: "#cbd5e1", fontSize: 12 }}
+                axisLine={{ stroke: "#475569" }}
+              />
+              <ReTooltip
+                formatter={(v: any) => formatCurrency(v)}
+                contentStyle={{
+                  backgroundColor: "#0f172a",
+                  border: "1px solid #334155",
+                  borderRadius: "8px",
+                  color: "#e2e8f0",
+                  fontSize: "13px",
+                }}
+              />
+              <Line
+                type="monotone"
+                dataKey="value"
+                stroke="#22c55e"
+                strokeWidth={2.5}
+                dot={{ r: 3, stroke: "#22c55e", strokeWidth: 2 }}
+                activeDot={{ r: 5, fill: "#22c55e" }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+
+      {/* Quick Summary */}
+      <div className="grid grid-cols-2 gap-4 text-sm text-slate-300 w-full sm:w-[70%]">
+        <div className="p-3 bg-[#0f172a]/70 rounded-xl border border-slate-700 text-center hover:border-indigo-400/50 transition-all">
+          <p className="font-medium text-indigo-300">Total Investment</p>
+          <p className="text-white font-semibold">{formatCurrency(totalInvestment)}</p>
+        </div>
+        <div className="p-3 bg-[#0f172a]/70 rounded-xl border border-slate-700 text-center hover:border-emerald-400/50 transition-all">
+          <p className="font-medium text-emerald-300">Total Gains</p>
+          <p className="text-white font-semibold">{formatCurrency(totalGains)}</p>
+        </div>
+      </div>
+    </div>
+
+    {/* Bottom Glow */}
+    <div className="relative z-0 mt-10 h-[2px] w-full bg-gradient-to-r from-transparent via-indigo-500/70 to-transparent blur-[1px]" />
+  </div>
+)}
+
 
 
         {/* How SIP is Calculated Section */}
