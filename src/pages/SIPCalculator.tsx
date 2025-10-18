@@ -15,6 +15,10 @@ import {
   Tooltip as ReTooltip,
   Legend,
   ResponsiveContainer,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
 } from "recharts";
 
 import AdBanner from "../components/AdBanner";
