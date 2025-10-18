@@ -708,27 +708,7 @@ const SipCalculator: React.FC = () => {
         
       </div>
 
-      {/* Display current P, r, n values */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-center">
-          <div className="text-emerald-300 text-xs uppercase">P (Monthly Investment)</div>
-          <div className="font-semibold text-white text-sm truncate">
-            {formatCurrency(monthlyInvestment)}
-          </div>
-        </div>
-        <div className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-center">
-          <div className="text-rose-300 text-xs uppercase">r (Monthly Rate)</div>
-          <div className="font-semibold text-white text-sm truncate">
-            {(annualReturn / 12 / 100).toFixed(6)}
-          </div>
-        </div>
-        <div className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-center">
-          <div className="text-sky-300 text-xs uppercase">n (Months)</div>
-          <div className="font-semibold text-white text-sm truncate">
-            {months}
-          </div>
-        </div>
-      </div>
+     
 
 
 
