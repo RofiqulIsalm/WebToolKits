@@ -598,47 +598,79 @@ const SipCalculator: React.FC = () => {
           </ResponsiveContainer>
         </div>
       ) : (
-        /* LINE CHART VIEW */
-        <div className="w-full sm:w-[90%] md:w-[80%] h-[280px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={growthData}>
-              <XAxis
-                dataKey="year"
-                tick={{ fill: "#cbd5e1", fontSize: 12 }}
-                axisLine={{ stroke: "#475569" }}
-              />
-              <YAxis
-                  tickFormatter={(v) =>
-                    new Intl.NumberFormat(currentLocale, {
-                      notation: "compact",
-                      compactDisplay: "short",
-                      maximumFractionDigits: 2,
-                    }).format(v)
-                  }
-                  tick={{ fill: "#cbd5e1", fontSize: 12 }}
-                  axisLine={{ stroke: "#475569" }}
-                />
-              <ReTooltip
-                formatter={(v: any) => formatCurrency(v)}
-                contentStyle={{
-                  backgroundColor: "#0f172a",
-                  border: "1px solid #334155",
-                  borderRadius: "8px",
-                  color: "#e2e8f0",
-                  fontSize: "13px",
-                }}
-              />
-              <Line
-                type="monotone"
-                dataKey="value"
-                stroke="#22c55e"
-                strokeWidth={2.5}
-                dot={{ r: 3, stroke: "#22c55e", strokeWidth: 2 }}
-                activeDot={{ r: 5, fill: "#22c55e" }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
+       /* BAR CHART VIEW — Modern SIP Future Value Chart */
+<div className="w-full sm:w-[90%] md:w-[80%] h-[280px]">
+  <ResponsiveContainer width="100%" height="100%">
+    <BarChart data={growthData} barSize={35}>
+      {/* X-Axis */}
+      <XAxis
+        dataKey="year"
+        tick={{ fill: "#cbd5e1", fontSize: 12 }}
+        axisLine={{ stroke: "#475569" }}
+      />
+
+      {/* Y-Axis */}
+      <YAxis
+        tickFormatter={(v) =>
+          new Intl.NumberFormat(currentLocale, {
+            notation: "compact",
+            compactDisplay: "short",
+            maximumFractionDigits: 2,
+          }).format(v)
+        }
+        tick={{ fill: "#cbd5e1", fontSize: 12 }}
+        axisLine={{ stroke: "#475569" }}
+      />
+
+      {/* Tooltip */}
+      <ReTooltip
+        formatter={(v: any) => formatCurrency(v)}
+        contentStyle={{
+          backgroundColor: "#0f172a",
+          border: "1px solid #334155",
+          borderRadius: "8px",
+          color: "#e2e8f0",
+          fontSize: "13px",
+        }}
+      />
+
+      {/* Gradient for Bars */}
+      <defs>
+        <linearGradient id="barColor" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#3b82f6" stopOpacity={1} />
+          <stop offset="100%" stopColor="#1d4ed8" stopOpacity={0.9} />
+        </linearGradient>
+      </defs>
+
+      {/* Bars */}
+      <Bar
+        dataKey="value"
+        fill="url(#barColor)"
+        radius={[6, 6, 0, 0]}
+        animationDuration={1200}
+        label={{
+          position: "top",
+          fill: "#38bdf8",
+          fontSize: 12,
+          formatter: (v: any) => formatCurrency(v),
+        }}
+      >
+        {/* Highlight the last bar */}
+        {growthData.map((entry, index) => (
+          <Cell
+            key={`bar-${index}`}
+            fill={
+              index === growthData.length - 1
+                ? "#2563eb" // brighter blue for last bar
+                : "url(#barColor)"
+            }
+          />
+        ))}
+      </Bar>
+    </BarChart>
+  </ResponsiveContainer>
+</div>
+
       )}
 
       {/* Quick Summary */}
