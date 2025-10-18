@@ -734,9 +734,19 @@ const SipCalculator: React.FC = () => {
 
     {/* Step 2 - Substitute actual values (4-line notebook style) */}
       <div>
-        <div className=" mt-5  mb-2 flex flex-col sm:flex-row items-center justify-between gap-2 rounded-xl bg-[#0b1220] px-4  text-center  py-3 ring-1 ring-indigo-500/30">
-            <h2 className="text-indigo-400 font-semibold mb-2"><strong>Formula : </strong>FV = P × ((1 + r)<sup>n</sup> − 1) ÷ r × (1 + r)</h2>
-        </div>
+        <div className="mt-6 mb-3 rounded-xl bg-gradient-to-br from-[#0b1220]/90 to-[#1e293b]/80 border border-indigo-600/30 px-5 py-4 ring-1 ring-indigo-500/30 shadow-inner">
+            <h2 className="text-indigo-400 text-base sm:text-lg font-semibold mb-1 flex items-center gap-2">
+              🧮 <span className="text-white/90">Formula:</span>
+            </h2>
+            <p className="text-slate-200 font-mono text-[13.5px] sm:text-sm leading-7 break-words">
+              <span className="text-indigo-300 font-semibold">FV</span> ={" "}
+              <span className="text-white">P</span> × ((1 + <span className="text-emerald-400">r</span>)
+              <sup className="text-slate-400">n</sup> − 1) ÷{" "}
+              <span className="text-emerald-400">r</span> × (1 +{" "}
+              <span className="text-emerald-400">r</span>)
+            </p>
+          </div>
+
         
 
       
