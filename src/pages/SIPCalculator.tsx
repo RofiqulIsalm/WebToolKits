@@ -738,9 +738,7 @@ const SipCalculator: React.FC = () => {
             <h2 className="text-indigo-400 font-semibold mb-2"><strong>Formula : </strong>FV = P × ((1 + r)<sup>n</sup> − 1) ÷ r × (1 + r)</h2>
         </div>
         
-        <h4 className="text-indigo-400 font-semibold mb-2">
-           Calculated
-        </h4>
+
       
         <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-3 border border-slate-700 text-[13.5px] font-mono text-slate-200 leading-7">
           <pre className="whitespace-pre-wrap"> 
