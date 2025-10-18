@@ -115,6 +115,18 @@ const SipCalculator: React.FC = () => {
 
   const months = years * 12;
   const monthlyRate = annualReturn / 12 / 100;
+    // 💡 Step-by-step SIP calculation values
+  const P = monthlyInvestment; // Monthly investment
+  const n = months;            // Total months (years * 12)
+  const r = annualReturn / 12 / 100; // Monthly interest rate (decimal)
+  const onePlusR = 1 + r; // (1 + r)
+  const pow = Math.pow(onePlusR, n); // (1 + r)^n
+  const numerator = pow - 1; // ((1 + r)^n - 1)
+  const denominator = r; // r
+  const factor = numerator / denominator; // ((1 + r)^n - 1) / r
+  const futureValueCalc = P * factor * onePlusR; // Final FV
+
+  
   
 
   const currentLocale = findLocale(currency);
