@@ -417,54 +417,16 @@ useEffect(() => {
   return (
     <>
       <SEOHead
-          title={seoData.mortgageCalculator.title}
-          description={seoData.mortgageCalculator.description}
-          canonical="https://calculatorhub.site/mortgage-calculator"
-          schemaData={generateCalculatorSchema(
-            "Mortgage Calculator",
-            seoData.mortgageCalculator.description,
-            "/mortgage-calculator",
-            seoData.mortgageCalculator.keywords
-          )}
-          extraJsonLd={{
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            "mainEntity": [
-              {
-                "@type": "Question",
-                "name": "What is a mortgage EMI?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "EMI (Equated Monthly Installment) is the fixed monthly payment you make to repay your mortgage over time."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Does the calculator support down payment?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Yes, you can enter a down payment and we automatically reduce the financed principal before calculating EMI."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Can I share my results?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Use the Copy Link button to generate a shareable URL with your inputs encoded."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Do you store my data?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "No. All calculations run locally in your browser using localStorage only for convenience."
-                }
-              }
-            ]
-          }}
-        />
+            title={seoData.mortgageCalculator.title}
+            description={seoData.mortgageCalculator.description}
+            canonical="https://calculatorhub.site/mortgage-calculator"
+            schemaData={generateCalculatorSchema(
+              "Mortgage Calculator",
+              seoData.mortgageCalculator.description,
+              "/mortgage-calculator",
+              seoData.mortgageCalculator.keywords
+            )}
+          />
 
 
       <div className="max-w-5xl mx-auto">
