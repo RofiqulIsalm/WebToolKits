@@ -696,7 +696,7 @@ const SipCalculator: React.FC = () => {
           <div className="space-y-2 font-mono text-[13px] text-slate-300">
             <p>r = {r.toFixed(6)}</p>
             <p>(1 + r) = {onePlusR.toFixed(6)}</p>
-            <p>(1 + r)^n = {pow.toFixed(6)}</p>
+            <p>(1 + r)<sup>n</sup>= {pow.toFixed(6)}</p>
             <p>Numerator ((1 + r)<sup>n</sup> - 1) = {numerator.toFixed(6)}</p>
             <p>Denominator (r) = {denominator.toFixed(6)}</p>
             <p>Factor ((1 + r)<sup>n</sup> - 1) / r = {factor.toFixed(6)}</p>
