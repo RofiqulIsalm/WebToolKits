@@ -75,9 +75,9 @@ const SipCalculator: React.FC = () => {
 
   /* ===================== Persistence ===================== */
   const applyState = (s: any) => {
-    setMonthlyInvestment(Number(s.monthlyInvestment) || 0);
-    setAnnualReturn(Number(s.annualReturn) || 0);
-    setYears(Number(s.years) || 0);
+    setMonthlyInvestment(Number(s.monthlyInvestment) || " ");
+    setAnnualReturn(Number(s.annualReturn) || " ");
+    setYears(Number(s.years) || " ");
     setCurrency(typeof s.currency === "string" ? s.currency : "USD");
   };
 
