@@ -742,48 +742,22 @@ const SipCalculator: React.FC = () => {
       </div>
 
       {/* Step 2 - Calculate full FV */}
-     {/* Step 2 - Substitute actual values */}
-      <div>
-        <h4 className="text-indigo-400 font-semibold mb-2">
-          Step 2: Substitute values into FV formula
-        </h4>
-      
-        <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-3 border border-slate-700 text-[13px] font-mono whitespace-nowrap text-slate-300 leading-6">
-          <p>
-            FV = P × ((1 + r)<sup>n</sup> − 1) ÷ r × (1 + r)
-          </p>
-          <p className="mt-1 text-slate-400">// Substitute actual values</p>
-      
-          <p>
-            FV = {formatCurrency(P)} × ((1 + {r.toFixed(6)})<sup>{n}</sup> − 1) ÷ {r.toFixed(6)} × (1 + {r.toFixed(6)})
-          </p>
-      
-          <p className="mt-2">
-            (1 + r)<sup>n</sup> = {pow.toFixed(6)} &nbsp;&nbsp;⇒&nbsp;&nbsp;
-            ((1 + r)<sup>n</sup> − 1) = {numerator.toFixed(6)}
-          </p>
-      
-          <p>
-            Step 2A: ((1 + r)<sup>n</sup> − 1) ÷ r ={" "}
-            {numerator.toFixed(6)} ÷ {r.toFixed(6)} ={" "}
-            <span className="text-white">{factor.toFixed(6)}</span>
-          </p>
-      
-          <p>
-            Step 2B: Multiply by (1 + r) = {factor.toFixed(6)} × {onePlusR.toFixed(6)} ={" "}
-            <span className="text-white">
-              {(factor * onePlusR).toFixed(6)}
-            </span>
-          </p>
-      
-          <p>
-            Final: FV = {formatCurrency(P)} × {(factor * onePlusR).toFixed(6)} ={" "}
-            <span className="text-white font-semibold">
-              {formatCurrency(futureValueCalc)}
-            </span>
-          </p>
-        </div>
-      </div>
+    {/* Step 2 - Substitute actual values (4-line notebook style) */}
+<div>
+  <h4 className="text-indigo-400 font-semibold mb-2">
+    Step 2: Substitute values into FV formula
+  </h4>
+
+  <div className="overflow-x-auto rounded-md bg-[#0b1220] px-3 py-3 border border-slate-700 text-[13.5px] font-mono text-slate-200 leading-7">
+    <pre className="whitespace-pre-wrap">
+{`FV = P × ((1 + r)^n − 1) ÷ r × (1 + r)
+FV = ${formatCurrency(P)} × ((1 + ${r.toFixed(6)})^${n} − 1) ÷ ${r.toFixed(6)} × (1 + ${r.toFixed(6)})
+= ${formatCurrency(P)} × ${(numerator).toFixed(6)} ÷ ${r.toFixed(6)} × ${onePlusR.toFixed(6)}
+= ${formatCurrency(P)} × ${(factor).toFixed(6)} × ${onePlusR.toFixed(6)} = ${formatCurrency(futureValueCalc)}`}
+    </pre>
+  </div>
+</div>
+
 
 
       {/* Final FV summary */}
