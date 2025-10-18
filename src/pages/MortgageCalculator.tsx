@@ -180,7 +180,7 @@ const MortgageCalculator: React.FC = () => {
         interestRate,
         loanYears,
         loanMonths,
-        currency,
+        currency, 
       })
     );
   }, [loanAmount, downPayment, interestRate, loanYears, loanMonths, currency]);
@@ -191,7 +191,7 @@ const MortgageCalculator: React.FC = () => {
     setInterestRate(Number(s.interestRate) || 0);
     setLoanYears(Number(s.loanYears) || 0);
     setLoanMonths(Number(s.loanMonths) || 0);
-    setCurrency(typeof s.currency === "string" ? s.currency : "INR");
+    setCurrency(typeof s.currency === "string" ? s.currency : "USD");
   };
 
   /* ============================================================
