@@ -577,7 +577,7 @@ useEffect(() => {
         </div>
 
         {/* ===== Call-to-Action Banner ===== */}
-        <div className="mt-6 mb-3 bg-gradient-to-r from-indigo-600 via-purple-600 to-fuchsia-600 text-white rounded-lg shadow-lg p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className= "hidden sm:flex mt-6 mb-3 bg-gradient-to-r from-indigo-600 via-purple-600 to-fuchsia-600 text-white rounded-lg shadow-lg p-4 flex-col sm:flex-row items-center justify-between gap-3">
           <div>
             <p className="font-semibold text-lg">Compare other finance tools 📊</p>
             <p className="text-sm text-indigo-100">
