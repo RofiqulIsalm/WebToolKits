@@ -1261,12 +1261,32 @@ useEffect(() => {
             </div>
           </div>
 
-          <p className="mt-6 text-sm text-slate-400">
-            Explore more tools:
-            <a href="/loan-emi-calculator" className="text-indigo-400 hover:underline"> Loan EMI Calculator</a>,
-            <a href="/tax-calculator" className="text-indigo-400 hover:underline"> Income Tax Calculator</a>, and
-            <a href="/currency-converter" className="text-indigo-400 hover:underline"> Currency Converter</a>.
-          </p>
+          <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+              <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
+                🚀 Explore more finance tools on CalculatorHub:
+              </p>
+              <div className="flex flex-wrap gap-3 text-sm">
+                <a
+                  href="/loan-emi-calculator"
+                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
+                >
+                  <span className="text-indigo-400">💰</span> Loan EMI Calculator
+                </a>
+                <a
+                  href="/tax-calculator"
+                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
+                >
+                  <span className="text-emerald-400">🧾</span> Income Tax Calculator
+                </a>
+                <a
+                  href="/currency-converter"
+                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-fuchsia-600/20 text-fuchsia-300 hover:text-fuchsia-400 px-3 py-2 rounded-md border border-slate-700 hover:border-fuchsia-500 transition-all duration-200"
+                >
+                  <span className="text-fuchsia-400">💱</span> Currency Converter
+                </a>
+              </div>
+            </div>
+
         </section>
 
         <AdBanner type="bottom" />
