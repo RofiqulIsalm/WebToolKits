@@ -1147,88 +1147,76 @@ const RetirementCalculator: React.FC = () => {
 
 
           {/* ==================== HOW CALCULATION WORKS ==================== */}
-          <section
-  id="calculation-details"
-  aria-label="How This Retirement Calculation Works"
-  className="
-    mt-12 text-slate-200
-    max-h-[70vh] overflow-y-auto -mx-4 px-4 pr-6
-    overscroll-contain scroll-smooth
-    sm:max-h-none sm:overflow-visible sm:mx-0 sm:px-0 sm:pr-0
-  "
->
-  <h2 className="sticky top-0 z-10 bg-[#0f172a]/80 backdrop-blur supports-[backdrop-filter]:bg-[#0f172a]/60
-                 -mx-4 px-4 sm:mx-0 sm:px-0
-                 text-2xl font-semibold text-cyan-300 mb-4 pt-3 pb-2">
-    🧮 How This Retirement Calculation Works
-  </h2>
-
-  <p className="text-sm text-slate-300 mb-5">
-    The model has two phases: <strong>Accumulation (before retirement)</strong> and <strong>Withdrawal (after retirement)</strong>.
-    We compound monthly, treat contributions as <em>annuity-due</em> (at the start of each month), and inflate the target income
-    from today to your retirement start month.
-  </p>
-
-  {/* 1. Accumulation */}
-  <div className="space-y-3">
-    <h3 className="text-lg font-semibold text-indigo-300">1) Accumulation to Retirement</h3>
-    <div className="bg-[#0b1220] border border-[#334155] rounded-lg p-4 text-sm leading-relaxed">
-      <p className="mb-2"><strong>Monthly rate before retirement:</strong> <code>r_pre_m = annualReturnPre / 100 / 12</code></p>
-      <p className="mb-2"><strong>Months until retirement:</strong> <code>n = (retireAge - currentAge) × 12</code></p>
-      <p className="mb-2"><strong>Future value of current savings:</strong> <code>FV_current = PV × (1 + r_pre_m)^n</code></p>
-      <p className="mb-2"><strong>Future value of monthly contributions (annuity-due):</strong> <code>FV_contrib = PMT × (1 + r_pre_m) × ((1 + r_pre_m)^n − 1) / r_pre_m</code></p>
-      <p className="mb-0"><strong>Nest egg at retirement:</strong> <code>NestEgg = FV_current + FV_contrib</code></p>
-    </div>
-  </div>
-
-  {/* 2. Inflate target income */}
-  <div className="space-y-3 mt-6">
-    <h3 className="text-lg font-semibold text-indigo-300">2) Inflation Adjustment for Target Income</h3>
-    <div className="bg-[#0b1220] border border-[#334155] rounded-lg p-4 text-sm leading-relaxed">
-      <p className="mb-2"><strong>Monthly inflation:</strong> <code>i_m = inflation / 100 / 12</code></p>
-      <p className="mb-0"><strong>Desired income at retirement start:</strong> <code>Income_ret = Income_today × (1 + i_m)^n</code></p>
-    </div>
-  </div>
-
-  {/* 3. Withdrawal PV */}
-  <div className="space-y-3 mt-6">
-    <h3 className="text-lg font-semibold text-indigo-300">3) Corpus Needed for Withdrawals (Level Monthly)</h3>
-    <div className="bg-[#0b1220] border border-[#334155] rounded-lg p-4 text-sm leading-relaxed">
-      <p className="mb-2"><strong>Monthly post-retirement return:</strong> <code>r_post_m = annualReturnPost / 100 / 12</code></p>
-      <p className="mb-2"><strong>Months in retirement:</strong> <code>N = (lifeExpectancy − retireAge) × 12</code></p>
-      <p className="mb-2"><strong>PV factor (level withdrawals):</strong> <code>PV_factor = (1 − (1 + r_post_m)^(−N)) / r_post_m</code> <span className="text-slate-400">(if <code>r_post_m = 0</code>, then <code>PV_factor = N</code>)</span></p>
-      <p className="mb-0"><strong>Required nest egg for target:</strong> <code>Required = Income_ret × PV_factor</code></p>
-    </div>
-  </div>
-
-  {/* 4. Surplus/Shortfall */}
-  <div className="space-y-3 mt-6">
-    <h3 className="text-lg font-semibold text-indigo-300">4) Surplus / Shortfall</h3>
-    <div className="bg-[#0b1220] border border-[#334155] rounded-lg p-4 text-sm leading-relaxed">
-      <p className="mb-0"><code>SurplusOrShortfall = NestEgg − Required</code></p>
-    </div>
-  </div>
-
-  {/* Worked Example */}
-  <div className="space-y-3 mt-6">
-    <h3 className="text-lg font-semibold text-emerald-300">Mini Example (Illustrative Numbers)</h3>
-    <div className="bg-[#062014] border border-emerald-600/40 rounded-lg p-4 text-sm leading-relaxed">
-      <p className="mb-2"><strong>Inputs:</strong> <code>currentAge=30</code>, <code>retireAge=60</code>, <code>lifeExpectancy=85</code>, <code>currentSavings=25,000</code>, <code>monthlyContribution=500</code>, <code>annualReturnPre=7%</code>, <code>annualReturnPost=4%</code>, <code>inflation=3%</code>, <code>desiredIncomeToday=2,500</code></p>
-      <p className="mb-1">Compute <code>n=360</code>, <code>N=300</code>, <code>r_pre_m≈0.005833</code>, <code>r_post_m≈0.003333</code>, <code>i_m=0.0025</code>.</p>
-      <p className="mb-1"><code>NestEgg ≈ FV_current + FV_contrib</code> (compounding monthly, contributions at start).</p>
-      <p className="mb-1"><code>Income_ret ≈ 2,500 × (1.0025)^360</code>.</p>
-      <p className="mb-1"><code>Required ≈ Income_ret × ((1 − (1.003333)^(−300)) / 0.003333)</code>.</p>
-      <p className="mb-0"><code>SurplusOrShortfall = NestEgg − Required</code>.</p>
-    </div>
-  </div>
-
-  {/* Notes */}
-  <div className="mt-6 text-xs text-slate-400">
-    <p>Notes: Returns are assumptions, not guarantees. The withdrawal schedule shown uses level (non-inflation-indexed) withdrawals for clarity; you can extend it to inflation-indexed withdrawals by growing the monthly withdrawal with inflation and discounting appropriately.</p>
-  </div>
-</section>
-
-
+          <section id="calculation-details" className="mt-12 text-slate-200">
+            <h2 className="text-2xl font-semibold text-cyan-300 mb-4">
+              🧮 How This Retirement Calculation Works
+            </h2>
+          
+            <p className="text-sm text-slate-300 mb-5">
+              The model has two phases: <strong>Accumulation (before retirement)</strong> and <strong>Withdrawal (after retirement)</strong>.
+              We compound monthly, treat contributions as <em>annuity-due</em> (at the start of each month), and inflate the target income
+              from today to your retirement start month.
+            </p>
+          
+            {/* 1. Accumulation */}
+            <div className="space-y-3">
+              <h3 className="text-lg font-semibold text-indigo-300">1) Accumulation to Retirement</h3>
+              <div className="bg-[#0b1220] border border-[#334155] rounded-lg p-4 text-sm leading-relaxed">
+                <p className="mb-2"><strong>Monthly rate before retirement:</strong> <code>r_pre_m = annualReturnPre / 100 / 12</code></p>
+                <p className="mb-2"><strong>Months until retirement:</strong> <code>n = (retireAge - currentAge) × 12</code></p>
+                <p className="mb-2"><strong>Future value of current savings:</strong> <code>FV_current = PV × (1 + r_pre_m)^n</code></p>
+                <p className="mb-2"><strong>Future value of monthly contributions (annuity-due):</strong> <code>FV_contrib = PMT × (1 + r_pre_m) × ((1 + r_pre_m)^n − 1) / r_pre_m</code></p>
+                <p className="mb-0"><strong>Nest egg at retirement:</strong> <code>NestEgg = FV_current + FV_contrib</code></p>
+              </div>
+            </div>
+          
+            {/* 2. Inflate target income */}
+            <div className="space-y-3 mt-6">
+              <h3 className="text-lg font-semibold text-indigo-300">2) Inflation Adjustment for Target Income</h3>
+              <div className="bg-[#0b1220] border border-[#334155] rounded-lg p-4 text-sm leading-relaxed">
+                <p className="mb-2"><strong>Monthly inflation:</strong> <code>i_m = inflation / 100 / 12</code></p>
+                <p className="mb-0"><strong>Desired income at retirement start:</strong> <code>Income_ret = Income_today × (1 + i_m)^n</code></p>
+              </div>
+            </div>
+          
+            {/* 3. Withdrawal PV */}
+            <div className="space-y-3 mt-6">
+              <h3 className="text-lg font-semibold text-indigo-300">3) Corpus Needed for Withdrawals (Level Monthly)</h3>
+              <div className="bg-[#0b1220] border border-[#334155] rounded-lg p-4 text-sm leading-relaxed">
+                <p className="mb-2"><strong>Monthly post-retirement return:</strong> <code>r_post_m = annualReturnPost / 100 / 12</code></p>
+                <p className="mb-2"><strong>Months in retirement:</strong> <code>N = (lifeExpectancy − retireAge) × 12</code></p>
+                <p className="mb-2"><strong>PV factor (level withdrawals):</strong> <code>PV_factor = (1 − (1 + r_post_m)^(−N)) / r_post_m</code> <span className="text-slate-400">(if <code>r_post_m = 0</code>, then <code>PV_factor = N</code>)</span></p>
+                <p className="mb-0"><strong>Required nest egg for target:</strong> <code>Required = Income_ret × PV_factor</code></p>
+              </div>
+            </div>
+          
+            {/* 4. Surplus/Shortfall */}
+            <div className="space-y-3 mt-6">
+              <h3 className="text-lg font-semibold text-indigo-300">4) Surplus / Shortfall</h3>
+              <div className="bg-[#0b1220] border border-[#334155] rounded-lg p-4 text-sm leading-relaxed">
+                <p className="mb-0"><code>SurplusOrShortfall = NestEgg − Required</code></p>
+              </div>
+            </div>
+          
+            {/* Worked Example (tiny, illustrative) */}
+            <div className="space-y-3 mt-6">
+              <h3 className="text-lg font-semibold text-emerald-300">Mini Example (Illustrative Numbers)</h3>
+              <div className="bg-[#062014] border border-emerald-600/40 rounded-lg p-4 text-sm leading-relaxed">
+                <p className="mb-2"><strong>Inputs:</strong> <code>currentAge=30</code>, <code>retireAge=60</code>, <code>lifeExpectancy=85</code>, <code>currentSavings=25,000</code>, <code>monthlyContribution=500</code>, <code>annualReturnPre=7%</code>, <code>annualReturnPost=4%</code>, <code>inflation=3%</code>, <code>desiredIncomeToday=2,500</code></p>
+                <p className="mb-1">Compute <code>n=360</code>, <code>N=300</code>, <code>r_pre_m≈0.005833</code>, <code>r_post_m≈0.003333</code>, <code>i_m=0.0025</code>.</p>
+                <p className="mb-1"><code>NestEgg ≈ FV_current + FV_contrib</code> (compounding monthly, contributions at start).</p>
+                <p className="mb-1"><code>Income_ret ≈ 2,500 × (1.0025)^360</code>.</p>
+                <p className="mb-1"><code>Required ≈ Income_ret × ((1 − (1.003333)^(−300)) / 0.003333)</code>.</p>
+                <p className="mb-0"><code>SurplusOrShortfall = NestEgg − Required</code>.</p>
+              </div>
+            </div>
+          
+            {/* Notes */}
+            <div className="mt-6 text-xs text-slate-400">
+              <p>Notes: Returns are assumptions, not guarantees. The withdrawal schedule shown uses level (non-inflation-indexed) withdrawals for clarity; you can extend it to inflation-indexed withdrawals by growing the monthly withdrawal with inflation and discounting appropriately.</p>
+            </div>
+          </section>
+ 
 
           <h2 id="inputs" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
             Key Inputs & Assumptions
