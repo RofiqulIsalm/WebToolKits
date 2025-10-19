@@ -1131,6 +1131,7 @@ const RetirementCalculator: React.FC = () => {
               <li><a href="#how-it-works" className="text-indigo-400 hover:underline">How the Retirement Calculator Works</a></li>
               <li><a href="#inputs" className="text-indigo-400 hover:underline">Key Inputs & Assumptions</a></li>
               <li><a href="#faq" className="text-indigo-400 hover:underline">Frequently Asked Questions</a></li>
+              
             </ol>
           </nav>
 
@@ -1146,7 +1147,7 @@ const RetirementCalculator: React.FC = () => {
 
 
           {/* ==================== HOW CALCULATION WORKS ==================== */}
-          <section id="calculation-details" className="mt-12 bg-[#0f172a] border border-[#334155] rounded-2xl p-6 text-slate-200">
+          <section id="calculation-details" className="mt-12 text-slate-200">
             <h2 className="text-2xl font-semibold text-cyan-300 mb-4">
               🧮 How This Retirement Calculation Works
             </h2>
