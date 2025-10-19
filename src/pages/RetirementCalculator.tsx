@@ -525,10 +525,7 @@ const RetirementCalculator: React.FC = () => {
                 />
           
                 {/* --- Open Graph & Twitter Meta --- */}
-                
-                  
-              
-          
+
                 <div className="max-w-5xl mx-auto">
                   <Breadcrumbs
                     items={[
@@ -1210,8 +1207,8 @@ const RetirementCalculator: React.FC = () => {
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/retirement-calculator" category="currency-finance" />
 
-      
-    </>
+                </div>
+   </>
   );
 };
 
