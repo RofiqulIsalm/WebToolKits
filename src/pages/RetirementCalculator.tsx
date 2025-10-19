@@ -525,7 +525,35 @@ const RetirementCalculator: React.FC = () => {
                 />
           
                 {/* --- Open Graph & Twitter Meta --- */}
-
+                <>
+                  <meta property="og:type" content="website" />
+                  <meta property="og:site_name" content="CalculatorHub" />
+                  <meta property="og:locale" content="en_US" />
+                  <meta property="og:title" content={seo.title} />
+                  <meta property="og:description" content={seo.description} />
+                  <meta property="og:url" content="https://calculatorhub.site/retirement-calculator" />
+                  <meta
+                    property="og:image"
+                    content="https://calculatorhub.site/images/retirement-calculator-hero.webp"
+                  />
+                  <meta
+                    property="og:image:alt"
+                    content="Retirement Calculator by CalculatorHub — nest egg and income planning"
+                  />
+                  <meta property="og:image:width" content="1200" />
+                  <meta property="og:image:height" content="630" />
+          
+                  <meta name="twitter:card" content="summary_large_image" />
+                  <meta name="twitter:site" content="@CalculatorHub" />
+                  <meta name="twitter:creator" content="@CalculatorHub" />
+                  <meta name="twitter:title" content={seo.title} />
+                  <meta name="twitter:description" content={seo.description} />
+                  <meta
+                    name="twitter:image"
+                    content="https://calculatorhub.site/images/retirement-calculator-hero.webp"
+                  />
+                </>
+          
                 <div className="max-w-5xl mx-auto">
                   <Breadcrumbs
                     items={[
@@ -1206,9 +1234,9 @@ const RetirementCalculator: React.FC = () => {
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/retirement-calculator" category="currency-finance" />
-
                 </div>
-   </>
+      
+    </>
   );
 };
 
