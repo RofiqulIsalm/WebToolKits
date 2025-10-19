@@ -1,3 +1,627 @@
+import React, { useEffect, useMemo, useState } from "react";
+import { Helmet } from "react-helmet";
+import {
+  PiggyBank,
+  RotateCcw,
+  Share2,
+  Copy,
+  ChevronDown,
+  ChevronUp,
+  Info,
+} from "lucide-react";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip as ReTooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+
+import AdBanner from "../components/AdBanner";
+import SEOHead from "../components/SEOHead";
+import Breadcrumbs from "../components/Breadcrumbs";
+import { seoData, generateCalculatorSchema } from "../utils/seoData";
+import RelatedCalculators from "../components/RelatedCalculators";
+
+/* ============================================================
+   📦 SECTION 1: Constants & Utilities
+   ============================================================ */
+const LS_KEY = "fd_calculator_tax_style_v1";
+
+// Currency list (deduped)
+const currencyOptions = [
+  { code: "USD", symbol: "$", locale: "en-US", label: "US Dollar ($)" },
+  { code: "EUR", symbol: "€", locale: "de-DE", label: "Euro (€)" },
+  { code: "GBP", symbol: "£", locale: "en-GB", label: "British Pound (£)" },
+  { code: "INR", symbol: "₹", locale: "en-IN", label: "Indian Rupee (₹)" },
+  { code: "AUD", symbol: "A$", locale: "en-AU", label: "Australian Dollar (A$)" },
+  { code: "CAD", symbol: "C$", locale: "en-CA", label: "Canadian Dollar (C$)" },
+  { code: "SGD", symbol: "S$", locale: "en-SG", label: "Singapore Dollar (S$)" },
+  { code: "JPY", symbol: "¥", locale: "ja-JP", label: "Japanese Yen (¥)" },
+  { code: "CNY", symbol: "¥", locale: "zh-CN", label: "Chinese Yuan (¥)" },
+  { code: "NZD", symbol: "NZ$", locale: "en-NZ", label: "New Zealand Dollar (NZ$)" },
+  { code: "CHF", symbol: "CHF", locale: "de-CH", label: "Swiss Franc (CHF)" },
+  { code: "HKD", symbol: "HK$", locale: "zh-HK", label: "Hong Kong Dollar (HK$)" },
+  { code: "SEK", symbol: "kr", locale: "sv-SE", label: "Swedish Krona (kr)" },
+  { code: "NOK", symbol: "kr", locale: "nb-NO", label: "Norwegian Krone (kr)" },
+  { code: "DKK", symbol: "kr", locale: "da-DK", label: "Danish Krone (kr)" },
+  { code: "ZAR", symbol: "R", locale: "en-ZA", label: "South African Rand (R)" },
+  { code: "BRL", symbol: "R$", locale: "pt-BR", label: "Brazilian Real (R$)" },
+  { code: "RUB", symbol: "₽", locale: "ru-RU", label: "Russian Ruble (₽)" },
+  { code: "KRW", symbol: "₩", locale: "ko-KR", label: "South Korean Won (₩)" },
+  { code: "THB", symbol: "฿", locale: "th-TH", label: "Thai Baht (฿)" },
+  { code: "IDR", symbol: "Rp", locale: "id-ID", label: "Indonesian Rupiah (Rp)" },
+  { code: "MYR", symbol: "RM", locale: "ms-MY", label: "Malaysian Ringgit (RM)" },
+  { code: "PHP", symbol: "₱", locale: "en-PH", label: "Philippine Peso (₱)" },
+  { code: "VND", symbol: "₫", locale: "vi-VN", label: "Vietnamese Dong (₫)" },
+  { code: "SAR", symbol: "﷼", locale: "ar-SA", label: "Saudi Riyal (﷼)" },
+  { code: "AED", symbol: "د.إ", locale: "ar-AE", label: "UAE Dirham (د.إ)" },
+  { code: "QAR", symbol: "﷼", locale: "ar-QA", label: "Qatari Riyal (﷼)" },
+  { code: "KWD", symbol: "KD", locale: "ar-KW", label: "Kuwaiti Dinar (KD)" },
+  { code: "BHD", symbol: "BD", locale: "ar-BH", label: "Bahraini Dinar (BD)" },
+  { code: "OMR", symbol: "﷼", locale: "ar-OM", label: "Omani Rial (﷼)" },
+  { code: "PKR", symbol: "₨", locale: "ur-PK", label: "Pakistani Rupee (₨)" },
+  { code: "BDT", symbol: "৳", locale: "bn-BD", label: "Bangladeshi Taka (৳)" },
+  { code: "LKR", symbol: "Rs", locale: "si-LK", label: "Sri Lankan Rupee (Rs)" },
+  { code: "NPR", symbol: "₨", locale: "ne-NP", label: "Nepalese Rupee (₨)" },
+  { code: "MMK", symbol: "K", locale: "my-MM", label: "Myanmar Kyat (K)" },
+  { code: "KES", symbol: "Sh", locale: "en-KE", label: "Kenyan Shilling (Sh)" },
+  { code: "NGN", symbol: "₦", locale: "en-NG", label: "Nigerian Naira (₦)" },
+  { code: "EGP", symbol: "£", locale: "ar-EG", label: "Egyptian Pound (£)" },
+  { code: "ILS", symbol: "₪", locale: "he-IL", label: "Israeli Shekel (₪)" },
+  { code: "TRY", symbol: "₺", locale: "tr-TR", label: "Turkish Lira (₺)" },
+  { code: "PLN", symbol: "zł", locale: "pl-PL", label: "Polish Zloty (zł)" },
+  { code: "CZK", symbol: "Kč", locale: "cs-CZ", label: "Czech Koruna (Kč)" },
+  { code: "HUF", symbol: "Ft", locale: "hu-HU", label: "Hungarian Forint (Ft)" },
+  { code: "MXN", symbol: "$", locale: "es-MX", label: "Mexican Peso ($)" },
+  { code: "CLP", symbol: "$", locale: "es-CL", label: "Chilean Peso ($)" },
+  { code: "COP", symbol: "$", locale: "es-CO", label: "Colombian Peso ($)" },
+  { code: "ARS", symbol: "$", locale: "es-AR", label: "Argentine Peso ($)" },
+  { code: "PEN", symbol: "S/", locale: "es-PE", label: "Peruvian Sol (S/)" },
+  { code: "UYU", symbol: "$U", locale: "es-UY", label: "Uruguayan Peso ($U)" },
+  { code: "TWD", symbol: "NT$", locale: "zh-TW", label: "New Taiwan Dollar (NT$)" },
+];
+
+const findLocale = (code: string) =>
+  currencyOptions.find((c) => c.code === code)?.locale || "en-US";
+const findSymbol = (code: string) =>
+  currencyOptions.find((c) => c.code === code)?.symbol || "";
+
+const formatCurrency = (num: number, locale: string, currency: string) => {
+  if (!isFinite(num) || num <= 0) return `${findSymbol(currency)}0`;
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency,
+    maximumFractionDigits: 0,
+  }).format(num);
+};
+
+const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
+
+/* ============================================================
+   🏦 SECTION 2: Component
+   ============================================================ */
+const FDCalculator: React.FC = () => {
+  /* ---------- Inputs ---------- */
+  const [deposit, setDeposit] = useState<number>(0);
+  const [rate, setRate] = useState<number>(0); // APR %
+  const [years, setYears] = useState<number>(0);
+  const [months, setMonths] = useState<number>(0);
+  const [currency, setCurrency] = useState<string>("USD");
+
+  type CompFreq = "monthly" | "quarterly" | "half-yearly" | "yearly";
+  const [compounding, setCompounding] = useState<CompFreq>("quarterly");
+  type Payout = "cumulative" | "monthly-payout" | "quarterly-payout" | "yearly-payout";
+  const [payout, setPayout] = useState<Payout>("cumulative");
+
+  /* ---------- Derived ---------- */
+  const totalMonths = years * 12 + months;
+  const termYears = totalMonths / 12;
+  const mFromFreq = (f: CompFreq) => (f === "monthly" ? 12 : f === "quarterly" ? 4 : f === "half-yearly" ? 2 : 1);
+  const periodsPerYear = mFromFreq(compounding);
+  const r = rate / 100;
+
+  const currentLocale = findLocale(currency);
+  const isDefault = !deposit && !rate && !years && !months;
+
+  /* ---------- Outputs ---------- */
+  const [maturity, setMaturity] = useState<number>(0);
+  const [interestEarned, setInterestEarned] = useState<number>(0);
+  const [periodicInterest, setPeriodicInterest] = useState<number>(0); // for payout modes
+
+  /* ---------- UI state ---------- */
+  const [showSchedule, setShowSchedule] = useState<boolean>(false);
+  const [granularity, setGranularity] = useState<"yearly" | "monthly">("yearly");
+  const [copied, setCopied] = useState<"none" | "results" | "link">("none");
+
+  const [showDepositInfo, setShowDepositInfo] = useState(false);
+  const [showRateInfo, setShowRateInfo] = useState(false);
+  const [showTermInfo, setShowTermInfo] = useState(false);
+  const [showCompInfo, setShowCompInfo] = useState(false);
+  const [showPayoutInfo, setShowPayoutInfo] = useState(false);
+
+  /* ============================================================
+     🔁 SECTION 3: Normalization & Persistence
+     ============================================================ */
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    if (months >= 12) {
+      const extraYears = Math.floor(months / 12);
+      setYears((prev) => prev + extraYears);
+      setMonths(months % 12);
+    }
+  }, [months]);
+
+  const applyState = (s: any) => {
+    setDeposit(Number(s.deposit) || 0);
+    setRate(Number(s.rate) || 0);
+    setYears(Number(s.years) || 0);
+    setMonths(Number(s.months) || 0);
+    setCurrency(typeof s.currency === "string" ? s.currency : "USD");
+    setCompounding((s.compounding as CompFreq) || "quarterly");
+    setPayout((s.payout as Payout) || "cumulative");
+  };
+
+  // On mount → try URL (?fd=) first, else localStorage
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const fromURL = params.get("fd");
+
+      if (fromURL) {
+        const decoded = JSON.parse(atob(fromURL));
+        applyState(decoded);
+        setHydrated(true);
+        return;
+      }
+
+      const raw = localStorage.getItem(LS_KEY);
+      if (raw) {
+        const saved = JSON.parse(raw);
+        applyState(saved);
+      }
+    } catch (err) {
+      console.warn("⚠️ Failed to load persisted state:", err);
+    } finally {
+      setHydrated(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      const state = { deposit, rate, years, months, currency, compounding, payout };
+      localStorage.setItem(LS_KEY, JSON.stringify(state));
+    } catch (err) {
+      console.warn("⚠️ Could not save to localStorage:", err);
+    }
+  }, [hydrated, deposit, rate, years, months, currency, compounding, payout]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    const allZero = !deposit && !rate && !years && !months;
+    try {
+      const url = new URL(window.location.href);
+      if (allZero) {
+        url.searchParams.delete("fd");
+        window.history.replaceState({}, "", url);
+        return;
+      }
+      const state = { deposit, rate, years, months, currency, compounding, payout };
+      const encoded = btoa(JSON.stringify(state));
+      url.searchParams.set("fd", encoded);
+      window.history.replaceState({}, "", url);
+    } catch (err) {
+      console.warn("⚠️ Failed to update URL:", err);
+    }
+  }, [hydrated, deposit, rate, years, months, currency, compounding, payout]);
+
+  /* ============================================================
+     🧮 SECTION 4: Calculations
+     ============================================================ */
+  // Two modes:
+  // 1) cumulative: A = P*(1 + r/m)^(m*t) where t in years; interest = A - P
+  // 2) periodic payout: interest paid out each period without compounding; per-period interest = P*(r/mPay)
+  const payoutFreqFromPayout = (p: Payout) =>
+    p === "monthly-payout" ? 12 : p === "quarterly-payout" ? 4 : p === "yearly-payout" ? 1 : mFromFreq(compounding);
+
+  const mPay = payoutFreqFromPayout(payout);
+
+  useEffect(() => {
+    if (deposit <= 0 || termYears <= 0 || rate < 0) {
+      setMaturity(0);
+      setInterestEarned(0);
+      setPeriodicInterest(0);
+      return;
+    }
+
+    if (payout === "cumulative") {
+      const m = periodsPerYear;
+      if (rate === 0) {
+        setMaturity(deposit);
+        setInterestEarned(0);
+        setPeriodicInterest(0);
+        return;
+      }
+      const A = deposit * Math.pow(1 + r / m, m * termYears);
+      setMaturity(A);
+      setInterestEarned(A - deposit);
+      setPeriodicInterest(0);
+    } else {
+      // simple periodic payouts
+      const per = deposit * (r / mPay);
+      const nPeriods = Math.round(mPay * termYears);
+      const totalInterest = per * nPeriods;
+      setPeriodicInterest(per);
+      setMaturity(deposit + totalInterest);
+      setInterestEarned(totalInterest);
+    }
+  }, [deposit, r, termYears, rate, payout, periodsPerYear, mPay]);
+
+  // Earnings schedule rows
+  type Row = { period: number; interest: number; balance: number };
+
+  const monthlySchedule: Row[] = useMemo(() => {
+    if (deposit <= 0 || totalMonths <= 0) return [];
+
+    const out: Row[] = [];
+    const tMonths = totalMonths;
+
+    if (payout === "cumulative") {
+      // accrue monthly regardless of chosen compounding using exact monthly factor
+      const m = periodsPerYear;
+      for (let i = 1; i <= tMonths; i++) {
+        const tY = i / 12;
+        const A = rate === 0 ? deposit : deposit * Math.pow(1 + r / m, m * tY);
+        const interest = A - deposit - (out.length ? out[out.length - 1].balance - deposit : 0);
+        out.push({ period: i, interest: Math.max(interest, 0), balance: A });
+      }
+    } else {
+      // payout mode
+      const per = deposit * (r / mPay);
+      const payMonths = Math.round((12 / mPay));
+      let accrued = 0;
+      for (let i = 1; i <= tMonths; i++) {
+        if (i % payMonths === 0) {
+          accrued += per;
+          out.push({ period: i, interest: per, balance: deposit + accrued });
+        } else {
+          out.push({ period: i, interest: 0, balance: deposit + accrued });
+        }
+      }
+    }
+
+    return out;
+  }, [deposit, totalMonths, payout, periodsPerYear, rate, r, mPay]);
+
+  const yearlySchedule: Row[] = useMemo(() => {
+    const years = Math.ceil(totalMonths / 12);
+    const out: Row[] = [];
+    for (let y = 0; y < years; y++) {
+      const slice = monthlySchedule.slice(y * 12, y * 12 + 12);
+      const interest = slice.reduce((s, r) => s + r.interest, 0);
+      const balance = slice.length ? slice[slice.length - 1].balance : deposit;
+      out.push({ period: y + 1, interest, balance });
+    }
+    return out;
+  }, [monthlySchedule, totalMonths, deposit]);
+
+  const schedule = granularity === "yearly" ? yearlySchedule : monthlySchedule;
+
+ import React, { useEffect, useMemo, useState } from "react";
+import { Helmet } from "react-helmet";
+import {
+  PiggyBank,
+  RotateCcw,
+  Share2,
+  Copy,
+  ChevronDown,
+  ChevronUp,
+  Info,
+} from "lucide-react";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip as ReTooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+
+import AdBanner from "../components/AdBanner";
+import SEOHead from "../components/SEOHead";
+import Breadcrumbs from "../components/Breadcrumbs";
+import { seoData, generateCalculatorSchema } from "../utils/seoData";
+import RelatedCalculators from "../components/RelatedCalculators";
+
+/* ============================================================
+   📦 SECTION 1: Constants & Utilities
+   ============================================================ */
+const LS_KEY = "fd_calculator_tax_style_v1";
+
+// Currency list (deduped)
+const currencyOptions = [
+  { code: "USD", symbol: "$", locale: "en-US", label: "US Dollar ($)" },
+  { code: "EUR", symbol: "€", locale: "de-DE", label: "Euro (€)" },
+  { code: "GBP", symbol: "£", locale: "en-GB", label: "British Pound (£)" },
+  { code: "INR", symbol: "₹", locale: "en-IN", label: "Indian Rupee (₹)" },
+  { code: "AUD", symbol: "A$", locale: "en-AU", label: "Australian Dollar (A$)" },
+  { code: "CAD", symbol: "C$", locale: "en-CA", label: "Canadian Dollar (C$)" },
+  { code: "SGD", symbol: "S$", locale: "en-SG", label: "Singapore Dollar (S$)" },
+  { code: "JPY", symbol: "¥", locale: "ja-JP", label: "Japanese Yen (¥)" },
+  { code: "CNY", symbol: "¥", locale: "zh-CN", label: "Chinese Yuan (¥)" },
+  { code: "NZD", symbol: "NZ$", locale: "en-NZ", label: "New Zealand Dollar (NZ$)" },
+  { code: "CHF", symbol: "CHF", locale: "de-CH", label: "Swiss Franc (CHF)" },
+  { code: "HKD", symbol: "HK$", locale: "zh-HK", label: "Hong Kong Dollar (HK$)" },
+  { code: "SEK", symbol: "kr", locale: "sv-SE", label: "Swedish Krona (kr)" },
+  { code: "NOK", symbol: "kr", locale: "nb-NO", label: "Norwegian Krone (kr)" },
+  { code: "DKK", symbol: "kr", locale: "da-DK", label: "Danish Krone (kr)" },
+  { code: "ZAR", symbol: "R", locale: "en-ZA", label: "South African Rand (R)" },
+  { code: "BRL", symbol: "R$", locale: "pt-BR", label: "Brazilian Real (R$)" },
+  { code: "RUB", symbol: "₽", locale: "ru-RU", label: "Russian Ruble (₽)" },
+  { code: "KRW", symbol: "₩", locale: "ko-KR", label: "South Korean Won (₩)" },
+  { code: "THB", symbol: "฿", locale: "th-TH", label: "Thai Baht (฿)" },
+  { code: "IDR", symbol: "Rp", locale: "id-ID", label: "Indonesian Rupiah (Rp)" },
+  { code: "MYR", symbol: "RM", locale: "ms-MY", label: "Malaysian Ringgit (RM)" },
+  { code: "PHP", symbol: "₱", locale: "en-PH", label: "Philippine Peso (₱)" },
+  { code: "VND", symbol: "₫", locale: "vi-VN", label: "Vietnamese Dong (₫)" },
+  { code: "SAR", symbol: "﷼", locale: "ar-SA", label: "Saudi Riyal (﷼)" },
+  { code: "AED", symbol: "د.إ", locale: "ar-AE", label: "UAE Dirham (د.إ)" },
+  { code: "QAR", symbol: "﷼", locale: "ar-QA", label: "Qatari Riyal (﷼)" },
+  { code: "KWD", symbol: "KD", locale: "ar-KW", label: "Kuwaiti Dinar (KD)" },
+  { code: "BHD", symbol: "BD", locale: "ar-BH", label: "Bahraini Dinar (BD)" },
+  { code: "OMR", symbol: "﷼", locale: "ar-OM", label: "Omani Rial (﷼)" },
+  { code: "PKR", symbol: "₨", locale: "ur-PK", label: "Pakistani Rupee (₨)" },
+  { code: "BDT", symbol: "৳", locale: "bn-BD", label: "Bangladeshi Taka (৳)" },
+  { code: "LKR", symbol: "Rs", locale: "si-LK", label: "Sri Lankan Rupee (Rs)" },
+  { code: "NPR", symbol: "₨", locale: "ne-NP", label: "Nepalese Rupee (₨)" },
+  { code: "MMK", symbol: "K", locale: "my-MM", label: "Myanmar Kyat (K)" },
+  { code: "KES", symbol: "Sh", locale: "en-KE", label: "Kenyan Shilling (Sh)" },
+  { code: "NGN", symbol: "₦", locale: "en-NG", label: "Nigerian Naira (₦)" },
+  { code: "EGP", symbol: "£", locale: "ar-EG", label: "Egyptian Pound (£)" },
+  { code: "ILS", symbol: "₪", locale: "he-IL", label: "Israeli Shekel (₪)" },
+  { code: "TRY", symbol: "₺", locale: "tr-TR", label: "Turkish Lira (₺)" },
+  { code: "PLN", symbol: "zł", locale: "pl-PL", label: "Polish Zloty (zł)" },
+  { code: "CZK", symbol: "Kč", locale: "cs-CZ", label: "Czech Koruna (Kč)" },
+  { code: "HUF", symbol: "Ft", locale: "hu-HU", label: "Hungarian Forint (Ft)" },
+  { code: "MXN", symbol: "$", locale: "es-MX", label: "Mexican Peso ($)" },
+  { code: "CLP", symbol: "$", locale: "es-CL", label: "Chilean Peso ($)" },
+  { code: "COP", symbol: "$", locale: "es-CO", label: "Colombian Peso ($)" },
+  { code: "ARS", symbol: "$", locale: "es-AR", label: "Argentine Peso ($)" },
+  { code: "PEN", symbol: "S/", locale: "es-PE", label: "Peruvian Sol (S/)" },
+  { code: "UYU", symbol: "$U", locale: "es-UY", label: "Uruguayan Peso ($U)" },
+  { code: "TWD", symbol: "NT$", locale: "zh-TW", label: "New Taiwan Dollar (NT$)" },
+];
+
+const findLocale = (code: string) =>
+  currencyOptions.find((c) => c.code === code)?.locale || "en-US";
+const findSymbol = (code: string) =>
+  currencyOptions.find((c) => c.code === code)?.symbol || "";
+
+const formatCurrency = (num: number, locale: string, currency: string) => {
+  if (!isFinite(num) || num <= 0) return `${findSymbol(currency)}0`;
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency,
+    maximumFractionDigits: 0,
+  }).format(num);
+};
+
+const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
+
+/* ============================================================
+   🏦 SECTION 2: Component
+   ============================================================ */
+const FDCalculator: React.FC = () => {
+  /* ---------- Inputs ---------- */
+  const [deposit, setDeposit] = useState<number>(0);
+  const [rate, setRate] = useState<number>(0); // APR %
+  const [years, setYears] = useState<number>(0);
+  const [months, setMonths] = useState<number>(0);
+  const [currency, setCurrency] = useState<string>("USD");
+
+  type CompFreq = "monthly" | "quarterly" | "half-yearly" | "yearly";
+  const [compounding, setCompounding] = useState<CompFreq>("quarterly");
+  type Payout = "cumulative" | "monthly-payout" | "quarterly-payout" | "yearly-payout";
+  const [payout, setPayout] = useState<Payout>("cumulative");
+
+  /* ---------- Derived ---------- */
+  const totalMonths = years * 12 + months;
+  const termYears = totalMonths / 12;
+  const mFromFreq = (f: CompFreq) => (f === "monthly" ? 12 : f === "quarterly" ? 4 : f === "half-yearly" ? 2 : 1);
+  const periodsPerYear = mFromFreq(compounding);
+  const r = rate / 100;
+
+  const currentLocale = findLocale(currency);
+  const isDefault = !deposit && !rate && !years && !months;
+
+  /* ---------- Outputs ---------- */
+  const [maturity, setMaturity] = useState<number>(0);
+  const [interestEarned, setInterestEarned] = useState<number>(0);
+  const [periodicInterest, setPeriodicInterest] = useState<number>(0); // for payout modes
+
+  /* ---------- UI state ---------- */
+  const [showSchedule, setShowSchedule] = useState<boolean>(false);
+  const [granularity, setGranularity] = useState<"yearly" | "monthly">("yearly");
+  const [copied, setCopied] = useState<"none" | "results" | "link">("none");
+
+  const [showDepositInfo, setShowDepositInfo] = useState(false);
+  const [showRateInfo, setShowRateInfo] = useState(false);
+  const [showTermInfo, setShowTermInfo] = useState(false);
+  const [showCompInfo, setShowCompInfo] = useState(false);
+  const [showPayoutInfo, setShowPayoutInfo] = useState(false);
+
+  /* ============================================================
+     🔁 SECTION 3: Normalization & Persistence
+     ============================================================ */
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    if (months >= 12) {
+      const extraYears = Math.floor(months / 12);
+      setYears((prev) => prev + extraYears);
+      setMonths(months % 12);
+    }
+  }, [months]);
+
+  const applyState = (s: any) => {
+    setDeposit(Number(s.deposit) || 0);
+    setRate(Number(s.rate) || 0);
+    setYears(Number(s.years) || 0);
+    setMonths(Number(s.months) || 0);
+    setCurrency(typeof s.currency === "string" ? s.currency : "USD");
+    setCompounding((s.compounding as CompFreq) || "quarterly");
+    setPayout((s.payout as Payout) || "cumulative");
+  };
+
+  // On mount → try URL (?fd=) first, else localStorage
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const fromURL = params.get("fd");
+
+      if (fromURL) {
+        const decoded = JSON.parse(atob(fromURL));
+        applyState(decoded);
+        setHydrated(true);
+        return;
+      }
+
+      const raw = localStorage.getItem(LS_KEY);
+      if (raw) {
+        const saved = JSON.parse(raw);
+        applyState(saved);
+      }
+    } catch (err) {
+      console.warn("⚠️ Failed to load persisted state:", err);
+    } finally {
+      setHydrated(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      const state = { deposit, rate, years, months, currency, compounding, payout };
+      localStorage.setItem(LS_KEY, JSON.stringify(state));
+    } catch (err) {
+      console.warn("⚠️ Could not save to localStorage:", err);
+    }
+  }, [hydrated, deposit, rate, years, months, currency, compounding, payout]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    const allZero = !deposit && !rate && !years && !months;
+    try {
+      const url = new URL(window.location.href);
+      if (allZero) {
+        url.searchParams.delete("fd");
+        window.history.replaceState({}, "", url);
+        return;
+      }
+      const state = { deposit, rate, years, months, currency, compounding, payout };
+      const encoded = btoa(JSON.stringify(state));
+      url.searchParams.set("fd", encoded);
+      window.history.replaceState({}, "", url);
+    } catch (err) {
+      console.warn("⚠️ Failed to update URL:", err);
+    }
+  }, [hydrated, deposit, rate, years, months, currency, compounding, payout]);
+
+  /* ============================================================
+     🧮 SECTION 4: Calculations
+     ============================================================ */
+  // Two modes:
+  // 1) cumulative: A = P*(1 + r/m)^(m*t) where t in years; interest = A - P
+  // 2) periodic payout: interest paid out each period without compounding; per-period interest = P*(r/mPay)
+  const payoutFreqFromPayout = (p: Payout) =>
+    p === "monthly-payout" ? 12 : p === "quarterly-payout" ? 4 : p === "yearly-payout" ? 1 : mFromFreq(compounding);
+
+  const mPay = payoutFreqFromPayout(payout);
+
+  useEffect(() => {
+    if (deposit <= 0 || termYears <= 0 || rate < 0) {
+      setMaturity(0);
+      setInterestEarned(0);
+      setPeriodicInterest(0);
+      return;
+    }
+
+    if (payout === "cumulative") {
+      const m = periodsPerYear;
+      if (rate === 0) {
+        setMaturity(deposit);
+        setInterestEarned(0);
+        setPeriodicInterest(0);
+        return;
+      }
+      const A = deposit * Math.pow(1 + r / m, m * termYears);
+      setMaturity(A);
+      setInterestEarned(A - deposit);
+      setPeriodicInterest(0);
+    } else {
+      // simple periodic payouts
+      const per = deposit * (r / mPay);
+      const nPeriods = Math.round(mPay * termYears);
+      const totalInterest = per * nPeriods;
+      setPeriodicInterest(per);
+      setMaturity(deposit + totalInterest);
+      setInterestEarned(totalInterest);
+    }
+  }, [deposit, r, termYears, rate, payout, periodsPerYear, mPay]);
+
+  // Earnings schedule rows
+  type Row = { period: number; interest: number; balance: number };
+
+  const monthlySchedule: Row[] = useMemo(() => {
+    if (deposit <= 0 || totalMonths <= 0) return [];
+
+    const out: Row[] = [];
+    const tMonths = totalMonths;
+
+    if (payout === "cumulative") {
+      // accrue monthly regardless of chosen compounding using exact monthly factor
+      const m = periodsPerYear;
+      for (let i = 1; i <= tMonths; i++) {
+        const tY = i / 12;
+        const A = rate === 0 ? deposit : deposit * Math.pow(1 + r / m, m * tY);
+        const interest = A - deposit - (out.length ? out[out.length - 1].balance - deposit : 0);
+        out.push({ period: i, interest: Math.max(interest, 0), balance: A });
+      }
+    } else {
+      // payout mode
+      const per = deposit * (r / mPay);
+      const payMonths = Math.round((12 / mPay));
+      let accrued = 0;
+      for (let i = 1; i <= tMonths; i++) {
+        if (i % payMonths === 0) {
+          accrued += per;
+          out.push({ period: i, interest: per, balance: deposit + accrued });
+        } else {
+          out.push({ period: i, interest: 0, balance: deposit + accrued });
+        }
+      }
+    }
+
+    return out;
+  }, [deposit, totalMonths, payout, periodsPerYear, rate, r, mPay]);
+
+  const yearlySchedule: Row[] = useMemo(() => {
+    const years = Math.ceil(totalMonths / 12);
+    const out: Row[] = [];
+    for (let y = 0; y < years; y++) {
+      const slice = monthlySchedule.slice(y * 12, y * 12 + 12);
+      const interest = slice.reduce((s, r) => s + r.interest, 0);
+      const balance = slice.length ? slice[slice.length - 1].balance : deposit;
+      out.push({ period: y + 1, interest, balance });
+    }
+    return out;
+  }, [monthlySchedule, totalMonths, deposit]);
+
+  const schedule = granularity === "yearly" ? yearlySchedule : monthlySchedule;
+
   /* ============================================================
      📘 SECTION 4.5: Step-by-step FD Math (for UI explainer)
      ============================================================ */
@@ -143,7 +767,7 @@
         )}
       />
       {/* ===== Enhanced SEO & Social Metadata ===== */}
-
+      <>
         {/* --- Open Graph --- */}
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="CalculatorHub" />
