@@ -282,7 +282,7 @@ const SipCalculator: React.FC = () => {
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
           items={[
-            { name: "Investments & Finance", url: "/category/investments" },
+            { name: "Currency & Finance", url: "/category/currency-finance" },
             { name: "SIP Calculator", url: "/sip-calculator" },
           ]}
         />
