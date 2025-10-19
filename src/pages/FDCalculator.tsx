@@ -142,9 +142,8 @@
           seoNode.keywords || []
         )}
       />
-    </>
       {/* ===== Enhanced SEO & Social Metadata ===== */}
-      <>
+
         {/* --- Open Graph --- */}
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="CalculatorHub" />
