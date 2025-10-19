@@ -525,7 +525,7 @@ const RetirementCalculator: React.FC = () => {
                 />
           
                 {/* --- Open Graph & Twitter Meta --- */}
-                <>
+                
                   <meta property="og:type" content="website" />
                   <meta property="og:site_name" content="CalculatorHub" />
                   <meta property="og:locale" content="en_US" />
@@ -552,7 +552,7 @@ const RetirementCalculator: React.FC = () => {
                     name="twitter:image"
                     content="https://calculatorhub.site/images/retirement-calculator-hero.webp"
                   />
-                </>
+              
           
                 <div className="max-w-5xl mx-auto">
                   <Breadcrumbs
