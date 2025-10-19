@@ -10,7 +10,7 @@ import {
   Info,
 } from "lucide-react";
 import {
-  PieChart,
+  PieChart, 
   Pie,
   Cell,
   Tooltip as ReTooltip,
