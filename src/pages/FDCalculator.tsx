@@ -142,6 +142,7 @@
           seoNode.keywords || []
         )}
       />
+    </>
       {/* ===== Enhanced SEO & Social Metadata ===== */}
       <>
         {/* --- Open Graph --- */}
