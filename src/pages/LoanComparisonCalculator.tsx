@@ -177,7 +177,7 @@ const LoanComparisonCalculator: React.FC = () => {
       <div className="max-w-6xl mx-auto">
         <Breadcrumbs
           items={[
-            { name: "Loans & Finance", url: "/category/loans" },
+            { name: "Currency & Finance", url: "/category/currency-finance" },
             { name: "Loan Comparison Calculator", url: "/loan-comparison-calculator" },
           ]}
         />
@@ -541,7 +541,7 @@ const LoanComparisonCalculator: React.FC = () => {
 <AdBanner type="bottom" />
 <RelatedCalculators
   currentPath="/loan-comparison-calculator"
-  category="loans"
+  category="Currency & Finance"
 />
 </div>
 </>
