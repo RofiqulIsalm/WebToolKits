@@ -190,7 +190,7 @@ const LumpSumInvestmentCalculator: React.FC = () => {
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
           items={[
-            { name: "Investment & Returns", url: "/category/investment-returns" },
+            { name: "Currency & Finance", url: "/category/currency-finance" },
             { name: "Lump Sum Investment Calculator", url: "/lump-sum-investment-calculator" },
           ]}
         />
