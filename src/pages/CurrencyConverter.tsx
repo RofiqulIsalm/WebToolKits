@@ -257,118 +257,119 @@ const CurrencyConverter: React.FC = () => {
           { name: 'Currency Converter', url: '/currency-converter' }
         ]} />
         
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">Currency Converter</h1>
-        <p className="text-slate-300">Convert between different currencies with live exchange rates</p>
+      {/* Header Section */}
+<div className="mb-8 text-center">
+  <h1 className="text-4xl font-extrabold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent mb-3 drop-shadow-lg">
+    Currency Converter
+  </h1>
+  <p className="text-slate-300 text-base">
+    Convert between world currencies instantly with live exchange rates 🌍
+  </p>
+</div>
+
+{/* Converter Card */}
+<div className="rounded-2xl bg-slate-800/60 backdrop-blur-md border border-slate-700 p-6 mb-10 shadow-lg hover:shadow-blue-500/10 transition-all">
+  <div className="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-4 md:space-y-0">
+    
+    {/* From Section */}
+    <div className="flex-1">
+      <label className="block text-sm font-semibold text-slate-300 mb-2">From</label>
+      <div className="relative">
+        <input
+          id="amountInput"
+          type="number"
+          value={amount}
+          onChange={(e) => {
+            const value = Number(e.target.value);
+            if (value >= 0) setAmount(value);
+          }}
+          className="w-full px-4 py-3 bg-slate-900/70 text-white rounded-xl border border-slate-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          placeholder="Enter amount"
+        />
+        <select
+          value={fromCurrency}
+          onChange={(e) => setFromCurrency(e.target.value)}
+          className="w-full mt-3 px-4 py-3 bg-slate-900/70 text-white rounded-xl border border-slate-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        >
+          {allCurrencies.map((currency) => (
+            <option key={currency.code} value={currency.code}>
+              {currency.code} — {currency.name}
+            </option>
+          ))}
+        </select>
       </div>
+    </div>
 
-      <div className="glow-card rounded-lg p-6 mb-8">
-        <div className="currency-card rounded-lg p-6 mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">From</label>
-              <div className="space-y-3">
-                <input
-                  id="amountInput"
-                  type="number"
-                  value={amount}
-                  onChange={(e) => {
-                    const value = Number(e.target.value);
-                    if (value >= 0) setAmount(value);
-                  }}
-                  className="w-full px-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Enter amount"
-                />
-                <select
-                  aria-label="Select currency to convert from"
-                  value={fromCurrency}
-                  onChange={(e) => setFromCurrency(e.target.value)}
-                  className="w-full px-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  {allCurrencies.map((currency) => (
-                    <option key={currency.code} value={currency.code}>
-                      {currency.code} - {currency.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
+    {/* Swap Button */}
+    <div className="flex justify-center">
+      <button
+        onClick={swapCurrencies}
+        disabled={loading}
+        className={`flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 text-white shadow-md hover:shadow-blue-400/40 transition-transform hover:rotate-180 ${
+          loading ? 'opacity-50 cursor-not-allowed' : ''
+        }`}
+      >
+        <ArrowRightLeft className="h-5 w-5" />
+      </button>
+    </div>
 
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">To</label>
-              <div className="space-y-3">
-                <input
-                  type="text"
-                  value={result.toFixed(2)}
-                  readOnly
-                  className="w-full px-4 py-2 glow-input rounded-lg bg-slate-800/50"
-                />
-                <select
-                  aria-label="Select currency to convert to"
-                  value={toCurrency}
-                  onChange={(e) => setToCurrency(e.target.value)}
-                  className="w-full px-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  {allCurrencies.map((currency) => (
-                    <option key={currency.code} value={currency.code}>
-                      {currency.code} - {currency.name}
-                    </option> 
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
-
-          {error && <p className="text-red-400 text-center mb-4">{error}</p>}
-          <div className="flex justify-center mb-6">
-            <button
-                onClick={swapCurrencies}
-                disabled={loading}
-                className={`flex items-center space-x-2 px-4 py-2 glow-button text-white rounded-lg transition-all ${
-                  loading ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
-              >
-                <ArrowRightLeft className="h-4 w-4" />
-                <span>Swap</span>
-              </button>
-          </div>
-          
-
-          {loading && (
-              <p className="text-center text-slate-300 mt-4 animate-pulse">
-                Fetching latest rates...
-              </p>
-          )}
-
-          {exchangeRates[fromCurrency] && exchangeRates[toCurrency] && (
-            <div className="result-green rounded-lg p-4 text-center transition-transform hover:scale-[1.01]" aria-live="polite">
-              <p className="text-lg font-semibold text-white">
-                {amount} {fromCurrency} = {result.toFixed(2)} {toCurrency}
-              </p>
-              <p className="text-sm text-slate-300 mt-1">
-                1 {fromCurrency} = {(exchangeRates[toCurrency] / exchangeRates[fromCurrency]).toFixed(4)} {toCurrency}
-              </p>
-            </div>
-          )}
-
-          <div className="flex justify-center mt-4">
-            <button
-              onClick={fetchExchangeRates}
-              disabled={loading}
-              className="flex items-center space-x-2 px-4 py-2 text-blue-400 hover:text-blue-300 transition-colors"
-            >
-              <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-              <span>Refresh Rates</span>
-            </button>
-              
-          </div>
-          {lastUpdated && (
-              <p className="text-center text-xs text-slate-400 mt-2">
-                Last updated: {lastUpdated}
-              </p>
-          )}
-        </div>
+    {/* To Section */}
+    <div className="flex-1">
+      <label className="block text-sm font-semibold text-slate-300 mb-2">To</label>
+      <div className="relative">
+        <input
+          type="text"
+          value={result.toFixed(2)}
+          readOnly
+          className="w-full px-4 py-3 bg-slate-900/70 text-white rounded-xl border border-slate-700"
+        />
+        <select
+          value={toCurrency}
+          onChange={(e) => setToCurrency(e.target.value)}
+          className="w-full mt-3 px-4 py-3 bg-slate-900/70 text-white rounded-xl border border-slate-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        >
+          {allCurrencies.map((currency) => (
+            <option key={currency.code} value={currency.code}>
+              {currency.code} — {currency.name}
+            </option>
+          ))}
+        </select>
       </div>
+    </div>
+  </div>
+
+  {/* Error or Loading Messages */}
+  {error && <p className="text-red-400 text-center mt-4">{error}</p>}
+  {loading && <p className="text-center text-slate-300 mt-4 animate-pulse">Fetching latest rates...</p>}
+
+  {/* Conversion Result */}
+  {exchangeRates[fromCurrency] && exchangeRates[toCurrency] && (
+    <div className="bg-slate-900/70 border border-slate-700 rounded-xl p-4 mt-6 text-center transition-transform hover:scale-[1.02]" aria-live="polite">
+      <p className="text-xl font-semibold text-white">
+        {amount} {fromCurrency} = <span className="text-cyan-400">{result.toFixed(2)}</span> {toCurrency}
+      </p>
+      <p className="text-sm text-slate-400 mt-1">
+        1 {fromCurrency} = {(exchangeRates[toCurrency] / exchangeRates[fromCurrency]).toFixed(4)} {toCurrency}
+      </p>
+    </div>
+  )}
+
+  {/* Refresh Button & Timestamp */}
+  <div className="flex flex-col items-center mt-6 space-y-2">
+    <button
+      onClick={fetchExchangeRates}
+      disabled={loading}
+      className="flex items-center space-x-2 px-5 py-2 rounded-lg text-blue-400 hover:text-blue-300 transition-colors"
+    >
+      <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+      <span>Refresh Rates</span>
+    </button>
+    {lastUpdated && (
+      <p className="text-xs text-slate-500">Last updated: {lastUpdated}</p>
+    )}
+  </div>
+</div>
+
       <AdBanner type="bottom" />
         <div className="seo-content text-white space-y-6 mt-10">
 
