@@ -385,6 +385,7 @@ const CurrencyConverter: React.FC = () => {
         <h2 className="text-2xl font-bold">How Does the Currency Converter Work?</h2>
         <p>
       A currency converter operates by pulling real-time exchange data from global financial markets. These rates fluctuate constantly due to economic indicators, inflation, and geopolitical factors that influence the strength of different currencies. The system updates every few seconds, ensuring accuracy when you use a real time currency converter or exchange rate calculator.
+        </p>  
         <p>
          When a user inputs an amount—say, converting 100 USD to EUR—the online currency calculator fetches the live exchange rate for USD to EUR and instantly performs the calculation. The formula is straightforward:
         </p>
@@ -397,7 +398,7 @@ const CurrencyConverter: React.FC = () => {
         <p>
        Some advanced tools, like a multi currency converter, allow users to track several currencies at once, making it ideal for businesses or travelers managing multiple accounts. Other tools offer historical exchange rates, enabling investors and analysts to study market trends over time.
         </p>
-          <div className="bg-slate-800/60 p-4 rounded-lg">
+        <div className="bg-slate-800/60 p-4 rounded-lg">
           <code className="italic text-yellow-300">
             100 × 0.85 = 85 EUR
           </code>
