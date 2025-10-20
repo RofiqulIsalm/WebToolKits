@@ -233,7 +233,7 @@ function App() {
                <Route path="/cagr-calculator" element={<CAGRCalculator />} /> 
                <Route path="/lump-sum-investment-calculator" element={<LumpSumInvestmentCalculator />} /> 
               <Route path="/pay-raise-calculator" element={<PayRaiseCalculator />} /> 
-            {/*   <Route path="/break-even-point-calculator" element={<BreakEvenPointCalculator />} /> */}
+              <Route path="/break-even-point-calculator" element={<BreakEvenPointCalculator />} /> 
            {/*    <Route path="/loan-comparison-calculator" element={<LoanComparisonCalculator />} /> */}
 
             
