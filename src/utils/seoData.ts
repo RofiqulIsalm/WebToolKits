@@ -207,6 +207,13 @@ export const seoData = {
     description: "Create countdown timers for events, deadlines, and special occasions. Free countdown calculator with days, hours, minutes display.",
     keywords: "countdown timer, event countdown, deadline calculator, time remaining calculator"
   },
+  carLoanCalculator: {
+    title: "Car Loan Calculator - EMI, Interest & Total Payment",
+    description:
+      "Calculate your car loan EMI, total interest, and total payment instantly. Free online car loan calculator for new and used vehicles with detailed breakdown and chart.",
+    keywords:
+      "car loan calculator, auto loan calculator, car EMI calculator, vehicle loan calculator, car finance calculator"
+  },
   timezoneconverter: {
     title: "Time Zone Converter - World Time Calculator",
     description: "Convert time between different time zones worldwide. Free time zone converter with daylight saving time adjustments.",
