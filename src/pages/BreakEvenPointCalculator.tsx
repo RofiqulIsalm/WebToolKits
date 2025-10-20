@@ -1,11 +1,10 @@
-// ================= BreakEvenCalculator.tsx (Part 1/2) =================
+// ================= BreakEvenCalculator.tsx =================
 import React, { useState, useEffect } from "react";
 import {
   BarChart2,
   RotateCcw,
   Copy,
   Share2,
-  Info,
 } from "lucide-react";
 import {
   LineChart,
@@ -21,14 +20,34 @@ import SEOHead from "../components/SEOHead";
 import Breadcrumbs from "../components/Breadcrumbs";
 import AdBanner from "../components/AdBanner";
 import RelatedCalculators from "../components/RelatedCalculators";
-import { seoData, generateCalculatorSchema } from "../utils/seoData";
+import { generateCalculatorSchema } from "../utils/seoData";
 
 /* ============================================================
-   ⚙️ CONSTANTS
+   ⚙️ CONSTANTS & HELPERS
    ============================================================ */
 const LS_KEY = "break_even_calculator_v1";
 
+const currencyOptions = [
+  { code: "USD", symbol: "$", locale: "en-US", label: "US Dollar ($)" },
+  { code: "INR", symbol: "₹", locale: "en-IN", label: "Indian Rupee (₹)" },
+  { code: "EUR", symbol: "€", locale: "de-DE", label: "Euro (€)" },
+  { code: "GBP", symbol: "£", locale: "en-GB", label: "British Pound (£)" },
+];
 
+const findLocale = (code: string) =>
+  currencyOptions.find((c) => c.code === code)?.locale || "en-US";
+const findSymbol = (code: string) =>
+  currencyOptions.find((c) => c.code === code)?.symbol || "";
+const formatCurrency = (num: number, locale: string, currency: string) =>
+  new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency,
+    maximumFractionDigits: 0,
+  }).format(num);
+
+/* ============================================================
+   📊 CHART COMPONENT
+   ============================================================ */
 const BreakEvenChart: React.FC<{
   sellingPrice: number;
   variableCost: number;
@@ -48,27 +67,28 @@ const BreakEvenChart: React.FC<{
     });
   }
 
-const currencyOptions = [
-  { code: "USD", symbol: "$", locale: "en-US", label: "US Dollar ($)" },
-  { code: "INR", symbol: "₹", locale: "en-IN", label: "Indian Rupee (₹)" },
-  { code: "EUR", symbol: "€", locale: "de-DE", label: "Euro (€)" },
-  { code: "GBP", symbol: "£", locale: "en-GB", label: "British Pound (£)" },
-];
-
-const findLocale = (code: string) =>
-  currencyOptions.find((c) => c.code === code)?.locale || "en-US";
-const findSymbol = (code: string) =>
-  currencyOptions.find((c) => c.code === code)?.symbol || "";
-
-const formatCurrency = (num: number, locale: string, currency: string) =>
-  new Intl.NumberFormat(locale, {
-    style: "currency",
-    currency,
-    maximumFractionDigits: 0,
-  }).format(num);
+  return (
+    <ResponsiveContainer width="100%" height={300}>
+      <LineChart data={data}>
+        <CartesianGrid strokeDasharray="3 3" stroke="#475569" />
+        <XAxis dataKey="units" stroke="#94a3b8" />
+        <YAxis
+          tickFormatter={(v) => `${findSymbol(currency)}${(v / 1000).toFixed(0)}k`}
+          stroke="#94a3b8"
+        />
+        <ReTooltip
+          formatter={(v: any) => formatCurrency(Number(v), locale, currency)}
+        />
+        <Legend />
+        <Line type="monotone" dataKey="revenue" stroke="#3b82f6" strokeWidth={2} />
+        <Line type="monotone" dataKey="cost" stroke="#ef4444" strokeWidth={2} />
+      </LineChart>
+    </ResponsiveContainer>
+  );
+};
 
 /* ============================================================
-   📈 COMPONENT
+   🧮 MAIN COMPONENT
    ============================================================ */
 const BreakEvenCalculator: React.FC = () => {
   // Inputs
@@ -85,8 +105,6 @@ const BreakEvenCalculator: React.FC = () => {
   // UI
   const [copied, setCopied] = useState<"none" | "results" | "link">("none");
   const [hydrated, setHydrated] = useState(false);
-  const [showInfoCosts, setShowInfoCosts] = useState(false);
-  const [showInfoRevenue, setShowInfoRevenue] = useState(false);
 
   const currentLocale = findLocale(currency);
   const isDefault = !fixedCost && !variableCost && !sellingPrice;
@@ -133,7 +151,6 @@ const BreakEvenCalculator: React.FC = () => {
       setProfitPerUnit(0);
       return;
     }
-
     const profit = sellingPrice - variableCost;
     const units = fixedCost / profit;
     const revenue = units * sellingPrice;
@@ -180,7 +197,7 @@ const BreakEvenCalculator: React.FC = () => {
   };
 
   /* ============================================================
-     🎨 RENDER START
+     🎨 RENDER
      ============================================================ */
   return (
     <>
@@ -214,7 +231,7 @@ const BreakEvenCalculator: React.FC = () => {
           </p>
         </div>
 
-        {/* ===== Input + Output Grid ===== */}
+        {/* ===== Input + Output ===== */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Input Section */}
           <div className="bg-[#1e293b] rounded-xl border border-[#334155] p-6 text-slate-200">
@@ -250,7 +267,7 @@ const BreakEvenCalculator: React.FC = () => {
                 </select>
               </div>
 
-              {/* Fixed Cost */}
+              {/* Fixed Costs */}
               <div>
                 <label className="text-sm font-medium text-slate-300 mb-1 block">
                   Fixed Costs ({findSymbol(currency)})
@@ -344,195 +361,37 @@ const BreakEvenCalculator: React.FC = () => {
               </div>
             </div>
           </div>
+        </div>
 
+        {/* Chart + Tip */}
+        {breakEvenUnits > 0 && (
+          <div className="mt-8 bg-[#1e293b] rounded-xl border border-[#334155] p-6 text-slate-200">
+            <h3 className="text-lg font-semibold text-white mb-6 text-center">
+              Cost vs Revenue Analysis
+            </h3>
+            <BreakEvenChart
+              sellingPrice={sellingPrice}
+              variableCost={variableCost}
+              fixedCost={fixedCost}
+              breakEvenUnits={breakEvenUnits}
+              currency={currency}
+              locale={currentLocale}
+            />
+            <p className="mt-4 text-center text-sm text-slate-400">
+              💡 The intersection of red and blue lines shows your break-even point —
+              where total cost equals total revenue.
+            </p>
+          </div>
+        )}
 
-    <ResponsiveContainer width="100%" height={300}>
-      <LineChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" stroke="#475569" />
-        <XAxis dataKey="units" stroke="#94a3b8" />
-        <YAxis
-          tickFormatter={(v) => `${findSymbol(currency)}${(v / 1000).toFixed(0)}k`}
-          stroke="#94a3b8"
+        <AdBanner type="bottom" />
+        <RelatedCalculators
+          currentPath="/break-even-calculator"
+          category="business-profit"
         />
-        <ReTooltip
-          formatter={(v: any) => formatCurrency(Number(v), locale, currency)}
-        />
-        <Legend />
-        <Line type="monotone" dataKey="revenue" stroke="#3b82f6" strokeWidth={2} />
-        <Line type="monotone" dataKey="cost" stroke="#ef4444" strokeWidth={2} />
-      </LineChart>
-    </ResponsiveContainer>
-{/* ===== Chart + Tips Section ===== */}
-{breakEvenUnits > 0 && (
-  <div className="mt-8 bg-[#1e293b] rounded-xl border border-[#334155] p-6 text-slate-200">
-    <h3 className="text-lg font-semibold text-white mb-6 text-center">
-      Cost vs Revenue Analysis
-    </h3>
-    <BreakEvenChart
-      sellingPrice={sellingPrice}
-      variableCost={variableCost}
-      fixedCost={fixedCost}
-      breakEvenUnits={breakEvenUnits}
-      currency={currency}
-      locale={currentLocale}
-    />
-    <p className="mt-4 text-center text-sm text-slate-400">
-      💡 The intersection of red and blue lines shows your break-even point — where total cost equals total revenue.
-    </p>
-  </div>
-)}
-
-{/* ===== Smart Tip ===== */}
-{breakEvenUnits > 0 && (
-  <div className="mt-5 bg-[#1e293b] border border-[#334155] text-slate-200 px-6 py-4 rounded-md shadow-sm">
-    <p className="text-base font-medium leading-snug text-slate-300">
-      💡 Tip: Lowering variable costs or increasing your selling price
-      can dramatically reduce the number of units needed to break even.
-    </p>
-  </div>
-)}
-
-{/* ===== SEO / Informational Section ===== */}
-<section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
-  <h1 className="text-3xl font-bold text-cyan-400 mb-6">
-    Break-Even Point Calculator 2025 – Profit Starts Here
-  </h1>
-
-  <p>
-    The <strong>Break-Even Point Calculator by CalculatorHub</strong> helps you find how
-    many units or how much revenue your business needs to cover costs and start earning profit.
-  </p>
-
-  <figure className="my-8">
-    <img
-      src="/images/break-even-calculator-hero.webp"
-      alt="Break-even analysis chart"
-      title="Break-Even Calculator 2025 | Profitability Tool"
-      className="rounded-lg shadow-md border border-slate-700 mx-auto"
-      loading="lazy"
-    />
-    <figcaption className="text-center text-sm text-slate-400 mt-2">
-      Visualization of revenue and cost curves meeting at the break-even point.
-    </figcaption>
-  </figure>
-
-  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-    🧮 How Break-Even is Calculated
-  </h2>
-  <p className="font-mono text-center text-indigo-300">
-    Break-Even Units = Fixed Costs ÷ (Selling Price − Variable Cost)
-  </p>
-
-  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-    📘 Example
-  </h2>
-  <p>
-    Suppose your fixed costs are <strong>$10 000</strong>, selling price per unit is <strong>$50</strong>, 
-    and variable cost per unit is <strong>$30</strong>.  
-    Profit per unit = <strong>$20</strong>, so you need <strong>500 units</strong> to break even.
-  </p>
-
-  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-    💡 Why It Matters
-  </h2>
-  <ul className="list-disc list-inside space-y-2">
-    <li>Know how much you must sell before making a profit.</li>
-    <li>Adjust pricing or costs to improve profitability.</li>
-    <li>Plan for safe expansion or marketing spend.</li>
-  </ul>
-
-  {/* ===== FAQ Section ===== */}
-  <section id="faq" className="space-y-6 mt-16">
-    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
-      ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
-    </h2>
-
-    <div className="space-y-5 text-lg text-slate-100 leading-relaxed">
-      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-        <h3 className="font-semibold text-xl mb-2 text-yellow-300">
-          Q1: What is a break-even point?
-        </h3>
-        <p>
-          It’s the point where your total revenue equals total cost — neither profit nor loss.
-        </p>
       </div>
-
-      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-        <h3 className="font-semibold text-xl mb-2 text-yellow-300">
-          Q2: How can I lower my break-even point?
-        </h3>
-        <p>
-          Reduce variable costs, increase selling price, or cut fixed expenses to reach profit faster.
-        </p>
-      </div>
-
-      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-        <h3 className="font-semibold text-xl mb-2 text-yellow-300">
-          Q3: Is break-even useful for startups?
-        </h3>
-        <p>
-          Yes — it helps founders understand minimum sales targets to stay viable and plan funding needs.
-        </p>
-      </div>
-    </div>
-  </section>
-</section>
-
-{/* ===== Footer & Related Tools ===== */}
-<section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
-  <div className="flex items-center gap-3">
-    <img
-      src="/images/calculatorhub-author.webp"
-      alt="CalculatorHub Team"
-      className="w-12 h-12 rounded-full border border-gray-600"
-      loading="lazy"
-    />
-    <div>
-      <p className="font-semibold text-white">
-        Written by the CalculatorHub Business Analytics Team
-      </p>
-      <p className="text-sm text-slate-400">
-        Verified for financial accuracy. Last updated: 
-        <time dateTime="2025-10-20">October 20, 2025</time>.
-      </p>
-    </div>
-  </div>
-
-  <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
-    <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
-      🚀 Explore more business calculators on CalculatorHub:
-    </p>
-    <div className="flex flex-wrap gap-3 text-sm">
-      <a
-        href="/roi-calculator"
-        className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all"
-      >
-        📈 ROI Calculator
-      </a>
-      <a
-        href="/cagr-calculator"
-        className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all"
-      >
-        📊 CAGR Calculator
-      </a>
-      <a
-        href="/loan-affordability-calculator"
-        className="flex items-center gap-2 bg-[#0f172a] hover:bg-fuchsia-600/20 text-fuchsia-300 hover:text-fuchsia-400 px-3 py-2 rounded-md border border-slate-700 hover:border-fuchsia-500 transition-all"
-      >
-        🏠 Loan Affordability Calculator
-      </a>
-    </div>
-  </div>
-</section>
-
-<AdBanner type="bottom" />
-<RelatedCalculators
-  currentPath="/break-even-calculator"
-  category="business-profit"
-/>
-</div>
-</>
-);
+    </>
+  );
 };
 
 export default BreakEvenCalculator;
