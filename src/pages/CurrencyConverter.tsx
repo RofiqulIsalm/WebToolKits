@@ -420,25 +420,25 @@ const CurrencyConverter: React.FC = () => {
             <li>
                 <strong>Instant Conversions Anytime, Anywhere</strong>
                 <p>
-                An online currency converter works 24/7, allowing users to check live exchange rates from their phones or laptops. This convenience makes it a must-have for travelers, digital nomads, and remote professionals who deal with international payments.
+                An <strong>online currency converter works 24/7</strong>, allowing users to check<strong>live exchange rates</strong> from their phones or laptops. This convenience makes it a must-have for travelers, digital nomads, and remote professionals who deal with international payments.
                 </p>
               </li>
               <li>
                 <strong>Accurate and Real-Time Data</strong>
                 <p>
-                Modern real time currency converters ensure that the displayed rates reflect current market values. Whether you’re using an accurate currency converter for business planning or checking prices on e-commerce platforms, these tools eliminate the guesswork.
+                Modern <strong>real time currency converters</strong> ensure that the displayed rates reflect current market values. Whether you’re using an<strong> accurate currency converter</strong> for business planning or checking prices on e-commerce platforms, these tools eliminate the guesswork.
                 </p>
               </li>
               <li>
                 <strong>Smarter Financial Decisions</strong>
                 <p>
-                For investors and business owners, understanding the latest currency conversion rates today can be the difference between profit and loss. A reliable foreign exchange calculator helps you forecast expenses, compare options, and plan international transactions more effectively.
+                For investors and business owners, understanding the latest<strong> currency conversion rates today </strong>can be the difference between profit and loss. A reliable <strong>foreign exchange calculator</strong> helps you forecast expenses, compare options, and plan international transactions more effectively.
                 </p>
               </li>
               <li>
                 <strong>Transparent and Easy-to-Use</strong>
                 <p>
-                Unlike banks, which might charge hidden fees, a moneyconverter tool offers clarity. You can see the conversion instantly and understand how much you’ll actually get before making a transaction. Many currency converter apps even integrate with payment platforms or travel booking sites for seamless use.
+                Unlike banks, which might charge hidden fees, a <strong>moneyconverter</strong> tool offers clarity. You can see the conversion instantly and understand how much you’ll actually get before making a transaction. Many <strong>currency converter apps</strong> even integrate with payment platforms or travel booking sites for seamless use.
                 </p>
               </li>
             </ol>
