@@ -189,41 +189,45 @@ const CurrencyConverter: React.FC = () => {
 
 ], []);
 
-  const [chartData, setChartData] = useState<{ date: string; rate: number }[]>([]);
-  const [chartLoading, setChartLoading] = useState(false);
-  
-  const fetchHistoricalRates = async (base: string, target: string) => {
-    setChartLoading(true);
-    try {
-      const endDate = new Date().toISOString().split('T')[0];
-      const start = new Date();
-      start.setDate(start.getDate() - 30);
-      const startDate = start.toISOString().split('T')[0];
-  
-      const response = await fetch(
-        `https://api.exchangerate.host/timeseries?start_date=${startDate}&end_date=${endDate}&base=${base}&symbols=${target}`
-      );
-      const data = await response.json();
-  
-      if (data.rates) {
-        const formatted = Object.entries(data.rates).map(([date, value]: any) => ({
+ const fetchHistoricalRates = async (base: string, target: string) => {
+  setChartLoading(true);
+  try {
+    const endDate = new Date().toISOString().split('T')[0];
+    const start = new Date();
+    start.setDate(start.getDate() - 30);
+    const startDate = start.toISOString().split('T')[0];
+
+    const response = await fetch(
+      `https://api.exchangerate.host/timeseries?start_date=${startDate}&end_date=${endDate}&base=${base}&symbols=${target}`
+    );
+    const data = await response.json();
+
+    if (data.rates && Object.keys(data.rates).length > 0) {
+      // Sort by date to ensure the line chart draws correctly
+      const formatted = Object.entries(data.rates)
+        .map(([date, value]: [string, any]) => ({
           date,
           rate: value[target],
-        }));
-        setChartData(formatted);
-      }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setChartLoading(false);
+        }))
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+      setChartData(formatted);
+    } else {
+      console.warn('No rate data found for', base, 'to', target);
+      setChartData([]);
     }
-  };
+  } catch (err) {
+    console.error('Error fetching historical data:', err);
+    setChartData([]);
+  } finally {
+    setChartLoading(false);
+  }
+};
 
-  useEffect(() => {
-    fetchHistoricalRates(fromCurrency, toCurrency);
-  }, [fromCurrency, toCurrency]);
 
-
+useEffect(() => {
+  console.log('Chart data:', chartData);
+}, [chartData]);
 
   useEffect(() => {
     fetchExchangeRates();
@@ -422,25 +426,27 @@ const CurrencyConverter: React.FC = () => {
             <p className="text-slate-400 text-center animate-pulse">Loading chart...</p>
           ) : (
             <ResponsiveContainer width="100%" height={250}>
-              <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis dataKey="date" tick={{ fill: '#94a3b8', fontSize: 10 }} />
-                <YAxis tick={{ fill: '#94a3b8', fontSize: 10 }} />
-                <Tooltip
-                  contentStyle={{ backgroundColor: '#1e293b', border: 'none' }}
-                  labelStyle={{ color: '#fff' }}
-                  formatter={(value: any) => value.toFixed(4)}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="rate"
-                  stroke="#38bdf8"
-                  strokeWidth={2}
-                  dot={false}
-                  activeDot={{ r: 5 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+  <LineChart data={chartData}>
+    <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+    <XAxis dataKey="date" tick={{ fill: '#94a3b8', fontSize: 10 }} />
+    <YAxis tick={{ fill: '#94a3b8', fontSize: 10 }} domain={['auto', 'auto']} />
+    <Tooltip
+      contentStyle={{ backgroundColor: '#1e293b', border: 'none' }}
+      labelStyle={{ color: '#fff' }}
+      formatter={(value: number) => value.toFixed(4)}
+    />
+    <Line
+      type="monotone"
+      dataKey="rate"
+      stroke="#38bdf8"
+      strokeWidth={2}
+      dot={false}
+      activeDot={{ r: 5 }}
+      isAnimationActive={true}
+    />
+  </LineChart>
+</ResponsiveContainer>
+
           )}
         </div>
 
