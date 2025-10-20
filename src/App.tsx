@@ -26,6 +26,7 @@ import ROICalculator  from './pages/ROICalculator';
 import SavingsGoalCalculator from './pages/SavingsGoalCalculator';
 import SimpleInterestCalculator from './pages/SimpleInterestCalculator';
 import CarLoanCalculator from './pages/CarLoanCalculator';
+import HomeLoanCalculator from './pages/HomeLoanCalculator';
 
 
 // Unit Converters
@@ -216,6 +217,7 @@ function App() {
               <Route path="/roi-calculator" element={<ROICalculator />} />
               <Route path="/savings-goal-calculator" element={<SavingsGoalCalculator />} />
               <Route path="/car-loan-calculator" element={<CarLoanCalculator />} />
+              <Route path="/home-loan-calculator" element={<HomeLoanCalculator />} />
 
               <Route path="/simple-interest-calculator" element={<SimpleInterestCalculator />} />
               <Route path="/loan-emi-calculator" element={<LoanEMICalculator />} />
