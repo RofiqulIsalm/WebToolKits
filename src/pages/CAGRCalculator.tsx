@@ -348,7 +348,6 @@ const CAGRCalculator: React.FC = () => {
             </div>
           </div>
         </div>
-// ================= CAGRCalculator.tsx (Part 2/2) =================
 
         {/* ===== Chart & Breakdown ===== */}
         {cagr > 0 && (
