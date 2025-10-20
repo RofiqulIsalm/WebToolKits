@@ -110,6 +110,14 @@ export const toolsData = [
         icon: TrendingUp,
         path: '/roi-calculator',
         color: 'finance-card'
+      },
+      {
+        name: 'Car Loan Calculator',
+        description: 'Estimate your car loan EMI, total interest, and total payment',
+        icon: Car,
+        path: '/car-loan-calculator',
+        color: 'finance-card',
+        popular: true
       }
     ]
   },
