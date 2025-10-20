@@ -349,7 +349,6 @@ const InflationCalculator: React.FC = () => {
             </div>
           </div>
         </div>
-// ================= InflationCalculator.tsx (Part 2/2) =================
 
         {/* ===== Chart + Insights ===== */}
         {amount > 0 && futureValue > 0 && (
