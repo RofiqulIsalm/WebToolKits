@@ -25,6 +25,7 @@ import CreditCardPayoff  from './pages/CreditCardPayoff';
 import ROICalculator  from './pages/ROICalculator';
 import SavingsGoalCalculator from './pages/SavingsGoalCalculator';
 import SimpleInterestCalculator from './pages/SimpleInterestCalculator';
+import CarLoanCalculator from './pages/CarLoanCalculator';
 
 
 // Unit Converters
@@ -214,6 +215,8 @@ function App() {
               <Route path="/credit-card-payoff-calculator" element={<CreditCardPayoff />} />
               <Route path="/roi-calculator" element={<ROICalculator />} />
               <Route path="/savings-goal-calculator" element={<SavingsGoalCalculator />} />
+              <Route path="/car-loan-calculator" element={<CarLoanCalculator />} />
+
               <Route path="/simple-interest-calculator" element={<SimpleInterestCalculator />} />
               <Route path="/loan-emi-calculator" element={<LoanEMICalculator />} />
               <Route path="/compound-interest-calculator" element=        {<CompoundInterestCalculator />} />
