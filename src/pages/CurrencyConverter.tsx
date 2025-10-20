@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRightLeft, RefreshCw } from 'lucide-react';
+import { fallbackRates } from '../utils/fallbackRates';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
-import { fallbackRates } from '../utils/fallbackRates';
  
 
  
@@ -286,17 +286,23 @@ const CurrencyConverter: React.FC = () => {
           className="w-full px-4 py-3 bg-slate-900/70 text-white rounded-xl border border-slate-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
           placeholder="Enter amount"
         />
-        <select
-          value={fromCurrency}
-          onChange={(e) => setFromCurrency(e.target.value)}
-          className="w-full mt-3 px-4 py-3 bg-slate-900/70 text-white rounded-xl border border-slate-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        >
-          {allCurrencies.map((currency) => (
-            <option key={currency.code} value={currency.code}>
-              {currency.code} — {currency.name}
-            </option>
-          ))}
-        </select>
+        <div className="relative">
+  <select
+    value={fromCurrency}
+    onChange={(e) => setFromCurrency(e.target.value)}
+    className="appearance-none w-full mt-3 px-4 py-3 bg-slate-900/70 text-white rounded-xl border border-slate-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+  >
+    {allCurrencies.map((currency) => (
+      <option key={currency.code} value={currency.code}>
+        {currency.code} — {currency.name}
+      </option>
+    ))}
+  </select>
+  <div className="absolute left-3 top-[54px] flex items-center space-x-2 pointer-events-none">
+    <CurrencyFlag currency={fromCurrency} size="sm" />
+  </div>
+</div>
+
       </div>
     </div>
 
