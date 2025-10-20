@@ -216,7 +216,7 @@ const BreakEvenCalculator: React.FC = () => {
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
           items={[
-            { name: "Business & Profitability", url: "/category/business-profit" },
+            { name: "Currency & Finance", url: "/category/currency-finance" },
             { name: "Break-Even Calculator", url: "/break-even-calculator" },
           ]}
         />
@@ -387,7 +387,7 @@ const BreakEvenCalculator: React.FC = () => {
         <AdBanner type="bottom" />
         <RelatedCalculators
           currentPath="/break-even-calculator"
-          category="business-profit"
+          category="Currency & finance"
         />
       </div>
     </>
