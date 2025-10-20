@@ -228,6 +228,9 @@ function App() {
               <Route path="/car-loan-calculator" element={<CarLoanCalculator />} />
               <Route path="/home-loan-calculator" element={<HomeLoanCalculator />} />
               <Route path="/personal-loan-calculator" element={<PersonalLoanCalculator />} />
+              <Route path="/loan-affordability-calculator" element={<LoanAffordabilityCalculator />} />
+
+            
               <Route path="/simple-interest-calculator" element={<SimpleInterestCalculator />} />
               <Route path="/compound-interest-calculator" element=        {<CompoundInterestCalculator />} />
 
