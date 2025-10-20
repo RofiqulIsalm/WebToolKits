@@ -384,26 +384,30 @@ const CurrencyConverter: React.FC = () => {
          
         <h2 className="text-2xl font-bold">How Does the Currency Converter Work?</h2>
         <p>
-      A currency converter operates by pulling real-time exchange data from global financial markets. These rates fluctuate constantly due to economic indicators, inflation, and geopolitical factors that influence the strength of different currencies. The system updates every few seconds, ensuring accuracy when you use a real time currency converter or exchange rate calculator.
+      A <strong>currency converter</strong> operates by pulling<strong> real-time exchange data </strong>from global financial markets. These rates fluctuate constantly due to economic indicators, inflation, and geopolitical factors that influence the strength of different currencies. The system updates every few seconds, ensuring accuracy when you use a <strong>real time currency converter </strong>or <strong>exchange rate calculator</strong>.
         </p>  
         <p>
-         When a user inputs an amount—say, converting 100 USD to EUR—the online currency calculator fetches the live exchange rate for USD to EUR and instantly performs the calculation. The formula is straightforward:
+         When a user inputs an amount—say, converting 100 USD to EUR—the <strong>online currency calculator</strong> fetches the<strong> live exchange rate</strong> for USD to EUR and instantly performs the calculation. The formula is straightforward:
         </p>
         <div className="bg-slate-800/60 p-4 rounded-lg">
           <code className="text-green-400">
             Converted Amount = Amount × Current Exchange Rate
           </code>
         </div>
-          <p>For example, if the currency conversion rate today shows that 1 USD equals 0.92 EUR, the converter will display €92 for $100.</p>
+          
+          <p>For example, if the <strong>currency conversion rate today</strong> shows that 1 USD equals 0.92 EUR, the converter will display €92 for $100.</p>
+          
+          <div className="bg-slate-800/60 p-4 rounded-lg">
+            <code className="italic text-yellow-300">
+              100 × 0.85 = 85 EUR
+            </code>
+          </div>
         <p>
-       Some advanced tools, like a multi currency converter, allow users to track several currencies at once, making it ideal for businesses or travelers managing multiple accounts. Other tools offer historical exchange rates, enabling investors and analysts to study market trends over time.
+       Some advanced tools, like a <strong>multi currency converter</strong>, allow users to track several currencies at once, making it ideal for businesses or travelers managing multiple accounts. Other tools offer <strong>historical exchange rates</strong>, enabling investors and analysts to study market trends over time.
         </p>
-        <div className="bg-slate-800/60 p-4 rounded-lg">
-          <code className="italic text-yellow-300">
-            100 × 0.85 = 85 EUR
-          </code>
-        </div>
-          <p>However, it’s important to note that the rates shown on a converter might differ slightly from what banks or credit card companies offer due to currency conversion fees or additional service charges. Understanding this small difference can help users avoid unexpected costs when exchanging money in real transactions.</p>
+        
+      
+          <p>However, it’s important to note that the rates shown on a converter might differ slightly from what banks or credit card companies offer due to <strong>currency conversion fees</strong> or additional service charges. Understanding this small difference can help users avoid unexpected costs when exchanging money in real transactions.</p>
 
           <AdBanner type="bottom" />
       
