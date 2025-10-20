@@ -7,6 +7,14 @@ import {
   Share2,
   Info,
 } from "lucide-react";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Tooltip as ReTooltip,
+  Legend,
+} from "recharts";
 import SEOHead from "../components/SEOHead";
 import Breadcrumbs from "../components/Breadcrumbs";
 import AdBanner from "../components/AdBanner";
@@ -17,6 +25,7 @@ import { seoData, generateCalculatorSchema } from "../utils/seoData";
    📦 CONSTANTS
    ============================================================ */
 const LS_KEY = "lump_sum_investment_calc_v1";
+const PIE_COLORS = ["#3b82f6", "#22c55e"];
 
 const currencyOptions = [
   { code: "USD", symbol: "$", locale: "en-US", label: "US Dollar ($)" },
