@@ -187,7 +187,7 @@ const PayRaiseCalculator: React.FC = () => {
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
           items={[
-            { name: "Finance & Salary", url: "/category/finance-salary" },
+            { name: "Currency & Finance", url: "/category/currency-finance" },
             { name: "Pay Raise Calculator", url: "/pay-raise-calculator" },
           ]}
         />
