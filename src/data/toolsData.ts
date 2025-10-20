@@ -118,6 +118,22 @@ export const toolsData = [
         path: '/car-loan-calculator',
         color: 'finance-card',
         popular: true
+      },
+      {
+        name: 'Home Loan Calculator',
+        description: 'Estimate you home loan EMI, total interest, and total payment',
+        icon: Home,
+        path: '/home-loan-calculator',
+        color: 'finance-card',
+        popular: true
+      },
+      {
+        name: 'Personal Loan Calculator',
+        description: 'Estimate you personal loan EMI, total interest, and total payment',
+        icon: Home,
+        path: '/personal-loan-calculator',
+        color: 'finance-card',
+        popular: false
       }
     ]
   },
