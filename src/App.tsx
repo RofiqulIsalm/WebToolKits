@@ -215,6 +215,7 @@ function App() {
             
             {/* Currency & Finance */}
               <Route path="/currency-converter" element={<CurrencyConverter />} />
+              <Route path="/loan-emi-calculator" element={<LoanEMICalculator />} />
               <Route path="/tax-calculator" element={<TaxCalculator />} />
               <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
               <Route path="/sip-calculator" element={<SIPCalculator />} />
