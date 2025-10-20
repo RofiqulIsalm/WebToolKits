@@ -696,7 +696,7 @@ const RetirementCalculator: React.FC = () => {
                           
                             {/* Life Expectancy */}
                             <div className="flex flex-col">
-                              <label className="text-sm font-medium text-slate-300 mb-1 flex items-center gap-1">
+                              <label className="text-xs font-medium text-slate-300 mb-1 flex items-center gap-1">
                                 Life Expectancy
                                 <span className="text-xs text-slate-500">(yrs)</span>
                               </label>
