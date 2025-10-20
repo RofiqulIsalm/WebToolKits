@@ -183,6 +183,16 @@ const CurrencyConverter: React.FC = () => {
 
 ], []);
 
+  const getFlagEmoji = (currencyCode: string) => {
+    const countryCode = currencyCode.slice(0, 2); // Example: "US" from "USD"
+    const codePoints = countryCode
+      .toUpperCase()
+      .split('')
+      .map(char => 127397 + char.charCodeAt(0));
+    return String.fromCodePoint(...codePoints);
+  };
+
+
 
   useEffect(() => {
     fetchExchangeRates();
