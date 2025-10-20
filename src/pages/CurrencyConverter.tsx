@@ -304,7 +304,7 @@ const CurrencyConverter: React.FC = () => {
   >
     {allCurrencies.map((currency) => (
       <option key={currency.code} value={currency.code}>
-        {currency.code} — {currency.name}
+        {getFlagEmoji(currency.code)} {currency.code} — {currency.name}
       </option>
     ))}
   </select>
