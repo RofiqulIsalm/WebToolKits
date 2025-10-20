@@ -214,33 +214,22 @@ function App() {
 
             
             {/* Currency & Finance */}
-              {/* Currency & Finance */}
-<Route path="/currency-converter" element={<CurrencyConverter />} />
-<Route path="/tax-calculator" element={<TaxCalculator />} />
-<Route path="/mortgage-calculator" element={<MortgageCalculator />} />
-<Route path="/sip-calculator" element={<SIPCalculator />} />
-<Route path="/fd-calculator" element={<FDCalculator />} />
-<Route path="/rd-calculator" element={<RDCalculator />} />
-<Route path="/retirement-calculator" element={<RetirementCalculator />} />
-<Route path="/inflation-calculator" element={<InflationCalculator />} />
-<Route path="/credit-card-payoff-calculator" element={<CreditCardPayoff />} />
-<Route path="/roi-calculator" element={<ROICalculator />} />
-<Route path="/savings-goal-calculator" element={<SavingsGoalCalculator />} />
-<Route path="/car-loan-calculator" element={<CarLoanCalculator />} />
-<Route path="/home-loan-calculator" element={<HomeLoanCalculator />} />
-<Route path="/personal-loan-calculator" element={<PersonalLoanCalculator />} />
-<Route path="/loan-affordability-calculator" element={<LoanAffordabilityCalculator />} />
-<Route path="/debt-to-income-ratio-calculator" element={<DebtToIncomeCalculator />} />
-<Route path="/cagr-calculator" element={<CAGRCalculator />} />
-<Route path="/lump-sum-investment-calculator" element={<LumpSumInvestmentCalculator />} />
-<Route path="/pay-raise-calculator" element={<PayRaiseCalculator />} />
-<Route path="/break-even-point-calculator" element={<BreakEvenPointCalculator />} />
-<Route path="/loan-comparison-calculator" element={<LoanComparisonCalculator />} />
-
-<Route path="/simple-interest-calculator" element={<SimpleInterestCalculator />} />
-<Route path="/loan-emi-calculator" element={<LoanEMICalculator />} />
-<Route path="/compound-interest-calculator" element={<CompoundInterestCalculator />} />
-
+              <Route path="/currency-converter" element={<CurrencyConverter />} />
+              <Route path="/tax-calculator" element={<TaxCalculator />} />
+              <Route path="/mortgage-calculator" element={<MortgageCalculator />} />
+              <Route path="/sip-calculator" element={<SIPCalculator />} />
+              <Route path="/fd-calculator" element={<FDCalculator />} />
+              <Route path="/rd-calculator" element={<RDCalculator />} />
+              <Route path="/retirement-calculator" element={<RetirementCalculator />} />
+              <Route path="/inflation-calculator" element={<InflationCalculator />} />
+              <Route path="/credit-card-payoff-calculator" element={<CreditCardPayoff />} />
+              <Route path="/roi-calculator" element={<ROICalculator />} />
+              <Route path="/savings-goal-calculator" element={<SavingsGoalCalculator />} />
+              <Route path="/car-loan-calculator" element={<CarLoanCalculator />} />
+              <Route path="/home-loan-calculator" element={<HomeLoanCalculator />} />
+              <Route path="/personal-loan-calculator" element={<PersonalLoanCalculator />} />
+              <Route path="/simple-interest-calculator" element={<SimpleInterestCalculator />} />
+              <Route path="/compound-interest-calculator" element=        {<CompoundInterestCalculator />} />
 
                
             
