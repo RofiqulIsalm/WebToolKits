@@ -229,15 +229,6 @@ function App() {
               <Route path="/home-loan-calculator" element={<HomeLoanCalculator />} />
               <Route path="/personal-loan-calculator" element={<PersonalLoanCalculator />} />
               <Route path="/simple-interest-calculator" element={<SimpleInterestCalculator />} />
-              <Route path="/loan-emi-calculator" element={<LoanEMICalculator />} />
-              <Route path="/loan-affordability-calculator" element={<LoanAffordabilityCalculator />} />
-              <Route path="/debt-to-income-ratio-calculator" element={<DebtToIncomeCalculator />} />
-              <Route path="/cagr-calculator" element={<CAGRCalculator />} />
-              <Route path="/lump-sum-investment-calculator" element={<LumpSumInvestmentCalculator />} />
-              <Route path="/pay-raise-calculator" element={<PayRaiseCalculator />} />
-              <Route path="/break-even-point-calculator" element={<BreakEvenPointCalculator />} />
-              <Route path="/loan-comparison-calculator" element={<LoanComparisonCalculator />} />
-
               <Route path="/compound-interest-calculator" element=        {<CompoundInterestCalculator />} />
 
                
