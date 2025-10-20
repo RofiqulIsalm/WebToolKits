@@ -134,6 +134,62 @@ export const toolsData = [
         path: '/personal-loan-calculator',
         color: 'finance-card',
         popular: false
+      },
+            {
+        name: 'Loan Affordability Calculator',
+        description: 'Find out how much loan you can afford based on your income and expenses',
+        icon: PiggyBank,
+        path: '/loan-affordability-calculator',
+        color: 'finance-card',
+        popular: false
+      },
+      {
+        name: 'Debt-to-Income Ratio Calculator (DTI)',
+        description: 'Calculate your DTI ratio to assess your financial health and loan eligibility',
+        icon: Calculator,
+        path: '/debt-to-income-ratio-calculator',
+        color: 'finance-card',
+        popular: false
+      },
+      {
+        name: 'CAGR Calculator',
+        description: 'Calculate the Compound Annual Growth Rate of your investments',
+        icon: TrendingUp,
+        path: '/cagr-calculator',
+        color: 'finance-card',
+        popular: false
+      },
+      {
+        name: 'Lump Sum Investment Calculator',
+        description: 'Estimate returns on a one-time investment over time',
+        icon: Banknote,
+        path: '/lump-sum-investment-calculator',
+        color: 'finance-card',
+        popular: false
+      },
+      {
+        name: 'Pay Raise / Salary Hike Calculator',
+        description: 'Calculate your new salary and percentage increase after a pay raise',
+        icon: Receipt,
+        path: '/pay-raise-calculator',
+        color: 'finance-card',
+        popular: false
+      },
+      {
+        name: 'Break-Even Point Calculator',
+        description: 'Calculate the break-even sales or revenue needed to cover costs',
+        icon: BarChart3,
+        path: '/break-even-point-calculator',
+        color: 'finance-card',
+        popular: false
+      },
+      {
+        name: 'Loan Comparison Calculator',
+        description: 'Compare two different loan offers based on interest rates and tenures',
+        icon: Scale,
+        path: '/loan-comparison-calculator',
+        color: 'finance-card',
+        popular: false
       }
     ]
   },
