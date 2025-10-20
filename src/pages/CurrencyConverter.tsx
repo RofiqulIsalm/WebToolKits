@@ -6,6 +6,15 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
 import { fallbackRates } from '../utils/fallbackRates';
+import { LineChart,
+        Line,
+        XAxis,
+        YAxis,
+        Tooltip,
+        ResponsiveContainer,
+        CartesianGrid
+       } from 'recharts';
+
 
 
  
