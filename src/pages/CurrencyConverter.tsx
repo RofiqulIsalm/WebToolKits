@@ -411,6 +411,44 @@ const CurrencyConverter: React.FC = () => {
         </div>
       </div>
       <AdBanner type="bottom" />
+
+
+        <div className="mt-8 bg-slate-800/50 rounded-lg p-4">
+          <h3 className="text-lg font-semibold text-white mb-3">
+            30-Day Exchange Rate Trend
+          </h3>
+        
+          {chartLoading ? (
+            <p className="text-slate-400 text-center animate-pulse">Loading chart...</p>
+          ) : (
+            <ResponsiveContainer width="100%" height={250}>
+              <LineChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                <XAxis dataKey="date" tick={{ fill: '#94a3b8', fontSize: 10 }} />
+                <YAxis tick={{ fill: '#94a3b8', fontSize: 10 }} />
+                <Tooltip
+                  contentStyle={{ backgroundColor: '#1e293b', border: 'none' }}
+                  labelStyle={{ color: '#fff' }}
+                  formatter={(value: any) => value.toFixed(4)}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="rate"
+                  stroke="#38bdf8"
+                  strokeWidth={2}
+                  dot={false}
+                  activeDot={{ r: 5 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          )}
+        </div>
+
+
+
+
+
+        
         <div className="seo-content text-white space-y-6 mt-10">
 
         <h2 className="text-2xl font-bold">What is a Currency Converter?</h2>
