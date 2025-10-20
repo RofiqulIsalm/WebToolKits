@@ -414,7 +414,6 @@ const SavingsGoalCalculator: React.FC = () => {
             </div>
           </div>
         </div>
-// ================= SavingsGoalCalculator.tsx (Part 2/2) =================
 
         {/* ===== Chart & Insights ===== */}
         {goalAmount > 0 && monthsToGoal > 0 && (
