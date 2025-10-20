@@ -14,9 +14,6 @@ import { LineChart,
         ResponsiveContainer,
         CartesianGrid
        } from 'recharts';
-
-
-
  
 const CurrencyConverter: React.FC = () => {
   const [amount, setAmount] = useState<number>(1);
@@ -191,6 +188,41 @@ const CurrencyConverter: React.FC = () => {
     { code: 'ZWL', name: 'Zimbabwean Dollar' }
 
 ], []);
+
+  const [chartData, setChartData] = useState<{ date: string; rate: number }[]>([]);
+  const [chartLoading, setChartLoading] = useState(false);
+  
+  const fetchHistoricalRates = async (base: string, target: string) => {
+    setChartLoading(true);
+    try {
+      const endDate = new Date().toISOString().split('T')[0];
+      const start = new Date();
+      start.setDate(start.getDate() - 30);
+      const startDate = start.toISOString().split('T')[0];
+  
+      const response = await fetch(
+        `https://api.exchangerate.host/timeseries?start_date=${startDate}&end_date=${endDate}&base=${base}&symbols=${target}`
+      );
+      const data = await response.json();
+  
+      if (data.rates) {
+        const formatted = Object.entries(data.rates).map(([date, value]: any) => ({
+          date,
+          rate: value[target],
+        }));
+        setChartData(formatted);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setChartLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchHistoricalRates(fromCurrency, toCurrency);
+  }, [fromCurrency, toCurrency]);
+
 
 
   useEffect(() => {
