@@ -7,6 +7,18 @@ import {
   Share2,
   Info,
 } from "lucide-react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip as ReTooltip,
+  Legend,
+  ResponsiveContainer,
+  CartesianGrid,
+} from "recharts";
+
+
 import SEOHead from "../components/SEOHead";
 import Breadcrumbs from "../components/Breadcrumbs";
 import AdBanner from "../components/AdBanner";
@@ -14,6 +26,7 @@ import RelatedCalculators from "../components/RelatedCalculators";
 import { seoData, generateCalculatorSchema } from "../utils/seoData";
 
 const LS_KEY = "loan_comparison_calculator_v1";
+const COLORS = ["#3b82f6", "#22c55e"];
 
 const currencyOptions = [
   { code: "USD", symbol: "$", locale: "en-US", label: "US Dollar ($)" },
