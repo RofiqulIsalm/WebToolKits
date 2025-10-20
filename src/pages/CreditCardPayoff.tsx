@@ -375,7 +375,6 @@ const CreditCardPayoffCalculator: React.FC = () => {
             </div>
           </div>
         </div>
-// ================= CreditCardPayoffCalculator.tsx (Part 2/2) =================
 
         {/* ===== Chart & Insights ===== */}
         {balance > 0 && monthsToPayoff > 0 && (
