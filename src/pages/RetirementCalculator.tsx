@@ -645,37 +645,80 @@ const RetirementCalculator: React.FC = () => {
                               accumulation period and withdrawal horizon.
                             </div>
                           )}
-                          <div className="grid grid-cols-3 gap-3">
-                            <input
-                              type="number"
-                              value={currentAge}
-                              min={0}
-                              max={120}
-                              onChange={(e) => setCurrentAge(clamp(parseInt(e.target.value) || 0, 0, retireAge))}
-                              placeholder="Current"
-                              className="bg-[#0f172a] text-white px-3 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
-                            />
-                            <input
-                              type="number"
-                              value={retireAge}
-                              min={currentAge}
-                              max={120}
-                              onChange={(e) => setRetireAge(clamp(parseInt(e.target.value) || 0, currentAge, 120))}
-                              placeholder="Retire"
-                              className="bg-[#0f172a] text-white px-3 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
-                            />
-                            <input
-                              type="number"
-                              value={lifeExpectancy}
-                              min={retireAge}
-                              max={130}
-                              onChange={(e) =>
-                                setLifeExpectancy(clamp(parseInt(e.target.value) || 0, retireAge, 130))
-                              }
-                              placeholder="Life Exp."
-                              className="bg-[#0f172a] text-white px-3 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
-                            />
+                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            {/* Current Age */}
+                            <div className="flex flex-col">
+                              <label className="text-sm font-medium text-slate-300 mb-1 flex items-center gap-1">
+                                Current Age
+                                <span className="text-xs text-slate-500">(yrs)</span>
+                              </label>
+                              <div className="relative">
+                                <input
+                                  type="number"
+                                  value={currentAge || ""}
+                                  min={0}
+                                  max={120}
+                                  onChange={(e) =>
+                                    setCurrentAge(clamp(parseInt(e.target.value) || 0, 0, retireAge))
+                                  }
+                                  placeholder="30"
+                                  className="w-full bg-[#0f172a] text-white px-4 py-2.5 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 placeholder-slate-500 text-sm transition-all"
+                                />
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs">
+                                  🎂
+                                </span>
+                              </div>
+                            </div>
+                          
+                            {/* Retirement Age */}
+                            <div className="flex flex-col">
+                              <label className="text-sm font-medium text-slate-300 mb-1 flex items-center gap-1">
+                                Retirement Age
+                                <span className="text-xs text-slate-500">(yrs)</span>
+                              </label>
+                              <div className="relative">
+                                <input
+                                  type="number"
+                                  value={retireAge || ""}
+                                  min={currentAge}
+                                  max={120}
+                                  onChange={(e) =>
+                                    setRetireAge(clamp(parseInt(e.target.value) || 0, currentAge, 120))
+                                  }
+                                  placeholder="60"
+                                  className="w-full bg-[#0f172a] text-white px-4 py-2.5 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 placeholder-slate-500 text-sm transition-all"
+                                />
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs">
+                                  🏖️
+                                </span>
+                              </div>
+                            </div>
+                          
+                            {/* Life Expectancy */}
+                            <div className="flex flex-col">
+                              <label className="text-sm font-medium text-slate-300 mb-1 flex items-center gap-1">
+                                Life Expectancy
+                                <span className="text-xs text-slate-500">(yrs)</span>
+                              </label>
+                              <div className="relative">
+                                <input
+                                  type="number"
+                                  value={lifeExpectancy || ""}
+                                  min={retireAge}
+                                  max={130}
+                                  onChange={(e) =>
+                                    setLifeExpectancy(clamp(parseInt(e.target.value) || 0, retireAge, 130))
+                                  }
+                                  placeholder="85"
+                                  className="w-full bg-[#0f172a] text-white px-4 py-2.5 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 placeholder-slate-500 text-sm transition-all"
+                                />
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs">
+                                  ❤️
+                                </span>
+                              </div>
+                            </div>
                           </div>
+
                           <p className="text-xs text-slate-400 mt-2">
                             Saving window:{" "}
                             <span className="text-indigo-300 font-semibold">{yearsToRetire}</span> years ·
