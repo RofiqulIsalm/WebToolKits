@@ -348,3 +348,216 @@ const CAGRCalculator: React.FC = () => {
             </div>
           </div>
         </div>
+// ================= CAGRCalculator.tsx (Part 2/2) =================
+
+        {/* ===== Chart & Breakdown ===== */}
+        {cagr > 0 && (
+          <div className="mt-6 bg-[#1e293b] rounded-xl border border-[#334155] p-6 text-slate-200">
+            <h3 className="text-lg font-semibold text-white mb-6 text-center">
+              Investment Growth Breakdown
+            </h3>
+
+            <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
+              {/* Pie Chart */}
+              <div className="w-[90%] sm:w-[70%] md:w-[50%] max-w-[360px] h-[240px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: "Initial Value", value: initialValue },
+                        { name: "Gain", value: totalGain },
+                      ]}
+                      dataKey="value"
+                      innerRadius={60}
+                      outerRadius={90}
+                      paddingAngle={2}
+                    >
+                      <Cell fill="#3b82f6" />
+                      <Cell fill="#22c55e" />
+                    </Pie>
+                    <ReTooltip
+                      formatter={(v: any) =>
+                        formatCurrency(Number(v), currentLocale, currency)
+                      }
+                    />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+
+              {/* Summary */}
+              <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+                <div className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center hover:border-sky-500 transition">
+                  <p className="text-sm text-slate-400">Initial Value</p>
+                  <p className="font-semibold text-white text-lg">
+                    {formatCurrency(initialValue, currentLocale, currency)}
+                  </p>
+                </div>
+                <div className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center hover:border-emerald-500 transition">
+                  <p className="text-sm text-slate-400">Total Gain</p>
+                  <p className="font-semibold text-white text-lg">
+                    {formatCurrency(totalGain, currentLocale, currency)}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ===== Smart Tip ===== */}
+        {cagr > 0 && (
+          <div className="mt-5 bg-[#1e293b] border border-[#334155] text-slate-200 px-6 py-4 rounded-md shadow-sm">
+            <p className="text-base font-medium leading-snug text-slate-300">
+              💡 Tip: A higher CAGR indicates stronger growth — but check if it’s 
+              <span className="text-indigo-400 font-semibold"> consistent</span> and 
+              <span className="text-emerald-400 font-semibold"> sustainable</span> over time.
+            </p>
+          </div>
+        )}
+
+        {/* ===== SEO / Informational Section ===== */}
+        <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+          <h1 className="text-3xl font-bold text-cyan-400 mb-6">
+            CAGR Calculator 2025 – Find Your Annual Investment Growth
+          </h1>
+
+          <p>
+            The <strong>CAGR Calculator by CalculatorHub</strong> helps you measure the
+            average yearly growth rate of an investment, showing how efficiently your
+            money compounds over time.
+          </p>
+
+          <figure className="my-8">
+            <img
+              src="/images/cagr-calculator-hero.webp"
+              alt="CAGR Calculator chart and dashboard"
+              title="CAGR Calculator 2025 | Investment Growth Rate"
+              className="rounded-lg shadow-md border border-slate-700 mx-auto"
+              loading="lazy"
+            />
+            <figcaption className="text-center text-sm text-slate-400 mt-2">
+              Visual representation of CAGR growth over multiple years.
+            </figcaption>
+          </figure>
+
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            🧮 CAGR Formula
+          </h2>
+          <p className="font-mono text-center text-indigo-300">
+            CAGR = ((Final Value / Initial Value) ^(1 / Years)) − 1
+          </p>
+
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            📘 Example Calculation
+          </h2>
+          <p>
+            Suppose you invested <strong>$10 000</strong> in 2020 and it’s now worth 
+            <strong>$16 000</strong> in 2025 (5 years).  
+            CAGR = ((16000 / 10000) ^(1 / 5)) − 1 = <strong>9.86 %</strong>.
+          </p>
+
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            💡 Why CAGR Matters
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li>Provides a consistent annualized return, even if growth fluctuated.</li>
+            <li>Useful for comparing mutual funds, stocks, or business revenues.</li>
+            <li>Shows the real compound effect over multiple years.</li>
+          </ul>
+
+          {/* ===== FAQ Section ===== */}
+          <section id="faq" className="space-y-6 mt-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
+              ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
+            </h2>
+
+            <div className="space-y-5 text-lg text-slate-100 leading-relaxed">
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">
+                  Q1: What is a good CAGR rate?
+                </h3>
+                <p>
+                  It depends on the investment type — 5-10 % is typical for mutual funds, 
+                  10-15 % for equities in the long term.
+                </p>
+              </div>
+
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">
+                  Q2: Is CAGR the same as average return?
+                </h3>
+                <p>
+                  No, CAGR accounts for compounding, while average return is a simple mean that ignores growth on growth.
+                </p>
+              </div>
+
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">
+                  Q3: Can CAGR be negative?
+                </h3>
+                <p>
+                  Yes — if the final value is less than the initial value, CAGR will be negative, indicating a loss.
+                </p>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        {/* ===== Footer & Related Tools ===== */}
+        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/calculatorhub-author.webp"
+              alt="CalculatorHub Finance Team"
+              className="w-12 h-12 rounded-full border border-gray-600"
+              loading="lazy"
+            />
+            <div>
+              <p className="font-semibold text-white">
+                Written by the CalculatorHub Finance Tools Team
+              </p>
+              <p className="text-sm text-slate-400">
+                Updated for accuracy and clarity. Last updated:{" "}
+                <time dateTime="2025-10-20">October 20, 2025</time>.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
+              🚀 Explore more investment tools on CalculatorHub:
+            </p>
+            <div className="flex flex-wrap gap-3 text-sm">
+              <a
+                href="/roi-calculator"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all"
+              >
+                📈 ROI Calculator
+              </a>
+              <a
+                href="/savings-goal-calculator"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all"
+              >
+                💰 Savings Goal Calculator
+              </a>
+              <a
+                href="/loan-affordability-calculator"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-fuchsia-600/20 text-fuchsia-300 hover:text-fuchsia-400 px-3 py-2 rounded-md border border-slate-700 hover:border-fuchsia-500 transition-all"
+              >
+                🏠 Loan Affordability Calculator
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <AdBanner type="bottom" />
+        <RelatedCalculators
+          currentPath="/cagr-calculator"
+          category="investment-returns"
+        />
+      </div>
+    </>
+  );
+};
+
+export default CAGRCalculator;
