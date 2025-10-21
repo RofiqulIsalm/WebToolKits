@@ -375,6 +375,14 @@ const CurrencyConverter: React.FC = () => {
         <div className="seo-content text-white space-y-6 mt-10">
 
         <h2 className="text-2xl font-bold">Understanding Currency Converters: How They Work and Why You Need One</h2>
+          {/*------------ world map ----------------*/}
+          <div className="mb-8 text-center">
+              <img
+                src="/images/world-currency-map.jpg"
+                alt="World map with currency symbols showing live exchange rates"
+                className="mx-auto rounded-lg shadow-lg w-full max-w-3xl"
+              />
+            </div>
           
         <h2 className="text-2xl font-bold">What is a Currency Converter?</h2>
           <p>A <strong>currency converter </strong>is a practical online tool that allows people to quickly and accurately convert one currency into another. It works using <strong>live exchange rates</strong>, ensuring that the value you see reflects the most current market prices. Whether you are a traveler planning a trip abroad, an investor managing international assets, or a business owner trading across borders, a <strong>real time currency converter</strong> simplifies the process of currency exchange.</p>
@@ -403,6 +411,15 @@ const CurrencyConverter: React.FC = () => {
             </code>
           </div>
         <p>
+
+          {/*---------- image ---------------*/}
+          <div className="my-6 flex justify-center">
+              <img
+                src="/images/currency-conversion-infographic.png"
+                alt="Infographic explaining how currency conversion formula works with live exchange updates"
+                className="rounded-lg shadow-md w-full max-w-2xl"
+              />
+            </div>
        Some advanced tools, like a <strong>multi currency converter</strong>, allow users to track several currencies at once, making it ideal for businesses or travelers managing multiple accounts. Other tools offer <strong>historical exchange rates</strong>, enabling investors and analysts to study market trends over time.
         </p>
         
