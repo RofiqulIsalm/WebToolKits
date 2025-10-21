@@ -803,22 +803,11 @@ const SipCalculator: React.FC = () => {
       <li><strong>n</strong> = Total number of months (years × 12)</li>
     </ul>
   
-    <p>
+    <p> 
       The formula ensures accuracy and transparency. This page even includes a **live math explainer** that reveals every 
       step — from exponentiation to factor calculation — a rare and educational feature that distinguishes this 
       <strong>professional SIP calculator</strong> from others online.
     </p>
-
-            {/* ===== Responsive, colorful EMI step-by-step ===== */}
-     
-        
-  
-          
-      
-  
-
-  
-
   
     <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">📈 Real-Time Chart & Data Visualization</h2>
     <p>
