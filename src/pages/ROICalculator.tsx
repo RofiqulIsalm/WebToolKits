@@ -1,4 +1,413 @@
-initialInvestment > 0 && finalValue > 0 && (
+// ================= ROICalculator.tsx (Part 1/2) =================
+import React, { useState, useEffect } from "react";
+import {
+  LineChart as LucideLineChart,
+  RotateCcw,
+  Copy,
+  Share2,
+  Info,
+} from "lucide-react";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Tooltip as ReTooltip,
+  Legend,
+} from "recharts";
+
+import SEOHead from "../components/SEOHead";
+import Breadcrumbs from "../components/Breadcrumbs";
+import AdBanner from "../components/AdBanner";
+import RelatedCalculators from "../components/RelatedCalculators";
+import { seoData, generateCalculatorSchema } from "../utils/seoData";
+
+/* ============================================================
+   📦 CONSTANTS
+   ============================================================ */
+const LS_KEY = "roi_calculator_v1";
+
+const currencyOptions = [
+  { code: "USD", symbol: "$", locale: "en-US", label: "US Dollar ($)" },
+  { code: "EUR", symbol: "€", locale: "de-DE", label: "Euro (€)" },
+  { code: "INR", symbol: "₹", locale: "en-IN", label: "Indian Rupee (₹)" },
+  { code: "GBP", symbol: "£", locale: "en-GB", label: "British Pound (£)" },
+  { code: "AUD", symbol: "A$", locale: "en-AU", label: "Australian Dollar (A$)" },
+];
+
+const findLocale = (code: string) =>
+  currencyOptions.find((c) => c.code === code)?.locale || "en-US";
+const findSymbol = (code: string) =>
+  currencyOptions.find((c) => c.code === code)?.symbol || "";
+
+const formatCurrency = (num: number, locale: string, currency: string) =>
+  new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency,
+    maximumFractionDigits: 2,
+  }).format(num);
+
+/* ============================================================
+   📈 COMPONENT
+   ============================================================ */
+const ROICalculator: React.FC = () => {
+  // Inputs
+  const [initialInvestment, setInitialInvestment] = useState<number>(0);
+  const [finalValue, setFinalValue] = useState<number>(0);
+  const [additionalContributions, setAdditionalContributions] =
+    useState<number>(0);
+  const [years, setYears] = useState<number>(0);
+  const [months, setMonths] = useState<number>(0);
+  const [currency, setCurrency] = useState<string>("USD");
+
+  // Outputs
+  const [roiPercent, setRoiPercent] = useState<number>(0);
+  const [annualizedRoi, setAnnualizedRoi] = useState<number>(0);
+  const [gain, setGain] = useState<number>(0);
+
+  // UI state
+  const [copied, setCopied] = useState<"none" | "results" | "link">("none");
+  const [hydrated, setHydrated] = useState(false);
+  const [showInfoDuration, setShowInfoDuration] = useState(false);
+
+  const currentLocale = findLocale(currency);
+  const isDefault =
+    !initialInvestment && !finalValue && !additionalContributions && !years && !months;
+
+  /* ============================================================
+     🔁 STATE PERSISTENCE
+     ============================================================ */
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(LS_KEY);
+      if (raw) {
+        const s = JSON.parse(raw);
+        setInitialInvestment(s.initialInvestment || 0);
+        setFinalValue(s.finalValue || 0);
+        setAdditionalContributions(s.additionalContributions || 0);
+        setYears(s.years || 0);
+        setMonths(s.months || 0);
+        setCurrency(s.currency || "USD");
+      }
+    } catch (err) {
+      console.warn("⚠️ Failed to load ROI calculator state", err);
+    } finally {
+      setHydrated(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      localStorage.setItem(
+        LS_KEY,
+        JSON.stringify({
+          initialInvestment,
+          finalValue,
+          additionalContributions,
+          years,
+          months,
+          currency,
+        })
+      );
+    } catch (err) {
+      console.warn("⚠️ Failed to save ROI calculator state", err);
+    }
+  }, [
+    hydrated,
+    initialInvestment,
+    finalValue,
+    additionalContributions,
+    years,
+    months,
+    currency,
+  ]);
+
+  /* ============================================================
+     🧮 CALCULATION LOGIC
+     ============================================================ */
+  useEffect(() => {
+    const totalInvested = initialInvestment + additionalContributions;
+    if (finalValue <= 0 || totalInvested <= 0) {
+      setGain(0);
+      setRoiPercent(0);
+      setAnnualizedRoi(0);
+      return;
+    }
+
+    const gainValue = finalValue - totalInvested;
+    setGain(gainValue);
+
+    const roi = (gainValue / totalInvested) * 100;
+    setRoiPercent(roi);
+
+    const totalYears = years + months / 12;
+    if (totalYears > 0) {
+      const annualized = (Math.pow(finalValue / totalInvested, 1 / totalYears) - 1) * 100;
+      setAnnualizedRoi(annualized);
+    } else {
+      setAnnualizedRoi(0);
+    }
+  }, [initialInvestment, finalValue, additionalContributions, years, months]);
+
+  /* ============================================================
+     🔗 COPY / SHARE / RESET
+     ============================================================ */
+  const reset = () => {
+    setInitialInvestment(0);
+    setFinalValue(0);
+    setAdditionalContributions(0);
+    setYears(0);
+    setMonths(0);
+    setCurrency("USD");
+    localStorage.removeItem(LS_KEY);
+  };
+
+  const copyResults = async () => {
+    const text = [
+      "ROI Summary",
+      `Initial Investment: ${formatCurrency(initialInvestment, currentLocale, currency)}`,
+      `Final Value: ${formatCurrency(finalValue, currentLocale, currency)}`,
+      `Gain: ${formatCurrency(gain, currentLocale, currency)}`,
+      `ROI: ${roiPercent.toFixed(2)}%`,
+      `Annualized ROI: ${annualizedRoi.toFixed(2)}%`,
+      `Duration: ${years} years ${months} months`,
+    ].join("\n");
+
+    await navigator.clipboard.writeText(text);
+    setCopied("results");
+    setTimeout(() => setCopied("none"), 1500);
+  };
+
+  const copyShareLink = async () => {
+    const state = {
+      initialInvestment,
+      finalValue,
+      additionalContributions,
+      years,
+      months,
+      currency,
+    };
+    const encoded = btoa(JSON.stringify(state));
+    const url = new URL(window.location.href);
+    url.searchParams.set("roi", encoded);
+    await navigator.clipboard.writeText(url.toString());
+    setCopied("link");
+    setTimeout(() => setCopied("none"), 1500);
+  };
+
+  /* ============================================================
+     🎨 RENDER
+     ============================================================ */
+  return (
+    <>
+      <SEOHead
+        title={seoData.roiCalculator?.title || "ROI Calculator | CalculatorHub"}
+        description={
+          seoData.roiCalculator?.description ||
+          "Calculate your return on investment (ROI) and annualized returns over time with this free online ROI calculator."
+        }
+        canonical="https://calculatorhub.site/roi-calculator"
+        schemaData={generateCalculatorSchema(
+          "ROI Calculator",
+          "Compute your investment gains and annualized ROI instantly with CalculatorHub.",
+          "/roi-calculator",
+          ["ROI calculator", "return on investment", "investment gain", "finance"]
+        )}
+      />
+
+      <div className="max-w-5xl mx-auto">
+        <Breadcrumbs
+          items={[
+            { name: "Currency & Finance", url: "/category/currency-finance" },
+            { name: "ROI Calculator", url: "/roi-calculator" },
+          ]}
+        />
+
+        {/* ===== Header ===== */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">
+            📈 ROI Calculator
+          </h1>
+          <p className="mt-3 text-slate-400 text-sm leading-relaxed">
+            Determine your total and annualized return on investment based on
+            your initial amount, final value, and duration.
+          </p>
+        </div>
+
+        {/* ===== Input + Output Grid ===== */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Input Section */}
+          <div className="bg-[#1e293b] rounded-xl border border-[#334155] p-6 text-slate-200">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+                <LucideLineChart className="h-5 w-5 text-sky-400" /> Investment Details
+              </h2>
+              <button
+                onClick={reset}
+                className="flex items-center gap-1 text-sm text-slate-300 border border-[#334155] rounded-lg px-2 py-1 hover:bg-[#0f172a] hover:text-white transition"
+                disabled={isDefault}
+              >
+                <RotateCcw className="h-4 w-4 text-indigo-400" /> Reset
+              </button>
+            </div>
+
+            <div className="space-y-5">
+              {/* Currency */}
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-2">
+                  Select Currency
+                </label>
+                <select
+                  value={currency}
+                  onChange={(e) => setCurrency(e.target.value)}
+                  className="w-48 bg-[#0f172a] text-white text-sm px-3 py-1.5 border border-[#334155] rounded-md focus:ring-2 focus:ring-indigo-500"
+                >
+                  {currencyOptions.map((c) => (
+                    <option key={c.code} value={c.code}>
+                      {c.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Initial Investment */}
+              <div>
+                <label className="text-sm font-medium text-slate-300 mb-1 block">
+                  Initial Investment ({findSymbol(currency)})
+                </label>
+                <input
+                  type="number"
+                  min={0}
+                  value={initialInvestment || ""}
+                  onChange={(e) => setInitialInvestment(parseFloat(e.target.value) || 0)}
+                  className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
+                  placeholder="Enter your starting investment"
+                />
+              </div>
+
+              {/* Additional Contributions */}
+              <div>
+                <label className="text-sm font-medium text-slate-300 mb-1 block">
+                  Additional Contributions ({findSymbol(currency)})
+                </label>
+                <input
+                  type="number"
+                  min={0}
+                  value={additionalContributions || ""}
+                  onChange={(e) =>
+                    setAdditionalContributions(parseFloat(e.target.value) || 0)
+                  }
+                  className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
+                  placeholder="Enter any additional deposits"
+                />
+              </div>
+
+              {/* Final Value */}
+              <div>
+                <label className="text-sm font-medium text-slate-300 mb-1 block">
+                  Final Value ({findSymbol(currency)})
+                </label>
+                <input
+                  type="number"
+                  min={0}
+                  value={finalValue || ""}
+                  onChange={(e) => setFinalValue(parseFloat(e.target.value) || 0)}
+                  className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
+                  placeholder="Enter the ending investment value"
+                />
+              </div>
+
+              {/* Duration */}
+              <div>
+                <label className="text-sm font-medium text-slate-300 flex items-center gap-2">
+                  Investment Duration
+                  <Info
+                    className="h-4 w-4 text-slate-400 cursor-pointer hover:text-indigo-400"
+                    onClick={() => setShowInfoDuration(!showInfoDuration)}
+                  />
+                </label>
+                {showInfoDuration && (
+                  <p className="text-xs bg-[#0f172a] p-2 rounded-md border border-[#334155] mt-1">
+                    Enter the total time you held the investment — this determines
+                    your annualized ROI.
+                  </p>
+                )}
+                <div className="flex gap-4 mt-2">
+                  <input
+                    type="number"
+                    min={0}
+                    value={years || ""}
+                    onChange={(e) => setYears(parseFloat(e.target.value) || 0)}
+                    placeholder="Years"
+                    className="w-1/2 bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
+                  />
+                  <input
+                    type="number"
+                    min={0}
+                    max={11}
+                    value={months || ""}
+                    onChange={(e) => setMonths(parseFloat(e.target.value) || 0)}
+                    placeholder="Months"
+                    className="w-1/2 bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Output Section */}
+          <div className="bg-[#1e293b] rounded-xl border border-[#334155] p-6 text-slate-200">
+            <h2 className="text-xl font-semibold text-white mb-4">ROI Summary</h2>
+
+            <div className="space-y-6">
+              <div className="text-center p-4 bg-[#0f172a] rounded-lg border border-[#334155]">
+                <div className="text-3xl font-bold text-white">
+                  {roiPercent.toFixed(2)}%
+                </div>
+                <div className="text-sm text-slate-400">Total ROI</div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-4 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
+                  <div className="text-lg font-semibold text-white">
+                    {formatCurrency(gain, currentLocale, currency)}
+                  </div>
+                  <div className="text-sm text-slate-400">Total Gain/Loss</div>
+                </div>
+                <div className="p-4 bg-[#0f172a] rounded-lg text-center border border-[#334155]">
+                  <div className="text-lg font-semibold text-white">
+                    {annualizedRoi.toFixed(2)}%
+                  </div>
+                  <div className="text-sm text-slate-400">Annualized ROI</div>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-3">
+                <button
+                  onClick={copyResults}
+                  className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-md text-sm"
+                >
+                  <Copy size={16} /> Copy Results
+                </button>
+                <button
+                  onClick={copyShareLink}
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md text-sm"
+                >
+                  <Share2 size={16} /> Copy Link
+                </button>
+                {copied !== "none" && (
+                  <span className="text-emerald-400 text-sm">
+                    {copied === "results" ? "Results copied!" : "Link copied!"}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ===== Chart & Insights ===== */}
+        {initialInvestment > 0 && finalValue > 0 && (
           <div className="mt-6 bg-[#1e293b] rounded-xl border border-[#334155] p-6 text-slate-200">
             <h3 className="text-lg font-semibold text-white mb-6 text-center">
               ROI Breakdown
@@ -69,7 +478,7 @@ initialInvestment > 0 && finalValue > 0 && (
         )}
 
         {/* ===== SEO Content Section ===== */}
-      <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+        <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
           <h1 className="text-3xl font-bold text-cyan-400 mb-6">
             ROI Calculator 2025 – Return on Investment Analysis Tool
           </h1>
@@ -261,6 +670,8 @@ initialInvestment > 0 && finalValue > 0 && (
             </div>
           </div>
         </section>
+
+
 
 
         <AdBanner type="bottom" />
