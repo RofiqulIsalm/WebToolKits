@@ -463,6 +463,15 @@ const CurrencyConverter: React.FC = () => {
           <p>In practice, most modern converters use <strong>real-time exchange rates</strong> provided by financial institutions, banks, or forex markets. This means the results update automatically whenever the rates change, keeping the information as accurate as possible.
 
 In short, the logic may be simple, but the impact is powerful: a <strong>currency converter saves time, reduces risk, and ensures financial clarity</strong> for anyone dealing with multiple currencies.</p>
+
+          {/*--------- image---------*/}
+          <div className="my-6 flex justify-center">
+            <img
+              src="/images/currency-converter-dashboard.jpg"
+              alt="Live currency converter app interface showing euro to pound exchange rate"
+              className="rounded-xl shadow-lg w-full max-w-lg"
+            />
+          </div>
           
         <h2 className="text-2xl font-bold">Popular Currency Conversions</h2>
         <p>
