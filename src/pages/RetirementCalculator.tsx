@@ -1166,165 +1166,208 @@ const RetirementCalculator: React.FC = () => {
                 )}
 
           {/* ==================== SEO CONTENT SECTION ==================== */}
-            <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
-              {/* TOC */}
-              <nav className="mt-16 mb-8 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200">
-                <h2 className="text-lg font-semibold text-cyan-300 mb-3">📖 Table of Contents</h2>
-                <ol className="list-decimal list-inside space-y-2 text-sm">
-                  <li><a href="#what-is" className="text-indigo-400 hover:underline">What Is a Retirement Calculator?</a></li>
-                  <li><a href="#how-to-use" className="text-indigo-400 hover:underline">How to Use the Retirement Calculator</a></li>
-                  <li><a href="#beginners" className="text-indigo-400 hover:underline">Retirement Calculator for Beginners</a></li>
-                  <li><a href="#advanced" className="text-indigo-400 hover:underline">Advanced & Professional Settings</a></li>
-                  <li><a href="#benefits" className="text-indigo-400 hover:underline">Key Benefits</a></li>
-                  <li><a href="#pricing" className="text-indigo-400 hover:underline">Free, Affordable & Premium Options</a></li>
-                  <li><a href="#small-business" className="text-indigo-400 hover:underline">Small Business Use Cases</a></li>
-                  <li><a href="#comparison" className="text-indigo-400 hover:underline">Simple vs Advanced: Quick Comparison</a></li>
-                  <li><a href="#faq" className="text-indigo-400 hover:underline">Frequently Asked Questions</a></li>
-                </ol>
-              </nav>
-            
-              <h1 id="what-is" className="text-3xl font-bold text-cyan-400 mb-6">
-                Retirement Calculator – Plan a Future Budget With Confidence
-              </h1>
-            
-              <p>
-                A <strong>Retirement Calculator</strong> is a planning <em>tool</em> that estimates how today’s
-                contributions and returns could grow into a future nest egg. This <em>service</em> translates
-                assumptions such as inflation, contribution frequency, and post-retirement returns into clear,
-                easy-to-read numbers so readers can judge whether their projected income will cover expenses.
-              </p>
-            
-              <figure className="my-8">
-                <img
-                  src="/images/retirement-calculator-hero.webp"
-                  alt="Modern retirement calculator UI showing nest egg and income comparison"
-                  title="Retirement Calculator | Nest Egg & Income Planner"
-                  className="rounded-lg shadow-md border border-slate-700 mx-auto"
-                  loading="lazy"
-                />
-                <figcaption className="text-center text-sm text-slate-400 mt-2">
-                  Visual overview of the retirement planning interface with charts and schedules.
-                </figcaption>
-              </figure>
-            
-              <h2 id="how-to-use" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-                💡 How to Use the Retirement Calculator
-              </h2>
-              <ol className="list-decimal list-inside space-y-2">
-                <li>Enter <strong>current savings</strong>, <strong>monthly contribution</strong>, and <strong>current age</strong>.</li>
-                <li>Set a <strong>retirement age</strong> and <strong>life expectancy</strong> to define the planning horizon.</li>
-                <li>Choose expected <strong>pre-retirement</strong> and <strong>post-retirement</strong> returns, plus <strong>inflation</strong>.</li>
-                <li>Add a desired <strong>monthly income</strong> (in today’s money). The calculator inflates it to the retirement start month.</li>
-                <li>Review the projected <strong>nest egg</strong>, the <strong>required corpus</strong>, and any <strong>surplus/shortfall</strong>.</li>
-              </ol>
-            
-              <h2 id="beginners" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-                🧭 Retirement Calculator for Beginners (Easy Mode)
-              </h2>
-              <p>
-                For a first pass, beginners can stick to a <em>simple Retirement Calculator</em> flow:
-                enter three items—current savings, monthly contribution, and retirement age—then use the
-                defaults for returns and inflation. This <em>easy Retirement Calculator</em> approach gives a
-                quick, directional answer without advanced tweaks.
-              </p>
-            
-              <h2 id="advanced" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-                🛠️ Advanced & Professional Retirement Calculator Settings
-              </h2>
-              <ul className="list-disc list-inside space-y-2">
-                <li><strong>Contribution timing:</strong> treat deposits as end-of-month or annuity-due.</li>
-                <li><strong>Return assumptions:</strong> separate pre- and post-retirement rates for a more <em>professional Retirement Calculator</em> style plan.</li>
-                <li><strong>Inflation model:</strong> test different CPI scenarios to stress-test outcomes.</li>
-                <li><strong>Withdrawal style:</strong> level monthly income today, or target inflation-indexed payouts.</li>
-                <li><strong>Sensitivity tests:</strong> try higher/lower contributions, or shift the retirement age by ±2 years.</li>
-              </ul>
-            
-              <h2 id="benefits" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-                ✅ Retirement Calculator Benefits
-              </h2>
-              <ul className="list-disc list-inside space-y-2">
-                <li><strong>Clarity:</strong> turns scattered numbers into a personalized projection.</li>
-                <li><strong>Actionable:</strong> highlights the gap and shows how adjustments may close it.</li>
-                <li><strong>Time-saver:</strong> compares scenarios faster than a spreadsheet.</li>
-                <li><strong>Confidence:</strong> helps readers make contribution or timeline decisions with evidence.</li>
-              </ul>
-            
-              <h2 id="pricing" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-                💵 Free, Affordable & Premium Retirement Calculator Options
-              </h2>
-              <p>
-                Many platforms offer a <em>free Retirement Calculator</em> for quick estimates. An <em>affordable Retirement Calculator</em>
-                tier typically unlocks saved scenarios and exports, while a <em>premium Retirement Calculator</em> may add
-                advanced assumptions, professional reports, and advisor collaboration. Budget-conscious users looking for a
-                <em> cheap Retirement Calculator</em> can still achieve solid planning by running multiple conservative cases.
-              </p>
-            
-              <h2 id="small-business" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-                🧾 Small Business Retirement Calculator Use Cases
-              </h2>
-              <p>
-                Owners often model their own income stream alongside company contributions. A <em>small business Retirement Calculator</em>
-                view helps compare draws vs. reinvestment, visualize retirement plan matches, and budget around cash-flow seasonality.
-              </p>
-            
-              <h2 id="comparison" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-                🔍 Simple vs Advanced: Quick Comparison
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="rounded-lg border border-slate-700 p-4 bg-[#0f172a]">
-                  <h3 className="font-semibold text-indigo-300 mb-1">Simple (Online)</h3>
-                  <p className="text-sm">
-                    Great for first-time users. Minimal inputs, instant results, and clean charts—an ideal
-                    <em> Retirement Calculator for beginners</em>.
-                  </p>
-                </div>
-                <div className="rounded-lg border border-slate-700 p-4 bg-[#0f172a]">
-                  <h3 className="font-semibold text-emerald-300 mb-1">Advanced (Professional)</h3>
-                  <p className="text-sm">
-                    Adds inflation indexing, separate return phases, and withdrawal styles—an <em>advanced Retirement Calculator</em>
-                    built for deep scenario analysis.
-                  </p>
+        <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+          {/* TOC */}
+          <nav className="mt-16 mb-8 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-cyan-300 mb-3">📖 Table of Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#how-it-works" className="text-indigo-400 hover:underline">How the Retirement Calculator Works</a></li>
+              <li><a href="#inputs" className="text-indigo-400 hover:underline">Key Inputs & Assumptions</a></li>
+              <li><a href="#faq" className="text-indigo-400 hover:underline">Frequently Asked Questions</a></li>
+              
+            </ol>
+          </nav>
+
+          <h1 id="how-it-works" className="text-3xl font-bold text-cyan-400 mb-6">
+            Retirement Calculator – Plan Your Nest Egg & Income with Confidence
+          </h1>
+          <p>
+            This calculator projects your <strong>nest egg at retirement</strong> by compounding your existing
+            savings and monthly contributions at a pre-retirement rate, and compares it with the
+            <strong> required corpus</strong> to fund a level monthly income over your retirement horizon.
+          </p>
+
+
+
+          {/* ==================== HOW CALCULATION WORKS ==================== */}
+          <section id="calculation-details" className="mt-12 text-slate-200">
+            <h2 className="text-2xl font-semibold text-cyan-300 mb-4">
+              🧮 How This Retirement Calculation Works
+            </h2>
+          
+            <p className="text-sm text-slate-300 mb-5">
+              The model has two phases: <strong>Accumulation (before retirement)</strong> and{" "}
+              <strong>Withdrawal (after retirement)</strong>.
+              We compound monthly, treat contributions as <em>annuity-due</em> (at the start of each month),
+              and inflate the target income from today to your retirement start month.
+            </p>
+          
+            {/* 1. Accumulation */}
+            <div className="space-y-3">
+              <h3 className="text-lg font-semibold text-indigo-300">1) Accumulation to Retirement</h3>
+              <div className="overflow-x-auto rounded-lg border border-[#334155] bg-[#0b1220]">
+                <div className="min-w-[600px] p-4 text-sm leading-relaxed">
+                  <p className="mb-2"><strong>Monthly rate before retirement:</strong> <code>r_pre_m = annualReturnPre / 100 / 12</code></p>
+                  <p className="mb-2"><strong>Months until retirement:</strong> <code>n = (retireAge - currentAge) × 12</code></p>
+                  <p className="mb-2"><strong>Future value of current savings:</strong> <code>FV_current = PV × (1 + r_pre_m)^n</code></p>
+                  <p className="mb-2"><strong>Future value of monthly contributions (annuity-due):</strong> <code>FV_contrib = PMT × (1 + r_pre_m) × ((1 + r_pre_m)^n − 1) / r_pre_m</code></p>
+                  <p className="mb-0"><strong>Nest egg at retirement:</strong> <code>NestEgg = FV_current + FV_contrib</code></p>
                 </div>
               </div>
-            
-              {/* FAQ */}
-              <section id="faq" className="space-y-6 mt-16">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
-                  ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
-                </h2>
-            
-                <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
-                  <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-                    <h3 className="font-semibold text-xl mb-2 text-yellow-300">Is this a tool I can use online?</h3>
-                    <p>
-                      Yes. The calculator runs <strong>online</strong> in the browser and doesn’t require sign-in for basic use.
-                    </p>
-                  </div>
-            
-                  <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-                    <h3 className="font-semibold text-xl mb-2 text-yellow-300">How does a premium Retirement Calculator differ?</h3>
-                    <p>
-                      Premium tiers usually add saved scenarios, advisor sharing, exports, and advanced settings like
-                      dynamic withdrawals or detailed taxes.
-                    </p>
-                  </div>
-            
-                  <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-                    <h3 className="font-semibold text-xl mb-2 text-yellow-300">Can beginners use it without guidance?</h3>
-                    <p>
-                      Absolutely. The interface is designed to be <strong>easy</strong>, with sensible defaults and
-                      plain-English labels for each input.
-                    </p>
-                  </div>
+            </div>
+          
+            {/* 2. Inflation */}
+            <div className="space-y-3 mt-6">
+              <h3 className="text-lg font-semibold text-indigo-300">2) Inflation Adjustment for Target Income</h3>
+              <div className="overflow-x-auto rounded-lg border border-[#334155] bg-[#0b1220]">
+                <div className="min-w-[600px] p-4 text-sm leading-relaxed">
+                  <p className="mb-2"><strong>Monthly inflation:</strong> <code>i_m = inflation / 100 / 12</code></p>
+                  <p className="mb-0"><strong>Desired income at retirement start:</strong> <code>Income_ret = Income_today × (1 + i_m)^n</code></p>
                 </div>
-              </section>
-            
-              {/* Optional note for transparency */}
-              <p className="mt-10 text-xs text-slate-400">
-                Projections are based on user-provided assumptions and are not guarantees. Consider running conservative and
-                optimistic cases to understand the range of outcomes.
+              </div>
+            </div>
+          
+            {/* 3. Withdrawal */}
+            <div className="space-y-3 mt-6">
+              <h3 className="text-lg font-semibold text-indigo-300">3) Corpus Needed for Withdrawals (Level Monthly)</h3>
+              <div className="overflow-x-auto rounded-lg border border-[#334155] bg-[#0b1220]">
+                <div className="min-w-[650px] p-4 text-sm leading-relaxed">
+                  <p className="mb-2"><strong>Monthly post-retirement return:</strong> <code>r_post_m = annualReturnPost / 100 / 12</code></p>
+                  <p className="mb-2"><strong>Months in retirement:</strong> <code>N = (lifeExpectancy − retireAge) × 12</code></p>
+                  <p className="mb-2">
+                    <strong>PV factor (level withdrawals):</strong>{" "}
+                    <code>PV_factor = (1 − (1 + r_post_m)^(−N)) / r_post_m</code>{" "}
+                    <span className="text-slate-400">(if <code>r_post_m = 0</code>, then <code>PV_factor = N</code>)</span>
+                  </p>
+                  <p className="mb-0"><strong>Required nest egg for target:</strong> <code>Required = Income_ret × PV_factor</code></p>
+                </div>
+              </div>
+            </div>
+          
+            {/* 4. Surplus */}
+            <div className="space-y-3 mt-6">
+              <h3 className="text-lg font-semibold text-indigo-300">4) Surplus / Shortfall</h3>
+              <div className="overflow-x-auto rounded-lg border border-[#334155] bg-[#0b1220]">
+                <div className="min-w-[500px] p-4 text-sm leading-relaxed">
+                  <p className="mb-0"><code>SurplusOrShortfall = NestEgg − Required</code></p>
+                </div>
+              </div>
+            </div>
+          
+            {/* Example */}
+            <div className="space-y-3 mt-6">
+              <h3 className="text-lg font-semibold text-emerald-300">Mini Example (Illustrative Numbers)</h3>
+              <div className="bg-[#062014] border border-emerald-600/40 rounded-lg p-4 text-sm leading-relaxed overflow-x-auto">
+                <div className="min-w-[650px]">
+                  <p className="mb-2"><strong>Inputs:</strong> <code>currentAge=30</code>, <code>retireAge=60</code>, <code>lifeExpectancy=85</code>, <code>currentSavings=25,000</code>, <code>monthlyContribution=500</code>, <code>annualReturnPre=7%</code>, <code>annualReturnPost=4%</code>, <code>inflation=3%</code>, <code>desiredIncomeToday=2,500</code></p>
+                  <p className="mb-1">Compute <code>n=360</code>, <code>N=300</code>, <code>r_pre_m≈0.005833</code>, <code>r_post_m≈0.003333</code>, <code>i_m=0.0025</code>.</p>
+                  <p className="mb-1"><code>NestEgg ≈ FV_current + FV_contrib</code> (compounding monthly, contributions at start).</p>
+                  <p className="mb-1"><code>Income_ret ≈ 2,500 × (1.0025)^360</code>.</p>
+                  <p className="mb-1"><code>Required ≈ Income_ret × ((1 − (1.003333)^(−300)) / 0.003333)</code>.</p>
+                  <p className="mb-0"><code>SurplusOrShortfall = NestEgg − Required</code>.</p>
+                </div>
+              </div>
+            </div>
+           
+            {/* Notes */}
+            <div className="mt-6 text-xs text-slate-400">
+              <p>
+                Notes: Returns are assumptions, not guarantees. The withdrawal schedule shown uses level (non-inflation-indexed) withdrawals for clarity;
+                you can extend it to inflation-indexed withdrawals by growing the monthly withdrawal with inflation and discounting appropriately.
               </p>
-            </section>
+            </div>
+          </section>
+
+ 
+
+          <h2 id="inputs" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            Key Inputs & Assumptions
+          </h2>
+          <ul>
+            <li><strong>Current/Retirement/Life Ages:</strong> define saving years and withdrawal years.</li>
+            <li><strong>Returns:</strong> nominal average returns pre- and post-retirement.</li>
+            <li><strong>Inflation:</strong> inflates target income from today to retirement start.</li>
+            <li><strong>Monthly Contribution:</strong> treated as <em>annuity-due</em> (start of month).</li>
+          </ul>
+
+          {/* FAQ */}
+          <section id="faq" className="space-y-6 mt-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
+              ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
+            </h2>
+
+            <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Do you index withdrawals to inflation?</h3>
+                <p>
+                  The schedule shown uses <strong>level</strong> withdrawals for simplicity. You can extend it to
+                  <strong> inflation-indexed</strong> withdrawals by growing the monthly amount with inflation and
+                  discounting accordingly.
+                </p>
+              </div>
+
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Are the returns guaranteed?</h3>
+                <p>
+                  No. Returns are assumptions. For conservative planning, consider lower returns and higher inflation.
+                </p>
+              </div>
+
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Is my data stored?</h3>
+                <p>
+                  Calculations run locally in your browser. We only use <strong>localStorage</strong> on your device to
+                  remember your last session for convenience.
+                </p>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        {/* =================== AUTHOR & BACKLINK SECTION =================== */}
+        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/calculatorhub-author.webp"
+              alt="CalculatorHub Finance Tools Team"
+              className="w-12 h-12 rounded-full border border-gray-600"
+              loading="lazy"
+            />
+            <div>
+              <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
+              <p className="text-sm text-slate-400">
+                Experts in retirement planning tools. Last updated:{" "}
+                <time dateTime="2025-10-19">October 19, 2025</time>.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
+              🚀 Explore more finance tools on CalculatorHub:
+            </p>
+            <div className="flex flex-wrap gap-3 text-sm">
+              <a
+                href="/mortgage-calculator"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
+              >
+                <span className="text-indigo-400">🏠</span> Mortgage Calculator
+              </a>
+              <a
+                href="/rd-calculator"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
+              >
+                <span className="text-emerald-400">🏦</span> RD Calculator
+              </a>
+              <a
+                href="/currency-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-fuchsia-600/20 text-fuchsia-300 hover:text-fuchsia-400 px-3 py-2 rounded-md border border-slate-700 hover:border-fuchsia-500 transition-all duration-200"
+              >
+                <span className="text-fuchsia-400">💱</span> Currency Converter
+              </a>
+            </div>
+          </div>
+        </section>
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/retirement-calculator" category="currency-finance" />
