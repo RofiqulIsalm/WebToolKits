@@ -846,7 +846,22 @@ const CompoundInterestCalculator: React.FC = () => {
               but this web-based tool offers faster and more detailed calculations. Users can also log in via the 
               <strong> compound interest calculator login </strong> feature to save past computations.
             </p>
-          
+
+           <div className="my-8 text-center">
+              <img
+                src="/images/compound_interest_table.webp"
+                alt="Compound Interest Growth Comparison Table for 20 Years"
+                className="mx-auto rounded-xl shadow-md border border-slate-700"
+                loading="lazy"
+                width={900}
+                height={600}
+                decoding="async"
+              />
+              <p className="text-slate-400 text-sm mt-2">
+                Quick comparison of principal, simple interest, and compounded value over time.
+              </p>
+            </div>
+
             {/* ===================== FAQ SECTION ===================== */}
             <section className="space-y-6 mt-16" aria-label="Compound Interest Calculator FAQs">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
