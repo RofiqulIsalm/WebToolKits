@@ -976,6 +976,114 @@ const RDCalculator: React.FC = () => {
               <li>Click calculate to view maturity, total deposits, and interest earned.</li>
               <li>Copy results or share a link for comparison.</li>
             </ol>
+
+
+              {/* Step-by-step math */}
+          <h2
+            id="how-rd-works"
+            className="mt-12 mb-3 text-2xl font-extrabold tracking-tight text-center sm:text-left"
+          >
+            <span className="bg-gradient-to-r from-cyan-300 via-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">
+              🧮 How RD is Calculated
+            </span>
+          </h2>
+
+          <p className="mb-4 text-slate-300 text-sm sm:text-base">
+            We simulate monthly deposits and apply interest on the chosen compounding boundaries
+            (monthly, quarterly, or yearly). Below is an engineering approximation that matches the
+            compounding grid:
+          </p>
+
+          <div className="relative rounded-2xl bg-gradient-to-br from-slate-800/90 via-slate-900/90 to-[#0b1220]/90 p-4 sm:p-6 ring-1 ring-indigo-500/30 shadow-xl text-[13.5px] sm:text-sm leading-relaxed">
+            <div className="pointer-events-none absolute inset-x-0 -top-0.5 h-0.5 bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-emerald-500 opacity-60" />
+
+            <p className="mb-4 text-center font-mono text-[15px] leading-7 text-indigo-300">
+              Approx. FV ≈{" "}
+              <span className="text-sky-300">
+                P × \[ (1 + i)<sup>k</sup> − 1 \] / \[ 1 − (1 + i)<sup>−c/12</sup> \]
+              </span>
+              <br />
+              where P = monthly deposit, c = compounds/year, i = r / c, k = (months/12) × c
+            </p>
+
+            {/* Inputs row */}
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 mb-4">
+              <div className="flex flex-wrap justify-between items-center gap-1 sm:gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-cyan-500/20">
+                <span className="font-semibold text-cyan-300">P</span>
+                <span className="text-slate-300">Monthly deposit</span>
+                <span className="font-semibold text-white truncate">
+                  {formatCurrency(steps.P, currentLocale, currency)}
+                </span>
+              </div>
+
+              <div className="flex flex-wrap justify-between items-center gap-1 sm:gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-amber-500/20">
+                <span className="font-semibold text-amber-300">i</span>
+                <span className="text-slate-300">Periodic rate (r/c)</span>
+                <span className="font-semibold text-white truncate">{steps.i.toFixed(8)}</span>
+              </div>
+
+              <div className="flex flex-wrap justify-between items-center gap-1 sm:gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-fuchsia-500/20">
+                <span className="font-semibold text-fuchsia-300">k</span>
+                <span className="text-slate-300"># of periods</span>
+                <span className="font-semibold text-white truncate">{steps.periods.toFixed(4)}</span>
+              </div>
+            </div>
+
+            <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+
+            <div className="space-y-2 font-mono break-words">
+              <div className="flex flex-wrap justify-between">
+                <span className="font-semibold text-sky-300">(1 + i)<sup>k</sup> − 1</span>
+                <span className="text-white">{steps.numerator.toFixed(9)}</span>
+              </div>
+              <div className="flex flex-wrap justify-between">
+                <span className="font-semibold text-rose-300">1 − (1 + i)<sup>−c/12</sup></span>
+                <span className="text-white">{steps.denom.toFixed(9)}</span>
+              </div>
+
+              <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+
+              <div className="overflow-x-auto rounded-md bg-[#0f172a] px-3 py-2 border border-slate-700 text-slate-300 text-[13px] whitespace-nowrap">
+                <div className="min-w-max">
+                  <span className="font-semibold text-slate-100">Approx FV</span> =
+                  <span className="text-white">
+                    {" "}
+                    {formatCurrency(steps.P, currentLocale, currency)}{" "}
+                  </span>
+                  ×{" "}
+                  <span className="text-white">
+                    {steps.numerator.toFixed(6)} ÷ {steps.denom.toFixed(6)}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-center">
+                <div className="text-emerald-300 text-xs uppercase">c (per year)</div>
+                <div className="font-semibold text-white text-sm truncate">{steps.c}</div>
+              </div>
+              <div className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-center">
+                <div className="text-rose-300 text-xs uppercase">i = r / c</div>
+                <div className="font-semibold text-white text-sm truncate">{steps.i.toFixed(8)}</div>
+              </div>
+              <div className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-center">
+                <div className="text-sky-300 text-xs uppercase">Approx FV</div>
+                <div className="font-semibold text-white text-sm truncate">
+                  {formatCurrency(steps.approx, currentLocale, currency)}
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-2 rounded-xl bg-[#0f172a] px-4 py-3 ring-1 ring-emerald-500/30">
+              <span className="text-sm text-emerald-300 whitespace-nowrap">
+                💰 Simulated Maturity (more precise)
+              </span>
+              <span className="text-lg sm:text-xl font-bold tracking-wide text-white">
+                {formatCurrency(maturityAmount, currentLocale, currency)}
+              </span>
+            </div>
+          </div>
           
             {/* Tutorial */}
             <h2 id="tutorial" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
