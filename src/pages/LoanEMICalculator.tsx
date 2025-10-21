@@ -1151,8 +1151,8 @@ useEffect(() => {
             />
           )}
 
-          While this formula may seem complicated, the loan EMI calculator app handles all the calculations instantly, displaying the EMI and total interest with precision. It’s the perfect tool for users who prefer accuracy without the manual effort.
-
+          <p>While this formula may seem complicated, the loan EMI calculator app handles all the calculations instantly, displaying the EMI and total interest with precision. It’s the perfect tool for users who prefer accuracy without the manual effort.
+          </p>
       
        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Why Use Our EMI Calculator?</h2>
         <ul className="space-y-2">
