@@ -1091,6 +1091,152 @@ const FDCalculator: React.FC = () => {
             <p>
               This section doubles as an <strong>FD Calculator tutorial</strong>, designed for first-time users who want a simple yet detailed walkthrough.
             </p>
+
+               {/* ===== Step-by-step math card ===== */}
+                <h2
+                  id="how-fd"
+                  className="mt-12 mb-3 text-2xl font-extrabold tracking-tight text-center sm:text-left"
+                >
+                  <span className="bg-gradient-to-r from-cyan-300 via-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">
+                    🧮 How FD Returns are Calculated
+                  </span>
+                </h2>
+      
+                <div className="relative rounded-2xl bg-gradient-to-br from-slate-800/90 via-slate-900/90 to-[#0b1220]/90 p-4 sm:p-6 ring-1 ring-indigo-500/30 shadow-xl text-[13.5px] sm:text-sm leading-relaxed">
+                  <div className="pointer-events-none absolute inset-x-0 -top-0.5 h-0.5 bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-emerald-500 opacity-60" />
+      
+                  {fdSteps.mode === "cumulative" ? (
+                    <>
+                      <p className="mb-4 text-center font-mono text-[15px] leading-7 text-indigo-300">
+                        A = <span className="text-sky-300">P × (1 + r/m)<sup>m×t</sup></span>
+                      </p>
+      
+                      <div className="grid grid-cols-1 gap-2 sm:grid-cols-4 mb-4">
+                        <div className="flex justify-between gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-cyan-500/20">
+                          <span className="font-semibold text-cyan-300">P</span>
+                          <span className="font-semibold text-white truncate">
+                            {formatCurrency(fdSteps.P, currentLocale, currency)}
+                          </span>
+                        </div>
+                        <div className="flex justify-between gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-amber-500/20">
+                          <span className="font-semibold text-amber-300">r</span>
+                          <span className="font-semibold text-white truncate">{fdSteps.rYear.toFixed(6)}</span>
+                        </div>
+                        <div className="flex justify-between gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-fuchsia-500/20">
+                          <span className="font-semibold text-fuchsia-300">m</span>
+                          <span className="font-semibold text-white truncate">{fdSteps.m}</span>
+                        </div>
+                        <div className="flex justify-between gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-emerald-500/20">
+                          <span className="font-semibold text-emerald-300">t</span>
+                          <span className="font-semibold text-white truncate">{fdSteps.tYears.toFixed(4)}</span>
+                        </div>
+                      </div>
+      
+                      <div className="space-y-2 font-mono break-words">
+                        <div className="flex justify-between">
+                          <span className="font-semibold text-indigo-300">(1 + r/m)</span>
+                          <span className="text-white">{fdSteps.onePlus.toFixed(9)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="font-semibold text-rose-300">(1 + r/m)<sup>m×t</sup></span>
+                          <span className="text-white">{fdSteps.pow.toFixed(9)}</span>
+                        </div>
+                      </div>
+      
+                      <div className="mt-4 rounded-lg border border-slate-700 bg-[#0f172a] px-3 py-2 text-slate-300 text-[13px] whitespace-nowrap overflow-auto">
+                        <div className="min-w-max">
+                          <span className="font-semibold text-slate-100">A</span> ={" "}
+                          <span className="text-white">
+                            {formatCurrency(fdSteps.P, currentLocale, currency)}
+                          </span>{" "}
+                          × <span className="text-white">{fdSteps.pow.toFixed(6)}</span>
+                        </div>
+                      </div>
+      
+                      <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-center">
+                          <div className="text-emerald-300 text-xs uppercase">Maturity</div>
+                          <div className="font-semibold text-white text-sm truncate">
+                            {formatCurrency(fdSteps.A, currentLocale, currency)}
+                          </div>
+                        </div>
+                        <div className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-center">
+                          <div className="text-rose-300 text-xs uppercase">Interest</div>
+                          <div className="font-semibold text-white text-sm truncate">
+                            {formatCurrency(fdSteps.interest, currentLocale, currency)}
+                          </div>
+                        </div>
+                        <div className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-center">
+                          <div className="text-sky-300 text-xs uppercase">Compounding</div>
+                          <div className="font-semibold text-white text-sm truncate">{compounding}</div>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <p className="mb-4 text-center font-mono text-[15px] leading-7 text-indigo-300">
+                        Per-period interest = <span className="text-sky-300">P × r / m<sub>pay</sub></span>
+                      </p>
+      
+                      <div className="grid grid-cols-1 gap-2 sm:grid-cols-4 mb-4">
+                        <div className="flex justify-between gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-cyan-500/20">
+                          <span className="font-semibold text-cyan-300">P</span>
+                          <span className="font-semibold text-white truncate">
+                            {formatCurrency(fdSteps.P, currentLocale, currency)}
+                          </span>
+                        </div>
+                        <div className="flex justify-between gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-amber-500/20">
+                          <span className="font-semibold text-amber-300">r</span>
+                          <span className="font-semibold text-white truncate">{fdSteps.rYear.toFixed(6)}</span>
+                        </div>
+                        <div className="flex justify-between gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-fuchsia-500/20">
+                          <span className="font-semibold text-fuchsia-300">mₚₐᵧ</span>
+                          <span className="font-semibold text-white truncate">{fdSteps.mPay}</span>
+                        </div>
+                        <div className="flex justify-between gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-emerald-500/20">
+                          <span className="font-semibold text-emerald-300">Periods</span>
+                          <span className="font-semibold text-white truncate">{fdSteps.nPeriods}</span>
+                        </div>
+                      </div>
+      
+                      <div className="space-y-2 font-mono break-words">
+                        <div className="flex justify-between">
+                          <span className="font-semibold text-indigo-300">Per-period</span>
+                          <span className="text-white">
+                            {formatCurrency(fdSteps.per, currentLocale, currency)}
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="font-semibold text-rose-300">Total Interest</span>
+                          <span className="text-white">
+                            {formatCurrency(fdSteps.totalInterest, currentLocale, currency)}
+                          </span>
+                        </div>
+                      </div>
+      
+                      <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-center">
+                          <div className="text-emerald-300 text-xs uppercase">Per-period</div>
+                          <div className="font-semibold text-white text-sm truncate">
+                            {formatCurrency(fdSteps.per, currentLocale, currency)}
+                          </div>
+                        </div>
+                        <div className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-center">
+                          <div className="text-rose-300 text-xs uppercase">Total Interest</div>
+                          <div className="font-semibold text-white text-sm truncate">
+                            {formatCurrency(fdSteps.totalInterest, currentLocale, currency)}
+                          </div>
+                        </div>
+                        <div className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-center">
+                          <div className="text-sky-300 text-xs uppercase">Maturity</div>
+                          <div className="font-semibold text-white text-sm truncate">
+                            {formatCurrency(fdSteps.A, currentLocale, currency)}
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
           
             <h2 id="tips" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">💬 FD Calculator Tips</h2>
             <ul className="list-disc list-inside space-y-1">
