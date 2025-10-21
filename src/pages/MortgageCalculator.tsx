@@ -1,4 +1,4 @@
-// All complated 
+// complate for live
 
 import React, { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet";
@@ -443,6 +443,7 @@ useEffect(() => {
             content="https://calculatorhub.site/images/mortgage-calculator-hero.webp"
           />
           <meta property="og:image:alt" content="Mortgage Calculator by CalculatorHub – EMI, Interest, and Payment Chart" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta property="og:image:width" content="1200" />
           <meta property="og:image:height" content="630" />
         
@@ -1029,7 +1030,7 @@ useEffect(() => {
                 />
                 <figcaption className="text-center text-sm text-slate-400 mt-2">
                   Real-time mortgage amortization and affordability visualization.
-                </figcaption>
+                </figcaption> 
               </figure>
             
               <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
