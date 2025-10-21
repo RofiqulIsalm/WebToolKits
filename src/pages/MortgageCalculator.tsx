@@ -998,222 +998,265 @@ useEffect(() => {
 
 
         {/* ==================== SEO CONTENT SECTION ==================== */}
-        <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+     <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+  <h1 className="text-3xl font-bold text-cyan-400 mb-6">
+    Mortgage Calculator – Free, Accurate & Easy-to-Use Loan Estimator
+  </h1>
 
-          {/* ===== Table of Contents ===== */}
-          <nav className="mt-16 mb-8 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200">
-            <h2 className="text-lg font-semibold text-cyan-300 mb-3">📖 Table of Contents</h2>
-            <ol className="list-decimal list-inside space-y-2 text-sm">
-              <li><a href="#how-emi" className="text-indigo-400 hover:underline">How EMI is Calculated</a></li>
-              <li><a href="#how-to-use" className="text-indigo-400 hover:underline">How to Use This Mortgage Calculator</a></li>
-              <li><a href="#example" className="text-indigo-400 hover:underline">Example Calculation</a></li>
-              <li><a href="#faq" className="text-indigo-400 hover:underline">Frequently Asked Questions</a></li>
-            </ol>
-          </nav>
+  <p>
+    Buying a home is one of the biggest financial decisions anyone can make, and understanding
+    how much you can afford is essential. That’s where a <strong>Mortgage Calculator</strong> becomes
+    your best financial companion. This <strong>advanced mortgage calculator</strong> helps users
+    estimate their monthly payments, total interest, and loan duration in just a few clicks.
+  </p>
 
-          
-          <h1 className="text-3xl font-bold text-cyan-400 mb-6">
-            Mortgage Calculator 2025 – Fast, Accurate & Easy EMI Estimator
-          </h1>
+  <p>
+    Whether you're a first-time buyer or managing an existing mortgage, this
+    <strong> free mortgage calculator</strong> simplifies complex financial planning into clear,
+    easy-to-read numbers. It’s a perfect fit for homeowners, real estate investors, and even small
+    businesses seeking accurate loan estimations before approaching a lender.
+  </p>
 
-          <p>
-            The <strong>Mortgage Calculator by CalculatorHub</strong> helps you estimate your <strong>monthly EMI</strong>,{" "}
-            <strong>total interest</strong>, and <strong>amortization schedule</strong> for home loans in multiple currencies.
-            Enter the loan amount, down payment, interest rate, and term to get an instant, professional-grade breakdown.
-          </p>
+  <figure className="my-8">
+    <img
+      src="/images/mortgage-calculator.webp"
+      alt="Mortgage calculator showing loan breakdown and interest chart"
+      title="Free Mortgage Calculator | Home Loan Estimator"
+      className="rounded-lg shadow-md border border-slate-700 mx-auto"
+      loading="lazy"
+    />
+    <figcaption className="text-center text-sm text-slate-400 mt-2">
+      Visual representation of a modern, easy-to-use mortgage calculator with instant results.
+    </figcaption>
+  </figure>
 
-          <p>
-            This tool uses a standard amortizing mortgage formula and supports mixed terms (years + months), a down-payment field, and a shareable link so you can revisit or send your scenario to others.
-          </p>
+  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+    🏡 What Is a Mortgage Calculator?
+  </h2>
+  <p>
+    A <strong>Mortgage Calculator</strong> is a digital financial tool that helps users estimate
+    their home loan repayments over a fixed period based on factors like the principal amount,
+    interest rate, and loan tenure. It simplifies decision-making by showing how much you’ll pay
+    monthly, how much interest you’ll owe, and the total repayment amount.
+  </p>
+  <p>
+    For those who are new to home loans, the <strong>mortgage calculator for beginners</strong>
+    offers clear explanations of how interest rates, amortization schedules, and principal payments
+    work together. The <strong>mortgage calculator explained</strong> section inside the tool gives
+    users complete clarity before applying for a loan.
+  </p>
 
-          <figure className="my-8">
-            <img
-              src="/images/mortgage-calculator-hero.webp"
-              alt="Modern mortgage calculator UI showing EMI, pie chart, and amortization table"
-              title="Mortgage Calculator 2025 | Free EMI & Amortization Tool"
-              className="rounded-lg shadow-md border border-slate-700 mx-auto"
-              loading="lazy"
-            />
-            <figcaption className="text-center text-sm text-slate-400 mt-2">
-              Visual representation of the Mortgage Calculator with dark-finance UI.
-            </figcaption>
-          </figure>
+  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+    💡 How to Use a Mortgage Calculator
+  </h2>
+  <p>
+    Using this <strong>easy mortgage calculator</strong> is straightforward and takes less than a minute.
+    Here’s a step-by-step <strong>mortgage calculator guide</strong>:
+  </p>
+  <ol className="list-decimal list-inside space-y-2">
+    <li>Enter your <strong>loan amount</strong> (the total principal you plan to borrow).</li>
+    <li>Specify your <strong>annual interest rate</strong>.</li>
+    <li>Select your <strong>loan tenure</strong> (in years or months).</li>
+    <li>Click “Calculate” — the system will display your monthly payments and total interest.</li>
+  </ol>
 
-          {/*Dynamic live math */}
+  <p>
+    The built-in <strong>mortgage calculator tutorial</strong> allows users to visualize how each
+    change in loan amount or tenure affects the monthly EMI. It’s perfect for planning your
+    budget and ensuring your mortgage stays affordable.
+  </p>
 
-         
-          
-                <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
-          
-                {/* Calculation formula lines */}
-                <div className="overflow-x-auto rounded-md bg-[#0f172a] px-3 py-2 border border-slate-700 text-slate-300 text-[13px] whitespace-nowrap scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent">
-            <div className="min-w-max">
-              <span className="font-semibold text-slate-100">EMI</span> =
-              <span className="text-white">
-                {" "}{formatCurrency(emiSteps.P, currentLocale, currency)}{" "}
-              </span>
-              × <span className="text-white">{emiSteps.r.toFixed(8)}</span>
-              {" "}×{" "}
-              <span className="text-white">{emiSteps.pow.toFixed(6)}</span>
-              {" "}÷{" "}
-              <span className="text-white">{emiSteps.denominator.toFixed(6)}</span>
-            </div>
-          
-            <div className="min-w-max text-slate-400">
-              ={" "}
-              <span className="text-white">
-                {formatCurrency(emiSteps.numerator, currentLocale, currency)}
-              </span>
-              {" "}÷{" "}
-              <span className="text-white">{emiSteps.denominator.toFixed(6)}</span>
-            </div>
-          </div>
-          
-              </div>
-            ) : (
-              <div className="text-slate-300 text-center sm:text-left font-mono">
-                <span className="font-semibold">r = 0</span> ⇒ EMI = P / n =
-                {formatCurrency(emiSteps.P, currentLocale, currency)} / {emiSteps.n || 1}
-              </div>
-            )}
-          
-            {/* Visual summary boxes */}
-            <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-center">
-                <div className="text-emerald-300 text-xs uppercase">P × r</div>
-                <div className="font-semibold text-white text-sm truncate">
-                  {formatCurrency(emiSteps.pTimesR, currentLocale, currency)}
-                </div>
-              </div>
-              <div className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-center">
-                <div className="text-rose-300 text-xs uppercase">(1 + r)<sup>n</sup> − 1</div>
-                <div className="font-semibold text-white text-sm truncate">
-                  {emiSteps.denominator.toFixed(9)}
-                </div>
-              </div>
-              <div className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-center">
-                <div className="text-sky-300 text-xs uppercase">Numerator</div>
-                <div className="font-semibold text-white text-sm truncate">
-                  {formatCurrency(emiSteps.numerator, currentLocale, currency)}
-                </div>
-              </div>
-            </div>
-          
-            {/* Final EMI */}
-            <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-2 rounded-xl bg-[#0f172a] px-4 py-3 ring-1 ring-emerald-500/30">
-              <span className="text-sm text-emerald-300 whitespace-nowrap">💰 Calculated EMI</span>
-              <span className="text-lg sm:text-xl font-bold tracking-wide text-white">
-                {formatCurrency(emiSteps.emi, currentLocale, currency)}
-              </span>
-            </div>
-          </div>
+  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+    🧮 Mortgage Calculation Logic
+  </h2>
+  <p>
+    The <strong>mortgage calculator logic</strong> is based on the amortization formula that banks use
+    to calculate loan repayments. It automatically computes both the principal and interest portions
+    of each payment, ensuring precision and transparency.
+  </p>
+  <pre className="bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto">
+    EMI = [P × R × (1 + R)^N] / [(1 + R)^N – 1]
+  </pre>
+  <p>
+    Where:
+    <br />• <strong>P</strong> = Principal loan amount
+    <br />• <strong>R</strong> = Monthly interest rate (annual rate ÷ 12 ÷ 100)
+    <br />• <strong>N</strong> = Loan tenure in months
+  </p>
 
+  <p>
+    The <strong>solution mortgage calculator</strong> also includes advanced options like
+    early repayment, extra payment tracking, and adjustable-rate simulation for more accurate
+    long-term planning.
+  </p>
 
+  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+    📊 Example: Calculating a Home Loan
+  </h2>
+  <p>
+    Suppose a user wants to buy a house worth <strong>$300,000</strong> with a 20% down payment and
+    takes a loan of <strong>$240,000</strong> at an interest rate of <strong>5% per year</strong> for
+    <strong>25 years</strong>. Using this <strong>advanced mortgage calculator</strong>:
+  </p>
+  <ul>
+    <li><strong>Monthly Payment:</strong> $1,403.00</li>
+    <li><strong>Total Interest:</strong> $180,900</li>
+    <li><strong>Total Repayment:</strong> $420,900</li>
+  </ul>
+  <p>
+    This breakdown helps users see how much of their payment goes toward interest and how much toward
+    the principal — an essential insight for making smart mortgage decisions.
+  </p>
 
+  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+    💰 Key Benefits of Using a Mortgage Calculator
+  </h2>
+  <p>
+    Here are the top <strong>mortgage calculator benefits</strong> that make it one of the most useful
+    financial planning tools available online:
+  </p>
+  <ul className="space-y-2">
+    <li>✔️ Helps compare different loan offers instantly.</li>
+    <li>✔️ Acts as a <strong>small business mortgage calculator</strong> for commercial property planning.</li>
+    <li>✔️ Shows real-time interest savings from prepayments.</li>
+    <li>✔️ Available as a <strong>free mortgage calculator</strong> with no login required.</li>
+    <li>✔️ Offers accurate, bank-grade calculations.</li>
+    <li>✔️ Easy to use, even for first-time buyers or beginners.</li>
+  </ul>
 
+  <p>
+    This <strong>mortgage calculator website</strong> eliminates guesswork and builds confidence,
+    helping users plan long-term housing or investment decisions effectively.
+  </p>
 
-          
+  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+    ⚖️ Mortgage Calculator Pros and Cons
+  </h2>
+  <p>Before using any financial tool, it’s essential to know its strengths and limitations.</p>
+  <p><strong>Pros:</strong></p>
+  <ul>
+    <li>Fast, accurate, and easy-to-use interface.</li>
+    <li>Visual breakdown of total interest and repayment schedule.</li>
+    <li>Works for fixed-rate and adjustable-rate mortgages.</li>
+    <li>Helps users plan early repayments and savings.</li>
+  </ul>
+  <p><strong>Cons:</strong></p>
+  <ul>
+    <li>Does not replace professional financial advice.</li>
+    <li>Accuracy depends on correct input values.</li>
+    <li>Taxes and insurance may vary by region.</li>
+  </ul>
 
-          <h2 id="how-to-use" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">💡 How to Use This Mortgage Calculator</h2>
-          <ol className="list-decimal list-inside space-y-2">
-            <li>Select your <strong>currency</strong>.</li>
-            <li>Enter <strong>loan amount</strong> and optional <strong>down payment</strong>.</li>
-            <li>Add the <strong>annual interest rate</strong>.</li>
-            <li>Set <strong>loan term</strong> in years and months.</li>
-            <li>Copy results or share a link with your configuration.</li>
-          </ol>
+  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+    🧭 Expert Mortgage Calculator Tips
+  </h2>
+  <p>
+    Here are some expert <strong>mortgage calculator tips</strong> for maximizing results:
+  </p>
+  <ul>
+    <li>🕒 Choose a shorter loan tenure to save on total interest.</li>
+    <li>💵 Make extra payments whenever possible to reduce the principal faster.</li>
+    <li>📈 Compare fixed and variable interest rates before finalizing your mortgage.</li>
+    <li>🏠 Consider property taxes and insurance costs for total affordability.</li>
+  </ul>
 
-          <h2 id="example" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">📘 Example Calculation</h2>
-          <p>
-            Suppose you borrow <strong>$300,000</strong> at <strong>6.5%</strong> for <strong>30 years</strong> with a <strong>$30,000</strong> down payment.
-            Your financed principal is <strong>$270,000</strong> and your EMI will be around <strong>$1,706</strong>.
-            Over the term, you will pay roughly <strong>$344,000</strong> in interest (values approximate).
-          </p>
+  <p>
+    The <strong>mortgage calculator guide</strong> also provides educational insights, making
+    it an excellent tool for anyone learning the basics of housing finance.
+  </p>
 
-          {/* ===================== FAQ SECTION ===================== */}
-          <section id="faq" className="space-y-6 mt-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
-              ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
-            </h2>
+  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+    🧾 Mortgage Calculator Download Option
+  </h2>
+  <p>
+    For users who prefer offline calculations, a <strong>mortgage calculator download</strong> option
+    will be available soon, allowing spreadsheet-based use without an internet connection.
+  </p>
 
-            <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
-              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q1: What is a mortgage EMI?</h3>
-                <p>
-                  EMI (Equated Monthly Installment) is the fixed monthly payment you make to repay your mortgage over time.
-                  It includes both principal and interest components.
-                </p>
-              </div>
+  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+    🔍 Why Choose CalculatorHub’s Mortgage Tool?
+  </h2>
+  <p>
+    This <strong>solution mortgage calculator</strong> from CalculatorHub stands out for its accuracy,
+    clean design, and detailed insights. It’s trusted by homeowners, financial planners, and small
+    businesses for precise projections and user-friendly experience.
+  </p>
 
-              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q2: Does the calculator support down payment?</h3>
-                <p>
-                  Yes. Enter a down payment and we automatically reduce the financed principal before calculating EMI and the schedule.
-                </p>
-              </div>
+  {/* ===================== FAQ SECTION ===================== */}
+  <section className="space-y-6 mt-16">
+    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
+      ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
+    </h2>
 
-              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q3: Can I share my results?</h3>
-                <p>
-                  Use the <strong>Copy Link</strong> button to copy a URL with your inputs encoded. Opening that link will restore the same scenario.
-                </p>
-              </div>
+    <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q1: What is a Mortgage Calculator?</h3>
+        <p>
+          It’s an online tool that helps estimate your home loan payments, interest, and repayment schedule.
+          The <strong>mortgage calculator explained</strong> section helps users understand amortization in detail.
+        </p>
+      </div>
 
-              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q4: Do you store my data?</h3>
-                <p>
-                  No. All calculations run locally in your browser. We only use <strong>localStorage</strong> to remember your last session on your device for convenience.
-                </p>
-              </div>
-            </div>
-          </section>
-        </section>
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q2: How do I use this tool?</h3>
+        <p>
+          Follow the <strong>mortgage calculator tutorial</strong> — simply enter your loan details, interest rate,
+          and tenure to get instant EMI and total repayment results.
+        </p>
+      </div>
 
-        {/* =================== AUTHOR & BACKLINK SECTION =================== */}
-        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
-          <div className="flex items-center gap-3">
-            <img
-              src="/images/calculatorhub-author.webp"
-              alt="CalculatorHub Finance Tools Team"
-              className="w-12 h-12 rounded-full border border-gray-600"
-              loading="lazy"
-            />
-          <div>
-              <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
-              <p className="text-sm text-slate-400">
-                Experts in mortgages and online financial tools. Last updated:{" "}
-                <time dateTime="2025-10-17">October 17, 2025</time>.
-              </p>
-            </div>
-          </div>
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q3: Is this calculator free?</h3>
+        <p>
+          Yes, it’s a completely <strong>free mortgage calculator</strong> with no hidden fees or sign-ups.
+        </p>
+      </div>
 
-          <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
-              <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
-                🚀 Explore more finance tools on CalculatorHub:
-              </p>
-              <div className="flex flex-wrap gap-3 text-sm">
-                <a
-                  href="/loan-emi-calculator"
-                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
-                >
-                  <span className="text-indigo-400">💰</span> Loan EMI Calculator
-                </a>
-                <a
-                  href="/tax-calculator"
-                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
-                >
-                  <span className="text-emerald-400">🧾</span> Income Tax Calculator
-                </a>
-                <a
-                  href="/currency-converter"
-                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-fuchsia-600/20 text-fuchsia-300 hover:text-fuchsia-400 px-3 py-2 rounded-md border border-slate-700 hover:border-fuchsia-500 transition-all duration-200"
-                >
-                  <span className="text-fuchsia-400">💱</span> Currency Converter
-                </a>
-              </div>
-            </div>
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q4: Can it be used for small businesses?</h3>
+        <p>
+          Absolutely! It also functions as a <strong>small business mortgage calculator</strong> for commercial
+          property and investment loans.
+        </p>
+      </div>
 
-        </section>
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q5: Where can I download it?</h3>
+        <p>
+          A <strong>mortgage calculator download</strong> version will soon be available for offline use.
+        </p>
+      </div>
+    </div>
+  </section>
+</section>
+
+{/* =================== AUTHOR & BACKLINK SECTION =================== */}
+<section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+  <div className="flex items-center gap-3">
+    <img
+      src="/images/calculatorhub-author.webp"
+      alt="CalculatorHub Finance Tools Team"
+      className="w-12 h-12 rounded-full border border-gray-600"
+      loading="lazy"
+    />
+    <div>
+      <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
+      <p className="text-sm text-slate-400">
+        Experts in mortgage, tax, and financial calculators. Last updated:
+        <time dateTime="2025-10-17">October 17, 2025</time>.
+      </p>
+    </div>
+  </div>
+
+  <p className="mt-6 text-sm text-slate-400">
+    Explore more tools:
+    <a href="/loan-emi-calculator" className="text-indigo-400 hover:underline"> Loan EMI Calculator</a>,
+    <a href="/compound-interest-calculator" className="text-indigo-400 hover:underline"> Compound Interest Calculator</a>,
+    and
+    <a href="/tax-calculator" className="text-indigo-400 hover:underline"> Income Tax Calculator</a>.
+  </p>
+</section>
+
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/mortgage-calculator" category="currency-finance" />
