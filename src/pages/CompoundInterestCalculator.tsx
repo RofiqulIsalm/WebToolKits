@@ -796,6 +796,31 @@ const CompoundInterestCalculator: React.FC = () => {
               <li>Businesses forecasting financial returns.</li>
               <li>Investors comparing multiple portfolios.</li>
             </ul>
+
+
+           <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">How Compounding Works (The Math)</h2>
+            <p>
+              The standard formula for compound interest is:
+            </p>
+            <pre className="bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto">
+              A = P × (1 + r/n)<sup>n × t</sup>
+            </pre>
+            <ul>
+              <li><strong>P</strong> = Principal (initial amount you invest or deposit)</li>
+              <li><strong>r</strong> = Annual nominal interest rate (as a decimal, e.g., 8% = 0.08)</li>
+              <li><strong>n</strong> = Number of compounding periods per year (12 for monthly, 365 for daily, etc.)</li>
+              <li><strong>t</strong> = Time in years</li>
+              <li><strong>A</strong> = Final amount (principal + accumulated interest)</li>
+            </ul>
+
+            
+            <CompoundInterestStepByStep
+                principal={principal}
+                rate={rate}
+                rateUnit={rateUnit}
+                timeData={timeData}
+                finalAmount={finalAmount}
+              />
           
             <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Alternatives & Advanced Features</h2>
             <p>
