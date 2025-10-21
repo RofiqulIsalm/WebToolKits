@@ -810,51 +810,9 @@ const SipCalculator: React.FC = () => {
     </p>
 
             {/* ===== Responsive, colorful EMI step-by-step ===== */}
-      <h2 id="how-emi" className="mt-12 mb-3 text-2xl font-extrabold tracking-tight text-center sm:text-left">
-            <span className="bg-gradient-to-r from-cyan-300 via-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">
-              🧮 How EMI is Calculated
-            </span>
-        </h2>
-
-         <p className="mb-4 text-slate-300 text-sm sm:text-base text-center sm:text-left">
-            We use the standard formula and show each step with your inputs:
-          </p>
-
-           <div className="relative rounded-2xl bg-gradient-to-br from-slate-800/90 via-slate-900/90 to-[#0b1220]/90 p-4 sm:p-6 ring-1 ring-indigo-500/30 shadow-xl text-[13.5px] sm:text-sm leading-relaxed">
-            {/* top glow */}
-            <div className="pointer-events-none absolute inset-x-0 -top-0.5 h-0.5 bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-emerald-500 opacity-60" />
-          
-            {/* Formula */}
-            <p className="mb-4 text-center font-mono text-[15px] leading-7 text-indigo-300">
-              EMI = <span className="text-sky-300">P × r × (1 + r)<sup>n</sup></span> /
-              <span className="text-fuchsia-300">((1 + r)<sup>n</sup> − 1)</span>
-            </p>
-          
-            {/* Inputs row */}
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 mb-4">
-              <div className="flex flex-wrap justify-between items-center gap-1 sm:gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-cyan-500/20">
-                <span className="font-semibold text-cyan-300">P</span>
-                <span className="text-slate-300">Principal</span>
-                <span className="font-semibold text-white truncate">
-                  {formatCurrency(emiSteps.P, currentLocale, currency)}
-                </span>
-              </div>
-          
-              <div className="flex flex-wrap justify-between items-center gap-1 sm:gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-amber-500/20">
-                <span className="font-semibold text-amber-300">r</span>
-                <span className="text-slate-300">Monthly rate</span>
-                <span className="font-semibold text-white truncate">
-                  {emiSteps.r.toFixed(8)}
-                </span>
-              </div>
-          
-              <div className="flex flex-wrap justify-between items-center gap-1 sm:gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-fuchsia-500/20">
-                <span className="font-semibold text-fuchsia-300">n</span>
-                <span className="text-slate-300">Months</span>
-                <span className="font-semibold text-white truncate">{emiSteps.n}</span>
-              </div>
-            </div>
-          </div>
+     
+        
+  
           
       
   
