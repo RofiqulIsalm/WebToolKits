@@ -451,7 +451,7 @@ In short, the logic may be simple, but the impact is powerful: a <strong>currenc
         <p>
          While thousands of currency pairs exist, some conversions are searched far more frequently due to tourism, trade, and international business. Here are a few of the most popular examples:
         </p>
-        <ol className="grid grid-cols-1 md:grid-cols-2 gap-2 list-disc list-inside">
+        <ol >
           <li>
             <strong>USD to EUR (United States Dollar to Euro)</strong>
             <p>
