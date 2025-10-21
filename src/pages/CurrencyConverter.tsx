@@ -378,7 +378,7 @@ const CurrencyConverter: React.FC = () => {
           {/*------------ world map ----------------*/}
           <div className="mb-8 text-center">
               <img
-                src="/images/world-currency-map.jpg"
+                src="/images/world-currency-map.webp"
                 alt="World map with currency symbols showing live exchange rates"
                 className="mx-auto rounded-lg shadow-lg w-full max-w-3xl"
               />
@@ -415,7 +415,7 @@ const CurrencyConverter: React.FC = () => {
           {/*---------- image ---------------*/}
           <div className="my-6 flex justify-center">
               <img
-                src="/images/currency-conversion-infographic.png"
+                src="/images/currency-conversion-infographic.webp"
                 alt="Infographic explaining how currency conversion formula works with live exchange updates"
                 className="rounded-lg shadow-md w-full max-w-2xl"
               />
@@ -467,7 +467,7 @@ In short, the logic may be simple, but the impact is powerful: a <strong>currenc
           {/*--------- image---------*/}
           <div className="my-6 flex justify-center">
             <img
-              src="/images/currency-converter-dashboard.jpg"
+              src="/images/currency-converter-dashboard.webp"
               alt="Live currency converter app interface showing euro to pound exchange rate"
               className="rounded-xl shadow-lg w-full max-w-lg"
             />
@@ -514,9 +514,18 @@ In short, the logic may be simple, but the impact is powerful: a <strong>currenc
             <a href="/profit-margin-calculator" className="text-blue-400 hover:underline"> Profit Margin Calculator</a>.
           </p>
 
-      
+
+          
           <AdBanner type="bottom" />
-    
+          {/*------------- image ------------*/}
+            <div className="my-6 flex justify-center">
+              <img
+                src="/images/traveler-checking-rates.webp"
+                alt="Traveler using phone to check live euro to pound exchange rate on a moneyconverter app"
+                className="rounded-lg shadow-md w-full max-w-xl"
+              />
+            </div>
+              
       
         <p className="text-slate-300 mt-4">
           This <strong>currency converter calculator</strong> is designed to make your life easier, 
