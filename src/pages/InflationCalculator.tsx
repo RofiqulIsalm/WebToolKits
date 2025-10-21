@@ -635,7 +635,7 @@ const InflationCalculator: React.FC = () => {
         💱 Currency Converter
       </a>
     </div>
-  </div>
+  </div> 
 </section>
 
 
