@@ -900,281 +900,181 @@ const RDCalculator: React.FC = () => {
           </div>
         )}
 
-        {/* ======== SEO Content ======== */}
-        <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
-          {/* TOC */}
-          <nav className="mt-16 mb-8 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200">
-            <h2 className="text-lg font-semibold text-cyan-300 mb-3">📖 Table of Contents</h2>
-            <ol className="list-decimal list-inside space-y-2 text-sm">
-              <li>
-                <a href="#how-rd-works" className="text-indigo-400 hover:underline">
-                  How RD Works & Formula
-                </a>
-              </li>
-              <li>
-                <a href="#how-to-use" className="text-indigo-400 hover:underline">
-                  How to Use This RD Calculator
-                </a>
-              </li>
-              <li>
-                <a href="#example" className="text-indigo-400 hover:underline">
-                  Example Calculation
-                </a>
-              </li>
-              <li>
-                <a href="#faq" className="text-indigo-400 hover:underline">
-                  Frequently Asked Questions
-                </a>
-              </li>
-            </ol>
-          </nav>
-
-          <h1 className="text-3xl font-bold text-cyan-400 mb-6">
-            Recurring Deposit (RD) Calculator 2025 – Fast, Accurate & Easy
-          </h1>
-
-          <p>
-            The <strong>RD Calculator by CalculatorHub</strong> helps you estimate your{" "}
-            <strong>maturity amount</strong>, <strong>interest earned</strong>, and provides a{" "}
-            <strong>detailed schedule</strong> for monthly deposits with monthly/quarterly/yearly
-            compounding in multiple currencies.
-          </p>
-
-          <figure className="my-8">
-            <img
-              src="/images/rd-calculator-hero.webp"
-              alt="Modern RD calculator UI showing maturity, pie chart, and schedule"
-              title="RD Calculator 2025 | Free Maturity & Interest Tool"
-              className="rounded-lg shadow-md border border-slate-700 mx-auto"
-              loading="lazy"
-            />
-            <figcaption className="text-center text-sm text-slate-400 mt-2">
-              Visual representation of the RD Calculator with dark-finance UI.
-            </figcaption>
-          </figure>
-
-          {/* Step-by-step math */}
-          <h2
-            id="how-rd-works"
-            className="mt-12 mb-3 text-2xl font-extrabold tracking-tight text-center sm:text-left"
-          >
-            <span className="bg-gradient-to-r from-cyan-300 via-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">
-              🧮 How RD is Calculated
-            </span>
-          </h2>
-
-          <p className="mb-4 text-slate-300 text-sm sm:text-base">
-            We simulate monthly deposits and apply interest on the chosen compounding boundaries
-            (monthly, quarterly, or yearly). Below is an engineering approximation that matches the
-            compounding grid:
-          </p>
-
-          <div className="relative rounded-2xl bg-gradient-to-br from-slate-800/90 via-slate-900/90 to-[#0b1220]/90 p-4 sm:p-6 ring-1 ring-indigo-500/30 shadow-xl text-[13.5px] sm:text-sm leading-relaxed">
-            <div className="pointer-events-none absolute inset-x-0 -top-0.5 h-0.5 bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-emerald-500 opacity-60" />
-
-            <p className="mb-4 text-center font-mono text-[15px] leading-7 text-indigo-300">
-              Approx. FV ≈{" "}
-              <span className="text-sky-300">
-                P × \[ (1 + i)<sup>k</sup> − 1 \] / \[ 1 − (1 + i)<sup>−c/12</sup> \]
-              </span>
-              <br />
-              where P = monthly deposit, c = compounds/year, i = r / c, k = (months/12) × c
+          {/* ======== SEO Content ======== */}
+          <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+            {/* ===== Table of Contents ===== */}
+            <nav className="mt-16 mb-8 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200">
+              <h2 className="text-lg font-semibold text-cyan-300 mb-3">📖 Table of Contents</h2>
+              <ol className="list-decimal list-inside space-y-2 text-sm">
+                <li><a href="#what-is-rd" className="text-indigo-400 hover:underline">What is Recurring Deposit Calculator</a></li>
+                <li><a href="#rd-explained" className="text-indigo-400 hover:underline">Recurring Deposit Calculator Explained</a></li>
+                <li><a href="#how-to-use" className="text-indigo-400 hover:underline">How to Use Recurring Deposit Calculator</a></li>
+                <li><a href="#tutorial" className="text-indigo-400 hover:underline">Recurring Deposit Calculator Tutorial</a></li>
+                <li><a href="#tips" className="text-indigo-400 hover:underline">Recurring Deposit Calculator Tips</a></li>
+                <li><a href="#comparison" className="text-indigo-400 hover:underline">Recurring Deposit Calculator Comparison</a></li>
+                <li><a href="#pricing" className="text-indigo-400 hover:underline">Recurring Deposit Calculator Price & Deals</a></li>
+                <li><a href="#online" className="text-indigo-400 hover:underline">Recurring Deposit Calculator Online</a></li>
+                <li><a href="#best" className="text-indigo-400 hover:underline">Best & Premium Options</a></li>
+                <li><a href="#faq" className="text-indigo-400 hover:underline">Frequently Asked Questions</a></li>
+              </ol>
+            </nav>
+          
+            <h1 className="text-3xl font-bold text-cyan-400 mb-6">
+              Recurring Deposit (RD) Calculator 2025 – Simple, Accurate & Beginner-Friendly
+            </h1>
+          
+            <p>
+              The <strong>RD Calculator by CalculatorHub</strong> helps users estimate their{" "}
+              <strong>maturity amount</strong>, <strong>interest earned</strong>, and{" "}
+              <strong>detailed monthly schedule</strong> with realistic compounding. Designed for clarity, this
+              <strong> tool Recurring Deposit Calculator</strong> provides instant, precise results — perfect for savers, students, and small businesses.
             </p>
-
-            {/* Inputs row */}
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 mb-4">
-              <div className="flex flex-wrap justify-between items-center gap-1 sm:gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-cyan-500/20">
-                <span className="font-semibold text-cyan-300">P</span>
-                <span className="text-slate-300">Monthly deposit</span>
-                <span className="font-semibold text-white truncate">
-                  {formatCurrency(steps.P, currentLocale, currency)}
-                </span>
-              </div>
-
-              <div className="flex flex-wrap justify-between items-center gap-1 sm:gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-amber-500/20">
-                <span className="font-semibold text-amber-300">i</span>
-                <span className="text-slate-300">Periodic rate (r/c)</span>
-                <span className="font-semibold text-white truncate">{steps.i.toFixed(8)}</span>
-              </div>
-
-              <div className="flex flex-wrap justify-between items-center gap-1 sm:gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-fuchsia-500/20">
-                <span className="font-semibold text-fuchsia-300">k</span>
-                <span className="text-slate-300"># of periods</span>
-                <span className="font-semibold text-white truncate">{steps.periods.toFixed(4)}</span>
-              </div>
-            </div>
-
-            <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
-
-            <div className="space-y-2 font-mono break-words">
-              <div className="flex flex-wrap justify-between">
-                <span className="font-semibold text-sky-300">(1 + i)<sup>k</sup> − 1</span>
-                <span className="text-white">{steps.numerator.toFixed(9)}</span>
-              </div>
-              <div className="flex flex-wrap justify-between">
-                <span className="font-semibold text-rose-300">1 − (1 + i)<sup>−c/12</sup></span>
-                <span className="text-white">{steps.denom.toFixed(9)}</span>
-              </div>
-
-              <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
-
-              <div className="overflow-x-auto rounded-md bg-[#0f172a] px-3 py-2 border border-slate-700 text-slate-300 text-[13px] whitespace-nowrap">
-                <div className="min-w-max">
-                  <span className="font-semibold text-slate-100">Approx FV</span> =
-                  <span className="text-white">
-                    {" "}
-                    {formatCurrency(steps.P, currentLocale, currency)}{" "}
-                  </span>
-                  ×{" "}
-                  <span className="text-white">
-                    {steps.numerator.toFixed(6)} ÷ {steps.denom.toFixed(6)}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-center">
-                <div className="text-emerald-300 text-xs uppercase">c (per year)</div>
-                <div className="font-semibold text-white text-sm truncate">{steps.c}</div>
-              </div>
-              <div className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-center">
-                <div className="text-rose-300 text-xs uppercase">i = r / c</div>
-                <div className="font-semibold text-white text-sm truncate">{steps.i.toFixed(8)}</div>
-              </div>
-              <div className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-center">
-                <div className="text-sky-300 text-xs uppercase">Approx FV</div>
-                <div className="font-semibold text-white text-sm truncate">
-                  {formatCurrency(steps.approx, currentLocale, currency)}
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-2 rounded-xl bg-[#0f172a] px-4 py-3 ring-1 ring-emerald-500/30">
-              <span className="text-sm text-emerald-300 whitespace-nowrap">
-                💰 Simulated Maturity (more precise)
-              </span>
-              <span className="text-lg sm:text-xl font-bold tracking-wide text-white">
-                {formatCurrency(maturityAmount, currentLocale, currency)}
-              </span>
-            </div>
-          </div>
-
-          <h2 id="how-to-use" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-            💡 How to Use This RD Calculator
-          </h2>
-          <ol className="list-decimal list-inside space-y-2">
-            <li>Select your <strong>currency</strong>.</li>
-            <li>Enter the <strong>monthly deposit</strong>.</li>
-            <li>Add the <strong>annual interest rate</strong> and choose the <strong>compounding</strong> frequency.</li>
-            <li>Set the <strong>tenure</strong> in years and months.</li>
-            <li>Copy results or share a link with your configuration.</li>
-          </ol>
-
-          <h2 id="example" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-            📘 Example Calculation
-          </h2>
-          <p>
-            Suppose you deposit <strong>$500</strong> every month at <strong>7.0%</strong> with{" "}
-            <strong>quarterly</strong> compounding for <strong>5 years</strong>. Your total
-            deposits are <strong>$30,000</strong>. The maturity amount (simulated quarterly) will be
-            higher than deposits due to compounding; interest could be around{" "}
-            <em>(varies with exact compounding alignment)</em>.
-          </p>
-
-          {/* FAQ */}
-          <section id="faq" className="space-y-6 mt-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
-              ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
+          
+            <figure className="my-8">
+              <img
+                src="/images/rd-calculator-hero.webp"
+                alt="Modern RD calculator UI showing maturity, pie chart, and schedule"
+                title="Recurring Deposit Calculator 2025 | Free Maturity & Interest Tool"
+                className="rounded-lg shadow-md border border-slate-700 mx-auto"
+                loading="lazy"
+              />
+              <figcaption className="text-center text-sm text-slate-400 mt-2">
+                Visual representation of the RD Calculator with dark-finance UI.
+              </figcaption>
+            </figure>
+          
+            {/* What is RD Calculator */}
+            <h2 id="what-is-rd" className="text-2xl font-semibold text-cyan-300 mt-10 mb-3">
+              📌 What is Recurring Deposit Calculator
             </h2>
-
-            <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
-              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-                <h3 className="font-semibold text-xl mb-2 text-yellow-300">
-                  Q1: What compounding should I choose?
-                </h3>
-                <p>
-                  Most banks use <strong>quarterly</strong> compounding for RD. If your bank uses a
-                  different frequency, choose that for best accuracy.
-                </p>
-              </div>
-
-              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-                <h3 className="font-semibold text-xl mb-2 text-yellow-300">
-                  Q2: Why is simulated maturity shown?
-                </h3>
-                <p>
-                  Because deposits happen monthly but compounding may be quarterly/yearly, we{" "}
-                  <strong>simulate month-by-month</strong> and apply interest precisely on each
-                  compounding boundary for realistic results.
-                </p>
-              </div>
-
-              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q3: Do you store data?</h3>
-                <p>
-                  No server storage. We use <strong>localStorage</strong> only to remember your
-                  last inputs on your device.
-                </p>
-              </div>
-
-              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-                <h3 className="font-semibold text-xl mb-2 text-yellow-300">
-                  Q4: Can I share my results?
-                </h3>
-                <p>
-                  Yes. Use <strong>Copy Link</strong> to copy a URL with your inputs encoded. Opening
-                  that link restores the same scenario.
-                </p>
-              </div>
-            </div>
-          </section>
-        </section>
-
-        {/* Author & Backlinks */}
-        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
-          <div className="flex items-center gap-3">
-            <img
-              src="/images/calculatorhub-author.webp"
-              alt="CalculatorHub Finance Tools Team"
-              className="w-12 h-12 rounded-full border border-gray-600"
-              loading="lazy"
-            />
-            <div>
-              <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
-              <p className="text-sm text-slate-400">
-                Experts in savings & online financial tools. Last updated:{" "}
-                <time dateTime="2025-10-17">October 17, 2025</time>.
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
-            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
-              🚀 Explore more finance tools on CalculatorHub:
+            <p>
+              A <strong>Recurring Deposit Calculator</strong> helps estimate how monthly contributions grow under compound interest.
+              It answers <em>what is Recurring Deposit Calculator</em> in practice — a digital tool that quickly forecasts maturity value
+              before committing to a bank RD account.
             </p>
-            <div className="flex flex-wrap gap-3 text-sm">
-              <a
-                href="/loan-emi-calculator"
-                className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
-              >
-                <span className="text-indigo-400">💰</span> Loan EMI Calculator
-              </a>
-              <a
-                href="/mortgage-calculator"
-                className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
-              >
-                <span className="text-emerald-400">🏠</span> Mortgage Calculator
-              </a>
-              <a
-                href="/currency-converter"
-                className="flex items-center gap-2 bg-[#0f172a] hover:bg-fuchsia-600/20 text-fuchsia-300 hover:text-fuchsia-400 px-3 py-2 rounded-md border border-slate-700 hover:border-fuchsia-500 transition-all duration-200"
-              >
-                <span className="text-fuchsia-400">💱</span> Currency Converter
-              </a>
-            </div>
-          </div>
-        </section>
+          
+            {/* Explained */}
+            <h2 id="rd-explained" className="text-2xl font-semibold text-cyan-300 mt-10 mb-3">
+              🧮 Recurring Deposit Calculator Explained
+            </h2>
+            <p>
+              This <strong>advanced Recurring Deposit Calculator</strong> simulates each deposit and applies
+              compounding monthly, quarterly, or yearly. It’s accurate to banking standards and provides both
+              quick overviews and full schedules. The <strong>simple Recurring Deposit Calculator</strong> mode offers totals,
+              while the detailed mode shows breakdowns and visual charts.
+            </p>
+          
+            {/* How to Use */}
+            <h2 id="how-to-use" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              💡 How to Use Recurring Deposit Calculator
+            </h2>
+            <ol className="list-decimal list-inside space-y-2">
+              <li>Select your preferred <strong>currency</strong>.</li>
+              <li>Enter your <strong>monthly deposit</strong> amount.</li>
+              <li>Provide the <strong>annual interest rate</strong> and select <strong>compounding</strong> frequency.</li>
+              <li>Set the <strong>tenure</strong> in years and months.</li>
+              <li>Click calculate to view maturity, total deposits, and interest earned.</li>
+              <li>Copy results or share a link for comparison.</li>
+            </ol>
+          
+            {/* Tutorial */}
+            <h2 id="tutorial" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              🟣 Recurring Deposit Calculator Tutorial
+            </h2>
+            <p>
+              For an <strong>easy Recurring Deposit Calculator</strong> start, input small numbers — say $500 per month for 3 years at 7%.
+              Try toggling compounding between quarterly and monthly to see the change. This short guide doubles as a{" "}
+              <strong>Recurring Deposit Calculator tutorial</strong> for first-time users.
+            </p>
+          
+            {/* Tips */}
+            <h2 id="tips" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              🧠 Recurring Deposit Calculator Tips
+            </h2>
+            <ul className="list-disc list-inside space-y-2">
+              <li>Quarterly compounding is most common for RD accounts.</li>
+              <li>Increasing your monthly deposit slightly can significantly raise total maturity.</li>
+              <li>Use auto-debit to avoid missing contributions.</li>
+              <li>Experiment with tenures to balance liquidity and growth.</li>
+            </ul>
+          
+            {/* Comparison */}
+            <h2 id="comparison" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              🔍 Recurring Deposit Calculator Comparison
+            </h2>
+            <p>
+              Users often compare <strong>free Recurring Deposit Calculator</strong> tools against premium or
+              <strong> advanced Recurring Deposit Calculator</strong> apps. Free tools give quick projections,
+              while premium ones include graphs, export options, and multi-currency support. For most users,
+              CalculatorHub’s tool combines both simplicity and precision.
+            </p>
+          
+            {/* Pricing */}
+            <h2 id="pricing" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              💸 Recurring Deposit Calculator Price & Deals
+            </h2>
+            <p>
+              The <strong>best Recurring Deposit Calculator</strong> should be free and accurate. While some
+              sites promote <strong>Recurring Deposit Calculator deals</strong> or premium plans, CalculatorHub
+              keeps its <strong>free Recurring Deposit Calculator</strong> open to everyone — without hidden costs.
+              If a <strong>Recurring Deposit Calculator price</strong> appears elsewhere, check for added features
+              like PDF exports or saved portfolios before paying.
+            </p>
+          
+            {/* Online */}
+            <h2 id="online" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              🌐 Recurring Deposit Calculator Online
+            </h2>
+            <p>
+              Using a <strong>Recurring Deposit Calculator online</strong> is fast and secure. It runs in your browser,
+              stores no personal data, and gives results instantly. You can also share your setup via link,
+              making it great for team or small business finance planning.
+            </p>
+          
+            {/* Best */}
+            <h2 id="best" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              🏆 Best & Premium Options
+            </h2>
+            <p>
+              The <strong>premium Recurring Deposit Calculator</strong> experience on CalculatorHub offers
+              visuals, breakdowns, and privacy — all free. It’s rated among the <strong>best Recurring Deposit Calculator</strong>
+              options online for both accuracy and design.
+            </p>
+          
+            {/* FAQ */}
+            <section id="faq" className="space-y-6 mt-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
+                ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
+              </h2>
+          
+              <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-yellow-300">How accurate are RD results?</h3>
+                  <p>
+                    Results are simulated monthly and compounded exactly as per your chosen frequency.
+                    This makes them as close as possible to real-world RD outcomes.
+                  </p>
+                </div>
+          
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-yellow-300">Can I share my results?</h3>
+                  <p>
+                    Yes, every configuration can generate a sharable URL. Copy the link and revisit
+                    or compare scenarios instantly.
+                  </p>
+                </div>
+          
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-yellow-300">Is this free to use?</h3>
+                  <p>
+                    Absolutely. CalculatorHub provides a <strong>free Recurring Deposit Calculator</strong>
+                    with premium-grade accuracy, all running locally in your browser.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </section>
+
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/rd-calculator" category="currency-finance" />
