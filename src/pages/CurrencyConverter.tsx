@@ -536,6 +536,93 @@ In short, the logic may be simple, but the impact is powerful: a <strong>currenc
       </div>
 
         {/*--------------------FAQ------------------------*/}
+        <section className="space-y-6 mt-16">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
+            ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
+          </h2>
+        
+          <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+            {/* Q1 */}
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+              <h3 className="font-semibold text-xl mb-2">
+                <span className="text-yellow-300">Q1:</span> What is a Currency Converter?
+              </h3>
+              <p>
+                A <strong>Currency Converter</strong> is an online tool that helps users instantly convert one currency into another
+                using the <strong>latest live exchange rates</strong>. Whether you’re a traveler, investor, or online shopper,
+                it shows you how much your money is worth in another currency—accurately and in real time.
+                Many users also refer to it as a <strong>moneyconverter</strong> or <strong>foreign exchange calculator</strong>.
+              </p>
+            </div>
+        
+            {/* Q2 */}
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+              <h3 className="font-semibold text-xl mb-2">
+                <span className="text-yellow-300">Q2:</span> How does a Currency Converter work?
+              </h3>
+              <p>
+                A <strong>real time currency converter</strong> works by fetching <strong>live exchange rate data</strong> from global
+                forex markets or financial institutions. It uses the formula:{" "}
+                <code className="text-cyan-300">Converted Amount = Amount × Exchange Rate</code>.
+                For example, if the <strong>euro to pound exchange rate</strong> is 0.85, then 100 EUR equals 85 GBP.
+                The process is instant, transparent, and continuously updated to reflect market changes.
+              </p>
+            </div>
+        
+            {/* Q3 */}
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+              <h3 className="font-semibold text-xl mb-2">
+                <span className="text-yellow-300">Q3:</span> Why should I use an online Currency Calculator?
+              </h3>
+              <p>
+                An <strong>online currency calculator</strong> helps users make quick and accurate conversions without the hassle of
+                manual math. It’s useful for <strong>travelers</strong> who want to plan budgets abroad, <strong>businesses</strong> dealing
+                with global payments, and <strong>investors</strong> managing international portfolios. 
+                Tools like our <strong>international currency converter</strong> provide instant rates and eliminate hidden fees.
+              </p>
+            </div>
+        
+            {/* Q4 */}
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+              <h3 className="font-semibold text-xl mb-2">
+                <span className="text-yellow-300">Q4:</span> Are the exchange rates always accurate?
+              </h3>
+              <p>
+                Yes, most reliable <strong>currency converter apps</strong> and websites use <strong>live exchange rates</strong> from
+                trusted financial sources. However, the rate you receive from banks or card providers may vary slightly because of
+                <strong> currency conversion fees</strong> or commissions. Our <strong>accurate currency converter</strong> ensures
+                that displayed rates are updated in real time for transparency.
+              </p>
+            </div>
+        
+            {/* Q5 */}
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+              <h3 className="font-semibold text-xl mb-2">
+                <span className="text-yellow-300">Q5:</span> Can I convert Euro to Pound or other major currencies?
+              </h3>
+              <p>
+                Absolutely! You can easily use our <strong>euro to pound converter</strong> to check the latest
+                <strong> euro to GBP exchange rate</strong>. You can also <strong>convert euros to pounds</strong>,
+                <strong> convert euro to GBP</strong>, or explore other pairs like USD to EUR or GBP to INR.
+                Our <strong>currency converter euro to sterling</strong> is designed to handle over 150+ world currencies accurately.
+              </p>
+            </div>
+        
+            {/* Q6 */}
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+              <h3 className="font-semibold text-xl mb-2">
+                <span className="text-yellow-300">Q6:</span> Is this Currency Converter free to use?
+              </h3>
+              <p>
+                Yes! This <strong>currency converter calculator</strong> is completely <strong>free</strong> and requires no registration.
+                It runs directly in your browser, uses <strong>real-time exchange rates</strong>, and has no hidden charges.
+                Whether you’re checking rates for <strong>euro to pound</strong> or comparing multiple currencies, it’s fast, secure,
+                and user-friendly.
+              </p>
+            </div>
+          </div>
+        </section>
+
 
 
 
