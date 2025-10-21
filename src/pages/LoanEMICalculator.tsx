@@ -1091,56 +1091,52 @@ useEffect(() => {
         </h2>
       
         <p>
-          Our <strong>Loan EMI Calculator</strong> is a simple yet powerful tool that helps you calculate your{" "}
-          <strong>Equated Monthly Installment (EMI)</strong> in seconds. Whether you’re planning a{" "}
-          <strong>home loan, car loan, personal loan, or education loan</strong>, this calculator provides instant results
-          for your monthly payment, total interest, and overall repayment amount. It’s designed for speed, accuracy, and
-          clarity so you can budget confidently before applying for credit.
+         Managing finances effectively is one of the biggest challenges for individuals and businesses today. When it comes to taking a loan — whether for buying a dream home, funding higher education, or supporting a startup — understanding monthly repayments is crucial. The Loan EMI Calculator is a simple yet powerful online tool that helps users calculate their Equated Monthly Installments (EMI) in just a few seconds.
         </p>
 
         <p>
-          The EMI math used here follows standard banking practice (reducing balance method). You can also explore{" "}
-          <strong>advanced features</strong> such as one‑time prepayments and extra monthly payments, generate a{" "}
-          <strong>detailed amortization schedule</strong>, compare loan scenarios side‑by‑side, and export a{" "}
-          <strong>CSV</strong> for record‑keeping. Everything runs in your browser—no sign‑up, no personal data, and no tracking.
+         This affordable loan EMI calculator makes it possible to plan finances better, compare multiple loan options, and avoid unpleasant surprises during repayment. With its intuitive design and accurate results, users can confidently make smarter financial decisions.
         </p>
       
          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">What Is an EMI?</h2>
         <p>
-          EMI stands for <em>Equated Monthly Installment</em> — a fixed payment that combines{" "}
-          <strong>principal</strong> (the amount you borrowed) and <strong>interest</strong> (the cost of borrowing).
-          At the start of your loan, the interest portion of each EMI is higher. As you keep paying, the interest share
-          declines while the principal share increases, helping you pay down the outstanding balance progressively.
+         An EMI (Equated Monthly Installment) is the fixed amount a borrower pays every month to repay a loan, including both principal and interest. Each EMI payment consists of two components:
         </p>
         <ul>
           <li>
-            <strong>Principal:</strong> The original loan amount you receive from the lender.
+            <strong>Principal:</strong> The portion of the loan amount that reduces the outstanding balance
           </li>
           <li>
-            <strong>Interest:</strong> Charged on the remaining balance and calculated monthly using the annual rate.
+            <strong>Interest:</strong> The cost paid to the lender for borrowing the money.
           </li>
         </ul>
 
         <p>
-          Because the calculation is based on a reducing balance, every extra rupee or dollar paid early (as a prepayment)
-          can create meaningful interest savings. Use the <strong>Advanced Mode</strong> in this calculator to simulate
-          your best repayment strategy.
+         In the initial months, the interest portion is higher, while the principal portion increases gradually. This repayment structure continues until the loan is fully paid off.
+        </p>
+        <p>
+        For those new to financial planning, the loan EMI calculator for beginners explains this concept clearly, ensuring users understand how EMIs work and how each factor affects repayment.
         </p>
       
-        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">How to Use This Loan EMI Calculator</h2>
+        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">How Does the Loan EMI Calculator Work?</h2>
+        <p>The loan EMI calculator simplifies complex math into a fast, easy, and accurate digital tool. It allows users to calculate EMIs instantly by entering just three essential inputs:</p>
         <ol className="list-decimal list-inside space-y-2">
-          <li>Enter your <strong>loan amount (principal)</strong>.</li>
-          <li>Set the <strong>annual interest rate</strong> from your bank or lender.</li>
-          <li>Input the <strong>loan tenure</strong> in years and months.</li>
-          <li>View your <strong>monthly EMI</strong>, <strong>total interest</strong>, and <strong>total payment</strong> instantly.</li>
+          <li>Loan Amount (Principal): The amount borrowed from a bank or financial institution.</li>
+          <li>Interest Rate (%): The rate charged annually by the lender.</li>
+          <li>Tenure (Months or Years): The period over which the loan will be repaid.</li>
         </ol>
         <p>
-          In <strong>Advanced Mode</strong>, add a <em>one‑time lump‑sum</em> prepayment or an <em>extra monthly amount</em> to see how much
-          faster you can finish the loan and how much interest you can save. You can also export the month‑by‑month schedule as CSV.
+         Once these details are entered, the easy loan EMI calculator automatically calculates the monthly installment and displays:
         </p>
+        <ul>
+          <li>EMI amount</li>
+          <li>Total interest payable</li>
+          <li>Total repayment (principal + interest)</li>
+        </ul>
+        <p>This eliminates guesswork and helps users find the most affordable loan option before applying.</p>
 
         <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">EMI Calculation Formula</h2>
-          <p>The EMI is calculated using the standard formula:</p>
+          <p>The EMI amount is derived using this mathematical formula:</p>
           <pre className="bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto">
             EMI = [P × R × (1 + R)^N] / [(1 + R)^N – 1]
           </pre>
@@ -1155,9 +1151,7 @@ useEffect(() => {
             />
           )}
 
-          This formula ensures precision and transparency, matching the method used by most banks and NBFCs for retail
-          loans. It’s ideal for <strong>home loans</strong>, <strong>car loans</strong>, <strong>personal loans</strong>, and
-          <strong> small business loans</strong>.
+          While this formula may seem complicated, the loan EMI calculator app handles all the calculations instantly, displaying the EMI and total interest with precision. It’s the perfect tool for users who prefer accuracy without the manual effort.
 
       
        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Why Use Our EMI Calculator?</h2>
@@ -1174,11 +1168,11 @@ useEffect(() => {
           You’ll also see how shortening the tenure or making small prepayments can reduce the interest paid over time.
         </p>
       
-        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Example: EMI for ₹10 Lakh Loan</h2>
+        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Example: EMI for $10 Lakh Loan</h2>
         <p>
-          Suppose you take a <strong>₹10,00,000 home loan</strong> for 20 years at an annual interest rate of 8%.
-          The EMI would be approximately ₹8,364 per month. Over the tenure, you’ll pay ₹10,00,000 principal + ₹10,07,360 interest
-          = ₹20,07,360 total. With modest prepayments—say ₹1,000–₹2,000 per month or a one‑time bonus—you can
+          Suppose you take a <strong>$10,00,000 home loan</strong> for 20 years at an annual interest rate of 8%.
+          The EMI would be approximately $8,364 per month. Over the tenure, you’ll pay $10,00,000 principal + $10,07,360 interest
+          = $20,07,360 total. With modest prepayments—say $1,000–$2,000 per month or a one‑time bonus—you can
           finish sooner and save significant interest.
         </p>
         <p>
