@@ -490,13 +490,7 @@ In short, the logic may be simple, but the impact is powerful: a <strong>currenc
 
       
           <AdBanner type="bottom" />
-      
-        <h2 className="text-2xl font-bold">Image Suggestions</h2>
-        <ul className="list-disc list-inside">
-          <li>A world map with currency symbols ($, €, ¥, £)</li>
-          <li>A digital forex trading chart with real-time exchange rates</li>
-          <li>A traveler exchanging money at an airport</li>
-        </ul>
+    
       
         <p className="text-slate-300 mt-4">
           This <strong>currency converter calculator</strong> is designed to make your life easier, 
