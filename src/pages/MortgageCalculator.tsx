@@ -1021,7 +1021,7 @@ useEffect(() => {
             
               <figure className="my-8">
                 <img
-                  src="/images/mortgage-calculator.webp" 
+                  src="/images/mortgage-calculator-hero.webp.webp" 
                   alt="Modern mortgage calculator showing loan amortization chart"
                   title="Free Mortgage Calculator | Home Loan & Refinance Estimator"
                   className="rounded-lg shadow-md border border-slate-700 mx-auto"
