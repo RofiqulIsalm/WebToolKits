@@ -854,8 +854,7 @@ const SipCalculator: React.FC = () => {
                 <span className="font-semibold text-white truncate">{emiSteps.n}</span>
               </div>
             </div>
-
-           </div>
+          </div>
           
       
   
