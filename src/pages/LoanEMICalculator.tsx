@@ -1,4 +1,4 @@
-// LoanEMICalculator.tsx
+//  complate for live
 import React, { useEffect, useMemo, useState, useDeferredValue, useRef } from 'react';
 
 import { Calculator, RefreshCw, ChevronDown, ChevronUp, Info, TrendingUp } from 'lucide-react';
