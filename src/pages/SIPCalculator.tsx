@@ -952,6 +952,11 @@ const SipCalculator: React.FC = () => {
           </div>
 
   
+  
+
+  
+
+  
     <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">📈 Real-Time Chart & Data Visualization</h2>
     <p>
       The SIP Calculator includes interactive **Pie** and **Bar charts** powered by Recharts. These visualize your 
