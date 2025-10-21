@@ -740,6 +740,22 @@ const CompoundInterestCalculator: React.FC = () => {
             <p>
               This example shows how the <strong>compound interest calculator explained</strong> helps visualize the power of compounding for smarter financial planning.
             </p>
+            <div className="my-8 text-center">
+                <img
+                  src="/images/compound_interest_chart.webp"
+                  alt="Compound Interest Growth Example Chart - $1000 at 10% for 20 years"
+                  className="mx-auto rounded-xl shadow-md border border-slate-700"
+                  loading="lazy"
+                  width={800}
+                  height={500}
+                  decoding="async"
+                />
+                <p className="text-slate-400 text-sm mt-2">
+                  Growth of $1000 at 10% annual rate for 20 years — compounding vs. simple interest.
+                </p>
+              </div>
+
+           
           
             <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Understanding Compounding Frequency</h2>
             <p>
