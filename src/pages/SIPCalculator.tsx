@@ -810,11 +810,16 @@ const SipCalculator: React.FC = () => {
     </p>
 
             {/* ===== Responsive, colorful EMI step-by-step ===== */}
-          <h2 id="how-emi" className="mt-12 mb-3 text-2xl font-extrabold tracking-tight text-center sm:text-left">
+      <h2 id="how-emi" className="mt-12 mb-3 text-2xl font-extrabold tracking-tight text-center sm:text-left">
             <span className="bg-gradient-to-r from-cyan-300 via-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">
               🧮 How EMI is Calculated
             </span>
-          </h2>
+        </h2>
+
+         <p className="mb-4 text-slate-300 text-sm sm:text-base text-center sm:text-left">
+            We use the standard formula and show each step with your inputs:
+          </p>
+  
           
       
   
