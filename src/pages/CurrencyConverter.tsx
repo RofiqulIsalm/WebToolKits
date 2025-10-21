@@ -17,20 +17,6 @@ const CurrencyConverter: React.FC = () => {
   const [exchangeRates, setExchangeRates] = useState<{[key: string]: number}>({});
   const [loading, setLoading] = useState<boolean>(false);
 
-export default function DelayedImage() {
-  const [showImage, setShowImage] = useState(false);
-
-  useEffect(() => {
-    // Show image after 5 seconds
-    const timer = setTimeout(() => {
-      setShowImage(true);
-    }, 5000);
-
-    // Cleanup timeout when component unmounts
-    return () => clearTimeout(timer);
-  }, []);
-
-
   const allCurrencies = React.useMemo(() => [
     { code: 'AED', name: 'UAE Dirham' },
     { code: 'AFN', name: 'Afghan Afghani' },
