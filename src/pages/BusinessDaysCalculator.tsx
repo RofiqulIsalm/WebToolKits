@@ -232,6 +232,7 @@ const BusinessDaysCalculator: React.FC = () => {
           { name: "Business Days Calculator", url: "/business-days-calculator" },
         ]}
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
       <div className="max-w-6xl mx-auto px-4 md:px-6">
         <Breadcrumbs
