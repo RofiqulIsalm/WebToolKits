@@ -143,7 +143,7 @@ const PasswordGenerator: React.FC = () => {
       />
 
       {/* -------- Additional Meta Tags for SEO -------- */}
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
       <meta name="keywords" content="password generator online, free strong password generator, secure password creator, random password tool, local password maker, password strength meter, best password generator 2025" />
       <meta name="robots" content="index, follow" />
       <meta name="author" content="CalculatorHub" />
