@@ -1425,49 +1425,24 @@ useEffect(() => {
 
           {/* =================== AUTHOR & BACKLINK SECTION =================== */}
         <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
-          <div className="flex items-center gap-3">
-            <img
-              src="/images/calculatorhub-author.webp"
-              alt="CalculatorHub Finance Tools Team"
-              className="w-12 h-12 rounded-full border border-gray-600"
-              loading="lazy"
-            />
-          <div>
-              <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
-              <p className="text-sm text-slate-400">
-                Experts in mortgages and online financial tools. Last updated:{" "}
-                <time dateTime="2025-10-17">October 17, 2025</time>.
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
-              <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
-                🚀 Explore more finance tools on CalculatorHub:
-              </p>
-              <div className="flex flex-wrap gap-3 text-sm">
-                <a
-                  href="/loan-emi-calculator"
-                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
-                >
-                  <span className="text-indigo-400">💰</span> Loan EMI Calculator
-                </a>
-                <a
-                  href="/tax-calculator"
-                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
-                >
-                  <span className="text-emerald-400">🧾</span> Income Tax Calculator
-                </a>
-                <a
-                  href="/currency-converter"
-                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-fuchsia-600/20 text-fuchsia-300 hover:text-fuchsia-400 px-3 py-2 rounded-md border border-slate-700 hover:border-fuchsia-500 transition-all duration-200"
-                >
-                  <span className="text-fuchsia-400">💱</span> Currency Converter
-                </a>
+            <div className="flex items-center gap-3">
+              <img src="/images/calculatorhub-author.webp" alt="CalculatorHub Finance Tools Team" className="w-12 h-12 rounded-full border border-gray-600" loading="lazy" />
+              <div>
+                <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
+                <p className="text-sm text-slate-400">Experts in mortgages and online financial tools. Last updated:{" "} <time dateTime="2025-10-17">October 17, 2025</time>.</p>
               </div>
             </div>
+          
+            <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+              <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">🚀 Explore more finance tools on CalculatorHub:</p>
+              <div className="flex flex-wrap gap-3 text-sm">
+                <Link to="/loan-affordability-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"><span className="text-sky-400">🏦</span> Loan Affordability Calculator</Link>
+                <Link to="/loan-comparison-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"><span className="text-indigo-400">🔁</span> Loan Comparison Calculator</Link>
+                <Link to="/home-loan-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"><span className="text-emerald-400">🏠</span> Home Loan Calculator</Link>
+              </div>
+            </div>
+          </section>
 
-        </section>
 
      {/* ============= LOAN EMI CALCULATOR ENHANCED SEO SCHEMAS ================ */}
               <script
