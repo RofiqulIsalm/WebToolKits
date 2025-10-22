@@ -595,6 +595,7 @@ const DateDifferencePro: React.FC = () => {
           { name: "Date Difference Calculator", url: "/date-difference" },
         ]}
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
       {/* JSON-LD: WebApplication */}
       <script
