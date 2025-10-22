@@ -230,6 +230,7 @@ const TaxCalculator: React.FC = () => {
             image: 'https://calculatorhub.site/images/global-income-tax-calculator-2025.webp',
           }}
         />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
       <div className="max-w-5xl mx-auto">
