@@ -527,6 +527,7 @@ const RetirementCalculator: React.FC = () => {
           
                 {/* --- Open Graph & Twitter Meta --- */}
                 <>
+                  <meta name="viewport" content="width=device-width, initial-scale=1" />
                   <meta property="og:type" content="website" />
                   <meta property="og:site_name" content="CalculatorHub" />
                   <meta property="og:locale" content="en_US" />
