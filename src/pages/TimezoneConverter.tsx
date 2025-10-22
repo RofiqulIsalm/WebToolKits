@@ -64,7 +64,7 @@ const TimezoneConverter: React.FC = () => {
           { name: "Timezone Converter", url: "/timezone-converter" },
         ]}
       />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
       <div className="max-w-3xl mx-auto">
         <Breadcrumbs
           items={[
