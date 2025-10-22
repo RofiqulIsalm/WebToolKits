@@ -17,7 +17,7 @@ const TermsOfService: React.FC = () => {
           { name: 'Terms of Service', url: '/terms-of-service' }
         ]}
       />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <div className="max-w-4xl mx-auto">
       <Breadcrumbs items={[
         { name: 'Terms of Service', url: '/terms-of-service' }
