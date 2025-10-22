@@ -83,6 +83,8 @@ const StatisticsCalculator: React.FC = () => {
           { name: 'Statistics Calculator', url: '/statistics-calculator' }
         ]}
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      
 
 
       <div className="max-w-4xl mx-auto">
