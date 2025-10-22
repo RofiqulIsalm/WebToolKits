@@ -132,6 +132,8 @@ const WeekdayFinder: React.FC = () => {
           { name: "Weekday Finder", url: "/weekday-finder" },
         ]}
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      
 
 
       <div className="max-w-6xl mx-auto px-4 md:px-6">
