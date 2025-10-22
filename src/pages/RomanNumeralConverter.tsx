@@ -585,7 +585,7 @@ const RomanNumeralConverter: React.FC = () => {
             creator: '@CalculatorHub',
           }}
         />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+
 
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
