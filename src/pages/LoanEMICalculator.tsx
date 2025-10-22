@@ -9,6 +9,7 @@ import AdBanner from '../components/AdBanner';
 import RelatedCalculators from '../components/RelatedCalculators';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import EMIStepByStepDynamic from "../components/EMIStepByStepDynamic";
+import { Link } from "react-router-dom";
 
 
 /* ========================== Supabase ========================== */
@@ -618,6 +619,7 @@ useEffect(() => {
           { name: 'Loan EMI Calculator', url: '/loan-emi-calculator' },
         ]}
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
         <Breadcrumbs
