@@ -177,6 +177,7 @@ const InflationCalculator: React.FC = () => {
           ["inflation", "future value", "money value", "real purchasing power"]
         )}
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
