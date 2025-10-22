@@ -169,6 +169,7 @@ const CAGRCalculator: React.FC = () => {
           ["CAGR calculator", "compound annual growth rate", "investment growth", "finance calculator"]
         )}
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
