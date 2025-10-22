@@ -1,6 +1,6 @@
 // ================= CarLoanCalculator.tsx (Part 1/2) =================
 import React, { useState, useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
+
 import {
   Car,
   RotateCcw,
