@@ -396,8 +396,8 @@ const LoanComparisonCalculator: React.FC = () => {
           )}
       </div>
   )}
-
-        {/* ===== SEO CONTENT ===== */}
+ 
+        {/* ===== SEO CONTENT ====== */}
 
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
             <h1 className="text-3xl font-bold text-cyan-400 mb-6">
