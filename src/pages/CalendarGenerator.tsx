@@ -83,6 +83,7 @@ const CalendarGenerator: React.FC = () => {
           { name: "Calendar Generator", url: "/calendar-generator" },
         ]}
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
       <div className="max-w-4xl mx-auto">
         <Breadcrumbs
