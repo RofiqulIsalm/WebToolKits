@@ -174,6 +174,7 @@ const LoanComparisonCalculator: React.FC = () => {
           ["loan comparison", "EMI difference", "interest rate comparison"]
         )}
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
       <div className="max-w-6xl mx-auto">
         <Breadcrumbs
