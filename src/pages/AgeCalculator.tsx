@@ -1,6 +1,6 @@
 // Final polished Age Calculator with Advanced Mode, static gradient background, and premium UI
 import React, { useState, useEffect, useCallback, useMemo, Suspense } from 'react';
-
+import { Link } from "react-router-dom";
 import { Calendar } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
