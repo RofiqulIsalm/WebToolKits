@@ -465,7 +465,7 @@ const LoanEMICalculator: React.FC = () => {
       const saved = JSON.parse(localStorage.getItem("loanInputs") || "{}");
       const q = fromQuery(typeof window !== 'undefined' ? window.location.search : '');
     
-      const finalCurrency = q.currency && ['$', '₹', '€', '£', '¥', '৳'].includes(q.currency)
+      const finalCurrency = q.currency && ['$', '₹', '€', '£', '¥', '৳'].includes(q.currency) 
         ? (q.currency as Currency)
         : saved.currency || autoCurrency;
     
