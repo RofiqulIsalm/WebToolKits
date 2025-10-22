@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+
 import { createClient } from '@supabase/supabase-js';
 import ImageUpload from '../components/ImageUpload';
 import { Copy, Check } from 'lucide-react';
