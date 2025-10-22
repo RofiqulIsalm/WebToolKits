@@ -430,6 +430,7 @@ useEffect(() => {
               seoData.mortgageCalculator.keywords
             )}
           />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
         {/* ===== Enhanced SEO & Social Metadata (Optimized for Google & Social) ===== */}
         <>
           {/* --- Open Graph Meta Tags --- */}
