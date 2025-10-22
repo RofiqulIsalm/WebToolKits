@@ -1284,15 +1284,15 @@ useEffect(() => {
           Those who prefer guidance can also check the <strong>loan EMI calculator tutorial</strong> for a detailed walkthrough.
         </p>
         
-        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Example: EMI for $10 Lakh Loan</h2>
+        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Example: EMI for <strong>{currencySymbol}</strong>10 Lakh Loan</h2>
         <p>Let’s look at a practical example.</p>
-        <p>A borrower takes a <strong>$10 lakh loan</strong> at an annual interest rate of <strong>10%</strong> for <strong>5 years (60 months)</strong>.</p>
+        <p>A borrower takes a <strong><strong>{currencySymbol}</strong>10 lakh loan</strong> at an annual interest rate of <strong>10%</strong> for <strong>5 years (60 months)</strong>.</p>
         <ul>
-          <li>Principal: $10,00,000</li>
+          <li>Principal: <strong>{currencySymbol}</strong>10,00,000</li>
           <li>Interest Rate: 10% p.a.</li>
           <li>Tenure: 60 months</li>
         </ul>
-        <p><strong>Total Interest Payable:</strong> $2,74,820</p>
+        <p><strong>Total Interest Payable:</strong> <strong>{currencySymbol}</strong>2,74,820</p>
         <p><strong>Total Payment (Principal + Interest):</strong> <strong>{currencySymbol}</strong>12,74,820</p>
         <p>
           This example shows how a <strong>loan EMI calculator explained</strong> with real-world figures can help users make informed financial decisions before applying for a loan.
