@@ -689,12 +689,12 @@ useEffect(() => {
                 onChange={(e) => setCurrency(e.target.value as Currency)}
                 className="w-15 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-slate-100"
               >
-                <option value="$">$</option>
-                <option value="€">€</option>
+                <option value="$">$ USD</option>
+                <option value="€">€ EUR</option>
                 <option value="£">£</option>
                 <option value="₹">₹</option>
                 <option value="¥">¥</option>
-                <option value="৳">৳</option>
+                <option value="৳">৳ BDT</option>
               </select>
             </div>
 
