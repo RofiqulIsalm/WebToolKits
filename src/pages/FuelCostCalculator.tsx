@@ -360,6 +360,7 @@ const FuelCostCalculator: React.FC = () => {
             { name: 'Fuel Cost Calculator', url: '/fuel-cost-calculator' }
           ]}
         />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
         
         {/* ✅ For Vite/React (no next/head): place meta + schema directly */}
         <>
