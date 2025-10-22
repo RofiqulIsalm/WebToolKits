@@ -396,7 +396,8 @@ const TextToolsPage: React.FC = () => {
         ]}
       />
 
-
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      
       <meta property="og:title" content="Free Online Text Counter | Word, Character & Converter Tool" />
       <meta property="og:description" content="Count characters, words, and paragraphs instantly. Includes text converter, lorem generator, and binary converter. 100% free and browser-based." />
       <meta name="description" content="Use our free Text Counter tool to count words, characters, sentences, and paragraphs instantly. Includes case converter, lorem ipsum generator, binary converter, and number to text converter — all in one place!" />
