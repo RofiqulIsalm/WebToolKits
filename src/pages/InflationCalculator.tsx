@@ -603,12 +603,10 @@ const InflationCalculator: React.FC = () => {
       loading="lazy"
     />
     <div>
-      <p className="font-semibold text-white">
-        Written by the CalculatorHub Finance Tools Team
-      </p>
+      <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
       <p className="text-sm text-slate-400">
-        Financial insights and data-driven tools to help you plan smarter. Last updated:{" "}
-        <time dateTime="2025-10-21">October 21, 2025</time>.
+        Experts in mortgages and online financial tools. Last updated:{" "}
+        <time dateTime="2025-10-17">October 17, 2025</time>.
       </p>
     </div>
   </div>
@@ -618,26 +616,28 @@ const InflationCalculator: React.FC = () => {
       🚀 Explore more finance tools on CalculatorHub:
     </p>
     <div className="flex flex-wrap gap-3 text-sm">
-      <a
-        href="/loan-emi-calculator"
-        className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all"
+      <Link
+        to="/pay-raise-calculator"
+        className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
       >
-        💰 Loan EMI Calculator
-      </a>
-      <a
-        href="/mortgage-calculator"
-        className="flex items-center gap-2 bg-[#0f172a] hover:bg-fuchsia-600/20 text-fuchsia-300 hover:text-fuchsia-400 px-3 py-2 rounded-md border border-slate-700 hover:border-fuchsia-500 transition-all"
+        <span className="text-emerald-400">💼</span> Pay Raise Calculator
+      </Link>
+
+      <Link
+        to="/savings-goal-calculator"
+        className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
       >
-        🏠 Mortgage Calculator
-      </a>
-      <a
-        href="/currency-converter"
-        className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all"
+        <span className="text-indigo-400">🎯</span> Savings Goal Calculator
+      </Link>
+
+      <Link
+        to="/retirement-calculator"
+        className="flex items-center gap-2 bg-[#0f172a] hover:bg-fuchsia-600/20 text-fuchsia-300 hover:text-fuchsia-400 px-3 py-2 rounded-md border border-slate-700 hover:border-fuchsia-500 transition-all duration-200"
       >
-        💱 Currency Converter
-      </a>
+        <span className="text-fuchsia-400">🏖️</span> Retirement Calculator
+      </Link>
     </div>
-  </div> 
+  </div>
 </section>
 
 
