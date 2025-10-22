@@ -386,7 +386,7 @@ const RDCalculator: React.FC = () => {
 
       {/* --- Open Graph & Twitter --- */}
       <>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="CalculatorHub" />
         <meta property="og:locale" content="en_US" />
