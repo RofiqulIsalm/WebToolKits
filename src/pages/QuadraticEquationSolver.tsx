@@ -64,6 +64,7 @@ const QuadraticEquationSolver: React.FC = () => {
           { name: 'Quadratic Equation Solver', url: '/quadratic-equation-solver' }
         ]}
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
       <div className="max-w-4xl mx-auto">
         <Breadcrumbs
