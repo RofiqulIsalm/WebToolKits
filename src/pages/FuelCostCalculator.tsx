@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Link } from "react-router-dom";
 import { Fuel, Share2 } from 'lucide-react';
 import {
   PieChart,
