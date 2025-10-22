@@ -1403,30 +1403,51 @@ useEffect(() => {
             
             {/* =================== AUTHOR & BACKLINK SECTION =================== */}
             <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
-              <div className="flex items-center gap-3">
-                <img
-                  src="/images/calculatorhub-author.webp" 
-                  alt="CalculatorHub Finance Tools Team"
-                  className="w-12 h-12 rounded-full border border-gray-600"
-                  loading="lazy"
-                />
-                <div>
-                  <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
-                  <p className="text-sm text-slate-400">
-                    Experts in mortgage, loan, and financial calculators. Last updated:{" "}
-                    <time dateTime="2025-10-21">October 21, 2025</time>.
-                  </p>
-                </div>
-              </div>
-            
-              <p className="mt-6 text-sm text-slate-400">
-                Explore more tools:{" "}
-                <a href="/loan-emi-calculator" className="text-indigo-400 hover:underline">Loan EMI Calculator</a>,{" "}
-                <a href="/compound-interest-calculator" className="text-indigo-400 hover:underline">Compound Interest Calculator</a>,{" "}
-                and{" "}
-                <a href="/tax-calculator" className="text-indigo-400 hover:underline">Income Tax Calculator</a>.
-              </p>
-            </section>
+                  <div className="flex items-center gap-3">
+                    <img
+                      src="/images/calculatorhub-author.webp"
+                      alt="CalculatorHub Finance Tools Team"
+                      className="w-12 h-12 rounded-full border border-gray-600"
+                      loading="lazy"
+                    />
+                    <div>
+                      <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
+                      <p className="text-sm text-slate-400">
+                        Experts in mortgages and online financial tools. Last updated:{" "}
+                        <time dateTime="2025-10-17">October 17, 2025</time>.
+                      </p>
+                    </div>
+                  </div>
+                
+                  <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+                    <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
+                      🚀 Explore more finance tools on CalculatorHub:
+                    </p>
+                    <div className="flex flex-wrap gap-3 text-sm">
+                      <Link
+                        to="/home-loan-calculator"
+                        className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
+                      >
+                        <span className="text-indigo-400">🏡</span> Home Loan Calculator
+                      </Link>
+                
+                      <Link
+                        to="/loan-affordability-calculator"
+                        className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
+                      >
+                        <span className="text-sky-400">🏦</span> Loan Affordability Calculator
+                      </Link>
+                
+                      <Link
+                        to="/debt-to-income-ratio-calculator"
+                        className="flex items-center gap-2 bg-[#0f172a] hover:bg-pink-600/20 text-pink-300 hover:text-pink-400 px-3 py-2 rounded-md border border-slate-700 hover:border-pink-500 transition-all duration-200"
+                      >
+                        <span className="text-pink-400">💳</span> Debt-to-Income Ratio Calculator
+                      </Link>
+                    </div>
+                  </div>
+                </section>
+
             
             {/* =================== META TAGS FOR SEO HEAD =================== */}
             {/* 
