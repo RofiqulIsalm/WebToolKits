@@ -792,7 +792,7 @@ useEffect(() => {
                     min={0}
                     value={principal}
                     onChange={(e) => setPrincipal(Number(e.target.value))}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-slate-100 text-right"
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-slate-100 "
                     placeholder={`Enter amount in ${currencySymbol}`}
                   />
                 <button type="button" onClick={() => setPrincipal(principal + 1000)} className="px-3 py-2 bg-slate-800 border border-slate-700 text-white rounded-lg">+</button>
@@ -810,7 +810,7 @@ useEffect(() => {
                     step="0.01"
                     value={annualRate}
                     onChange={(e) => setAnnualRate(Number(e.target.value))}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-slate-100 text-right"
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-slate-100 "
                     placeholder="Enter annual rate (e.g., 8.5)"
                   />
                 <button type="button" onClick={() => setAnnualRate(Number((annualRate + 0.1).toFixed(2)))} className="px-3 py-2 bg-slate-800 border border-slate-700 text-white rounded-lg">+</button>
