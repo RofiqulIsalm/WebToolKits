@@ -195,12 +195,13 @@ function App() {
   return (
     <HelmetProvider>
       <Router>
+        <ScrollToTop />
         <Layout> 
           <Routes>
             
             {/* ✅ Main Routes */}
             <Route path="/" element={<Homepage />} />
-            <ScrollToTop />
+            
             <Route path="/category/:categorySlug" element={<CategoryPage />} />
 
             {/* ✅ Existing Calculators */}
