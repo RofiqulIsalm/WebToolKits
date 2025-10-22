@@ -766,32 +766,37 @@ const CompoundInterestCalculator: React.FC = () => {
             <p>
               Compounding frequency plays a crucial role in returns. The more frequent the compounding, the higher the total growth.
             </p>
-            <table className="min-w-full text-left border border-slate-700 mt-4">
-              <thead>
-                <tr className="border-b border-slate-700">
-                  <th className="p-2">Frequency</th>
-                  <th className="p-2">Compounds/Year</th>
-                  <th className="p-2">Example Growth (10 Years @ 8%)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-b border-slate-700">
-                  <td className="p-2">Annually</td>
-                  <td className="p-2">1</td>
-                  <td className="p-2">$21,589</td>
-                </tr>
-                <tr className="border-b border-slate-700">
-                  <td className="p-2">Quarterly</td>
-                  <td className="p-2">4</td>
-                  <td className="p-2">$22,080</td>
-                </tr>
-                <tr>
-                  <td className="p-2">Monthly</td>
-                  <td className="p-2">12</td>
-                  <td className="p-2">$22,196</td>
-                </tr>
-              </tbody>
-            </table>
+            <div className="overflow-x-auto mt-4 border border-slate-700 rounded-lg">
+                <table className="min-w-full text-left text-sm border-collapse">
+                  <thead className="bg-slate-800/70 text-slate-300">
+                    <tr className="border-b border-slate-700">
+                      <th className="p-3 whitespace-nowrap">Frequency</th>
+                      <th className="p-3 whitespace-nowrap">Compounds / Year</th>
+                      <th className="p-3 whitespace-nowrap">
+                        Example Growth<br className="sm:hidden" /> (10 Years @ 8%)
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-slate-200">
+                    <tr className="border-b border-slate-700 hover:bg-slate-800/40 transition-colors">
+                      <td className="p-3">Annually</td>
+                      <td className="p-3">1</td>
+                      <td className="p-3">$21,589</td>
+                    </tr>
+                    <tr className="border-b border-slate-700 hover:bg-slate-800/40 transition-colors">
+                      <td className="p-3">Quarterly</td>
+                      <td className="p-3">4</td>
+                      <td className="p-3">$22,080</td>
+                    </tr>
+                    <tr className="hover:bg-slate-800/40 transition-colors">
+                      <td className="p-3">Monthly</td>
+                      <td className="p-3">12</td>
+                      <td className="p-3">$22,196</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
           
             <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Benefits of Using a Compound Interest Calculator</h2>
             <p>Key <strong>compound interest calculator benefits</strong> include:</p>
