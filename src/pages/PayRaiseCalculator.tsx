@@ -661,50 +661,30 @@ const PayRaiseCalculator: React.FC = () => {
         </section>
         {/* ===== Footer & Related Tools ===== */}
         <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
-          <div className="flex items-center gap-3">
-            <img
-              src="/images/calculatorhub-author.webp"
-              alt="CalculatorHub Team"
-              className="w-12 h-12 rounded-full border border-gray-600"
-              loading="lazy"
-            />
-            <div>
-              <p className="font-semibold text-white">
-                Written by the CalculatorHub Finance Team
-              </p>
-              <p className="text-sm text-slate-400">
-                Verified for accuracy and clarity. Last updated: 
-                <time dateTime="2025-10-20">October 20, 2025</time>.
-              </p>
+            <div className="flex items-center gap-3">
+              <img src="/images/calculatorhub-author.webp" alt="CalculatorHub Finance Tools Team" className="w-12 h-12 rounded-full border border-gray-600" loading="lazy" />
+              <div>
+                <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
+                <p className="text-sm text-slate-400">Experts in mortgages and online financial tools. Last updated: <time dateTime="2025-10-17">October 17, 2025</time>.</p>
+              </div>
             </div>
-          </div>
+          
+            <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+              <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">🚀 Explore more finance tools on CalculatorHub:</p>
+              <div className="flex flex-wrap gap-3 text-sm">
+                <Link to="/tax-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-rose-600/20 text-rose-300 hover:text-rose-400 px-3 py-2 rounded-md border border-slate-700 hover:border-rose-500 transition-all duration-200">
+                  <span className="text-rose-400">🧾</span> Tax Calculator
+                </Link>
+                <Link to="/inflation-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-amber-600/20 text-amber-300 hover:text-amber-400 px-3 py-2 rounded-md border border-slate-700 hover:border-amber-500 transition-all duration-200">
+                  <span className="text-amber-400">📉</span> Inflation Calculator
+                </Link>
+                <Link to="/savings-goal-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200">
+                  <span className="text-sky-400">🎯</span> Savings Goal Calculator
+                </Link>
+              </div>
+            </div>
+          </section>
 
-          <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
-            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
-              🚀 Explore more salary & finance tools on CalculatorHub:
-            </p>
-            <div className="flex flex-wrap gap-3 text-sm">
-              <a
-                href="/inflation-calculator"
-                className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all"
-              >
-                📉 Inflation Calculator
-              </a>
-              <a
-                href="/savings-goal-calculator"
-                className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all"
-              >
-                💰 Savings Goal Calculator
-              </a>
-              <a
-                href="/loan-affordability-calculator"
-                className="flex items-center gap-2 bg-[#0f172a] hover:bg-fuchsia-600/20 text-fuchsia-300 hover:text-fuchsia-400 px-3 py-2 rounded-md border border-slate-700 hover:border-fuchsia-500 transition-all"
-              >
-                🏠 Loan Affordability Calculator
-              </a>
-            </div>
-          </div>
-        </section>
 
         
 
