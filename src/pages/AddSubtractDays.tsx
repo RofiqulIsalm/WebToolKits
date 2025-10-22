@@ -473,6 +473,9 @@ const AddSubtractDays: React.FC = () => {
           { name: "Add/Subtract Days", url: "/add-subtract-days" },
         ]}
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      
+      
 
       {/* JSON-LD: WebApplication */}
       <script
