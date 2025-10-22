@@ -43,7 +43,7 @@ const WeekNumberFinder: React.FC = () => {
           { name: "Week Number Finder", url: "/week-number-finder" },
         ]}
       />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+
 
       <div className="max-w-3xl mx-auto">
         <Breadcrumbs
