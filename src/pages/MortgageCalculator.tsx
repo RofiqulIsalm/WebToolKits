@@ -444,7 +444,7 @@ useEffect(() => {
             content="https://calculatorhub.site/images/mortgage-calculator-hero.webp"
           />
           <meta property="og:image:alt" content="Mortgage Calculator by CalculatorHub – EMI, Interest, and Payment Chart" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
           <meta property="og:image:width" content="1200" />
           <meta property="og:image:height" content="630" />
         
