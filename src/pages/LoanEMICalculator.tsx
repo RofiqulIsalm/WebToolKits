@@ -1,5 +1,6 @@
 //  complate for live
 import React, { useEffect, useMemo, useState, useDeferredValue, useRef } from 'react';
+import { Link } from "react-router-dom";
 
 import { Calculator, RefreshCw, ChevronDown, ChevronUp, Info, TrendingUp } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
