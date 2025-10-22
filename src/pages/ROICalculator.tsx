@@ -216,6 +216,7 @@ const ROICalculator: React.FC = () => {
           ["ROI calculator", "return on investment", "investment gain", "finance"]
         )}
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
