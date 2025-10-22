@@ -7,6 +7,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import Layout from './components/Layout';
 import Homepage from './pages/Homepage';
 import CategoryPage from './pages/CategoryPage';
+import ScrollToTop from "./components/ScrollToTop";
 
 // Existing Calculators
 
