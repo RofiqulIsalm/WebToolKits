@@ -371,91 +371,244 @@ const DebtToIncomeCalculator: React.FC = () => {
         {/* ===== SEO / Informational Section ===== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
           <h1 className="text-3xl font-bold text-cyan-400 mb-6">
-            Debt-to-Income Ratio Calculator 2025 – Check Your Financial Health
+            Debt-to-Income Ratio Calculator 2025 – Measure Your Financial Strength
           </h1>
-
+        
           <p>
-            The <strong>Debt-to-Income Ratio (DTI) Calculator by CalculatorHub</strong> helps you determine 
-            how much of your income goes toward paying debts. Lenders use this ratio to assess your loan eligibility.
+            The <strong>Debt-to-Income Ratio Calculator by CalculatorHub</strong> is an
+            <strong> affordable Debt-to-Income Ratio Calculator</strong> that helps
+            individuals, professionals, and small businesses evaluate financial health before
+            applying for loans. By entering monthly income and total debt payments, this
+            <strong> simple Debt-to-Income Ratio Calculator</strong> instantly shows your
+            debt-to-income percentage (DTI), giving you clear insight into your borrowing
+            potential.
           </p>
-
+        
+          <p>
+            Whether someone is exploring mortgage options, managing credit cards, or
+            analyzing small business finances, this
+            <strong> professional Debt-to-Income Ratio Calculator</strong> is designed to
+            simplify complex numbers. It’s a <strong>free Debt-to-Income Ratio Calculator</strong>
+            that’s accessible online anytime, offering powerful insights and practical
+            financial clarity.
+          </p>
+        
           <figure className="my-8">
             <img
               src="/images/debt-to-income-calculator-hero.webp"
-              alt="Debt-to-Income Ratio Calculator dashboard"
-              title="Debt-to-Income Ratio Calculator 2025 | Finance Planner"
+              alt="Debt-to-Income Ratio Calculator online dashboard"
+              title="Debt-to-Income Ratio Calculator 2025 | CalculatorHub Finance Tools"
               className="rounded-lg shadow-md border border-slate-700 mx-auto"
               loading="lazy"
             />
             <figcaption className="text-center text-sm text-slate-400 mt-2">
-              Modern DTI calculator with visualization for debt and income distribution.
+              Visualization of the advanced Debt-to-Income Ratio Calculator dashboard with
+              real-time insights.
             </figcaption>
           </figure>
-
+        
           <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-            🧮 How the DTI Ratio Is Calculated
-          </h2>
-          <p className="font-mono text-center text-indigo-300">
-            DTI (%) = (Total Monthly Debt Payments ÷ Gross Monthly Income) × 100
-          </p>
-
-          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-            📘 Example Calculation
+            💡 What is a Debt-to-Income Ratio Calculator?
           </h2>
           <p>
-            Suppose your monthly income is <strong>$5,000</strong> and total debts are <strong>$1,500</strong>.  
-            Your DTI ratio will be <strong>30%</strong>, which is considered <strong>Good</strong> by most lenders.
+            People often ask, <strong>what is a Debt-to-Income Ratio Calculator?</strong>
+            It’s a smart <strong>solution Debt-to-Income Ratio Calculator</strong> that
+            determines how much of your monthly income goes toward repaying debts. The
+            <strong> Debt-to-Income Ratio Calculator explained</strong>: it divides your
+            total debt payments by your gross monthly income and multiplies by 100 to get
+            your DTI percentage. A lower DTI indicates stronger financial stability, while
+            a higher DTI signals that your income may be stretched too thin.
           </p>
-
+        
+          <p>
+            This <strong>Debt-to-Income Ratio Calculator for beginners</strong> is designed
+            to make financial analysis easy and accurate. From individuals planning personal
+            budgets to advisors assisting clients, this
+            <strong> advanced Debt-to-Income Ratio Calculator</strong> simplifies the
+            process, ensuring you always stay informed about your financial position.
+          </p>
+        
           <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-            💡 Tips to Improve Your DTI
+            🧮 How to Use Debt-to-Income Ratio Calculator
+          </h2>
+          <p>
+            Learning <strong>how to use Debt-to-Income Ratio Calculator</strong> is quick and
+            easy. Follow these simple steps:
+          </p>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Enter your <strong>gross monthly income</strong> before taxes.</li>
+            <li>Input your <strong>total monthly debt payments</strong>, including credit
+                cards, car loans, student loans, and mortgages.</li>
+            <li>Click “Calculate” to instantly get your <strong>DTI percentage</strong>.</li>
+            <li>Review your results and compare them with financial standards to see if you
+                qualify for new loans.</li>
+          </ol>
+        
+          <p>
+            This <strong>easy Debt-to-Income Ratio Calculator</strong> provides results in
+            seconds and offers professional-grade accuracy. Even non-financial users find
+            this <strong>Debt-to-Income Ratio Calculator online</strong> intuitive, making
+            it a top choice for both beginners and experts.
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            📘 Example of Debt-to-Income Ratio Calculation
+          </h2>
+          <p>
+            Suppose your monthly income is <strong>$5,000</strong> and your total monthly
+            debts are <strong>$1,500</strong>. The formula is simple:
+          </p>
+          <p className="font-mono text-center text-indigo-300">
+            DTI (%) = (1,500 ÷ 5,000) × 100 = 30%
+          </p>
+          <p>
+            A <strong>30% DTI</strong> means that 30% of your income is used for debt
+            repayment — a range considered healthy by most lenders. The
+            <strong> professional Debt-to-Income Ratio Calculator</strong> automatically
+            labels your result as “Good” and suggests ways to improve it further.
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            ⚖️ Debt-to-Income Ratio Calculator Benefits
           </h2>
           <ul className="list-disc list-inside space-y-2">
-            <li>Pay off high-interest debts first to reduce your total monthly payments.</li>
-            <li>Avoid taking new loans before applying for a mortgage.</li>
-            <li>Increase income through side jobs or salary negotiations.</li>
+            <li>Instantly shows your debt-to-income ratio and loan readiness.</li>
+            <li>Helps identify if you qualify for mortgages, credit cards, or personal loans.</li>
+            <li>Completely <strong>free Debt-to-Income Ratio Calculator</strong> — no signup required.</li>
+            <li>Accurate and reliable results using real-time calculations.</li>
+            <li>Ideal for professionals and <strong>small business Debt-to-Income Ratio Calculator</strong> users.</li>
           </ul>
-
+        
+          <p>
+            These <strong>Debt-to-Income Ratio Calculator benefits</strong> help users make
+            informed financial decisions without complex spreadsheets or guesswork.
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            🌐 Debt-to-Income Ratio Calculator Online
+          </h2>
+          <p>
+            The <strong>Debt-to-Income Ratio Calculator online</strong> works on any device —
+            desktop, tablet, or smartphone. Hosted on the official
+            <strong> Debt-to-Income Ratio Calculator website</strong> by CalculatorHub, it
+            offers smooth navigation, detailed insights, and exportable results. Users can
+            compare loan scenarios, evaluate repayment options, and save results with ease.
+          </p>
+        
+          <p>
+            For businesses, this <strong>service Debt-to-Income Ratio Calculator</strong>
+            helps assess financial capacity and lending potential, while individuals can use
+            the same tool for planning household budgets. It’s truly a
+            <strong> premium Debt-to-Income Ratio Calculator</strong> that serves every
+            purpose effortlessly.
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            💡 Debt-to-Income Ratio Calculator Tips
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li>Keep your DTI below <strong>36%</strong> to qualify for most loans.</li>
+            <li>Pay off high-interest credit cards first to lower total debt load.</li>
+            <li>Increase income through part-time work or bonuses to improve your ratio.</li>
+            <li>Review your finances monthly using this <strong>advanced Debt-to-Income Ratio Calculator</strong>.</li>
+          </ul>
+        
+          <p>
+            Following these <strong>Debt-to-Income Ratio Calculator tips</strong> can help
+            users improve their credit profile and prepare for bigger financial goals.
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            🏢 Professional & Small Business Applications
+          </h2>
+          <p>
+            The <strong>professional Debt-to-Income Ratio Calculator</strong> isn’t just for
+            individuals — it’s also valuable for consultants and business owners. A
+            <strong> small business Debt-to-Income Ratio Calculator</strong> helps evaluate
+            debt levels compared to income, giving entrepreneurs clarity on expansion
+            potential or funding readiness.
+          </p>
+        
+          <p>
+            Whether you’re managing company loans or personal credit lines, this
+            <strong> solution Debt-to-Income Ratio Calculator</strong> ensures informed
+            decision-making for every financial situation.
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            📊 Debt-to-Income Ratio Calculator Comparison
+          </h2>
+          <p>
+            In a <strong>Debt-to-Income Ratio Calculator comparison</strong>, CalculatorHub
+            stands out as one of the most accurate and user-friendly tools. Unlike other
+            calculators, it provides automatic results, visual indicators, and categorized
+            feedback — making it the <strong>best Debt-to-Income Ratio Calculator</strong>
+            available online.
+          </p>
+        
+          <p>
+            Other sites may offer basic calculations, but this
+            <strong> advanced Debt-to-Income Ratio Calculator</strong> combines simplicity
+            with precision, making it a true all-in-one financial planning solution.
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            ✅ Why Choose CalculatorHub’s DTI Tool
+          </h2>
+          <p>
+            CalculatorHub’s <strong>easy Debt-to-Income Ratio Calculator</strong> is trusted
+            for its clean design, accurate results, and free accessibility. As a
+            <strong> premium Debt-to-Income Ratio Calculator</strong>, it provides deep
+            insights while remaining simple for beginners to use.
+          </p>
+        
+          <p>
+            It’s not just a calculator — it’s a full-fledged financial companion that helps
+            people plan smarter, borrow responsibly, and achieve lasting stability.
+          </p>
+        
           {/* ===== FAQ Section ===== */}
           <section id="faq" className="space-y-6 mt-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
               ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
             </h2>
-
+        
             <div className="space-y-5 text-lg text-slate-100 leading-relaxed">
               <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
                 <h3 className="font-semibold text-xl mb-2 text-yellow-300">
-                  Q1: What DTI ratio do lenders prefer?
+                  Q1: What is a good DTI ratio for loan approval?
                 </h3>
                 <p>
-                  Most lenders prefer a DTI below <strong>36%</strong>. Anything below <strong>30%</strong> 
-                  indicates strong financial health.
+                  Most lenders prefer DTI under <strong>36%</strong>. A DTI below <strong>30%</strong>
+                  is considered excellent. This <strong>affordable Debt-to-Income Ratio Calculator</strong>
+                  helps you identify where you stand.
                 </p>
               </div>
-
+        
               <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
                 <h3 className="font-semibold text-xl mb-2 text-yellow-300">
-                  Q2: Does rent count as debt?
+                  Q2: Is the Debt-to-Income Ratio Calculator free to use?
                 </h3>
                 <p>
-                  Rent is not included unless you are applying for another mortgage. 
-                  Otherwise, only debts like credit cards or loans are counted.
+                  Yes, it’s a completely <strong>free Debt-to-Income Ratio Calculator</strong>
+                  available online. Users can calculate DTI anytime without registration or
+                  fees.
                 </p>
               </div>
-
+        
               <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
                 <h3 className="font-semibold text-xl mb-2 text-yellow-300">
-                  Q3: Is a high DTI ratio bad?
+                  Q3: Can this calculator be used for businesses?
                 </h3>
                 <p>
-                  Yes — a high DTI ratio indicates you are over-leveraged, 
-                  which may reduce your loan eligibility or lead to rejection.
+                  Absolutely. The <strong>small business Debt-to-Income Ratio Calculator</strong>
+                  and <strong>professional Debt-to-Income Ratio Calculator</strong> options
+                  support business loan analysis and commercial credit assessments.
                 </p>
               </div>
             </div>
           </section>
         </section>
-
         {/* ===== Footer & Related Tools ===== */}
         <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
           <div className="flex items-center gap-3">
@@ -502,6 +655,8 @@ const DebtToIncomeCalculator: React.FC = () => {
             </div>
           </div>
         </section>
+
+        
 
         <AdBanner type="bottom" />
         <RelatedCalculators
