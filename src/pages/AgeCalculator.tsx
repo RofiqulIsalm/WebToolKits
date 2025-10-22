@@ -389,6 +389,8 @@ const AgeCalculator: React.FC = () => {
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+
       <meta property="og:title" content="Age Calculator – Calculate Your Exact Age | CalculatorHub" />
       <meta property="og:description" content="Find your exact age in years, months, days, hours, and seconds with CalculatorHub’s free Age Calculator. Includes life expectancy countdown and more!" />
       <meta property="og:image" content="https://calculatorhub.site/images/age-calculator-preview.webp" />
