@@ -712,7 +712,7 @@ In short, the logic may be simple, but the impact is powerful: a <strong>currenc
 
         
          {/* =================== AUTHOR & BACKLINK SECTION =================== */}
-        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+<section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
   <div className="flex items-center gap-3">
     <img
       src="/images/calculatorhub-author.webp"
@@ -737,21 +737,21 @@ In short, the logic may be simple, but the impact is powerful: a <strong>currenc
     </p>
     <div className="flex flex-wrap gap-3 text-sm">
       <Link
-        href="/loan-emi-calculator"
+        to="/loan-emi-calculator"
         className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
       >
         <span className="text-indigo-400">💰</span> Loan EMI Calculator
       </Link>
 
       <Link
-        href="/tax-calculator"
+        to="/tax-calculator"
         className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
       >
         <span className="text-emerald-400">🧾</span> Income Tax Calculator
       </Link>
 
       <Link
-        href="/currency-converter"
+        to="/currency-converter"
         className="flex items-center gap-2 bg-[#0f172a] hover:bg-fuchsia-600/20 text-fuchsia-300 hover:text-fuchsia-400 px-3 py-2 rounded-md border border-slate-700 hover:border-fuchsia-500 transition-all duration-200"
       >
         <span className="text-fuchsia-400">💱</span> Currency Converter
