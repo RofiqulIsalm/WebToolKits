@@ -385,6 +385,7 @@ const ColorConverter: React.FC = () => {
         
         
         />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
       <div className="max-w-6xl mx-auto">
