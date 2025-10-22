@@ -221,7 +221,7 @@ Price]);
               💡 The intersection of red and blue lines shows your break-even point —
               where total cost equals total revenue.
             </p>
-          </div>
+          </div> 
         )}
 
 
