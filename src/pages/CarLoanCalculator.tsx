@@ -209,6 +209,7 @@ const CarLoanCalculator: React.FC = () => {
           ["car loan calculator", "auto loan calculator", "EMI car finance"]
         )}
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
