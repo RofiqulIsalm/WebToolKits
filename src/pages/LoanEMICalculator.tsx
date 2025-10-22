@@ -300,10 +300,10 @@ const LoanEMICalculator: React.FC = () => {
   // Inputs
   // ================================
   const [currency, setCurrency] = useState<Currency>(autoCurrency);
-  const [principal, setPrincipal] = useState<number>(0);
-  const [annualRate, setAnnualRate] = useState<number>(0); // % p.a.
-  const [years, setYears] = useState<number>(0);
-  const [months, setMonths] = useState<number>(0);
+  const [principal, setPrincipal] = useState<number>(' ');
+  const [annualRate, setAnnualRate] = useState<number>(' '); // % p.a.
+  const [years, setYears] = useState<number>(' ');
+  const [months, setMonths] = useState<number>(' ');
 
   // Advanced – prepayments (with enable toggles)
   const [enableOneTime, setEnableOneTime] = useState<boolean>(false);
