@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from "react-router-dom";
-import { Link } from "react-router-dom";
 import {
   Palette,
   Copy,
