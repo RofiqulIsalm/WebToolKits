@@ -57,6 +57,7 @@ const TimeDurationCalculator: React.FC = () => {
           { name: "Time Duration Calculator", url: "/time-duration-calculator" },
         ]}
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
       <div className="max-w-3xl mx-auto">
         <Breadcrumbs
