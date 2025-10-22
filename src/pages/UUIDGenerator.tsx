@@ -239,7 +239,7 @@ const UUIDGenerator: React.FC = () => {
           { name: 'UUID Generator', url: '/uuid-generator' },
         ]}
       />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+ 
 
       <div className="max-w-5xl mx-auto px-3 sm:px-6">
         <Breadcrumbs
