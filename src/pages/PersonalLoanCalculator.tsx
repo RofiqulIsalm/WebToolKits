@@ -195,6 +195,7 @@ const PersonalLoanCalculator: React.FC = () => {
           ["personal loan calculator", "EMI calculator", "unsecured loan EMI"]
         )}
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
