@@ -279,7 +279,7 @@ const SipCalculator: React.FC = () => {
           ["sip calculator", "investment returns", "mutual fund calculator"]
         )}
       />
-
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
           items={[
