@@ -72,6 +72,7 @@ const GcdLcmCalculator: React.FC = () => {
             { name: 'GCD & LCM Calculator', url: '/gcd-lcm-calculator' }
           ]}
         />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">GCD & LCM Calculator</h1>
