@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { Link } from "react-router-dom";
 import { Key, Copy, RefreshCw, Eye, EyeOff, Share2, Moon, Sun, CheckCircle2 } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
