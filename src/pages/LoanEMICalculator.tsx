@@ -689,7 +689,7 @@ useEffect(() => {
                 onChange={(e) => setCurrency(e.target.value as Currency)}
                 className="w-15 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-slate-100"
               >
-                <!-- 🌎 Global Currency List (150+) -->
+                
                 <option value="$">$ USD</option>
                 <option value="$">$ CAD</option>
                 <option value="$">$ AUD</option>
