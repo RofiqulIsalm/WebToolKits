@@ -216,6 +216,7 @@ const SavingsGoalCalculator: React.FC = () => {
           ["savings goal", "compound interest", "future value", "finance calculator"]
         )}
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
