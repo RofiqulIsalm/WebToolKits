@@ -1293,7 +1293,7 @@ useEffect(() => {
           <li>Tenure: 60 months</li>
         </ul>
         <p><strong>Total Interest Payable:</strong> $2,74,820</p>
-        <p><strong>Total Payment (Principal + Interest):</strong> $12,74,820</p>
+        <p><strong>Total Payment (Principal + Interest):</strong> {currencySymbol} 12,74,820</p>
         <p>
           This example shows how a <strong>loan EMI calculator explained</strong> with real-world figures can help users make informed financial decisions before applying for a loan.
         </p>
