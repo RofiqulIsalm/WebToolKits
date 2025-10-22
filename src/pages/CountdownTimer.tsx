@@ -270,6 +270,7 @@ const CountdownTimer: React.FC = () => {
         ]}
         // Optional OG/Twitter handled globally by your SEOHead if desired
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
       {/* lightweight sound asset (data URI single beep) */}
       <audio
