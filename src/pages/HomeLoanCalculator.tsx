@@ -691,50 +691,30 @@ const HomeLoanCalculator: React.FC = () => {
       
       {/* ===== Footer & Related Tools ===== */}
       <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
-        <div className="flex items-center gap-3">
-          <img
-            src="/images/calculatorhub-author.webp"
-            alt="CalculatorHub Finance Team"
-            className="w-12 h-12 rounded-full border border-gray-600"
-            loading="lazy"
-          />
-          <div>
-            <p className="font-semibold text-white">
-              Written by the CalculatorHub Finance Tools Team
-            </p>
-            <p className="text-sm text-slate-400">
-              Updated with latest mortgage and housing loan trends. Last updated:{" "}
-              <time dateTime="2025-10-20">October 20, 2025</time>.
-            </p>
+          <div className="flex items-center gap-3">
+            <img src="/images/calculatorhub-author.webp" alt="CalculatorHub Finance Tools Team" className="w-12 h-12 rounded-full border border-gray-600" loading="lazy" />
+            <div>
+              <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
+              <p className="text-sm text-slate-400">Experts in mortgages and online financial tools. Last updated: <time dateTime="2025-10-17">October 17, 2025</time>.</p>
+            </div>
           </div>
-        </div>
-      
-        <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
-          <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
-            🚀 Explore more finance tools on CalculatorHub:
-          </p>
-          <div className="flex flex-wrap gap-3 text-sm">
-            <a
-              href="/mortgage-calculator"
-              className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all"
-            >
-              🏠 Mortgage Calculator
-            </a>
-            <a
-              href="/car-loan-calculator"
-              className="flex items-center gap-2 bg-[#0f172a] hover:bg-blue-600/20 text-blue-300 hover:text-blue-400 px-3 py-2 rounded-md border border-slate-700 hover:border-blue-500 transition-all"
-            >
-              🚗 Car Loan Calculator
-            </a>
-            <a
-              href="/loan-emi-calculator"
-              className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all"
-            >
-              💸 Loan EMI Calculator
-            </a>
+        
+          <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">🚀 Explore more finance tools on CalculatorHub:</p>
+            <div className="flex flex-wrap gap-3 text-sm">
+              <Link to="/mortgage-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200">
+                <span className="text-indigo-400">🏠</span> Mortgage Calculator
+              </Link>
+              <Link to="/loan-emi-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200">
+                <span className="text-emerald-400">💳</span> Loan EMI Calculator
+              </Link>
+              <Link to="/loan-comparison-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-fuchsia-600/20 text-fuchsia-300 hover:text-fuchsia-400 px-3 py-2 rounded-md border border-slate-700 hover:border-fuchsia-500 transition-all duration-200">
+                <span className="text-fuchsia-400">🔁</span> Loan Comparison Calculator
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+
 
 
         <AdBanner type="bottom" />
