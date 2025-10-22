@@ -1004,18 +1004,48 @@ const SipCalculator: React.FC = () => {
   <div className="flex items-center gap-3">
     <img
       src="/images/calculatorhub-author.webp"
-      alt="CalculatorHub Investment Tools Team"
+      alt="CalculatorHub Finance Tools Team"
       className="w-12 h-12 rounded-full border border-gray-600"
       loading="lazy"
     />
     <div>
-      <p className="font-semibold text-white">Written by the CalculatorHub Investment Tools Team</p>
+      <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
       <p className="text-sm text-slate-400">
-        Experts in financial planning, SIP strategies, and investment calculators. Last updated: <time dateTime="2025-10-10">October 10, 2025</time>.
+        Experts in mortgages and online financial tools. Last updated:{" "}
+        <time dateTime="2025-10-17">October 17, 2025</time>.
       </p>
     </div>
   </div>
+
+  <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+    <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
+      🚀 Explore more finance tools on CalculatorHub:
+    </p>
+    <div className="flex flex-wrap gap-3 text-sm">
+      <Link
+        to="/cagr-calculator"
+        className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
+      >
+        <span className="text-emerald-400">📊</span> CAGR Calculator
+      </Link>
+
+      <Link
+        to="/lump-sum-investment-calculator"
+        className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
+      >
+        <span className="text-sky-400">💰</span> Lump Sum Investment Calculator
+      </Link>
+
+      <Link
+        to="/roi-calculator"
+        className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
+      >
+        <span className="text-indigo-400">📈</span> ROI Calculator
+      </Link>
+    </div>
+  </div>
 </section>
+
 
 {/* ============= SIP CALCULATOR ENHANCED SEO SCHEMAS ================ */}
 <script
