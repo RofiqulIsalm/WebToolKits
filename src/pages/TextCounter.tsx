@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from "react-router-dom";
 import { FileText, ChevronDown, Volume2, VolumeX, Lock, Search, BarChart } from 'lucide-react';
 import { toWords } from 'number-to-words';
 import AdBanner from '../components/AdBanner';
