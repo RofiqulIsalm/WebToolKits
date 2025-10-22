@@ -1,5 +1,6 @@
 // CompoundInterestCalculator.tsx
 import React, { useEffect, useMemo, useState, Suspense } from 'react';
+import { Link } from "react-router-dom";
 import { TrendingUp, ChevronDown, ChevronUp } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
 import SEOHead from '../components/SEOHead';
