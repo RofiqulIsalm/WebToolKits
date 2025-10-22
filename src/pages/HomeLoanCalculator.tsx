@@ -209,6 +209,7 @@ const HomeLoanCalculator: React.FC = () => {
           ["home loan calculator", "house loan calculator", "home EMI calculator"]
         )}
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
