@@ -1,5 +1,6 @@
 // src/pages/WeekdayFinder.tsx
 import React, { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Calendar as CalendarIcon,
   Search,
