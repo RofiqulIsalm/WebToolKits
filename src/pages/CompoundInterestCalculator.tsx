@@ -313,6 +313,7 @@ const CompoundInterestCalculator: React.FC = () => {
             { name: 'Compound Interest Calculator', url: '/compound-interest-calculator' }
           ]}
         />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {/* Title */}
         <div className="mb-8 text-left">
