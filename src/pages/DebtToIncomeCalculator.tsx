@@ -164,6 +164,7 @@ const DebtToIncomeCalculator: React.FC = () => {
             { name: "Debt-to-Income Ratio Calculator", url: "/debt-to-income-ratio-calculator" },
           ]}
         />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {/* ===== Header ===== */}
         <div className="mb-8">
