@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
+import { Link } from "react-router-dom";
 import { QrCode, Download, Upload, Copy, Check, Scan, BarChart3, Hash } from 'lucide-react';
 import QRCodeLib from 'qrcode';
 import AdBanner from '../components/AdBanner';
