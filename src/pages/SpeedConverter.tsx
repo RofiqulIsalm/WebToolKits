@@ -58,6 +58,8 @@ const SpeedConverter: React.FC = () => {
           { name: 'Speed Converter', url: '/speed-converter' }
         ]}
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      
 
     <div className="max-w-4xl mx-auto">
       <Breadcrumbs items={[
