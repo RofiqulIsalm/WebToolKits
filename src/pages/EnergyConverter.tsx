@@ -61,6 +61,7 @@ const EnergyConverter: React.FC = () => {
           { name: 'Energy Converter', url: '/energy-converter' }
         ]}
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
       <div className="max-w-4xl mx-auto">
         <Breadcrumbs
