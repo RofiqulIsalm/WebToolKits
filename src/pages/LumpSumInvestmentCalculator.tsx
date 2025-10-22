@@ -187,6 +187,7 @@ const LumpSumInvestmentCalculator: React.FC = () => {
           ["lump sum calculator", "compound interest", "investment growth", "finance tool"]
         )}
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
