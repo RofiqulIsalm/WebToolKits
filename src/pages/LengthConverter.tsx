@@ -200,12 +200,18 @@ export default function LengthConverter() {
     setFromUnit(toUnit);
     setToUnit(fromUnit);
   }
-  function copyAll() {
-    const lines = Object.entries(gridResults).map(([k, v]) => `${unitMap[k].name}: ${v}`).join('\n');
-    if (hasWindow() && navigator && navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(lines).catch(() => {});
-    }
+  
+ function copyAll() {
+  const lines = Object.entries(gridResults).map(([k, v]) => {
+    const label = unitMap[k].name;
+    const formatted = formatNumber(v, formatMode, precision);
+    return `${label}: ${formatted}`;
+  }).join('\n');
+  if (hasWindow() && navigator?.clipboard?.writeText) {
+    navigator.clipboard.writeText(lines).catch(() => {});
   }
+}
+  
   function exportCSV() {
     const headers = ['Unit','Value'];
     const rows = Object.entries(gridResults).map(([k, v]) => [unitMap[k].name, String(v)]);
