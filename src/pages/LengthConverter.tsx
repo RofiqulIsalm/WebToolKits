@@ -440,6 +440,8 @@ export default function LengthConverter() {
             </div>
           </div>
 
+          
+         {/* More options (collapsible) */}
            <details className="mt-5">
             <summary className="cursor-pointer text-sm text-gray-300">More options</summary>
             <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -466,10 +468,7 @@ export default function LengthConverter() {
                 </button>
               </div>
             </div>
-          </details>
-
-          
-          
+          </details> 
         </div>
 
         {/* History */}
