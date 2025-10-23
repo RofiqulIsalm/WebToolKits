@@ -381,7 +381,24 @@ export default function LengthConverter() {
               <Icon.Swap style={{ width: 16, height: 16 }} /> Swap
             </button>
 
-            {/* More options (collapsible) */}
+            
+            
+          </div>
+
+          {/* Direct result */}
+          <div className="rounded-xl bg-gray-800 border border-gray-700 p-4 mb-6">
+            <div className="text-sm text-gray-400 mb-1">
+              Result ({unitMap[fromUnit]?.name} → {unitMap[toUnit]?.name})
+            </div>
+            <div
+              className="text-2xl font-semibold text-gray-100 overflow-x-auto whitespace-nowrap"
+              style={{ scrollbarWidth: 'thin' }}
+              aria-live="polite"
+            >
+              {formatNumber(direct, formatMode, precision)}
+            </div>
+          </div>
+          {/* More options (collapsible) */}
           <details className="mt-5">
             <summary className="cursor-pointer text-sm text-gray-300">More options</summary>
             <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -409,22 +426,6 @@ export default function LengthConverter() {
               </div>
             </div>
           </details>
-            
-          </div>
-
-          {/* Direct result */}
-          <div className="rounded-xl bg-gray-800 border border-gray-700 p-4 mb-6">
-            <div className="text-sm text-gray-400 mb-1">
-              Result ({unitMap[fromUnit]?.name} → {unitMap[toUnit]?.name})
-            </div>
-            <div
-              className="text-2xl font-semibold text-gray-100 overflow-x-auto whitespace-nowrap"
-              style={{ scrollbarWidth: 'thin' }}
-              aria-live="polite"
-            >
-              {formatNumber(direct, formatMode, precision)}
-            </div>
-          </div>
         </div>
 
         {/* History */}
