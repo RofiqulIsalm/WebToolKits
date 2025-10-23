@@ -16,8 +16,10 @@ const FORMAT_MODES = ['normal', 'compact', 'scientific'] as const;
 type FormatMode = typeof FORMAT_MODES[number];
 
 /* ---------- Visual thresholds (°C) ---------- */
-const HOT_THRESHOLD_C = 40;   // tweak to taste
-const COLD_THRESHOLD_C = 0;   // tweak to taste
+const HOT_THRESHOLD_C = 40;
+const COLD_THRESHOLD_C = 0;
+const EXTREME_HOT_C = 1000;
+const EXTREME_COLD_C = -1000;
 
 /* ---------- Conversion helpers ---------- */
 function toCelsius(value: number, scale: Scale) {
@@ -60,30 +62,30 @@ const fadeUp = (delay = 0) => ({
 });
 const softHover = { whileHover: { y: -2, scale: 1.01 }, whileTap: { scale: 0.98 } };
 
-/* ---------- Fire/Ice overlays ---------- */
-function FireOverlay() {
+/* ---------- Fire/Ice overlays (card-level) ---------- */
+function FireOverlay({ intense = false }: { intense?: boolean }) {
   return (
     <motion.div
       className="pointer-events-none absolute inset-0 overflow-hidden"
       initial={{ opacity: 0 }}
-      animate={{ opacity: 0.9 }}
+      animate={{ opacity: intense ? 1 : 0.9 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.35 }}
     >
       {/* heat glow */}
       <motion.div
         className="absolute -inset-8 blur-2xl"
-        style={{ background: 'radial-gradient(60% 60% at 50% 80%, rgba(255,120,40,0.45) 0%, rgba(255,0,0,0.15) 60%, transparent 100%)' }}
+        style={{ background: 'radial-gradient(60% 60% at 50% 80%, rgba(255,120,40,0.5) 0%, rgba(255,0,0,0.18) 60%, transparent 100%)' }}
         animate={{ opacity: [0.7, 1, 0.7] }}
-        transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+        transition={{ duration: 1.3, repeat: Infinity, ease: 'easeInOut' }}
       />
       {/* flame tongues (svg) */}
       <motion.svg
         viewBox="0 0 200 120"
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[120%] h-auto"
-        initial={{ y: 20, opacity: 0.7 }}
-        animate={{ y: [20, 10, 20], opacity: [0.7, 0.95, 0.7] }}
-        transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[140%] h-auto"
+        initial={{ y: 20, opacity: 0.75 }}
+        animate={{ y: [20, 10, 20], opacity: [0.75, 1, 0.75] }}
+        transition={{ duration: intense ? 1.4 : 2.0, repeat: Infinity, ease: 'easeInOut' }}
       >
         <defs>
           <linearGradient id="fireGrad" x1="0" y1="0" x2="0" y2="1">
@@ -95,54 +97,121 @@ function FireOverlay() {
         <path d="M0,120 C20,90 30,60 60,50 C90,40 90,20 110,10 C130,0 150,20 140,45 C130,70 160,80 200,60 L200,120 Z" fill="url(#fireGrad)" opacity="0.55"/>
         <path d="M0,120 C30,95 50,70 80,60 C110,50 120,30 135,20 C150,10 165,25 160,45 C155,65 175,75 200,70 L200,120 Z" fill="url(#fireGrad)" opacity="0.35"/>
       </motion.svg>
-
       {/* burn edge vignette */}
       <div className="absolute inset-0 rounded-xl ring-1 ring-rose-700/40" />
       <div className="absolute inset-0 rounded-xl"
-           style={{ boxShadow: 'inset 0 0 80px rgba(255,80,0,0.25), inset 0 0 160px rgba(255,140,0,0.15)' }}/>
+           style={{ boxShadow: 'inset 0 0 80px rgba(255,80,0,0.28), inset 0 0 160px rgba(255,140,0,0.16)' }}/>
     </motion.div>
   );
 }
-
-function IceOverlay() {
+function IceOverlay({ intense = false }: { intense?: boolean }) {
   return (
     <motion.div
       className="pointer-events-none absolute inset-0 overflow-hidden"
       initial={{ opacity: 0 }}
-      animate={{ opacity: 0.9 }}
+      animate={{ opacity: intense ? 1 : 0.9 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.35 }}
     >
       {/* cold glow */}
       <motion.div
         className="absolute -inset-8 blur-2xl"
-        style={{ background: 'radial-gradient(60% 60% at 50% 20%, rgba(120,200,255,0.45) 0%, rgba(0,150,255,0.15) 60%, transparent 100%)' }}
+        style={{ background: 'radial-gradient(60% 60% at 50% 20%, rgba(120,200,255,0.5) 0%, rgba(0,150,255,0.18) 60%, transparent 100%)' }}
         animate={{ opacity: [0.7, 1, 0.7] }}
-        transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+        transition={{ duration: 1.3, repeat: Infinity, ease: 'easeInOut' }}
       />
-
       {/* frosty film */}
-      <div className="absolute inset-0 rounded-xl backdrop-blur-[1px]" style={{ background: 'linear-gradient(180deg, rgba(180,220,255,0.14) 0%, rgba(130,200,255,0.10) 50%, rgba(200,230,255,0.08) 100%)' }}/>
-
+      <div className="absolute inset-0 rounded-xl backdrop-blur-[1px]" style={{ background: 'linear-gradient(180deg, rgba(180,220,255,0.16) 0%, rgba(130,200,255,0.12) 50%, rgba(200,230,255,0.1) 100%)' }}/>
       {/* ice cracks (svg) */}
       <motion.svg
         viewBox="0 0 200 120"
         className="absolute top-0 left-0 w-full h-full"
-        initial={{ opacity: 0.4 }}
-        animate={{ opacity: [0.3, 0.55, 0.3] }}
-        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+        initial={{ opacity: 0.45 }}
+        animate={{ opacity: [0.35, 0.6, 0.35] }}
+        transition={{ duration: intense ? 2.2 : 3.0, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <g stroke="#cfe9ff" strokeOpacity="0.7" strokeWidth="1.2" fill="none">
+        <g stroke="#cfe9ff" strokeOpacity="0.8" strokeWidth="1.2" fill="none">
           <path d="M20 15 L50 35 L30 60 L70 75" />
           <path d="M120 10 L150 40 L140 70 L180 85" />
           <path d="M40 100 L80 85 L110 95 L150 105" />
         </g>
       </motion.svg>
-
       {/* frosted rim */}
       <div className="absolute inset-0 rounded-xl ring-1 ring-blue-300/30" />
       <div className="absolute inset-0 rounded-xl"
-           style={{ boxShadow: 'inset 0 0 80px rgba(140,200,255,0.25), inset 0 0 160px rgba(180,230,255,0.15)' }}/>
+           style={{ boxShadow: 'inset 0 0 80px rgba(140,200,255,0.28), inset 0 0 160px rgba(180,230,255,0.16)' }}/>
+    </motion.div>
+  );
+}
+
+/* ---------- Global "storm" overlays (full screen) ---------- */
+function FireStormOverlay() {
+  return (
+    <motion.div
+      className="pointer-events-none fixed inset-0 z-[60]"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+      aria-hidden="true"
+    >
+      <motion.div
+        className="absolute -inset-16 blur-3xl"
+        style={{ background: 'radial-gradient(70% 70% at 50% 70%, rgba(255,80,0,0.25) 0%, rgba(255,0,0,0.18) 50%, transparent 100%)' }}
+        animate={{ opacity: [0.5, 0.9, 0.5] }}
+        transition={{ duration: 2.2, repeat: Infinity }}
+      />
+      {/* waves of heat distortion as subtle scale */}
+      <motion.div
+        className="absolute inset-0"
+        animate={{ filter: ['blur(0px)', 'blur(0.6px)', 'blur(0px)'], transform: ['translateY(0px)', 'translateY(-3px)', 'translateY(0px)'] }}
+        transition={{ duration: 2.0, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      {/* ember specks */}
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: 'radial-gradient(circle, rgba(255,200,120,0.18) 1px, transparent 1px)',
+          backgroundSize: '6px 6px'
+        }}
+        animate={{ opacity: [0.12, 0.24, 0.12] }}
+        transition={{ duration: 1.5, repeat: Infinity }}
+      />
+    </motion.div>
+  );
+}
+function IceStormOverlay() {
+  return (
+    <motion.div
+      className="pointer-events-none fixed inset-0 z-[60]"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+      aria-hidden="true"
+    >
+      <motion.div
+        className="absolute -inset-16 blur-3xl"
+        style={{ background: 'radial-gradient(70% 70% at 50% 30%, rgba(120,180,255,0.25) 0%, rgba(60,130,255,0.18) 50%, transparent 100%)' }}
+        animate={{ opacity: [0.5, 0.9, 0.5] }}
+        transition={{ duration: 2.2, repeat: Infinity }}
+      />
+      {/* falling snow/ice specks */}
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: 'radial-gradient(circle, rgba(220,240,255,0.18) 1px, transparent 1px)',
+          backgroundSize: '6px 6px'
+        }}
+        animate={{ backgroundPositionY: ['0%', '100%'] }}
+        transition={{ duration: 6.0, repeat: Infinity, ease: 'linear' }}
+      />
+      {/* mild frost blur pulse */}
+      <motion.div
+        className="absolute inset-0"
+        animate={{ filter: ['blur(0px)', 'blur(0.6px)', 'blur(0px)'] }}
+        transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+      />
     </motion.div>
   );
 }
@@ -190,6 +259,16 @@ const TemperatureConverter: React.FC = () => {
       : (celsius as number) >= HOT_THRESHOLD_C
         ? 'hot'
         : (celsius as number) <= COLD_THRESHOLD_C
+          ? 'cold'
+          : 'normal';
+
+  // Extreme global effect
+  const extremeState: 'hot' | 'cold' | 'normal' =
+    !Number.isFinite(celsius as number)
+      ? 'normal'
+      : (celsius as number) >= EXTREME_HOT_C
+        ? 'hot'
+        : (celsius as number) <= EXTREME_COLD_C
           ? 'cold'
           : 'normal';
 
@@ -266,8 +345,14 @@ const TemperatureConverter: React.FC = () => {
       />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+      {/* Global storm overlays (fun extreme effect) */}
+      <AnimatePresence>
+        {extremeState === 'hot' && <FireStormOverlay />}
+        {extremeState === 'cold' && <IceStormOverlay />}
+      </AnimatePresence>
+
       <motion.div
-        className="max-w-5xl mx-auto text-gray-200"
+        className="relative max-w-5xl mx-auto text-gray-200"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.35, ease: 'easeOut' }}
@@ -443,10 +528,10 @@ const TemperatureConverter: React.FC = () => {
             variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}
             {...softHover}
           >
-            {/* HOT / COLD OVERLAYS */}
+            {/* HOT / COLD OVERLAYS for each card */}
             <AnimatePresence initial={false} mode="popLayout">
-              {heatState === 'hot' && <FireOverlay />}
-              {heatState === 'cold' && <IceOverlay />}
+              {heatState === 'hot' && <FireOverlay intense={extremeState === 'hot'} />}
+              {heatState === 'cold' && <IceOverlay intense={extremeState === 'cold'} />}
             </AnimatePresence>
 
             <div className="relative">
@@ -473,54 +558,68 @@ const TemperatureConverter: React.FC = () => {
 
           {/* Fahrenheit */}
           <motion.div
-            className="rounded-xl p-6 border bg-gradient-to-br from-rose-950 to-rose-900 border-rose-800"
+            className="relative overflow-hidden rounded-xl p-6 border bg-gradient-to-br from-rose-950 to-rose-900 border-rose-800"
             variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}
             {...softHover}
           >
-            <div className="flex items-center gap-2 mb-4">
-              <Thermometer className="h-5 w-5 text-rose-400" />
-              <h3 className="text-lg font-semibold text-white">Fahrenheit (°F)</h3>
+            <AnimatePresence initial={false} mode="popLayout">
+              {heatState === 'hot' && <FireOverlay intense={extremeState === 'hot'} />}
+              {heatState === 'cold' && <IceOverlay intense={extremeState === 'cold'} />}
+            </AnimatePresence>
+
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-4">
+                <Thermometer className="h-5 w-5 text-rose-400" />
+                <h3 className="text-lg font-semibold text-white">Fahrenheit (°F)</h3>
+              </div>
+              <div className="text-3xl font-semibold text-rose-50">
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={display.F}
+                    initial={{ y: 8, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -8, opacity: 0 }}
+                    transition={{ duration: 0.18 }}
+                  >
+                    {display.F}
+                  </motion.span>
+                </AnimatePresence>
+              </div>
+              <div className="mt-2 text-sm text-rose-300/80">Input converted to °F</div>
             </div>
-            <div className="text-3xl font-semibold text-rose-50">
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={display.F}
-                  initial={{ y: 8, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -8, opacity: 0 }}
-                  transition={{ duration: 0.18 }}
-                >
-                  {display.F}
-                </motion.span>
-              </AnimatePresence>
-            </div>
-            <div className="mt-2 text-sm text-rose-300/80">Input converted to °F</div>
           </motion.div>
 
           {/* Kelvin */}
           <motion.div
-            className="rounded-xl p-6 border bg-gradient-to-br from-violet-950 to-violet-900 border-violet-800"
+            className="relative overflow-hidden rounded-xl p-6 border bg-gradient-to-br from-violet-950 to-violet-900 border-violet-800"
             variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}
             {...softHover}
           >
-            <div className="flex items-center gap-2 mb-4">
-              <Thermometer className="h-5 w-5 text-violet-400" />
-              <h3 className="text-lg font-semibold text-white">Kelvin (K)</h3>
+            <AnimatePresence initial={false} mode="popLayout">
+              {heatState === 'hot' && <FireOverlay intense={extremeState === 'hot'} />}
+              {heatState === 'cold' && <IceOverlay intense={extremeState === 'cold'} />}
+            </AnimatePresence>
+
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-4">
+                <Thermometer className="h-5 w-5 text-violet-400" />
+                <h3 className="text-lg font-semibold text-white">Kelvin (K)</h3>
+              </div>
+              <div className="text-3xl font-semibold text-violet-50">
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={display.K}
+                    initial={{ y: 8, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -8, opacity: 0 }}
+                    transition={{ duration: 0.18 }}
+                  >
+                    {display.K}
+                  </motion.span>
+                </AnimatePresence>
+              </div>
+              <div className="mt-2 text-sm text-violet-300/80">Input converted to K</div>
             </div>
-            <div className="text-3xl font-semibold text-violet-50">
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={display.K}
-                  initial={{ y: 8, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -8, opacity: 0 }}
-                  transition={{ duration: 0.18 }}
-                >
-                  {display.K}
-                </motion.span>
-              </AnimatePresence>
-            </div>
-            <div className="mt-2 text-sm text-violet-300/80">Input converted to K</div>
           </motion.div>
         </motion.div>
 
