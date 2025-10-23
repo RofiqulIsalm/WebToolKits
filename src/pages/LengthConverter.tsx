@@ -498,6 +498,48 @@ export default function LengthConverter() {
           </div>
         )}
 
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {LENGTH_UNITS.map((unit) => {
+              if (unit.key === fromUnit) return null;
+              const val = gridResults[unit.key];
+              const display = formatNumber(val ?? 0, formatMode, precision);
+              return (
+                <div key={unit.key} className="bg-gray-800 border border-gray-700 rounded-xl p-4 hover:bg-gray-700/70 transition">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <Icon.Ruler style={{ width: 16, height: 16, color: '#60a5fa' }} />
+                      <span className="text-sm font-medium text-gray-200 truncate">{unit.name}</span>
+                    </div>
+                    <button
+                      type="button"
+                      className="text-xs px-2 py-1 border border-gray-600 rounded-md bg-gray-700 hover:bg-gray-600 text-gray-200"
+                      onClick={() => {
+                        if (hasWindow() && navigator && navigator.clipboard && navigator.clipboard.writeText && Number.isFinite(val)) {
+                          navigator.clipboard.writeText(String(val)).catch(() => {});
+                        }
+                      }}
+                      title="Copy exact value"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                  <div
+                    className="text-lg font-semibold text-gray-100 overflow-x-auto whitespace-nowrap"
+                    style={{ scrollbarWidth: 'thin' }}
+                    title={String(val ?? '')}
+                  >
+                    {display}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          
+        </div>
+
+        
+
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/length-converter" category="unit-converters" />
       </div>
