@@ -337,7 +337,7 @@ export default function WeightConverter() {
                 >
                   {favorites.includes(fromUnit)
                     ? <Icon.Star style={{ width: 14, height: 14, color: '#facc15' }} />
-                    : <Icon.StarOff style={{ width: 14, height: 14, color: '#9ca3af' }} />}
+                    : <Icon.Star style={{ width: 14, height: 14, color: '#9ca3af' }} />}
                   Fav
                 </button>
               </div>
@@ -371,7 +371,7 @@ export default function WeightConverter() {
                 >
                   {favorites.includes(toUnit)
                     ? <Icon.Star style={{ width: 14, height: 14, color: '#facc15' }} />
-                    : <Icon.StarOff style={{ width: 14, height: 14, color: '#9ca3af' }} />}
+                    : <Icon.Star style={{ width: 14, height: 14, color: '#9ca3af' }} />}
                   Fav
                 </button>
               </div>
