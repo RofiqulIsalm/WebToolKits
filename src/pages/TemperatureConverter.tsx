@@ -54,15 +54,51 @@ function formatNumber(n: number, mode: FormatMode = 'normal', precision = 4) {
     : s.replace(/([.,]\d*?[1-9])0+$/, '$1').replace(/([.,])0+$/, '');
 }
 
-/* ---------- Simple animation helpers ---------- */
+/* ---------- Motion helpers ---------- */
+const spring = { type: 'spring', stiffness: 380, damping: 32, mass: 0.8 };
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 16 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.35, ease: 'easeOut', delay }
+  transition: { ...spring, delay }
 });
-const softHover = { whileHover: { y: -2, scale: 1.01 }, whileTap: { scale: 0.98 } };
+const softHover = { whileHover: { y: -3, scale: 1.015 }, whileTap: { scale: 0.985 }, transition: spring };
 
-/* ---------- Fire/Ice overlays (card-level) ---------- */
+/* ---------- Background canvas (ambient gradient + grain) ---------- */
+const BgCanvas: React.FC = () => (
+  <>
+    <div
+      aria-hidden
+      className="pointer-events-none fixed inset-0 -z-10"
+      style={{
+        background:
+          "radial-gradient(60% 80% at 20% 0%, rgba(99,102,241,0.18) 0%, transparent 60%),\
+           radial-gradient(70% 90% at 90% 10%, rgba(147,51,234,0.18) 0%, transparent 60%),\
+           radial-gradient(60% 70% at 50% 100%, rgba(59,130,246,0.20) 0%, transparent 60%)",
+        filter: "saturate(120%)",
+      }}
+    />
+    <div
+      aria-hidden
+      className="pointer-events-none fixed inset-0 -z-10 will-change-transform motion-safe:animate-[huedrift_18s_ease-in-out_infinite_alternate]"
+      style={{ background: "transparent" }}
+    />
+    <div
+      aria-hidden
+      className="pointer-events-none fixed inset-0 -z-10 opacity-[0.04] mix-blend-overlay"
+      style={{
+        backgroundImage:
+          "url('data:image/svg+xml;utf8,\
+            <svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'160\\' height=\\'160\\' viewBox=\\'0 0 160 160\\'>\
+              <filter id=\\'n\\'><feTurbulence type=\\'fractalNoise\\' baseFrequency=\\'0.9\\' numOctaves=\\'2\\'/></filter>\
+              <rect width=\\'100%\\' height=\\'100%\\' filter=\\'url(%23n)\\' opacity=\\'0.7\\'/>\
+            </svg>')",
+        backgroundSize: "auto",
+      }}
+    />
+  </>
+);
+
+/* ---------- Card-level overlays ---------- */
 function FireOverlay({ intense = false }: { intense?: boolean }) {
   return (
     <motion.div
@@ -72,14 +108,12 @@ function FireOverlay({ intense = false }: { intense?: boolean }) {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.35 }}
     >
-      {/* heat glow */}
       <motion.div
         className="absolute -inset-8 blur-2xl"
         style={{ background: 'radial-gradient(60% 60% at 50% 80%, rgba(255,120,40,0.5) 0%, rgba(255,0,0,0.18) 60%, transparent 100%)' }}
         animate={{ opacity: [0.7, 1, 0.7] }}
         transition={{ duration: 1.3, repeat: Infinity, ease: 'easeInOut' }}
       />
-      {/* flame tongues (svg) */}
       <motion.svg
         viewBox="0 0 200 120"
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[140%] h-auto"
@@ -97,10 +131,8 @@ function FireOverlay({ intense = false }: { intense?: boolean }) {
         <path d="M0,120 C20,90 30,60 60,50 C90,40 90,20 110,10 C130,0 150,20 140,45 C130,70 160,80 200,60 L200,120 Z" fill="url(#fireGrad)" opacity="0.55"/>
         <path d="M0,120 C30,95 50,70 80,60 C110,50 120,30 135,20 C150,10 165,25 160,45 C155,65 175,75 200,70 L200,120 Z" fill="url(#fireGrad)" opacity="0.35"/>
       </motion.svg>
-      {/* burn edge vignette */}
-      <div className="absolute inset-0 rounded-xl ring-1 ring-rose-700/40" />
-      <div className="absolute inset-0 rounded-xl"
-           style={{ boxShadow: 'inset 0 0 80px rgba(255,80,0,0.28), inset 0 0 160px rgba(255,140,0,0.16)' }}/>
+      <div className="absolute inset-0 rounded-2xl ring-1 ring-rose-700/40" />
+      <div className="absolute inset-0 rounded-2xl" style={{ boxShadow: 'inset 0 0 80px rgba(255,80,0,0.28), inset 0 0 160px rgba(255,140,0,0.16)' }}/>
     </motion.div>
   );
 }
@@ -113,22 +145,19 @@ function IceOverlay({ intense = false }: { intense?: boolean }) {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.35 }}
     >
-      {/* cold glow */}
       <motion.div
         className="absolute -inset-8 blur-2xl"
         style={{ background: 'radial-gradient(60% 60% at 50% 20%, rgba(120,200,255,0.5) 0%, rgba(0,150,255,0.18) 60%, transparent 100%)' }}
         animate={{ opacity: [0.7, 1, 0.7] }}
         transition={{ duration: 1.3, repeat: Infinity, ease: 'easeInOut' }}
       />
-      {/* frosty film */}
-      <div className="absolute inset-0 rounded-xl backdrop-blur-[1px]" style={{ background: 'linear-gradient(180deg, rgba(180,220,255,0.16) 0%, rgba(130,200,255,0.12) 50%, rgba(200,230,255,0.1) 100%)' }}/>
-      {/* ice cracks (svg) */}
+      <div className="absolute inset-0 rounded-2xl backdrop-blur-[1px]" style={{ background: 'linear-gradient(180deg, rgba(180,220,255,0.16) 0%, rgba(130,200,255,0.12) 50%, rgba(200,230,255,0.1) 100%)' }}/>
       <motion.svg
         viewBox="0 0 200 120"
         className="absolute top-0 left-0 w-full h-full"
         initial={{ opacity: 0.45 }}
         animate={{ opacity: [0.35, 0.6, 0.35] }}
-        transition={{ duration: intense ? 2.2 : 3.0, repeat: Infinity, ease: 'easeInOut' }}
+        transition={{ duration: 3.0, repeat: Infinity, ease: 'easeInOut' }}
       >
         <g stroke="#cfe9ff" strokeOpacity="0.8" strokeWidth="1.2" fill="none">
           <path d="M20 15 L50 35 L30 60 L70 75" />
@@ -136,85 +165,80 @@ function IceOverlay({ intense = false }: { intense?: boolean }) {
           <path d="M40 100 L80 85 L110 95 L150 105" />
         </g>
       </motion.svg>
-      {/* frosted rim */}
-      <div className="absolute inset-0 rounded-xl ring-1 ring-blue-300/30" />
-      <div className="absolute inset-0 rounded-xl"
-           style={{ boxShadow: 'inset 0 0 80px rgba(140,200,255,0.28), inset 0 0 160px rgba(180,230,255,0.16)' }}/>
+      <div className="absolute inset-0 rounded-2xl ring-1 ring-blue-300/30" />
+      <div className="absolute inset-0 rounded-2xl" style={{ boxShadow: 'inset 0 0 80px rgba(140,200,255,0.28), inset 0 0 160px rgba(180,230,255,0.16)' }}/>
     </motion.div>
   );
 }
 
-/* ---------- Global "storm" overlays (full screen) ---------- */
+/* ---------- Global storm overlays ---------- */
 function FireStormOverlay() {
   return (
-    <motion.div
-      className="pointer-events-none fixed inset-0 z-[60]"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-      aria-hidden="true"
-    >
-      <motion.div
-        className="absolute -inset-16 blur-3xl"
+    <motion.div className="pointer-events-none fixed inset-0 z-[60]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6, ease: 'easeOut' }} aria-hidden="true">
+      <motion.div className="absolute -inset-16 blur-3xl"
         style={{ background: 'radial-gradient(70% 70% at 50% 70%, rgba(255,80,0,0.25) 0%, rgba(255,0,0,0.18) 50%, transparent 100%)' }}
-        animate={{ opacity: [0.5, 0.9, 0.5] }}
-        transition={{ duration: 2.2, repeat: Infinity }}
+        animate={{ opacity: [0.5, 0.9, 0.5] }} transition={{ duration: 2.2, repeat: Infinity }}
       />
-      {/* waves of heat distortion as subtle scale */}
-      <motion.div
-        className="absolute inset-0"
-        animate={{ filter: ['blur(0px)', 'blur(0.6px)', 'blur(0px)'], transform: ['translateY(0px)', 'translateY(-3px)', 'translateY(0px)'] }}
-        transition={{ duration: 2.0, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      {/* ember specks */}
-      <motion.div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: 'radial-gradient(circle, rgba(255,200,120,0.18) 1px, transparent 1px)',
-          backgroundSize: '6px 6px'
-        }}
-        animate={{ opacity: [0.12, 0.24, 0.12] }}
-        transition={{ duration: 1.5, repeat: Infinity }}
-      />
+      <motion.div className="absolute inset-0" animate={{ filter: ['blur(0px)', 'blur(0.6px)', 'blur(0px)'], transform: ['translateY(0px)', 'translateY(-3px)', 'translateY(0px)'] }} transition={{ duration: 2.0, repeat: Infinity, ease: 'easeInOut' }}/>
+      <motion.div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,200,120,0.18) 1px, transparent 1px)', backgroundSize: '6px 6px' }} animate={{ opacity: [0.12, 0.24, 0.12] }} transition={{ duration: 1.5, repeat: Infinity }}/>
     </motion.div>
   );
 }
 function IceStormOverlay() {
   return (
-    <motion.div
-      className="pointer-events-none fixed inset-0 z-[60]"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-      aria-hidden="true"
-    >
-      <motion.div
-        className="absolute -inset-16 blur-3xl"
+    <motion.div className="pointer-events-none fixed inset-0 z-[60]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6, ease: 'easeOut' }} aria-hidden="true">
+      <motion.div className="absolute -inset-16 blur-3xl"
         style={{ background: 'radial-gradient(70% 70% at 50% 30%, rgba(120,180,255,0.25) 0%, rgba(60,130,255,0.18) 50%, transparent 100%)' }}
-        animate={{ opacity: [0.5, 0.9, 0.5] }}
-        transition={{ duration: 2.2, repeat: Infinity }}
+        animate={{ opacity: [0.5, 0.9, 0.5] }} transition={{ duration: 2.2, repeat: Infinity }}
       />
-      {/* falling snow/ice specks */}
-      <motion.div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: 'radial-gradient(circle, rgba(220,240,255,0.18) 1px, transparent 1px)',
-          backgroundSize: '6px 6px'
-        }}
-        animate={{ backgroundPositionY: ['0%', '100%'] }}
-        transition={{ duration: 6.0, repeat: Infinity, ease: 'linear' }}
-      />
-      {/* mild frost blur pulse */}
-      <motion.div
-        className="absolute inset-0"
-        animate={{ filter: ['blur(0px)', 'blur(0.6px)', 'blur(0px)'] }}
-        transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-      />
+      <motion.div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, rgba(220,240,255,0.18) 1px, transparent 1px)', backgroundSize: '6px 6px' }} animate={{ backgroundPositionY: ['0%', '100%'] }} transition={{ duration: 6.0, repeat: Infinity, ease: 'linear' }}/>
+      <motion.div className="absolute inset-0" animate={{ filter: ['blur(0px)', 'blur(0.6px)', 'blur(0px)'] }} transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}/>
     </motion.div>
   );
 }
+
+/* ---------- Parallax tilt wrapper ---------- */
+const Tilt: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const hasFinePointer = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(pointer:fine)').matches;
+    if (!hasFinePointer) return;
+    const onMove = (e: MouseEvent) => {
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      el.style.transform = `perspective(800px) rotateX(${(-y*4).toFixed(2)}deg) rotateY(${(x*6).toFixed(2)}deg) translateZ(0)`;
+    };
+    const onLeave = () => { el.style.transform = 'perspective(800px) rotateX(0) rotateY(0)'; };
+    el.addEventListener('mousemove', onMove);
+    el.addEventListener('mouseleave', onLeave);
+    return () => { el.removeEventListener('mousemove', onMove); el.removeEventListener('mouseleave', onLeave); };
+  }, []);
+  return <div ref={ref} className="transition-transform will-change-transform">{children}</div>;
+};
+
+/* ---------- Confetti-like particles on extreme ---------- */
+const Particles: React.FC<{ type: 'hot' | 'cold' }> = ({ type }) => {
+  const nodes = Array.from({ length: 24 });
+  return (
+    <div className="pointer-events-none fixed inset-0 z-[65]">
+      {nodes.map((_, i) => (
+        <div
+          key={i}
+          className={`absolute w-1.5 h-1.5 rounded-full opacity-0 motion-safe:animate-[floaty_1.6s_ease-in-out_forwards]
+                      ${type==='hot' ? 'bg-amber-300/90' : 'bg-blue-100/90'}`}
+          style={{
+            left: `${Math.random()*100}%`,
+            top: `${Math.random()*100}%`,
+            filter: type==='hot' ? 'drop-shadow(0 0 6px rgba(255,160,60,0.6))' : 'drop-shadow(0 0 6px rgba(180,220,255,0.6))'
+          }}
+        />
+      ))}
+    </div>
+  );
+};
 
 /* ---------- Component ---------- */
 const TemperatureConverter: React.FC = () => {
@@ -272,6 +296,13 @@ const TemperatureConverter: React.FC = () => {
           ? 'cold'
           : 'normal';
 
+  // Dynamic accent class
+  const accent = heatState === 'hot'
+    ? 'from-orange-500/20 to-red-500/20 ring-red-400/30'
+    : heatState === 'cold'
+    ? 'from-sky-500/20 to-blue-500/20 ring-sky-400/30'
+    : 'from-indigo-500/15 to-purple-500/15 ring-white/10';
+
   /* ---------- URL sync ---------- */
   useEffect(() => {
     try {
@@ -306,7 +337,7 @@ const TemperatureConverter: React.FC = () => {
       `Celsius (°C): ${display.C}`,
       `Fahrenheit (°F): ${display.F}`,
       `Kelvin (K): ${display.K}`,
-    ].join('\\n');
+    ].join('\n');
     navigator?.clipboard?.writeText(lines).catch(()=>{});
   }
   function exportCSV() {
@@ -317,7 +348,7 @@ const TemperatureConverter: React.FC = () => {
       ['Fahrenheit (°F)', display.F],
       ['Kelvin (K)', display.K],
     ];
-    const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\\n');
+    const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
     try {
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
@@ -328,6 +359,16 @@ const TemperatureConverter: React.FC = () => {
 
   return (
     <>
+      {/* Local keyframes (if you can't add to global CSS) */}
+      <style>
+        {`
+          @keyframes huedrift { from { filter: hue-rotate(0deg); } to { filter: hue-rotate(10deg); } }
+          @keyframes floaty { 0% { transform: translateY(0) scale(0.6); opacity: .0; }
+                              10% { opacity: .9; }
+                              100% { transform: translateY(-40px) scale(1); opacity: 0; } }
+        `}
+      </style>
+
       <SEOHead
         title={seoData.temperatureConverter.title}
         description={seoData.temperatureConverter.description}
@@ -345,10 +386,13 @@ const TemperatureConverter: React.FC = () => {
       />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-      {/* Global storm overlays (fun extreme effect) */}
+      {/* Ambient background */}
+      <BgCanvas />
+
+      {/* Global storm overlays + particles for fun extreme states */}
       <AnimatePresence>
-        {extremeState === 'hot' && <FireStormOverlay />}
-        {extremeState === 'cold' && <IceStormOverlay />}
+        {extremeState === 'hot' && (<><FireStormOverlay /><Particles type="hot" /></>)}
+        {extremeState === 'cold' && (<><IceStormOverlay /><Particles type="cold" /></>)}
       </AnimatePresence>
 
       <motion.div
@@ -366,18 +410,18 @@ const TemperatureConverter: React.FC = () => {
 
         {/* Header */}
         <motion.div
-          className="mb-8 rounded-2xl p-6 bg-gradient-to-r from-blue-900 via-indigo-800 to-purple-800 border border-gray-700"
+          className={`mb-8 rounded-2xl p-6 border bg-gradient-to-r backdrop-blur-md ring-1 ${accent}`}
           {...fadeUp(0.05)}
         >
           <h1 className="text-3xl font-bold text-white mb-2">Temperature Converter</h1>
-          <p className="text-gray-300">
+          <p className="text-gray-200/90">
             Convert between <b>Celsius</b>, <b>Fahrenheit</b>, and <b>Kelvin</b>. Shortcuts: <kbd>/</kbd> focus, <kbd>P</kbd> presets, <kbd>C</kbd> copy.
           </p>
         </motion.div>
 
         {/* Controls */}
         <motion.div
-          className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow mb-8"
+          className="rounded-2xl border border-white/10 bg-gray-900/60 backdrop-blur-xl p-6 shadow mb-8 ring-1 ring-white/10"
           {...fadeUp(0.1)}
         >
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
@@ -390,10 +434,10 @@ const TemperatureConverter: React.FC = () => {
                 value={valueStr}
                 onChange={(e) => setValueStr(e.target.value)}
                 placeholder="Enter value (default 0)"
-                className="w-full px-4 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-[box-shadow] duration-200 focus:shadow-[0_0_0_4px_rgba(59,130,246,0.25)]"
+                className="w-full px-4 py-2 rounded-xl bg-gray-800/70 border border-white/10 text-gray-100 placeholder-gray-500 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-gray-900 focus-visible:outline-none transition-[box-shadow] duration-200"
                 aria-label="Enter temperature"
               />
-              <p className="text-xs text-gray-500 mt-1">Commas allowed (1,234.5). Empty counts as 0.</p>
+              <p className="text-xs text-gray-400 mt-1">Commas allowed (1,234.5). Empty counts as 0.</p>
             </div>
 
             <div>
@@ -401,7 +445,7 @@ const TemperatureConverter: React.FC = () => {
               <select
                 value={scale}
                 onChange={(e) => setScale(e.target.value as Scale)}
-                className="w-full px-4 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-100 focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 rounded-xl bg-gray-800/70 border border-white/10 text-gray-100 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-gray-900 focus-visible:outline-none"
               >
                 <option value="C">Celsius (°C)</option>
                 <option value="F">Fahrenheit (°F)</option>
@@ -427,7 +471,7 @@ const TemperatureConverter: React.FC = () => {
               <select
                 value={formatMode}
                 onChange={(e) => setFormatMode(e.target.value as FormatMode)}
-                className="w-full px-4 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-100"
+                className="w-full px-4 py-2 rounded-xl bg-gray-800/70 border border-white/10 text-gray-100 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-gray-900 focus-visible:outline-none"
               >
                 <option value="normal">Normal</option>
                 <option value="compact">Compact</option>
@@ -440,7 +484,7 @@ const TemperatureConverter: React.FC = () => {
           <div className="flex flex-wrap items-center gap-2 mt-4">
             <motion.button
               onClick={() => setShowPresets((s) => !s)}
-              className="px-3 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-200"
+              className={`px-3 py-2 rounded-xl border text-gray-100 bg-gray-800/70 backdrop-blur ring-1 ${accent} hover:ring-2`}
               title="Show presets (P)"
               {...softHover}
             >
@@ -448,7 +492,7 @@ const TemperatureConverter: React.FC = () => {
             </motion.button>
             <motion.button
               onClick={copyAll}
-              className="px-3 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-200 flex items-center gap-2"
+              className={`px-3 py-2 rounded-xl border text-gray-100 bg-gray-800/70 backdrop-blur ring-1 ${accent} hover:ring-2 flex items-center gap-2`}
               title="Copy results (C)"
               {...softHover}
             >
@@ -456,7 +500,7 @@ const TemperatureConverter: React.FC = () => {
             </motion.button>
             <motion.button
               onClick={exportCSV}
-              className="px-3 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-200 flex items-center gap-2"
+              className={`px-3 py-2 rounded-xl border text-gray-100 bg-gray-800/70 backdrop-blur ring-1 ${accent} hover:ring-2 flex items-center gap-2`}
               title="Download CSV"
               {...softHover}
             >
@@ -483,7 +527,7 @@ const TemperatureConverter: React.FC = () => {
                   <motion.button
                     key={p.label}
                     onClick={() => applyPreset(p.c)}
-                    className="px-3 py-1.5 rounded-full bg-gray-800 border border-gray-600 text-gray-300 text-sm"
+                    className="px-3 py-1.5 rounded-full bg-gray-800/70 border border-white/10 text-gray-200 text-sm"
                     title={`${p.c} °C`}
                     whileHover={{ y: -1 }}
                     whileTap={{ scale: 0.98 }}
@@ -512,53 +556,50 @@ const TemperatureConverter: React.FC = () => {
           </AnimatePresence>
         </motion.div>
 
-        {/* Colored result cards (staggered) */}
+        {/* Result cards */}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
           initial="hidden"
           animate="show"
-          variants={{
-            hidden: {},
-            show: { transition: { staggerChildren: 0.06 } }
-          }}
+          variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06 } } }}
         >
           {/* Celsius */}
           <motion.div
-            className="relative overflow-hidden rounded-xl p-6 border bg-gradient-to-br from-blue-950 to-blue-900 border-blue-800"
+            className="relative overflow-hidden rounded-2xl p-6 border bg-gray-900/60 backdrop-blur-xl border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.35)] ring-1 ring-white/10 hover:ring-2 hover:ring-white/20 transition-shadow"
             variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}
             {...softHover}
           >
-            {/* HOT / COLD OVERLAYS for each card */}
             <AnimatePresence initial={false} mode="popLayout">
               {heatState === 'hot' && <FireOverlay intense={extremeState === 'hot'} />}
               {heatState === 'cold' && <IceOverlay intense={extremeState === 'cold'} />}
             </AnimatePresence>
-
-            <div className="relative">
-              <div className="flex items-center gap-2 mb-4">
-                <Thermometer className="h-5 w-5 text-blue-400" />
-                <h3 className="text-lg font-semibold text-white">Celsius (°C)</h3>
+            <Tilt>
+              <div className="relative">
+                <div className="flex items-center gap-2 mb-4">
+                  <Thermometer className="h-5 w-5 text-blue-300" />
+                  <h3 className="text-lg font-semibold text-white">Celsius (°C)</h3>
+                </div>
+                <div className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold text-gray-100">
+                  <AnimatePresence mode="wait">
+                    <motion.span
+                      key={display.C}
+                      initial={{ y: 8, opacity: 0, scale: 0.995 }}
+                      animate={{ y: 0, opacity: 1, scale: 1 }}
+                      exit={{ y: -8, opacity: 0, scale: 0.997 }}
+                      transition={spring}
+                    >
+                      {display.C}
+                    </motion.span>
+                  </AnimatePresence>
+                </div>
+                <div className="mt-2 text-sm text-gray-300/80">Input converted to °C</div>
               </div>
-              <div className="text-3xl font-semibold text-blue-50">
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={display.C}
-                    initial={{ y: 8, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -8, opacity: 0 }}
-                    transition={{ duration: 0.18 }}
-                  >
-                    {display.C}
-                  </motion.span>
-                </AnimatePresence>
-              </div>
-              <div className="mt-2 text-sm text-blue-300/80">Input converted to °C</div>
-            </div>
+            </Tilt>
           </motion.div>
 
           {/* Fahrenheit */}
           <motion.div
-            className="relative overflow-hidden rounded-xl p-6 border bg-gradient-to-br from-rose-950 to-rose-900 border-rose-800"
+            className="relative overflow-hidden rounded-2xl p-6 border bg-gray-900/60 backdrop-blur-xl border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.35)] ring-1 ring-white/10 hover:ring-2 hover:ring-white/20 transition-shadow"
             variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}
             {...softHover}
           >
@@ -566,32 +607,33 @@ const TemperatureConverter: React.FC = () => {
               {heatState === 'hot' && <FireOverlay intense={extremeState === 'hot'} />}
               {heatState === 'cold' && <IceOverlay intense={extremeState === 'cold'} />}
             </AnimatePresence>
-
-            <div className="relative">
-              <div className="flex items-center gap-2 mb-4">
-                <Thermometer className="h-5 w-5 text-rose-400" />
-                <h3 className="text-lg font-semibold text-white">Fahrenheit (°F)</h3>
+            <Tilt>
+              <div className="relative">
+                <div className="flex items-center gap-2 mb-4">
+                  <Thermometer className="h-5 w-5 text-rose-300" />
+                  <h3 className="text-lg font-semibold text-white">Fahrenheit (°F)</h3>
+                </div>
+                <div className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold text-gray-100">
+                  <AnimatePresence mode="wait">
+                    <motion.span
+                      key={display.F}
+                      initial={{ y: 8, opacity: 0, scale: 0.995 }}
+                      animate={{ y: 0, opacity: 1, scale: 1 }}
+                      exit={{ y: -8, opacity: 0, scale: 0.997 }}
+                      transition={spring}
+                    >
+                      {display.F}
+                    </motion.span>
+                  </AnimatePresence>
+                </div>
+                <div className="mt-2 text-sm text-gray-300/80">Input converted to °F</div>
               </div>
-              <div className="text-3xl font-semibold text-rose-50">
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={display.F}
-                    initial={{ y: 8, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -8, opacity: 0 }}
-                    transition={{ duration: 0.18 }}
-                  >
-                    {display.F}
-                  </motion.span>
-                </AnimatePresence>
-              </div>
-              <div className="mt-2 text-sm text-rose-300/80">Input converted to °F</div>
-            </div>
+            </Tilt>
           </motion.div>
 
           {/* Kelvin */}
           <motion.div
-            className="relative overflow-hidden rounded-xl p-6 border bg-gradient-to-br from-violet-950 to-violet-900 border-violet-800"
+            className="relative overflow-hidden rounded-2xl p-6 border bg-gray-900/60 backdrop-blur-xl border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.35)] ring-1 ring-white/10 hover:ring-2 hover:ring-white/20 transition-shadow"
             variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}
             {...softHover}
           >
@@ -599,42 +641,43 @@ const TemperatureConverter: React.FC = () => {
               {heatState === 'hot' && <FireOverlay intense={extremeState === 'hot'} />}
               {heatState === 'cold' && <IceOverlay intense={extremeState === 'cold'} />}
             </AnimatePresence>
-
-            <div className="relative">
-              <div className="flex items-center gap-2 mb-4">
-                <Thermometer className="h-5 w-5 text-violet-400" />
-                <h3 className="text-lg font-semibold text-white">Kelvin (K)</h3>
+            <Tilt>
+              <div className="relative">
+                <div className="flex items-center gap-2 mb-4">
+                  <Thermometer className="h-5 w-5 text-violet-300" />
+                  <h3 className="text-lg font-semibold text-white">Kelvin (K)</h3>
+                </div>
+                <div className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold text-gray-100">
+                  <AnimatePresence mode="wait">
+                    <motion.span
+                      key={display.K}
+                      initial={{ y: 8, opacity: 0, scale: 0.995 }}
+                      animate={{ y: 0, opacity: 1, scale: 1 }}
+                      exit={{ y: -8, opacity: 0, scale: 0.997 }}
+                      transition={spring}
+                    >
+                      {display.K}
+                    </motion.span>
+                  </AnimatePresence>
+                </div>
+                <div className="mt-2 text-sm text-gray-300/80">Input converted to K</div>
               </div>
-              <div className="text-3xl font-semibold text-violet-50">
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={display.K}
-                    initial={{ y: 8, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -8, opacity: 0 }}
-                    transition={{ duration: 0.18 }}
-                  >
-                    {display.K}
-                  </motion.span>
-                </AnimatePresence>
-              </div>
-              <div className="mt-2 text-sm text-violet-300/80">Input converted to K</div>
-            </div>
+            </Tilt>
           </motion.div>
         </motion.div>
 
-        <motion.div {...fadeUp(0.1)} className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow mb-8">
+        <motion.div {...fadeUp(0.1)} className="rounded-2xl border border-white/10 bg-gray-900/60 backdrop-blur-xl p-6 shadow mb-8 ring-1 ring-white/10">
           <h4 className="font-semibold text-white mb-3">Quick Reference</h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-            <div className="rounded-lg p-4 bg-blue-950/50 border border-blue-900"> 
+            <div className="rounded-lg p-4 bg-blue-950/40 border border-white/10"> 
               <div className="text-blue-200/90 font-medium mb-1">Water freezes</div>
               <div className="text-gray-200">0°C = 32°F = 273.15K</div>
             </div>
-            <div className="rounded-lg p-4 bg-rose-950/50 border border-rose-900">
+            <div className="rounded-lg p-4 bg-rose-950/40 border border-white/10">
               <div className="text-rose-200/90 font-medium mb-1">Room temperature</div>
               <div className="text-gray-200">20°C = 68°F = 293.15K</div>
             </div>
-            <div className="rounded-lg p-4 bg-violet-950/50 border border-violet-900">
+            <div className="rounded-lg p-4 bg-violet-950/40 border border-white/10">
               <div className="text-violet-200/90 font-medium mb-1">Water boils</div>
               <div className="text-gray-200">100°C = 212°F = 373.15K</div>
             </div>
