@@ -18,9 +18,9 @@ const LENGTH_UNITS = [
   { key: 'foot',        name: 'Foot (ft)',          factor: 0.3048 },
   { key: 'yard',        name: 'Yard (yd)',          factor: 0.9144 },
   { key: 'mile',        name: 'Mile (mi)',          factor: 1609.344 },
-];
+]; 
 
-const POPULAR_KEYS = ['meter', 'kilometer', 'centimeter', 'millimeter', 'inch', 'ft', 'yard', 'mile'];
+const POPULAR_KEYS = ['meter', 'kilometer', 'centimeter', 'millimeter', 'inch', 'foot', 'yard', 'mile'];
 const FORMAT_MODES = ['normal', 'compact', 'scientific'];
 
 // ---------- Helpers ----------
