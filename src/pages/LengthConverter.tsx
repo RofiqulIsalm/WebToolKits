@@ -498,7 +498,7 @@ export default function LengthConverter() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+       <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow-md mb-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {LENGTH_UNITS.map((unit) => {
               if (unit.key === fromUnit) return null;
@@ -534,8 +534,7 @@ export default function LengthConverter() {
                 </div>
               );
             })}
-          </div>
-          
+          </div>    
         </div>
 
         
