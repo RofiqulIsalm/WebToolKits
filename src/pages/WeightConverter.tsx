@@ -370,7 +370,7 @@ export default function WeightConverter() {
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <button
               type="button"
-              onClick={swapUnits}
+              onClick={() => swapUnits()}
               className="px-3 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white border border-blue-500 flex items-center gap-2"
               title="Swap From/To (X)"
               aria-label="Swap From and To units"
