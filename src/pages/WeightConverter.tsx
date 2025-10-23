@@ -53,16 +53,16 @@ const Icon = {
 type Unit = { key: string; name: string; factor: number };
 
 const WEIGHT_UNITS: Unit[] = [
-  { key: 'microgram',  name: 'Microgram (µg)',     factor: 1e-9 },
-  { key: 'milligram',  name: 'Milligram (mg)',     factor: 1e-6 },
-  { key: 'gram',       name: 'Gram (g)',           factor: 1e-3 },
-  { key: 'kilogram',   name: 'Kilogram (kg)',      factor: 1 },
-  { key: 'tonne',      name: 'Tonne (t, metric)',  factor: 1000 },           // metric ton
-  { key: 'ounce',      name: 'Ounce (oz)',         factor: 0.028349523125 }, // avoirdupois
-  { key: 'pound',      name: 'Pound (lb)',         factor: 0.45359237 },
-  { key: 'stone',      name: 'Stone (st)',         factor: 6.35029318 },
-  { key: 'short_ton',  name: 'US Ton (short)',     factor: 907.18474 },      // 2000 lb
-  { key: 'long_ton',   name: 'Imperial Ton (long)',factor: 1016.0469088 },   // 2240 lb
+  { key: 'microgram',  name: 'Microgram ',     factor: 1e-9 },
+  { key: 'milligram',  name: 'Milligram ',     factor: 1e-6 },
+  { key: 'gram',       name: 'Gram ',           factor: 1e-3 },
+  { key: 'kilogram',   name: 'Kilogram ',      factor: 1 },
+  { key: 'tonne',      name: 'Tonne ',  factor: 1000 },           // metric ton
+  { key: 'ounce',      name: 'Ounce ',         factor: 0.028349523125 }, // avoirdupois
+  { key: 'pound',      name: 'Pound ',         factor: 0.45359237 },
+  { key: 'stone',      name: 'Stone ',         factor: 6.35029318 },
+  { key: 'short_ton',  name: 'US Ton ',     factor: 907.18474 },      // 2000 lb
+  { key: 'long_ton',   name: 'Imperial Ton ',factor: 1016.0469088 },   // 2240 lb
 ];
 
 const unitMap: Record<string, Unit> = Object.fromEntries(WEIGHT_UNITS.map(u => [u.key, u])) as Record<string, Unit>;
