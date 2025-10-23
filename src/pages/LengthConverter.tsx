@@ -414,7 +414,6 @@ export default function LengthConverter() {
                   <option value="compact">Compact</option>
                   <option value="scientific">Scientific</option>
                 </select>
-                <div className="text-xs text-gray-400 mt-1">Normal auto-switches to scientific for extreme values.</div>
               </div>
               <div className="flex items-end gap-2">
                 <button onClick={copyAll} className="px-3 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-200 hover:bg-gray-700 flex items-center gap-2 w-full justify-center">
