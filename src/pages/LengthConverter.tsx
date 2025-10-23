@@ -449,7 +449,7 @@ export default function LengthConverter() {
 
         {/* Results grid */}
         <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow-md mb-8">
-           <h2 className="text-xl font-semibold text-white mb-3">All Unit</h2>
+           <h2 className="text-xl font-semibold text-white mb-3">All Units</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {LENGTH_UNITS.map((unit) => {
               if (unit.key === fromUnit) return null;
