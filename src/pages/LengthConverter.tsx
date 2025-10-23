@@ -8,16 +8,16 @@ import { seoData, generateCalculatorSchema } from '../utils/seoData';
 
 // ---------- Units ----------
 const LENGTH_UNITS = [
-  { key: 'nanometer',   name: 'Nanometer (nm)',     factor: 1e-9 },
-  { key: 'micrometer',  name: 'Micrometer (µm)',    factor: 1e-6 },
-  { key: 'millimeter',  name: 'Millimeter (mm)',    factor: 1e-3 },
-  { key: 'centimeter',  name: 'Centimeter (cm)',    factor: 1e-2 },
-  { key: 'meter',       name: 'Meter (m)',          factor: 1 },
-  { key: 'kilometer',   name: 'Kilometer (km)',     factor: 1e3 },
-  { key: 'inch',        name: 'Inch (in)',          factor: 0.0254 },
-  { key: 'foot',        name: 'Foot (ft)',          factor: 0.3048 },
-  { key: 'yard',        name: 'Yard (yd)',          factor: 0.9144 },
-  { key: 'mile',        name: 'Mile (mi)',          factor: 1609.344 },
+  { key: 'nanomete',   name: '(nm)',     factor: 1e-9 },
+  { key: 'micrometer',  name: '(µm)',    factor: 1e-6 },
+  { key: 'millimeter',  name: '(mm)',    factor: 1e-3 },
+  { key: 'centimeter',  name: '(cm)',    factor: 1e-2 },
+  { key: 'meter',       name: '(m)',          factor: 1 },
+  { key: 'kilometer',   name: '(km)',     factor: 1e3 },
+  { key: 'inch',        name: '(in)',          factor: 0.0254 },
+  { key: 'foot',        name: '(ft)',          factor: 0.3048 },
+  { key: 'yard',        name: '(yd)',          factor: 0.9144 },
+  { key: 'mile',        name: '(mi)',          factor: 1609.344 },
 ]; 
 
 const POPULAR_KEYS = ['meter', 'kilometer', 'centimeter', 'millimeter', 'inch', 'foot', 'yard', 'mile'];
