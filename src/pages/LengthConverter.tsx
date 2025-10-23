@@ -168,16 +168,7 @@ function LengthConverter() {
                   <option key={u.key} value={u.key}>{u.name}</option>
                 ))}
               </select>
-              <div className="flex flex-wrap gap-2 mt-3">
-                {POPULAR_KEYS.map((k) => {
-                  const u = LENGTH_UNITS.find(x => x.key === k);
-                  return (
-                    <Chip key={k} active={fromUnit === k} onClick={() => setFromUnit(k)}>
-                      {u.name.split(' ')[0]}
-                    </Chip>
-                  );
-                })}
-              </div>
+             
             </div>
 
             {/* Format */}
