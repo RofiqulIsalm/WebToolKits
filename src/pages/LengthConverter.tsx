@@ -410,7 +410,7 @@ export default function LengthConverter() {
               </div>
               <div>
                 <label className="block text-sm text-gray-300 mb-1">Format</label>
-                <select value={formatMode} onChange={(e) => setFormatMode(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-100">
+                <select value={formatMode} onChange={(e) => setFormatMode(e.target.value)} className="w-full px-2 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-100">
                   <option value="normal">Normal</option>
                   <option value="compact">Compact</option>
                   <option value="scientific">Scientific</option>
