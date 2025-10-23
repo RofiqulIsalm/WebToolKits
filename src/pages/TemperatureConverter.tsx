@@ -1,4 +1,420 @@
-{12}
+
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Thermometer, Copy, Download } from 'lucide-react';
+import AdBanner from '../components/AdBanner';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import RelatedCalculators from '../components/RelatedCalculators';
+import { seoData, generateCalculatorSchema } from '../utils/seoData';
+
+/* ---------- Scales ---------- */
+type Scale = 'C' | 'F' | 'K';
+const SCALE_LABEL: Record<Scale, string> = { C: 'Celsius (°C)', F: 'Fahrenheit (°F)', K: 'Kelvin (K)' };
+
+const FORMAT_MODES = ['normal', 'compact', 'scientific'] as const;
+type FormatMode = typeof FORMAT_MODES[number];
+
+/* ---------- Visual thresholds (°C) ---------- */
+const HOT_THRESHOLD_C = 40;
+const COLD_THRESHOLD_C = 0;
+const EXTREME_HOT_C = 1000;
+const EXTREME_COLD_C = -1000;
+
+/* ---------- Conversion helpers ---------- */
+function toCelsius(value: number, scale: Scale) {
+  if (!Number.isFinite(value)) return NaN;
+  switch (scale) {
+    case 'C': return value;
+    case 'F': return (value - 32) * (5 / 9);
+    case 'K': return value - 273.15;
+  }
+}
+function fromCelsius(c: number, target: Scale) {
+  switch (target) {
+    case 'C': return c;
+    case 'F': return c * (9 / 5) + 32;
+    case 'K': return c + 273.15;
+  }
+}
+function formatNumber(n: number, mode: FormatMode = 'normal', precision = 4) {
+  if (!Number.isFinite(n)) return '—';
+  const abs = Math.abs(n);
+  if (mode === 'scientific' || (mode === 'normal' && (abs >= 1e12 || (abs !== 0 && abs < 1e-6)))) {
+    const p = Math.max(0, Math.min(12, precision));
+    return n.toExponential(p).replace(/(?:\.?0+)(e[+-]?\d+)$/i, '$1');
+  }
+  const opts: Intl.NumberFormatOptions =
+    mode === 'compact'
+      ? { notation: 'compact', maximumFractionDigits: Math.min(precision, 6) }
+      : { maximumFractionDigits: precision };
+  const s = new Intl.NumberFormat(undefined, opts).format(n);
+  return mode === 'compact'
+    ? s
+    : s.replace(/([.,]\d*?[1-9])0+$/, '$1').replace(/([.,])0+$/, '');
+}
+
+/* ---------- Simple animation helpers ---------- */
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.35, ease: 'easeOut', delay }
+});
+const softHover = { whileHover: { y: -2, scale: 1.01 }, whileTap: { scale: 0.98 } };
+
+/* ---------- Fire/Ice overlays (card-level) ---------- */
+function FireOverlay({ intense = false }: { intense?: boolean }) {
+  return (
+    <motion.div
+      className="pointer-events-none absolute inset-0 overflow-hidden"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: intense ? 1 : 0.9 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.35 }}
+    >
+      {/* heat glow */}
+      <motion.div
+        className="absolute -inset-8 blur-2xl"
+        style={{ background: 'radial-gradient(60% 60% at 50% 80%, rgba(255,120,40,0.5) 0%, rgba(255,0,0,0.18) 60%, transparent 100%)' }}
+        animate={{ opacity: [0.7, 1, 0.7] }}
+        transition={{ duration: 1.3, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      {/* flame tongues (svg) */}
+      <motion.svg
+        viewBox="0 0 200 120"
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[140%] h-auto"
+        initial={{ y: 20, opacity: 0.75 }}
+        animate={{ y: [20, 10, 20], opacity: [0.75, 1, 0.75] }}
+        transition={{ duration: intense ? 1.4 : 2.0, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <defs>
+          <linearGradient id="fireGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#ffd166"/>
+            <stop offset="40%" stopColor="#ff7b00"/>
+            <stop offset="100%" stopColor="#d00000"/>
+          </linearGradient>
+        </defs>
+        <path d="M0,120 C20,90 30,60 60,50 C90,40 90,20 110,10 C130,0 150,20 140,45 C130,70 160,80 200,60 L200,120 Z" fill="url(#fireGrad)" opacity="0.55"/>
+        <path d="M0,120 C30,95 50,70 80,60 C110,50 120,30 135,20 C150,10 165,25 160,45 C155,65 175,75 200,70 L200,120 Z" fill="url(#fireGrad)" opacity="0.35"/>
+      </motion.svg>
+      {/* burn edge vignette */}
+      <div className="absolute inset-0 rounded-xl ring-1 ring-rose-700/40" />
+      <div className="absolute inset-0 rounded-xl"
+           style={{ boxShadow: 'inset 0 0 80px rgba(255,80,0,0.28), inset 0 0 160px rgba(255,140,0,0.16)' }}/>
+    </motion.div>
+  );
+}
+function IceOverlay({ intense = false }: { intense?: boolean }) {
+  return (
+    <motion.div
+      className="pointer-events-none absolute inset-0 overflow-hidden"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: intense ? 1 : 0.9 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.35 }}
+    >
+      {/* cold glow */}
+      <motion.div
+        className="absolute -inset-8 blur-2xl"
+        style={{ background: 'radial-gradient(60% 60% at 50% 20%, rgba(120,200,255,0.5) 0%, rgba(0,150,255,0.18) 60%, transparent 100%)' }}
+        animate={{ opacity: [0.7, 1, 0.7] }}
+        transition={{ duration: 1.3, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      {/* frosty film */}
+      <div className="absolute inset-0 rounded-xl backdrop-blur-[1px]" style={{ background: 'linear-gradient(180deg, rgba(180,220,255,0.16) 0%, rgba(130,200,255,0.12) 50%, rgba(200,230,255,0.1) 100%)' }}/>
+      {/* ice cracks (svg) */}
+      <motion.svg
+        viewBox="0 0 200 120"
+        className="absolute top-0 left-0 w-full h-full"
+        initial={{ opacity: 0.45 }}
+        animate={{ opacity: [0.35, 0.6, 0.35] }}
+        transition={{ duration: intense ? 2.2 : 3.0, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <g stroke="#cfe9ff" strokeOpacity="0.8" strokeWidth="1.2" fill="none">
+          <path d="M20 15 L50 35 L30 60 L70 75" />
+          <path d="M120 10 L150 40 L140 70 L180 85" />
+          <path d="M40 100 L80 85 L110 95 L150 105" />
+        </g>
+      </motion.svg>
+      {/* frosted rim */}
+      <div className="absolute inset-0 rounded-xl ring-1 ring-blue-300/30" />
+      <div className="absolute inset-0 rounded-xl"
+           style={{ boxShadow: 'inset 0 0 80px rgba(140,200,255,0.28), inset 0 0 160px rgba(180,230,255,0.16)' }}/>
+    </motion.div>
+  );
+}
+
+/* ---------- Global "storm" overlays (full screen) ---------- */
+function FireStormOverlay() {
+  return (
+    <motion.div
+      className="pointer-events-none fixed inset-0 z-[60]"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+      aria-hidden="true"
+    >
+      <motion.div
+        className="absolute -inset-16 blur-3xl"
+        style={{ background: 'radial-gradient(70% 70% at 50% 70%, rgba(255,80,0,0.25) 0%, rgba(255,0,0,0.18) 50%, transparent 100%)' }}
+        animate={{ opacity: [0.5, 0.9, 0.5] }}
+        transition={{ duration: 2.2, repeat: Infinity }}
+      />
+      {/* waves of heat distortion as subtle scale */}
+      <motion.div
+        className="absolute inset-0"
+        animate={{ filter: ['blur(0px)', 'blur(0.6px)', 'blur(0px)'], transform: ['translateY(0px)', 'translateY(-3px)', 'translateY(0px)'] }}
+        transition={{ duration: 2.0, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      {/* ember specks */}
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: 'radial-gradient(circle, rgba(255,200,120,0.18) 1px, transparent 1px)',
+          backgroundSize: '6px 6px'
+        }}
+        animate={{ opacity: [0.12, 0.24, 0.12] }}
+        transition={{ duration: 1.5, repeat: Infinity }}
+      />
+    </motion.div>
+  );
+}
+function IceStormOverlay() {
+  return (
+    <motion.div
+      className="pointer-events-none fixed inset-0 z-[60]"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+      aria-hidden="true"
+    >
+      <motion.div
+        className="absolute -inset-16 blur-3xl"
+        style={{ background: 'radial-gradient(70% 70% at 50% 30%, rgba(120,180,255,0.25) 0%, rgba(60,130,255,0.18) 50%, transparent 100%)' }}
+        animate={{ opacity: [0.5, 0.9, 0.5] }}
+        transition={{ duration: 2.2, repeat: Infinity }}
+      />
+      {/* falling snow/ice specks */}
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: 'radial-gradient(circle, rgba(220,240,255,0.18) 1px, transparent 1px)',
+          backgroundSize: '6px 6px'
+        }}
+        animate={{ backgroundPositionY: ['0%', '100%'] }}
+        transition={{ duration: 6.0, repeat: Infinity, ease: 'linear' }}
+      />
+      {/* mild frost blur pulse */}
+      <motion.div
+        className="absolute inset-0"
+        animate={{ filter: ['blur(0px)', 'blur(0.6px)', 'blur(0px)'] }}
+        transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+      />
+    </motion.div>
+  );
+}
+
+/* ---------- Component ---------- */
+const TemperatureConverter: React.FC = () => {
+  // main state
+  const [valueStr, setValueStr] = useState<string>('20');
+  const [scale, setScale] = useState<Scale>('C');
+  const [precision, setPrecision] = useState<number>(4);
+  const [formatMode, setFormatMode] = useState<FormatMode>('normal');
+
+  // refs
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  // parse number (allow commas)
+  const valueNum = useMemo(() => {
+    const clean = (valueStr ?? '').replace(/,/g, '').trim();
+    if (clean === '') return 0;
+    const n = Number(clean);
+    return Number.isFinite(n) ? n : 0;
+  }, [valueStr]);
+
+  // compute all three
+  const celsius = useMemo(() => toCelsius(valueNum, scale), [valueNum, scale]);
+  const fahrenheit = useMemo(() => fromCelsius(celsius as number, 'F'), [celsius]);
+  const kelvin = useMemo(() => fromCelsius(celsius as number, 'K'), [celsius]);
+
+  const display = {
+    C: formatNumber(celsius as number, formatMode, precision),
+    F: formatNumber(fahrenheit as number, formatMode, precision),
+    K: formatNumber(kelvin as number, formatMode, precision),
+  };
+
+  // absolute zero check
+  const belowAbsoluteZero =
+    (scale === 'C' && valueNum < -273.15) ||
+    (scale === 'F' && valueNum < -459.67) ||
+    (scale === 'K' && valueNum < 0);
+
+  // heat state based on Celsius
+  const heatState: 'hot' | 'cold' | 'normal' =
+    !Number.isFinite(celsius as number)
+      ? 'normal'
+      : (celsius as number) >= HOT_THRESHOLD_C
+        ? 'hot'
+        : (celsius as number) <= COLD_THRESHOLD_C
+          ? 'cold'
+          : 'normal';
+
+  // Extreme global effect
+  const extremeState: 'hot' | 'cold' | 'normal' =
+    !Number.isFinite(celsius as number)
+      ? 'normal'
+      : (celsius as number) >= EXTREME_HOT_C
+        ? 'hot'
+        : (celsius as number) <= EXTREME_COLD_C
+          ? 'cold'
+          : 'normal';
+
+  /* ---------- URL sync ---------- */
+  useEffect(() => {
+    try {
+      const p = new URLSearchParams(window.location.search);
+      const v = p.get('v'); const s = p.get('scale') as Scale | null;
+      const fmt = p.get('fmt'); const pr = p.get('p');
+      if (v !== null) setValueStr(v);
+      if (s && ['C','F','K'].includes(s)) setScale(s as Scale);
+      if (fmt && (FORMAT_MODES as readonly string[]).includes(fmt)) setFormatMode(fmt as FormatMode);
+      if (pr && !Number.isNaN(+pr)) setPrecision(Math.max(0, Math.min(12, +pr)));
+    } catch {}
+  }, []);
+  useEffect(() => {
+    try {
+      const qs = new URLSearchParams();
+      if (valueStr !== '') qs.set('v', valueStr);
+      qs.set('scale', scale);
+      qs.set('fmt', formatMode);
+      qs.set('p', String(precision));
+      window.history.replaceState(null, '', `${window.location.pathname}?${qs.toString()}`);
+    } catch {}
+  }, [valueStr, scale, formatMode, precision]);
+
+  /* ---------- Presets ---------- */
+  const [showPresets, setShowPresets] = useState(false);
+  const applyPreset = (c: number) => { setScale('C'); setValueStr(String(c)); };
+
+  /* ---------- Actions ---------- */
+  function copyAll() {
+    const lines = [
+      `Input: ${formatNumber(valueNum, formatMode, precision)} ${SCALE_LABEL[scale]}`,
+      `Celsius (°C): ${display.C}`,
+      `Fahrenheit (°F): ${display.F}`,
+      `Kelvin (K): ${display.K}`,
+    ].join('\\n');
+    navigator?.clipboard?.writeText(lines).catch(()=>{});
+  }
+  function exportCSV() {
+    const rows = [
+      ['Label','Value'],
+      ['Input', `${formatNumber(valueNum, formatMode, precision)} ${SCALE_LABEL[scale]}`],
+      ['Celsius (°C)', display.C],
+      ['Fahrenheit (°F)', display.F],
+      ['Kelvin (K)', display.K],
+    ];
+    const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\\n');
+    try {
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'temperature-conversion.csv'; a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 500);
+    } catch {}
+  }
+
+  return (
+    <>
+      <SEOHead
+        title={seoData.temperatureConverter.title}
+        description={seoData.temperatureConverter.description}
+        canonical="https://calculatorhub.site/temperature-converter"
+        schemaData={generateCalculatorSchema(
+          'Temperature Converter',
+          seoData.temperatureConverter.description,
+          '/temperature-converter',
+          seoData.temperatureConverter.keywords
+        )}
+        breadcrumbs={[
+          { name: 'Unit Converters', url: '/category/unit-converters' },
+          { name: 'Temperature Converter', url: '/temperature-converter' },
+        ]}
+      />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      {/* Global storm overlays (fun extreme effect) */}
+      <AnimatePresence>
+        {extremeState === 'hot' && <FireStormOverlay />}
+        {extremeState === 'cold' && <IceStormOverlay />}
+      </AnimatePresence>
+
+      <motion.div
+        className="relative max-w-5xl mx-auto text-gray-200"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.35, ease: 'easeOut' }}
+      >
+        <Breadcrumbs
+          items={[
+            { name: 'Unit Converters', url: '/category/unit-converters' },
+            { name: 'Temperature Converter', url: '/temperature-converter' },
+          ]}
+        />
+
+        {/* Header */}
+        <motion.div
+          className="mb-8 rounded-2xl p-6 bg-gradient-to-r from-blue-900 via-indigo-800 to-purple-800 border border-gray-700"
+          {...fadeUp(0.05)}
+        >
+          <h1 className="text-3xl font-bold text-white mb-2">Temperature Converter</h1>
+          <p className="text-gray-300">
+            Convert between <b>Celsius</b>, <b>Fahrenheit</b>, and <b>Kelvin</b>. Shortcuts: <kbd>/</kbd> focus, <kbd>P</kbd> presets, <kbd>C</kbd> copy.
+          </p>
+        </motion.div>
+
+        {/* Controls */}
+        <motion.div
+          className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow mb-8"
+          {...fadeUp(0.1)}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">Value</label>
+              <input
+                ref={inputRef}
+                type="text"
+                inputMode="decimal"
+                value={valueStr}
+                onChange={(e) => setValueStr(e.target.value)}
+                placeholder="Enter value (default 0)"
+                className="w-full px-4 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-[box-shadow] duration-200 focus:shadow-[0_0_0_4px_rgba(59,130,246,0.25)]"
+                aria-label="Enter temperature"
+              />
+              <p className="text-xs text-gray-500 mt-1">Commas allowed (1,234.5). Empty counts as 0.</p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Scale</label>
+              <select
+                value={scale}
+                onChange={(e) => setScale(e.target.value as Scale)}
+                className="w-full px-4 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-100 focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="C">Celsius (°C)</option>
+                <option value="F">Fahrenheit (°F)</option>
+                <option value="K">Kelvin (K)</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Precision</label>
+              <input
+                type="range"
+                min={0}
+                max={12}
                 value={precision}
                 onChange={(e) => setPrecision(+e.target.value)}
                 className="w-full accent-blue-500"
@@ -230,5 +646,6 @@
       </motion.div>
     </>
   );
+};
 
 export default TemperatureConverter;
