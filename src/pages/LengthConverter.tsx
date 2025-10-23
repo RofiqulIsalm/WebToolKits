@@ -394,36 +394,6 @@ export default function LengthConverter() {
               />
               <span className="text-sm text-gray-400 w-6 text-right">{precision}</span>
             </div>
-
-            <div className="flex items-center gap-2">
-              <label className="text-sm text-gray-300">Format</label>
-              <select
-                value={formatMode}
-                onChange={(e) => setFormatMode(e.target.value)}
-                className="px-3 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="normal">Normal</option>
-                <option value="compact">Compact</option>
-                <option value="scientific">Scientific</option>
-              </select>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => copyAll()}
-                className="px-3 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-200 hover:bg-gray-700 flex items-center gap-2"
-                title="Copy grid values"
-              >
-                <Icon.Copy style={{ width: 16, height: 16 }} /> Copy All
-              </button>
-              <button
-                onClick={() => exportCSV()}
-                className="px-3 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-200 hover:bg-gray-700 flex items-center gap-2"
-                title="Download as CSV"
-              >
-                <Icon.Download style={{ width: 16, height: 16 }} /> CSV
-              </button>
-            </div>
           </div>
 
           {/* Direct result */}
