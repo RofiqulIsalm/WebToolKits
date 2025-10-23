@@ -343,11 +343,11 @@ export default function WeightConverter() {
               >
                 {favored.length > 0 && (
                   <optgroup label="★ Favorites">
-                    {favored.map(u => <option key={'tf-'+u.key} value={u.key}>{u.name}</option>)}
+                    {favored.map(u => <option key={'tf-'+u.key} value={u.key}>{u.name}                                             </option>)}
                   </optgroup>
                 )}
                 <optgroup label="All units">
-                  {unfavored.map(u => <option key={'ta-'+u.key} value={u.key}>{u.name}</option>)}
+                  {unfavored.map(u => <option key={'ta-'+u.key} value={u.key}>{u.name}                                             </option>)}
                 </optgroup>
               </select>
               <div className="flex items-center gap-2 mt-2">
@@ -364,7 +364,7 @@ export default function WeightConverter() {
                 </button>
               </div>
             </div>
-          </div>
+         
 
           {/* Actions */}
           <div className="flex flex-wrap items-center gap-3 mb-4">
@@ -380,7 +380,15 @@ export default function WeightConverter() {
           </div>
 
           {/* Result */}
-          
+          <div className="rounded-xl bg-gray-800 border border-gray-700 p-4 mb-6">
+            <div className="text-sm text-gray-400 mb-1">
+              Result ({unitMap[fromUnit]?.name} → {unitMap[toUnit]?.name})
+            </div>
+            <div
+              className="text-2xl font-semibold text-gray-100 overflow-x-auto whitespace-nowrap" style={{ scrollbarWidth: 'thin' }} aria-live="polite">
+              {formatNumber(direct, formatMode, precision)}
+            </div>
+          </div>
 
           {/* More options */}
           <details className="mt-5">
