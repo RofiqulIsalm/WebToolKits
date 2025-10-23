@@ -433,7 +433,6 @@ export default function WeightConverter() {
                   <option value="compact">Compact</option>
                   <option value="scientific">Scientific</option>
                 </select>
-                <div className="text-xs text-gray-400 mt-1">Normal auto-switches to scientific for extreme values.</div>
               </div>
               <div className="flex items-end gap-2">
                 <button
