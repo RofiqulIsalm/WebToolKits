@@ -7,43 +7,12 @@ import { seoData, generateCalculatorSchema } from '../utils/seoData';
 
 /* ---------- Inline icons (typed, no deps) ---------- */
 const Icon = {
-  Swap: (p: React.SVGProps<SVGSVGElement>) => (
-    <svg viewBox="0 0 24 24" width="1em" height="1em" {...p} fill="none" stroke="currentColor" strokeWidth={2}>
-      <path d="M16 3l4 4-4 4M20 7H4" />
-      <path d="M8 21l-4-4 4-4M4 17h16" />
-    </svg>
-  ),
-  Star: (p: React.SVGProps<SVGSVGElement>) => (
-    <svg viewBox="0 0 24 24" width="1em" height="1em" {...p} fill="currentColor">
-      <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.401 8.168L12 18.896l-7.335 3.869 1.401-8.168L.132 9.21l8.2-1.192z" />
-    </svg>
-  ),
-  StarOff: (p: React.SVGProps<SVGSVGElement>) => (
-    <svg viewBox="0 0 24 24" width="1em" height="1em" {...p} fill="none" stroke="currentColor" strokeWidth={2}>
-      <path d="m18 6-6-4-6 4 2 7-5 5 7-1 2 7 2-7 7 1-5-5z" />
-      <path d="M2 2l20 20" />
-    </svg>
-  ),
-  Scale: (p: React.SVGProps<SVGSVGElement>) => (
-    <svg viewBox="0 0 24 24" width="1em" height="1em" {...p} fill="none" stroke="currentColor" strokeWidth={2}>
-      <path d="M7 4h10M12 4v16M5 20h14" />
-      <path d="M7 7l-3 6a4 4 0 0 0 8 0l-3-6" />
-      <path d="M17 7l-3 6a4 4 0 0 0 8 0l-3-6" />
-    </svg>
-  ),
-  Copy: (p: React.SVGProps<SVGSVGElement>) => (
-    <svg viewBox="0 0 24 24" width="1em" height="1em" {...p} fill="none" stroke="currentColor" strokeWidth={2}>
-      <rect x="9" y="9" width="13" height="13" rx="2" />
-      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-    </svg>
-  ),
-  Download: (p: React.SVGProps<SVGSVGElement>) => (
-    <svg viewBox="0 0 24 24" width="1em" height="1em" {...p} fill="none" stroke="currentColor" strokeWidth={2}>
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-      <path d="M7 10l5 5 5-5" />
-      <path d="M12 15V3" />
-    </svg>
-  ),
+  Swap: (p: React.SVGProps<SVGSVGElement>) => ( ... ),
+  Star: (p: React.SVGProps<SVGSVGElement>) => ( ... ),
+  StarOff: (p: React.SVGProps<SVGSVGElement>) => ( ... ),
+  Scale: (p: React.SVGProps<SVGSVGElement>) => ( ... ),
+  Copy: (p: React.SVGProps<SVGSVGElement>) => ( ... ),
+  Download: (p: React.SVGProps<SVGSVGElement>) => ( ... ),
 };
 
 /* ---------- Units (mass/weight) ----------
