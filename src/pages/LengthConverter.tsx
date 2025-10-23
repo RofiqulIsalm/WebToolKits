@@ -440,6 +440,34 @@ export default function LengthConverter() {
             </div>
           </div>
 
+           <details className="mt-5">
+            <summary className="cursor-pointer text-sm text-gray-300">More options</summary>
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm text-gray-300 mb-1">Precision</label>
+                <input type="range" min={0} max={12} value={precision} onChange={(e) => setPrecision(+e.target.value)} className="w-full accent-blue-500" />
+                <div className="text-xs text-gray-400 mt-1">Decimals: {precision}</div>
+              </div>
+              <div>
+                <label className="block text-sm text-gray-300 mb-1">Format</label>
+                <select value={formatMode} onChange={(e) => setFormatMode(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-100">
+                  <option value="normal">Normal</option>
+                  <option value="compact">Compact</option>
+                  <option value="scientific">Scientific</option>
+                </select>
+                <div className="text-xs text-gray-400 mt-1">Normal auto-switches to scientific for extreme values.</div>
+              </div>
+              <div className="flex items-end gap-2">
+                <button onClick={copyAll} className="px-3 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-200 hover:bg-gray-700 flex items-center gap-2 w-full justify-center">
+                  <Icon.Copy style={{ width: 16, height: 16 }} /> Copy All
+                </button>
+                <button onClick={exportCSV} className="px-3 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-200 hover:bg-gray-700 flex items-center gap-2 w-full justify-center">
+                  <Icon.Download style={{ width: 16, height: 16 }} /> CSV
+                </button>
+              </div>
+            </div>
+          </details>
+
           
           
         </div>
