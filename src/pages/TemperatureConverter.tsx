@@ -81,7 +81,7 @@ const TemperatureConverter: React.FC = () => {
               </div>
               <input
                 type="number"
-                value={Number.isFinite(celsius) ? Number(celsius.toFixed(6)) : 0}
+                value={Number.isFinite(celsius) ? Number(celsius.toFixed(3)) : 0}
                 onChange={(e) => updateFromCelsius(Number(e.target.value))}
                 placeholder="0"
                 className="w-full px-4 py-3 rounded-xl bg-blue-950/60 border border-blue-800 text-blue-50 placeholder-blue-300/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
@@ -97,7 +97,7 @@ const TemperatureConverter: React.FC = () => {
               </div>
               <input
                 type="number"
-                value={Number.isFinite(fahrenheit) ? Number(fahrenheit.toFixed(6)) : 0}
+                value={Number.isFinite(fahrenheit) ? Number(fahrenheit.toFixed(3)) : 0}
                 onChange={(e) => updateFromFahrenheit(Number(e.target.value))}
                 placeholder="0"
                 className="w-full px-4 py-3 rounded-xl bg-rose-950/60 border border-rose-800 text-rose-50 placeholder-rose-300/50 focus:ring-2 focus:ring-rose-500 focus:border-transparent text-lg"
@@ -113,7 +113,7 @@ const TemperatureConverter: React.FC = () => {
               </div>
               <input
                 type="number"
-                value={Number.isFinite(kelvin) ? Number(kelvin.toFixed(6)) : 0}
+                value={Number.isFinite(kelvin) ? Number(kelvin.toFixed(3)) : 0}
                 onChange={(e) => updateFromKelvin(Number(e.target.value))}
                 placeholder="0"
                 className="w-full px-4 py-3 rounded-xl bg-violet-950/60 border border-violet-800 text-violet-50 placeholder-violet-300/50 focus:ring-2 focus:ring-violet-500 focus:border-transparent text-lg"
