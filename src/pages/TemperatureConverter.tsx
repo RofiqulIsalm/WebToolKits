@@ -1,39 +1,154 @@
-import React, { useState } from 'react';
-import { Thermometer } from 'lucide-react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Thermometer, Copy, Download } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import RelatedCalculators from '../components/RelatedCalculators';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 
+/* ---------- Scales ---------- */
+type Scale = 'C' | 'F' | 'K';
+const SCALE_LABEL: Record<Scale, string> = { C: 'Celsius (°C)', F: 'Fahrenheit (°F)', K: 'Kelvin (K)' };
+
+const FORMAT_MODES = ['normal', 'compact', 'scientific'] as const;
+type FormatMode = typeof FORMAT_MODES[number];
+
+/* ---------- Conversion helpers ---------- */
+function toCelsius(value: number, scale: Scale) {
+  if (!Number.isFinite(value)) return NaN;
+  switch (scale) {
+    case 'C': return value;
+    case 'F': return (value - 32) * (5 / 9);
+    case 'K': return value - 273.15;
+  }
+}
+function fromCelsius(c: number, target: Scale) {
+  switch (target) {
+    case 'C': return c;
+    case 'F': return c * (9 / 5) + 32;
+    case 'K': return c + 273.15;
+  }
+}
+function formatNumber(n: number, mode: FormatMode = 'normal', precision = 4) {
+  if (!Number.isFinite(n)) return '—';
+  const abs = Math.abs(n);
+  if (mode === 'scientific' || (mode === 'normal' && (abs >= 1e12 || (abs !== 0 && abs < 1e-6)))) {
+    const p = Math.max(0, Math.min(12, precision));
+    return n.toExponential(p).replace(/(?:\.?0+)(e[+-]?\d+)$/i, '$1');
+  }
+  const opts: Intl.NumberFormatOptions =
+    mode === 'compact'
+      ? { notation: 'compact', maximumFractionDigits: Math.min(precision, 6) }
+      : { maximumFractionDigits: precision };
+  const s = new Intl.NumberFormat(undefined, opts).format(n);
+  return mode === 'compact'
+    ? s
+    : s.replace(/([.,]\d*?[1-9])0+$/, '$1').replace(/([.,])0+$/, '');
+}
+
+/* ---------- Component ---------- */
 const TemperatureConverter: React.FC = () => {
-  const [celsius, setCelsius] = useState<number>(20);
-  const [fahrenheit, setFahrenheit] = useState<number>(68);
-  const [kelvin, setKelvin] = useState<number>(293.15);
+  // main state
+  const [valueStr, setValueStr] = useState<string>('20'); // default 20
+  const [scale, setScale] = useState<Scale>('C');
+  const [precision, setPrecision] = useState<number>(4);
+  const [formatMode, setFormatMode] = useState<FormatMode>('normal');
 
-  // Formatting helper (keeps things neat but not aggressive)
-  const fmt = (n: number) =>
-    Number.isFinite(n) ? Number(n.toFixed(4)).toString() : '—';
+  // refs
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const updateFromCelsius = (value: number) => {
-    setCelsius(value);
-    setFahrenheit((value * 9) / 5 + 32);
-    setKelvin(value + 273.15);
+  // parse number (allow commas)
+  const valueNum = useMemo(() => {
+    const clean = (valueStr ?? '').replace(/,/g, '').trim();
+    if (clean === '') return 0;
+    const n = Number(clean);
+    return Number.isFinite(n) ? n : 0;
+  }, [valueStr]);
+
+  // compute all three
+  const celsius = useMemo(() => toCelsius(valueNum, scale), [valueNum, scale]);
+  const fahrenheit = useMemo(() => fromCelsius(celsius, 'F'), [celsius]);
+  const kelvin = useMemo(() => fromCelsius(celsius, 'K'), [celsius]);
+
+  const display = {
+    C: formatNumber(celsius, formatMode, precision),
+    F: formatNumber(fahrenheit, formatMode, precision),
+    K: formatNumber(kelvin, formatMode, precision),
   };
 
-  const updateFromFahrenheit = (value: number) => {
-    setFahrenheit(value);
-    const c = ((value - 32) * 5) / 9;
-    setCelsius(c);
-    setKelvin(c + 273.15);
-  };
+  // absolute zero check
+  const belowAbsoluteZero =
+    (scale === 'C' && valueNum < -273.15) ||
+    (scale === 'F' && valueNum < -459.67) ||
+    (scale === 'K' && valueNum < 0);
 
-  const updateFromKelvin = (value: number) => {
-    setKelvin(value);
-    const c = value - 273.15;
-    setCelsius(c);
-    setFahrenheit((c * 9) / 5 + 32);
-  };
+  /* ---------- URL sync ---------- */
+  useEffect(() => {
+    try {
+      const p = new URLSearchParams(window.location.search);
+      const v = p.get('v'); const s = p.get('scale') as Scale | null;
+      const fmt = p.get('fmt'); const pr = p.get('p');
+      if (v !== null) setValueStr(v);
+      if (s && ['C','F','K'].includes(s)) setScale(s as Scale);
+      if (fmt && (FORMAT_MODES as readonly string[]).includes(fmt)) setFormatMode(fmt as FormatMode);
+      if (pr && !Number.isNaN(+pr)) setPrecision(Math.max(0, Math.min(12, +pr)));
+    } catch {}
+  }, []);
+  useEffect(() => {
+    try {
+      const qs = new URLSearchParams();
+      if (valueStr !== '') qs.set('v', valueStr);
+      qs.set('scale', scale);
+      qs.set('fmt', formatMode);
+      qs.set('p', String(precision));
+      window.history.replaceState(null, '', `${window.location.pathname}?${qs.toString()}`);
+    } catch {}
+  }, [valueStr, scale, formatMode, precision]);
+
+  /* ---------- Shortcuts ---------- */
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement)?.tagName || '';
+      if (tag === 'INPUT' || tag === 'SELECT' || (e.target as HTMLElement)?.isContentEditable) return;
+      if (e.key === '/') { e.preventDefault(); inputRef.current?.focus(); }
+      if (e.key.toLowerCase() === 'p') { e.preventDefault(); setShowPresets((s) => !s); }
+      if (e.key.toLowerCase() === 'c') { e.preventDefault(); copyAll(); }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /* ---------- Presets ---------- */
+  const [showPresets, setShowPresets] = useState(false);
+  const applyPreset = (c: number) => { setScale('C'); setValueStr(String(c)); };
+
+  /* ---------- Actions ---------- */
+  function copyAll() {
+    const lines = [
+      `Input: ${formatNumber(valueNum, formatMode, precision)} ${SCALE_LABEL[scale]}`,
+      `Celsius (°C): ${display.C}`,
+      `Fahrenheit (°F): ${display.F}`,
+      `Kelvin (K): ${display.K}`,
+    ].join('\n');
+    navigator?.clipboard?.writeText(lines).catch(()=>{});
+  }
+  function exportCSV() {
+    const rows = [
+      ['Label','Value'],
+      ['Input', `${formatNumber(valueNum, formatMode, precision)} ${SCALE_LABEL[scale]}`],
+      ['Celsius (°C)', display.C],
+      ['Fahrenheit (°F)', display.F],
+      ['Kelvin (K)', display.K],
+    ];
+    const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+    try {
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'temperature-conversion.csv'; a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 500);
+    } catch {}
+  }
 
   return (
     <>
@@ -65,61 +180,151 @@ const TemperatureConverter: React.FC = () => {
         {/* Header */}
         <div className="mb-8 rounded-2xl p-6 bg-gradient-to-r from-blue-900 via-indigo-800 to-purple-800 border border-gray-700">
           <h1 className="text-3xl font-bold text-white mb-2">Temperature Converter</h1>
-          <p className="text-gray-300">
-            Convert between <b>Celsius</b>, <b>Fahrenheit</b>, and <b>Kelvin</b>.
-          </p>
+          <p className="text-gray-300">Convert between <b>Celsius</b>, <b>Fahrenheit</b>, and <b>Kelvin</b>. Shortcuts: <kbd>/</kbd> focus, <kbd>P</kbd> presets, <kbd>C</kbd> copy.</p>
         </div>
 
-        {/* Three colored cards (dark) */}
+        {/* Controls */}
         <div className="rounded-2xl border border-gray-700 bg-gray-900 p-6 shadow mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Celsius */}
-            <div className="rounded-xl p-6 border bg-gradient-to-br from-blue-950 to-blue-900 border-blue-800">
-              <div className="flex items-center gap-2 mb-4">
-                <Thermometer className="h-5 w-5 text-blue-400" />
-                <h3 className="text-lg font-semibold text-white">Celsius (°C)</h3>
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">Value</label>
               <input
-                type="number"
-                value={Number.isFinite(celsius) ? Number(celsius.toFixed(1)) : 0}
-                onChange={(e) => updateFromCelsius(Number(e.target.value))}
-                placeholder="0"
-                className="w-full px-4 py-3 rounded-xl bg-blue-950/60 border border-blue-800 text-blue-50 placeholder-blue-300/50 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+                ref={inputRef}
+                type="text"
+                inputMode="decimal"
+                value={valueStr}
+                onChange={(e) => setValueStr(e.target.value)}
+                placeholder="Enter value (default 0)"
+                className="w-full px-4 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                aria-label="Enter temperature"
               />
-              <div className="mt-2 text-sm text-blue-300/80">= {fmt(fahrenheit)} °F, {fmt(kelvin)} K</div>
+              <p className="text-xs text-gray-500 mt-1">Commas allowed (1,234.5). Empty counts as 0.</p>
             </div>
 
-            {/* Fahrenheit */}
-            <div className="rounded-xl p-6 border bg-gradient-to-br from-rose-950 to-rose-900 border-rose-800">
-              <div className="flex items-center gap-2 mb-4">
-                <Thermometer className="h-5 w-5 text-rose-400" />
-                <h3 className="text-lg font-semibold text-white">Fahrenheit (°F)</h3>
-              </div>
-              <input
-                type="number"
-                value={Number.isFinite(fahrenheit) ? Number(fahrenheit.toFixed(1)) : 0}
-                onChange={(e) => updateFromFahrenheit(Number(e.target.value))}
-                placeholder="0"
-                className="w-full px-4 py-3 rounded-xl bg-rose-950/60 border border-rose-800 text-rose-50 placeholder-rose-300/50 focus:ring-2 focus:ring-rose-500 focus:border-transparent text-lg"
-              />
-              <div className="mt-2 text-sm text-rose-300/80">= {fmt(celsius)} °C, {fmt(kelvin)} K</div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Scale</label>
+              <select
+                value={scale}
+                onChange={(e) => setScale(e.target.value as Scale)}
+                className="w-full px-4 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-100 focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="C">Celsius (°C)</option>
+                <option value="F">Fahrenheit (°F)</option>
+                <option value="K">Kelvin (K)</option>
+              </select>
             </div>
 
-            {/* Kelvin */}
-            <div className="rounded-xl p-6 border bg-gradient-to-br from-violet-950 to-violet-900 border-violet-800">
-              <div className="flex items-center gap-2 mb-4">
-                <Thermometer className="h-5 w-5 text-violet-400" />
-                <h3 className="text-lg font-semibold text-white">Kelvin (K)</h3>
-              </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Precision</label>
               <input
-                type="number"
-                value={Number.isFinite(kelvin) ? Number(kelvin.toFixed(1)) : 0}
-                onChange={(e) => updateFromKelvin(Number(e.target.value))}
-                placeholder="0"
-                className="w-full px-4 py-3 rounded-xl bg-violet-950/60 border border-violet-800 text-violet-50 placeholder-violet-300/50 focus:ring-2 focus:ring-violet-500 focus:border-transparent text-lg"
+                type="range"
+                min={0}
+                max={12}
+                value={precision}
+                onChange={(e) => setPrecision(+e.target.value)}
+                className="w-full accent-blue-500"
               />
-              <div className="mt-2 text-sm text-violet-300/80">= {fmt(celsius)} °C, {fmt(fahrenheit)} °F</div>
+              <div className="text-xs text-gray-400 mt-1">Decimals: {precision}</div>
             </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Format</label>
+              <select
+                value={formatMode}
+                onChange={(e) => setFormatMode(e.target.value as FormatMode)}
+                className="w-full px-4 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-100"
+              >
+                <option value="normal">Normal</option>
+                <option value="compact">Compact</option>
+                <option value="scientific">Scientific</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="flex flex-wrap items-center gap-2 mt-4">
+            <button
+              onClick={() => setShowPresets((s) => !s)}
+              className="px-3 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-200 hover:bg-gray-700"
+              title="Show presets (P)"
+            >
+              Presets
+            </button>
+            <button
+              onClick={copyAll}
+              className="px-3 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-200 hover:bg-gray-700 flex items-center gap-2"
+              title="Copy results (C)"
+            >
+              <Copy size={16} /> Copy All
+            </button>
+            <button
+              onClick={exportCSV}
+              className="px-3 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-200 hover:bg-gray-700 flex items-center gap-2"
+              title="Download CSV"
+            >
+              <Download size={16} /> CSV
+            </button>
+          </div>
+
+          {/* Presets */}
+          {showPresets && (
+            <div className="mt-3 flex flex-wrap gap-2">
+              {[
+                { label: 'Freeze', c: 0 },
+                { label: 'Room', c: 20 },
+                { label: 'Body', c: 37 },
+                { label: 'Boil', c: 100 },
+              ].map((p) => (
+                <button
+                  key={p.label}
+                  onClick={() => applyPreset(p.c)}
+                  className="px-3 py-1.5 rounded-full bg-gray-800 border border-gray-600 text-gray-300 hover:bg-gray-700 text-sm"
+                  title={`${p.c} °C`}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Warning */}
+          {belowAbsoluteZero && (
+            <div className="mt-4 rounded-lg bg-red-900/40 border border-red-800 text-red-200 px-4 py-2">
+              ⚠️ This value is below absolute zero for the selected scale.
+            </div>
+          )}
+        </div>
+
+        {/* Colored result cards (dark) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          {/* Celsius */}
+          <div className="rounded-xl p-6 border bg-gradient-to-br from-blue-950 to-blue-900 border-blue-800">
+            <div className="flex items-center gap-2 mb-4">
+              <Thermometer className="h-5 w-5 text-blue-400" />
+              <h3 className="text-lg font-semibold text-white">Celsius (°C)</h3>
+            </div>
+            <div className="text-3xl font-semibold text-blue-50">{display.C}</div>
+            <div className="mt-2 text-sm text-blue-300/80">Input converted to °C</div>
+          </div>
+
+          {/* Fahrenheit */}
+          <div className="rounded-xl p-6 border bg-gradient-to-br from-rose-950 to-rose-900 border-rose-800">
+            <div className="flex items-center gap-2 mb-4">
+              <Thermometer className="h-5 w-5 text-rose-400" />
+              <h3 className="text-lg font-semibold text-white">Fahrenheit (°F)</h3>
+            </div>
+            <div className="text-3xl font-semibold text-rose-50">{display.F}</div>
+            <div className="mt-2 text-sm text-rose-300/80">Input converted to °F</div>
+          </div>
+
+          {/* Kelvin */}
+          <div className="rounded-xl p-6 border bg-gradient-to-br from-violet-950 to-violet-900 border-violet-800">
+            <div className="flex items-center gap-2 mb-4">
+              <Thermometer className="h-5 w-5 text-violet-400" />
+              <h3 className="text-lg font-semibold text-white">Kelvin (K)</h3>
+            </div>
+            <div className="text-3xl font-semibold text-violet-50">{display.K}</div>
+            <div className="mt-2 text-sm text-violet-300/80">Input converted to K</div>
           </div>
         </div>
 
@@ -143,11 +348,7 @@ const TemperatureConverter: React.FC = () => {
         </div>
 
         <AdBanner type="bottom" />
-
-        <RelatedCalculators
-          currentPath="/temperature-converter"
-          category="unit-converters"
-        />
+        <RelatedCalculators currentPath="/temperature-converter" category="unit-converters" />
       </div>
     </>
   );
