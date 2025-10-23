@@ -20,6 +20,7 @@ const LENGTH_UNITS = [
   { key: 'mile',        name: 'Mile (mi)',          factor: 1609.344 }, // exact (international)
 ];
 
+const POPULAR_KEYS = ['meter', 'kilometer', 'centimeter', 'millimeter', 'inch', 'foot', 'yard', 'mile'];
 const FORMAT_MODES = ['normal', 'compact', 'scientific'];
 
 // Locale-aware formatting with three modes and trailing-zero trim
@@ -29,7 +30,6 @@ function formatNumber(n, mode = 'normal') {
   const abs = Math.abs(n);
   // Auto scientific for extreme magnitudes in "normal"
   if (mode === 'scientific' || (mode === 'normal' && (abs >= 1e12 || (abs !== 0 && abs < 1e-6)))) {
-    // 6 significant decimals; remove trailing zeros before exponent
     return n.toExponential(6).replace(/(?:\.?0+)(e[+-]?\d+)$/i, '$1');
   }
 
@@ -39,35 +39,59 @@ function formatNumber(n, mode = 'normal') {
       : { maximumFractionDigits: 8 };
 
   const s = new Intl.NumberFormat(undefined, opts).format(n);
-  // Trim trailing zeros (for normal mode only)
   return mode === 'compact'
     ? s
     : s.replace(/([.,]\d*?[1-9])0+$/, '$1').replace(/([.,])0+$/, '');
 }
 
-function LengthConverter() {
-  // keep as string so users can clear input without NaN flicker
-  const [valueStr, setValueStr] = useState('1');
-  const [fromUnit, setFromUnit] = useState('meter');
-  const [formatMode, setFormatMode] = useState('normal'); // 'normal' | 'compact' | 'scientific'
+function Chip({ active, onClick, children }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={[
+        "px-3 py-1.5 rounded-full border text-sm transition",
+        active ? "bg-blue-600 text-white border-blue-600 shadow-sm" : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+      ].join(' ')}
+    >
+      {children}
+    </button>
+  );
+}
 
-  // Parse number safely (allow commas)
+function LengthConverter() {
+  // Show placeholder, but treat empty as 0 for calculations
+  const [valueStr, setValueStr] = useState('');          // empty -> placeholder visible
+  const [fromUnit, setFromUnit] = useState('meter');
+  const [formatMode, setFormatMode] = useState('normal');
+
+  // Parse number safely (allow commas). Empty or invalid -> 0 (default value)
   const valueNum = useMemo(() => {
-    const n = Number(String(valueStr).replace(/,/g, ''));
+    const cleaned = String(valueStr).trim().replace(/,/g, '');
+    if (cleaned === '') return 0;
+    const n = Number(cleaned);
     return Number.isFinite(n) ? n : 0;
   }, [valueStr]);
 
+  const fromUnitObj = useMemo(
+    () => LENGTH_UNITS.find(u => u.key === fromUnit),
+    [fromUnit]
+  );
+
   // Compute results on-the-fly (no extra state/effect)
   const results = useMemo(() => {
-    const from = LENGTH_UNITS.find(u => u.key === fromUnit);
-    if (!from) return {};
-    const valueInMeters = valueNum * from.factor;
+    if (!fromUnitObj) return {};
+    const valueInMeters = valueNum * fromUnitObj.factor;
     const out = {};
     LENGTH_UNITS.forEach(u => {
       if (u.key !== fromUnit) out[u.key] = valueInMeters / u.factor;
     });
     return out;
-  }, [valueNum, fromUnit]);
+  }, [valueNum, fromUnitObj, fromUnit]);
+
+  // UI helpers
+  const hasInput = valueStr.trim() !== '';
+  const placeholder = "Enter value (default 0)";
 
   return (
     <>
@@ -88,6 +112,7 @@ function LengthConverter() {
       />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+      {/* Header */}
       <div className="max-w-4xl mx-auto">
         <Breadcrumbs
           items={[
@@ -96,27 +121,56 @@ function LengthConverter() {
           ]}
         />
 
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">Length Converter</h1>
-          <p className="text-slate-300">
-            Convert between different units of length and distance
+        <div className="mb-8 rounded-2xl p-6 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600">
+          <h1 className="text-3xl font-bold text-white mb-2">Length Converter</h1>
+          <p className="text-blue-50">
+            Convert between different units of length and distance. Leave the field empty to use the default value <b>0</b>.
           </p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+        {/* Card */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
           {/* Controls */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-5">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Value</label>
-              <input
-                type="text"
-                inputMode="decimal"
-                value={valueStr}
-                onChange={(e) => setValueStr(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter value"
-                aria-label="Enter the numeric value to convert"
-              />
+              <div className="relative">
+                <input
+                  type="text"
+                  inputMode="decimal"
+                  value={valueStr}
+                  onChange={(e) => setValueStr(e.target.value)}
+                  className="w-full pr-20 pl-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder={placeholder}
+                  aria-label="Enter the numeric value to convert"
+                />
+                {/* Right-side quick actions */}
+                <div className="absolute inset-y-0 right-1 flex items-center gap-1">
+                  {hasInput && (
+                    <button
+                      type="button"
+                      onClick={() => setValueStr('')}
+                      className="px-2 py-1 text-xs rounded-lg border bg-white hover:bg-gray-50"
+                      aria-label="Clear value"
+                      title="Clear"
+                    >
+                      Clear
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setValueStr('0')}
+                    className="px-2 py-1 text-xs rounded-lg border bg-white hover:bg-gray-50"
+                    aria-label="Set to zero"
+                    title="Set to 0"
+                  >
+                    0
+                  </button>
+                </div>
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                Empty counts as <b>0</b>. Commas are allowed (e.g., <code>1,234.56</code>).
+              </p>
             </div>
 
             <div>
@@ -124,7 +178,7 @@ function LengthConverter() {
               <select
                 value={fromUnit}
                 onChange={(e) => setFromUnit(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 aria-label="Select the source unit"
               >
                 {LENGTH_UNITS.map((unit) => (
@@ -133,6 +187,22 @@ function LengthConverter() {
                   </option>
                 ))}
               </select>
+              {/* Quick unit chips */}
+              <div className="flex flex-wrap gap-2 mt-3">
+                {POPULAR_KEYS.map(k => {
+                  const u = LENGTH_UNITS.find(x => x.key === k);
+                  if (!u) return null;
+                  return (
+                    <Chip
+                      key={k}
+                      active={fromUnit === k}
+                      onClick={() => setFromUnit(k)}
+                    >
+                      {u.name.split(' ')[0]} {/* short label e.g., Meter */}
+                    </Chip>
+                  );
+                })}
+              </div>
             </div>
 
             <div>
@@ -140,15 +210,23 @@ function LengthConverter() {
               <select
                 value={formatMode}
                 onChange={(e) => setFormatMode(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 aria-label="Select formatting mode"
               >
                 <option value="normal">Normal</option>
                 <option value="compact">Compact (1.2K, 3.4M)</option>
                 <option value="scientific">Scientific (1.23e+9)</option>
               </select>
+
+              {/* Small help */}
+              <div className="text-xs text-gray-500 mt-2 space-y-1">
+                <p><b>Normal</b> auto-switches to scientific for very large/small numbers.</p>
+                <p><b>Copy</b> buttons copy the full precise value.</p>
+              </div>
             </div>
           </div>
+
+          <hr className="my-4" />
 
           {/* Results grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -158,7 +236,10 @@ function LengthConverter() {
               const display = val === undefined ? '0' : formatNumber(val, formatMode);
 
               return (
-                <div key={unit.key} className="bg-gray-50 rounded-lg p-4">
+                <div
+                  key={unit.key}
+                  className="bg-gray-50 rounded-xl p-4 border border-gray-200 hover:bg-gray-100 transition shadow-xs"
+                >
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center space-x-2 min-w-0">
                       <Ruler className="h-4 w-4 text-blue-600 flex-shrink-0" />
@@ -168,19 +249,19 @@ function LengthConverter() {
                     </div>
                     <button
                       type="button"
-                      className="text-xs px-2 py-1 border rounded-md"
+                      className="text-xs px-2 py-1 border rounded-md bg-white hover:bg-gray-50"
                       onClick={() => {
-                        // Copy full precise number (not formatted)
                         if (navigator.clipboard && Number.isFinite(val)) {
                           navigator.clipboard.writeText(String(val));
                         }
                       }}
                       aria-label={`Copy ${val} in ${unit.name}`}
-                      title="Copy"
+                      title="Copy exact value"
                     >
                       Copy
                     </button>
                   </div>
+
                   {/* Non-overlapping: allow horizontal scroll for very long numbers */}
                   <div
                     className="text-lg font-semibold text-gray-900 overflow-x-auto whitespace-nowrap"
