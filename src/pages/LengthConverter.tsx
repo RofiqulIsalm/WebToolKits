@@ -381,21 +381,7 @@ export default function LengthConverter() {
               <Icon.Swap style={{ width: 16, height: 16 }} /> Swap
             </button>
 
-            <div className="flex items-center gap-2 ml-auto">
-              <label className="text-sm text-gray-300">Precision</label>
-              <input
-                type="range"
-                min={0}
-                max={12}
-                value={precision}
-                onChange={(e) => setPrecision(+e.target.value)}
-                className="w-40 accent-blue-500"
-                aria-label="Decimal precision"
-              />
-              <span className="text-sm text-gray-400 w-6 text-right">{precision}</span>
-
-
-            </div>
+            
           </div>
 
           {/* Direct result */}
