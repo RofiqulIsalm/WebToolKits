@@ -14,6 +14,11 @@ const SCALE_LABEL: Record<Scale, string> = { C: 'Celsius (°C)', F: 'Fahrenheit 
 const FORMAT_MODES = ['normal', 'compact', 'scientific'] as const;
 type FormatMode = typeof FORMAT_MODES[number];
 
+/* ---------- Visual thresholds (°C) ---------- */
+const HOT_THRESHOLD_C = 40;   // tweak to taste
+const COLD_THRESHOLD_C = 0;   // tweak to taste
+
+
 /* ---------- Conversion helpers ---------- */
 function toCelsius(value: number, scale: Scale) {
   if (!Number.isFinite(value)) return NaN;
@@ -54,6 +59,16 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.35, ease: 'easeOut', delay }
 });
 const softHover = { whileHover: { y: -2, scale: 1.01 }, whileTap: { scale: 0.98 } };
+
+const heatState: 'hot' | 'cold' | 'normal' =
+  !Number.isFinite(celsius)
+    ? 'normal'
+    : celsius >= HOT_THRESHOLD_C
+      ? 'hot'
+      : celsius <= COLD_THRESHOLD_C
+        ? 'cold'
+        : 'normal';
+
 
 const TemperatureConverter: React.FC = () => {
   // main state
