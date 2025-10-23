@@ -348,7 +348,7 @@ export default function WeightConverter() {
                 )}
                 <optgroup label="All units">
                   {unfavored.map(u => <option key={'ta-'+u.key} value={u.key}>{u.name}                                             </option>)}
-                </optgroup>
+                </optgroup> 
               </select>
               <div className="flex items-center gap-2 mt-2">
                 <button
@@ -364,7 +364,7 @@ export default function WeightConverter() {
                 </button>
               </div>
             </div>
-         
+          </div>
 
           {/* Actions */}
           <div className="flex flex-wrap items-center gap-3 mb-4">
