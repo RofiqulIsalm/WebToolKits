@@ -5,74 +5,96 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import RelatedCalculators from '../components/RelatedCalculators';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 
-/* ---------- Inline icons (typed, no deps) ---------- */
+/* ---------- Inline icons (no deps) ---------- */
 const Icon = {
-  Swap: (p: React.SVGProps<SVGSVGElement>) => ( ... ),
-  Star: (p: React.SVGProps<SVGSVGElement>) => ( ... ),
-  StarOff: (p: React.SVGProps<SVGSVGElement>) => ( ... ),
-  Scale: (p: React.SVGProps<SVGSVGElement>) => ( ... ),
-  Copy: (p: React.SVGProps<SVGSVGElement>) => ( ... ),
-  Download: (p: React.SVGProps<SVGSVGElement>) => ( ... ),
+  Swap: (p) => (
+    <svg viewBox="0 0 24 24" width="1em" height="1em" {...p} fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M16 3l4 4-4 4M20 7H4" /><path d="M8 21l-4-4 4-4M4 17h16" />
+    </svg>
+  ),
+  Star: (p) => (
+    <svg viewBox="0 0 24 24" width="1em" height="1em" {...p} fill="currentColor">
+      <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.401 8.168L12 18.896l-7.335 3.869 1.401-8.168L.132 9.21l8.2-1.192z" />
+    </svg>
+  ),
+  StarOff: (p) => (
+    <svg viewBox="0 0 24 24" width="1em" height="1em" {...p} fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="m18 6-6-4-6 4 2 7-5 5 7-1 2 7 2-7 7 1-5-5z" />
+      <path d="M2 2l20 20" />
+    </svg>
+  ),
+  Scale: (p) => (
+    <svg viewBox="0 0 24 24" width="1em" height="1em" {...p} fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M7 4h10M12 4v16M5 20h14" />
+      <path d="M7 7l-3 6a4 4 0 0 0 8 0l-3-6" />
+      <path d="M17 7l-3 6a4 4 0 0 0 8 0l-3-6" />
+    </svg>
+  ),
+  Copy: (p) => (
+    <svg viewBox="0 0 24 24" width="1em" height="1em" {...p} fill="none" stroke="currentColor" strokeWidth="2">
+      <rect x="9" y="9" width="13" height="13" rx="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+    </svg>
+  ),
+  Download: (p) => (
+    <svg viewBox="0 0 24 24" width="1em" height="1em" {...p} fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><path d="M7 10l5 5 5-5" /><path d="M12 15V3" />
+    </svg>
+  ),
 };
 
 /* ---------- Units (mass/weight) ----------
    Base unit: kilogram (kg)
    Factors convert target unit -> kilograms
 */
-type Unit = { key: string; name: string; factor: number };
-
-const WEIGHT_UNITS: Unit[] = [
+const WEIGHT_UNITS = [
   { key: 'microgram',  name: 'Microgram (µg)',     factor: 1e-9 },
-  { key: 'milligram',  name: 'Milligram (mg)',     factor: 1e-6 },
-  { key: 'gram',       name: 'Gram (g)',           factor: 1e-3 },
-  { key: 'kilogram',   name: 'Kilogram (kg)',      factor: 1 },
-  { key: 'tonne',      name: 'Tonne (t, metric)',  factor: 1000 },           // metric ton
-  { key: 'ounce',      name: 'Ounce (oz)',         factor: 0.028349523125 }, // avoirdupois
-  { key: 'pound',      name: 'Pound (lb)',         factor: 0.45359237 },
-  { key: 'stone',      name: 'Stone (st)',         factor: 6.35029318 },
-  { key: 'short_ton',  name: 'US Ton (short)',     factor: 907.18474 },      // 2000 lb
-  { key: 'long_ton',   name: 'Imperial Ton (long)',factor: 1016.0469088 },   // 2240 lb
+  { key: 'milligram',  name: 'Milligram (mg)',      factor: 1e-6 },
+  { key: 'gram',       name: 'Gram (g)',            factor: 1e-3 },
+  { key: 'kilogram',   name: 'Kilogram (kg)',       factor: 1 },
+  { key: 'tonne',      name: 'Tonne (t, metric)',   factor: 1000 },           // metric ton
+  { key: 'ounce',      name: 'Ounce (oz)',          factor: 0.028349523125 }, // avoirdupois
+  { key: 'pound',      name: 'Pound (lb)',          factor: 0.45359237 },
+  { key: 'stone',      name: 'Stone (st)',          factor: 6.35029318 },
+  { key: 'short_ton',  name: 'US Ton (short ton)',  factor: 907.18474 },      // 2000 lb
+  { key: 'long_ton',   name: 'Imperial Ton (long)', factor: 1016.0469088 },   // 2240 lb
 ];
+const unitMap = Object.fromEntries(WEIGHT_UNITS.map(u => [u.key, u]));
 
-const unitMap: Record<string, Unit> = Object.fromEntries(WEIGHT_UNITS.map(u => [u.key, u])) as Record<string, Unit>;
-
-const FORMAT_MODES = ['normal', 'compact', 'scientific'] as const;
-type FormatMode = typeof FORMAT_MODES[number];
+const FORMAT_MODES = ['normal', 'compact', 'scientific'];
 
 /* ---------- Safe browser/storage helpers ---------- */
 const hasWindow = () => typeof window !== 'undefined';
-function getStorage(): Storage | null {
+function getStorage() {
   if (!hasWindow()) return null;
   try { localStorage.setItem('__chk', '1'); localStorage.removeItem('__chk'); return localStorage; } catch { return null; }
 }
 const storage = getStorage();
-function useLocalStorage<T>(key: string, initial: T) {
-  const [state, setState] = useState<T>(() => {
+function useLocalStorage(key, initial) {
+  const [state, setState] = useState(() => {
     if (!storage) return initial;
-    try { const raw = storage.getItem(key); return raw ? (JSON.parse(raw) as T) : initial; } catch { return initial; }
+    try { const raw = storage.getItem(key); return raw ? JSON.parse(raw) : initial; } catch { return initial; }
   });
   useEffect(() => { if (storage) try { storage.setItem(key, JSON.stringify(state)); } catch {} }, [key, state]);
-  return [state, setState] as const;
+  return [state, setState];
 }
 
 /* ---------- Math & formatting ---------- */
-function convertLinear(value: number, fromKey: string, toKey: string) {
+function convertLinear(value, fromKey, toKey) {
   const f = unitMap[fromKey], t = unitMap[toKey];
   if (!f || !t) return NaN;
   // Convert to base (kg) then to target
   return (value * f.factor) / t.factor;
 }
-function formatNumber(n: number, mode: FormatMode = 'normal', precision = 6) {
+function formatNumber(n, mode = 'normal', precision = 6) {
   if (!Number.isFinite(n)) return '—';
   const abs = Math.abs(n);
   if (mode === 'scientific' || (mode === 'normal' && (abs >= 1e12 || (abs !== 0 && abs < 1e-6)))) {
     const p = Math.max(0, Math.min(12, precision));
     return n.toExponential(p).replace(/(?:\.?0+)(e[+-]?\d+)$/i, '$1');
   }
-  const opts: Intl.NumberFormatOptions =
-    mode === 'compact'
-      ? { notation: 'compact', maximumFractionDigits: Math.min(precision, 6) }
-      : { maximumFractionDigits: precision };
+  const opts = mode === 'compact'
+    ? { notation: 'compact', maximumFractionDigits: Math.min(precision, 6) }
+    : { maximumFractionDigits: precision };
   const s = new Intl.NumberFormat(undefined, opts).format(n);
   return mode === 'compact'
     ? s
@@ -82,25 +104,25 @@ function formatNumber(n: number, mode: FormatMode = 'normal', precision = 6) {
 /* ---------- Component ---------- */
 export default function WeightConverter() {
   // Core inputs
-  const [valueStr, setValueStr] = useState<string>(''); // placeholder visible; empty = 0
-  const [fromUnit, setFromUnit] = useState<string>('kilogram');
-  const [toUnit, setToUnit] = useState<string>('pound');
+  const [valueStr, setValueStr] = useState(''); // placeholder visible; empty = 0
+  const [fromUnit, setFromUnit] = useState('kilogram');
+  const [toUnit, setToUnit] = useState('pound');
 
   // Options
-  const [precision, setPrecision] = useState<number>(6);
-  const [formatMode, setFormatMode] = useState<FormatMode>('normal');
+  const [precision, setPrecision] = useState(6);
+  const [formatMode, setFormatMode] = useState('normal');
 
   // Personalization
-  const [favorites, setFavorites] = useLocalStorage<string[]>('weight:favorites', ['kilogram','gram','pound','ounce']);
-  const [history, setHistory] = useLocalStorage<Array<{v: string; from: string; to: string; ts: number}>>('weight:history', []);
+  const [favorites, setFavorites] = useLocalStorage('weight:favorites', ['kilogram','gram','pound','ounce']);
+  const [history, setHistory] = useLocalStorage('weight:history', []); // {v, from, to, ts}
 
   // Refs & shortcuts
-  const valueRef = useRef<HTMLInputElement | null>(null);
-  const fromRef = useRef<HTMLSelectElement | null>(null);
-  const toRef = useRef<HTMLSelectElement | null>(null);
+  const valueRef = useRef(null);
+  const fromRef = useRef(null);
+  const toRef = useRef(null);
 
   // Parse numeric (commas allowed), empty -> 0
-  const valueNum = useMemo<number>(() => {
+  const valueNum = useMemo(() => {
     const clean = String(valueStr || '').replace(/,/g, '').trim();
     if (clean === '') return 0;
     const n = Number(clean);
@@ -108,10 +130,10 @@ export default function WeightConverter() {
   }, [valueStr]);
 
   // Direct result & grid
-  const direct = useMemo<number>(() => convertLinear(valueNum, fromUnit, toUnit), [valueNum, fromUnit, toUnit]);
-  const gridResults = useMemo<Record<string, number>>(() => {
+  const direct = useMemo(() => convertLinear(valueNum, fromUnit, toUnit), [valueNum, fromUnit, toUnit]);
+  const gridResults = useMemo(() => {
     const base = valueNum * ((unitMap[fromUnit] && unitMap[fromUnit].factor) || 1);
-    const out: Record<string, number> = {};
+    const out = {};
     for (const u of WEIGHT_UNITS) if (u.key !== fromUnit) out[u.key] = base / u.factor;
     return out;
   }, [valueNum, fromUnit]);
@@ -126,7 +148,7 @@ export default function WeightConverter() {
       if (v !== null) setValueStr(v);
       if (f && unitMap[f]) setFromUnit(f);
       if (t && unitMap[t]) setToUnit(t);
-      if (fmt && (FORMAT_MODES as readonly string[]).includes(fmt)) setFormatMode(fmt as FormatMode);
+      if (fmt && FORMAT_MODES.includes(fmt)) setFormatMode(fmt);
       if (pr && !Number.isNaN(+pr)) setPrecision(Math.max(0, Math.min(12, +pr)));
     } catch {}
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -158,9 +180,9 @@ export default function WeightConverter() {
   /* ---------- Shortcuts ---------- */
   useEffect(() => {
     if (!hasWindow()) return;
-    const onKey = (e: KeyboardEvent) => {
-      const tag = (e.target && (e.target as HTMLElement).tagName) || '';
-      if (tag === 'INPUT' || tag === 'SELECT' || (e.target && (e.target as HTMLElement).isContentEditable)) return;
+    const onKey = (e) => {
+      const tag = (e.target && e.target.tagName) || '';
+      if (tag === 'INPUT' || tag === 'SELECT' || (e.target && e.target.isContentEditable)) return;
       if (e.key === '/') { e.preventDefault(); valueRef.current?.focus(); }
       if (e.key.toLowerCase() === 's') { e.preventDefault(); fromRef.current?.focus(); }
       if (e.key.toLowerCase() === 't') { e.preventDefault(); toRef.current?.focus(); }
@@ -175,7 +197,7 @@ export default function WeightConverter() {
     setFromUnit(toUnit);
     setToUnit(fromUnit);
   }
-  function toggleFavorite(k: string) {
+  function toggleFavorite(k) {
     setFavorites(prev => prev.includes(k) ? prev.filter(x => x !== k) : [...prev, k].slice(0, 5));
   }
   function copyAll() {
@@ -231,10 +253,7 @@ export default function WeightConverter() {
         {/* Header */}
         <div className="mb-8 rounded-2xl p-6 bg-gradient-to-r from-blue-900 via-indigo-800 to-purple-800 border border-gray-700">
           <h1 className="text-3xl font-bold text-white mb-2">Weight Converter</h1>
-          <p className="text-gray-300">
-            Convert between kilograms, grams, pounds, ounces, stones, and tons.
-            Empty input = <b>0</b>. Shortcuts: <kbd>/</kbd> value, <kbd>S</kbd> from, <kbd>T</kbd> to, <kbd>X</kbd> swap.
-          </p>
+          <p className="text-gray-300">Convert between kilograms, grams, pounds, ounces, stones, and tons. Empty input = <b>0</b>. Shortcuts: <kbd>/</kbd> value, <kbd>S</kbd> from, <kbd>T</kbd> to, <kbd>X</kbd> swap.</p>
         </div>
 
         {/* Controls */}
@@ -290,11 +309,11 @@ export default function WeightConverter() {
               >
                 {favored.length > 0 && (
                   <optgroup label="★ Favorites">
-                    {favored.map(u => <option key={`f-${u.key}`} value={u.key}>{u.name}</option>)}
+                    {favored.map(u => <option key={'f-'+u.key} value={u.key}>{u.name}</option>)}
                   </optgroup>
                 )}
                 <optgroup label="All units">
-                  {unfavored.map(u => <option key={`a-${u.key}`} value={u.key}>{u.name}</option>)}
+                  {unfavored.map(u => <option key={'a-'+u.key} value={u.key}>{u.name}</option>)}
                 </optgroup>
               </select>
               <div className="flex items-center gap-2 mt-2">
@@ -324,12 +343,12 @@ export default function WeightConverter() {
               >
                 {favored.length > 0 && (
                   <optgroup label="★ Favorites">
-                    {favored.map(u => <option key={`tf-${u.key}`} value={u.key}>{u.name}</option>)}
+                    {favored.map(u => <option key={'tf-'+u.key} value={u.key}>{u.name}                                             </option>)}
                   </optgroup>
                 )}
                 <optgroup label="All units">
-                  {unfavored.map(u => <option key={`ta-${u.key}`} value={u.key}>{u.name}</option>)}
-                </optgroup>
+                  {unfavored.map(u => <option key={'ta-'+u.key} value={u.key}>{u.name}                                             </option>)}
+                </optgroup> 
               </select>
               <div className="flex items-center gap-2 mt-2">
                 <button
@@ -351,7 +370,7 @@ export default function WeightConverter() {
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <button
               type="button"
-              onClick={swapUnits}
+              onClick={() => swapUnits()}
               className="px-3 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white border border-blue-500 flex items-center gap-2"
               title="Swap From/To (X)"
               aria-label="Swap From and To units"
@@ -366,10 +385,7 @@ export default function WeightConverter() {
               Result ({unitMap[fromUnit]?.name} → {unitMap[toUnit]?.name})
             </div>
             <div
-              className="text-2xl font-semibold text-gray-100 overflow-x-auto whitespace-nowrap"
-              style={{ scrollbarWidth: 'thin' }}
-              aria-live="polite"
-            >
+              className="text-2xl font-semibold text-gray-100 overflow-x-auto whitespace-nowrap" style={{ scrollbarWidth: 'thin' }} aria-live="polite">
               {formatNumber(direct, formatMode, precision)}
             </div>
           </div>
@@ -395,7 +411,7 @@ export default function WeightConverter() {
                 <label className="block text-sm text-gray-300 mb-1">Format</label>
                 <select
                   value={formatMode}
-                  onChange={(e) => setFormatMode(e.target.value as FormatMode)}
+                  onChange={(e) => setFormatMode(e.target.value)}
                   className="w-full px-2 py-2 rounded-xl bg-gray-800 border border-gray-600 text-gray-100"
                 >
                   <option value="normal">Normal</option>
@@ -488,5 +504,5 @@ export default function WeightConverter() {
         <RelatedCalculators currentPath="/weight-converter" category="unit-converters" />
       </div>
     </>
-  );
+  ); 
 }
