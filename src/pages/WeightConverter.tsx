@@ -385,10 +385,7 @@ export default function WeightConverter() {
               Result ({unitMap[fromUnit]?.name} → {unitMap[toUnit]?.name})
             </div>
             <div
-              className="text-2xl font-semibold text-gray-100 overflow-x-auto whitespace-nowrap"
-              style={{ scrollbarWidth: 'thin' }}
-              aria-live="polite"
-            >
+              className="text-2xl font-semibold text-gray-100 overflow-x-auto whitespacenowrap" style={{ scrollbarWidth: 'thin' }} aria-live="polite">
               {formatNumber(direct, formatMode, precision)}
             </div>
           </div>
