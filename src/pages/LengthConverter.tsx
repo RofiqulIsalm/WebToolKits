@@ -4,9 +4,8 @@ import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
-// Removed unused: Link
 
-// Keep units outside component so the array identity is stable
+// --- Units (stable identity) ---
 const LENGTH_UNITS = [
   { key: 'nanometer',   name: 'Nanometer (nm)',     factor: 1e-9 },
   { key: 'micrometer',  name: 'Micrometer (µm)',    factor: 1e-6 },
@@ -17,25 +16,19 @@ const LENGTH_UNITS = [
   { key: 'inch',        name: 'Inch (in)',          factor: 0.0254 },
   { key: 'foot',        name: 'Foot (ft)',          factor: 0.3048 },
   { key: 'yard',        name: 'Yard (yd)',          factor: 0.9144 },
-  { key: 'mile',        name: 'Mile (mi)',          factor: 1609.344 }, // fixed
+  { key: 'mile',        name: 'Mile (mi)',          factor: 1609.344 }, // exact
 ];
 
-// lightweight formatter with trimmed trailing zeros
-function formatNumber(n: number) {
+// Trimmed, locale-aware number formatting
+function formatNumber(n) {
   if (!Number.isFinite(n)) return '—';
-  // reasonable defaults for converters
-  const str = new Intl.NumberFormat(undefined, {
-    maximumFractionDigits: 8,
-  }).format(n);
-  // Remove trailing zeros only if there’s a decimal separator in the current locale
-  // Fallback simple trim for common locales
-  return str.replace(/([.,]\\d*?[1-9])0+$/, '$1').replace(/([.,])0+$/, '');
+  const s = new Intl.NumberFormat(undefined, { maximumFractionDigits: 8 }).format(n);
+  return s.replace(/([.,]\d*?[1-9])0+$/, '$1').replace(/([.,])0+$/, '');
 }
 
-const LengthConverter: React.FC = () => {
-  // keep input as string so user can clear it without NaN flicker
-  const [valueStr, setValueStr] = useState<string>('1');
-  const [fromUnit, setFromUnit] = useState<string>('meter');
+function LengthConverter() {
+  const [valueStr, setValueStr] = useState('1');      // keep as string (no NaN flicker)
+  const [fromUnit, setFromUnit] = useState('meter');
 
   const valueNum = useMemo(() => {
     const n = Number(valueStr.replace(/,/g, ''));
@@ -46,11 +39,9 @@ const LengthConverter: React.FC = () => {
     const from = LENGTH_UNITS.find(u => u.key === fromUnit);
     if (!from) return {};
     const valueInMeters = valueNum * from.factor;
-    const out: Record<string, number> = {};
+    const out = {};
     LENGTH_UNITS.forEach(u => {
-      if (u.key !== fromUnit) {
-        out[u.key] = valueInMeters / u.factor;
-      }
+      if (u.key !== fromUnit) out[u.key] = valueInMeters / u.factor;
     });
     return out;
   }, [valueNum, fromUnit]);
@@ -133,7 +124,7 @@ const LengthConverter: React.FC = () => {
                     <button
                       type="button"
                       className="text-xs px-2 py-1 border rounded-md"
-                      onClick={() => navigator.clipboard?.writeText(`${display}`)}
+                      onClick={() => navigator.clipboard && navigator.clipboard.writeText(`${display}`)}
                       aria-label={`Copy ${display} ${unit.name}`}
                       title="Copy"
                     >
@@ -150,14 +141,9 @@ const LengthConverter: React.FC = () => {
         </div>
 
         <AdBanner type="bottom" />
-
-        <RelatedCalculators
-          currentPath="/length-converter"
-          category="unit-converters"
-        />
       </div>
     </>
   );
-};
+}
 
-export default LengthConverter; 
+export default LengthConverter;
