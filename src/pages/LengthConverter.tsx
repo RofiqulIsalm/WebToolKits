@@ -20,7 +20,7 @@ const LENGTH_UNITS = [
   { key: 'mile',        name: 'Mile (mi)',          factor: 1609.344 },
 ];
 
-const POPULAR_KEYS = ['meter', 'kilometer', 'centimeter', 'millimeter', 'inch', 'foot', 'yard', 'mile'];
+const POPULAR_KEYS = ['meter', 'kilometer', 'centimeter', 'millimeter', 'inch', 'ft', 'yard', 'mile'];
 const FORMAT_MODES = ['normal', 'compact', 'scientific'];
 
 // ---------- Helpers ----------
