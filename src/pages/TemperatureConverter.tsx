@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Thermometer, Copy, Download } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AdBanner from '../components/AdBanner';
