@@ -380,15 +380,7 @@ export default function WeightConverter() {
           </div>
 
           {/* Result */}
-          <div className="rounded-xl bg-gray-800 border border-gray-700 p-4 mb-6">
-            <div className="text-sm text-gray-400 mb-1">
-              Result ({unitMap[fromUnit]?.name} → {unitMap[toUnit]?.name})
-            </div>
-            <div
-              className="text-2xl font-semibold text-gray-100 overflow-x-auto whitespacenowrap" style={{ scrollbarWidth: 'thin' }} aria-live="polite">
-              {formatNumber(direct, formatMode, precision)}
-            </div>
-          </div>
+          
 
           {/* More options */}
           <details className="mt-5">
