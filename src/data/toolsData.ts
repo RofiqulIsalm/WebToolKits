@@ -194,147 +194,76 @@ export const toolsData = [
     ]
   },
   {
-  category: 'Unit Converters',
-  slug: 'unit-converters',
-  tools: [
-    {
-      name: 'Length Converter',
-      description: 'Convert between meters, feet, inches, and more',
-      icon: Ruler,
-      path: '/length-converter',
-      color: 'converter-card',
-      popular: true
-    },
-    {
-      name: 'Weight Converter',
-      description: 'Convert between kg, pounds, ounces, and more',
-      icon: Scale,
-      path: '/weight-converter',
-      color: 'converter-card'
-    },
-    {
-      name: 'Temperature Converter',
-      description: 'Convert between Celsius, Fahrenheit, and Kelvin',
-      icon: Thermometer,
-      path: '/temperature-converter',
-      color: 'converter-card',
-      popular: true
-    },
-    {
-      name: 'Area Converter',
-      description: 'Convert between square meters, acres, and more',
-      icon: Square,
-      path: '/area-converter',
-      color: 'converter-card'
-    },
-    {
-      name: 'Speed Converter',
-      description: 'Convert between mph, kmh, and other speed units',
-      icon: Zap,
-      path: '/speed-converter',
-      color: 'converter-card'
-    },
-    {
-      name: 'Volume Converter',
-      description: 'Convert between liters, gallons, cups, and more',
-      icon: Droplets,
-      path: '/volume-converter',
-      color: 'converter-card'
-    },
-    {
-      name: 'Pressure Converter',
-      description: 'Convert between PSI, bar, pascal, and more',
-      icon: Gauge,
-      path: '/pressure-converter',
-      color: 'converter-card'
-    },
-    {
-      name: 'Energy Converter',
-      description: 'Convert between joules, calories, BTU, and more',
-      icon: Flame,
-      path: '/energy-converter',
-      color: 'converter-card'
-    },
-    {
-      name: 'Data Storage Converter',
-      description: 'Convert between bytes, KB, MB, GB, TB, and more',
-      icon: HardDrive,
-      path: '/data-storage-converter',
-      color: 'converter-card'
-    },
-    {
-      name: 'Time Converter',
-      description: 'Convert between seconds, minutes, hours, and days',
-      icon: Clock,
-      path: '/time-converter',
-      color: 'converter-card'
-    },
-    {
-      name: 'Power Converter',
-      description: 'Convert between watts, kilowatts, horsepower, and more',
-      icon: Battery,
-      path: '/power-converter',
-      color: 'converter-card'
-    },
-    {
-      name: 'Force Converter',
-      description: 'Convert between newtons, pound-force, and kilogram-force',
-      icon: Activity,
-      path: '/force-converter',
-      color: 'converter-card'
-    },
-    {
-      name: 'Density Converter',
-      description: 'Convert between kg/m³, g/cm³, lb/ft³, and more',
-      icon: Layers,
-      path: '/density-converter',
-      color: 'converter-card'
-    },
-    {
-      name: 'Acceleration Converter',
-      description: 'Convert between m/s², g-force, and ft/s²',
-      icon: TrendingUp,
-      path: '/acceleration-converter',
-      color: 'converter-card'
-    },
-    {
-      name: 'Flow Rate Converter',
-      description: 'Convert between L/min, m³/h, gpm, and more',
-      icon: Wind,
-      path: '/flow-rate-converter',
-      color: 'converter-card'
-    },
-    {
-      name: 'Fuel Consumption Converter',
-      description: 'Convert between L/100km, mpg (US/UK), and km/L',
-      icon: Fuel,
-      path: '/fuel-consumption-converter',
-      color: 'converter-card'
-    },
-    {
-      name: 'Angle Converter',
-      description: 'Convert between degrees, radians, and gradians',
-      icon: Compass,
-      path: '/angle-converter',
-      color: 'converter-card'
-    },
-    {
-      name: 'Frequency Converter',
-      description: 'Convert between hertz, kilohertz, megahertz, and rpm',
-      icon: Radio,
-      path: '/frequency-converter',
-      color: 'converter-card'
-    },
-    {
-      name: 'Data Transfer Converter',
-      description: 'Convert between bits per second, Mbps, and MB/s',
-      icon: Network,
-      path: '/data-transfer-converter',
-      color: 'converter-card'
-    }
-  ]
-},
-
+    category: 'Unit Converters',
+    slug: 'unit-converters',
+    tools: [
+      {
+        name: 'Length Converter',
+        description: 'Convert between meters, feet, inches, and more',
+        icon: Ruler,
+        path: '/length-converter',
+        color: 'converter-card',
+        popular: true
+      },
+      {
+        name: 'Weight Converter',
+        description: 'Convert between kg, pounds, ounces, and more',
+        icon: Scale,
+        path: '/weight-converter',
+        color: 'converter-card'
+      },
+      {
+        name: 'Temperature Converter',
+        description: 'Convert between Celsius, Fahrenheit, and Kelvin',
+        icon: Thermometer,
+        path: '/temperature-converter',
+        color: 'converter-card',
+        popular: true
+      },
+      {
+        name: 'Area Converter',
+        description: 'Convert between square meters, acres, and more',
+        icon: Square,
+        path: '/area-converter',
+        color: 'converter-card'
+      },
+      {
+        name: 'Speed Converter',
+        description: 'Convert between mph, kmh, and other speed units',
+        icon: Zap,
+        path: '/speed-converter',
+        color: 'converter-card'
+      },
+      {
+        name: 'Volume Converter',
+        description: 'Convert between liters, gallons, cups, and more',
+        icon: Droplets,
+        path: '/volume-converter',
+        color: 'converter-card'
+      },
+      {
+        name: 'Pressure Converter',
+        description: 'Convert between PSI, bar, pascal, and more',
+        icon: Gauge,
+        path: '/pressure-converter',
+        color: 'converter-card'
+      },
+      {
+        name: 'Energy Converter',
+        description: 'Convert between joules, calories, BTU, and more',
+        icon: Flame,
+        path: '/energy-converter',
+        color: 'converter-card' 
+      },
+      {
+        name: 'Data Storage Converter',
+        description: 'Convert between bytes, KB, MB, GB, TB, and more',
+        icon: HardDrive,
+        path: '/data-storage-converter',
+        color: 'converter-card'
+      }
+    ]
+  },
   {
     category: 'Math Tools',
     slug: 'math-tools',
