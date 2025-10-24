@@ -263,6 +263,13 @@ export const toolsData = [
         color: 'converter-card'
       },
       {
+        name: 'Mass Weight Converter',
+        description: 'Convert between bytes, KB, MB, GB, TB, and more',
+        icon: Scale,
+        path: '/mass-weight-converter',
+        color: 'converter-card'
+      },
+      {
         name: 'Time Converter',
         description: 'Convert between seconds, minutes, hours, and days',
         icon: Clock,
