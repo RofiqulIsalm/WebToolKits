@@ -112,14 +112,14 @@ function FireOverlay({ intense = false }: { intense?: boolean }) {
         className="absolute -inset-8 blur-2xl"
         style={{ background: 'radial-gradient(60% 60% at 50% 80%, rgba(255,120,40,0.5) 0%, rgba(255,0,0,0.18) 60%, transparent 100%)' }}
         animate={{ opacity: [0.7, 1, 0.7] }}
-        transition={{ duration: 2.3, repeat: Infinity, ease: 'easeInOut' }}
+        transition={{ duration: 1.3, repeat: Infinity, ease: 'easeInOut' }}
       />
       <motion.svg
         viewBox="0 0 200 120"
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[140%] h-auto"
         initial={{ y: 20, opacity: 0.75 }}
         animate={{ y: [20, 10, 20], opacity: [0.75, 1, 0.75] }}
-        transition={{ duration: intense ? 4.4 : 2.0, repeat: Infinity, ease: 'easeInOut' }}
+        transition={{ duration: intense ? 1.4 : 2.0, repeat: Infinity, ease: 'easeInOut' }}
       >
         <defs>
           <linearGradient id="fireGrad" x1="0" y1="0" x2="0" y2="1">
