@@ -226,9 +226,21 @@ function App() {
               <Route path="/pressure-converter" element={<PressureConverter />} />
               <Route path="/energy-converter" element={<EnergyConverter />} />
               <Route path="/data-storage-converter" element={<DataStorageConverter />} />
+            
+            {/*
               <Route path="/mass-weight-converter" element={<MassWeightConverter />} />
-  
-
+              <Route path="/time-converter" element={<TimeConverter />} />
+              <Route path="/power-converter" element={<PowerConverter />} />
+              <Route path="/force-converter" element={<ForceConverter />} />
+              <Route path="/density-converter" element={<DensityConverter />} />
+              <Route path="/acceleration-converter" element={<AccelerationConverter />} />
+              <Route path="/flow-rate-converter" element={<FlowRateConverter />} />
+              <Route path="/fuel-consumption-converter" element={<FuelConsumptionConverter />} />
+              <Route path="/angle-converter" element={<AngleConverter />} />
+              <Route path="/frequency-converter" element={<FrequencyConverter />} />
+              <Route path="/data-transfer-converter" element={<DataTransferConverter />} />
+              <Route path="/currency-converter" element={<CurrencyConverter />} />
+              */}
             
             {/* Currency & Finance */}
               <Route path="/currency-converter" element={<CurrencyConverter />} />
