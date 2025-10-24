@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Thermometer, Copy, Download, Snowflake, Home, Heart, Flame } from 'lucide-react';
+import { Thermometer, Copy, Download } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -12,7 +12,7 @@ type Scale = 'C' | 'F' | 'K';
 const SCALE_LABEL: Record<Scale, string> = { C: 'Celsius (°C)', F: 'Fahrenheit (°F)', K: 'Kelvin (K)' };
 const FORMAT_MODES = ['normal', 'compact', 'scientific'] as const;
 type FormatMode = typeof FORMAT_MODES[number];
-
+ 
 // Visual thresholds (based on °C)
 const HOT_THRESHOLD_C = 40;
 const COLD_THRESHOLD_C = 0;
@@ -623,45 +623,21 @@ const TemperatureConverter: React.FC = () => {
                 transition={{ duration: 0.25 }}
               >
                 {[
-                  // Icon presets with their target °C and a looping animation
-                  { key: 'freeze', c: 0,    Icon: Snowflake, aria: 'Freeze (0°C)',
-                    anim: { rotate: [0, -10, 10, 0] }, dur: 2.2 },
-                  { key: 'room',   c: 20,   Icon: Home,     aria: 'Room (20°C)',
-                    anim: { y: [0, -3, 0, 2, 0] }, dur: 2.6 },
-                  { key: 'body',   c: 37,   Icon: Heart,    aria: 'Body (37°C)',
-                    anim: { scale: [1, 1.12, 1] }, dur: 1.6 },
-                  { key: 'boil',   c: 100,  Icon: Flame,    aria: 'Boil (100°C)',
-                    anim: { y: [0, -6, 0], rotate: [0, 2, 0] }, dur: 1.8 },
+                  { label: 'Freeze', c: 0 },
+                  { label: 'Room', c: 20 },
+                  { label: 'Body', c: 37 },
+                  { label: 'Boil', c: 100 },
                 ].map((p, i) => (
                   <motion.button
-                    key={p.key}
-                    onClick={() => { setScale('C'); setValueStr(String(p.c)); }}
-                    className="group relative inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-800/70 border border-white/10 text-gray-200 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 outline-none"
-                    title={p.aria}
-                    aria-label={p.aria}
-                    whileHover={{ y: -2, scale: 1.05 }}
-                    whileTap={{ scale: 0.97 }}
+                    key={p.label}
+                    onClick={() => applyPreset(p.c)}
+                    className="px-3 py-1.5 rounded-full bg-gray-800/70 border border-white/10 text-gray-200 text-sm"
+                    title={`${p.c} °C`}
+                    whileHover={{ y: -1 }}
+                    whileTap={{ scale: 0.98 }}
                     transition={{ delay: i * 0.03 }}
                   >
-                    {/* subtle hover ring */}
-                    <span className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-white/10 group-hover:ring-white/20" />
-          
-                    {/* animated icon */}
-                    <motion.span
-                      animate={
-                        prefersReduced
-                          ? undefined
-                          : { ...p.anim }
-                      }
-                      transition={
-                        prefersReduced
-                          ? undefined
-                          : { duration: p.dur, repeat: Infinity, ease: 'easeInOut' }
-                      }
-                      className="grid place-items-center"
-                    >
-                      <p.Icon className="w-5 h-5" />
-                    </motion.span>
+                    {p.label}
                   </motion.button>
                 ))}
               </motion.div>
