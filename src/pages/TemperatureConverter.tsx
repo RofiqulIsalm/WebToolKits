@@ -20,6 +20,28 @@ const EXTREME_HOT_C = 1000;
 const EXTREME_COLD_C = -1000;
 
 /* ---------------- Conversion helpers ---------------- */
+
+// Gentle drift wrapper for overlays
+const Drift: React.FC<{
+  children: React.ReactNode;
+  amplitude?: number;   // px
+  duration?: number;    // seconds
+  rotate?: number;      // deg
+  disabled?: boolean;
+}> = ({ children, amplitude = 12, duration = 4.5, rotate = 0.6, disabled }) => {
+  if (disabled) return <>{children}</>;
+  return (
+    <motion.div
+      className="absolute inset-0"
+      animate={{ x: [-amplitude, amplitude, -amplitude], rotate: [-rotate, rotate, -rotate] }}
+      transition={{ duration, repeat: Infinity, ease: 'easeInOut' }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+
 function toCelsius(value: number, scale: Scale) {
   if (!Number.isFinite(value)) return NaN;
   switch (scale) {
