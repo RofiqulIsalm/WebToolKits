@@ -847,7 +847,7 @@ const TemperatureConverter: React.FC = () => {
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/temper ature-converter" category="unit-converters" />
       </motion.div>
-    </>
+    </> 
   );  
 }; 
 
