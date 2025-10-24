@@ -482,7 +482,7 @@ const TemperatureConverter: React.FC = () => {
       {/* Global overlays + persistent particles while extreme or neutral */}
       <AnimatePresence>
         {!prefersReduced && extremeState === 'hot' && (<><FireStormOverlay /><ParticlesPersistent type="hot" /></>)}
-        {!prefersReduced && extremeState === 'cold' && (<><IceStormOverlay /><ParticlesPersistent type="cold" /></>)}
+       
         {/* NEW: neutral gentle breeze when NOT extreme and NOT reduced-motion */}
         {/* {!prefersReduced && extremeState === 'normal' && heatState === 'normal' && <NeutralBreezeOverlay />}*/}
       </AnimatePresence>
