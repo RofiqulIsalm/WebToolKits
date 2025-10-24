@@ -1,27 +1,25 @@
-
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Thermometer, Copy, Download } from 'lucide-react';
+import { Thermometer, Copy, Download, Snowflake, Home, Heart, Flame } from 'lucide-react';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import RelatedCalculators from '../components/RelatedCalculators';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 
-/* ---------- Scales ---------- */
+/* ---------------- Types & constants ---------------- */
 type Scale = 'C' | 'F' | 'K';
 const SCALE_LABEL: Record<Scale, string> = { C: 'Celsius (°C)', F: 'Fahrenheit (°F)', K: 'Kelvin (K)' };
-
 const FORMAT_MODES = ['normal', 'compact', 'scientific'] as const;
 type FormatMode = typeof FORMAT_MODES[number];
 
-/* ---------- Visual thresholds (°C) ---------- */
+// Visual thresholds (based on °C)
 const HOT_THRESHOLD_C = 40;
 const COLD_THRESHOLD_C = 0;
-const EXTREME_HOT_C = 1000;
+const EXTREME_HOT_C = 1000; 
 const EXTREME_COLD_C = -1000;
 
-/* ---------- Conversion helpers ---------- */
+/* ---------------- Conversion helpers ---------------- */
 function toCelsius(value: number, scale: Scale) {
   if (!Number.isFinite(value)) return NaN;
   switch (scale) {
@@ -54,7 +52,7 @@ function formatNumber(n: number, mode: FormatMode = 'normal', precision = 4) {
     : s.replace(/([.,]\d*?[1-9])0+$/, '$1').replace(/([.,])0+$/, '');
 }
 
-/* ---------- Motion helpers ---------- */
+/* ---------------- Motion helpers ---------------- */
 const spring = { type: 'spring', stiffness: 380, damping: 32, mass: 0.8 };
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 16 },
@@ -63,7 +61,7 @@ const fadeUp = (delay = 0) => ({
 });
 const softHover = { whileHover: { y: -3, scale: 1.015 }, whileTap: { scale: 0.985 }, transition: spring };
 
-/* ---------- Background canvas (ambient gradient + grain) ---------- */
+/* ---------------- Background canvas ---------------- */
 const BgCanvas: React.FC = () => (
   <>
     <div
@@ -79,8 +77,7 @@ const BgCanvas: React.FC = () => (
     />
     <div
       aria-hidden
-      className="pointer-events-none fixed inset-0 -z-10 will-change-transform motion-safe:animate-[huedrift_18s_ease-in-out_infinite_alternate]"
-      style={{ background: "transparent" }}
+      className="pointer-events-none fixed inset-0 -z-10 motion-safe:animate-[huedrift_18s_ease-in-out_infinite_alternate]"
     />
     <div
       aria-hidden
@@ -98,7 +95,7 @@ const BgCanvas: React.FC = () => (
   </>
 );
 
-/* ---------- Card-level overlays ---------- */
+/* ---------------- Card overlays ---------------- */
 function FireOverlay({ intense = false }: { intense?: boolean }) {
   return (
     <motion.div
@@ -171,7 +168,71 @@ function IceOverlay({ intense = false }: { intense?: boolean }) {
   );
 }
 
-/* ---------- Global storm overlays ---------- */
+/* ---------------- NEW: Neutral overlays (card + subtle page breeze) ---------------- */
+function NeutralOverlay() {
+  return (
+    <motion.div
+      className="pointer-events-none absolute inset-0 overflow-hidden"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 0.9 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.35 }}
+    >
+      {/* soft green glow */}
+      <motion.div
+        className="absolute -inset-8 blur-2xl"
+        style={{ background: 'radial-gradient(60% 60% at 50% 50%, rgba(34,197,94,0.25) 0%, rgba(16,185,129,0.18) 60%, transparent 100%)' }}
+        animate={{ opacity: [0.6, 0.9, 0.6] }}
+        transition={{ duration: 2.0, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      {/* floating “wings” */}
+      <motion.svg
+        viewBox="0 0 200 120"
+        className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[130%] h-auto"
+        initial={{ opacity: 0.6 }}
+        animate={{ opacity: [0.5, 0.8, 0.5] }}
+        transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <defs>
+          <linearGradient id="leafGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#86efac"/><stop offset="100%" stopColor="#34d399"/>
+          </linearGradient>
+        </defs>
+        <path d="M10,110 C40,90 70,90 100,110 C70,80 40,80 10,110Z" fill="url(#leafGrad)" opacity="0.35" />
+        <path d="M100,110 C130,90 160,90 190,110 C160,80 130,80 100,110Z" fill="url(#leafGrad)" opacity="0.35" />
+      </motion.svg>
+      <div className="absolute inset-0 rounded-2xl ring-1 ring-emerald-400/25" />
+      <div className="absolute inset-0 rounded-2xl" style={{ boxShadow: 'inset 0 0 80px rgba(34,197,94,0.22), inset 0 0 160px rgba(16,185,129,0.12)' }}/>
+    </motion.div>
+  );
+}
+function NeutralBreezeOverlay() {
+  return (
+    <motion.div
+      className="pointer-events-none fixed inset-0 z-[55]"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+      aria-hidden="true"
+    >
+      <motion.div
+        className="absolute -inset-16 blur-3xl"
+        style={{ background: 'radial-gradient(70% 70% at 50% 60%, rgba(34,197,94,0.15) 0%, rgba(16,185,129,0.12) 50%, transparent 100%)' }}
+        animate={{ opacity: [0.4, 0.8, 0.4] }}
+        transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <motion.div
+        className="absolute inset-0"
+        style={{ backgroundImage: 'radial-gradient(circle, rgba(209,250,229,0.14) 1px, transparent 1px)', backgroundSize: '8px 8px' }}
+        animate={{ backgroundPositionX: ['0%','100%'], backgroundPositionY: ['0%','100%'] }}
+        transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
+      />
+    </motion.div>
+  );
+}
+
+/* ---------------- Global overlays + persistent particles ---------------- */
 function FireStormOverlay() {
   return (
     <motion.div className="pointer-events-none fixed inset-0 z-[60]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6, ease: 'easeOut' }} aria-hidden="true">
@@ -197,7 +258,46 @@ function IceStormOverlay() {
   );
 }
 
-/* ---------- Parallax tilt wrapper ---------- */
+/* Persistent confetti-like particles while extreme */
+const ParticlesPersistent: React.FC<{ type: 'hot' | 'cold' }> = ({ type }) => {
+  const [seed, setSeed] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setSeed(s => s + 1), 1600);
+    return () => clearInterval(id);
+  }, []);
+  const rand = (i: number) => {
+    const x = Math.sin((i + 1) * 9301 + seed * 49297) * 233280;
+    return (x - Math.floor(x));
+  };
+  const items = Array.from({ length: 26 }).map((_, i) => ({
+    left: `${rand(i) * 100}%`,
+    top: `${rand(i + 37) * 100}%`,
+    duration: 1.2 + rand(i + 71) * 1.6,
+    delay: rand(i + 113) * 0.4,
+    size: 1 + Math.round(rand(i + 151) * 2)
+  }));
+  return (
+    <div className="pointer-events-none fixed inset-0 z-[65]">
+      {items.map((p, i) => (
+        <div
+          key={`${seed}-${i}`}
+          className={`absolute rounded-full opacity-0 motion-safe:animate-[floaty_var(--dur)_ease-in-out_var(--delay)_1] ${type==='hot' ? 'bg-amber-300/90' : 'bg-blue-100/90'}`}
+          style={{
+            left: p.left,
+            top: p.top,
+            width: `${p.size}px`,
+            height: `${p.size}px`,
+            filter: type==='hot' ? 'drop-shadow(0 0 6px rgba(255,160,60,0.6))' : 'drop-shadow(0 0 6px rgba(180,220,255,0.6))',
+            ['--dur' as any]: `${p.duration}s`,
+            ['--delay' as any]: `${p.delay}s`,
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
+/* ---------------- Tilt wrapper ---------------- */
 const Tilt: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -219,34 +319,29 @@ const Tilt: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return <div ref={ref} className="transition-transform will-change-transform">{children}</div>;
 };
 
-/* ---------- Confetti-like particles on extreme ---------- */
-const Particles: React.FC<{ type: 'hot' | 'cold' }> = ({ type }) => {
-  const nodes = Array.from({ length: 24 });
-  return (
-    <div className="pointer-events-none fixed inset-0 z-[65]">
-      {nodes.map((_, i) => (
-        <div
-          key={i}
-          className={`absolute w-1.5 h-1.5 rounded-full opacity-0 motion-safe:animate-[floaty_1.6s_ease-in-out_forwards]
-                      ${type==='hot' ? 'bg-amber-300/90' : 'bg-blue-100/90'}`}
-          style={{
-            left: `${Math.random()*100}%`,
-            top: `${Math.random()*100}%`,
-            filter: type==='hot' ? 'drop-shadow(0 0 6px rgba(255,160,60,0.6))' : 'drop-shadow(0 0 6px rgba(180,220,255,0.6))'
-          }}
-        />
-      ))}
-    </div>
-  );
-};
-
-/* ---------- Component ---------- */
+/* ---------------- Component ---------------- */
 const TemperatureConverter: React.FC = () => {
-  // main state
+  // state
   const [valueStr, setValueStr] = useState<string>('20');
   const [scale, setScale] = useState<Scale>('C');
   const [precision, setPrecision] = useState<number>(4);
   const [formatMode, setFormatMode] = useState<FormatMode>('normal');
+  const [showPresets, setShowPresets] = useState(false);
+
+  // NEW: reduced-motion guard (accessibility)
+  const [prefersReduced, setPrefersReduced] = useState(false);
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const apply = () => setPrefersReduced(!!mq.matches);
+    apply();
+    if ('addEventListener' in mq) mq.addEventListener('change', apply);
+    else mq.addListener(apply);
+    return () => {
+      if ('removeEventListener' in mq) mq.removeEventListener('change', apply);
+      else mq.removeListener(apply);
+    };
+  }, []);
 
   // refs
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -276,7 +371,7 @@ const TemperatureConverter: React.FC = () => {
     (scale === 'F' && valueNum < -459.67) ||
     (scale === 'K' && valueNum < 0);
 
-  // heat state based on Celsius
+  // heat state
   const heatState: 'hot' | 'cold' | 'normal' =
     !Number.isFinite(celsius as number)
       ? 'normal'
@@ -286,7 +381,7 @@ const TemperatureConverter: React.FC = () => {
           ? 'cold'
           : 'normal';
 
-  // Extreme global effect
+  // extreme global effect
   const extremeState: 'hot' | 'cold' | 'normal' =
     !Number.isFinite(celsius as number)
       ? 'normal'
@@ -296,7 +391,7 @@ const TemperatureConverter: React.FC = () => {
           ? 'cold'
           : 'normal';
 
-  // Dynamic accent class
+  // accent
   const accent = heatState === 'hot'
     ? 'from-orange-500/20 to-red-500/20 ring-red-400/30'
     : heatState === 'cold'
@@ -326,11 +421,8 @@ const TemperatureConverter: React.FC = () => {
     } catch {}
   }, [valueStr, scale, formatMode, precision]);
 
-  /* ---------- Presets ---------- */
-  const [showPresets, setShowPresets] = useState(false);
-  const applyPreset = (c: number) => { setScale('C'); setValueStr(String(c)); };
-
   /* ---------- Actions ---------- */
+  const applyPreset = (c: number) => { setScale('C'); setValueStr(String(c)); };
   function copyAll() {
     const lines = [
       `Input: ${formatNumber(valueNum, formatMode, precision)} ${SCALE_LABEL[scale]}`,
@@ -359,15 +451,13 @@ const TemperatureConverter: React.FC = () => {
 
   return (
     <>
-      {/* Local keyframes (if you can't add to global CSS) */}
-      <style>
-        {`
-          @keyframes huedrift { from { filter: hue-rotate(0deg); } to { filter: hue-rotate(10deg); } }
-          @keyframes floaty { 0% { transform: translateY(0) scale(0.6); opacity: .0; }
-                              10% { opacity: .9; }
-                              100% { transform: translateY(-40px) scale(1); opacity: 0; } }
-        `}
-      </style>
+      {/* Local keyframes if you can't add to global CSS */}
+      <style>{`
+        @keyframes huedrift { from { filter: hue-rotate(0deg); } to { filter: hue-rotate(10deg); } }
+        @keyframes floaty { 0% { transform: translateY(0) scale(0.6); opacity: .0; }
+                            10% { opacity: .9; }
+                            100% { transform: translateY(-40px) scale(1); opacity: 0; } }
+      `}</style>
 
       <SEOHead
         title={seoData.temperatureConverter.title}
@@ -389,10 +479,11 @@ const TemperatureConverter: React.FC = () => {
       {/* Ambient background */}
       <BgCanvas />
 
-      {/* Global storm overlays + particles for fun extreme states */}
+      {/* Global overlays + persistent particles while extreme or neutral */}
       <AnimatePresence>
-        {extremeState === 'hot' && (<><FireStormOverlay /><Particles type="hot" /></>)}
-        {extremeState === 'cold' && (<><IceStormOverlay /><Particles type="cold" /></>)}
+        {!prefersReduced && extremeState === 'hot' && (<><FireStormOverlay /><ParticlesPersistent type="hot" /></>)}
+        {!prefersReduced && extremeState === 'cold' && (<><IceStormOverlay /><ParticlesPersistent type="cold" /></>)}
+        {/* NEW: neutral gentle breeze when NOT extreme and NOT reduced-motion */}
       </AnimatePresence>
 
       <motion.div
@@ -410,12 +501,18 @@ const TemperatureConverter: React.FC = () => {
 
         {/* Header */}
         <motion.div
-          className={`mb-8 rounded-2xl p-6 border bg-gradient-to-r backdrop-blur-md ring-1 ${accent}`}
+          className={`mb-8 rounded-2xl p-6 border bg-gradient-to-r backdrop-blur-md ring-1 ${(
+            heatState === 'hot'
+              ? 'from-orange-500/20 to-red-500/20 ring-red-400/30'
+              : heatState === 'cold'
+              ? 'from-sky-500/20 to-blue-500/20 ring-sky-400/30'
+              : 'from-emerald-500/15 to-lime-500/15 ring-emerald-300/20' /* subtle green when neutral */
+          )}`}
           {...fadeUp(0.05)}
         >
           <h1 className="text-3xl font-bold text-white mb-2">Temperature Converter</h1>
           <p className="text-gray-200/90">
-            Convert between <b>Celsius</b>, <b>Fahrenheit</b>, and <b>Kelvin</b>. Shortcuts: <kbd>/</kbd> focus, <kbd>P</kbd> presets, <kbd>C</kbd> copy.
+            Convert between <b>Celsius</b>, <b>Fahrenheit</b>, and <b>Kelvin</b>. Enjoy dynamic fire/ice effects for extreme temps!
           </p>
         </motion.div>
 
@@ -484,23 +581,29 @@ const TemperatureConverter: React.FC = () => {
           <div className="flex flex-wrap items-center gap-2 mt-4">
             <motion.button
               onClick={() => setShowPresets((s) => !s)}
-              className={`px-3 py-2 rounded-xl border text-gray-100 bg-gray-800/70 backdrop-blur ring-1 ${accent} hover:ring-2`}
-              title="Show presets (P)"
+              className={`px-3 py-2 rounded-xl border text-gray-100 bg-gray-800/70 backdrop-blur ring-1 ${
+                heatState === 'normal' ? 'from-emerald-500/15 to-lime-500/15 ring-emerald-300/20' : ''
+              } hover:ring-2`}
+              title="Show presets"
               {...softHover}
             >
               Presets
             </motion.button>
             <motion.button
               onClick={copyAll}
-              className={`px-3 py-2 rounded-xl border text-gray-100 bg-gray-800/70 backdrop-blur ring-1 ${accent} hover:ring-2 flex items-center gap-2`}
-              title="Copy results (C)"
+              className={`px-3 py-2 rounded-xl border text-gray-100 bg-gray-800/70 backdrop-blur ring-1 ${
+                heatState === 'normal' ? 'from-emerald-500/15 to-lime-500/15 ring-emerald-300/20' : ''
+              } hover:ring-2 flex items-center gap-2`}
+              title="Copy results"
               {...softHover}
             >
               <Copy size={16} /> Copy All
             </motion.button>
             <motion.button
               onClick={exportCSV}
-              className={`px-3 py-2 rounded-xl border text-gray-100 bg-gray-800/70 backdrop-blur ring-1 ${accent} hover:ring-2 flex items-center gap-2`}
+              className={`px-3 py-2 rounded-xl border text-gray-100 bg-gray-800/70 backdrop-blur ring-1 ${
+                heatState === 'normal' ? 'from-emerald-500/15 to-lime-500/15 ring-emerald-300/20' : ''
+              } hover:ring-2 flex items-center gap-2`}
               title="Download CSV"
               {...softHover}
             >
@@ -509,6 +612,7 @@ const TemperatureConverter: React.FC = () => {
           </div>
 
           {/* Presets */}
+          {/* Presets (icon-only, animated) */}
           <AnimatePresence initial={false}>
             {showPresets && (
               <motion.div
@@ -517,32 +621,57 @@ const TemperatureConverter: React.FC = () => {
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.25 }}
-              >
+              > 
                 {[
-                  { label: 'Freeze', c: 0 },
-                  { label: 'Room', c: 20 },
-                  { label: 'Body', c: 37 },
-                  { label: 'Boil', c: 100 },
+                  // Icon presets with their target °C and a looping animation
+                  { key: 'freeze', c: 0,    Icon: Snowflake, aria: 'Freeze (0°C)',
+                    anim: { rotate: [0, -10, 10, 0] }, dur: 2.2 },
+                  { key: 'room',   c: 20,   Icon: Home,     aria: 'Room (20°C)',
+                    anim: { y: [0, -3, 0, 2, 0] }, dur: 2.6 },
+                  { key: 'body',   c: 37,   Icon: Heart,    aria: 'Body (37°C)',
+                    anim: { scale: [1, 1.12, 1] }, dur: 1.6 },
+                  { key: 'boil',   c: 100,  Icon: Flame,    aria: 'Boil (100°C)',
+                    anim: { y: [0, -6, 0], rotate: [0, 2, 0] }, dur: 1.8 },
                 ].map((p, i) => (
                   <motion.button
-                    key={p.label}
-                    onClick={() => applyPreset(p.c)}
-                    className="px-3 py-1.5 rounded-full bg-gray-800/70 border border-white/10 text-gray-200 text-sm"
-                    title={`${p.c} °C`}
-                    whileHover={{ y: -1 }}
-                    whileTap={{ scale: 0.98 }}
+                    key={p.key}
+                    onClick={() => { setScale('C'); setValueStr(String(p.c)); }}
+                    className="group relative inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-800/70 border border-white/10 text-gray-200 focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 outline-none"
+                    title={p.aria}
+                    aria-label={p.aria}
+                    whileHover={{ y: -2, scale: 1.05 }}
+                    whileTap={{ scale: 0.97 }}
                     transition={{ delay: i * 0.03 }}
                   >
-                    {p.label}
+                    {/* subtle hover ring */}
+                    <span className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-white/10 group-hover:ring-white/20" />
+          
+                    {/* animated icon */}
+                    <motion.span
+                      animate={
+                        prefersReduced
+                          ? undefined
+                          : { ...p.anim }
+                      }
+                      transition={
+                        prefersReduced
+                          ? undefined
+                          : { duration: p.dur, repeat: Infinity, ease: 'easeInOut' }
+                      }
+                      className="grid place-items-center"
+                    >
+                      <p.Icon className="w-5 h-5" />
+                    </motion.span>
                   </motion.button>
                 ))}
               </motion.div>
             )}
           </AnimatePresence>
 
+
           {/* Warning */}
           <AnimatePresence>
-            {belowAbsoluteZero && (
+            {belowAbsoluteZero && ( 
               <motion.div
                 className="mt-4 rounded-lg bg-red-900/40 border border-red-800 text-red-200 px-4 py-2"
                 initial={{ x: -12, opacity: 0 }}
@@ -556,7 +685,7 @@ const TemperatureConverter: React.FC = () => {
           </AnimatePresence>
         </motion.div>
 
-        {/* Result cards */}
+        {/* Result cards (all three with overlays) */}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
           initial="hidden"
@@ -570,8 +699,10 @@ const TemperatureConverter: React.FC = () => {
             {...softHover}
           >
             <AnimatePresence initial={false} mode="popLayout">
-              {heatState === 'hot' && <FireOverlay intense={extremeState === 'hot'} />}
-              {heatState === 'cold' && <IceOverlay intense={extremeState === 'cold'} />}
+              {!prefersReduced && heatState === 'hot' && <FireOverlay intense={extremeState === 'hot'} />}
+              {!prefersReduced && heatState === 'cold' && <IceOverlay intense={extremeState === 'cold'} />}
+              {/* NEW: neutral overlay */}
+              {!prefersReduced && heatState === 'normal' && <NeutralOverlay />}
             </AnimatePresence>
             <Tilt>
               <div className="relative">
@@ -604,8 +735,9 @@ const TemperatureConverter: React.FC = () => {
             {...softHover}
           >
             <AnimatePresence initial={false} mode="popLayout">
-              {heatState === 'hot' && <FireOverlay intense={extremeState === 'hot'} />}
-              {heatState === 'cold' && <IceOverlay intense={extremeState === 'cold'} />}
+              {!prefersReduced && heatState === 'hot' && <FireOverlay intense={extremeState === 'hot'} />}
+              {!prefersReduced && heatState === 'cold' && <IceOverlay intense={extremeState === 'cold'} />}
+              {!prefersReduced && heatState === 'normal' && <NeutralOverlay />}
             </AnimatePresence>
             <Tilt>
               <div className="relative">
@@ -638,10 +770,11 @@ const TemperatureConverter: React.FC = () => {
             {...softHover}
           >
             <AnimatePresence initial={false} mode="popLayout">
-              {heatState === 'hot' && <FireOverlay intense={extremeState === 'hot'} />}
-              {heatState === 'cold' && <IceOverlay intense={extremeState === 'cold'} />}
+              {!prefersReduced && heatState === 'hot' && <FireOverlay intense={extremeState === 'hot'} />}
+              {!prefersReduced && heatState === 'cold' && <IceOverlay intense={extremeState === 'cold'} />}
+              {!prefersReduced && heatState === 'normal' && <NeutralOverlay />}
             </AnimatePresence>
-            <Tilt>
+            <Tilt> 
               <div className="relative">
                 <div className="flex items-center gap-2 mb-4">
                   <Thermometer className="h-5 w-5 text-violet-300" />
@@ -649,7 +782,7 @@ const TemperatureConverter: React.FC = () => {
                 </div>
                 <div className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold text-gray-100">
                   <AnimatePresence mode="wait">
-                    <motion.span
+                    <motion.span 
                       key={display.K}
                       initial={{ y: 8, opacity: 0, scale: 0.995 }}
                       animate={{ y: 0, opacity: 1, scale: 1 }}
@@ -664,8 +797,9 @@ const TemperatureConverter: React.FC = () => {
               </div>
             </Tilt>
           </motion.div>
-        </motion.div>
+        </motion.div> 
 
+        {/* Quick reference */}
         <motion.div {...fadeUp(0.1)} className="rounded-2xl border border-white/10 bg-gray-900/60 backdrop-blur-xl p-6 shadow mb-8 ring-1 ring-white/10">
           <h4 className="font-semibold text-white mb-3">Quick Reference</h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
@@ -685,10 +819,11 @@ const TemperatureConverter: React.FC = () => {
         </motion.div>
 
         <AdBanner type="bottom" />
-        <RelatedCalculators currentPath="/temperature-converter" category="unit-converters" />
+        <RelatedCalculators currentPath="/temper ature-converter" category="unit-converters" />
       </motion.div>
     </>
-  );
+  ); 
 };
 
 export default TemperatureConverter;
+ 
