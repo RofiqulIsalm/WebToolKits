@@ -709,71 +709,71 @@ const TemperatureConverter: React.FC = () => {
                   transition={{ duration: 0.25 }}
                 >
                   {[
-  {
-    key: 'absoluteZero',
-    label: 'Absolute Zero',
-    c: -273.15,
-    Icon: Snowflake,
-    cls: 'from-blue-900/40 to-cyan-800/40 text-cyan-100 ring-cyan-400/40 hover:ring-cyan-300/60',
-  },
-  {
-    key: 'arctic',
-    label: 'Arctic Cold',
-    c: -40,
-    Icon: Snowflake,
-    cls: 'from-sky-700/40 to-blue-800/40 text-sky-100 ring-sky-400/40 hover:ring-sky-300/60',
-  },
-  {
-    key: 'freeze',
-    label: 'Water Freeze',
-    c: 0,
-    Icon: Snowflake,
-    cls: 'from-sky-600/30 to-blue-700/30 text-sky-200 ring-sky-400/30 hover:ring-sky-300/50',
-  },
-  {
-    key: 'room',
-    label: 'Room Temp',
-    c: 20,
-    Icon: Home,
-    cls: 'from-emerald-600/30 to-teal-700/30 text-emerald-200 ring-emerald-400/30 hover:ring-emerald-300/50',
-  },
-  {
-    key: 'body',
-    label: 'Body Temp',
-    c: 37,
-    Icon: Heart,
-    cls: 'from-amber-600/30 to-orange-700/30 text-amber-200 ring-amber-400/30 hover:ring-amber-300/50',
-  },
-  {
-    key: 'hotDay',
-    label: 'Hot Day',
-    c: 45,
-    Icon: Flame,
-    cls: 'from-orange-500/40 to-red-600/40 text-orange-100 ring-orange-400/40 hover:ring-orange-300/60',
-  },
-  {
-    key: 'boil',
-    label: 'Water Boil',
-    c: 100,
-    Icon: Flame,
-    cls: 'from-rose-600/30 to-red-700/30 text-rose-200 ring-rose-400/30 hover:ring-rose-300/50',
-  },
-  {
-    key: 'lava',
-    label: 'Lava',
-    c: 1200,
-    Icon: Flame,
-    cls: 'from-red-700/40 to-yellow-700/30 text-red-100 ring-red-400/40 hover:ring-red-300/60',
-  },
-  {
-    key: 'sun',
-    label: 'Sun Surface',
-    c: 5500,
-    Icon: Flame,
-    cls: 'from-yellow-400/40 to-orange-500/40 text-yellow-50 ring-yellow-300/40 hover:ring-yellow-200/60',
-  },
-]
-.map((p, i) => (
+                    {
+                      key: 'absoluteZero',
+                      label: 'Absolute Zero',
+                      c: -273.15,
+                      Icon: Snowflake,
+                      cls: 'from-blue-900/40 to-cyan-800/40 text-cyan-100 ring-cyan-400/40 hover:ring-cyan-300/60',
+                    },
+                    {
+                      key: 'arctic',
+                      label: 'Arctic Cold',
+                      c: -40,
+                      Icon: Snowflake,
+                      cls: 'from-sky-700/40 to-blue-800/40 text-sky-100 ring-sky-400/40 hover:ring-sky-300/60',
+                    },
+                    {
+                      key: 'freeze',
+                      label: 'Water Freeze',
+                      c: 0,
+                      Icon: Snowflake,
+                      cls: 'from-sky-600/30 to-blue-700/30 text-sky-200 ring-sky-400/30 hover:ring-sky-300/50',
+                    },
+                    {
+                      key: 'room',
+                      label: 'Room Temp',
+                      c: 20,
+                      Icon: Home,
+                      cls: 'from-emerald-600/30 to-teal-700/30 text-emerald-200 ring-emerald-400/30 hover:ring-emerald-300/50',
+                    },
+                    {
+                      key: 'body',
+                      label: 'Body Temp',
+                      c: 37,
+                      Icon: Heart,
+                      cls: 'from-amber-600/30 to-orange-700/30 text-amber-200 ring-amber-400/30 hover:ring-amber-300/50',
+                    },
+                    {
+                      key: 'hotDay',
+                      label: 'Hot Day',
+                      c: 45,
+                      Icon: Flame,
+                      cls: 'from-orange-500/40 to-red-600/40 text-orange-100 ring-orange-400/40 hover:ring-orange-300/60',
+                    },
+                    {
+                      key: 'boil',
+                      label: 'Water Boil',
+                      c: 100,
+                      Icon: Flame,
+                      cls: 'from-rose-600/30 to-red-700/30 text-rose-200 ring-rose-400/30 hover:ring-rose-300/50',
+                    },
+                    {
+                      key: 'lava',
+                      label: 'Lava',
+                      c: 1200,
+                      Icon: Flame,
+                      cls: 'from-red-700/40 to-yellow-700/30 text-red-100 ring-red-400/40 hover:ring-red-300/60',
+                    },
+                    {
+                      key: 'sun',
+                      label: 'Sun Surface',
+                      c: 5500,
+                      Icon: Flame,
+                      cls: 'from-yellow-400/40 to-orange-500/40 text-yellow-50 ring-yellow-300/40 hover:ring-yellow-200/60',
+                    },
+                  ]
+                  .map((p, i) => (
                     <motion.button
                       key={p.key}
                       onClick={() => { setScale('C'); setValueStr(String(p.c)); }}
