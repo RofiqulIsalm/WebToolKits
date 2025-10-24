@@ -501,7 +501,16 @@ const TemperatureConverter: React.FC = () => {
         />
 
         {/* Header */}
-       
+        <motion.div
+          className={`mb-8 rounded-2xl p-6 border bg-gradient-to-r backdrop-blur-md ring-1 ${(
+            heatState === 'hot'
+              ? 'from-orange-500/20 to-red-500/20 ring-red-400/30'
+              : heatState === 'cold'
+               ? 'from-sky-500/20 to-blue-500/20 ring-sky-400/30'
+              : 'from-emerald-500/15 to-lime-500/15 ring-emerald-300/20' /* subtle green when neutral */
+          )}`}
+          {...fadeUp(0.05)}
+        >
           <h1 className="text-3xl font-bold text-white mb-2">Temperature Converter</h1>
           <p className="text-gray-200/90">
             Convert between <b>Celsius</b>, <b>Fahrenheit</b>, and <b>Kelvin</b>. Enjoy dynamic fire/ice effects for extreme temps!
