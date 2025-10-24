@@ -49,6 +49,17 @@ import PressureConverter from './pages/PressureConverter';
 import VolumeConverter  from './pages/VolumeConverter';
 import EnergyConverter  from './pages/EnergyConverter';
 import DataStorageConverter  from './pages/DataStorageConverter';
+import MassWeightConverter from './pages/MassWeightConverter';
+import TimeConverter from './pages/TimeConverter';
+import PowerConverter from './pages/PowerConverter';
+import ForceConverter from './pages/ForceConverter';
+import DensityConverter from './pages/DensityConverter';
+import AccelerationConverter from './pages/AccelerationConverter';
+import FlowRateConverter from './pages/FlowRateConverter';
+import FuelConsumptionConverter from './pages/FuelConsumptionConverter';
+import AngleConverter from './pages/AngleConverter';
+import FrequencyConverter from './pages/FrequencyConverter';
+import DataTransferConverter from './pages/DataTransferConverter';
 
 
 
@@ -215,6 +226,17 @@ function App() {
               <Route path="/pressure-converter" element={<PressureConverter />} />
               <Route path="/energy-converter" element={<EnergyConverter />} />
               <Route path="/data-storage-converter" element={<DataStorageConverter />} />
+              <Route path="/mass-weight-converter" element={<MassWeightConverter />} />
+              <Route path="/time-converter" element={<TimeConverter />} />
+              <Route path="/power-converter" element={<PowerConverter />} />
+              <Route path="/force-converter" element={<ForceConverter />} />
+              <Route path="/density-converter" element={<DensityConverter />} />
+              <Route path="/acceleration-converter" element={<AccelerationConverter />} />
+              <Route path="/flow-rate-converter" element={<FlowRateConverter />} />
+              <Route path="/fuel-consumption-converter" element={<FuelConsumptionConverter />} />
+              <Route path="/angle-converter" element={<AngleConverter />} />
+              <Route path="/frequency-converter" element={<FrequencyConverter />} />
+              <Route path="/data-transfer-converter" element={<DataTransferConverter />} />
 
             
             {/* Currency & Finance */}
