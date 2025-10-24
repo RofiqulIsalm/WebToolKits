@@ -119,7 +119,7 @@ function FireOverlay({ intense = false }: { intense?: boolean }) {
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[140%] h-auto"
         initial={{ y: 20, opacity: 0.75 }}
         animate={{ y: [20, 10, 20], opacity: [0.75, 1, 0.75] }}
-        transition={{ duration: intense ? 1.4 : 2.0, repeat: Infinity, ease: 'easeInOut' }}
+        transition={{ duration: intense ? 4.4 : 2.0, repeat: Infinity, ease: 'easeInOut' }}
       >
         <defs>
           <linearGradient id="fireGrad" x1="0" y1="0" x2="0" y2="1">
