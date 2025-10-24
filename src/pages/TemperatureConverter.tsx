@@ -1,4 +1,4 @@
-
+// src/pages/TemperatureConverter.tsx
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Thermometer, Copy, Download } from 'lucide-react';
@@ -98,7 +98,7 @@ const BgCanvas: React.FC = () => (
   </>
 );
 
-/* ---------- Card-level overlays ---------- */
+/* ---------- Card-level overlays (stay mounted while extreme) ---------- */
 function FireOverlay({ intense = false }: { intense?: boolean }) {
   return (
     <motion.div
@@ -106,7 +106,7 @@ function FireOverlay({ intense = false }: { intense?: boolean }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: intense ? 1 : 0.9 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 1.35 }}
+      transition={{ duration: 0.35 }}
     >
       <motion.div
         className="absolute -inset-8 blur-2xl"
@@ -171,7 +171,7 @@ function IceOverlay({ intense = false }: { intense?: boolean }) {
   );
 }
 
-/* ---------- Global storm overlays ---------- */
+/* ---------- Global storm overlays (persist while extreme) ---------- */
 function FireStormOverlay() {
   return (
     <motion.div className="pointer-events-none fixed inset-0 z-[60]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6, ease: 'easeOut' }} aria-hidden="true">
@@ -197,7 +197,7 @@ function IceStormOverlay() {
   );
 }
 
-/* ---------- Parallax tilt wrapper ---------- */
+/* ---------- Parallax tilt ---------- */
 const Tilt: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -219,23 +219,31 @@ const Tilt: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return <div ref={ref} className="transition-transform will-change-transform">{children}</div>;
 };
 
-/* ---------- Confetti-like particles on extreme ---------- */
+/* ---------- Continuous particles on extreme (looping) ---------- */
 const Particles: React.FC<{ type: 'hot' | 'cold' }> = ({ type }) => {
-  const nodes = Array.from({ length: 24 });
+  const nodes = Array.from({ length: 28 });
   return (
     <div className="pointer-events-none fixed inset-0 z-[65]">
-      {nodes.map((_, i) => (
-        <div
-          key={i}
-          className={`absolute w-1.5 h-1.5 rounded-full opacity-0 motion-safe:animate-[floaty_1.6s_ease-in-out_forwards]
-                      ${type==='hot' ? 'bg-amber-300/90' : 'bg-blue-100/90'}`}
-          style={{
-            left: `${Math.random()*100}%`,
-            top: `${Math.random()*100}%`,
-            filter: type==='hot' ? 'drop-shadow(0 0 6px rgba(255,160,60,0.6))' : 'drop-shadow(0 0 6px rgba(180,220,255,0.6))'
-          }}
-        />
-      ))}
+      {nodes.map((_, i) => {
+        const delay = Math.random() * 1.2;          // 0–1.2s
+        const duration = 1.6 + Math.random() * 0.8; // 1.6–2.4s
+        const size = 1 + Math.random() * 2;         // 1–3px
+        return (
+          <div
+            key={i}
+            className="absolute rounded-full opacity-0"
+            style={{
+              width: `${size}px`,
+              height: `${size}px`,
+              left: `${Math.random()*100}%`,
+              top: `${Math.random()*100}%`,
+              animation: `floaty ${duration}s ease-in-out ${delay}s infinite`,
+              background: type==='hot' ? 'rgba(255,200,120,0.9)' : 'rgba(220,240,255,0.9)',
+              filter: type==='hot' ? 'drop-shadow(0 0 6px rgba(255,160,60,0.6))' : 'drop-shadow(0 0 6px rgba(180,220,255,0.6))'
+            }}
+          />
+        );
+      })}
     </div>
   );
 };
@@ -276,7 +284,7 @@ const TemperatureConverter: React.FC = () => {
     (scale === 'F' && valueNum < -459.67) ||
     (scale === 'K' && valueNum < 0);
 
-  // heat state based on Celsius
+  /* ---------- States for visuals ---------- */
   const heatState: 'hot' | 'cold' | 'normal' =
     !Number.isFinite(celsius as number)
       ? 'normal'
@@ -286,7 +294,7 @@ const TemperatureConverter: React.FC = () => {
           ? 'cold'
           : 'normal';
 
-  // Extreme global effect
+  // Extreme overlay persists until input changes away from extreme
   const extremeState: 'hot' | 'cold' | 'normal' =
     !Number.isFinite(celsius as number)
       ? 'normal'
@@ -296,7 +304,6 @@ const TemperatureConverter: React.FC = () => {
           ? 'cold'
           : 'normal';
 
-  // Dynamic accent class
   const accent = heatState === 'hot'
     ? 'from-orange-500/20 to-red-500/20 ring-red-400/30'
     : heatState === 'cold'
@@ -359,13 +366,15 @@ const TemperatureConverter: React.FC = () => {
 
   return (
     <>
-      {/* Local keyframes (if you can't add to global CSS) */}
+      {/* Local keyframes (can be moved to global CSS if you prefer) */}
       <style>
         {`
           @keyframes huedrift { from { filter: hue-rotate(0deg); } to { filter: hue-rotate(10deg); } }
-          @keyframes floaty { 0% { transform: translateY(0) scale(0.6); opacity: .0; }
-                              10% { opacity: .9; }
-                              100% { transform: translateY(-40px) scale(1); opacity: 0; } }
+          @keyframes floaty {
+            0% { transform: translateY(0) scale(0.6); opacity: .0; }
+            10% { opacity: .9; }
+            100% { transform: translateY(-40px) scale(1); opacity: 0; }
+          }
         `}
       </style>
 
@@ -386,10 +395,9 @@ const TemperatureConverter: React.FC = () => {
       />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-      {/* Ambient background */}
       <BgCanvas />
 
-      {/* Global storm overlays + particles for fun extreme states */}
+      {/* Persist global overlays as long as extremeState is hot/cold */}
       <AnimatePresence>
         {extremeState === 'hot' && (<><FireStormOverlay /><Particles type="hot" /></>)}
         {extremeState === 'cold' && (<><IceStormOverlay /><Particles type="cold" /></>)}
@@ -556,7 +564,7 @@ const TemperatureConverter: React.FC = () => {
           </AnimatePresence>
         </motion.div>
 
-        {/* Result cards */}
+        {/* Colored result cards (with persistent overlays) */}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
           initial="hidden"
@@ -669,7 +677,7 @@ const TemperatureConverter: React.FC = () => {
         <motion.div {...fadeUp(0.1)} className="rounded-2xl border border-white/10 bg-gray-900/60 backdrop-blur-xl p-6 shadow mb-8 ring-1 ring-white/10">
           <h4 className="font-semibold text-white mb-3">Quick Reference</h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-            <div className="rounded-lg p-4 bg-blue-950/40 border border-white/10"> 
+            <div className="rounded-lg p-4 bg-blue-950/40 border border-white/10">
               <div className="text-blue-200/90 font-medium mb-1">Water freezes</div>
               <div className="text-gray-200">0°C = 32°F = 273.15K</div>
             </div>
