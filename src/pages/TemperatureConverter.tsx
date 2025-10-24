@@ -21,6 +21,7 @@ const EXTREME_COLD_C = -1000;
 
 /* ---------------- Conversion helpers ---------------- */
 
+ 
 
 function toCelsius(value: number, scale: Scale) {
   if (!Number.isFinite(value)) return NaN;
@@ -215,28 +216,20 @@ function NeutralOverlay() {
       />
       {/* floating “wings” */}
       <motion.svg
-          viewBox="0 0 200 120"
-          className="absolute bottom-0 right-0 w-[160%] h-auto"
-          initial={{ opacity: 0.85, x: 0, y: 0, rotate: 0 }}
-          animate={{
-            x: [0, -14, -10, 0],     // left/right drift
-            y: [0, -10, -4, 0],      // up/down drift
-            rotate: [0, -1.2, 0.4, 0],
-            opacity: [0.85, 1, 0.9, 0.85],
-          }}
-          transition={{ duration: 5.2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <defs>
-            <linearGradient id="fireGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#ffd166" />
-              <stop offset="40%" stopColor="#ff7b00" />
-              <stop offset="100%" stopColor="#d00000" />
-            </linearGradient>
-          </defs>
-          <path d="M0,120 C20,90 30,60 60,50 C90,40 90,20 110,10 C130,0 150,20 140,45 C130,70 160,80 200,60 L200,120 Z" fill="url(#fireGrad)" opacity="0.55"/>
-          <path d="M0,120 C30,95 50,70 80,60 C110,50 120,30 135,20 C150,10 165,25 160,45 C155,65 175,75 200,70 L200,120 Z" fill="url(#fireGrad)" opacity="0.35"/>
-        </motion.svg>
-
+        viewBox="0 0 200 120"
+        className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[130%] h-auto"
+        initial={{ opacity: 0.6 }}
+        animate={{ opacity: [0.5, 0.8, 0.5] }}
+        transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <defs>
+          <linearGradient id="leafGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#86efac"/><stop offset="100%" stopColor="#34d399"/>
+          </linearGradient>
+        </defs>
+        <path d="M10,110 C40,90 70,90 100,110 C70,80 40,80 10,110Z" fill="url(#leafGrad)" opacity="0.35" />
+        <path d="M100,110 C130,90 160,90 190,110 C160,80 130,80 100,110Z" fill="url(#leafGrad)" opacity="0.35" />
+      </motion.svg>
       <div className="absolute inset-0 rounded-2xl ring-1 ring-emerald-400/25" />
       <div className="absolute inset-0 rounded-2xl" style={{ boxShadow: 'inset 0 0 80px rgba(34,197,94,0.22), inset 0 0 160px rgba(16,185,129,0.12)' }}/>
     </motion.div>
