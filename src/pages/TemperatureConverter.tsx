@@ -290,7 +290,7 @@ function IceStormOverlay() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 0.5 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
+      transition={{ duration: 0.6, ease: 'easeOut' }} 
       aria-hidden="true"
     >
       {/* Sweeping cold veil from top -> bottom */}
