@@ -764,7 +764,63 @@ const TemperatureConverter: React.FC = () => {
           </motion.div>
 
           {/* Kelvin */}
-          
+          <motion.div
+  className="relative overflow-hidden rounded-2xl p-6 border bg-gray-900/60 backdrop-blur-xl border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.35)] ring-1 ring-white/10 hover:ring-2 hover:ring-white/20 transition-shadow"
+  variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}
+  {...softHover}
+>
+  <div className="relative">
+    {/* Animated overlays INSIDE content area */}
+    <AnimatePresence initial={false} mode="popLayout">
+      {!prefersReduced && heatState === 'hot' && (
+        <motion.div
+          className="absolute inset-0"
+          animate={{ opacity: [0.8, 1, 0.8] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          <FireOverlay intense={extremeState === 'hot'} />
+        </motion.div>
+      )}
+      {!prefersReduced && heatState === 'cold' && (
+        <motion.div
+          className="absolute inset-0"
+          animate={{ opacity: [0.7, 1, 0.7] }}
+          transition={{ duration: 3, repeat: Infinity }}
+        >
+          <IceOverlay intense={extremeState === 'cold'} />
+        </motion.div>
+      )}
+      {!prefersReduced && heatState === 'normal' && (
+        <motion.div
+          className="absolute inset-0"
+          animate={{ opacity: [0.6, 0.8, 0.6] }}
+          transition={{ duration: 4, repeat: Infinity }}
+        >
+          <NeutralOverlay />
+        </motion.div>
+      )}
+    </AnimatePresence>
+
+    {/* Static content now unaffected */}
+    <Tilt>
+      <div className="relative z-10">
+        <div className="flex items-center gap-2 mb-4">
+          <Thermometer className="h-5 w-5 text-blue-300" />
+          <h3 className="text-lg font-semibold text-white">Celsius (°C)</h3>
+        </div>
+        <motion.div
+          className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold text-gray-100"
+          animate={!prefersReduced ? { scale: [1, 1.02, 1] } : undefined}
+          transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          {display.C}
+        </motion.div>
+        <div className="mt-2 text-sm text-gray-300/80">Input converted to °C</div>
+      </div>
+    </Tilt>
+  </div>
+</motion.div>
+
         </motion.div> 
 
         {/* Quick reference */}
