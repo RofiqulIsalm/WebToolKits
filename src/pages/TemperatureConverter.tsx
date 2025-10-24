@@ -300,7 +300,6 @@ function IceStormOverlay() {
         animate={{ backgroundPositionY: ['0%', '100%'] }}
         transition={{ duration: 6.0, repeat: Infinity, ease: 'linear' }}
       />
-      {/* Falling crystal flakes */}
       
       {/* Frosty grain */}
       <motion.div
