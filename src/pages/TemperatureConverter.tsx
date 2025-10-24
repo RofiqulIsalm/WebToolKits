@@ -301,21 +301,7 @@ function IceStormOverlay() {
         transition={{ duration: 6.0, repeat: Infinity, ease: 'linear' }}
       />
       {/* Falling crystal flakes */}
-      <div className="absolute inset-0 overflow-hidden">
-        {Array.from({ length: 32 }).map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute left-1/2 text-2xl select-none"
-            style={{ x: (i % 2 === 0 ? -1 : 1) * (20 + (i * 6) % 160) }}
-            initial={{ y: -40, opacity: 0 }}
-            animate={{ y: ['-10%', '110%'], opacity: [0, 1, 1, 0] }}
-            transition={{ duration: 7 + (i % 5), delay: i * 0.15, repeat: Infinity, ease: 'linear' }}
-          >
-            {/* ❄️ flake */}
-            <span role="img" aria-label="snowflake">❄️</span>
-          </motion.div>
-        ))}
-      </div>
+      
       {/* Frosty grain */}
       <motion.div
         className="absolute inset-0"
