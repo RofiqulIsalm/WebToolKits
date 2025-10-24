@@ -765,6 +765,7 @@ const TemperatureConverter: React.FC = () => {
 
           {/* Kelvin */}
           
+        </motion.div> 
 
         {/* Quick reference */}
         <motion.div {...fadeUp(0.1)} className="rounded-2xl border border-white/10 bg-gray-900/60 backdrop-blur-xl p-6 shadow mb-8 ring-1 ring-white/10">
