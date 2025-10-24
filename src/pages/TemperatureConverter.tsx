@@ -782,7 +782,7 @@ const TemperatureConverter: React.FC = () => {
                 </div>
                 <div className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold text-gray-100">
                   <AnimatePresence mode="wait">
-                    <motion.span
+                    <motion.span 
                       key={display.K}
                       initial={{ y: 8, opacity: 0, scale: 0.995 }}
                       animate={{ y: 0, opacity: 1, scale: 1 }}
