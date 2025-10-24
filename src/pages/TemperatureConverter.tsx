@@ -260,18 +260,76 @@ function NeutralBreezeOverlay() {
 }
 
 /* ---------------- Global overlays + persistent particles ---------------- */
-function FireStormOverlay() {
+function FireOverlay({ intense = false }: { intense?: boolean }) {
   return (
-    <motion.div className="pointer-events-none fixed inset-0 z-[60]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6, ease: 'easeOut' }} aria-hidden="true">
-      <motion.div className="absolute -inset-16 blur-3xl"
-        style={{ background: 'radial-gradient(70% 70% at 50% 70%, rgba(255,80,0,0.25) 0%, rgba(255,0,0,0.18) 50%, transparent 100%)' }}
-        animate={{ opacity: [0.5, 0.9, 0.5] }} transition={{ duration: 2.2, repeat: Infinity }}
+    <motion.div
+      className="pointer-events-none absolute inset-0 overflow-hidden"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: intense ? 1 : 0.9 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.35 }}
+    >
+      {/* glow wash (also gently moves) */}
+      <motion.div
+        className="absolute -inset-8 blur-2xl"
+        style={{
+          background:
+            'radial-gradient(60% 60% at 50% 80%, rgba(255,120,40,0.5) 0%, rgba(255,0,0,0.18) 60%, transparent 100%)'
+        }}
+        animate={{
+          opacity: [0.7, 1, 0.7],
+          x: [0, -6, -3, 0],
+          y: [0, -6, -2, 0],
+        }}
+        transition={{ duration: intense ? 2.4 : 3.2, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <motion.div className="absolute inset-0" animate={{ filter: ['blur(0px)', 'blur(0.6px)', 'blur(0px)'], transform: ['translateY(0px)', 'translateY(-3px)', 'translateY(0px)'] }} transition={{ duration: 2.0, repeat: Infinity, ease: 'easeInOut' }}/>
-      <motion.div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,200,120,0.18) 1px, transparent 1px)', backgroundSize: '6px 6px' }} animate={{ opacity: [0.12, 0.24, 0.12] }} transition={{ duration: 1.5, repeat: Infinity }}/>
+
+      {/* moving curved fire wedge */}
+      <motion.svg
+        viewBox="0 0 200 120"
+        className="absolute bottom-0 right-0 w-[160%] h-auto"
+        style={{ originX: 1, originY: 1 }}   // pivot at bottom-right corner
+        initial={{ x: 0, y: 0, rotate: 0, opacity: 0.85 }}
+        animate={{
+          x: [0, -16, -10, 0],
+          y: [0, -12, -4, 0],
+          rotate: [0, -1.4, 0.6, 0],
+          opacity: [0.85, 1, 0.92, 0.85],
+        }}
+        transition={{ duration: intense ? 3.6 : 5.2, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <defs>
+          <linearGradient id="fireGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#ffd166" />
+            <stop offset="40%" stopColor="#ff7b00" />
+            <stop offset="100%" stopColor="#d00000" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M0,120 C20,90 30,60 60,50 C90,40 90,20 110,10 C130,0 150,20 140,45 C130,70 160,80 200,60 L200,120 Z"
+          fill="url(#fireGrad)"
+          opacity="0.55"
+        />
+        <path
+          d="M0,120 C30,95 50,70 80,60 C110,50 120,30 135,20 C150,10 165,25 160,45 C155,65 175,75 200,70 L200,120 Z"
+          fill="url(#fireGrad)"
+          opacity="0.35"
+        />
+      </motion.svg>
+
+      {/* subtle rim & inner glow */}
+      <div className="absolute inset-0 rounded-2xl ring-1 ring-rose-700/40" />
+      <div
+        className="absolute inset-0 rounded-2xl"
+        style={{
+          boxShadow:
+            'inset 0 0 80px rgba(255,80,0,0.28), inset 0 0 160px rgba(255,140,0,0.16)'
+        }}
+      />
     </motion.div>
   );
 }
+
 function IceStormOverlay() {
   return (
     <motion.div className="pointer-events-none fixed inset-0 z-[60]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6, ease: 'easeOut' }} aria-hidden="true">
