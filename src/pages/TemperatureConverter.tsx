@@ -21,8 +21,6 @@ const EXTREME_COLD_C = -1000;
 
 /* ---------------- Conversion helpers ---------------- */
 
- 
-
 function toCelsius(value: number, scale: Scale) {
   if (!Number.isFinite(value)) return NaN;
   switch (scale) {
