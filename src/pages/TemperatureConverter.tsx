@@ -112,7 +112,7 @@ function FireOverlay({ intense = false }: { intense?: boolean }) {
         className="absolute -inset-8 blur-2xl"
         style={{ background: 'radial-gradient(60% 60% at 50% 80%, rgba(255,120,40,0.5) 0%, rgba(255,0,0,0.18) 60%, transparent 100%)' }}
         animate={{ opacity: [0.7, 1, 0.7] }}
-        transition={{ duration: 1.3, repeat: Infinity, ease: 'easeInOut' }}
+        transition={{ duration: 2.3, repeat: Infinity, ease: 'easeInOut' }}
       />
       <motion.svg
         viewBox="0 0 200 120"
