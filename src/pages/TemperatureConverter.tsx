@@ -106,7 +106,7 @@ function FireOverlay({ intense = false }: { intense?: boolean }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: intense ? 1 : 0.9 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.35 }}
+      transition={{ duration: 1.35 }}
     >
       <motion.div
         className="absolute -inset-8 blur-2xl"
