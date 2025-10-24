@@ -746,12 +746,28 @@ const TemperatureConverter: React.FC = () => {
             variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}
             {...softHover}
           >
-            <AnimatePresence initial={false} mode="popLayout">
-              {!prefersReduced && heatState === 'hot' && <FireOverlay intense={extremeState === 'hot'} />}
-              {!prefersReduced && heatState === 'cold' && <IceOverlay intense={extremeState === 'cold'} />}
-              {/* NEW: neutral overlay */}
-              {!prefersReduced && heatState === 'normal' && <NeutralOverlay />}
+           <AnimatePresence initial={false} mode="popLayout">
+              {!prefersReduced && heatState === 'hot' && (
+                <Drift amplitude={14} duration={4} rotate={0.8}>
+                  <FireOverlay intense={extremeState === 'hot'} />
+                </Drift>
+              )}
+            
+              {!prefersReduced && heatState === 'cold' && (
+                // a slightly slower/straighter drift for ice feels nice
+                <Drift amplitude={10} duration={5.2} rotate={0.3}>
+                  <IceOverlay intense={extremeState === 'cold'} />
+                </Drift>
+              )}
+            
+              {!prefersReduced && heatState === 'normal' && (
+                // move the neutral “leaf” overlay too
+                <Drift amplitude={8} duration={6} rotate={0.4}>
+                  <NeutralOverlay />
+                </Drift>
+              )}
             </AnimatePresence>
+
             <Tilt>
               <div className="relative">
                 <div className="flex items-center gap-2 mb-4">
