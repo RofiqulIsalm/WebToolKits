@@ -236,33 +236,6 @@ function NeutralOverlay() {
 function NeutralBreezeOverlay() {
   return (
     <motion.div
-      className="pointer-events-none fixed inset-0 z-[55]"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-      aria-hidden="true"
-    >
-      <motion.div
-        className="absolute -inset-16 blur-3xl"
-        style={{ background: 'radial-gradient(70% 70% at 50% 60%, rgba(34,197,94,0.15) 0%, rgba(16,185,129,0.12) 50%, transparent 100%)' }}
-        animate={{ opacity: [0.4, 0.8, 0.4] }}
-        transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.div
-        className="absolute inset-0"
-        style={{ backgroundImage: 'radial-gradient(circle, rgba(209,250,229,0.14) 1px, transparent 1px)', backgroundSize: '8px 8px' }}
-        animate={{ backgroundPositionX: ['0%','100%'], backgroundPositionY: ['0%','100%'] }}
-        transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
-      />
-    </motion.div>
-  );
-}
-
-/* ---------------- Global overlays + persistent particles ---------------- */
-function FireOverlay({ intense = false }: { intense?: boolean }) {
-  return (
-    <motion.div
       className="pointer-events-none absolute inset-0 overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: intense ? 1 : 0.9 }}
@@ -330,6 +303,19 @@ function FireOverlay({ intense = false }: { intense?: boolean }) {
   );
 }
 
+/* ---------------- Global overlays + persistent particles ---------------- */
+function FireStormOverlay() {
+  return (
+    <motion.div className="pointer-events-none fixed inset-0 z-[60]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6, ease: 'easeOut' }} aria-hidden="true">
+      <motion.div className="absolute -inset-16 blur-3xl"
+        style={{ background: 'radial-gradient(70% 70% at 50% 70%, rgba(255,80,0,0.25) 0%, rgba(255,0,0,0.18) 50%, transparent 100%)' }}
+        animate={{ opacity: [0.5, 0.9, 0.5] }} transition={{ duration: 2.2, repeat: Infinity }}
+      />
+      <motion.div className="absolute inset-0" animate={{ filter: ['blur(0px)', 'blur(0.6px)', 'blur(0px)'], transform: ['translateY(0px)', 'translateY(-3px)', 'translateY(0px)'] }} transition={{ duration: 2.0, repeat: Infinity, ease: 'easeInOut' }}/>
+      <motion.div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,200,120,0.18) 1px, transparent 1px)', backgroundSize: '6px 6px' }} animate={{ opacity: [0.12, 0.24, 0.12] }} transition={{ duration: 1.5, repeat: Infinity }}/>
+    </motion.div>
+  );
+}
 function IceStormOverlay() {
   return (
     <motion.div className="pointer-events-none fixed inset-0 z-[60]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6, ease: 'easeOut' }} aria-hidden="true">
