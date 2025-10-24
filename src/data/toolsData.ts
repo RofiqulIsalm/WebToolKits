@@ -255,6 +255,13 @@ export const toolsData = [
         path: '/energy-converter',
         color: 'converter-card' 
       },
+       {
+      name: 'Data Transfer Converter',
+      description: 'Convert between bits per second, Mbps, and MB/s',
+      icon: Network,
+      path: '/data-transfer-converter',
+      color: 'converter-card'
+      },
       {
         name: 'Data Storage Converter',
         description: 'Convert between bytes, KB, MB, GB, TB, and more',
