@@ -671,7 +671,7 @@ const TemperatureConverter: React.FC = () => {
 
           {/* Warning */}
           <AnimatePresence>
-            {belowAbsoluteZero && (
+            {belowAbsoluteZero && ( 
               <motion.div
                 className="mt-4 rounded-lg bg-red-900/40 border border-red-800 text-red-200 px-4 py-2"
                 initial={{ x: -12, opacity: 0 }}
