@@ -8,20 +8,19 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import RelatedCalculators from '../components/RelatedCalculators';
 import { seoData, generateCalculatorSchema } from '../utils/seoData';
 
-/* ---------- Scales ---------- */
+/* ---------------- Types & constants ---------------- */
 type Scale = 'C' | 'F' | 'K';
 const SCALE_LABEL: Record<Scale, string> = { C: 'Celsius (°C)', F: 'Fahrenheit (°F)', K: 'Kelvin (K)' };
-
 const FORMAT_MODES = ['normal', 'compact', 'scientific'] as const;
 type FormatMode = typeof FORMAT_MODES[number];
 
-/* ---------- Visual thresholds (°C) ---------- */
+// Visual thresholds (based on °C)
 const HOT_THRESHOLD_C = 40;
 const COLD_THRESHOLD_C = 0;
 const EXTREME_HOT_C = 1000;
 const EXTREME_COLD_C = -1000;
 
-/* ---------- Conversion helpers ---------- */
+/* ---------------- Conversion helpers ---------------- */
 function toCelsius(value: number, scale: Scale) {
   if (!Number.isFinite(value)) return NaN;
   switch (scale) {
@@ -54,7 +53,7 @@ function formatNumber(n: number, mode: FormatMode = 'normal', precision = 4) {
     : s.replace(/([.,]\d*?[1-9])0+$/, '$1').replace(/([.,])0+$/, '');
 }
 
-/* ---------- Motion helpers ---------- */
+/* ---------------- Motion helpers ---------------- */
 const spring = { type: 'spring', stiffness: 380, damping: 32, mass: 0.8 };
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 16 },
@@ -63,7 +62,7 @@ const fadeUp = (delay = 0) => ({
 });
 const softHover = { whileHover: { y: -3, scale: 1.015 }, whileTap: { scale: 0.985 }, transition: spring };
 
-/* ---------- Background canvas (ambient gradient + grain) ---------- */
+/* ---------------- Background canvas ---------------- */
 const BgCanvas: React.FC = () => (
   <>
     <div
@@ -79,8 +78,7 @@ const BgCanvas: React.FC = () => (
     />
     <div
       aria-hidden
-      className="pointer-events-none fixed inset-0 -z-10 will-change-transform motion-safe:animate-[huedrift_18s_ease-in-out_infinite_alternate]"
-      style={{ background: "transparent" }}
+      className="pointer-events-none fixed inset-0 -z-10 motion-safe:animate-[huedrift_18s_ease-in-out_infinite_alternate]"
     />
     <div
       aria-hidden
@@ -98,7 +96,7 @@ const BgCanvas: React.FC = () => (
   </>
 );
 
-/* ---------- Card-level overlays ---------- */
+/* ---------------- Card overlays ---------------- */
 function FireOverlay({ intense = false }: { intense?: boolean }) {
   return (
     <motion.div
@@ -106,7 +104,7 @@ function FireOverlay({ intense = false }: { intense?: boolean }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: intense ? 1 : 0.9 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 1.35 }}
+      transition={{ duration: 0.35 }}
     >
       <motion.div
         className="absolute -inset-8 blur-2xl"
@@ -171,7 +169,7 @@ function IceOverlay({ intense = false }: { intense?: boolean }) {
   );
 }
 
-/* ---------- Global storm overlays ---------- */
+/* ---------------- Global overlays + persistent particles ---------------- */
 function FireStormOverlay() {
   return (
     <motion.div className="pointer-events-none fixed inset-0 z-[60]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6, ease: 'easeOut' }} aria-hidden="true">
@@ -197,7 +195,46 @@ function IceStormOverlay() {
   );
 }
 
-/* ---------- Parallax tilt wrapper ---------- */
+/* Persistent confetti-like particles while extreme */
+const ParticlesPersistent: React.FC<{ type: 'hot' | 'cold' }> = ({ type }) => {
+  const [seed, setSeed] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setSeed(s => s + 1), 1600);
+    return () => clearInterval(id);
+  }, []);
+  const rand = (i: number) => {
+    const x = Math.sin((i + 1) * 9301 + seed * 49297) * 233280;
+    return (x - Math.floor(x));
+  };
+  const items = Array.from({ length: 26 }).map((_, i) => ({
+    left: `${rand(i) * 100}%`,
+    top: `${rand(i + 37) * 100}%`,
+    duration: 1.2 + rand(i + 71) * 1.6,
+    delay: rand(i + 113) * 0.4,
+    size: 1 + Math.round(rand(i + 151) * 2)
+  }));
+  return (
+    <div className="pointer-events-none fixed inset-0 z-[65]">
+      {items.map((p, i) => (
+        <div
+          key={`${seed}-${i}`}
+          className={`absolute rounded-full opacity-0 motion-safe:animate-[floaty_var(--dur)_ease-in-out_var(--delay)_1] ${type==='hot' ? 'bg-amber-300/90' : 'bg-blue-100/90'}`}
+          style={{
+            left: p.left,
+            top: p.top,
+            width: `${p.size}px`,
+            height: `${p.size}px`,
+            filter: type==='hot' ? 'drop-shadow(0 0 6px rgba(255,160,60,0.6))' : 'drop-shadow(0 0 6px rgba(180,220,255,0.6))',
+            ['--dur' as any]: `${p.duration}s`,
+            ['--delay' as any]: `${p.delay}s`,
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
+/* ---------------- Tilt wrapper ---------------- */
 const Tilt: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -219,34 +256,14 @@ const Tilt: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return <div ref={ref} className="transition-transform will-change-transform">{children}</div>;
 };
 
-/* ---------- Confetti-like particles on extreme ---------- */
-const Particles: React.FC<{ type: 'hot' | 'cold' }> = ({ type }) => {
-  const nodes = Array.from({ length: 24 });
-  return (
-    <div className="pointer-events-none fixed inset-0 z-[65]">
-      {nodes.map((_, i) => (
-        <div
-          key={i}
-          className={`absolute w-1.5 h-1.5 rounded-full opacity-0 motion-safe:animate-[floaty_1.6s_ease-in-out_forwards]
-                      ${type==='hot' ? 'bg-amber-300/90' : 'bg-blue-100/90'}`}
-          style={{
-            left: `${Math.random()*100}%`,
-            top: `${Math.random()*100}%`,
-            filter: type==='hot' ? 'drop-shadow(0 0 6px rgba(255,160,60,0.6))' : 'drop-shadow(0 0 6px rgba(180,220,255,0.6))'
-          }}
-        />
-      ))}
-    </div>
-  );
-};
-
-/* ---------- Component ---------- */
+/* ---------------- Component ---------------- */
 const TemperatureConverter: React.FC = () => {
-  // main state
+  // state
   const [valueStr, setValueStr] = useState<string>('20');
   const [scale, setScale] = useState<Scale>('C');
   const [precision, setPrecision] = useState<number>(4);
   const [formatMode, setFormatMode] = useState<FormatMode>('normal');
+  const [showPresets, setShowPresets] = useState(false);
 
   // refs
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -276,7 +293,7 @@ const TemperatureConverter: React.FC = () => {
     (scale === 'F' && valueNum < -459.67) ||
     (scale === 'K' && valueNum < 0);
 
-  // heat state based on Celsius
+  // heat state
   const heatState: 'hot' | 'cold' | 'normal' =
     !Number.isFinite(celsius as number)
       ? 'normal'
@@ -286,7 +303,7 @@ const TemperatureConverter: React.FC = () => {
           ? 'cold'
           : 'normal';
 
-  // Extreme global effect
+  // extreme global effect
   const extremeState: 'hot' | 'cold' | 'normal' =
     !Number.isFinite(celsius as number)
       ? 'normal'
@@ -296,7 +313,7 @@ const TemperatureConverter: React.FC = () => {
           ? 'cold'
           : 'normal';
 
-  // Dynamic accent class
+  // accent
   const accent = heatState === 'hot'
     ? 'from-orange-500/20 to-red-500/20 ring-red-400/30'
     : heatState === 'cold'
@@ -326,18 +343,15 @@ const TemperatureConverter: React.FC = () => {
     } catch {}
   }, [valueStr, scale, formatMode, precision]);
 
-  /* ---------- Presets ---------- */
-  const [showPresets, setShowPresets] = useState(false);
-  const applyPreset = (c: number) => { setScale('C'); setValueStr(String(c)); };
-
   /* ---------- Actions ---------- */
+  const applyPreset = (c: number) => { setScale('C'); setValueStr(String(c)); };
   function copyAll() {
     const lines = [
       `Input: ${formatNumber(valueNum, formatMode, precision)} ${SCALE_LABEL[scale]}`,
       `Celsius (°C): ${display.C}`,
       `Fahrenheit (°F): ${display.F}`,
       `Kelvin (K): ${display.K}`,
-    ].join('\n');
+    ].join('\\n');
     navigator?.clipboard?.writeText(lines).catch(()=>{});
   }
   function exportCSV() {
@@ -348,7 +362,7 @@ const TemperatureConverter: React.FC = () => {
       ['Fahrenheit (°F)', display.F],
       ['Kelvin (K)', display.K],
     ];
-    const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+    const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\\n');
     try {
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
@@ -359,15 +373,13 @@ const TemperatureConverter: React.FC = () => {
 
   return (
     <>
-      {/* Local keyframes (if you can't add to global CSS) */}
-      <style>
-        {`
-          @keyframes huedrift { from { filter: hue-rotate(0deg); } to { filter: hue-rotate(10deg); } }
-          @keyframes floaty { 0% { transform: translateY(0) scale(0.6); opacity: .0; }
-                              10% { opacity: .9; }
-                              100% { transform: translateY(-40px) scale(1); opacity: 0; } }
-        `}
-      </style>
+      {/* Local keyframes if you can't add to global CSS */}
+      <style>{`
+        @keyframes huedrift { from { filter: hue-rotate(0deg); } to { filter: hue-rotate(10deg); } }
+        @keyframes floaty { 0% { transform: translateY(0) scale(0.6); opacity: .0; }
+                            10% { opacity: .9; }
+                            100% { transform: translateY(-40px) scale(1); opacity: 0; } }
+      `}</style>
 
       <SEOHead
         title={seoData.temperatureConverter.title}
@@ -389,10 +401,10 @@ const TemperatureConverter: React.FC = () => {
       {/* Ambient background */}
       <BgCanvas />
 
-      {/* Global storm overlays + particles for fun extreme states */}
+      {/* Global overlays + persistent particles while extreme */}
       <AnimatePresence>
-        {extremeState === 'hot' && (<><FireStormOverlay /><Particles type="hot" /></>)}
-        {extremeState === 'cold' && (<><IceStormOverlay /><Particles type="cold" /></>)}
+        {extremeState === 'hot' && (<><FireStormOverlay /><ParticlesPersistent type="hot" /></>)}
+        {extremeState === 'cold' && (<><IceStormOverlay /><ParticlesPersistent type="cold" /></>)}
       </AnimatePresence>
 
       <motion.div
@@ -415,7 +427,7 @@ const TemperatureConverter: React.FC = () => {
         >
           <h1 className="text-3xl font-bold text-white mb-2">Temperature Converter</h1>
           <p className="text-gray-200/90">
-            Convert between <b>Celsius</b>, <b>Fahrenheit</b>, and <b>Kelvin</b>. Shortcuts: <kbd>/</kbd> focus, <kbd>P</kbd> presets, <kbd>C</kbd> copy.
+            Convert between <b>Celsius</b>, <b>Fahrenheit</b>, and <b>Kelvin</b>. Enjoy dynamic fire/ice effects for extreme temps!
           </p>
         </motion.div>
 
@@ -485,7 +497,7 @@ const TemperatureConverter: React.FC = () => {
             <motion.button
               onClick={() => setShowPresets((s) => !s)}
               className={`px-3 py-2 rounded-xl border text-gray-100 bg-gray-800/70 backdrop-blur ring-1 ${accent} hover:ring-2`}
-              title="Show presets (P)"
+              title="Show presets"
               {...softHover}
             >
               Presets
@@ -493,7 +505,7 @@ const TemperatureConverter: React.FC = () => {
             <motion.button
               onClick={copyAll}
               className={`px-3 py-2 rounded-xl border text-gray-100 bg-gray-800/70 backdrop-blur ring-1 ${accent} hover:ring-2 flex items-center gap-2`}
-              title="Copy results (C)"
+              title="Copy results"
               {...softHover}
             >
               <Copy size={16} /> Copy All
@@ -556,7 +568,7 @@ const TemperatureConverter: React.FC = () => {
           </AnimatePresence>
         </motion.div>
 
-        {/* Result cards */}
+        {/* Result cards (all three with overlays) */}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
           initial="hidden"
@@ -666,6 +678,7 @@ const TemperatureConverter: React.FC = () => {
           </motion.div>
         </motion.div>
 
+        {/* Quick reference */}
         <motion.div {...fadeUp(0.1)} className="rounded-2xl border border-white/10 bg-gray-900/60 backdrop-blur-xl p-6 shadow mb-8 ring-1 ring-white/10">
           <h4 className="font-semibold text-white mb-3">Quick Reference</h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
@@ -692,4 +705,3 @@ const TemperatureConverter: React.FC = () => {
 };
 
 export default TemperatureConverter;
- 
