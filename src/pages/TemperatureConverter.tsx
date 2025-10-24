@@ -61,6 +61,76 @@ const fadeUp = (delay = 0) => ({
 });
 const softHover = { whileHover: { y: -3, scale: 1.015 }, whileTap: { scale: 0.985 }, transition: spring };
 
+/* --- NEW: Mode-driven card motion + tiny particles (hot/cold/neutral) --- */
+function useModeMotion(
+  state: 'hot' | 'cold' | 'normal',
+  prefersReduced: boolean
+): { animate?: any; transition?: any } {
+  if (prefersReduced) return {};
+  const ease = 'easeInOut';
+  if (state === 'hot') {
+    return {
+      animate: {
+        y: [0, -4, 0, 2, 0],
+        rotate: [0, 0.25, 0, -0.2, 0],
+        scale: [1, 1.005, 1],
+      },
+      transition: { duration: 6, repeat: Infinity, ease },
+    };
+  }
+  if (state === 'cold') {
+    return {
+      animate: {
+        y: [0, 3, 0, -2, 0],
+        filter: ['blur(0px)', 'blur(0.4px)', 'blur(0px)'],
+      },
+      transition: { duration: 7.5, repeat: Infinity, ease },
+    };
+  }
+  return {
+    animate: { y: [0, -2, 0], rotate: [0, 0.15, 0] },
+    transition: { duration: 8, repeat: Infinity, ease },
+  };
+}
+
+const TinyParticlesInCard: React.FC<{ type: 'hot' | 'cold' | 'neutral'; disabled?: boolean }> = ({ type, disabled }) => {
+  const count = 12;
+  if (disabled) return null;
+  return (
+    <div className="pointer-events-none absolute inset-0 z-[1] overflow-hidden">
+      {Array.from({ length: count }).map((_, i) => {
+        const delay = (i % 6) * 0.25;
+        const left = `${(i * 83) % 100}%`;
+        const size = 2 + (i % 3);
+        const baseClass = 'absolute rounded-full opacity-60';
+        const color =
+          type === 'hot'
+            ? 'bg-amber-300/90'
+            : type === 'cold'
+            ? 'bg-blue-100/90'
+            : 'bg-emerald-200/90';
+
+        const hotAnim = { y: [0, -40, -80], opacity: [0, 0.9, 0], x: [0, i % 2 ? 6 : -6, i % 3 ? 10 : -10] };
+        const coldAnim = { y: [0, 35, 70], opacity: [0, 0.85, 0], x: [0, i % 2 ? -5 : 5, i % 3 ? -8 : 8] };
+        const neutralAnim = { y: [0, -20, 0], opacity: [0, 0.75, 0], x: [0, i % 2 ? 3 : -3, 0] };
+        const animate = type === 'hot' ? hotAnim : type === 'cold' ? coldAnim : neutralAnim;
+        const duration = type === 'hot' ? 3.5 : type === 'cold' ? 4.2 : 5.2;
+
+        return (
+          <motion.span
+            key={i}
+            className={`${baseClass} ${color}`}
+            style={{ left, width: size, height: size, bottom: type === 'cold' ? 'auto' : '-6px', top: type === 'cold' ? '-6px' : 'auto' }}
+            initial={{ opacity: 0 }}
+            animate={animate}
+            transition={{ duration, delay, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        );
+      })}
+    </div>
+  );
+};
+
 /* ---------------- Background canvas ---------------- */
 const BgCanvas: React.FC = () => (
   <>
@@ -168,7 +238,7 @@ function IceOverlay({ intense = false }: { intense?: boolean }) {
   );
 }
 
-/* ---------------- NEW: Neutral overlays (card + subtle page breeze) ---------------- */
+/* ---------------- NEW: Neutral overlay for cards ---------------- */
 function NeutralOverlay() {
   return (
     <motion.div
@@ -178,14 +248,12 @@ function NeutralOverlay() {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.35 }}
     >
-      {/* soft green glow */}
       <motion.div
         className="absolute -inset-8 blur-2xl"
         style={{ background: 'radial-gradient(60% 60% at 50% 50%, rgba(34,197,94,0.25) 0%, rgba(16,185,129,0.18) 60%, transparent 100%)' }}
         animate={{ opacity: [0.6, 0.9, 0.6] }}
         transition={{ duration: 2.0, repeat: Infinity, ease: 'easeInOut' }}
       />
-      {/* floating “wings” */}
       <motion.svg
         viewBox="0 0 200 120"
         className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[130%] h-auto"
@@ -203,31 +271,6 @@ function NeutralOverlay() {
       </motion.svg>
       <div className="absolute inset-0 rounded-2xl ring-1 ring-emerald-400/25" />
       <div className="absolute inset-0 rounded-2xl" style={{ boxShadow: 'inset 0 0 80px rgba(34,197,94,0.22), inset 0 0 160px rgba(16,185,129,0.12)' }}/>
-    </motion.div>
-  );
-}
-function NeutralBreezeOverlay() {
-  return (
-    <motion.div
-      className="pointer-events-none fixed inset-0 z-[55]"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-      aria-hidden="true"
-    >
-      <motion.div
-        className="absolute -inset-16 blur-3xl"
-        style={{ background: 'radial-gradient(70% 70% at 50% 60%, rgba(34,197,94,0.15) 0%, rgba(16,185,129,0.12) 50%, transparent 100%)' }}
-        animate={{ opacity: [0.4, 0.8, 0.4] }}
-        transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.div
-        className="absolute inset-0"
-        style={{ backgroundImage: 'radial-gradient(circle, rgba(209,250,229,0.14) 1px, transparent 1px)', backgroundSize: '8px 8px' }}
-        animate={{ backgroundPositionX: ['0%','100%'], backgroundPositionY: ['0%','100%'] }}
-        transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
-      />
     </motion.div>
   );
 }
@@ -449,6 +492,9 @@ const TemperatureConverter: React.FC = () => {
     } catch {}
   }
 
+  // NEW: per-mode gentle motion for cards
+  const cardMotion = useModeMotion(heatState, prefersReduced);
+
   return (
     <>
       {/* Local keyframes if you can't add to global CSS */}
@@ -479,11 +525,10 @@ const TemperatureConverter: React.FC = () => {
       {/* Ambient background */}
       <BgCanvas />
 
-      {/* Global overlays + persistent particles while extreme or neutral */}
+      {/* Global overlays + persistent particles while extreme */}
       <AnimatePresence>
         {!prefersReduced && extremeState === 'hot' && (<><FireStormOverlay /><ParticlesPersistent type="hot" /></>)}
         {!prefersReduced && extremeState === 'cold' && (<><IceStormOverlay /><ParticlesPersistent type="cold" /></>)}
-        {/* NEW: neutral gentle breeze when NOT extreme and NOT reduced-motion */}
       </AnimatePresence>
 
       <motion.div
@@ -506,7 +551,7 @@ const TemperatureConverter: React.FC = () => {
               ? 'from-orange-500/20 to-red-500/20 ring-red-400/30'
               : heatState === 'cold'
               ? 'from-sky-500/20 to-blue-500/20 ring-sky-400/30'
-              : 'from-emerald-500/15 to-lime-500/15 ring-emerald-300/20' /* subtle green when neutral */
+              : 'from-emerald-500/15 to-lime-500/15 ring-emerald-300/20'
           )}`}
           {...fadeUp(0.05)}
         >
@@ -611,8 +656,7 @@ const TemperatureConverter: React.FC = () => {
             </motion.button>
           </div>
 
-          {/* Presets */}
-          {/* Presets (icon-only, animated) */}
+          {/* Presets: animated icon buttons */}
           <AnimatePresence initial={false}>
             {showPresets && (
               <motion.div
@@ -621,17 +665,12 @@ const TemperatureConverter: React.FC = () => {
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.25 }}
-              > 
+              >
                 {[
-                  // Icon presets with their target °C and a looping animation
-                  { key: 'freeze', c: 0,    Icon: Snowflake, aria: 'Freeze (0°C)',
-                    anim: { rotate: [0, -10, 10, 0] }, dur: 2.2 },
-                  { key: 'room',   c: 20,   Icon: Home,     aria: 'Room (20°C)',
-                    anim: { y: [0, -3, 0, 2, 0] }, dur: 2.6 },
-                  { key: 'body',   c: 37,   Icon: Heart,    aria: 'Body (37°C)',
-                    anim: { scale: [1, 1.12, 1] }, dur: 1.6 },
-                  { key: 'boil',   c: 100,  Icon: Flame,    aria: 'Boil (100°C)',
-                    anim: { y: [0, -6, 0], rotate: [0, 2, 0] }, dur: 1.8 },
+                  { key: 'freeze', c: 0,    Icon: Snowflake, aria: 'Freeze (0°C)',  anim: { rotate: [0, -10, 10, 0] },           dur: 2.2 },
+                  { key: 'room',   c: 20,   Icon: Home,     aria: 'Room (20°C)',   anim: { y: [0, -3, 0, 2, 0] },               dur: 2.6 },
+                  { key: 'body',   c: 37,   Icon: Heart,    aria: 'Body (37°C)',   anim: { scale: [1, 1.12, 1] },                dur: 1.6 },
+                  { key: 'boil',   c: 100,  Icon: Flame,    aria: 'Boil (100°C)',  anim: { y: [0, -6, 0], rotate: [0, 2, 0] },   dur: 1.8 },
                 ].map((p, i) => (
                   <motion.button
                     key={p.key}
@@ -643,21 +682,10 @@ const TemperatureConverter: React.FC = () => {
                     whileTap={{ scale: 0.97 }}
                     transition={{ delay: i * 0.03 }}
                   >
-                    {/* subtle hover ring */}
                     <span className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-white/10 group-hover:ring-white/20" />
-          
-                    {/* animated icon */}
                     <motion.span
-                      animate={
-                        prefersReduced
-                          ? undefined
-                          : { ...p.anim }
-                      }
-                      transition={
-                        prefersReduced
-                          ? undefined
-                          : { duration: p.dur, repeat: Infinity, ease: 'easeInOut' }
-                      }
+                      animate={prefersReduced ? undefined : { ...p.anim }}
+                      transition={prefersReduced ? undefined : { duration: p.dur, repeat: Infinity, ease: 'easeInOut' }}
                       className="grid place-items-center"
                     >
                       <p.Icon className="w-5 h-5" />
@@ -668,10 +696,9 @@ const TemperatureConverter: React.FC = () => {
             )}
           </AnimatePresence>
 
-
           {/* Warning */}
           <AnimatePresence>
-            {belowAbsoluteZero && ( 
+            {belowAbsoluteZero && (
               <motion.div
                 className="mt-4 rounded-lg bg-red-900/40 border border-red-800 text-red-200 px-4 py-2"
                 initial={{ x: -12, opacity: 0 }}
@@ -685,7 +712,7 @@ const TemperatureConverter: React.FC = () => {
           </AnimatePresence>
         </motion.div>
 
-        {/* Result cards (all three with overlays) */}
+        {/* Result cards (all three with overlays + mode motion + particles) */}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
           initial="hidden"
@@ -697,13 +724,14 @@ const TemperatureConverter: React.FC = () => {
             className="relative overflow-hidden rounded-2xl p-6 border bg-gray-900/60 backdrop-blur-xl border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.35)] ring-1 ring-white/10 hover:ring-2 hover:ring-white/20 transition-shadow"
             variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}
             {...softHover}
+            {...cardMotion}
           >
             <AnimatePresence initial={false} mode="popLayout">
               {!prefersReduced && heatState === 'hot' && <FireOverlay intense={extremeState === 'hot'} />}
               {!prefersReduced && heatState === 'cold' && <IceOverlay intense={extremeState === 'cold'} />}
-              {/* NEW: neutral overlay */}
               {!prefersReduced && heatState === 'normal' && <NeutralOverlay />}
             </AnimatePresence>
+            <TinyParticlesInCard type={heatState === 'normal' ? 'neutral' : heatState} disabled={prefersReduced} />
             <Tilt>
               <div className="relative">
                 <div className="flex items-center gap-2 mb-4">
@@ -733,12 +761,14 @@ const TemperatureConverter: React.FC = () => {
             className="relative overflow-hidden rounded-2xl p-6 border bg-gray-900/60 backdrop-blur-xl border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.35)] ring-1 ring-white/10 hover:ring-2 hover:ring-white/20 transition-shadow"
             variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}
             {...softHover}
+            {...cardMotion}
           >
             <AnimatePresence initial={false} mode="popLayout">
               {!prefersReduced && heatState === 'hot' && <FireOverlay intense={extremeState === 'hot'} />}
               {!prefersReduced && heatState === 'cold' && <IceOverlay intense={extremeState === 'cold'} />}
               {!prefersReduced && heatState === 'normal' && <NeutralOverlay />}
             </AnimatePresence>
+            <TinyParticlesInCard type={heatState === 'normal' ? 'neutral' : heatState} disabled={prefersReduced} />
             <Tilt>
               <div className="relative">
                 <div className="flex items-center gap-2 mb-4">
@@ -768,12 +798,14 @@ const TemperatureConverter: React.FC = () => {
             className="relative overflow-hidden rounded-2xl p-6 border bg-gray-900/60 backdrop-blur-xl border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.35)] ring-1 ring-white/10 hover:ring-2 hover:ring-white/20 transition-shadow"
             variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}
             {...softHover}
+            {...cardMotion}
           >
             <AnimatePresence initial={false} mode="popLayout">
               {!prefersReduced && heatState === 'hot' && <FireOverlay intense={extremeState === 'hot'} />}
               {!prefersReduced && heatState === 'cold' && <IceOverlay intense={extremeState === 'cold'} />}
               {!prefersReduced && heatState === 'normal' && <NeutralOverlay />}
             </AnimatePresence>
+            <TinyParticlesInCard type={heatState === 'normal' ? 'neutral' : heatState} disabled={prefersReduced} />
             <Tilt>
               <div className="relative">
                 <div className="flex items-center gap-2 mb-4">
