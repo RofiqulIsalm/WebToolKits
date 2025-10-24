@@ -331,13 +331,6 @@ export const toolsData = [
         icon: Network,
         path: '/data-transfer-converter',
         color: 'converter-card'
-      },
-      {
-        name: 'Currency Converter',
-        description: 'Convert between global currencies in real time',
-        icon: DollarSign,
-        path: '/currency-converter',
-        color: 'converter-card'
       }
     ]
   },
