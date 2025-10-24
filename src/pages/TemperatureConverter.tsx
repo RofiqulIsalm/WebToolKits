@@ -804,7 +804,7 @@ const TemperatureConverter: React.FC = () => {
 
           {/* Fahrenheit card */}
           <motion.div
-            className="relative overflow-hidden rounded-2xl p-6 border bg-gray-900/60 backdrop-blur-xl border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.35)] ring-1 ring-white/10 hover:ring-2 hover:ring-white/20 transition-shadow"
+            className="relative overflow-hidden rounded-2xl p-6 border bg-rose-900/60 backdrop-blur-xl border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.35)] ring-1 ring-white/10 hover:ring-2 hover:ring-white/20 transition-shadow"
             variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}
             {...softHover}
           >
@@ -813,7 +813,7 @@ const TemperatureConverter: React.FC = () => {
               {heatState === 'cold' && <IceOverlay intense={extremeState === 'cold'} />}
             </AnimatePresence>
             <Tilt>
-              <div className="relative bg-rose-400">
+              <div className="relative ">
                 <div className="flex items-center gap-2 mb-4">
                   <Thermometer className="h-5 w-5 text-rose-300" />
                   <h3 className="text-lg font-semibold text-white">Fahrenheit (°F)</h3>
