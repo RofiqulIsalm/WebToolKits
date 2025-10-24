@@ -1,18 +1,3 @@
-
-/**
- * TemperatureConverter.tsx
- * ------------------------------------------------------------
- * Advanced temperature converter with rich animations:
- * - Dynamic fire/ice overlays on result cards when hot/cold
- * - Global "fire storm" or "ice storm" that persists while extreme values (>= 1000°C or <= -1000°C)
- * - CSV export & Copy-all, presets, precision & formatting
- * - URL sync for reproducible states
- *
- * Notes:
- *  - Requires TailwindCSS (for utility classes) and framer-motion/lucide-react.
- *  - Animations degrade gracefully on reduced-motion devices.
- */
-
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Thermometer, Copy, Download, Snowflake, Home, Heart, Flame } from 'lucide-react';
@@ -715,35 +700,82 @@ const TemperatureConverter: React.FC = () => {
 
           {/* Preset chips */}
           <AnimatePresence initial={false}>
-            {showPresets && (
-              <motion.div
-                className="mt-3 flex flex-wrap gap-2"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.25 }}
-              >
-                {[
-                  { label: 'Freeze', c: 0 },
-                  { label: 'Room', c: 20 },
-                  { label: 'Body', c: 37 },
-                  { label: 'Boil', c: 100 },
-                ].map((p, i) => (
-                  <motion.button
-                    key={p.label}
-                    onClick={() => { setScale('C'); setValueStr(String(p.c)); }}
-                    className="px-3 py-1.5 rounded-full bg-gray-800/70 border border-white/10 text-gray-200 text-sm"
-                    title={`${p.c} °C`}
-                    whileHover={{ y: -1 }}
-                    whileTap={{ scale: 0.98 }}
-                    transition={{ delay: i * 0.03 }}
-                  >
-                    {p.label}
-                  </motion.button>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
+              {showPresets && (
+                <motion.div
+                  className="mt-3 flex flex-wrap gap-2"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.25 }}
+                >
+                  {[
+                    {
+                      key: 'freeze',
+                      label: 'Freeze',
+                      c: 0,
+                      Icon: Snowflake,
+                      cls: 'from-sky-600/30 to-blue-700/30 text-sky-200 ring-sky-400/30 hover:ring-sky-300/50',
+                    },
+                    {
+                      key: 'room',
+                      label: 'Room',
+                      c: 20,
+                      Icon: Home,
+                      cls: 'from-emerald-600/30 to-teal-700/30 text-emerald-200 ring-emerald-400/30 hover:ring-emerald-300/50',
+                    },
+                    {
+                      key: 'body',
+                      label: 'Body',
+                      c: 37,
+                      Icon: Heart,
+                      cls: 'from-amber-600/30 to-orange-700/30 text-amber-200 ring-amber-400/30 hover:ring-amber-300/50',
+                    },
+                    {
+                      key: 'boil',
+                      label: 'Boil',
+                      c: 100,
+                      Icon: Flame,
+                      cls: 'from-rose-600/30 to-red-700/30 text-rose-200 ring-rose-400/30 hover:ring-rose-300/50',
+                    },
+                  ].map((p, i) => (
+                    <motion.button
+                      key={p.key}
+                      onClick={() => { setScale('C'); setValueStr(String(p.c)); }}
+                      title={`${p.label} (${p.c} °C)`}
+                      className={[
+                        'relative inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm',
+                        'bg-gradient-to-br backdrop-blur',
+                        'border-white/10 ring-1',
+                        'transition-shadow',
+                        p.cls,
+                      ].join(' ')}
+                      whileHover={{ y: -1, scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ type: 'spring', stiffness: 360, damping: 22, delay: i * 0.03 }}
+                    >
+                      {/* animated glow ping */}
+                      <motion.span
+                        className="absolute inset-0 rounded-full"
+                        style={{ boxShadow: '0 0 0 0 rgba(255,255,255,0.12)' }}
+                        animate={{ boxShadow: ['0 0 0 0 rgba(255,255,255,0.10)','0 0 24px 6px rgba(255,255,255,0.06)','0 0 0 0 rgba(255,255,255,0.10)'] }}
+                        transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut', delay: i * 0.05 }}
+                        aria-hidden
+                      />
+                      {/* icon with gentle motion */}
+                      <motion.span
+                        className="relative inline-flex"
+                        animate={{ rotate: [0, 4, 0], scale: [1, 1.06, 1] }}
+                        transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut', delay: i * 0.1 }}
+                      >
+                        <p.Icon size={16} className="opacity-90" />
+                      </motion.span>
+                      <span className="relative">{p.label}</span>
+                      <span className="relative text-xs/none opacity-80">({p.c}°C)</span>
+                    </motion.button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
 
           {/* Absolute zero guard */}
           <AnimatePresence>
