@@ -1,9 +1,10 @@
+
 /**
  * TemperatureConverter.tsx
  * ------------------------------------------------------------
  * Advanced temperature converter with rich animations:
- * - Dynamic fire/ice/neutral overlays on result cards
- * - Global "fire storm" or "ice storm" persists while extreme values (>= 1000°C or <= -1000°C)
+ * - Dynamic fire/ice overlays on result cards when hot/cold
+ * - Global "fire storm" or "ice storm" that persists while extreme values (>= 1000°C or <= -1000°C)
  * - CSV export & Copy-all, presets, precision & formatting
  * - URL sync for reproducible states
  *
@@ -40,7 +41,7 @@ const FORMAT_MODES = ['normal', 'compact', 'scientific'] as const;
 type FormatMode = typeof FORMAT_MODES[number];
 
 /** Visual thresholds (based on °C). */
-const HOT_THRESHOLD_C = 50; // was 40; user requested 50°C as the hot cutoff
+const HOT_THRESHOLD_C = 40;
 const COLD_THRESHOLD_C = 0;
 
 /** Extreme thresholds that trigger global fire/ice storm overlays. */
@@ -156,7 +157,7 @@ const BgCanvas: React.FC = () => (
 
 /* =====================================================================
    CARD OVERLAYS
-   - Fire/Ice/Neutral overlays that sit on each result card
+   - Fire/Ice overlays that sit on each result card
    ===================================================================== */
 
 /** Blazing fire overlay for a card. */
@@ -239,43 +240,6 @@ function IceOverlay({ intense = false }: { intense?: boolean }) {
   );
 }
 
-/** Calm neutral overlay for a card (shown when in the "normal" range). */
-function NeutralOverlay() {
-  return (
-    <motion.div
-      className="pointer-events-none absolute inset-0 overflow-hidden"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 0.9 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.35 }}
-    >
-      {/* Gentle green/teal wash */}
-      <motion.div
-        className="absolute -inset-8 blur-2xl"
-        style={{ background: 'radial-gradient(60% 60% at 50% 50%, rgba(34,197,94,0.28) 0%, rgba(20,184,166,0.22) 50%, transparent 100%)' }}
-        animate={{ opacity: [0.6, 0.9, 0.6], scale: [1, 1.02, 1] }}
-        transition={{ duration: 2.0, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      {/* Soft breeze curves */}
-      <motion.svg
-        viewBox="0 0 200 120"
-        className="absolute inset-0 w-full h-full"
-        initial={{ opacity: 0.35 }}
-        animate={{ opacity: [0.25, 0.5, 0.25], x: [0, 4, 0] }}
-        transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        <g stroke="#bbf7d0" strokeOpacity="0.7" strokeWidth="1.4" fill="none">
-          <path d="M0 40 C40 30, 80 50, 120 40 S 200 50, 200 40" />
-          <path d="M0 80 C50 70, 90 90, 130 80 S 200 90, 200 80" />
-        </g>
-      </motion.svg>
-      {/* Subtle rim */}
-      <div className="absolute inset-0 rounded-2xl ring-1 ring-emerald-300/25" />
-      <div className="absolute inset-0 rounded-2xl" style={{ boxShadow: 'inset 0 0 80px rgba(16,185,129,0.18), inset 0 0 160px rgba(45,212,191,0.12)' }}/>
-    </motion.div>
-  );
-}
-
 /* =====================================================================
    GLOBAL OVERLAYS (PERSIST WHILE EXTREME)
    - Enlarged Fire Storm
@@ -283,6 +247,7 @@ function NeutralOverlay() {
    - ❄️ emoji indicator for cold extremes
    ===================================================================== */
 
+/** Big, dramatic fire storm overlay; persists while celsius >= EXTREME_HOT_C. */
 function FireStormOverlay() {
   return (
     <motion.div
@@ -317,6 +282,7 @@ function FireStormOverlay() {
   );
 }
 
+/** Ice storm overlay sweeping from top to bottom; persists while celsius <= EXTREME_COLD_C. */
 function IceStormOverlay() {
   return (
     <motion.div
@@ -348,20 +314,24 @@ function IceStormOverlay() {
 
 /* =====================================================================
    PERSISTENT PARTICLES (DECORATIVE)
+   - Light confetti-style dots that drift while extreme states are active
    ===================================================================== */
 
 const ParticlesPersistent: React.FC<{ type: 'hot' | 'cold' }> = ({ type }) => {
+  // Re-seed periodically to vary positions.
   const [seed, setSeed] = useState(0);
   useEffect(() => {
     const id = setInterval(() => setSeed(s => s + 1), 1600);
     return () => clearInterval(id);
   }, []);
 
+  // Simple deterministic pseudo-random based on index + seed.
   const rand = (i: number) => {
     const x = Math.sin((i + 1) * 9301 + seed * 49297) * 233280;
     return (x - Math.floor(x));
   };
 
+  // Build a small set of particle specs.
   const items = Array.from({ length: 26 }).map((_, i) => ({
     left: `${rand(i) * 100}%`,
     top: `${rand(i + 37) * 100}%`,
@@ -393,6 +363,7 @@ const ParticlesPersistent: React.FC<{ type: 'hot' | 'cold' }> = ({ type }) => {
 
 /* =====================================================================
    TILT WRAPPER
+   - Lightweight 3D tilt on hover for fine pointers
    ===================================================================== */
 
 const Tilt: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -402,9 +373,11 @@ const Tilt: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const el = ref.current;
     if (!el) return;
 
+    // Respect coarse pointers (touch) by skipping tilt.
     const hasFinePointer = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(pointer:fine)').matches;
     if (!hasFinePointer) return;
 
+    // Mouse-move handler for tilt math.
     const onMove = (e: MouseEvent) => {
       const r = el.getBoundingClientRect();
       const x = (e.clientX - r.left) / r.width - 0.5;
@@ -413,6 +386,7 @@ const Tilt: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     };
     const onLeave = () => { el.style.transform = 'perspective(800px) rotateX(0) rotateY(0)'; };
 
+    // Attach & cleanup.
     el.addEventListener('mousemove', onMove);
     el.addEventListener('mouseleave', onLeave);
     return () => {
@@ -429,13 +403,23 @@ const Tilt: React.FC<{ children: React.ReactNode }> = ({ children }) => {
    ===================================================================== */
 
 const TemperatureConverter: React.FC = () => {
+  /** Raw string input to support commas and empty state. */
   const [valueStr, setValueStr] = useState<string>('20');
+
+  /** Active scale selection. */
   const [scale, setScale] = useState<Scale>('C');
+
+  /** Number formatting controls. */
   const [precision, setPrecision] = useState<number>(4);
   const [formatMode, setFormatMode] = useState<FormatMode>('normal');
+
+  /** Preset drawer toggle. */
   const [showPresets, setShowPresets] = useState(false);
+
+  /** Ref for focusing the input. */
   const inputRef = useRef<HTMLInputElement | null>(null);
 
+  /* ---------------- Parse input (commas ok, empty -> 0) ---------------- */
   const valueNum = useMemo(() => {
     const clean = (valueStr ?? '').replace(/,/g, '').trim();
     if (clean === '') return 0;
@@ -443,21 +427,25 @@ const TemperatureConverter: React.FC = () => {
     return Number.isFinite(n) ? n : 0;
   }, [valueStr]);
 
+  /* ---------------- Compute all scales via Celsius --------------------- */
   const celsius = useMemo(() => toCelsius(valueNum, scale), [valueNum, scale]);
   const fahrenheit = useMemo(() => fromCelsius(celsius as number, 'F'), [celsius]);
   const kelvin = useMemo(() => fromCelsius(celsius as number, 'K'), [celsius]);
 
+  /* ---------------- Pretty display strings ----------------------------- */
   const display = {
     C: formatNumber(celsius as number, formatMode, precision),
     F: formatNumber(fahrenheit as number, formatMode, precision),
     K: formatNumber(kelvin as number, formatMode, precision),
   };
 
+  /* ---------------- Safety: absolute zero per scale -------------------- */
   const belowAbsoluteZero =
     (scale === 'C' && valueNum < -273.15) ||
     (scale === 'F' && valueNum < -459.67) ||
     (scale === 'K' && valueNum < 0);
 
+  /* ---------------- State buckets for visuals -------------------------- */
   const heatState: 'hot' | 'cold' | 'normal' =
     !Number.isFinite(celsius as number)
       ? 'normal'
@@ -476,12 +464,14 @@ const TemperatureConverter: React.FC = () => {
           ? 'cold'
           : 'normal';
 
+  /* ---------------- Accent ring gradient based on state ---------------- */
   const accent = heatState === 'hot'
     ? 'from-orange-500/20 to-red-500/20 ring-red-400/30'
     : heatState === 'cold'
     ? 'from-sky-500/20 to-blue-500/20 ring-sky-400/30'
-    : 'from-emerald-500/15 to-teal-500/15 ring-emerald-400/20'; // neutral look
+    : 'from-indigo-500/15 to-purple-500/15 ring-white/10';
 
+  /* ---------------- URL sync (shareable state) ------------------------- */
   useEffect(() => {
     try {
       const p = new URLSearchParams(window.location.search);
@@ -505,18 +495,21 @@ const TemperatureConverter: React.FC = () => {
     } catch {}
   }, [valueStr, scale, formatMode, precision]);
 
+  /* ---------------- Button actions ------------------------------------ */
   const applyPreset = (c: number) => { setScale('C'); setValueStr(String(c)); };
 
+  /** Copy all values to clipboard (human readable). */
   function copyAll() {
     const lines = [
       `Input: ${formatNumber(valueNum, formatMode, precision)} ${SCALE_LABEL[scale]}`,
       `Celsius (°C): ${display.C}`,
       `Fahrenheit (°F): ${display.F}`,
       `Kelvin (K): ${display.K}`,
-    ].join('\n');
+    ].join('\\n');
     navigator?.clipboard?.writeText(lines).catch(()=>{});
   }
 
+  /** Export current values as CSV. */
   function exportCSV() {
     const rows = [
       ['Label','Value'],
@@ -525,7 +518,7 @@ const TemperatureConverter: React.FC = () => {
       ['Fahrenheit (°F)', display.F],
       ['Kelvin (K)', display.K],
     ];
-    const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+    const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\\n');
     try {
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
@@ -536,6 +529,7 @@ const TemperatureConverter: React.FC = () => {
 
   return (
     <>
+      {/* Local keyframes in case your project doesn't include these globally. */}
       <style>{`
         @keyframes huedrift { from { filter: hue-rotate(0deg); } to { filter: hue-rotate(10deg); } }
         @keyframes floaty { 0% { transform: translateY(0) scale(0.6); opacity: .0; }
@@ -543,6 +537,7 @@ const TemperatureConverter: React.FC = () => {
                             100% { transform: translateY(-40px) scale(1); opacity: 0; } }
       `}</style>
 
+      {/* SEO meta + breadcrumbs schema */}
       <SEOHead
         title={seoData.temperatureConverter.title}
         description={seoData.temperatureConverter.description}
@@ -560,8 +555,10 @@ const TemperatureConverter: React.FC = () => {
       />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+      {/* Ambient background */}
       <BgCanvas />
 
+      {/* Global overlays + persistent particles while extreme states are active */}
       <AnimatePresence>
         {extremeState === 'hot' && (<><FireStormOverlay /><ParticlesPersistent type="hot" /></>)}
         {extremeState === 'cold' && (<><IceStormOverlay /><ParticlesPersistent type="cold" /></>)}
@@ -573,6 +570,7 @@ const TemperatureConverter: React.FC = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.35, ease: 'easeOut' }}
       >
+        {/* Breadcrumbs */}
         <Breadcrumbs
           items={[
             { name: 'Unit Converters', url: '/category/unit-converters' },
@@ -580,12 +578,14 @@ const TemperatureConverter: React.FC = () => {
           ]}
         />
 
+        {/* Header with state-aware accent */}
         <motion.div
           className={`mb-8 rounded-2xl p-6 border bg-gradient-to-r backdrop-blur-md ring-1 ${accent}`}
           {...fadeUp(0.05)}
         >
           <div className="flex items-center gap-3">
             <h1 className="text-3xl font-bold text-white">Temperature Converter</h1>
+            {/* Extreme badges: fire for hot, ❄️ for cold */}
             <AnimatePresence>
               {extremeState === 'hot' && (
                 <motion.span
@@ -614,33 +614,19 @@ const TemperatureConverter: React.FC = () => {
                 </motion.span>
               )}
             </AnimatePresence>
-            <AnimatePresence>
-              {heatState === 'normal' && (
-                <motion.span
-                  className="text-2xl select-none"
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.8, opacity: 0 }}
-                  transition={spring}
-                  title="Comfortable / neutral"
-                >
-                  🌿
-                </motion.span>
-              )}
-            </AnimatePresence>
           </div>
           <p className="text-gray-200/90 mt-2">
-            Convert between <b>Celsius</b>, <b>Fahrenheit</b>, and <b>Kelvin</b>. Enjoy dynamic fire/ice effects for extreme temps—and a calm neutral vibe when things are comfortable.
+            Convert between <b>Celsius</b>, <b>Fahrenheit</b>, and <b>Kelvin</b>. Enjoy dynamic fire/ice effects for extreme temps!
           </p>
         </motion.div>
 
-        {/* Controls */}
+        {/* Controls block */}
         <motion.div
           className="rounded-2xl border border-white/10 bg-gray-900/60 backdrop-blur-xl p-6 shadow mb-8 ring-1 ring-white/10"
           {...fadeUp(0.1)}
         >
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
-            {/* Input */}
+            {/* Input value */}
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-300 mb-2">Value</label>
               <input
@@ -656,7 +642,7 @@ const TemperatureConverter: React.FC = () => {
               <p className="text-xs text-gray-400 mt-1">Commas allowed (1,234.5). Empty counts as 0.</p>
             </div>
 
-            {/* Scale */}
+            {/* Scale selector */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Scale</label>
               <select
@@ -670,7 +656,7 @@ const TemperatureConverter: React.FC = () => {
               </select>
             </div>
 
-            {/* Precision */}
+            {/* Precision slider */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Precision</label>
               <input
@@ -684,7 +670,7 @@ const TemperatureConverter: React.FC = () => {
               <div className="text-xs text-gray-400 mt-1">Decimals: {precision}</div>
             </div>
 
-            {/* Format */}
+            {/* Format selector */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Format</label>
               <select
@@ -699,7 +685,7 @@ const TemperatureConverter: React.FC = () => {
             </div>
           </div>
 
-          {/* Actions */}
+          {/* Actions row */}
           <div className="flex flex-wrap items-center gap-2 mt-4">
             <motion.button
               onClick={() => setShowPresets((s) => !s)}
@@ -727,7 +713,7 @@ const TemperatureConverter: React.FC = () => {
             </motion.button>
           </div>
 
-          {/* Presets */}
+          {/* Preset chips */}
           <AnimatePresence initial={false}>
             {showPresets && (
               <motion.div
@@ -775,14 +761,14 @@ const TemperatureConverter: React.FC = () => {
           </AnimatePresence>
         </motion.div>
 
-        {/* Results */}
+        {/* Results: three synchronized cards with overlays */}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
           initial="hidden"
           animate="show"
           variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06 } } }}
         >
-          {/* Celsius */}
+          {/* Celsius card */}
           <motion.div
             className="relative overflow-hidden rounded-2xl p-6 border bg-gray-900/60 backdrop-blur-xl border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.35)] ring-1 ring-white/10 hover:ring-2 hover:ring-white/20 transition-shadow"
             variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}
@@ -791,7 +777,6 @@ const TemperatureConverter: React.FC = () => {
             <AnimatePresence initial={false} mode="popLayout">
               {heatState === 'hot' && <FireOverlay intense={extremeState === 'hot'} />}
               {heatState === 'cold' && <IceOverlay intense={extremeState === 'cold'} />}
-              {heatState === 'normal' && <NeutralOverlay />}
             </AnimatePresence>
             <Tilt>
               <div className="relative">
@@ -817,7 +802,7 @@ const TemperatureConverter: React.FC = () => {
             </Tilt>
           </motion.div>
 
-          {/* Fahrenheit */}
+          {/* Fahrenheit card */}
           <motion.div
             className="relative overflow-hidden rounded-2xl p-6 border bg-gray-900/60 backdrop-blur-xl border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.35)] ring-1 ring-white/10 hover:ring-2 hover:ring-white/20 transition-shadow"
             variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}
@@ -826,7 +811,6 @@ const TemperatureConverter: React.FC = () => {
             <AnimatePresence initial={false} mode="popLayout">
               {heatState === 'hot' && <FireOverlay intense={extremeState === 'hot'} />}
               {heatState === 'cold' && <IceOverlay intense={extremeState === 'cold'} />}
-              {heatState === 'normal' && <NeutralOverlay />}
             </AnimatePresence>
             <Tilt>
               <div className="relative">
@@ -852,7 +836,7 @@ const TemperatureConverter: React.FC = () => {
             </Tilt>
           </motion.div>
 
-          {/* Kelvin */}
+          {/* Kelvin card */}
           <motion.div
             className="relative overflow-hidden rounded-2xl p-6 border bg-gray-900/60 backdrop-blur-xl border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.35)] ring-1 ring-white/10 hover:ring-2 hover:ring-white/20 transition-shadow"
             variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}
@@ -861,7 +845,6 @@ const TemperatureConverter: React.FC = () => {
             <AnimatePresence initial={false} mode="popLayout">
               {heatState === 'hot' && <FireOverlay intense={extremeState === 'hot'} />}
               {heatState === 'cold' && <IceOverlay intense={extremeState === 'cold'} />}
-              {heatState === 'normal' && <NeutralOverlay />}
             </AnimatePresence>
             <Tilt>
               <div className="relative">
@@ -907,11 +890,13 @@ const TemperatureConverter: React.FC = () => {
           </div>
         </motion.div>
 
+        {/* House ads + related tools */}
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/temperature-converter" category="unit-converters" />
       </motion.div>
     </>
   );
-};
- 
+}; 
+
 export default TemperatureConverter;
+ 
