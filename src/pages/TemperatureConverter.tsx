@@ -133,6 +133,30 @@ function FireOverlay({ intense = false }: { intense?: boolean }) {
     </motion.div>
   );
 }
+
+/* --- Inner effects wrapper: animation INSIDE the card, not over the shell --- */
+const InnerFX: React.FC<{
+  mode: 'hot' | 'cold' | 'normal';
+  intense: boolean;
+  children: React.ReactNode;
+}> = ({ mode, intense, children }) => (
+  <div className="mt-2 relative rounded-xl overflow-hidden bg-gray-900/30 border border-white/10 p-4">
+    {/* FX lives only inside this sub-panel */}
+    <AnimatePresence initial={false} mode="popLayout">
+      {mode === 'hot' && <FireOverlay intense={intense} />}
+      {mode === 'cold' && <IceOverlay intense={intense} />}
+      {/* if you want a neutral animation inside too, uncomment: */}
+      {/* {mode === 'normal' && <NeutralOverlay />} */}
+    </AnimatePresence>
+
+    {/* content sits above the FX */}
+    <div className="relative z-10">{children}</div>
+  </div>
+);
+
+
+
+
 function IceOverlay({ intense = false }: { intense?: boolean }) {
   return (
     <motion.div
