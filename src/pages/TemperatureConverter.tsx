@@ -814,7 +814,7 @@ const TemperatureConverter: React.FC = () => {
             </AnimatePresence>
             <Tilt>
               <div className="relative">
-                <div className="flex items-center gap-2 mb-4">
+                <div className="flex items-center gap-2 mb-4 bg-rose">
                   <Thermometer className="h-5 w-5 text-rose-300" />
                   <h3 className="text-lg font-semibold text-white">Fahrenheit (°F)</h3>
                 </div>
