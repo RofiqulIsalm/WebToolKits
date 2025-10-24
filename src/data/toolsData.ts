@@ -253,20 +253,90 @@ export const toolsData = [
         description: 'Convert between joules, calories, BTU, and more',
         icon: Flame,
         path: '/energy-converter',
-        color: 'converter-card' 
-      },
-      {
-      name: 'Data Transfer Converter',
-      description: 'Convert between bits per second, Mbps, and MB/s',
-      icon: Network,
-      path: '/data-transfer-converter',
-      color: 'converter-card'
+        color: 'converter-card'
       },
       {
         name: 'Data Storage Converter',
         description: 'Convert between bytes, KB, MB, GB, TB, and more',
         icon: HardDrive,
         path: '/data-storage-converter',
+        color: 'converter-card'
+      },
+      {
+        name: 'Time Converter',
+        description: 'Convert between seconds, minutes, hours, and days',
+        icon: Clock,
+        path: '/time-converter',
+        color: 'converter-card'
+      },
+      {
+        name: 'Power Converter',
+        description: 'Convert between watts, kilowatts, horsepower, and more',
+        icon: Battery,
+        path: '/power-converter',
+        color: 'converter-card'
+      },
+      {
+        name: 'Force Converter',
+        description: 'Convert between newtons, pound-force, and kilogram-force',
+        icon: Activity,
+        path: '/force-converter',
+        color: 'converter-card'
+      },
+      {
+        name: 'Density Converter',
+        description: 'Convert between kg/m³, g/cm³, lb/ft³, and more',
+        icon: Layers,
+        path: '/density-converter',
+        color: 'converter-card'
+      },
+      {
+        name: 'Acceleration Converter',
+        description: 'Convert between m/s², g-force, and ft/s²',
+        icon: TrendingUp,
+        path: '/acceleration-converter',
+        color: 'converter-card'
+      },
+      {
+        name: 'Flow Rate Converter',
+        description: 'Convert between L/min, m³/h, gpm, and more',
+        icon: Wind,
+        path: '/flow-rate-converter',
+        color: 'converter-card'
+      },
+      {
+        name: 'Fuel Consumption Converter',
+        description: 'Convert between L/100km, mpg (US/UK), and km/L',
+        icon: Fuel,
+        path: '/fuel-consumption-converter',
+        color: 'converter-card'
+      },
+      {
+        name: 'Angle Converter',
+        description: 'Convert between degrees, radians, and gradians',
+        icon: Compass,
+        path: '/angle-converter',
+        color: 'converter-card'
+      },
+      {
+        name: 'Frequency Converter',
+        description: 'Convert between hertz, kilohertz, megahertz, and rpm',
+        icon: Radio,
+        path: '/frequency-converter',
+        color: 'converter-card'
+      },
+      {
+        name: 'Data Transfer Converter',
+        description: 'Convert between bits per second, Mbps, and MB/s',
+        icon: Network,
+        path: '/data-transfer-converter',
+        color: 'converter-card'
+      },
+      {
+        name: 'Currency Converter',
+        description: 'Convert between global currencies in real time',
+        icon: DollarSign,
+        path: '/currency-converter',
         color: 'converter-card'
       }
     ]
