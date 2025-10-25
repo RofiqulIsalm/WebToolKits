@@ -228,11 +228,12 @@ function App() {
               <Route path="/data-storage-converter" element={<DataStorageConverter />} />
               <Route path="/mass-weight-converter" element={<MassWeightConverter />} />
               <Route path="/time-converter" element={<TimeConverter />} />
+              <Route path="/power-converter" element={<PowerConverter />} />
+              <Route path="/force-converter" element={<ForceConverter />} />
             {/*
               
               
-              <Route path="/power-converter" element={<PowerConverter />} />
-              <Route path="/force-converter" element={<ForceConverter />} />
+             
               <Route path="/density-converter" element={<DensityConverter />} />
               <Route path="/acceleration-converter" element={<AccelerationConverter />} />
               <Route path="/flow-rate-converter" element={<FlowRateConverter />} />
