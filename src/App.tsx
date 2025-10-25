@@ -230,10 +230,6 @@ function App() {
               <Route path="/time-converter" element={<TimeConverter />} />
               <Route path="/power-converter" element={<PowerConverter />} />
               <Route path="/force-converter" element={<ForceConverter />} />
-            {/*
-              
-              
-             
               <Route path="/density-converter" element={<DensityConverter />} />
               <Route path="/acceleration-converter" element={<AccelerationConverter />} />
               <Route path="/flow-rate-converter" element={<FlowRateConverter />} />
@@ -241,8 +237,7 @@ function App() {
               <Route path="/angle-converter" element={<AngleConverter />} />
               <Route path="/frequency-converter" element={<FrequencyConverter />} />
               <Route path="/data-transfer-converter" element={<DataTransferConverter />} />
-              <Route path="/currency-converter" element={<CurrencyConverter />} />
-              */}
+
             
             {/* Currency & Finance */}
               <Route path="/currency-converter" element={<CurrencyConverter />} />
