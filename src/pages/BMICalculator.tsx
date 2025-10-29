@@ -573,7 +573,19 @@ const BMICalculator: React.FC = () => {
                 </div>
 
                
-                 {/* --- Share / Download summary --- */}
+                 
+                {/* Legend */}
+                <div className="mt-6 grid grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm">
+                  <div className="flex items-center justify-between"><span className="text-slate-300">Underweight</span><span className="text-blue-300">Below 18.5</span></div>
+                  <div className="flex items-center justify-between"><span className="text-slate-300">Normal</span><span className="text-emerald-300">18.5–{scheme === 'asian' ? '22.9' : '24.9'}</span></div>
+                  <div className="flex items-center justify-between"><span className="text-slate-300">Overweight</span><span className="text-amber-300">{scheme === 'asian' ? '23–24.9' : '25–29.9'}</span></div>
+                  <div className="flex items-center justify-between"><span className="text-slate-300">Obese</span><span className="text-rose-300">{scheme === 'asian' ? '25+' : '30+'}</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* --- Share / Download summary --- */}
                 <div className="mt-4">
                   <div className="mb-2 text-slate-300 text-sm">Share / Download summary</div>
 
@@ -596,17 +608,6 @@ const BMICalculator: React.FC = () => {
                     </button>
                   </div>
                 </div>
-                
-                {/* Legend */}
-                <div className="mt-6 grid grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm">
-                  <div className="flex items-center justify-between"><span className="text-slate-300">Underweight</span><span className="text-blue-300">Below 18.5</span></div>
-                  <div className="flex items-center justify-between"><span className="text-slate-300">Normal</span><span className="text-emerald-300">18.5–{scheme === 'asian' ? '22.9' : '24.9'}</span></div>
-                  <div className="flex items-center justify-between"><span className="text-slate-300">Overweight</span><span className="text-amber-300">{scheme === 'asian' ? '23–24.9' : '25–29.9'}</span></div>
-                  <div className="flex items-center justify-between"><span className="text-slate-300">Obese</span><span className="text-rose-300">{scheme === 'asian' ? '25+' : '30+'}</span></div>
-                </div>
-              </div>
-            </div>
-          </div>
 
           {/* Roadmap Section */}
           <div className="mt-6 sm:mt-10 rounded-2xl p-4 sm:p-6 bg-white/5 border border-white/10 backdrop-blur-xl">
