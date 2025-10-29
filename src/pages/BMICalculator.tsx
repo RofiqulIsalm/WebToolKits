@@ -157,6 +157,14 @@ const BMICalculator: React.FC = () => {
         ]}
       />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      {/* content container */}
+        <div className="mx-auto max-w-4xl px-4 sm:px-6">
+          <Breadcrumbs
+            items={[
+              { name: 'Math Tools', url: '/category/math-tools' },
+              { name: 'BMI Calculator', url: '/bmi-calculator' }
+            ]}
+          />
 
       {/* Page wrapper: kill horizontal scroll on tiny screens */}
       <div className="relative overflow-x-hidden pt-[env(safe-area-inset-top)]">
@@ -174,14 +182,7 @@ const BMICalculator: React.FC = () => {
           />
         </div>
 
-        {/* content container */}
-        <div className="mx-auto max-w-4xl px-4 sm:px-6">
-          <Breadcrumbs
-            items={[
-              { name: 'Math Tools', url: '/category/math-tools' },
-              { name: 'BMI Calculator', url: '/bmi-calculator' }
-            ]}
-          />
+        
 
           {/* Header */}
           <div className="mb-6 sm:mb-8 rounded-2xl p-4 sm:p-6 bg-gradient-to-r from-indigo-600 to-cyan-500 shadow-lg">
