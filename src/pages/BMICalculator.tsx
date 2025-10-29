@@ -572,29 +572,7 @@ const BMICalculator: React.FC = () => {
                   </div>
                 </div>
 
-                {/* --- Share / Download summary --- */}
-                <div className="mt-4">
-                  <div className="mb-2 text-slate-300 text-sm">Share / Download summary</div>
-
-                  {/* On-page responsive preview */}
-                  <ShareCard className="w-full max-w-[720px]" tight />
-
-                  {/* Off-screen, fixed-size export (always 1200×630) */}
-                  <div className="fixed -left-[9999px] top-0" style={{ width: EXPORT_W, height: EXPORT_H }}>
-                    <div ref={exportRef} className="w-[1200px] h-[630px]">
-                      <ShareCard className="w-[1200px] h-[630px]" />
-                    </div>
-                  </div>
-
-                  <div className="mt-2">
-                    <button
-                      onClick={downloadImage}
-                      className="inline-flex items-center gap-2 rounded-xl px-3 py-2 bg-white/10 border border-white/15 text-slate-100 hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
-                    >
-                      <Download className="h-4 w-4" /> Download Image
-                    </button>
-                  </div>
-                </div>
+               
 
                 {/* Legend */}
                 <div className="mt-6 grid grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm">
