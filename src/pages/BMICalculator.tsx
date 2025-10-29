@@ -1,5 +1,6 @@
-import React, { useMemo, useState, useEffect, useCallback } from 'react';
-import { Activity, Link as LinkIcon, RotateCcw } from 'lucide-react';
+import React, { useMemo, useState, useEffect, useCallback, useRef } from 'react';
+import { Activity, Link as LinkIcon, RotateCcw, Check } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -76,7 +77,6 @@ const BMICalculator: React.FC = () => {
   const normalizeHeight = () => {
     const n = parseNumber(heightInput);
     if (!Number.isFinite(n)) {
-      // revert to last numeric state if blank/invalid
       setHeightInput(String(height));
       return;
     }
@@ -112,7 +112,6 @@ const BMICalculator: React.FC = () => {
       const r = rangesByUnit(next);
       h = clamp(h, r.h.min, r.h.max);
       w = clamp(w, r.w.min, r.w.max);
-      // also set the visible strings
       setHeightInput(h.toFixed(r.h.dp));
       setWeightInput(w.toFixed(r.w.dp));
       return { unit: next, height: h, weight: w };
@@ -125,6 +124,8 @@ const BMICalculator: React.FC = () => {
     setState({ unit, height: d.height, weight: d.weight });
     setHeightInput(d.height.toString());
     setWeightInput(d.weight.toString());
+    setShowResetPulse(true); // animate
+    setTimeout(() => setShowResetPulse(false), 350);
   };
 
   // ---- derived BMI (use live typed values when valid; else fallback) ----
@@ -143,7 +144,22 @@ const BMICalculator: React.FC = () => {
   const { label: category, badge, ring } = useMemo(() => getCategoryInfo(bmi), [bmi]);
   const ringPct = Number.isFinite(bmi) ? Math.min(100, Math.max(0, (bmi / 40) * 100)) : 0;
 
-  const copyLink = async () => { try { await navigator.clipboard.writeText(window.location.href); } catch {} };
+  // --- micro-interactions for buttons ---
+  const [copied, setCopied] = useState(false);
+  const [showCopyPulse, setShowCopyPulse] = useState(false);
+  const [showResetPulse, setShowResetPulse] = useState(false);
+  const copyBtnRef = useRef<HTMLButtonElement>(null);
+  const resetBtnRef = useRef<HTMLButtonElement>(null);
+
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setShowCopyPulse(true);
+      setTimeout(() => setShowCopyPulse(false), 350);
+      setTimeout(() => setCopied(false), 1200);
+    } catch {}
+  };
 
   return (
     <>
@@ -179,7 +195,9 @@ const BMICalculator: React.FC = () => {
           {/* Header */}
           <div className="mb-8 rounded-2xl p-6 bg-gradient-to-r from-indigo-600 to-cyan-500 shadow-lg">
             <h1 className="text-3xl font-extrabold text-white drop-shadow-sm">BMI Calculator</h1>
-            <p className="text-white/90 mt-1">Calculate your Body Mass Index and see where you land on the healthy range.</p>
+            <p className="text-white/90 mt-1">
+              Calculate your Body Mass Index and see where you land on the healthy range.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -187,23 +205,59 @@ const BMICalculator: React.FC = () => {
             <div className="rounded-2xl p-6 bg-white/5 border border-white/10 backdrop-blur-xl shadow-xl">
               <div className="flex items-center justify-between mb-5">
                 <h2 className="text-xl font-semibold text-white">Your details</h2>
-                <div className="flex gap-2">
-                  <button
+                <div className="flex gap-2 relative">
+                  <motion.button
+                    ref={copyBtnRef}
+                    whileTap={{ scale: 0.94 }}
                     onClick={copyLink}
-                    className="px-3 py-2 rounded-xl border border-white/15 bg-white/5 text-slate-100 hover:bg-white/10 hover:border-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
+                    className="relative px-3 py-2 rounded-xl border border-white/15 bg-white/5 text-slate-100 hover:bg-white/10 hover:border-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
                     title="Copy shareable link"
                   >
                     <span className="sr-only">Copy link</span>
-                    <LinkIcon className="h-4 w-4" />
-                  </button>
-                  <button
+                    <AnimatePresence initial={false} mode="wait">
+                      {copied ? (
+                        <motion.span
+                          key="copied"
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -6 }}
+                          transition={{ duration: 0.18 }}
+                          className="inline-flex items-center gap-1 text-emerald-300 text-xs"
+                        >
+                          <Check className="h-4 w-4" /> Copied
+                        </motion.span>
+                      ) : (
+                        <motion.span
+                          key="copy"
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -6 }}
+                          transition={{ duration: 0.18 }}
+                        >
+                          <LinkIcon className="h-4 w-4" />
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+
+                    {/* pulse */}
+                    {showCopyPulse && (
+                      <span className="pointer-events-none absolute inset-0 rounded-xl animate-[ping_0.35s_ease-out] bg-white/20" />
+                    )}
+                  </motion.button>
+
+                  <motion.button
+                    ref={resetBtnRef}
+                    whileTap={{ scale: 0.94, rotate: -12 }}
                     onClick={resetAll}
-                    className="px-3 py-2 rounded-xl border border-white/15 bg-white/5 text-slate-100 hover:bg-white/10 hover:border-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
+                    className="relative px-3 py-2 rounded-xl border border-white/15 bg-white/5 text-slate-100 hover:bg-white/10 hover:border-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
                     title="Reset to defaults"
                   >
                     <span className="sr-only">Reset</span>
                     <RotateCcw className="h-4 w-4" />
-                  </button>
+                    {showResetPulse && (
+                      <span className="pointer-events-none absolute inset-0 rounded-xl animate-[ping_0.35s_ease-out] bg-white/20" />
+                    )}
+                  </motion.button>
                 </div>
               </div>
 
@@ -211,7 +265,8 @@ const BMICalculator: React.FC = () => {
               <div className="mb-6">
                 <label className="block text-sm font-medium text-slate-300 mb-2">Unit system</label>
                 <div className="inline-flex rounded-xl p-1 bg-white/5 border border-white/10">
-                  <button
+                  <motion.button
+                    whileTap={{ scale: 0.96 }}
                     onClick={() => switchUnit('metric')}
                     aria-pressed={unit === 'metric'}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-all
@@ -220,8 +275,9 @@ const BMICalculator: React.FC = () => {
                         : 'text-slate-200 hover:bg-white/5'}`}
                   >
                     Metric
-                  </button>
-                  <button
+                  </motion.button>
+                  <motion.button
+                    whileTap={{ scale: 0.96 }}
                     onClick={() => switchUnit('imperial')}
                     aria-pressed={unit === 'imperial'}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-all
@@ -230,7 +286,7 @@ const BMICalculator: React.FC = () => {
                         : 'text-slate-200 hover:bg-white/5'}`}
                   >
                     Imperial
-                  </button>
+                  </motion.button>
                 </div>
               </div>
 
@@ -274,53 +330,86 @@ const BMICalculator: React.FC = () => {
             </div>
 
             {/* Results Card */}
-            <div className="rounded-2xl p-6 bg-white/5 border border-white/10 backdrop-blur-xl shadow-xl">
-              <h2 className="text-xl font-semibold text-white mb-5">Your result</h2>
+            <div className="p-[1px] rounded-2xl bg-gradient-to-r from-indigo-500/50 via-cyan-400/40 to-indigo-500/50 shadow-xl">
+              <div className="rounded-2xl p-6 bg-slate-900/70 border border-white/10 backdrop-blur-xl">
+                <h2 className="text-xl font-semibold text-white mb-5">Your result</h2>
 
-              <div className="flex items-center gap-6 mb-6">
-                <div
-                  className="relative h-28 w-28 rounded-full grid place-items-center"
-                  style={{
-                    background: `conic-gradient(${getCategoryInfo(bmi).ring} ${Number.isFinite(bmi) ? Math.min(100, Math.max(0, (bmi / 40) * 100)) : 0}%, rgba(148,163,184,0.25) 0)`,
-                  }}
-                  aria-label="BMI progress ring"
-                >
-                  <div className="absolute inset-2 rounded-full bg-slate-900/80 border border-white/10 grid place-items-center">
-                    <span className="text-2xl font-bold text-white">
-                      {Number.isFinite(bmi) ? bmi.toFixed(1) : '—'}
-                    </span>
+                <div className="flex items-center gap-6 mb-6">
+                  {/* Animated BMI ring */}
+                  <motion.div
+                    className="relative h-28 w-28 rounded-full grid place-items-center"
+                    style={{
+                      background: `conic-gradient(${ring} ${ringPct}%, rgba(148,163,184,0.25) 0)`,
+                    }}
+                    aria-label="BMI progress ring"
+                    animate={{ rotate: [0, 2, 0] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                  >
+                    <div className="absolute inset-2 rounded-full bg-slate-900/90 border border-white/10 grid place-items-center shadow-inner">
+                      <AnimatePresence mode="wait">
+                        <motion.span
+                          key={Number.isFinite(bmi) ? bmi.toFixed(1) : '-'}
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -6 }}
+                          transition={{ duration: 0.18 }}
+                          className="text-2xl font-bold text-white"
+                        >
+                          {Number.isFinite(bmi) ? bmi.toFixed(1) : '—'}
+                        </motion.span>
+                      </AnimatePresence>
+                    </div>
+                    {/* soft outer glow */}
+                    <span className="absolute inset-0 rounded-full blur-xl" style={{ background: `${ring}22` }} />
+                  </motion.div>
+
+                  <div className="flex-1">
+                    <div className="inline-flex items-center gap-2">
+                      <Activity className="h-5 w-5 text-cyan-300 drop-shadow" />
+                      <span className={`px-3 py-1 rounded-lg text-sm font-medium ${badge}`}>
+                        {category}
+                      </span>
+                    </div>
+                    <p className="text-slate-300 mt-2 text-sm">
+                      BMI is a screening tool. Age, sex, muscle, and ethnicity can affect interpretation.
+                    </p>
+
+                    {/* Compact stats */}
+                    <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
+                      <div className="rounded-lg px-3 py-2 bg-white/5 border border-white/10 text-slate-200">
+                        <div className="opacity-70">Height</div>
+                        <div className="font-medium">
+                          {heightInput} {ranges.h.label}
+                        </div>
+                      </div>
+                      <div className="rounded-lg px-3 py-2 bg-white/5 border border-white/10 text-slate-200">
+                        <div className="opacity-70">Weight</div>
+                        <div className="font-medium">
+                          {weightInput} {ranges.w.label}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex-1">
-                  <div className="inline-flex items-center gap-2">
-                    <Activity className="h-5 w-5 text-cyan-300 drop-shadow" />
-                    <span className={`px-3 py-1 rounded-lg text-sm font-medium ${getCategoryInfo(bmi).badge}`}>
-                      {getCategoryInfo(bmi).label}
-                    </span>
+                {/* Legend */}
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-300">Underweight</span>
+                    <span className="text-blue-300">Below 18.5</span>
                   </div>
-                  <p className="text-slate-300 mt-2 text-sm">
-                    BMI is a screening tool. Age, sex, muscle, and ethnicity can affect interpretation.
-                  </p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3 text-sm">
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-300">Underweight</span>
-                  <span className="text-blue-300">Below 18.5</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-300">Normal</span>
-                  <span className="text-emerald-300">18.5–24.9</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-300">Overweight</span>
-                  <span className="text-amber-300">25–29.9</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-300">Obese</span>
-                  <span className="text-rose-300">30+</span>
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-300">Normal</span>
+                    <span className="text-emerald-300">18.5–24.9</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-300">Overweight</span>
+                    <span className="text-amber-300">25–29.9</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-300">Obese</span>
+                    <span className="text-rose-300">30+</span>
+                  </div>
                 </div>
               </div>
             </div>
