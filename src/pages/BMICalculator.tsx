@@ -606,7 +606,7 @@ const BMICalculator: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> 
 
          {/* --- Share / Download summary (preview + fixed export) --- */}
           <div className="mt-4">
