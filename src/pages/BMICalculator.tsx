@@ -54,9 +54,8 @@ const BMICalculator: React.FC = () => {
     return { unit, height, weight };
   }, []);
 
-  // numeric state
+  // numeric state + raw inputs
   const [{ unit, height, weight }, setState] = useState(getInitial);
-  // input strings (free typing)
   const [heightInput, setHeightInput] = useState<string>(String(getInitial().height));
   const [weightInput, setWeightInput] = useState<string>(String(getInitial().weight));
 
@@ -78,43 +77,27 @@ const BMICalculator: React.FC = () => {
   // normalize on blur
   const normalizeHeight = () => {
     const n = parseNumber(heightInput);
-    if (!Number.isFinite(n)) {
-      setHeightInput(String(height));
-      return;
-    }
+    if (!Number.isFinite(n)) { setHeightInput(String(height)); return; }
     const c = clamp(n, ranges.h.min, ranges.h.max);
-    setState(s => ({ ...s, height: c }));
-    setHeightInput(c.toFixed(ranges.h.dp));
+    setState(s => ({ ...s, height: c })); setHeightInput(c.toFixed(ranges.h.dp));
   };
   const normalizeWeight = () => {
     const n = parseNumber(weightInput);
-    if (!Number.isFinite(n)) {
-      setWeightInput(String(weight));
-      return;
-    }
+    if (!Number.isFinite(n)) { setWeightInput(String(weight)); return; }
     const c = clamp(n, ranges.w.min, ranges.w.max);
-    setState(s => ({ ...s, weight: c }));
-    setWeightInput(c.toFixed(ranges.w.dp));
+    setState(s => ({ ...s, weight: c })); setWeightInput(c.toFixed(ranges.w.dp));
   };
 
   // unit switch with conversion + sync inputs
   const switchUnit = (next: Unit) => {
     if (next === unit) return;
     setState(s => {
-      let h = s.height;
-      let w = s.weight;
-      if (next === 'imperial') {
-        h = +(cmToIn(h)).toFixed(1);
-        w = +(kgToLb(w)).toFixed(1);
-      } else {
-        h = Math.round(inToCm(h));
-        w = +(lbToKg(w)).toFixed(1);
-      }
+      let h = s.height, w = s.weight;
+      if (next === 'imperial') { h = +(cmToIn(h)).toFixed(1); w = +(kgToLb(w)).toFixed(1); }
+      else { h = Math.round(inToCm(h)); w = +(lbToKg(w)).toFixed(1); }
       const r = rangesByUnit(next);
-      h = clamp(h, r.h.min, r.h.max);
-      w = clamp(w, r.w.min, r.w.max);
-      setHeightInput(h.toFixed(r.h.dp));
-      setWeightInput(w.toFixed(r.w.dp));
+      h = clamp(h, r.h.min, r.h.max); w = clamp(w, r.w.min, r.w.max);
+      setHeightInput(h.toFixed(r.h.dp)); setWeightInput(w.toFixed(r.w.dp));
       return { unit: next, height: h, weight: w };
     });
   };
@@ -123,14 +106,12 @@ const BMICalculator: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [showCopyPulse, setShowCopyPulse] = useState(false);
   const [showResetPulse, setShowResetPulse] = useState(false);
-
   const resetAll = () => {
     const d = DEFAULTS[unit];
     setState({ unit, height: d.height, weight: d.weight });
     setHeightInput(d.height.toString());
     setWeightInput(d.weight.toString());
-    setShowResetPulse(true);
-    setTimeout(() => setShowResetPulse(false), 300);
+    setShowResetPulse(true); setTimeout(() => setShowResetPulse(false), 300);
   };
 
   // BMI
@@ -152,8 +133,7 @@ const BMICalculator: React.FC = () => {
   const copyLink = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      setCopied(true);
-      setShowCopyPulse(true);
+      setCopied(true); setShowCopyPulse(true);
       setTimeout(() => setShowCopyPulse(false), 300);
       setTimeout(() => setCopied(false), 1000);
     } catch {}
@@ -178,14 +158,24 @@ const BMICalculator: React.FC = () => {
       />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-      {/* Background aura */}
-      <div className="relative pt-[env(safe-area-inset-top)]">
+      {/* Page wrapper: kill horizontal scroll on tiny screens */}
+      <div className="relative overflow-x-hidden pt-[env(safe-area-inset-top)]">
+        {/* Responsive background glow (centered, no fixed large width) */}
         <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute -top-24 left-1/2 -translate-x-1/2 h-64 sm:h-72 w-[700px] sm:w-[900px] bg-gradient-to-r from-indigo-500/30 via-cyan-400/20 to-indigo-500/30 blur-3xl rounded-full" />
+          <div
+            className="
+              absolute left-1/2 -translate-x-1/2
+              w-[110%] sm:w-[90%] md:w-[70%] max-w-[1200px]
+              h-48 sm:h-60 md:h-72
+              bg-gradient-to-r from-indigo-500/30 via-cyan-400/20 to-indigo-500/30
+              blur-3xl rounded-full
+            "
+            aria-hidden="true"
+          />
         </div>
 
-        {/* container with mobile padding */}
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+        {/* content container */}
+        <div className="mx-auto max-w-4xl px-4 sm:px-6">
           <Breadcrumbs
             items={[
               { name: 'Math Tools', url: '/category/math-tools' },
@@ -203,7 +193,7 @@ const BMICalculator: React.FC = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
             {/* Inputs Card */}
-            <div className="rounded-2xl p-4 sm:p-6 bg-white/5 border border-white/10 backdrop-blur-xl shadow-xl">
+            <div className="rounded-2xl p-4 sm:p-6 bg-white/5 border border-white/10 backdrop-blur-xl shadow-xl min-w-0">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
                 <h2 className="text-lg sm:text-xl font-semibold text-white">Your details</h2>
 
@@ -237,7 +227,7 @@ const BMICalculator: React.FC = () => {
                           transition={{ duration: 0.18 }}
                           className="inline-flex items-center gap-2"
                         >
-                          <LinkIcon className="h-4 w-4" /> <span className="text-sm hidden xs:inline">Copy</span>
+                          <LinkIcon className="h-4 w-4" /> <span className="text-sm">Copy</span>
                         </motion.span>
                       )}
                     </AnimatePresence>
@@ -252,17 +242,17 @@ const BMICalculator: React.FC = () => {
                   >
                     <span className="sr-only">Reset</span>
                     <div className="inline-flex items-center gap-2 text-sm">
-                      <RotateCcw className="h-4 w-4" /> <span className="hidden xs:inline">Reset</span>
+                      <RotateCcw className="h-4 w-4" /> <span>Reset</span>
                     </div>
                     {showResetPulse && <span className="pointer-events-none absolute inset-0 rounded-xl animate-[ping_0.3s_ease-out] bg-white/20" />}
                   </motion.button>
                 </div>
               </div>
 
-              {/* Segmented unit control: full-width grid on mobile */}
+              {/* Unit control (full-width grid on mobile) */}
               <div className="mb-6">
                 <label className="block text-xs sm:text-sm font-medium text-slate-300 mb-2">Unit system</label>
-                <div className="grid grid-cols-2 rounded-xl p-1 bg-white/5 border border-white/10 w-full">
+                <div className="grid grid-cols-2 gap-1 rounded-xl p-1 bg-white/5 border border-white/10 w-full">
                   <motion.button
                     whileTap={reduceMotion ? {} : { scale: 0.96 }}
                     onClick={() => switchUnit('metric')}
@@ -328,7 +318,7 @@ const BMICalculator: React.FC = () => {
             </div>
 
             {/* Results Card */}
-            <div className="p-[1px] rounded-2xl bg-gradient-to-r from-indigo-500/50 via-cyan-400/40 to-indigo-500/50 shadow-xl">
+            <div className="p-[1px] rounded-2xl bg-gradient-to-r from-indigo-500/50 via-cyan-400/40 to-indigo-500/50 shadow-xl min-w-0">
               <div className="rounded-2xl p-4 sm:p-6 bg-slate-900/70 border border-white/10 backdrop-blur-xl">
                 <h2 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-5">Your result</h2>
 
@@ -355,11 +345,10 @@ const BMICalculator: React.FC = () => {
                         </motion.span>
                       </AnimatePresence>
                     </div>
-                    {/* soft outer glow */}
                     <span className="absolute inset-0 rounded-full blur-xl" style={{ background: `${ring}22` }} />
                   </motion.div>
 
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
                     <div className="inline-flex items-center gap-2">
                       <Activity className="h-5 w-5 text-cyan-300 drop-shadow" />
                       <span className={`px-3 py-1 rounded-lg text-xs sm:text-sm font-medium ${badge}`}>
@@ -370,17 +359,17 @@ const BMICalculator: React.FC = () => {
                       BMI is a screening tool. Age, sex, muscle, and ethnicity can affect interpretation.
                     </p>
 
-                    {/* Compact stats (wrap nicely on mobile) */}
+                    {/* Stats */}
                     <div className="mt-3 grid grid-cols-2 gap-2">
                       <div className="rounded-lg px-3 py-2 bg-white/5 border border-white/10 text-slate-200">
                         <div className="opacity-70 text-[11px] sm:text-xs">Height</div>
-                        <div className="font-medium break-all">
+                        <div className="font-medium break-words">
                           {heightInput} {ranges.h.label}
                         </div>
                       </div>
                       <div className="rounded-lg px-3 py-2 bg-white/5 border border-white/10 text-slate-200">
                         <div className="opacity-70 text-[11px] sm:text-xs">Weight</div>
-                        <div className="font-medium break-all">
+                        <div className="font-medium break-words">
                           {weightInput} {ranges.w.label}
                         </div>
                       </div>
@@ -388,7 +377,7 @@ const BMICalculator: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Legend (compact on phones) */}
+                {/* Legend */}
                 <div className="grid grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm">
                   <div className="flex items-center justify-between">
                     <span className="text-slate-300">Underweight</span>
