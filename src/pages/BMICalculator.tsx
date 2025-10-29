@@ -1,6 +1,5 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { Activity, Link as LinkIcon, RotateCcw } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -9,6 +8,7 @@ import RelatedCalculators from '../components/RelatedCalculators';
 
 type Unit = 'metric' | 'imperial';
 
+// ---- helpers ----
 const clamp = (v: number, min: number, max: number) =>
   Number.isFinite(v) ? Math.max(min, Math.min(max, v)) : min;
 
@@ -17,7 +17,30 @@ const parseNumber = (v: string | null, fallback: number) => {
   return Number.isFinite(n) ? n : fallback;
 };
 
-// For the scale + ring colors
+// conversions
+const cmToIn = (cm: number) => cm / 2.54;
+const inToCm = (inch: number) => inch * 2.54;
+const kgToLb = (kg: number) => kg * 2.20462;
+const lbToKg = (lb: number) => lb / 2.20462;
+
+// defaults
+const DEFAULTS = {
+  metric: { height: 170, weight: 70 },     // cm, kg
+  imperial: { height: 67.0, weight: 154.0 } // in, lb
+} as const;
+
+const rangesByUnit = (unit: Unit) =>
+  unit === 'metric'
+    ? {
+        h: { min: 80, max: 220, step: 1, label: 'cm' },
+        w: { min: 20, max: 200, step: 0.1, label: 'kg' },
+      }
+    : {
+        h: { min: 31.5, max: 86.6, step: 0.1, label: 'in' },
+        w: { min: 44, max: 440, step: 0.1, label: 'lb' },
+      };
+
+// color mapping
 const getCategoryInfo = (bmi: number) => {
   if (!Number.isFinite(bmi)) return { label: '—', badge: 'bg-slate-700 text-slate-200', ring: '#64748b' };
   if (bmi < 18.5) return { label: 'Underweight',  badge: 'text-blue-700 bg-blue-100/80',   ring: '#3b82f6' };
@@ -27,38 +50,69 @@ const getCategoryInfo = (bmi: number) => {
 };
 
 const BMICalculator: React.FC = () => {
-  // Read initial state from URL (if present)
+  // read from URL if present
   const getInitial = useCallback(() => {
     const sp = new URLSearchParams(window.location.search);
-    const unit = (sp.get('unit') as Unit) || 'metric';
-    const height = parseNumber(sp.get('h'), unit === 'metric' ? 170 : 67);
-    const weight = parseNumber(sp.get('w'), unit === 'metric' ? 70 : 154);
-    return { unit: unit === 'imperial' ? 'imperial' : 'metric', height, weight };
+    const urlUnit = (sp.get('unit') as Unit) || 'metric';
+    const unit: Unit = urlUnit === 'imperial' ? 'imperial' : 'metric';
+    const d = DEFAULTS[unit];
+    const height = parseNumber(sp.get('h'), d.height);
+    const weight = parseNumber(sp.get('w'), d.weight);
+    return { unit, height, weight };
   }, []);
 
   const [{ unit, height, weight }, setState] = useState(getInitial);
 
-  // Ranges per unit (sensible & accessible)
-  const ranges = unit === 'metric'
-    ? { h: { min: 80, max: 220, step: 1, label: 'cm' }, w: { min: 20, max: 200, step: 0.1, label: 'kg' } }
-    : { h: { min: 31.5, max: 86.6, step: 0.1, label: 'in' }, w: { min: 44, max: 440, step: 0.1, label: 'lb' } };
+  // ranges memo
+  const ranges = useMemo(() => rangesByUnit(unit), [unit]);
 
-  // Keep URL in sync
+  // keep URL synced
   useEffect(() => {
-    const sp = new URLSearchParams(window.location.search);
+    const sp = new URLSearchParams();
     sp.set('unit', unit);
     sp.set('h', String(height));
     sp.set('w', String(weight));
     window.history.replaceState(null, '', `${window.location.pathname}?${sp.toString()}`);
   }, [unit, height, weight]);
 
-  // Handlers
-  const setUnit = (u: Unit) => setState(s => (s.unit === u ? s : { ...s, unit: u }));
+  // ---- actions ----
   const setHeight = (v: number) => setState(s => ({ ...s, height: clamp(v, ranges.h.min, ranges.h.max) }));
   const setWeight = (v: number) => setState(s => ({ ...s, weight: clamp(v, ranges.w.min, ranges.w.max) }));
-  const resetAll = () => setState(getInitial()); // reset back to URL/defaults
 
-  // Derived BMI
+  // convert values when switching unit
+  const switchUnit = (next: Unit) => {
+    if (next === unit) return;
+    setState(s => {
+      let h = s.height;
+      let w = s.weight;
+      if (next === 'imperial') {
+        h = +cmToIn(h).toFixed(1); // cm -> in
+        w = +kgToLb(w).toFixed(1); // kg -> lb
+      } else {
+        h = Math.round(inToCm(h)); // in -> cm
+        w = +lbToKg(w).toFixed(1); // lb -> kg
+      }
+      const r = rangesByUnit(next);
+      return {
+        unit: next,
+        height: clamp(h, r.h.min, r.h.max),
+        weight: clamp(w, r.w.min, r.w.max),
+      };
+    });
+  };
+
+  // reset to defaults for the CURRENT unit (not URL mirror)
+  const resetAll = () => {
+    const d = DEFAULTS[unit];
+    setState({ unit, height: d.height, weight: d.weight });
+    const sp = new URLSearchParams();
+    sp.set('unit', unit);
+    sp.set('h', String(d.height));
+    sp.set('w', String(d.weight));
+    window.history.replaceState(null, '', `${window.location.pathname}?${sp.toString()}`);
+  };
+
+  // derived BMI
   const valid = height > 0 && weight > 0;
   const bmi = useMemo(() => {
     if (!valid) return NaN;
@@ -67,14 +121,10 @@ const BMICalculator: React.FC = () => {
     return wKg / (hMeters * hMeters);
   }, [height, weight, unit, valid]);
 
-  // UI helpers
   const { label: category, badge, ring } = useMemo(() => getCategoryInfo(bmi), [bmi]);
 
-  // For the pointer on the scale; clamp to 12–40 BMI range
-  const scaleMin = 12, scaleMax = 40;
-  const pct = Number.isFinite(bmi)
-    ? Math.max(0, Math.min(100, ((bmi - scaleMin) / (scaleMax - scaleMin)) * 100))
-    : 0;
+  // ring fill percentage (cap at 40 BMI)
+  const ringPct = Number.isFinite(bmi) ? Math.min(100, Math.max(0, (bmi / 40) * 100)) : 0;
 
   const copyLink = async () => {
     try {
@@ -151,7 +201,7 @@ const BMICalculator: React.FC = () => {
                 <label className="block text-sm font-medium text-slate-300 mb-2">Unit system</label>
                 <div className="inline-flex rounded-xl p-1 bg-white/5 border border-white/10">
                   <button
-                    onClick={() => setUnit('metric')}
+                    onClick={() => switchUnit('metric')}
                     aria-pressed={unit === 'metric'}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-all
                       ${unit === 'metric'
@@ -161,7 +211,7 @@ const BMICalculator: React.FC = () => {
                     Metric
                   </button>
                   <button
-                    onClick={() => setUnit('imperial')}
+                    onClick={() => switchUnit('imperial')}
                     aria-pressed={unit === 'imperial'}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-all
                       ${unit === 'imperial'
@@ -175,30 +225,19 @@ const BMICalculator: React.FC = () => {
 
               {/* Height */}
               <div className="mb-6">
-                <div className="flex items-center justify-between">
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Height ({ranges.h.label})
-                  </label>
-                  <input
-                    type="number"
-                    inputMode="decimal"
-                    min={ranges.h.min}
-                    max={ranges.h.max}
-                    step={ranges.h.step}
-                    value={height}
-                    onChange={(e) => setHeight(Number(e.target.value))}
-                    className="w-40 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-right text-slate-100 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
-                  />
-                </div>
+                <label className="block text-sm font-medium text-slate-300 mb-2">
+                  Height ({ranges.h.label})
+                </label>
                 <input
-                  type="range"
+                  type="number"
+                  inputMode="decimal"
                   min={ranges.h.min}
                   max={ranges.h.max}
                   step={ranges.h.step}
                   value={height}
                   onChange={(e) => setHeight(Number(e.target.value))}
-                  className="w-full mt-3 accent-cyan-400"
-                  aria-label="Height slider"
+                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-slate-100 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
+                  placeholder={unit === 'metric' ? 'e.g., 170' : 'e.g., 67.0'}
                 />
                 <p className="text-xs text-slate-400 mt-1">
                   Range {ranges.h.min}–{ranges.h.max} {ranges.h.label}
@@ -207,30 +246,19 @@ const BMICalculator: React.FC = () => {
 
               {/* Weight */}
               <div>
-                <div className="flex items-center justify-between">
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Weight ({ranges.w.label})
-                  </label>
-                  <input
-                    type="number"
-                    inputMode="decimal"
-                    min={ranges.w.min}
-                    max={ranges.w.max}
-                    step={ranges.w.step}
-                    value={weight}
-                    onChange={(e) => setWeight(Number(e.target.value))}
-                    className="w-40 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-right text-slate-100 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
-                  />
-                </div>
+                <label className="block text-sm font-medium text-slate-300 mb-2">
+                  Weight ({ranges.w.label})
+                </label>
                 <input
-                  type="range"
+                  type="number"
+                  inputMode="decimal"
                   min={ranges.w.min}
                   max={ranges.w.max}
                   step={ranges.w.step}
                   value={weight}
                   onChange={(e) => setWeight(Number(e.target.value))}
-                  className="w-full mt-3 accent-indigo-500"
-                  aria-label="Weight slider"
+                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-slate-100 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
+                  placeholder={unit === 'metric' ? 'e.g., 70.0' : 'e.g., 154.0'}
                 />
                 <p className="text-xs text-slate-400 mt-1">
                   Range {ranges.w.min}–{ranges.w.max} {ranges.w.label}
@@ -247,7 +275,7 @@ const BMICalculator: React.FC = () => {
                 <div
                   className="relative h-28 w-28 rounded-full grid place-items-center"
                   style={{
-                    background: `conic-gradient(${ring} ${Number.isFinite(bmi) ? Math.min(100, Math.max(0, (bmi / 40) * 100)) : 0}%, rgba(148,163,184,0.25) 0)`,
+                    background: `conic-gradient(${ring} ${ringPct}%, rgba(148,163,184,0.25) 0)`,
                   }}
                   aria-label="BMI progress ring"
                 >
@@ -266,40 +294,13 @@ const BMICalculator: React.FC = () => {
                     </span>
                   </div>
                   <p className="text-slate-300 mt-2 text-sm">
-                    BMI is a screening tool. Age, sex, muscle mass, and ethnicity can affect interpretation.
+                    BMI is a screening tool. Age, sex, muscle, and ethnicity can affect interpretation.
                   </p>
                 </div>
               </div>
 
-              {/* Color BMI scale with live pointer */}
-              <div className="mt-2">
-                <div className="flex h-3 rounded-full overflow-hidden border border-white/10">
-                  <div className="w-[32%] bg-blue-400/80" title="Underweight" />
-                  <div className="w-[32%] bg-emerald-400/80" title="Normal" />
-                  <div className="w-[18%] bg-amber-400/80" title="Overweight" />
-                  <div className="flex-1 bg-rose-400/80" title="Obese" />
-                </div>
-                {/* Pointer */}
-                <div className="relative h-5">
-                  <div
-                    className="absolute -top-2 h-5 w-5 rounded-full border-2 border-white/70 bg-white/90 shadow"
-                    style={{ left: `calc(${pct}% - 10px)` }}
-                    aria-label="BMI position"
-                    title={Number.isFinite(bmi) ? `BMI ${bmi.toFixed(1)}` : '—'}
-                  />
-                </div>
-
-                <div className="flex justify-between text-[11px] text-slate-400 mt-1">
-                  <span>12</span>
-                  <span>18.5</span>
-                  <span>25</span>
-                  <span>30</span>
-                  <span>40</span>
-                </div>
-              </div>
-
-              {/* Legend */}
-              <div className="grid grid-cols-2 gap-3 text-sm mt-6">
+              {/* Compact legend */}
+              <div className="grid grid-cols-2 gap-3 text-sm">
                 <div className="flex items-center justify-between">
                   <span className="text-slate-300">Underweight</span>
                   <span className="text-blue-300">Below 18.5</span>
