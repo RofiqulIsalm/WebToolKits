@@ -11,7 +11,7 @@ import RelatedCalculators from '../components/RelatedCalculators';
 type Unit = 'metric' | 'imperial';
 type BMIScheme = 'who' | 'asian';
 
-// ---- helpers ----
+// ---------- helpers ----------
 const parseNumber = (v: string) => {
   const n = Number(v);
   return Number.isFinite(n) ? n : NaN;
@@ -46,6 +46,8 @@ const getCategoryInfo = (bmi: number, scheme: BMIScheme) => {
   if (bmi <= t.overHi)   return { label: 'Overweight',    badge: 'text-amber-800 bg-amber-100/80',   ring: '#f59e0b' };
   return { label: 'Obese', badge: 'text-rose-800 bg-rose-100/80', ring: '#ef4444' };
 };
+
+// ------------------------------------------------------------
 
 const BMICalculator: React.FC = () => {
   const reduceMotion = useReducedMotion();
@@ -190,15 +192,25 @@ const BMICalculator: React.FC = () => {
     } catch {}
   };
 
-  // ---- Share Image (PNG) ----
-  const shareRef = useRef<HTMLDivElement>(null);
+  // ---------- Share Image (fixed-size export) ----------
+  const EXPORT_W = 1200;
+  const EXPORT_H = 630;
+  const exportRef = useRef<HTMLDivElement>(null);
+  const scaleMin = 12, scaleMax = 40;
+  const bmiPointerPct = Number.isFinite(bmi)
+    ? Math.max(0, Math.min(100, ((bmi - scaleMin) / (scaleMax - scaleMin)) * 100))
+    : 0;
+
   const downloadImage = async () => {
-    if (!shareRef.current) return;
-    const node = shareRef.current;
-    const canvas = await html2canvas(node, {
-      backgroundColor: '#0f172a', // tailwind slate-900-ish
-      scale: window.devicePixelRatio > 1 ? 2 : 1, // crisp on retina
-      useCORS: true
+    if (!exportRef.current) return;
+    const canvas = await html2canvas(exportRef.current, {
+      backgroundColor: '#0b1220',
+      width: EXPORT_W,
+      height: EXPORT_H,
+      scale: 2,
+      useCORS: true,
+      windowWidth: EXPORT_W,
+      windowHeight: EXPORT_H,
     });
     const data = canvas.toDataURL('image/png');
     const a = document.createElement('a');
@@ -207,34 +219,34 @@ const BMICalculator: React.FC = () => {
     a.click();
   };
 
-  // ------ Roadmap content (simple rules of thumb; not medical advice) ------
+  // ------ Roadmap content (simple, non-medical guidance) ------
   const roadmap = useMemo(() => {
     const base = {
       weekly: [
         'Strength training: 2–3×/week (45–60 min)',
-        'Cardio: 150–300 min/week total (mix brisk walking/jog/cycle)',
+        'Cardio: 150–300 min/week total',
         'Steps: 7,000–10,000/day',
         'Sleep: 7–9 hours/night',
         'Hydration: ~30–35 ml/kg/day'
       ],
       habits: [
-        'Minimize sugary drinks/ultra-processed snacks',
-        'Eat protein at each meal; load plate with veggies',
-        'Plan meals; track portions for 1–2 weeks',
-        'Limit alcohol; manage stress (walks, breathing, breaks)'
+        'Minimize sugary drinks & ultra-processed snacks',
+        'Protein each meal; load plate with veggies',
+        'Plan meals; track portions 1–2 weeks',
+        'Limit alcohol; manage stress'
       ],
-      note: 'This is general guidance, not medical advice. Consider a clinician or dietitian for personalized care.'
+      note: 'General guidance, not medical advice. Consider a clinician/dietitian for personalized care.'
     };
 
     if (!Number.isFinite(bmi)) return { title: 'Healthy basics', bullets: base };
-    if (bmi < t.under) {
+    if (bmi < schemeThresholds(scheme).under) {
       return {
         title: 'Roadmap for Underweight',
         bullets: {
           weekly: base.weekly,
           habits: [
             'Add 300–500 kcal/day via whole foods (nuts, dairy, olive oil, whole grains)',
-            'Strength training prioritized; progressive overload to build lean mass',
+            'Prioritize progressive strength training to build lean mass',
             'Protein ~1.6–2.2 g/kg/day; 3–5 meals with 20–40 g protein each',
             'Include carb sources around workouts (rice, potatoes, fruit)',
             ...base.habits
@@ -243,31 +255,31 @@ const BMICalculator: React.FC = () => {
         }
       };
     }
-    if (bmi <= t.normalHi) {
+    if (bmi <= schemeThresholds(scheme).normalHi) {
       return {
         title: 'You’re in the normal range',
         bullets: {
           weekly: base.weekly,
           habits: [
-            'Maintain balanced plate (½ veg/fruit, ¼ protein, ¼ carbs)',
+            'Balanced plate (½ veg/fruit, ¼ protein, ¼ carbs)',
             'Protein ~1.2–1.6 g/kg/day; fiber 25–35 g/day',
-            'Keep active breaks during long sitting',
+            'Active breaks during long sitting',
             ...base.habits
           ],
           note: base.note
         }
       };
     }
-    if (bmi <= t.overHi) {
+    if (bmi <= schemeThresholds(scheme).overHi) {
       return {
         title: 'Roadmap for Overweight',
         bullets: {
           weekly: base.weekly,
           habits: [
-            'Create ~300–500 kcal/day deficit (smaller portions, swap calorie-dense foods)',
-            'Protein ~1.2–1.6 g/kg/day to support satiety and lean mass',
-            'Fiber 25–35 g/day; prioritize whole foods',
-            'Strength training 2–3×/week; cardio 150–300 min/week',
+            'Create ~300–500 kcal/day deficit (portion swaps, lower calorie density)',
+            'Protein ~1.2–1.6 g/kg/day for satiety & lean mass',
+            'Fiber 25–35 g/day; mostly whole foods',
+            'Strength 2–3×/week; cardio 150–300 min/week',
             ...base.habits
           ],
           note: base.note
@@ -279,16 +291,89 @@ const BMICalculator: React.FC = () => {
       bullets: {
         weekly: base.weekly,
         habits: [
-          'Start with gentle, consistent activity; build up time before intensity',
+          'Start gentle & consistent; build time before intensity',
           'Aim for 300–500 kcal/day deficit; log meals for awareness',
           'Protein ~1.2–1.6 g/kg/day; fiber 25–35 g/day; limit refined carbs',
-          'Discuss options with a clinician (behavioral programs; medication may be appropriate for some)',
+          'Discuss options with a clinician; programs/medication may help some',
           ...base.habits
         ],
         note: base.note
       }
     };
-  }, [bmi, t.under, t.normalHi, t.overHi]);
+  }, [bmi, scheme]);
+
+  // ---------- ShareCard component (reused for export + preview) ----------
+  const ShareCard: React.FC<{ className?: string; tight?: boolean }> = ({ className = '', tight }) => (
+    <div
+      className={`rounded-2xl p-6 bg-[#0b1220] border border-white/10 text-slate-200 ${className}`}
+      style={{ fontFamily: 'ui-sans-serif, system-ui' }}
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="text-white font-semibold text-xl">BMI Summary</div>
+        <div className="text-sm text-slate-400">calculatorhub.site</div>
+      </div>
+
+      {/* Main content */}
+      <div className={`mt-6 grid grid-cols-12 ${tight ? 'gap-4' : 'gap-6'} items-center`}>
+        {/* Ring */}
+        <div className="col-span-3 grid place-items-center">
+          <div
+            className="relative h-32 w-32 rounded-full"
+            style={{ background: `conic-gradient(${ring} ${ringPct}%, #33415555 0)` }}
+          >
+            <div className="absolute inset-3 rounded-full bg-[#0b1220] border border-white/10 grid place-items-center">
+              <span className="text-3xl font-extrabold text-white">
+                {Number.isFinite(bmi) ? bmi.toFixed(1) : '—'}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Facts */}
+        <div className="col-span-9">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className={`px-3 py-1 rounded-lg text-sm font-medium ${badge}`}>
+              {category} ({scheme === 'who' ? 'WHO' : 'Asian'})
+            </span>
+            <span className="px-3 py-1 rounded-lg bg-white/5 text-white/90 text-sm">
+              Height: {heightInput} {ranges.h.label}
+            </span>
+            <span className="px-3 py-1 rounded-lg bg-white/5 text-white/90 text-sm">
+              Weight: {weightInput} {ranges.w.label}
+            </span>
+          </div>
+
+          <div className="mt-3 text-slate-300 text-sm">
+            Healthy: {fmtWeight(minKg)} – {fmtWeight(maxKg)} • Target: {fmtWeight(targetKg)}
+          </div>
+        </div>
+      </div>
+
+      {/* Scale with pointer */}
+      <div className="mt-6">
+        <div className="relative">
+          <div className="flex h-3 rounded-full overflow-hidden">
+            <div className="w-[32%] bg-blue-500" />
+            <div className="w-[32%] bg-emerald-500" />
+            <div className="w-[18%] bg-amber-500" />
+            <div className="flex-1 bg-rose-500" />
+          </div>
+          {/* pointer */}
+          <div
+            className="absolute -top-1 h-5 w-5 rounded-full border-2 border-white/80 bg-white shadow"
+            style={{ left: `calc(${bmiPointerPct}% - 10px)` }}
+            title={Number.isFinite(bmi) ? `BMI ${bmi.toFixed(1)}` : '—'}
+          />
+        </div>
+        <div className="flex justify-between text-[11px] text-slate-400 mt-1">
+          <span>12</span><span>18.5</span><span>25</span><span>30</span><span>40</span>
+        </div>
+      </div>
+    </div>
+  );
+
+  // ------------------------------------------------------------
 
   return (
     <>
@@ -487,7 +572,29 @@ const BMICalculator: React.FC = () => {
                   </div>
                 </div>
 
-               
+                {/* --- Share / Download summary --- */}
+                <div className="mt-4">
+                  <div className="mb-2 text-slate-300 text-sm">Share / Download summary</div>
+
+                  {/* On-page responsive preview */}
+                  <ShareCard className="w-full max-w-[720px]" tight />
+
+                  {/* Off-screen, fixed-size export (always 1200×630) */}
+                  <div className="fixed -left-[9999px] top-0" style={{ width: EXPORT_W, height: EXPORT_H }}>
+                    <div ref={exportRef} className="w-[1200px] h-[630px]">
+                      <ShareCard className="w-[1200px] h-[630px]" />
+                    </div>
+                  </div>
+
+                  <div className="mt-2">
+                    <button
+                      onClick={downloadImage}
+                      className="inline-flex items-center gap-2 rounded-xl px-3 py-2 bg-white/10 border border-white/15 text-slate-100 hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
+                    >
+                      <Download className="h-4 w-4" /> Download Image
+                    </button>
+                  </div>
+                </div>
 
                 {/* Legend */}
                 <div className="mt-6 grid grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm">
@@ -499,68 +606,21 @@ const BMICalculator: React.FC = () => {
               </div>
             </div>
           </div>
-           {/* Share Card (for image download) */}
-                <div className="mt-4">
-                  <div className="mb-2 text-slate-300 text-sm">Share / Download summary</div>
-                  <div ref={shareRef} className="rounded-xl p-4 bg-slate-900 border border-white/10">
-                    {/* Branded header */}
-                    <div className="flex items-center justify-between">
-                      <div className="text-white font-semibold">BMI Summary</div>
-                      <div className="text-xs text-slate-400">calculatorhub.site</div>
-                    </div>
-                    <div className="mt-3 grid grid-cols-3 gap-3 items-center">
-                      {/* left: ring */}
-                      <div className="col-span-1 grid place-items-center">
-                        <div className="relative h-20 w-20 rounded-full" style={{ background: `conic-gradient(${ring} ${ringPct}%, #33415555 0)` }}>
-                          <div className="absolute inset-2 rounded-full bg-slate-900 border border-white/10 grid place-items-center">
-                            <span className="text-white font-bold">{Number.isFinite(bmi) ? bmi.toFixed(1) : '—'}</span>
-                          </div>
-                        </div>
-                      </div>
-                      {/* middle: key facts */}
-                      <div className="col-span-2 grid gap-2">
-                        <div className="flex flex-wrap gap-x-3 gap-y-1 text-sm">
-                          <span className={`px-2 py-0.5 rounded-md ${badge}`}>{category} ({scheme === 'who' ? 'WHO' : 'Asian'})</span>
-                          <span className="px-2 py-0.5 rounded-md bg-white/5 text-slate-200">Height: {heightInput} {ranges.h.label}</span>
-                          <span className="px-2 py-0.5 rounded-md bg-white/5 text-slate-200">Weight: {weightInput} {ranges.w.label}</span>
-                        </div>
-                        <div className="text-slate-300 text-xs">
-                          Healthy: {fmtWeight(minKg)} – {fmtWeight(maxKg)} • Target: {fmtWeight(targetKg)}
-                        </div>
-                      </div>
-                    </div>
-                    {/* tiny legend bar */}
-                    <div className="mt-3">
-                      <div className="flex h-2 rounded-full overflow-hidden">
-                        <div className="w-[32%] bg-blue-500" />
-                        <div className="w-[32%] bg-emerald-500" />
-                        <div className="w-[18%] bg-amber-500" />
-                        <div className="flex-1 bg-rose-500" />
-                      </div>
-                    </div>
-                  </div>
 
-                  <div className="mt-2">
-                    <button onClick={downloadImage} className="inline-flex items-center gap-2 rounded-xl px-3 py-2 bg-white/10 border border-white/15 text-slate-100 hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-cyan-400/50">
-                      <Download className="h-4 w-4" /> Download Image
-                    </button>
-                  </div>
-                </div>
-
-          {/* Roadmap Section (shows tailored plan if not normal) */}
+          {/* Roadmap Section */}
           <div className="mt-6 sm:mt-10 rounded-2xl p-4 sm:p-6 bg-white/5 border border-white/10 backdrop-blur-xl">
             <h3 className="text-lg sm:text-xl font-semibold text-white mb-3">{roadmap.title}</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
               <div className="rounded-lg p-3 bg-white/5 border border-white/10">
                 <div className="text-slate-300 text-sm font-medium mb-2">Weekly Focus</div>
                 <ul className="text-slate-200 text-sm list-disc pl-5 space-y-1">
-                  {roadmap.bullets.weekly.map((x, i) => <li key={i}>{x}</li>)}
+                  {roadmap.bullets.weekly.map((x: string, i: number) => <li key={i}>{x}</li>)}
                 </ul>
               </div>
               <div className="rounded-lg p-3 bg-white/5 border border-white/10 md:col-span-2">
                 <div className="text-slate-300 text-sm font-medium mb-2">Habits</div>
                 <ul className="text-slate-200 text-sm list-disc pl-5 space-y-1">
-                  {roadmap.bullets.habits.map((x, i) => <li key={i}>{x}</li>)}
+                  {roadmap.bullets.habits.map((x: string, i: number) => <li key={i}>{x}</li>)}
                 </ul>
               </div>
             </div>
