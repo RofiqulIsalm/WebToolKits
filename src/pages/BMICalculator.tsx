@@ -207,36 +207,7 @@ const BMICalculator: React.FC = () => {
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
                 <h2 className="text-lg sm:text-xl font-semibold text-white">Your details</h2>
 
-                {/* action buttons stack on mobile */}
                 
-
-              {/* Segmented unit control: full-width grid on mobile */}
-              <div className="mb-6">
-                <label className="block text-xs sm:text-sm font-medium text-slate-300 mb-2">Unit system</label>
-                <div className="grid grid-cols-2 rounded-xl p-1 bg-white/5 border border-white/10 w-full">
-                  <motion.button
-                    whileTap={reduceMotion ? {} : { scale: 0.96 }}
-                    onClick={() => switchUnit('metric')}
-                    aria-pressed={unit === 'metric'}
-                    className={`min-h-[44px] rounded-lg text-sm font-medium transition-all
-                      ${unit === 'metric'
-                        ? 'bg-gradient-to-r from-indigo-600 to-cyan-500 text-white shadow'
-                        : 'text-slate-200 hover:bg-white/5'}`}
-                  >
-                    Metric
-                  </motion.button>
-                  <motion.button
-                    whileTap={reduceMotion ? {} : { scale: 0.96 }}
-                    onClick={() => switchUnit('imperial')}
-                    aria-pressed={unit === 'imperial'}
-                    className={`min-h-[44px] rounded-lg text-sm font-medium transition-all
-                      ${unit === 'imperial'
-                        ? 'bg-gradient-to-r from-indigo-600 to-cyan-500 text-white shadow'
-                        : 'text-slate-200 hover:bg-white/5'}`}
-                  >
-                    Imperial
-                  </motion.button>
-                </div>
               </div>
 
               {/* Height */}
