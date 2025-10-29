@@ -210,7 +210,7 @@ const BMICalculator: React.FC = () => {
                 {/* action buttons stack on mobile */}
                 <div className="flex w-full sm:w-auto gap-2">
                   <motion.button
-                    whileTap={reduceMotion ? {} : { scale: 0.94 }} 
+                    whileTap={reduceMotion ? {} : { scale: 0.94 }}
                     onClick={copyLink}
                     className="relative flex-1 sm:flex-none min-h-[44px] px-3 py-2 rounded-xl border border-white/15 bg-white/5 text-slate-100 hover:bg-white/10 hover:border-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
                     title="Copy shareable link"
