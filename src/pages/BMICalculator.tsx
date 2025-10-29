@@ -194,15 +194,31 @@ const BMICalculator: React.FC = () => {
 
   // ---------- Share Image (fixed-size export) ----------
   // --- Fixed-size export: match the compact banner style ---
-    const EXPORT_W = 1200;
-    const EXPORT_H = 500;
+  const EXPORT_W = 1200;
+  const EXPORT_H = 500; // shorter like your example
   
   const exportRef = useRef<HTMLDivElement>(null);
+  
+  // BMI scale domain (keeps nice spacing and room for pointer)
   const scaleMin = 12, scaleMax = 40;
-  const bmiPointerPct = Number.isFinite(bmi)
-    ? Math.max(0, Math.min(100, ((bmi - scaleMin) / (scaleMax - scaleMin)) * 100))
-    : 0;
-
+  
+  // scheme-aware breakpoints for the colored scale
+  const ts = schemeThresholds(scheme); // {under, normalHi, overHi, obese}
+  const seg = {
+    under: { from: scaleMin, to: ts.under },
+    normal: { from: ts.under, to: ts.normalHi },
+    over: { from: ts.normalHi < 25 ? 25 : 25, to: scheme === 'asian' ? ts.overHi : 29.9 },
+    obese: { from: scheme === 'asian' ? ts.obese : 30, to: scaleMax }
+  };
+  
+  const pct = (x: number) => Math.max(0, Math.min(100, ((x - scaleMin) / (scaleMax - scaleMin)) * 100));
+  const wUnder = pct(seg.under.to) - pct(seg.under.from);
+  const wNormal = pct(seg.normal.to) - pct(seg.normal.from);
+  const wOver = pct(seg.over.to) - pct(seg.over.from);
+  const wObese = pct(seg.obese.to) - pct(seg.obese.from);
+  
+  const bmiPointerPct = Number.isFinite(bmi) ? pct(bmi) : 0;
+  
   const downloadImage = async () => {
     if (!exportRef.current) return;
     const canvas = await html2canvas(exportRef.current, {
@@ -214,12 +230,12 @@ const BMICalculator: React.FC = () => {
       windowWidth: EXPORT_W,
       windowHeight: EXPORT_H,
     });
-    const data = canvas.toDataURL('image/png');
     const a = document.createElement('a');
-    a.href = data;
+    a.href = canvas.toDataURL('image/png');
     a.download = 'bmi-summary.png';
     a.click();
   };
+
 
   // ------ Roadmap content (simple, non-medical guidance) ------
   const roadmap = useMemo(() => {
