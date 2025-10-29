@@ -167,7 +167,7 @@ const BMICalculator: React.FC = () => {
           />
 
       {/* Page wrapper: kill horizontal scroll on tiny screens */}
-      <div className="relative overflow-x-hidden pt-[env(safe-area-inset-top)]">
+      <div className="relative overflow-x-hidden ">
         {/* Responsive background glow (centered, no fixed large width) */}
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div
