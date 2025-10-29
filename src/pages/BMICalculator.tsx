@@ -208,56 +208,7 @@ const BMICalculator: React.FC = () => {
                 <h2 className="text-lg sm:text-xl font-semibold text-white">Your details</h2>
 
                 {/* action buttons stack on mobile */}
-                <div className="flex w-full sm:w-auto gap-2">
-                  <motion.button
-                    whileTap={reduceMotion ? {} : { scale: 0.94 }}
-                    onClick={copyLink}
-                    className="relative flex-1 sm:flex-none min-h-[44px] px-3 py-2 rounded-xl border border-white/15 bg-white/5 text-slate-100 hover:bg-white/10 hover:border-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
-                    title="Copy shareable link"
-                  >
-                    <span className="sr-only">Copy link</span>
-                    <AnimatePresence initial={false} mode="wait">
-                      {copied ? (
-                        <motion.span
-                          key="copied"
-                          initial={{ opacity: 0, y: 6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -6 }}
-                          transition={{ duration: 0.18 }}
-                          className="inline-flex items-center gap-1 text-emerald-300 text-xs"
-                        >
-                          <Check className="h-4 w-4" /> Copied
-                        </motion.span>
-                      ) : (
-                        <motion.span
-                          key="copy"
-                          initial={{ opacity: 0, y: 6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -6 }}
-                          transition={{ duration: 0.18 }}
-                          className="inline-flex items-center gap-2"
-                        >
-                          <LinkIcon className="h-4 w-4" /> <span className="text-sm hidden xs:inline">Copy</span>
-                        </motion.span>
-                      )}
-                    </AnimatePresence>
-                    {showCopyPulse && <span className="pointer-events-none absolute inset-0 rounded-xl animate-[ping_0.3s_ease-out] bg-white/20" />}
-                  </motion.button>
-
-                  <motion.button
-                    whileTap={reduceMotion ? {} : { scale: 0.94, rotate: -12 }}
-                    onClick={resetAll}
-                    className="relative flex-1 sm:flex-none min-h-[44px] px-3 py-2 rounded-xl border border-white/15 bg-white/5 text-slate-100 hover:bg-white/10 hover:border-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
-                    title="Reset to defaults"
-                  >
-                    <span className="sr-only">Reset</span>
-                    <div className="inline-flex items-center gap-2 text-sm">
-                      <RotateCcw className="h-4 w-4" /> <span className="hidden xs:inline">Reset</span>
-                    </div>
-                    {showResetPulse && <span className="pointer-events-none absolute inset-0 rounded-xl animate-[ping_0.3s_ease-out] bg-white/20" />}
-                  </motion.button>
-                </div>
-              </div>
+                
 
               {/* Segmented unit control: full-width grid on mobile */}
               <div className="mb-6">
