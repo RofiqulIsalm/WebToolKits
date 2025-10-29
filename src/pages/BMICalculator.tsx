@@ -350,6 +350,9 @@ const BMICalculator: React.FC = () => {
           <div className="mt-3 text-slate-300 text-sm">
            • Target: {fmtWeight(targetKg)}
           </div>
+          <div className="mt-3 text-slate-300 text-sm">
+           • need : {fmtWeight(targetKg-weightInput)}
+          </div>
         </div>
       </div>
 
