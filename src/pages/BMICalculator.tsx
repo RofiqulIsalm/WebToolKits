@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
-import { Activity, Link as LinkIcon, RotateCcw, Check } from 'lucide-react';
+import { Activity, Link as LinkIcon, RotateCcw, Check, Clipboard } from 'lucide-react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
@@ -8,6 +8,7 @@ import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
 
 type Unit = 'metric' | 'imperial';
+type BMIScheme = 'who' | 'asian';
 
 // ---- helpers ----
 const parseNumber = (v: string) => {
@@ -30,11 +31,19 @@ const rangesByUnit = (unit: Unit) =>
     ? { h: { min: 80, max: 220, step: 1, dp: 0, label: 'cm' }, w: { min: 20, max: 200, step: 0.1, dp: 1, label: 'kg' } }
     : { h: { min: 31.5, max: 86.6, step: 0.1, dp: 1, label: 'in' }, w: { min: 44, max: 440, step: 0.1, dp: 1, label: 'lb' } };
 
-const getCategoryInfo = (bmi: number) => {
+// thresholds for schemes
+const schemeThresholds = (scheme: BMIScheme) =>
+  scheme === 'asian'
+    ? { under: 18.5, normalHi: 22.9, overHi: 24.9, obese: 25 }
+    : { under: 18.5, normalHi: 24.9, overHi: 29.9, obese: 30 };
+
+// label + colors
+const getCategoryInfo = (bmi: number, scheme: BMIScheme) => {
+  const t = schemeThresholds(scheme);
   if (!Number.isFinite(bmi)) return { label: '—', badge: 'bg-slate-700 text-slate-200', ring: '#64748b' };
-  if (bmi < 18.5) return { label: 'Underweight',  badge: 'text-blue-700 bg-blue-100/80',   ring: '#3b82f6' };
-  if (bmi < 25)   return { label: 'Normal weight', badge: 'text-emerald-700 bg-emerald-100/80', ring: '#10b981' };
-  if (bmi < 30)   return { label: 'Overweight',    badge: 'text-amber-800 bg-amber-100/80',   ring: '#f59e0b' };
+  if (bmi < t.under) return { label: 'Underweight',  badge: 'text-blue-700 bg-blue-100/80',   ring: '#3b82f6' };
+  if (bmi <= t.normalHi) return { label: 'Normal weight', badge: 'text-emerald-700 bg-emerald-100/80', ring: '#10b981' };
+  if (bmi <= t.overHi)   return { label: 'Overweight',    badge: 'text-amber-800 bg-amber-100/80',   ring: '#f59e0b' };
   return { label: 'Obese', badge: 'text-rose-800 bg-rose-100/80', ring: '#ef4444' };
 };
 
@@ -51,11 +60,12 @@ const BMICalculator: React.FC = () => {
     const w = Number(sp.get('w'));
     const height = Number.isFinite(h) ? h : d.height;
     const weight = Number.isFinite(w) ? w : d.weight;
-    return { unit, height, weight };
+    const scheme = ((sp.get('scheme') as BMIScheme) || 'who') as BMIScheme;
+    return { unit, height, weight, scheme };
   }, []);
 
   // numeric state + raw inputs
-  const [{ unit, height, weight }, setState] = useState(getInitial);
+  const [{ unit, height, weight, scheme }, setState] = useState(getInitial);
   const [heightInput, setHeightInput] = useState<string>(String(getInitial().height));
   const [weightInput, setWeightInput] = useState<string>(String(getInitial().weight));
 
@@ -67,8 +77,9 @@ const BMICalculator: React.FC = () => {
     sp.set('unit', unit);
     sp.set('h', String(height));
     sp.set('w', String(weight));
+    sp.set('scheme', scheme);
     window.history.replaceState(null, '', `${window.location.pathname}?${sp.toString()}`);
-  }, [unit, height, weight]);
+  }, [unit, height, weight, scheme]);
 
   // input handlers (no clamp while typing)
   const onHeightChange = (v: string) => setHeightInput(v);
@@ -98,9 +109,12 @@ const BMICalculator: React.FC = () => {
       const r = rangesByUnit(next);
       h = clamp(h, r.h.min, r.h.max); w = clamp(w, r.w.min, r.w.max);
       setHeightInput(h.toFixed(r.h.dp)); setWeightInput(w.toFixed(r.w.dp));
-      return { unit: next, height: h, weight: w };
+      return { unit: next, height: h, weight: w, scheme: s.scheme };
     });
   };
+
+  // scheme switch
+  const switchScheme = (next: BMIScheme) => setState(s => ({ ...s, scheme: next }));
 
   // reset (current unit)
   const [copied, setCopied] = useState(false);
@@ -108,13 +122,13 @@ const BMICalculator: React.FC = () => {
   const [showResetPulse, setShowResetPulse] = useState(false);
   const resetAll = () => {
     const d = DEFAULTS[unit];
-    setState({ unit, height: d.height, weight: d.weight });
+    setState({ unit, height: d.height, weight: d.weight, scheme });
     setHeightInput(d.height.toString());
     setWeightInput(d.weight.toString());
     setShowResetPulse(true); setTimeout(() => setShowResetPulse(false), 300);
   };
 
-  // BMI
+  // BMI (use live typed values when valid)
   const typedH = parseNumber(heightInput);
   const typedW = parseNumber(weightInput);
   const hForCalc = Number.isFinite(typedH) ? typedH : height;
@@ -127,8 +141,47 @@ const BMICalculator: React.FC = () => {
     return wKg / (hMeters * hMeters);
   }, [hForCalc, wForCalc, unit]);
 
-  const { label: category, badge, ring } = useMemo(() => getCategoryInfo(bmi), [bmi]);
+  // Scheme-aware labels/colors
+  const { label: category, badge, ring } = useMemo(() => getCategoryInfo(bmi, scheme), [bmi, scheme]);
   const ringPct = Number.isFinite(bmi) ? Math.min(100, Math.max(0, (bmi / 40) * 100)) : 0;
+
+  // Healthy weight range + target (midpoint of normal)
+  const normalHi = schemeThresholds(scheme).normalHi;
+  const normalLo = 18.5;
+  const midBMI = (normalLo + normalHi) / 2; // scheme-specific midpoint
+
+  const hMetersForCalc = unit === 'imperial' ? hForCalc * 0.0254 : hForCalc / 100;
+  const minKg = Number.isFinite(hMetersForCalc) ? normalLo * hMetersForCalc * hMetersForCalc : NaN;
+  const maxKg = Number.isFinite(hMetersForCalc) ? normalHi * hMetersForCalc * hMetersForCalc : NaN;
+  const targetKg = Number.isFinite(hMetersForCalc) ? midBMI * hMetersForCalc * hMetersForCalc : NaN;
+
+  const weightNowKg = unit === 'imperial' ? (Number.isFinite(wForCalc) ? wForCalc * 0.453592 : NaN) : (Number.isFinite(wForCalc) ? wForCalc : NaN);
+  const deltaKg = Number.isFinite(targetKg) && Number.isFinite(weightNowKg) ? targetKg - weightNowKg : NaN;
+
+  const fmtWeight = (kg: number) => {
+    if (!Number.isFinite(kg)) return '—';
+    if (unit === 'imperial') return `${(kgToLb(kg)).toFixed(1)} lb`;
+    return `${kg.toFixed(1)} kg`;
+  };
+
+  // Copy a human-readable summary
+  const copySummary = async () => {
+    const parts = [
+      `BMI: ${Number.isFinite(bmi) ? bmi.toFixed(1) : '—'}`,
+      `Category (${scheme === 'who' ? 'WHO' : 'Asian'}): ${category}`,
+      `Height: ${heightInput} ${ranges.h.label}`,
+      `Weight: ${weightInput} ${ranges.w.label}`,
+      `Healthy range: ${fmtWeight(minKg)} – ${fmtWeight(maxKg)}`,
+      Number.isFinite(deltaKg) ? (deltaKg > 0 ? `Gain ~${fmtWeight(deltaKg)} to reach target` : deltaKg < 0 ? `Lose ~${fmtWeight(Math.abs(deltaKg))} to reach target` : `You're at target`) : ''
+    ].filter(Boolean).join('\n');
+
+    try {
+      await navigator.clipboard.writeText(parts);
+      setCopied(true); setShowCopyPulse(true);
+      setTimeout(() => setShowCopyPulse(false), 300);
+      setTimeout(() => setCopied(false), 1200);
+    } catch {}
+  };
 
   const copyLink = async () => {
     try {
@@ -157,32 +210,19 @@ const BMICalculator: React.FC = () => {
         ]}
       />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      {/* content container */}
-        <div className="mx-auto max-w-4xl px-4 sm:px-6">
-          <Breadcrumbs
-            items={[
-              { name: 'Math Tools', url: '/category/math-tools' },
-              { name: 'BMI Calculator', url: '/bmi-calculator' }
-            ]}
-          />
 
-      {/* Page wrapper: kill horizontal scroll on tiny screens */}
+      {/* Page wrapper */}
       <div className="relative overflow-x-hidden pt-[env(safe-area-inset-top)]">
-        {/* Responsive background glow (centered, no fixed large width) */}
+        {/* Responsive background glow */}
         <div className="pointer-events-none absolute inset-0 -z-10">
-          <div
-            className="
-              absolute left-1/2 -translate-x-1/2
-              w-[110%] sm:w-[90%] md:w-[70%] max-w-[1200px]
-              h-48 sm:h-60 md:h-72
-              
-              blur-3xl rounded-full
-            "
-            aria-hidden="true"
-          />
+          <div className="absolute left-1/2 -translate-x-1/2 w-[110%] sm:w-[90%] md:w-[70%] max-w-[1200px] h-48 sm:h-60 md:h-72 bg-gradient-to-r from-indigo-500/30 via-cyan-400/20 to-indigo-500/30 blur-3xl rounded-full" />
         </div>
 
-        
+        <div className="mx-auto max-w-4xl px-4 sm:px-6">
+          <Breadcrumbs items={[
+            { name: 'Math Tools', url: '/category/math-tools' },
+            { name: 'BMI Calculator', url: '/bmi-calculator' }
+          ]} />
 
           {/* Header */}
           <div className="mb-6 sm:mb-8 rounded-2xl p-4 sm:p-6 bg-gradient-to-r from-indigo-600 to-cyan-500 shadow-lg">
@@ -198,15 +238,14 @@ const BMICalculator: React.FC = () => {
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
                 <h2 className="text-lg sm:text-xl font-semibold text-white">Your details</h2>
 
-                {/* action buttons stack on mobile */}
-                <div className="flex w-full sm:w-auto gap-2">
+                {/* action buttons */}
+                <div className="grid grid-cols-2 sm:flex gap-2 w-full sm:w-auto">
                   <motion.button
                     whileTap={reduceMotion ? {} : { scale: 0.94 }}
                     onClick={copyLink}
-                    className="relative flex-1 sm:flex-none min-h-[44px] px-3 py-2 rounded-xl border border-white/15 bg-white/5 text-slate-100 hover:bg-white/10 hover:border-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
+                    className="relative min-h-[44px] px-3 py-2 rounded-xl border border-white/15 bg-white/5 text-slate-100 hover:bg-white/10 hover:border-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
                     title="Copy shareable link"
                   >
-                    <span className="sr-only">Copy link</span>
                     <AnimatePresence initial={false} mode="wait">
                       {copied ? (
                         <motion.span
@@ -226,9 +265,9 @@ const BMICalculator: React.FC = () => {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -6 }}
                           transition={{ duration: 0.18 }}
-                          className="inline-flex items-center gap-2"
+                          className="inline-flex items-center gap-2 text-sm"
                         >
-                          <LinkIcon className="h-4 w-4" /> <span className="text-sm">Copy</span>
+                          <LinkIcon className="h-4 w-4" /> Link
                         </motion.span>
                       )}
                     </AnimatePresence>
@@ -236,46 +275,88 @@ const BMICalculator: React.FC = () => {
                   </motion.button>
 
                   <motion.button
+                    whileTap={reduceMotion ? {} : { scale: 0.94 }}
+                    onClick={copySummary}
+                    className="relative min-h-[44px] px-3 py-2 rounded-xl border border-white/15 bg-white/5 text-slate-100 hover:bg-white/10 hover:border-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
+                    title="Copy result summary"
+                  >
+                    <div className="inline-flex items-center gap-2 text-sm">
+                      <Clipboard className="h-4 w-4" /> Summary
+                    </div>
+                  </motion.button>
+
+                  <motion.button
                     whileTap={reduceMotion ? {} : { scale: 0.94, rotate: -12 }}
                     onClick={resetAll}
-                    className="relative flex-1 sm:flex-none min-h-[44px] px-3 py-2 rounded-xl border border-white/15 bg-white/5 text-slate-100 hover:bg-white/10 hover:border-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
+                    className="relative min-h-[44px] px-3 py-2 rounded-xl border border-white/15 bg-white/5 text-slate-100 hover:bg-white/10 hover:border-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
                     title="Reset to defaults"
                   >
-                    <span className="sr-only">Reset</span>
                     <div className="inline-flex items-center gap-2 text-sm">
-                      <RotateCcw className="h-4 w-4" /> <span>Reset</span>
+                      <RotateCcw className="h-4 w-4" /> Reset
                     </div>
                     {showResetPulse && <span className="pointer-events-none absolute inset-0 rounded-xl animate-[ping_0.3s_ease-out] bg-white/20" />}
                   </motion.button>
                 </div>
               </div>
 
-              {/* Unit control (full-width grid on mobile) */}
-              <div className="mb-6">
-                <label className="block text-xs sm:text-sm font-medium text-slate-300 mb-2">Unit system</label>
-                <div className="grid grid-cols-2 gap-1 rounded-xl p-1 bg-white/5 border border-white/10 w-full">
-                  <motion.button
-                    whileTap={reduceMotion ? {} : { scale: 0.96 }}
-                    onClick={() => switchUnit('metric')}
-                    aria-pressed={unit === 'metric'}
-                    className={`min-h-[44px] rounded-lg text-sm font-medium transition-all
-                      ${unit === 'metric'
-                        ? 'bg-gradient-to-r from-indigo-600 to-cyan-500 text-white shadow'
-                        : 'text-slate-200 hover:bg-white/5'}`}
-                  >
-                    Metric
-                  </motion.button>
-                  <motion.button
-                    whileTap={reduceMotion ? {} : { scale: 0.96 }}
-                    onClick={() => switchUnit('imperial')}
-                    aria-pressed={unit === 'imperial'}
-                    className={`min-h-[44px] rounded-lg text-sm font-medium transition-all
-                      ${unit === 'imperial'
-                        ? 'bg-gradient-to-r from-indigo-600 to-cyan-500 text-white shadow'
-                        : 'text-slate-200 hover:bg-white/5'}`}
-                  >
-                    Imperial
-                  </motion.button>
+              {/* Unit & Scheme controls */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+                {/* Unit */}
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-slate-300 mb-2">Unit system</label>
+                  <div className="grid grid-cols-2 gap-1 rounded-xl p-1 bg-white/5 border border-white/10 w-full">
+                    <motion.button
+                      whileTap={reduceMotion ? {} : { scale: 0.96 }}
+                      onClick={() => switchUnit('metric')}
+                      aria-pressed={unit === 'metric'}
+                      className={`min-h-[44px] rounded-lg text-sm font-medium transition-all
+                        ${unit === 'metric'
+                          ? 'bg-gradient-to-r from-indigo-600 to-cyan-500 text-white shadow'
+                          : 'text-slate-200 hover:bg-white/5'}`}
+                    >
+                      Metric
+                    </motion.button>
+                    <motion.button
+                      whileTap={reduceMotion ? {} : { scale: 0.96 }}
+                      onClick={() => switchUnit('imperial')}
+                      aria-pressed={unit === 'imperial'}
+                      className={`min-h-[44px] rounded-lg text-sm font-medium transition-all
+                        ${unit === 'imperial'
+                          ? 'bg-gradient-to-r from-indigo-600 to-cyan-500 text-white shadow'
+                          : 'text-slate-200 hover:bg-white/5'}`}
+                    >
+                      Imperial
+                    </motion.button>
+                  </div>
+                </div>
+
+                {/* Scheme */}
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-slate-300 mb-2">BMI standard</label>
+                  <div className="grid grid-cols-2 gap-1 rounded-xl p-1 bg-white/5 border border-white/10 w-full">
+                    <motion.button
+                      whileTap={reduceMotion ? {} : { scale: 0.96 }}
+                      onClick={() => switchScheme('who')}
+                      aria-pressed={scheme === 'who'}
+                      className={`min-h-[44px] rounded-lg text-sm font-medium transition-all
+                        ${scheme === 'who'
+                          ? 'bg-gradient-to-r from-indigo-600 to-cyan-500 text-white shadow'
+                          : 'text-slate-200 hover:bg-white/5'}`}
+                    >
+                      WHO
+                    </motion.button>
+                    <motion.button
+                      whileTap={reduceMotion ? {} : { scale: 0.96 }}
+                      onClick={() => switchScheme('asian')}
+                      aria-pressed={scheme === 'asian'}
+                      className={`min-h-[44px] rounded-lg text-sm font-medium transition-all
+                        ${scheme === 'asian'
+                          ? 'bg-gradient-to-r from-indigo-600 to-cyan-500 text-white shadow'
+                          : 'text-slate-200 hover:bg-white/5'}`}
+                    >
+                      Asian
+                    </motion.button>
+                  </div>
                 </div>
               </div>
 
@@ -353,32 +434,48 @@ const BMICalculator: React.FC = () => {
                     <div className="inline-flex items-center gap-2">
                       <Activity className="h-5 w-5 text-cyan-300 drop-shadow" />
                       <span className={`px-3 py-1 rounded-lg text-xs sm:text-sm font-medium ${badge}`}>
-                        {category}
+                        {category} ({scheme === 'who' ? 'WHO' : 'Asian'})
                       </span>
                     </div>
                     <p className="text-slate-300 mt-2 text-xs sm:text-sm leading-relaxed">
                       BMI is a screening tool. Age, sex, muscle, and ethnicity can affect interpretation.
                     </p>
 
-                    {/* Stats */}
-                    <div className="mt-3 grid grid-cols-2 gap-2">
+                    {/* Healthy weight range + target */}
+                    <div className="mt-3 grid grid-cols-1 gap-2 text-sm">
                       <div className="rounded-lg px-3 py-2 bg-white/5 border border-white/10 text-slate-200">
-                        <div className="opacity-70 text-[11px] sm:text-xs">Height</div>
-                        <div className="font-medium break-words">
-                          {heightInput} {ranges.h.label}
+                        <div className="opacity-70 text-[11px] sm:text-xs">Healthy weight range for your height</div>
+                        <div className="font-medium">
+                          {fmtWeight(minKg)} – {fmtWeight(maxKg)}
                         </div>
                       </div>
                       <div className="rounded-lg px-3 py-2 bg-white/5 border border-white/10 text-slate-200">
-                        <div className="opacity-70 text-[11px] sm:text-xs">Weight</div>
-                        <div className="font-medium break-words">
-                          {weightInput} {ranges.w.label}
+                        <div className="opacity-70 text-[11px] sm:text-xs">Target (mid of normal)</div>
+                        <div className="font-medium">
+                          {fmtWeight(targetKg)} {Number.isFinite(deltaKg) ? (
+                            <span className="opacity-80">
+                              &nbsp;•&nbsp;{deltaKg > 0 ? 'Gain' : deltaKg < 0 ? 'Lose' : 'At target'} {fmtWeight(Math.abs(deltaKg))}
+                            </span>
+                          ) : null}
                         </div>
+                      </div>
+                    </div>
+
+                    {/* Current inputs */}
+                    <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
+                      <div className="rounded-lg px-3 py-2 bg-white/5 border border-white/10 text-slate-200">
+                        <div className="opacity-70 text-[11px] sm:text-xs">Height</div>
+                        <div className="font-medium break-words">{heightInput} {ranges.h.label}</div>
+                      </div>
+                      <div className="rounded-lg px-3 py-2 bg-white/5 border border-white/10 text-slate-200">
+                        <div className="opacity-70 text-[11px] sm:text-xs">Weight</div>
+                        <div className="font-medium break-words">{weightInput} {ranges.w.label}</div>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Legend */}
+                {/* Legend (scheme-aware upper bounds) */}
                 <div className="grid grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm">
                   <div className="flex items-center justify-between">
                     <span className="text-slate-300">Underweight</span>
@@ -386,15 +483,21 @@ const BMICalculator: React.FC = () => {
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-slate-300">Normal</span>
-                    <span className="text-emerald-300">18.5–24.9</span>
+                    <span className="text-emerald-300">
+                      18.5–{scheme === 'asian' ? '22.9' : '24.9'}
+                    </span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-slate-300">Overweight</span>
-                    <span className="text-amber-300">25–29.9</span>
+                    <span className="text-amber-300">
+                      {scheme === 'asian' ? '23–24.9' : '25–29.9'}
+                    </span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-slate-300">Obese</span>
-                    <span className="text-rose-300">30+</span>
+                    <span className="text-rose-300">
+                      {scheme === 'asian' ? '25+' : '30+'}
+                    </span>
                   </div>
                 </div>
               </div>
