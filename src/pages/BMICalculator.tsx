@@ -167,7 +167,7 @@ const BMICalculator: React.FC = () => {
           />
 
       {/* Page wrapper: kill horizontal scroll on tiny screens */}
-      <div className="relative overflow-x-hidden ">
+      <div className="relative overflow-x-hidden pt-[env(safe-area-inset-top)]">
         {/* Responsive background glow (centered, no fixed large width) */}
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div
@@ -175,7 +175,7 @@ const BMICalculator: React.FC = () => {
               absolute left-1/2 -translate-x-1/2
               w-[110%] sm:w-[90%] md:w-[70%] max-w-[1200px]
               h-48 sm:h-60 md:h-72
-              bg-gradient-to-r from-indigo-500/30 via-cyan-400/20 to-indigo-500/30
+              bg-gradient-to-r from-indigo-500/30  to-indigo-500/30
               blur-3xl rounded-full
             "
             aria-hidden="true"
