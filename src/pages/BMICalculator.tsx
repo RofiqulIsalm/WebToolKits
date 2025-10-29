@@ -193,8 +193,10 @@ const BMICalculator: React.FC = () => {
   };
 
   // ---------- Share Image (fixed-size export) ----------
-  const EXPORT_W = 1200;
-  const EXPORT_H = 630;
+  // --- Fixed-size export: match the compact banner style ---
+    const EXPORT_W = 1200;
+    const EXPORT_H = 500;
+  
   const exportRef = useRef<HTMLDivElement>(null);
   const scaleMin = 12, scaleMax = 40;
   const bmiPointerPct = Number.isFinite(bmi)
