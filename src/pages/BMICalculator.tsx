@@ -345,7 +345,10 @@ const BMICalculator: React.FC = () => {
           </div>
 
           <div className="mt-3 text-slate-300 text-sm">
-            Healthy: {fmtWeight(minKg)} – {fmtWeight(maxKg)} • Target: {fmtWeight(targetKg)}
+           • Healthy: {fmtWeight(minKg)} – {fmtWeight(maxKg)}
+          </div>
+          <div className="mt-3 text-slate-300 text-sm">
+           • Target: {fmtWeight(targetKg)}
           </div>
         </div>
       </div>
@@ -586,18 +589,18 @@ const BMICalculator: React.FC = () => {
           </div>
 
           {/* --- Share / Download summary --- */}
-                <div className="mt-4">
-                  <div className="mb-2 text-slate-300 text-sm">Share / Download summary</div>
+             <div className="mt-4">
+                <div className="mb-2 text-slate-300 text-sm">Share / Download summary</div>
 
-                  {/* On-page responsive preview */}
-                  <ShareCard className="w-full max-w-[720px]" tight />
+                {/* On-page responsive preview */}
+                 <ShareCard className="w-full max-w-[720px]" tight />
 
-                  {/* Off-screen, fixed-size export (always 1200×630) */}
-                  <div className="fixed -left-[9999px] top-0" style={{ width: EXPORT_W, height: EXPORT_H }}>
-                    <div ref={exportRef} className="w-[1200px] h-[630px]">
-                      <ShareCard className="w-[1200px] h-[630px]" />
-                    </div>
-                  </div>
+                 {/* Off-screen, fixed-size export (always 1200×630) */}
+                 <div className="fixed -left-[9999px] top-0" style={{ width: EXPORT_W, height: EXPORT_H }}>
+                   <div ref={exportRef} className="w-[1200px] h-[630px]">
+                     <ShareCard className="w-[1200px] h-[630px]" />
+                   </div>
+                 </div>
 
                   <div className="mt-2">
                     <button
