@@ -9,38 +9,26 @@ import RelatedCalculators from '../components/RelatedCalculators';
 type Unit = 'metric' | 'imperial';
 
 // ---- helpers ----
-const clamp = (v: number, min: number, max: number) =>
-  Number.isFinite(v) ? Math.max(min, Math.min(max, v)) : min;
-
-const parseNumber = (v: string | null, fallback: number) => {
+const parseNumber = (v: string) => {
   const n = Number(v);
-  return Number.isFinite(n) ? n : fallback;
+  return Number.isFinite(n) ? n : NaN;
 };
-
-// conversions
+const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
 const cmToIn = (cm: number) => cm / 2.54;
 const inToCm = (inch: number) => inch * 2.54;
 const kgToLb = (kg: number) => kg * 2.20462;
 const lbToKg = (lb: number) => lb / 2.20462;
 
-// defaults
 const DEFAULTS = {
-  metric: { height: 170, weight: 70 },     // cm, kg
+  metric: { height: 170, weight: 70 },      // cm, kg
   imperial: { height: 67.0, weight: 154.0 } // in, lb
 } as const;
 
 const rangesByUnit = (unit: Unit) =>
   unit === 'metric'
-    ? {
-        h: { min: 80, max: 220, step: 1, label: 'cm' },
-        w: { min: 20, max: 200, step: 0.1, label: 'kg' },
-      }
-    : {
-        h: { min: 31.5, max: 86.6, step: 0.1, label: 'in' },
-        w: { min: 44, max: 440, step: 0.1, label: 'lb' },
-      };
+    ? { h: { min: 80, max: 220, step: 1, dp: 0, label: 'cm' }, w: { min: 20, max: 200, step: 0.1, dp: 1, label: 'kg' } }
+    : { h: { min: 31.5, max: 86.6, step: 0.1, dp: 1, label: 'in' }, w: { min: 44, max: 440, step: 0.1, dp: 1, label: 'lb' } };
 
-// color mapping
 const getCategoryInfo = (bmi: number) => {
   if (!Number.isFinite(bmi)) return { label: '—', badge: 'bg-slate-700 text-slate-200', ring: '#64748b' };
   if (bmi < 18.5) return { label: 'Underweight',  badge: 'text-blue-700 bg-blue-100/80',   ring: '#3b82f6' };
@@ -56,17 +44,22 @@ const BMICalculator: React.FC = () => {
     const urlUnit = (sp.get('unit') as Unit) || 'metric';
     const unit: Unit = urlUnit === 'imperial' ? 'imperial' : 'metric';
     const d = DEFAULTS[unit];
-    const height = parseNumber(sp.get('h'), d.height);
-    const weight = parseNumber(sp.get('w'), d.weight);
+    const h = Number(sp.get('h'));
+    const w = Number(sp.get('w'));
+    const height = Number.isFinite(h) ? h : d.height;
+    const weight = Number.isFinite(w) ? w : d.weight;
     return { unit, height, weight };
   }, []);
 
+  // canonical numeric state (used for normalization + URL)
   const [{ unit, height, weight }, setState] = useState(getInitial);
+  // raw input strings (let user type freely)
+  const [heightInput, setHeightInput] = useState<string>(String(getInitial().height));
+  const [weightInput, setWeightInput] = useState<string>(String(getInitial().weight));
 
-  // ranges memo
   const ranges = useMemo(() => rangesByUnit(unit), [unit]);
 
-  // keep URL synced
+  // keep URL synced with numeric state
   useEffect(() => {
     const sp = new URLSearchParams();
     sp.set('unit', unit);
@@ -75,62 +68,82 @@ const BMICalculator: React.FC = () => {
     window.history.replaceState(null, '', `${window.location.pathname}?${sp.toString()}`);
   }, [unit, height, weight]);
 
-  // ---- actions ----
-  const setHeight = (v: number) => setState(s => ({ ...s, height: clamp(v, ranges.h.min, ranges.h.max) }));
-  const setWeight = (v: number) => setState(s => ({ ...s, weight: clamp(v, ranges.w.min, ranges.w.max) }));
+  // ---------- input handlers (no clamp while typing) ----------
+  const onHeightChange = (v: string) => setHeightInput(v);
+  const onWeightChange = (v: string) => setWeightInput(v);
 
-  // convert values when switching unit
+  // normalize on blur (apply min/max + formatting)
+  const normalizeHeight = () => {
+    const n = parseNumber(heightInput);
+    if (!Number.isFinite(n)) {
+      // revert to last numeric state if blank/invalid
+      setHeightInput(String(height));
+      return;
+    }
+    const c = clamp(n, ranges.h.min, ranges.h.max);
+    setState(s => ({ ...s, height: c }));
+    setHeightInput(c.toFixed(ranges.h.dp));
+  };
+
+  const normalizeWeight = () => {
+    const n = parseNumber(weightInput);
+    if (!Number.isFinite(n)) {
+      setWeightInput(String(weight));
+      return;
+    }
+    const c = clamp(n, ranges.w.min, ranges.w.max);
+    setState(s => ({ ...s, weight: c }));
+    setWeightInput(c.toFixed(ranges.w.dp));
+  };
+
+  // convert values when switching unit (and update raw inputs accordingly)
   const switchUnit = (next: Unit) => {
     if (next === unit) return;
     setState(s => {
       let h = s.height;
       let w = s.weight;
       if (next === 'imperial') {
-        h = +cmToIn(h).toFixed(1); // cm -> in
-        w = +kgToLb(w).toFixed(1); // kg -> lb
+        h = +(cmToIn(h)).toFixed(1); // cm -> in
+        w = +(kgToLb(w)).toFixed(1); // kg -> lb
       } else {
-        h = Math.round(inToCm(h)); // in -> cm
-        w = +lbToKg(w).toFixed(1); // lb -> kg
+        h = Math.round(inToCm(h));   // in -> cm
+        w = +(lbToKg(w)).toFixed(1); // lb -> kg
       }
       const r = rangesByUnit(next);
-      return {
-        unit: next,
-        height: clamp(h, r.h.min, r.h.max),
-        weight: clamp(w, r.w.min, r.w.max),
-      };
+      h = clamp(h, r.h.min, r.h.max);
+      w = clamp(w, r.w.min, r.w.max);
+      // also set the visible strings
+      setHeightInput(h.toFixed(r.h.dp));
+      setWeightInput(w.toFixed(r.w.dp));
+      return { unit: next, height: h, weight: w };
     });
   };
 
-  // reset to defaults for the CURRENT unit (not URL mirror)
+  // reset to defaults for the CURRENT unit
   const resetAll = () => {
     const d = DEFAULTS[unit];
     setState({ unit, height: d.height, weight: d.weight });
-    const sp = new URLSearchParams();
-    sp.set('unit', unit);
-    sp.set('h', String(d.height));
-    sp.set('w', String(d.weight));
-    window.history.replaceState(null, '', `${window.location.pathname}?${sp.toString()}`);
+    setHeightInput(d.height.toString());
+    setWeightInput(d.weight.toString());
   };
 
-  // derived BMI
-  const valid = height > 0 && weight > 0;
+  // ---- derived BMI (use live typed values when valid; else fallback) ----
+  const typedH = parseNumber(heightInput);
+  const typedW = parseNumber(weightInput);
+  const hForCalc = Number.isFinite(typedH) ? typedH : height;
+  const wForCalc = Number.isFinite(typedW) ? typedW : weight;
+
   const bmi = useMemo(() => {
-    if (!valid) return NaN;
-    const hMeters = unit === 'imperial' ? height * 0.0254 : height / 100;
-    const wKg = unit === 'imperial' ? weight * 0.453592 : weight;
+    if (!(hForCalc > 0 && wForCalc > 0)) return NaN;
+    const hMeters = unit === 'imperial' ? hForCalc * 0.0254 : hForCalc / 100;
+    const wKg = unit === 'imperial' ? wForCalc * 0.453592 : wForCalc;
     return wKg / (hMeters * hMeters);
-  }, [height, weight, unit, valid]);
+  }, [hForCalc, wForCalc, unit]);
 
   const { label: category, badge, ring } = useMemo(() => getCategoryInfo(bmi), [bmi]);
-
-  // ring fill percentage (cap at 40 BMI)
   const ringPct = Number.isFinite(bmi) ? Math.min(100, Math.max(0, (bmi / 40) * 100)) : 0;
 
-  const copyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-    } catch {}
-  };
+  const copyLink = async () => { try { await navigator.clipboard.writeText(window.location.href); } catch {} };
 
   return (
     <>
@@ -166,9 +179,7 @@ const BMICalculator: React.FC = () => {
           {/* Header */}
           <div className="mb-8 rounded-2xl p-6 bg-gradient-to-r from-indigo-600 to-cyan-500 shadow-lg">
             <h1 className="text-3xl font-extrabold text-white drop-shadow-sm">BMI Calculator</h1>
-            <p className="text-white/90 mt-1">
-              Calculate your Body Mass Index and see where you land on the healthy range.
-            </p>
+            <p className="text-white/90 mt-1">Calculate your Body Mass Index and see where you land on the healthy range.</p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -229,15 +240,13 @@ const BMICalculator: React.FC = () => {
                   Height ({ranges.h.label})
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   inputMode="decimal"
-                  min={ranges.h.min}
-                  max={ranges.h.max}
-                  step={ranges.h.step}
-                  value={height}
-                  onChange={(e) => setHeight(Number(e.target.value))}
+                  value={heightInput}
+                  onChange={(e) => onHeightChange(e.target.value)}
+                  onBlur={normalizeHeight}
                   className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-slate-100 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
-                  placeholder={unit === 'metric' ? 'e.g., 170' : 'e.g., 67.0'}
+                  placeholder={unit === 'metric' ? 'e.g., 160' : 'e.g., 63.0'}
                 />
                 <p className="text-xs text-slate-400 mt-1">
                   Range {ranges.h.min}–{ranges.h.max} {ranges.h.label}
@@ -250,15 +259,13 @@ const BMICalculator: React.FC = () => {
                   Weight ({ranges.w.label})
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   inputMode="decimal"
-                  min={ranges.w.min}
-                  max={ranges.w.max}
-                  step={ranges.w.step}
-                  value={weight}
-                  onChange={(e) => setWeight(Number(e.target.value))}
+                  value={weightInput}
+                  onChange={(e) => onWeightChange(e.target.value)}
+                  onBlur={normalizeWeight}
                   className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-slate-100 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
-                  placeholder={unit === 'metric' ? 'e.g., 70.0' : 'e.g., 154.0'}
+                  placeholder={unit === 'metric' ? 'e.g., 55.0' : 'e.g., 121.3'}
                 />
                 <p className="text-xs text-slate-400 mt-1">
                   Range {ranges.w.min}–{ranges.w.max} {ranges.w.label}
@@ -270,12 +277,11 @@ const BMICalculator: React.FC = () => {
             <div className="rounded-2xl p-6 bg-white/5 border border-white/10 backdrop-blur-xl shadow-xl">
               <h2 className="text-xl font-semibold text-white mb-5">Your result</h2>
 
-              {/* BMI ring + number */}
               <div className="flex items-center gap-6 mb-6">
                 <div
                   className="relative h-28 w-28 rounded-full grid place-items-center"
                   style={{
-                    background: `conic-gradient(${ring} ${ringPct}%, rgba(148,163,184,0.25) 0)`,
+                    background: `conic-gradient(${getCategoryInfo(bmi).ring} ${Number.isFinite(bmi) ? Math.min(100, Math.max(0, (bmi / 40) * 100)) : 0}%, rgba(148,163,184,0.25) 0)`,
                   }}
                   aria-label="BMI progress ring"
                 >
@@ -289,8 +295,8 @@ const BMICalculator: React.FC = () => {
                 <div className="flex-1">
                   <div className="inline-flex items-center gap-2">
                     <Activity className="h-5 w-5 text-cyan-300 drop-shadow" />
-                    <span className={`px-3 py-1 rounded-lg text-sm font-medium ${badge}`}>
-                      {category}
+                    <span className={`px-3 py-1 rounded-lg text-sm font-medium ${getCategoryInfo(bmi).badge}`}>
+                      {getCategoryInfo(bmi).label}
                     </span>
                   </div>
                   <p className="text-slate-300 mt-2 text-sm">
@@ -299,7 +305,6 @@ const BMICalculator: React.FC = () => {
                 </div>
               </div>
 
-              {/* Compact legend */}
               <div className="grid grid-cols-2 gap-3 text-sm">
                 <div className="flex items-center justify-between">
                   <span className="text-slate-300">Underweight</span>
