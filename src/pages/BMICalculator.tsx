@@ -175,7 +175,7 @@ const BMICalculator: React.FC = () => {
               absolute left-1/2 -translate-x-1/2
               w-[110%] sm:w-[90%] md:w-[70%] max-w-[1200px]
               h-48 sm:h-60 md:h-72
-              bg-gradient-to-r from-indigo-500/30  to-indigo-500/30
+              
               blur-3xl rounded-full
             "
             aria-hidden="true"
