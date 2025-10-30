@@ -234,88 +234,129 @@ const BMICalculator: React.FC = () => {
 
 
 
-  // ------ Roadmap content (simple, non-medical guidance) ------
+  // ------ Roadmap content (friendly, emoji-rich; not medical advice) ------
   const roadmap = useMemo(() => {
-    const base = {
-      weekly: [
-        'Strength training: 2–3×/week (45–60 min)',
-        'Cardio: 150–300 min/week total',
-        'Steps: 7,000–10,000/day',
-        'Sleep: 7–9 hours/night',
-        'Hydration: ~30–35 ml/kg/day'
-      ],
-      habits: [
-        'Minimize sugary drinks & ultra-processed snacks',
-        'Protein each meal; load plate with veggies',
-        'Plan meals; track portions 1–2 weeks',
-        'Limit alcohol; manage stress'
-      ],
-      note: 'General guidance, not medical advice. Consider a clinician/dietitian for personalized care.'
-    };
-
-    if (!Number.isFinite(bmi)) return { title: 'Healthy basics', bullets: base };
-    if (bmi < schemeThresholds(scheme).under) {
+    const baseWeekly = [
+      '🏋️ Strength training: 2–3×/week (45–60 min)',
+      '🚶 Cardio: 150–300 min/week total',
+      '👣 Steps: 7,000–10,000/day',
+      '😴 Sleep: 7–9 hours/night',
+      '💧 Hydration: ~30–35 ml/kg/day',
+    ];
+    const baseHabits = [
+      '🥤 Skip sugary drinks & ultra-processed snacks',
+      '🍗🥦 Protein each meal • load plate with veggies',
+      '🗓️ Plan meals • track portions 1–2 weeks',
+      '🍷 Limit alcohol • 🧘 manage stress',
+    ];
+    const note =
+      'General guidance, not medical advice. See a clinician/dietitian for personalized care.';
+  
+    const theme = (tone: 'blue'|'emerald'|'amber'|'rose') => ({
+      tone,
+      gradient:
+        tone === 'blue'
+          ? 'from-blue-600/40 to-cyan-500/40'
+          : tone === 'emerald'
+          ? 'from-emerald-600/40 to-teal-500/40'
+          : tone === 'amber'
+          ? 'from-amber-600/40 to-orange-500/40'
+          : 'from-rose-600/40 to-pink-500/40',
+      badge:
+        tone === 'blue'
+          ? 'bg-blue-500/10 text-blue-200 ring-1 ring-inset ring-blue-400/30'
+          : tone === 'emerald'
+          ? 'bg-emerald-500/10 text-emerald-200 ring-1 ring-inset ring-emerald-400/30'
+          : tone === 'amber'
+          ? 'bg-amber-500/10 text-amber-200 ring-1 ring-inset ring-amber-400/30'
+          : 'bg-rose-500/10 text-rose-200 ring-1 ring-inset ring-rose-400/30',
+    });
+  
+    const th = schemeThresholds(scheme);
+  
+    // Default (no BMI yet)
+    if (!Number.isFinite(bmi)) {
+      return {
+        title: 'Healthy basics',
+        weekly: baseWeekly,
+        habits: baseHabits,
+        micro: ['👣 8k steps', '💧 2L water', '🌾 25g fiber', '😴 7h sleep'],
+        note,
+        theme: theme('emerald'),
+        emoji: '✨',
+      };
+    }
+  
+    if (bmi < th.under) {
       return {
         title: 'Roadmap for Underweight',
-        bullets: {
-          weekly: base.weekly,
-          habits: [
-            'Add 300–500 kcal/day via whole foods (nuts, dairy, olive oil, whole grains)',
-            'Prioritize progressive strength training to build lean mass',
-            'Protein ~1.6–2.2 g/kg/day; 3–5 meals with 20–40 g protein each',
-            'Include carb sources around workouts (rice, potatoes, fruit)',
-            ...base.habits
-          ],
-          note: base.note
-        }
+        weekly: baseWeekly,
+        habits: [
+          '➕🍽️ Add 300–500 kcal/day (nuts, dairy, olive oil, whole grains)',
+          '🏗️ Progressive strength focus to build lean mass',
+          '🥛 Protein ~1.6–2.2 g/kg/day (3–5 meals, 20–40 g each)',
+          '🍚 Carbs around workouts (rice, potatoes, fruit)',
+          ...baseHabits,
+        ],
+        micro: ['🍽️ +300 kcal', '🏋️ Lift today', '🥤 2–3 dairy/alt', '😴 8h sleep'],
+        note,
+        theme: theme('blue'),
+        emoji: '📈',
       };
     }
-    if (bmi <= schemeThresholds(scheme).normalHi) {
+  
+    if (bmi <= th.normalHi) {
       return {
         title: 'You’re in the normal range',
-        bullets: {
-          weekly: base.weekly,
-          habits: [
-            'Balanced plate (½ veg/fruit, ¼ protein, ¼ carbs)',
-            'Protein ~1.2–1.6 g/kg/day; fiber 25–35 g/day',
-            'Active breaks during long sitting',
-            ...base.habits
-          ],
-          note: base.note
-        }
+        weekly: baseWeekly,
+        habits: [
+          '🍽️ Plate method: ½ veg/fruit • ¼ protein • ¼ carbs',
+          '🍗 Protein ~1.2–1.6 g/kg/day • 🌾 fiber 25–35 g/day',
+          '⏸️ Active breaks during long sitting',
+          ...baseHabits,
+        ],
+        micro: ['👣 10k steps', '💧 2L water', '🥗 5 veggies', '😴 7–9h sleep'],
+        note,
+        theme: theme('emerald'),
+        emoji: '🌿',
       };
     }
-    if (bmi <= schemeThresholds(scheme).overHi) {
+  
+    if (bmi <= th.overHi) {
       return {
         title: 'Roadmap for Overweight',
-        bullets: {
-          weekly: base.weekly,
-          habits: [
-            'Create ~300–500 kcal/day deficit (portion swaps, lower calorie density)',
-            'Protein ~1.2–1.6 g/kg/day for satiety & lean mass',
-            'Fiber 25–35 g/day; mostly whole foods',
-            'Strength 2–3×/week; cardio 150–300 min/week',
-            ...base.habits
-          ],
-          note: base.note
-        }
+        weekly: baseWeekly,
+        habits: [
+          '➖🍽️ Create ~300–500 kcal/day deficit (portions & swaps)',
+          '🍗 Protein ~1.2–1.6 g/kg/day for satiety & lean mass',
+          '🌾 Fiber 25–35 g/day • mostly whole foods',
+          '🏋️ 2–3× strength • 🚴 150–300 min cardio',
+          ...baseHabits,
+        ],
+        micro: ['🥤 No soda', '🚶 30-min walk', '🥗 +1 veg/meal', '🕰️ Eat window 10–12h'],
+        note,
+        theme: theme('amber'),
+        emoji: '🎯',
       };
     }
+  
     return {
       title: 'Roadmap for Obesity',
-      bullets: {
-        weekly: base.weekly,
-        habits: [
-          'Start gentle & consistent; build time before intensity',
-          'Aim for 300–500 kcal/day deficit; log meals for awareness',
-          'Protein ~1.2–1.6 g/kg/day; fiber 25–35 g/day; limit refined carbs',
-          'Discuss options with a clinician; programs/medication may help some',
-          ...base.habits
-        ],
-        note: base.note
-      }
+      weekly: baseWeekly,
+      habits: [
+        '🚶 Start gentle & consistent; build time before intensity',
+        '📉 Aim for 300–500 kcal/day deficit; log meals for awareness',
+        '🍗 Protein ~1.2–1.6 g/kg/day • 🌾 fiber 25–35 g/day • limit refined carbs',
+        '👩‍⚕️ Discuss options with a clinician; programs/meds may suit some',
+        ...baseHabits,
+      ],
+      micro: ['👣 6–8k steps', '🥤 Water before meals', '🍎 Whole foods swap', '🧘 5-min breathing'],
+      note,
+      theme: theme('rose'),
+      emoji: '💪',
     };
   }, [bmi, scheme]);
+
 
   // ---------- ShareCard component (reused for export + preview) ----------
   const ShareCard: React.FC<{ className?: string }> = ({ className = '' }) => {
@@ -639,24 +680,66 @@ const BMICalculator: React.FC = () => {
 
 
           {/* Roadmap Section */}
-          <div className="mt-6 sm:mt-10 rounded-2xl p-4 sm:p-6 bg-white/5 border border-white/10 backdrop-blur-xl">
-            <h3 className="text-lg sm:text-xl font-semibold text-white mb-3">{roadmap.title}</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
-              <div className="rounded-lg p-3 bg-white/5 border border-white/10">
-                <div className="text-slate-300 text-sm font-medium mb-2">Weekly Focus</div>
-                <ul className="text-slate-200 text-sm list-disc pl-5 space-y-1">
-                  {roadmap.bullets.weekly.map((x: string, i: number) => <li key={i}>{x}</li>)}
-                </ul>
-              </div>
-              <div className="rounded-lg p-3 bg-white/5 border border-white/10 md:col-span-2">
-                <div className="text-slate-300 text-sm font-medium mb-2">Habits</div>
-                <ul className="text-slate-200 text-sm list-disc pl-5 space-y-1">
-                  {roadmap.bullets.habits.map((x: string, i: number) => <li key={i}>{x}</li>)}
-                </ul>
+          <div className="mt-6 sm:mt-10 rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-xl">
+            {/* Header with soft gradient + emoji */}
+            <div className={`px-4 sm:px-6 py-3 sm:py-4 bg-gradient-to-r ${roadmap.theme.gradient}`}>
+              <div className="flex items-center gap-3">
+                <div className="text-2xl sm:text-3xl">{roadmap.emoji}</div>
+                <h3 className="text-lg sm:text-xl font-semibold text-white">{roadmap.title}</h3>
+                <span className={`ml-auto hidden sm:inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium ${roadmap.theme.badge}`}>
+                  Personalized tips
+                </span>
               </div>
             </div>
-            <p className="text-[11px] sm:text-xs text-slate-400 mt-3">{roadmap.bullets.note}</p>
+          
+            {/* Content */}
+            <div className="p-4 sm:p-6">
+              {/* Micro-goals chips */}
+              <div className="mb-4 flex flex-wrap gap-2">
+                {roadmap.micro.map((chip: string, i: number) => (
+                  <span
+                    key={i}
+                    className={`px-3 py-1 rounded-full text-xs font-medium ${roadmap.theme.badge}`}
+                  >
+                    {chip}
+                  </span>
+                ))}
+              </div>
+          
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+                {/* Weekly focus */}
+                <div className="rounded-xl p-3 sm:p-4 bg-white/5 border border-white/10">
+                  <div className="text-slate-300 text-sm font-medium mb-2">Weekly focus</div>
+                  <ul className="text-slate-200 text-sm space-y-1.5">
+                    {roadmap.weekly.map((x: string, i: number) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="mt-0.5 inline-block h-1.5 w-1.5 rounded-full"
+                              style={{ backgroundColor: 'currentColor', color: 'rgba(255,255,255,0.6)' }} />
+                        <span>{x}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+          
+                {/* Habits */}
+                <div className="rounded-xl p-3 sm:p-4 bg-white/5 border border-white/10 md:col-span-2">
+                  <div className="text-slate-300 text-sm font-medium mb-2">Habits</div>
+                  <ul className="text-slate-200 text-sm space-y-1.5">
+                    {roadmap.habits.map((x: string, i: number) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="mt-0.5 inline-block h-1.5 w-1.5 rounded-full"
+                              style={{ backgroundColor: 'currentColor', color: 'rgba(255,255,255,0.6)' }} />
+                        <span>{x}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+          
+              <p className="text-[11px] sm:text-xs text-slate-400 mt-4">{roadmap.note}</p>
+            </div>
           </div>
+
 
           <AdBanner type="bottom" />
           <RelatedCalculators currentPath="/bmi-calculator" category="math-tools" />
