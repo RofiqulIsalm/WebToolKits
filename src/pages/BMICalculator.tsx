@@ -348,7 +348,7 @@ const BMICalculator: React.FC = () => {
               }}
             >
               <div className="absolute inset-2.5 rounded-full bg-[#0b1220] border border-white/10 grid place-items-center">
-               + <span className="text-2xl font-extrabold text-white">
+                 <span className="text-2xl text-center font-extrabold text-white">
                   {Number.isFinite(bmi) ? bmi.toFixed(1) : '—'}
                 </span>
               </div>
