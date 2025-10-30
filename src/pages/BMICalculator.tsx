@@ -447,7 +447,67 @@ const BMICalculator: React.FC = () => {
             <p className="text-white/90 mt-1 text-sm sm:text-base">Calculate your Body Mass Index and see where you land on the healthy range.</p>
           </div>
 
-          <div className="grid grid-cols-1  gap-4 sm:gap-8">
+          <div className="grid grid-cols-1 {/* Header bar — identical on all devices */}
+<div className="relative mb-5 overflow-hidden rounded-2xl">
+  {/* gradient skin */}
+  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-600/60 via-slate-800/50 to-cyan-600/60" />
+  <div className="relative flex items-center justify-between px-4 py-3 sm:px-5 sm:py-4">
+
+    <h2 className="text-white font-semibold text-base sm:text-lg">
+      Your details
+    </h2>
+
+    {/* icon buttons (44px min, ghost style) */}
+    <div className="flex gap-2">
+      <motion.button
+        whileTap={reduceMotion ? {} : { scale: 0.94 }}
+        onClick={copyLink}
+        aria-label="Copy link"
+        className="relative grid place-items-center w-11 h-11 rounded-xl border border-white/25 bg-white/5 text-slate-100/95
+                   hover:bg-white/10 hover:border-white/40 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
+      >
+        <AnimatePresence initial={false} mode="wait">
+          {copied ? (
+            <motion.span
+              key="copied"
+              initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.18 }}
+              className="inline-flex"
+            >
+              <Check className="h-5 w-5" />
+            </motion.span>
+          ) : (
+            <motion.span
+              key="copy"
+              initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.18 }}
+              className="inline-flex"
+            >
+              <LinkIcon className="h-5 w-5" />
+            </motion.span>
+          )}
+        </AnimatePresence>
+        {showCopyPulse && (
+          <span className="pointer-events-none absolute inset-0 rounded-xl animate-[ping_0.3s_ease-out] bg-white/20" />
+        )}
+      </motion.button>
+
+      <motion.button
+        whileTap={reduceMotion ? {} : { scale: 0.94, rotate: -12 }}
+        onClick={resetAll}
+        aria-label="Reset"
+        className="relative grid place-items-center w-11 h-11 rounded-xl border border-white/25 bg-white/5 text-slate-100/95
+                   hover:bg-white/10 hover:border-white/40 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
+      >
+        <RotateCcw className="h-5 w-5" />
+        {showResetPulse && (
+          <span className="pointer-events-none absolute inset-0 rounded-xl animate-[ping_0.3s_ease-out] bg-white/20" />
+        )}
+      </motion.button>
+    </div>
+  </div>
+</div>
+ gap-4 sm:gap-8">
             {/* Inputs Card */}
             <div className="rounded-2xl p-4  bg-white/5 border border-white/10 backdrop-blur-xl shadow-xl min-w-0">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
