@@ -318,7 +318,7 @@ const BMICalculator: React.FC = () => {
   }, [bmi, scheme]);
 
   // ---------- ShareCard component (reused for export + preview) ----------
-   const ShareCard: React.FC<{ className?: string }> = ({ className = '' }) => {
+  const ShareCard: React.FC<{ className?: string }> = ({ className = '' }) => {
     const gainLossAbs = Number.isFinite(deltaKg) ? Math.abs(deltaKg) : NaN;
     const unitLabel = unit === 'imperial' ? 'lb' : 'kg';
     const showGainLoss = Number.isFinite(gainLossAbs)
@@ -336,8 +336,9 @@ const BMICalculator: React.FC = () => {
           <div className="text-xs text-slate-400">calculatorhub.site</div>
         </div>
   
-        {/* Main row */}
-        <div className="mt-3 grid grid-cols-12 gap-4 items-start">
+        {/* Main row (centered vertically) */}
+        {/* min-h matches the vertical space between header and scale in a 265px artboard */}
+        <div className="mt-3 grid grid-cols-12 gap-4 items-center min-h-[116px]">
           {/* Left: ring */}
           <div className="col-span-3 grid place-items-center">
             <div
@@ -347,10 +348,10 @@ const BMICalculator: React.FC = () => {
                 background: `conic-gradient(${ring} ${ringPct}%, #1f2937 0)`
               }}
             >
-              <div className="absolute inset-2.5 rounded-full bg-[#0b1220] border border-white/10 grid place-items-center"> 
-                   <span className="text-2xl  font-extrabold text-white">
-                    {Number.isFinite(bmi) ? bmi.toFixed(1) : '—'}
-                  </span>
+              <div className="absolute inset-2.5 rounded-full bg-[#0b1220] border border-white/10 grid place-items-center">
+                <span className="text-2xl font-extrabold text-white">
+                  {Number.isFinite(bmi) ? bmi.toFixed(1) : '—'}
+                </span>
               </div>
             </div>
           </div>
@@ -369,6 +370,7 @@ const BMICalculator: React.FC = () => {
               </span>
             </div>
   
+            {/* keep margins tight so vertical centering is visually precise */}
             <ul className="mt-2 space-y-0.5 text-slate-300 text-xs">
               <li>• <span className="text-white/90">Healthy:</span> {fmtWeight(minKg)} – {fmtWeight(maxKg)}</li>
               <li>• <span className="text-white/90">Target:</span> {fmtWeight(targetKg)}</li>
@@ -376,6 +378,30 @@ const BMICalculator: React.FC = () => {
             </ul>
           </div>
         </div>
+  
+        {/* Scale with pointer */}
+        <div className="mt-3">
+          <div className="relative">
+            <div className="flex h-2.5 rounded-full overflow-hidden">
+              <div className="bg-blue-500"   style={{ width: `${wUnder}%` }} />
+              <div className="bg-emerald-500" style={{ width: `${wNormal}%` }} />
+              <div className="bg-amber-500"  style={{ width: `${wOver}%` }} />
+              <div className="bg-rose-500 flex-1" />
+            </div>
+            <div
+              className="absolute -top-1 h-4 w-4 rounded-full border-2 border-white bg-white shadow"
+              style={{ left: `calc(${bmiPointerPct}% - 8px)` }}
+              title={Number.isFinite(bmi) ? `BMI ${bmi.toFixed(1)}` : '—'}
+            />
+          </div>
+          <div className="flex justify-between text-[10px] text-slate-400 mt-1">
+            <span>12</span><span>18.5</span><span>25</span><span>30</span><span>40</span>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   
         {/* Scale with pointer */}
         <div className="mt-3">
