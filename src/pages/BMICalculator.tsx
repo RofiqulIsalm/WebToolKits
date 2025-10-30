@@ -460,11 +460,11 @@ const BMICalculator: React.FC = () => {
                     <AnimatePresence initial={false} mode="wait">
                       {copied ? (
                         <motion.span key="copied" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.18 }} className="inline-flex items-center gap-1 text-emerald-300 text-xs">
-                          <Check className="h-4 w-4" /> Copied
+                          <Check className="h-4 w-4" />
                         </motion.span>
                       ) : (
                         <motion.span key="copy" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.18 }} className="inline-flex items-center gap-2 text-sm">
-                          <LinkIcon className="h-4 w-4" /> Link
+                          <LinkIcon className="h-4 w-4" />
                         </motion.span>
                       )}
                     </AnimatePresence>
