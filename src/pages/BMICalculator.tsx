@@ -680,7 +680,7 @@ const BMICalculator: React.FC = () => {
 
 
           {/* Roadmap Section */}
-          <div className="mt-6 sm:mt-10 rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-xl">
+          <div className="mt-6 sm:mt-10 rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-xl"> 
             {/* Header with soft gradient + emoji */}
             <div className={`px-4 sm:px-6 py-3 sm:py-4 bg-gradient-to-r ${roadmap.theme.gradient}`}>
               <div className="flex items-center gap-3">
