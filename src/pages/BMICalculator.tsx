@@ -471,13 +471,6 @@ const BMICalculator: React.FC = () => {
                     {showCopyPulse && <span className="pointer-events-none absolute inset-0 rounded-xl animate-[ping_0.3s_ease-out] bg-white/20" />}
                   </motion.button>
 
-                  <motion.button whileTap={reduceMotion ? {} : { scale: 0.94 }} onClick={copySummary}
-                    className="relative min-h-[44px] px-3 py-2 rounded-xl border border-white/15 bg-white/5 text-slate-100 hover:bg-white/10 hover:border-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-400/50">
-                    <div className="inline-flex items-center gap-2 text-sm">
-                      <Clipboard className="h-4 w-4" /> Summary
-                    </div>
-                  </motion.button>
-
                   <motion.button whileTap={reduceMotion ? {} : { scale: 0.94, rotate: -12 }} onClick={resetAll}
                     className="relative min-h-[44px] px-3 py-2 rounded-xl border border-white/15 bg-white/5 text-slate-100 hover:bg-white/10 hover:border-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-400/50">
                     <div className="inline-flex items-center gap-2 text-sm">
