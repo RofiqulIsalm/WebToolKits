@@ -447,14 +447,14 @@ const BMICalculator: React.FC = () => {
             <p className="text-white/90 mt-1 text-sm sm:text-base">Calculate your Body Mass Index and see where you land on the healthy range.</p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
+          <div className="grid grid-cols-1  gap-4 sm:gap-8">
             {/* Inputs Card */}
             <div className="rounded-2xl p-4  bg-white/5 border border-white/10 backdrop-blur-xl shadow-xl min-w-0">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
                 <h2 className="text-lg sm:text-sm font-semibold text-white">Your details</h2>
 
                 {/* action buttons */} 
-                <div className="grid grid-cols-2 sm:grid-cols-1 gap-2 w-full sm:w-auto">
+                <div className="grid grid-cols-2 gap-2 w-full sm:w-auto">
                   <motion.button whileTap={reduceMotion ? {} : { scale: 0.94 }} onClick={copyLink}
                     className="relative px-3 py-2 rounded-xl border border-white/15 bg-white/5 text-slate-100 hover:bg-white/10 hover:border-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-400/50">
                     <AnimatePresence initial={false} mode="wait"> 
