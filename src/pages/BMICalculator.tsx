@@ -319,78 +319,88 @@ const BMICalculator: React.FC = () => {
 
   // ---------- ShareCard component (reused for export + preview) ----------
    const ShareCard: React.FC<{ className?: string }> = ({ className = '' }) => {
-    const gainLossAbs = Number.isFinite(deltaKg) ? Math.abs(deltaKg) : NaN;
-    const unitLabel = unit === 'imperial' ? 'lb' : 'kg';
-    const showGainLoss = Number.isFinite(gainLossAbs) ? `${(unit === 'imperial' ? kgToLb(gainLossAbs) : gainLossAbs).toFixed(1)} ${unitLabel}` : '—';
-  
-    return (
-      <div className={`rounded-2xl p-6 bg-[#0b1220] border border-white/10 text-slate-200 ${className}`} style={{ fontFamily: 'ui-sans-serif, system-ui' }}>
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="text-white font-semibold text-xl">BMI Summary</div>
-          <div className="text-sm text-slate-400">calculatorhub.site</div>
-        </div>
-  
-        {/* Main row */}
-        <div className="mt-5 grid grid-cols-12 gap-6 items-start">
-          {/* Left: ring */}
-          <div className="col-span-3 grid place-items-center">
-            <div className="relative h-28 w-28 rounded-full" style={{ background: `conic-gradient(${ring} ${ringPct}%, #1f2937 0)` }}>
-              <div className="absolute inset-3 rounded-full bg-[#0b1220] border border-white/10 grid place-items-center">
-                <span className="text-3xl font-extrabold text-white">{Number.isFinite(bmi) ? bmi.toFixed(1) : '—'}</span>
+      const gainLossAbs = Number.isFinite(deltaKg) ? Math.abs(deltaKg) : NaN;
+      const unitLabel = unit === 'imperial' ? 'lb' : 'kg';
+      const showGainLoss = Number.isFinite(gainLossAbs)
+        ? `${(unit === 'imperial' ? kgToLb(gainLossAbs) : gainLossAbs).toFixed(1)} ${unitLabel}`
+        : '—';
+    
+      return (
+        <div
+          className={`rounded-2xl p-4 bg-[#0b1220] border border-white/10 text-slate-200 ${className}`}
+          style={{ fontFamily: 'ui-sans-serif, system-ui' }}
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            <div className="text-white font-semibold text-lg">BMI Summary</div>
+            <div className="text-xs text-slate-400">calculatorhub.site</div>
+          </div>
+    
+          {/* Main row */}
+          <div className="mt-3 grid grid-cols-12 gap-4 items-start">
+            {/* Left: ring */}
+            <div className="col-span-3 grid place-items-center">
+              <div
+                className="relative rounded-full"
+                style={{
+                  width: 72, height: 72,
+                  background: `conic-gradient(${ring} ${ringPct}%, #1f2937 0)`
+                }}
+              >
+                <div className="absolute inset-2.5 rounded-full bg-[#0b1220] border border-white/10 grid place-items-center">
+                  <span className="text-2xl font-extrabold text-white">
+                    {Number.isFinite(bmi) ? bmi.toFixed(1) : '—'}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-  
-          {/* Right: badges + bullets */}
-          <div className="col-span-9">
-            <div className="flex flex-wrap items-center gap-3">
-              <span className={`px-3 py-1 rounded-lg text-sm font-medium ${badge}`}>
-                {category} ({scheme === 'who' ? 'WHO' : 'Asian'})
-              </span>
-              <span className="px-3 py-1 rounded-lg bg-white/5 text-white/90 text-sm">
-                Height: {heightInput} {ranges.h.label}
-              </span>
-              <span className="px-3 py-1 rounded-lg bg-white/5 text-white/90 text-sm">
-                Weight: {Number(heightInput) ? weightInput : weightInput} {ranges.w.label}
-              </span>
+    
+            {/* Right: badges + bullets */}
+            <div className="col-span-9">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className={`px-2.5 py-0.5 rounded-lg text-xs font-medium ${badge}`}>
+                  {category} ({scheme === 'who' ? 'WHO' : 'Asian'})
+                </span>
+                <span className="px-2.5 py-0.5 rounded-lg bg-white/5 text-white/90 text-xs">
+                  Height: {heightInput} {ranges.h.label}
+                </span>
+                <span className="px-2.5 py-0.5 rounded-lg bg-white/5 text-white/90 text-xs">
+                  Weight: {weightInput} {ranges.w.label}
+                </span>
+              </div>
+    
+              <ul className="mt-2 space-y-0.5 text-slate-300 text-xs">
+                <li>• <span className="text-white/90">Healthy:</span> {fmtWeight(minKg)} – {fmtWeight(maxKg)}</li>
+                <li>• <span className="text-white/90">Target:</span> {fmtWeight(targetKg)}</li>
+                <li>• <span className="text-white/90">Gain/Loss :</span> {showGainLoss}</li>
+              </ul>
             </div>
-  
-            <ul className="mt-3 space-y-1 text-slate-300 text-sm">
-              <li>• <span className="text-white/90">Healthy:</span> {fmtWeight(minKg)} – {fmtWeight(maxKg)}</li>
-              <li>• <span className="text-white/90">Target:</span> {fmtWeight(targetKg)}</li>
-              <li>• <span className="text-white/90">Gain/Loss :</span> {showGainLoss}</li>
-            </ul>
+          </div>
+    
+          {/* Scale with pointer */}
+          <div className="mt-3">
+            <div className="relative">
+              <div className="flex h-2.5 rounded-full overflow-hidden">
+                <div className="bg-blue-500"   style={{ width: `${wUnder}%` }} />
+                <div className="bg-emerald-500" style={{ width: `${wNormal}%` }} />
+                <div className="bg-amber-500"  style={{ width: `${wOver}%` }} />
+                <div className="bg-rose-500 flex-1" />
+              </div>
+              {/* pointer */}
+              <div
+                className="absolute -top-1 h-4 w-4 rounded-full border-2 border-white bg-white shadow"
+                style={{ left: `calc(${bmiPointerPct}% - 8px)` }}
+                title={Number.isFinite(bmi) ? `BMI ${bmi.toFixed(1)}` : '—'}
+              />
+            </div>
+            <div className="flex justify-between text-[10px] text-slate-400 mt-1">
+              <span>12</span><span>18.5</span><span>25</span><span>30</span><span>40</span>
+            </div>
           </div>
         </div>
-  
-        {/* Scale with pointer and ticks */}
-        <div className="mt-5">
-          <div className="relative">
-            <div className="flex h-3 rounded-full overflow-hidden">
-              <div className="bg-blue-500"   style={{ width: `${wUnder}%` }} />
-              <div className="bg-emerald-500" style={{ width: `${wNormal}%` }} />
-              <div className="bg-amber-500"  style={{ width: `${wOver}%` }} />
-              <div className="bg-rose-500 flex-1" />
-            </div>
-            {/* pointer */}
-            <div
-              className="absolute -top-1 h-5 w-5 rounded-full border-2 border-white bg-white shadow"
-              style={{ left: `calc(${bmiPointerPct}% - 10px)` }}
-              title={Number.isFinite(bmi) ? `BMI ${bmi.toFixed(1)}` : '—'}
-            />
-          </div>
-          <div className="flex justify-between text-[11px] text-slate-400 mt-1">
-            <span>12</span>
-            <span>18.5</span>
-            <span>25</span>
-            <span>30</span>
-            <span>40</span>
-          </div>
-        </div>
-      </div>
-    );
-  };
+      );
+    };
+
 
 
   // ------------------------------------------------------------
