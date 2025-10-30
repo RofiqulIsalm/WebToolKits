@@ -449,7 +449,7 @@ const BMICalculator: React.FC = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
             {/* Inputs Card */}
-            <div className="rounded-2xl p-4 sm:p-6 bg-white/5 border border-white/10 backdrop-blur-xl shadow-xl min-w-0">
+            <div className="rounded-2xl p-4  bg-white/5 border border-white/10 backdrop-blur-xl shadow-xl min-w-0">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
                 <h2 className="text-lg sm:text-xl font-semibold text-white">Your details</h2>
 
