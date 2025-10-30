@@ -398,6 +398,7 @@ const BMICalculator: React.FC = () => {
             <span>12</span><span>18.5</span><span>25</span><span>30</span><span>40</span>
           </div>
         </div>
+      </div>
 
     );
   };
