@@ -399,38 +399,11 @@ const BMICalculator: React.FC = () => {
           </div>
         </div>
       </div>
-
     );
   };
 
   
-        {/* Scale with pointer */}
-        <div className="mt-3">
-          <div className="relative">
-            <div className="flex h-2.5 rounded-full overflow-hidden">
-              <div className="bg-blue-500"   style={{ width: `${wUnder}%` }} />
-              <div className="bg-emerald-500" style={{ width: `${wNormal}%` }} />
-              <div className="bg-amber-500"  style={{ width: `${wOver}%` }} />
-              <div className="bg-rose-500 flex-1" />
-            </div>
-            {/* pointer */}
-            <div
-              className="absolute -top-1 h-4 w-4 rounded-full border-2 border-white bg-white shadow"
-              style={{ left: `calc(${bmiPointerPct}% - 8px)` }}
-              title={Number.isFinite(bmi) ? `BMI ${bmi.toFixed(1)}` : '—'}
-            />
-          </div>
-          <div className="flex justify-between text-[10px] text-slate-400 mt-1">
-            <span>12</span>
-            <span>18.5</span>
-            <span>25</span>
-            <span>30</span>
-            <span>40</span>
-          </div>
-        </div>
-      </div>
-    );
-  };
+    
 
 
 
