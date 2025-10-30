@@ -508,7 +508,7 @@ const BMICalculator: React.FC = () => {
       </motion.button>
     </div>
   </div>
-</div>
+
 
 
               {/* Unit & Scheme controls */}
