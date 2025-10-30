@@ -194,8 +194,8 @@ const BMICalculator: React.FC = () => {
 
   // ---------- Share Image (fixed-size export) ----------
   // --- Fixed-size export: match the compact banner style ---
-  const EXPORT_W = 800;
-  const EXPORT_H = 500; // shorter like your example
+  const EXPORT_W = 762;
+  const EXPORT_H = 265; // shorter like your example
   
   const exportRef = useRef<HTMLDivElement>(null);
   
