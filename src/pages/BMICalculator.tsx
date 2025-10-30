@@ -348,7 +348,7 @@ const BMICalculator: React.FC = () => {
               }}
             >
               <div className="absolute inset-2.5 rounded-full bg-[#0b1220] border border-white/10 grid place-items-center">
-                <span className="text-2xl font-extrabold text-white">
+               + <span className="text-2xl font-extrabold text-white">
                   {Number.isFinite(bmi) ? bmi.toFixed(1) : '—'}
                 </span>
               </div>
@@ -394,7 +394,11 @@ const BMICalculator: React.FC = () => {
             />
           </div>
           <div className="flex justify-between text-[10px] text-slate-400 mt-1">
-            <span>12</span><span>18.5</span><span>25</span><span>30</span><span>40</span>
+            <span>12</span>
+            <span>18.5</span>
+            <span>25</span>
+            <span>30</span>
+            <span>40</span>
           </div>
         </div>
       </div>
