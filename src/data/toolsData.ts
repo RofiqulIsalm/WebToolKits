@@ -351,7 +351,7 @@ export const toolsData = [
         path: '/healt-chack',
         color: 'currency-card',
         popular: true
-      }
+      },
   {
     category: 'Math Tools',
     slug: 'math-tools',
