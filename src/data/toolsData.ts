@@ -341,6 +341,17 @@ export const toolsData = [
       }
     ]
   },
+  category: 'Healt',
+    slug: 'healt-chack',
+    tools: [
+      {
+        name: 'Healt chack',
+        description: 'Convert between different currencies with live rates',
+        icon: DollarSign,
+        path: '/healt-chack',
+        color: 'currency-card',
+        popular: true
+      }
   {
     category: 'Math Tools',
     slug: 'math-tools',
