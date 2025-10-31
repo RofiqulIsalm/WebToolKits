@@ -1,10 +1,11 @@
-import { 
-  DollarSign, Ruler, Scale, Thermometer, Square, Zap, Calculator, Percent, 
+import {
+  DollarSign, Ruler, Scale, Thermometer, Square, Zap, Calculator, Percent,
   BarChart3, Calendar, Clock, QrCode, Key, PiggyBank, TrendingUp, Receipt,
   Home, CreditCard, Target, Banknote, Building, Coins, Shuffle, Hash,
   Type, Coffee, Compass, Cpu, Car, Timer, Globe, Activity, Sigma,
-  Binary, Beaker, HardDrive, Gauge, Droplets, Flame, Ruler, Scale, Thermometer, Square, Zap,   Droplets, Gauge, Flame, HardDrive, Clock, Battery, Activity, Layers, TrendingUp, Wind,       Fuel, Compass, Radio, Network
+  Binary, Beaker, HardDrive, Gauge, Droplets, Flame, Layers, Wind, Fuel, Radio, Network, Battery
 } from 'lucide-react';
+
 
 export const toolsData = [
   {
