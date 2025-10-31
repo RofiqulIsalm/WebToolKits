@@ -1,92 +1,12 @@
-import {
-  DollarSign, Ruler, Scale, Thermometer, Square, Zap, Calculator, Percent,
+import { 
+  DollarSign, Ruler, Scale, Thermometer, Square, Zap, Calculator, Percent, 
   BarChart3, Calendar, Clock, QrCode, Key, PiggyBank, TrendingUp, Receipt,
   Home, CreditCard, Target, Banknote, Building, Coins, Shuffle, Hash,
   Type, Coffee, Compass, Cpu, Car, Timer, Globe, Activity, Sigma,
-  Binary, Beaker, HardDrive, Gauge, Droplets, Flame, Layers, Wind, Fuel, Radio, Network, Battery
+  Binary, Beaker, HardDrive, Gauge, Droplets, Flame, Ruler, Scale, Thermometer, Square, Zap,   Droplets, Gauge, Flame, HardDrive, Clock, Battery, Activity, Layers, TrendingUp, Wind,       Fuel, Compass, Radio, Network
 } from 'lucide-react';
 
-
 export const toolsData = [
-  {
-  category: 'Electronics & Electrical',
-  slug: 'electronics-electrical',
-  tools: [
-    {
-      name: 'Ohm’s Law Calculator',
-      description: 'Solve for voltage (V), current (I), resistance (R), or power (P)',
-      icon: Zap,
-      path: '/ohms-law-calculator',
-      color: 'electronics-card',
-      popular: true
-    },
-    {
-      name: 'Resistor Color Code',
-      description: 'Decode/encode 4–6 band resistor values (± tolerance)',
-      icon: Radio,
-      path: '/resistor-color-code',
-      color: 'electronics-card'
-    },
-    {
-      name: 'Series/Parallel Resistor',
-      description: 'Combine resistors in series or parallel, plus equivalent R',
-      icon: Gauge,
-      path: '/resistor-combination-calculator',
-      color: 'electronics-card'
-    },
-    {
-      name: 'RC Time Constant',
-      description: 'Compute τ, charge/discharge %, and time to target voltage',
-      icon: Battery,
-      path: '/rc-time-constant-calculator',
-      color: 'electronics-card'
-    },
-    {
-      name: 'LED Resistor Calculator',
-      description: 'Pick the right resistor for a given LED and supply voltage',
-      icon: Cpu,
-      path: '/led-resistor-calculator',
-      color: 'electronics-card'
-    },
-    {
-      name: 'dB Converter',
-      description: 'Convert between dB and ratio (power/voltage), dBV/dBu',
-      icon: BarChart3,
-      path: '/db-converter',
-      color: 'electronics-card'
-    },
-    {
-      name: 'Battery Life Calculator',
-      description: 'Estimate battery life from capacity, load current, and duty cycle',
-      icon: Battery,
-      path: '/battery-life-calculator',
-      color: 'electronics-card',
-      popular: true
-    },
-    {
-      name: 'AC RMS & Peak',
-      description: 'Convert RMS ↔ peak ↔ peak-to-peak for sine waves',
-      icon: Activity,
-      path: '/ac-rms-peak-calculator',
-      color: 'electronics-card'
-    },
-    {
-      name: 'Power Factor Calculator',
-      description: 'Compute real (P), reactive (Q), apparent (S) power, and PF',
-      icon: Sigma,
-      path: '/power-factor-calculator',
-      color: 'electronics-card'
-    },
-    {
-      name: 'Wire Size (AWG) Calculator',
-      description: 'Choose wire gauge by current, length, and voltage drop',
-      icon: Ruler,
-      path: '/wire-size-calculator',
-      color: 'electronics-card'
-    }
-  ]
-},
-
   {
     category: 'Currency & Finance',
     slug: 'currency-finance',
@@ -420,7 +340,8 @@ export const toolsData = [
         color: 'converter-card'
       }
     ]
-  },
+  }, 
+
   {
     category: 'Math Tools',
     slug: 'math-tools',
