@@ -1,175 +1,645 @@
-import React, { useState, useEffect } from 'react';
+// src/pages/QuadraticEquationSolver.tsx
+import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { BarChart3 } from 'lucide-react';
-import AdBanner from '../components/AdBanner';
-import SEOHead from '../components/SEOHead';
-import Breadcrumbs from '../components/Breadcrumbs';
-import { seoData, generateCalculatorSchema } from '../utils/seoData';
-import RelatedCalculators from '../components/RelatedCalculators';
+import {
+  Sigma,
+  RotateCcw,
+  Share2,
+  Copy,
+  ChevronDown,
+  ChevronUp,
+  Info,
+} from "lucide-react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip as ReTooltip,
+  ResponsiveContainer,
+  ReferenceLine,
+  Legend,
+} from "recharts";
 
+import AdBanner from "../components/AdBanner";
+import SEOHead from "../components/SEOHead";
+import Breadcrumbs from "../components/Breadcrumbs";
+import { generateCalculatorSchema } from "../utils/seoData";
+import RelatedCalculators from "../components/RelatedCalculators";
+
+/* ============================================================
+   📦 Constants & Utilities
+   ============================================================ */
+const LS_KEY = "quadratic_solver_state_v1";
+const URL_KEY = "qs";
+
+const nf = (n: number, d = 6) =>
+  Number.isFinite(n) ? Number(n.toFixed(d)).toLocaleString() : "—";
+const isInt = (x: number) => Number.isInteger(x);
+const isPerfectSquare = (n: number) =>
+  Number.isFinite(n) && n >= 0 && Number.isInteger(Math.sqrt(n));
+
+/* format complex a+bi */
+const fmtComplex = (re: number, im: number, d = 6) => {
+  if (Math.abs(im) < 1e-12) return nf(re, d);
+  const sign = im >= 0 ? "+" : "−";
+  return `${nf(re, d)} ${sign} ${nf(Math.abs(im), d)}i`;
+};
+
+/* gcd for factorization */
+const gcd = (a: number, b: number): number => {
+  a = Math.abs(a);
+  b = Math.abs(b);
+  while (b) [a, b] = [b, a % b];
+  return a || 1;
+};
+
+/* Try factorization when D is perfect square and a,b,c integers */
+function tryFactorization(a: number, b: number, c: number) {
+  if (![a, b, c].every((v) => isInt(v))) return null;
+  const D = b * b - 4 * a * c;
+  if (!isPerfectSquare(D)) return null;
+
+  const sqrtD = Math.sqrt(D);
+  const r1_num = -b + sqrtD;
+  const r2_num = -b - sqrtD;
+  const den = 2 * a;
+
+  // Reduce fractions r = p/q
+  const g1 = gcd(r1_num, den);
+  const g2 = gcd(r2_num, den);
+  const p1 = r1_num / g1,
+    q1 = den / g1;
+  const p2 = r2_num / g2,
+    q2 = den / g2;
+
+  const factor1 = q1 === 1 ? `(x ${p1 >= 0 ? "−" : "+"} ${Math.abs(p1)})` : `(${q1}x ${p1 >= 0 ? "−" : "+"} ${Math.abs(p1)})`;
+  const factor2 = q2 === 1 ? `(x ${p2 >= 0 ? "−" : "+"} ${Math.abs(p2)})` : `(${q2}x ${p2 >= 0 ? "−" : "+"} ${Math.abs(p2)})`;
+
+  // Normalize leading coeff if needed
+  const lead = a / (q1 * q2);
+  const leadStr = lead === 1 ? "" : `${lead}·`;
+  return `${leadStr}${factor1}${factor2}`;
+}
+
+/* Generate parabola points around vertex */
+function makeParabolaPoints(a: number, b: number, c: number) {
+  if (!Number.isFinite(a) || !Number.isFinite(b) || !Number.isFinite(c)) return [];
+  const xv = -b / (2 * a);
+  // choose window based on curvature
+  const span = Math.max(5, Math.min(50, Math.ceil(10 / Math.max(1e-6, Math.abs(a)))));
+  const start = xv - span;
+  const step = (2 * span) / 80; // 81 points
+  const pts = [];
+  for (let i = 0; i <= 80; i++) {
+    const x = start + i * step;
+    const y = a * x * x + b * x + c;
+    pts.push({ x, y });
+  }
+  return pts;
+}
+
+/* ============================================================
+   🧮 Component
+   ============================================================ */
 const QuadraticEquationSolver: React.FC = () => {
+  // Inputs: ax^2 + bx + c = 0
   const [a, setA] = useState<number>(1);
-  const [b, setB] = useState<number>(-3);
-  const [c, setC] = useState<number>(2);
-  const [discriminant, setDiscriminant] = useState<number>(0);
-  const [roots, setRoots] = useState<string[]>([]);
-  const [nature, setNature] = useState<string>('');
+  const [b, setB] = useState<number>(0);
+  const [c, setC] = useState<number>(0);
 
-  useEffect(() => {
-    calculate();
-  }, [a, b, c]);
+  // UI
+  const [copied, setCopied] = useState<"none" | "results" | "link">("none");
+  const [showSteps, setShowSteps] = useState<boolean>(false);
+  const [activeTip, setActiveTip] = useState<number>(0);
+  const [hydrated, setHydrated] = useState<boolean>(false);
 
-  const calculate = () => {
-    if (a === 0) {
-      setDiscriminant(NaN);
-      setRoots(["Not a quadratic equation"]);
-      setNature("Invalid (a cannot be zero)");
-      return;
-    }
+  const isDefault = a === 1 && b === 0 && c === 0;
 
-    const d = b * b - 4 * a * c;
-    setDiscriminant(d);
-
-    if (d > 0) {
-      const r1 = (-b + Math.sqrt(d)) / (2 * a);
-      const r2 = (-b - Math.sqrt(d)) / (2 * a);
-      setRoots([r1.toFixed(4), r2.toFixed(4)]);
-      setNature("Real and Distinct Roots");
-    } else if (d === 0) {
-      const r = (-b / (2 * a)).toFixed(4);
-      setRoots([r]);
-      setNature("Real and Equal Roots");
-    } else {
-      const realPart = (-b / (2 * a)).toFixed(4);
-      const imagPart = (Math.sqrt(-d) / (2 * a)).toFixed(4);
-      setRoots([`${realPart} + ${imagPart}i`, `${realPart} - ${imagPart}i`]);
-      setNature("Complex Roots");
-    }
+  /* 🔁 Hydration & Persistence */
+  const applyState = (s: any) => {
+    setA(Number(s.a) || 0);
+    setB(Number(s.b) || 0);
+    setC(Number(s.c) || 0);
   };
 
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const fromURL = params.get(URL_KEY);
+      if (fromURL) {
+        applyState(JSON.parse(atob(fromURL)));
+        setHydrated(true);
+        return;
+      }
+      const raw = localStorage.getItem(LS_KEY);
+      if (raw) applyState(JSON.parse(raw));
+    } catch (e) {
+      console.warn("Failed to load quadratic state:", e);
+    } finally {
+      setHydrated(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      localStorage.setItem(LS_KEY, JSON.stringify({ a, b, c }));
+    } catch {}
+  }, [hydrated, a, b, c]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      const url = new URL(window.location.href);
+      if (isDefault) {
+        url.searchParams.delete(URL_KEY);
+        window.history.replaceState({}, "", url);
+      } else {
+        const encoded = btoa(JSON.stringify({ a, b, c }));
+        url.searchParams.set(URL_KEY, encoded);
+        window.history.replaceState({}, "", url);
+      }
+    } catch (e) {
+      console.warn("Failed to update URL:", e);
+    }
+  }, [hydrated, a, b, c, isDefault]);
+
+  /* 🧠 Math */
+  const D = useMemo(() => b * b - 4 * a * c, [a, b, c]); // discriminant
+  const hasComplex = useMemo(() => D < 0, [D]);
+  const sqrtAbsD = useMemo(() => Math.sqrt(Math.abs(D)), [D]);
+
+  const roots = useMemo(() => {
+    if (!Number.isFinite(a) || a === 0) return null; // not quadratic
+    const twoA = 2 * a;
+    if (D >= 0) {
+      const r1 = (-b + Math.sqrt(D)) / twoA;
+      const r2 = (-b - Math.sqrt(D)) / twoA;
+      return { r1, r2, complex: false };
+    } else {
+      const re = -b / twoA;
+      const im = sqrtAbsD / twoA;
+      return { r1: { re, im }, r2: { re, im: -im }, complex: true };
+    }
+  }, [a, b, D, sqrtAbsD]);
+
+  const vertex = useMemo(() => {
+    if (!Number.isFinite(a) || a === 0) return { xv: NaN, yv: NaN };
+    const xv = -b / (2 * a);
+    const yv = a * xv * xv + b * xv + c;
+    return { xv, yv };
+  }, [a, b, c]);
+
+  const axis = useMemo(() => (Number.isFinite(vertex.xv) ? vertex.xv : NaN), [vertex.xv]);
+
+  const yIntercept = useMemo(() => c, [c]);
+
+  const nature = useMemo(() => {
+    if (!Number.isFinite(a) || a === 0) return "Not a quadratic (a = 0)";
+    if (D > 0) return "Two distinct real roots";
+    if (D === 0) return "One real repeated root";
+    return "Two complex conjugate roots";
+  }, [a, D]);
+
+  const factorization = useMemo(() => tryFactorization(a, b, c), [a, b, c]);
+
+  const chartData = useMemo(() => {
+    if (!Number.isFinite(a) || a === 0) return [];
+    return makeParabolaPoints(a, b, c);
+  }, [a, b, c]);
+
+  /* 💡 Tips */
+  const tips = useMemo(
+    () => [
+      "Tip: Discriminant D = b² − 4ac. D>0 → two real roots; D=0 → one real root; D<0 → complex roots.",
+      "Tip: Vertex is at (−b/2a, f(−b/2a)). Axis of symmetry is x = −b/2a.",
+      "Tip: y-intercept is c (set x=0).",
+      "Tip: If D is a perfect square and a,b,c are integers, the trinomial may factor nicely.",
+      "Tip: a>0 opens upward; a<0 opens downward.",
+    ],
+    []
+  );
+
+  useEffect(() => {
+    const id = setInterval(() => setActiveTip((p) => (p + 1) % tips.length), 5000);
+    return () => clearInterval(id);
+  }, [tips.length]);
+
+  /* 🔗 Copy / Share / Reset */
+  const copyResults = async () => {
+    const parts: string[] = [];
+    parts.push("Quadratic Equation Solver");
+    parts.push(`Equation: ${a}x² + ${b}x + ${c} = 0`);
+    parts.push(`Discriminant (D): ${nf(D, 6)} → ${nature}`);
+    if (roots) {
+      if (!roots.complex) {
+        parts.push(`Roots: x₁ = ${nf(roots.r1)}, x₂ = ${nf(roots.r2)}`);
+      } else {
+        parts.push(
+          `Roots: x₁ = ${fmtComplex(roots.r1.re, roots.r1.im)}, x₂ = ${fmtComplex(
+            roots.r2.re,
+            roots.r2.im
+          )}`
+        );
+      }
+    }
+    parts.push(`Vertex: (${nf(vertex.xv)}, ${nf(vertex.yv)})`);
+    parts.push(`Axis of symmetry: x = ${nf(axis)}`);
+    parts.push(`y-intercept: (0, ${nf(yIntercept)})`);
+    if (factorization) parts.push(`Factorization: ${factorization}`);
+    await navigator.clipboard.writeText(parts.join("\n"));
+    setCopied("results");
+    setTimeout(() => setCopied("none"), 1500);
+  };
+
+  const copyShareLink = async () => {
+    const url = new URL(window.location.href);
+    const encoded = btoa(JSON.stringify({ a, b, c }));
+    url.searchParams.set(URL_KEY, encoded);
+    await navigator.clipboard.writeText(url.toString());
+    setCopied("link");
+    setTimeout(() => setCopied("none"), 1500);
+  };
+
+  const reset = () => {
+    setA(1);
+    setB(0);
+    setC(0);
+    setShowSteps(false);
+    localStorage.removeItem(LS_KEY);
+  };
+
+  /* ============================================================
+     🎨 Render
+     ============================================================ */
   return (
     <>
       <SEOHead
-        title="Quadratic Equation Solver | CalculatorHub"
-        description="Solve quadratic equations instantly using this quadratic equation solver. Find roots, discriminant, and the nature of roots easily."
+        title="Quadratic Equation Solver | Roots, Vertex, Discriminant & Graph"
+        description="Solve ax²+bx+c=0: real or complex roots, discriminant, vertex, axis of symmetry, intercepts, factorization when possible, and an interactive parabola chart."
         canonical="https://calculatorhub.site/quadratic-equation-solver"
         schemaData={generateCalculatorSchema(
           "Quadratic Equation Solver",
-          "Solve quadratic equations instantly using this quadratic equation solver.",
+          "Compute roots (including complex), discriminant, vertex, axis, intercepts, factorization, and see a live parabola chart.",
           "/quadratic-equation-solver",
-          "quadratic equation, root finder, math solver"
+          [
+            "quadratic equation solver",
+            "quadratic formula",
+            "discriminant vertex",
+            "parabola graph",
+            "math tools",
+          ]
         )}
-        breadcrumbs={[
-          { name: 'Math Tools', url: '/category/math-tools' },
-          { name: 'Quadratic Equation Solver', url: '/quadratic-equation-solver' }
-        ]}
       />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      
 
+      {/* Minimal OG/Twitter (SEOHead likely covers) */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Quadratic Equation Solver | Roots, Vertex, Discriminant & Graph" />
+      <meta property="og:url" content="https://calculatorhub.site/quadratic-equation-solver" />
+      <meta
+        property="og:description"
+        content="Solve ax²+bx+c=0 with roots (real/complex), vertex, discriminant, intercepts, factorization, and a live chart."
+      />
+      <meta property="og:image" content="https://calculatorhub.site/images/quadratic-solver-hero.webp" />
+      <meta name="twitter:card" content="summary_large_image" />
 
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <Breadcrumbs
           items={[
-            { name: 'Math Tools', url: '/category/math-tools' },
-            { name: 'Quadratic Equation Solver', url: '/quadratic-equation-solver' }
+            { name: "Math Tools", url: "/category/math-tools" },
+            { name: "Quadratic Equation Solver", url: "/quadratic-equation-solver" },
           ]}
         />
 
+        {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">Quadratic Equation Solver</h1>
-          <p className="text-slate-300">
-            Solve equations of the form <strong>ax² + bx + c = 0</strong>
+          <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">
+            𝑎x² + 𝑏x + 𝑐 = 0 — Quadratic Solver
+          </h1>
+          <p className="mt-3 text-slate-400 text-sm leading-relaxed">
+            Find <strong>roots</strong> (real or complex), <strong>discriminant</strong>,{" "}
+            <strong>vertex</strong>, <strong>axis of symmetry</strong>, and <strong>intercepts</strong>. See an
+            interactive graph and copy/share your results.
           </p>
         </div>
 
+        {/* Promo bar */}
+        <div className="hidden sm:flex mt-6 mb-3 bg-gradient-to-r from-indigo-600 via-purple-600 to-fuchsia-600 text-white rounded-lg shadow-lg p-4 items-center justify-between gap-3">
+          <div>
+            <p className="font-semibold text-lg">Explore more math tools 🧮</p>
+            <p className="text-sm text-indigo-100">Try Percentage, Average, or Standard Deviation next!</p>
+          </div>
+          <a
+            href="/category/math-tools"
+            className="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-md hover:bg-indigo-50 transition"
+          >
+            Browse Math Tools
+          </a>
+        </div>
+
+        {/* Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Input Section */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Enter Coefficients</h2>
-
-            <div className="space-y-3 mb-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">a</label>
-                <input
-                  type="number"
-                  value={a}
-                  onChange={(e) => setA(Number(e.target.value))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">b</label>
-                <input
-                  type="number"
-                  value={b}
-                  onChange={(e) => setB(Number(e.target.value))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">c</label>
-                <input
-                  type="number"
-                  value={c}
-                  onChange={(e) => setC(Number(e.target.value))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+          {/* Inputs */}
+          <div className="bg-[#1e293b] rounded-xl shadow-md border border-[#334155] p-6 relative text-slate-200">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+                <Sigma className="h-5 w-5 text-sky-400" /> Inputs (ax² + bx + c = 0)
+              </h2>
+              <button
+                onClick={reset}
+                className="flex items-center gap-1 text-sm text-slate-300 border border-[#334155] rounded-lg px-2 py-1 hover:bg-[#0f172a] hover:text-white transition"
+                disabled={isDefault}
+              >
+                <RotateCcw className="h-4 w-4 text-indigo-400" /> Reset
+              </button>
             </div>
 
-            <div className="text-sm text-gray-600">
-              Equation: <strong>{a}x² + {b}x + {c} = 0</strong>
+            <div className="space-y-5">
+              <Field label="a (≠ 0)" value={a} onChange={setA} placeholder="e.g., 1" info="Leading coefficient. Must be non-zero." />
+              <Field label="b" value={b} onChange={setB} placeholder="e.g., -3" info="Linear coefficient." />
+              <Field label="c" value={c} onChange={setC} placeholder="e.g., -4" info="Constant term." />
+              <p className="text-xs text-slate-400">
+                Equation: <span className="font-semibold text-indigo-300">{a}x² {b < 0 ? "−" : "+"} {Math.abs(b)}x {c < 0 ? "−" : "+"} {Math.abs(c)} = 0</span>
+              </p>
             </div>
           </div>
 
-          {/* Results Section */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Results</h2>
-
-            <div className="space-y-4">
-              <div className="p-4 bg-blue-50 rounded-lg">
-                <div className="flex items-center space-x-2 mb-2">
-                  <BarChart3 className="h-5 w-5 text-blue-600" />
-                  <span className="font-medium text-gray-900">Discriminant (b² - 4ac)</span>
-                </div>
-                <div className="text-2xl font-bold text-gray-900">
-                  {isNaN(discriminant) ? '—' : discriminant.toFixed(4)}
-                </div>
+          {/* Results */}
+          <div className="bg-[#1e293b] rounded-xl shadow-md border border-[#334155] p-6 text-slate-200">
+            <h2 className="text-xl font-semibold text-white mb-4">Results</h2>
+            <div className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <Tile label="Discriminant (D)" value={nf(D)} />
+                <Tile label="Nature of roots" value={nature} />
+                <Tile label="Vertex xᵥ" value={nf(vertex.xv)} />
+                <Tile label="Vertex yᵥ" value={nf(vertex.yv)} />
+                <Tile label="Axis of symmetry" value={`x = ${nf(axis)}`} />
+                <Tile label="y-intercept" value={`(0, ${nf(yIntercept)})`} />
               </div>
 
-              <div className="p-4 bg-green-50 rounded-lg">
-                <div className="flex items-center space-x-2 mb-2">
-                  <BarChart3 className="h-5 w-5 text-green-600" />
-                  <span className="font-medium text-gray-900">Roots</span>
-                </div>
-                <div className="text-lg font-semibold text-gray-900">
-                  {roots.join(', ')}
-                </div>
+              {/* Roots */}
+              <div className="p-4 bg-[#0f172a] rounded-lg border border-[#334155]">
+                <div className="text-sm text-slate-400 mb-1">Roots</div>
+                {a === 0 ? (
+                  <div className="text-rose-300">Not a quadratic (a = 0). Enter a ≠ 0.</div>
+                ) : roots ? (
+                  !roots.complex ? (
+                    <div className="text-white font-semibold">
+                      x₁ = {nf(roots.r1)} &nbsp;&nbsp; x₂ = {nf(roots.r2)}
+                    </div>
+                  ) : (
+                    <div className="text-white font-semibold">
+                      x₁ = {fmtComplex(roots.r1.re, roots.r1.im)} &nbsp;&nbsp; x₂ ={" "}
+                      {fmtComplex(roots.r2.re, roots.r2.im)}
+                    </div>
+                  )
+                ) : (
+                  <div className="text-slate-300">—</div>
+                )}
+                {factorization && (
+                  <div className="text-sm text-emerald-300 mt-2">
+                    Factorization: <span className="font-mono">{factorization}</span>
+                  </div>
+                )}
               </div>
 
-              <div className="p-4 bg-yellow-50 rounded-lg">
-                <div className="flex items-center space-x-2 mb-2">
-                  <BarChart3 className="h-5 w-5 text-yellow-600" />
-                  <span className="font-medium text-gray-900">Nature of Roots</span>
-                </div>
-                <div className="text-lg font-semibold text-gray-900">{nature}</div>
+              {/* Actions */}
+              <div className="flex flex-wrap gap-3">
+                <button
+                  onClick={copyResults}
+                  className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-md text-sm"
+                >
+                  <Copy size={16} /> Copy Results
+                </button>
+                <button
+                  onClick={copyShareLink}
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md text-sm"
+                >
+                  <Share2 size={16} /> Copy Link
+                </button>
+                {copied !== "none" && (
+                  <span className="text-emerald-400 text-sm">
+                    {copied === "results" ? "Results copied!" : "Link copied!"}
+                  </span>
+                )}
               </div>
             </div>
           </div>
         </div>
 
-        <AdBanner type="bottom" />
+        {/* Smart Tip */}
+        <div className="mt-4 w-full relative">
+          <div className="bg-[#1e293b] border border-[#334155] text-slate-200 px-6 py-4 rounded-md shadow-sm min-h-[50px] w-full flex items-center">
+            <div className="mr-3 flex items-center justify-center w-8 h-8">
+              <span className="text-2xl text-indigo-400">💡</span>
+            </div>
+            <div className="w-full">
+              <p className="text-base font-medium leading-snug text-slate-300">
+                {tips[activeTip]}
+              </p>
+            </div>
+          </div>
+        </div>
 
-        <RelatedCalculators
-          currentPath="/quadratic-equation-solver"
-          category="math-tools"
-        />
+        {/* Chart */}
+        {a !== 0 && chartData.length > 0 && (
+          <div className="mt-5 bg-[#1e293b] rounded-xl shadow-md border border-[#334155] p-6 text-slate-200">
+            <h3 className="text-lg font-semibold text-white mb-6 text-center">
+              Parabola y = {a}x² {b < 0 ? "−" : "+"} {Math.abs(b)}x {c < 0 ? "−" : "+"} {Math.abs(c)}
+            </h3>
+            <div className="w-full h-[280px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={chartData} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis
+                    dataKey="x"
+                    type="number"
+                    domain={["auto", "auto"]}
+                    tick={{ fontSize: 12 }}
+                  />
+                  <YAxis
+                    dataKey="y"
+                    type="number"
+                    domain={["auto", "auto"]}
+                    tick={{ fontSize: 12 }}
+                  />
+                  <ReTooltip formatter={(v: any) => nf(Number(v), 4)} />
+                  <Legend />
+                  <ReferenceLine y={0} />
+                  <ReferenceLine x={vertex.xv} />
+                  <Line type="monotone" dataKey="y" name="y" dot={false} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+            <p className="text-xs text-slate-400 mt-2 text-center">
+              Vertical line is the axis of symmetry (x = {nf(axis)}). Horizontal line is the x-axis (y = 0).
+            </p>
+          </div>
+        )}
+
+        {/* Steps (collapsible) */}
+        <div className="mt-10 bg-gradient-to-br from-[#1e293b] via-[#111827] to-[#0f172a] rounded-2xl border border-indigo-600/40 shadow-xl overflow-hidden">
+          <button
+            onClick={() => setShowSteps((v) => !v)}
+            className="w-full flex items-center justify-between px-6 py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-semibold text-lg tracking-wide hover:opacity-90 transition-all"
+          >
+            <span>🧮 Step-by-Step Solution</span>
+            {showSteps ? <ChevronUp /> : <ChevronDown />}
+          </button>
+
+          {showSteps && (
+            <div className="px-6 pb-8 pt-4 space-y-3 text-slate-200">
+              <h4 className="font-semibold text-cyan-300">Quadratic Formula</h4>
+              <p className="font-mono">
+                x = [−b ± √(b² − 4ac)] / (2a)
+              </p>
+              <ol className="list-decimal list-inside space-y-1">
+                <li>Compute discriminant: D = b² − 4ac = {nf(D)}</li>
+                <li>
+                  If D ≥ 0, √D = {D >= 0 ? nf(Math.sqrt(Math.max(0, D))) : "—"}; else √(−D) ={" "}
+                  {D < 0 ? nf(Math.sqrt(-D)) : "—"}
+                </li>
+                <li>Denominator: 2a = {nf(2 * a)}</li>
+                <li>
+                  Roots:
+                  {a !== 0 && roots ? (
+                    !hasComplex ? (
+                      <>
+                        {" "}
+                        x₁ = {nf((-b + Math.sqrt(D)) / (2 * a))}, x₂ ={" "}
+                        {nf((-b - Math.sqrt(D)) / (2 * a))}
+                      </>
+                    ) : (
+                      <>
+                        {" "}
+                        x₁ = {fmtComplex(-b / (2 * a), Math.sqrt(-D) / (2 * a))}, x₂ ={" "}
+                        {fmtComplex(-b / (2 * a), -Math.sqrt(-D) / (2 * a))}
+                      </>
+                    )
+                  ) : (
+                    " —"
+                  )}
+                </li>
+              </ol>
+
+              <h4 className="font-semibold text-cyan-300">Vertex & Axis</h4>
+              <p>
+                xᵥ = −b / (2a) = {nf(vertex.xv)}, &nbsp; yᵥ = f(xᵥ) = {nf(vertex.yv)}. Axis: x ={" "}
+                {nf(axis)}.
+              </p>
+
+              <h4 className="font-semibold text-cyan-300">Intercepts</h4>
+              <p>
+                y-intercept at x=0 → (0, c) = (0, {nf(c)}). x-intercepts are the real roots (if any).
+              </p>
+
+              {factorization && (
+                <>
+                  <h4 className="font-semibold text-cyan-300">Factorization</h4>
+                  <p className="font-mono">{factorization}</p>
+                </>
+              )}
+
+              <div className="h-2 w-full mt-6 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-70 blur-[2px]" />
+            </div>
+          )}
+        </div>
+
+        {/* Short SEO content */}
+        <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+          <h1 className="text-3xl font-bold text-cyan-400 mb-6">
+            Quadratic Equation Solver – Roots, Vertex & Graph
+          </h1>
+          <p>
+            Enter coefficients <strong>a</strong>, <strong>b</strong>, and <strong>c</strong> to solve{" "}
+            <em>ax² + bx + c = 0</em>. See real/complex roots via the quadratic formula, the{" "}
+            <strong>discriminant</strong>, <strong>vertex</strong>, <strong>axis of symmetry</strong>,{" "}
+            and <strong>intercepts</strong>. When possible, the trinomial is also shown in{" "}
+            <strong>factored form</strong>. A live chart visualizes the parabola.
+          </p>
+        </section>
+
+        {/* Footer links */}
+        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+          <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
+              🚀 Explore more tools on CalculatorHub:
+            </p>
+            <div className="flex flex-wrap gap-3 text-sm">
+              <Link
+                to="/percentage-calculator"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
+              >
+                % Percentage Calculator
+              </Link>
+              <Link
+                to="/average-calculator"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
+              >
+                📊 Average Calculator
+              </Link>
+              <Link
+                to="/standard-deviation-calculator"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-pink-600/20 text-pink-300 hover:text-pink-400 px-3 py-2 rounded-md border border-slate-700 hover:border-pink-500 transition-all duration-200"
+              >
+                σ Standard Deviation
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        <AdBanner type="bottom" />
+        <RelatedCalculators currentPath="/quadratic-equation-solver" category="math-tools" />
       </div>
     </>
   );
 };
+
+/* ============================================================
+   🧩 Small UI helpers
+   ============================================================ */
+const Field: React.FC<{
+  label: string;
+  value: number;
+  onChange: (v: number) => void;
+  placeholder?: string;
+  info?: string;
+}> = ({ label, value, onChange, placeholder, info }) => {
+  const [show, setShow] = useState(false);
+  return (
+    <div>
+      <div className="flex justify-between items-center mb-1">
+        <label className="text-sm font-medium text-slate-300">{label}</label>
+        <Info
+          onClick={() => setShow((s) => !s)}
+          className="h-4 w-4 text-slate-400 cursor-pointer hover:text-indigo-400"
+        />
+      </div>
+      {show && info && (
+        <div className="mb-2 bg-[#0f172a] text-slate-300 text-xs p-2 rounded-md border border-[#334155]">
+          {info}
+        </div>
+      )}
+      <input
+        type="number"
+        value={Number.isFinite(value) ? value : undefined}
+        placeholder={placeholder}
+        onChange={(e) => onChange(parseFloat(e.target.value))}
+        className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
+      />
+    </div>
+  );
+};
+
+const Tile: React.FC<{ label: string; value: string | number }> = ({ label, value }) => (
+  <div className="p-4 bg-[#0f172a] rounded-lg text-center border border-[#334155] shadow-sm">
+    <div className="text-sm text-slate-400">{label}</div>
+    <div className="text-lg font-semibold text-white break-words">{value}</div>
+  </div>
+);
 
 export default QuadraticEquationSolver;
