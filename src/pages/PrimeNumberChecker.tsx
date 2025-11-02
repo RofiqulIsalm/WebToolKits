@@ -1,142 +1,696 @@
-import React, { useState, useEffect } from 'react';
+// src/pages/PrimeNumberChecker.tsx
+import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { BarChart3 } from 'lucide-react';
-import AdBanner from '../components/AdBanner';
-import SEOHead from '../components/SEOHead';
-import Breadcrumbs from '../components/Breadcrumbs';
-import { seoData, generateCalculatorSchema } from '../utils/seoData';
-import RelatedCalculators from '../components/RelatedCalculators';
+import {
+  ShieldCheck,
+  RotateCcw,
+  Share2,
+  Copy,
+  ChevronDown,
+  ChevronUp,
+  Info,
+  Search,
+  ListChecks,
+} from "lucide-react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip as ReTooltip,
+  ResponsiveContainer,
+  CartesianGrid,
+  Legend,
+} from "recharts";
 
-const PrimeNumberChecker: React.FC = () => {
-  const [number, setNumber] = useState<number>(7);
-  const [isPrime, setIsPrime] = useState<boolean | null>(null);
-  const [factors, setFactors] = useState<number[]>([]);
-  const [divisorCount, setDivisorCount] = useState<number>(0);
+import AdBanner from "../components/AdBanner";
+import SEOHead from "../components/SEOHead";
+import Breadcrumbs from "../components/Breadcrumbs";
+import { generateCalculatorSchema } from "../utils/seoData";
+import RelatedCalculators from "../components/RelatedCalculators";
 
-  useEffect(() => {
-    checkPrime();
-  }, [number]);
+/* ============================================================
+   📦 Constants & Utilities
+   ============================================================ */
+const LS_KEY = "prime_checker_state_v2"; // bumped for new multi-input
+const URL_KEY = "pc";
 
-  const checkPrime = () => {
-    if (number < 2) {
-      setIsPrime(false);
-      setFactors(number === 1 ? [1] : []);
-      setDivisorCount(number === 1 ? 1 : 0);
-      return;
-    }
+// deterministic for n < 1e16
+const MR_BASES = [2n, 3n, 5n, 7n, 11n, 13n, 17n];
 
-    const foundFactors: number[] = [];
-    let prime = true;
-    for (let i = 1; i <= number; i++) {
-      if (number % i === 0) {
-        foundFactors.push(i);
+/* ---------- String/BigInt helpers ---------- */
+const splitTokens = (s: string): string[] =>
+  s
+    .split(/[,\s;]+/g)
+    .map((t) => t.trim())
+    .filter((t) => t.length > 0);
+
+const normalizeIntString = (s: string) =>
+  s.replace(/[,_\s]/g, "").replace(/^([-+]?)(0+)(\d)/, "$1$3").trim();
+
+const parseBig = (s: string): bigint | null => {
+  if (!s) return null;
+  const t = normalizeIntString(s);
+  if (!/^[-+]?\d+$/.test(t)) return null;
+  try {
+    return BigInt(t);
+  } catch {
+    return null;
+  }
+};
+
+const fmtBig = (x: bigint) => {
+  const s = x.toString();
+  const sign = s.startsWith("-") ? "-" : "";
+  const body = sign ? s.slice(1) : s;
+  return sign + body.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+/* ---------- Small primes sieve (trial division) ---------- */
+const SMALL_SIEVE_LIMIT = 100_000;
+let SMALL_PRIMES: number[] | null = null;
+
+function buildSmallPrimes() {
+  const n = SMALL_SIEVE_LIMIT;
+  const sieve = new Uint8Array(n + 1);
+  const out: number[] = [];
+  for (let i = 2; i <= n; i++) {
+    if (!sieve[i]) {
+      out.push(i);
+      if (i * i <= n) {
+        for (let j = i * i; j <= n; j += i) sieve[j] = 1;
       }
     }
+  }
+  return out;
+}
+if (!SMALL_PRIMES) SMALL_PRIMES = buildSmallPrimes();
 
-    if (foundFactors.length > 2) prime = false;
-    setIsPrime(prime);
-    setFactors(foundFactors);
-    setDivisorCount(foundFactors.length);
+/* ---------- BigInt modular arithmetic ---------- */
+const modPow = (base: bigint, exp: bigint, mod: bigint) => {
+  let b = ((base % mod) + mod) % mod;
+  let e = exp;
+  let r = 1n;
+  while (e > 0n) {
+    if (e & 1n) r = (r * b) % mod;
+    b = (b * b) % mod;
+    e >>= 1n;
+  }
+  return r;
+};
+
+const decompose = (n: bigint) => {
+  let d = n - 1n;
+  let s = 0n;
+  while ((d & 1n) === 0n) {
+    d >>= 1n;
+    s++;
+  }
+  return { d, s };
+};
+
+const isDeterministicMRPrime = (n: bigint): boolean => {
+  if (n < 2n) return false;
+  for (const p of [2n, 3n, 5n, 7n, 11n, 13n, 17n, 19n, 23n, 29n, 31n]) {
+    if (n === p) return true;
+    if (n % p === 0n) return n === p;
+  }
+  const { d, s } = decompose(n);
+  for (const a of MR_BASES) {
+    if (a % n === 0n) continue;
+    let x = modPow(a, d, n);
+    if (x === 1n || x === n - 1n) continue;
+    let passed = false;
+    for (let r = 1n; r < s; r++) {
+      x = (x * x) % n;
+      if (x === n - 1n) {
+        passed = true;
+        break;
+      }
+    }
+    if (!passed) return false;
+  }
+  return true;
+};
+
+const smallestSmallFactor = (n: bigint): bigint | null => {
+  if (n < 2n) return null;
+  for (const p of SMALL_PRIMES!) {
+    const bp = BigInt(p);
+    if (bp * bp > n) break;
+    if (n % bp === 0n) return bp;
+  }
+  return null;
+};
+
+const nextPrime = (n: bigint): bigint => {
+  let x = n < 2n ? 2n : n + (n % 2n === 0n ? 1n : 2n);
+  while (true) {
+    if (!smallestSmallFactor(x) && isDeterministicMRPrime(x)) return x;
+    x += 2n;
+  }
+};
+
+const prevPrime = (n: bigint): bigint | null => {
+  if (n <= 2n) return null;
+  let x = n - (n % 2n === 0n ? 1n : 2n);
+  if (x === 2n) return 2n;
+  while (x >= 3n) {
+    if (!smallestSmallFactor(x) && isDeterministicMRPrime(x)) return x;
+    x -= 2n;
+  }
+  return 2n;
+};
+
+/* ============================================================
+   🧮 Component
+   ============================================================ */
+type ItemResult = {
+  raw: string;
+  big: bigint | null;
+  valid: boolean;
+  isPrime: boolean;
+  smallFactor?: bigint | null;
+  cofactor?: bigint | null;
+};
+
+const PrimeNumberChecker: React.FC = () => {
+  // Input now supports multiple numbers
+  const [input, setInput] = useState<string>("1 2 3, 4;5 1234567891");
+  const [hydrated, setHydrated] = useState<boolean>(false);
+
+  // UI
+  const [copied, setCopied] = useState<"none" | "results" | "link">("none");
+  const [showSteps, setShowSteps] = useState<boolean>(false);
+  const [activeTip, setActiveTip] = useState<number>(0);
+
+  const isDefault = input === "1 2 3, 4;5 1234567891";
+
+  /* 🔁 Hydration & Persistence */
+  const applyState = (s: any) => {
+    if (typeof s?.input === "string") setInput(s.input);
   };
 
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const fromURL = params.get(URL_KEY);
+      if (fromURL) {
+        applyState(JSON.parse(atob(fromURL)));
+        setHydrated(true);
+        return;
+      }
+      const raw = localStorage.getItem(LS_KEY);
+      if (raw) applyState(JSON.parse(raw));
+    } catch (e) {
+      console.warn("Failed to load prime checker state:", e);
+    } finally {
+      setHydrated(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      localStorage.setItem(LS_KEY, JSON.stringify({ input }));
+    } catch {}
+  }, [hydrated, input]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      const url = new URL(window.location.href);
+      if (isDefault) {
+        url.searchParams.delete(URL_KEY);
+        window.history.replaceState({}, "", url);
+      } else {
+        const encoded = btoa(JSON.stringify({ input }));
+        url.searchParams.set(URL_KEY, encoded);
+        window.history.replaceState({}, "", url);
+      }
+    } catch (e) {
+      console.warn("Failed to update URL:", e);
+    }
+  }, [hydrated, input, isDefault]);
+
+  /* 🧠 Parse & evaluate */
+  const tokens = useMemo(() => splitTokens(input), [input]);
+  const results: ItemResult[] = useMemo(() => {
+    return tokens.map((raw) => {
+      const big = parseBig(raw);
+      const valid = big !== null && big >= 0n;
+      if (!valid) return { raw, big: null, valid, isPrime: false };
+
+      const n = big!;
+      if (n < 2n) return { raw, big: n, valid, isPrime: false };
+
+      const sf = smallestSmallFactor(n);
+      if (sf && sf !== n) {
+        return { raw, big: n, valid, isPrime: false, smallFactor: sf, cofactor: n / sf };
+      }
+      const prime = isDeterministicMRPrime(n);
+      if (prime) return { raw, big: n, valid, isPrime: true };
+      // composite but no small factor found (rare for < 1e16): still composite
+      return { raw, big: n, valid, isPrime: false, smallFactor: null, cofactor: null };
+    });
+  }, [tokens]);
+
+  const validItems = results.filter((r) => r.valid);
+  const countPrimes = validItems.filter((r) => r.isPrime).length;
+  const countComposites = validItems.filter((r) => r.valid && !r.isPrime && (r.big ?? 0n) >= 2n).length;
+  const countNonPrimeSmall = validItems.filter((r) => (r.big ?? 0n) < 2n).length; // 0 or 1
+  const countInvalid = results.length - validItems.length;
+
+  // “single-number mode” retains previous/next prime + gap chart
+  const singleMode = validItems.length === 1;
+  const nBig = singleMode ? validItems[0].big! : null;
+  const singleIsPrime = singleMode ? validItems[0].isPrime : false;
+  const singlePrev = useMemo(() => (singleMode ? prevPrime(nBig!) : null), [singleMode, nBig]);
+  const singleNext = useMemo(() => (singleMode ? nextPrime(nBig!) : null), [singleMode, nBig]);
+
+  const gapData = useMemo(() => {
+    if (!singleMode || singlePrev === null || singleNext === null) return [];
+    const p = singlePrev!;
+    const m = nBig!;
+    const q = singleNext!;
+    const left = m - p;
+    const right = q - m;
+    return [
+      { side: "Prev → n", distance: Number(left > 0n ? left : 0n) },
+      { side: "n → Next", distance: Number(right > 0n ? right : 0n) },
+    ];
+  }, [singleMode, singlePrev, singleNext, nBig]);
+
+  /* 💡 Tips */
+  const tips = useMemo(
+    () => [
+      "Tip: You can paste multiple numbers separated by space, comma, or semicolon.",
+      "Tip: Even numbers > 2 are composite.",
+      "Tip: At least one factor of a composite is ≤ √n.",
+      "Tip: Miller–Rabin with bases 2,3,5,7,11,13,17 is deterministic for n < 10^16.",
+      "Tip: Remove formatting like commas if parsing fails.",
+    ],
+    []
+  );
+
+  useEffect(() => {
+    const id = setInterval(() => setActiveTip((p) => (p + 1) % tips.length), 5000);
+    return () => clearInterval(id);
+  }, [tips.length]);
+
+  /* 🔗 Copy / Share / Reset */
+  const copyResults = async () => {
+    const lines: string[] = [];
+    lines.push("Prime Number Checker (multi-input)");
+    lines.push(`Input count: ${results.length}`);
+    lines.push(`Valid: ${validItems.length}, Primes: ${countPrimes}, Composites: ${countComposites}, Non-prime (<2): ${countNonPrimeSmall}, Invalid: ${countInvalid}`);
+
+    const primesList = validItems.filter((r) => r.isPrime).map((r) => r.big!.toString());
+    const compList = validItems.filter((r) => !r.isPrime && (r.big ?? 0n) >= 2n).map((r) => r.big!.toString());
+
+    if (primesList.length) lines.push(`Primes: ${primesList.join(", ")}`);
+    if (compList.length) lines.push(`Composites: ${compList.join(", ")}`);
+
+    if (singleMode) {
+      if (singlePrev) lines.push(`Previous prime: ${singlePrev.toString()}`);
+      if (singleNext) lines.push(`Next prime: ${singleNext.toString()}`);
+    }
+
+    await navigator.clipboard.writeText(lines.join("\n"));
+    setCopied("results");
+    setTimeout(() => setCopied("none"), 1500);
+  };
+
+  const copyShareLink = async () => {
+    const url = new URL(window.location.href);
+    const encoded = btoa(JSON.stringify({ input }));
+    url.searchParams.set(URL_KEY, encoded);
+    await navigator.clipboard.writeText(url.toString());
+    setCopied("link");
+    setTimeout(() => setCopied("none"), 1500);
+  };
+
+  const reset = () => {
+    setInput(" ");
+    setShowSteps(false);
+    localStorage.removeItem(LS_KEY);
+  };
+
+  /* ============================================================
+     🎨 Render
+     ============================================================ */
   return (
     <>
       <SEOHead
-        title="Prime Number Checker | CalculatorHub"
-        description="Check whether a number is prime or not instantly. See factors, divisor count, and a quick explanation."
+        title="Prime Number Checker | Single or Multiple Integers"
+        description="Check if one or many integers are prime. Paste numbers separated by space, comma, or semicolon. Shows prime counts, lists, and details for single input."
         canonical="https://calculatorhub.site/prime-number-checker"
         schemaData={generateCalculatorSchema(
           "Prime Number Checker",
-          "Instantly check whether a number is prime or not, view its factors and divisor count.",
+          "Single and multi-input prime checker using small-factor detection and deterministic Miller–Rabin (n < 1e16).",
           "/prime-number-checker",
-          "prime number, math tool, prime checker, number factors"
+          ["prime checker", "is prime", "multi input", "miller rabin", "math tools"]
         )}
-        breadcrumbs={[
-          { name: 'Math Tools', url: '/category/math-tools' },
-          { name: 'Prime Number Checker', url: '/prime-number-checker' }
-        ]}
       />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+      {/* Minimal OG/Twitter */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Prime Number Checker | Single or Multiple Integers" />
+      <meta property="og:url" content="https://calculatorhub.site/prime-number-checker" />
+      <meta property="og:description" content="Paste one or many integers (space/comma/semicolon). Count primes and see details." />
+      <meta property="og:image" content="https://calculatorhub.site/images/prime-checker-hero.webp" />
+      <meta name="twitter:card" content="summary_large_image" />
 
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <Breadcrumbs
           items={[
-            { name: 'Math Tools', url: '/category/math-tools' },
-            { name: 'Prime Number Checker', url: '/prime-number-checker' }
+            { name: "Math Tools", url: "/category/math-tools" },
+            { name: "Prime Number Checker", url: "/prime-number-checker" },
           ]}
         />
 
+        {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">Prime Number Checker</h1>
-          <p className="text-slate-300">
-            Enter a number to check if it is a prime number and view its factors.
+          <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">
+            🔍 Prime Number Checker (Single or Multiple)
+          </h1>
+          <p className="mt-3 text-slate-400 text-sm leading-relaxed">
+            Paste <strong>one</strong> or <strong>many</strong> integers separated by{" "}
+            <strong>space, comma, or semicolon</strong>. We’ll count primes and show details. With a single valid input, you’ll also get previous/next primes and the gap chart.
           </p>
         </div>
 
+        {/* Promo bar */}
+        <div className="hidden sm:flex mt-6 mb-3 bg-gradient-to-r from-indigo-600 via-purple-600 to-fuchsia-600 text-white rounded-lg shadow-lg p-4 items-center justify-between gap-3">
+          <div>
+            <p className="font-semibold text-lg">Explore more math tools 🧮</p>
+            <p className="text-sm text-indigo-100">Try Factorial, Average, or Quadratic Solver next!</p>
+          </div>
+          <a
+            href="/category/math-tools"
+            className="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-md hover:bg-indigo-50 transition"
+          >
+            Browse Math Tools
+          </a>
+        </div>
+
+        {/* Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Input Section */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Enter Number</h2>
+          {/* Inputs */}
+          <div className="bg-[#1e293b] rounded-xl shadow-md border border-[#334155] p-6 relative text-slate-200">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+                <Search className="h-5 w-5 text-sky-400" /> Input (single or multiple)
+              </h2>
+              <button
+                onClick={reset}
+                className="flex items-center gap-1 text-sm text-slate-300 border border-[#334155] rounded-lg px-2 py-1 hover:bg-[#0f172a] hover:text-white transition"
+                disabled={isDefault}
+              >
+                <RotateCcw className="h-4 w-4 text-indigo-400" /> Reset
+              </button>
+            </div>
 
-            <input
-              type="number"
-              min={1}
-              value={number}
-              onChange={(e) => setNumber(Number(e.target.value))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 mb-3"
-            />
-
-            <p className="text-sm text-gray-600">
-              Checking number: <strong>{number}</strong>
-            </p>
+            <div className="space-y-5">
+              <div>
+                <div className="flex justify-between items-center mb-1">
+                  <label className="text-sm font-medium text-slate-300">
+                    Integer(s) — separate by space, comma, or semicolon
+                  </label>
+                  <Info className="h-4 w-4 text-slate-400" title="Examples: 11 12 13,14;15" />
+                </div>
+                <textarea
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="e.g., 1 2 3, 4;5  1234567891"
+                  rows={4}
+                  className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
+                />
+                <div className="text-xs text-slate-400 mt-2">
+                  We strip spaces and commas inside numbers automatically. Invalid tokens are ignored in the prime count.
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Results Section */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Results</h2>
+          {/* Results */}
+          <div className="bg-[#1e293b] rounded-xl shadow-md border border-[#334155] p-6 text-slate-200">
+            <h2 className="text-xl font-semibold text-white mb-4">Results</h2>
 
-            <div className="space-y-4">
-              <div className={`p-4 rounded-lg ${isPrime ? 'bg-green-50' : 'bg-red-50'}`}>
-                <div className="flex items-center space-x-2 mb-2">
-                  <BarChart3 className={`h-5 w-5 ${isPrime ? 'text-green-600' : 'text-red-600'}`} />
-                  <span className="font-medium text-gray-900">Prime Status</span>
+            {results.length === 0 ? (
+              <div className="p-4 bg-[#0f172a] rounded-lg border border-[#334155] text-slate-300">
+                Enter at least one integer.
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {/* Summary tiles */}
+                <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+                  <Tile label="Total tokens" value={String(results.length)} />
+                  <Tile label="Valid integers" value={String(validItems.length)} />
+                  <Tile label="Primes" value={String(countPrimes)} />
+                  <Tile label="Composites" value={String(countComposites)} />
                 </div>
-                <div className={`text-2xl font-bold ${isPrime ? 'text-green-700' : 'text-red-700'}`}>
-                  {isPrime === null ? '—' : isPrime ? 'Prime Number ✅' : 'Not Prime ❌'}
+                {countInvalid > 0 && (
+                  <div className="text-xs text-rose-300">
+                    {countInvalid} token{countInvalid !== 1 ? "s" : ""} were invalid and skipped.
+                  </div>
+                )}
+
+                {/* Quick lists */}
+                <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
+                  <div className="p-4 bg-[#0f172a] rounded-lg border border-[#334155]">
+                    <div className="text-sm text-slate-400 mb-1">Primes</div>
+                    <div className="text-white break-words">
+                      {validItems.filter((r) => r.isPrime).length
+                        ? validItems
+                            .filter((r) => r.isPrime)
+                            .slice(0, 200) // safety
+                            .map((r) => fmtBig(r.big!))
+                            .join(", ")
+                        : "—"}
+                    </div>
+                  </div>
+                  <div className="p-4 bg-[#0f172a] rounded-lg border border-[#334155]">
+                    <div className="text-sm text-slate-400 mb-1">Composites</div>
+                    <div className="text-white break-words">
+                      {validItems.filter((r) => !r.isPrime && (r.big ?? 0n) >= 2n).length
+                        ? validItems
+                            .filter((r) => !r.isPrime && (r.big ?? 0n) >= 2n)
+                            .slice(0, 200)
+                            .map((r) => fmtBig(r.big!))
+                            .join(", ")
+                        : "—"}
+                    </div>
+                  </div>
+                </div>
+
+               
+
+                {/* Single-number extras */}
+                {singleMode && (
+                  <>
+                    <div className="grid grid-cols-2 gap-4">
+                      <Tile label="Previous prime" value={singlePrev ? fmtBig(singlePrev) : "—"} />
+                      <Tile label="Next prime" value={singleNext ? fmtBig(singleNext) : "—"} />
+                    </div>
+
+                    {gapData.length === 2 && (
+                      <div className="mt-1 bg-[#1e293b] rounded-xl shadow-md border border-[#334155] p-6 text-slate-200">
+                        <h3 className="text-lg font-semibold text-white mb-6 text-center">
+                          Prime Gap Around n
+                        </h3>
+                        <div className="w-full h-[240px]">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <BarChart data={gapData}>
+                              <CartesianGrid strokeDasharray="3 3" />
+                              <XAxis dataKey="side" />
+                              <YAxis allowDecimals={false} />
+                              <ReTooltip />
+                              <Legend />
+                              <Bar dataKey="distance" name="Distance" />
+                            </BarChart>
+                          </ResponsiveContainer>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {/* Actions */}
+                <div className="flex flex-wrap gap-3">
+                  <button
+                    onClick={copyResults}
+                    className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-md text-sm"
+                  >
+                    <Copy size={16} /> Copy Summary
+                  </button>
+                  <button
+                    onClick={copyShareLink}
+                    className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md text-sm"
+                  >
+                    <Share2 size={16} /> Copy Link
+                  </button>
+                  {copied !== "none" && (
+                    <span className="text-emerald-400 text-sm">
+                      {copied === "results" ? "Summary copied!" : "Link copied!"}
+                    </span>
+                  )}
                 </div>
               </div>
+            )}
+          </div>
+        </div>
 
-              <div className="p-4 bg-blue-50 rounded-lg">
-                <div className="flex items-center space-x-2 mb-2">
-                  <BarChart3 className="h-5 w-5 text-blue-600" />
-                  <span className="font-medium text-gray-900">Factors</span>
+         {/* Per-item compact table */}
+                <div className="overflow-x-auto mt-3 rounded-xl border border-[#334155] shadow-inner">
+                  <table className="min-w-full text-sm text-slate-100">
+                    <thead className="bg-[#0f172a]">
+                      <tr>
+                        <th className="text-left px-3 py-2 font-semibold text-indigo-300">Token</th>
+                        <th className="text-left px-3 py-2 font-semibold text-sky-300">Parsed</th>
+                        <th className="text-left px-3 py-2 font-semibold text-emerald-300">Prime?</th>
+                        <th className="text-left px-3 py-2 font-semibold text-rose-300">Small factor</th>
+                        <th className="text-left px-3 py-2 font-semibold text-cyan-300">Cofactor</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {results.map((r, i) => (
+                        <tr
+                          key={i}
+                          className={`${
+                            i % 2 === 0 ? "bg-[#1e293b]/60" : "bg-[#0f172a]/60"
+                          } hover:bg-[#3b82f6]/10 transition-colors`}
+                        >
+                          <td className="px-3 py-2">{r.raw}</td>
+                          <td className="px-3 py-2">{r.valid ? fmtBig(r.big!) : <span className="text-rose-300">invalid</span>}</td>
+                          <td className="px-3 py-2">
+                            {r.valid ? (
+                              r.isPrime ? (
+                                <span className="text-emerald-300 font-medium">Prime</span>
+                              ) : (r.big ?? 0n) < 2n ? (
+                                <span className="text-slate-300">Not prime</span>
+                              ) : (
+                                <span className="text-rose-300 font-medium">Composite</span>
+                              )
+                            ) : (
+                              "—"
+                            )}
+                          </td>
+                          <td className="px-3 py-2">{r.smallFactor !== undefined ? (r.smallFactor ? fmtBig(r.smallFactor) : "—") : "—"}</td>
+                          <td className="px-3 py-2">{r.cofactor ? fmtBig(r.cofactor) : "—"}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
-                <div className="text-sm font-mono text-gray-800 break-words">
-                  {factors.length > 0 ? factors.join(', ') : 'No factors'}
-                </div>
-              </div>
 
-              <div className="p-4 bg-yellow-50 rounded-lg">
-                <div className="flex items-center space-x-2 mb-2">
-                  <BarChart3 className="h-5 w-5 text-yellow-600" />
-                  <span className="font-medium text-gray-900">Number of Factors</span>
-                </div>
-                <div className="text-2xl font-bold text-gray-900">{divisorCount}</div>
-              </div>
+        {/* Smart Tip */}
+        <div className="mt-4 w-full relative">
+          <div className="bg-[#1e293b] border border-[#334155] text-slate-200 px-6 py-4 rounded-md shadow-sm min-h-[50px] w-full flex items-center">
+            <div className="mr-3 flex items-center justify-center w-8 h-8">
+              <span className="text-2xl text-indigo-400">💡</span>
+            </div>
+            <div className="w-full">
+              <p className="text-base font-medium leading-snug text-slate-300">
+                {tips[activeTip]}
+              </p>
             </div>
           </div>
         </div>
 
-        <AdBanner type="bottom" />
+        {/* Steps (collapsible) */}
+        <div className="mt-10 bg-gradient-to-br from-[#1e293b] via-[#111827] to-[#0f172a] rounded-2xl border border-indigo-600/40 shadow-xl overflow-hidden">
+          <button
+            onClick={() => setShowSteps((v) => !v)}
+            className="w-full flex items-center justify-between px-6 py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-semibold text-lg tracking-wide hover:opacity-90 transition-all"
+          >
+            <span>🧮 How the Check Works</span>
+            {showSteps ? <ChevronUp /> : <ChevronDown />}
+          </button>
 
-        <RelatedCalculators
-          currentPath="/prime-number-checker"
-          category="math-tools"
-        />
+          {showSteps && (
+            <div className="px-6 pb-8 pt-4 space-y-3 text-slate-200">
+              <h4 className="font-semibold text-cyan-300">1) Multi-input parsing</h4>
+              <p>
+                We split by spaces, commas, or semicolons, then parse each token as a BigInt (ignoring invalid tokens).
+              </p>
+
+              <h4 className="font-semibold text-cyan-300">2) Small-factor search</h4>
+              <p>
+                Trial division by all primes ≤ {SMALL_SIEVE_LIMIT.toLocaleString()} quickly finds common small factors.
+              </p>
+
+              <h4 className="font-semibold text-cyan-300">3) Miller–Rabin</h4>
+              <p>
+                Deterministic bases 2,3,5,7,11,13,17 (exact for n &lt; 10<sup>16</sup>) decide primality when no small factor is found.
+              </p>
+
+              <h4 className="font-semibold text-cyan-300">4) Single-number extras</h4>
+              <p>
+                If exactly one valid integer is provided, we also show previous/next prime and the prime gap chart.
+              </p>
+
+              <div className="h-2 w-full mt-6 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-70 blur-[2px]" />
+            </div>
+          )}
+        </div>
+
+        {/* Short SEO content */}
+        <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+          <h1 className="text-3xl font-bold text-cyan-400 mb-6">
+            Prime Number Checker – Single & Multi-Input
+          </h1>
+          <p>
+            Paste one or many integers separated by spaces, commas, or semicolons to check how many are prime. The tool reports counts, lists, and per-item details. For a single number, it also provides the previous and next primes and visualizes the prime gap.
+          </p>
+        </section>
+
+        {/* Footer links */}
+        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+          <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
+              🚀 Explore more tools on CalculatorHub:
+            </p>
+            <div className="flex flex-wrap gap-3 text-sm">
+              <Link
+                to="/factorial-calculator"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
+              >
+                n! Factorial Calculator
+              </Link>
+              <Link
+                to="/average-calculator"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
+              >
+                📊 Average Calculator
+              </Link>
+              <Link
+                to="/quadratic-equation-solver"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-pink-600/20 text-pink-300 hover:text-pink-400 px-3 py-2 rounded-md border border-slate-700 hover:border-pink-500 transition-all duration-200"
+              >
+                𝑎x²+𝑏x+𝑐 Quadratic Solver
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        <AdBanner type="bottom" />
+        <RelatedCalculators currentPath="/prime-number-checker" category="math-tools" />
       </div>
     </>
   );
 };
+
+/* ============================================================
+   🧩 Small UI helpers
+   ============================================================ */
+const Tile: React.FC<{ label: string; value: string }> = ({ label, value }) => (
+  <div className="p-4 bg-[#0f172a] rounded-lg text-center border border-[#334155] shadow-sm">
+    <div className="text-sm text-slate-400">{label}</div>
+    <div className="text-lg font-semibold text-white break-words">{value}</div>
+  </div>
+);
 
 export default PrimeNumberChecker;
