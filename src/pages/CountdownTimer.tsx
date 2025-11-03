@@ -1033,6 +1033,6 @@ const CountdownTimer: React.FC = () => {
       />
     </>
   );
-};
+}; 
 
 export default CountdownTimer;
