@@ -788,7 +788,7 @@ const CountdownTimer: React.FC = () => {
                 className="inline-flex items-center gap-2 rounded-xl bg-slate-900/60 border border-white/10 px-3 py-2 text-slate-100 hover:bg-slate-800"
               >
                 <Hourglass className="h-4 w-4 text-sky-300" />
-                {popOpen ? "Hide Mini Pop-out" : "Show Mini Pop-out"}
+                {popOpen ? "On" : " Off"}
               </button>
               <button
                 onClick={() => setMute((m) => !m)}
@@ -796,24 +796,16 @@ const CountdownTimer: React.FC = () => {
                 title={mute ? "Unmute chime" : "Mute chime"}
               >
                 {mute ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-                {mute ? "Muted" : "Sound On"}
+                {mute ? "Muted" : "Unmuted"}
               </button>
-              <label className="inline-flex items-center gap-2 rounded-xl bg-slate-900/60 border border-white/10 px-3 py-2 text-slate-100">
-                <input type="checkbox" className="accent-sky-400" checked={autoStartPreset} onChange={(e)=>setAutoStartPreset(e.target.checked)} />
-                Auto‑start on preset
-              </label>
-              <label className="inline-flex items-center gap-2 rounded-xl bg-slate-900/60 border border-white/10 px-3 py-2 text-slate-100">
-                <input type="checkbox" className="accent-emerald-400" checked={autoRestart} onChange={(e)=>setAutoRestart(e.target.checked)} />
-                Auto‑restart when done
-              </label>
               {supportsDocumentPiP() ? (
                 pipWin ? (
                   <button onClick={closePiP} className="inline-flex items-center gap-2 rounded-xl bg-emerald-700/70 border border-white/10 px-3 py-2 text-slate-100 hover:bg-emerald-600">
-                    <AppWindow className="h-4 w-4" /> Close Floating Window
+                    <AppWindow className="h-4 w-4" /> 
                   </button>
                 ) : (
                   <button onClick={openPiP} className="inline-flex items-center gap-2 rounded-xl bg-sky-700/70 border border-white/10 px-3 py-2 text-slate-100 hover:bg-sky-600" title="Open Picture‑in‑Picture floating window">
-                    <AppWindow className="h-4 w-4" /> Float Window (PiP)
+                    <AppWindow className="h-4 w-4" /> 
                   </button>
                 )
               ) : (
@@ -846,7 +838,7 @@ const CountdownTimer: React.FC = () => {
                   Quick Presets {autoStartPreset ? "(auto‑start)" : "(won’t start automatically)"}
                 </label>
                 <div className="grid grid-cols-4 gap-2 sm:flex sm:flex-wrap">
-                  {[1,3,5,10,15,20,25,30,45,60,90,120].map((m) => (
+                  {[1,5,10,20,30,60,90,120].map((m) => (
                     <button
                       key={m}
                       type="button"
@@ -917,20 +909,7 @@ const CountdownTimer: React.FC = () => {
                     {!running && !paused ? "Start" : running ? "Pause" : "Resume"}
                   </span>
                 </button>
-                <button
-                  onClick={() => copyToClipboard(fmtCompact())}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-900/60 border border-white/10 text-slate-100 hover:bg-slate-800 flex items-center justify-center gap-2"
-                  title="Copy time left"
-                >
-                  <Copy className="h-4 w-4" /> Copy time
-                </button>
-                <button
-                  onClick={() => copyToClipboard(buildShareURL())}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-900/60 border border-white/10 text-slate-100 hover:bg-slate-800 flex items-center justify-center gap-2"
-                  title="Copy shareable link with current time"
-                >
-                  <LinkIcon className="h-4 w-4" /> Copy link
-                </button>
+               
               </div>
             </section>
 
