@@ -1,542 +1,472 @@
-// src/pages/BusinessDaysCalculator.tsx
-import React, { useEffect, useMemo, useState } from "react";
+// Business Days Calculator — matches Age Calculator UI (dark glassmorphism) with colorful tiles
+import React, { useState, useMemo, useEffect, useCallback, Suspense } from "react";
 import { Link } from "react-router-dom";
 import {
   Briefcase,
-  CalendarPlus,
   CalendarRange,
+  CalendarPlus,
+  CalendarMinus,
+  CalendarDays,
   Copy,
   RotateCcw,
   Info,
-  Trash2,
-  Save,
+  ListChecks,
+  ListX,
 } from "lucide-react";
 import SEOHead from "../components/SEOHead";
 import Breadcrumbs from "../components/Breadcrumbs";
-import AdBanner from "../components/AdBanner";
-import RelatedCalculators from "../components/RelatedCalculators";
 import { seoData, generateCalculatorSchema } from "../utils/seoData";
 
-/* ----------------------- UI tokens (match your system) ----------------------- */
-const btn =
-  "inline-flex items-center gap-2 rounded-xl px-3 py-2 transition focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-60 disabled:cursor-not-allowed";
-const btnPrimary = "bg-blue-600 hover:bg-blue-500 text-white shadow-md shadow-blue-900/30";
-const btnNeutral = "bg-slate-700 hover:bg-slate-600 text-white border border-slate-600";
-const btnGhost = "bg-transparent hover:bg-slate-800/60 text-slate-200 border border-slate-700";
+const RelatedCalculators = React.lazy(() => import("../components/RelatedCalculators"));
+const AdBanner = React.lazy(() => import("../components/AdBanner"));
 
-const card =
-  "rounded-2xl bg-gradient-to-b from-slate-800/60 to-slate-900/60 border border-slate-700/70 backdrop-blur p-6";
+/* ================= Helpers ================= */
+const isoToday = () => new Date().toISOString().split("T")[0];
+const toISO = (d: Date) => d.toISOString().split("T")[0];
+const parseISO = (iso: string) => new Date(iso);
 
-const labelCls = "block text-sm font-medium text-slate-200 mb-2";
-const inputCls =
-  "w-full px-3 py-2 bg-slate-800/70 text-white rounded-lg border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500";
-const smallMono = "mt-2 text-xs text-slate-400 font-mono break-all";
-
-/* ------------------------------ Utils / Logic ------------------------------- */
-
-const HOL_LS_KEY = "businessDaysHolidays_v1";
-
-const toISODate = (d: Date) => {
-  const y = d.getFullYear();
-  const m = `${d.getMonth() + 1}`.padStart(2, "0");
-  const day = `${d.getDate()}`.padStart(2, "0");
-  return `${y}-${m}-${day}`;
+const getInitialLocal = <T,>(key: string, fallback: T): T => {
+  if (typeof window === "undefined") return fallback;
+  try { const raw = localStorage.getItem(key); return raw ? (JSON.parse(raw) as T) : fallback; } catch { return fallback; }
 };
 
-const isValidISO = (iso: string) => {
-  const d = new Date(iso);
-  return !Number.isNaN(d.getTime()) && iso.length === 10;
+// Weekend patterns
+// mask: Set of JS getDay() numbers considered WEEKEND (0=Sun..6=Sat)
+const WEEKEND_PRESETS: Record<string, { label: string; mask: number[] }> = {
+  "Mon–Fri": { label: "Mon–Fri workweek (Sat+Sun off)", mask: [0, 6] },
+  "Sun–Thu": { label: "Sun–Thu workweek (Fri+Sat off)", mask: [5, 6] },
+  "Sat–Thu": { label: "Sat–Thu workweek (Fri off)", mask: [5] },
 };
 
-const parseHolidayText = (txt: string): string[] =>
-  txt
-    .split("\n")
-    .map((l) => l.trim())
-    .filter((l) => l && isValidISO(l));
+const isWeekendByMask = (d: Date, weekendMask: Set<number>) => weekendMask.has(d.getDay());
+const isHoliday = (d: Date, holidays: Set<string>) => holidays.has(toISO(d));
 
-const nextDate = (iso: string, deltaDays: number) => {
-  const d = new Date(iso);
-  d.setDate(d.getDate() + deltaDays);
-  return toISODate(d);
+const addDays = (d: Date, n: number) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+
+type CountResult = {
+  businessDays: number;
+  totalDays: number;
+  weekendDays: number;
+  holidays: number;
+  skippedList: string[]; // weekends + holidays that were skipped
 };
 
-const isWeekend = (date: Date) => {
-  const wd = date.getDay();
-  return wd === 0 || wd === 6; // Sun or Sat
+const enumerateDates = (start: Date, end: Date) => {
+  const step = start <= end ? 1 : -1;
+  const out: Date[] = [];
+  let cur = new Date(start);
+  out.push(new Date(cur));
+  while (toISO(cur) !== toISO(end)) {
+    cur = addDays(cur, step);
+    out.push(new Date(cur));
+  }
+  return out;
 };
 
-const isHoliday = (date: Date, holidays: Set<string>) => holidays.has(toISODate(date));
-
-const isBusinessDay = (date: Date, holidays: Set<string>) =>
-  !isWeekend(date) && !isHoliday(date, holidays);
-
-/** Count business days between two dates.
- * mode = "excludeStartIncludeEnd" (default) or "includeBoth" or "excludeBoth"
- */
-const businessDaysBetween = (
-  startISO: string,
-  endISO: string,
+const countBusinessBetween = (
+  start: Date,
+  end: Date,
+  weekendMask: Set<number>,
   holidays: Set<string>,
-  mode: "excludeStartIncludeEnd" | "includeBoth" | "excludeBoth" = "excludeStartIncludeEnd"
+  includeStart: boolean,
+  includeEnd: boolean
+): CountResult => {
+  if (isNaN(start.getTime()) || isNaN(end.getTime())) return { businessDays: 0, totalDays: 0, weekendDays: 0, holidays: 0, skippedList: [] };
+  // Build list, then adjust inclusivity
+  let dates = enumerateDates(start, end);
+  if (!includeStart) dates = dates.slice(1);
+  if (!includeEnd) dates = dates.slice(0, -1);
+
+  let businessDays = 0, weekendDays = 0, holidayDays = 0;
+  const skippedList: string[] = [];
+
+  for (const d of dates) {
+    const weekend = isWeekendByMask(d, weekendMask);
+    const holiday = isHoliday(d, holidays);
+    if (weekend || holiday) {
+      skippedList.push(`${toISO(d)}${weekend ? " (Weekend)" : ""}${holiday ? " (Holiday)" : ""}`);
+      if (weekend) weekendDays++;
+      if (holiday && !weekend) holidayDays++; // if both, still count once overall skipped
+    } else {
+      businessDays++;
+    }
+  }
+
+  return {
+    businessDays,
+    totalDays: dates.length,
+    weekendDays,
+    holidays: holidayDays,
+    skippedList,
+  };
+};
+
+const addBusinessDays = (
+  start: Date,
+  offset: number,
+  weekendMask: Set<number>,
+  holidays: Set<string>,
+  includeStartIfBusiness: boolean
 ) => {
-  const start = new Date(startISO);
-  const end = new Date(endISO);
-  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return 0;
+  if (offset === 0) return new Date(start);
+  const dir = offset > 0 ? 1 : -1;
+  let remain = Math.abs(offset);
+  let cur = new Date(start);
 
-  // Ensure start <= end
-  let s = start;
-  let e = end;
-  let sign = 1;
-  if (start > end) {
-    s = end;
-    e = start;
-    sign = -1;
+  // If including base and it's a business day, count it as day 1 only when moving forward
+  if (includeStartIfBusiness && dir > 0 && !isWeekendByMask(cur, weekendMask) && !isHoliday(cur, holidays)) {
+    remain--; // today counts as first business day
+    if (remain === 0) return cur;
   }
 
-  let count = 0;
-  for (let d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) {
-    const sameAsStart = d.toDateString() === s.toDateString();
-    const sameAsEnd = d.toDateString() === e.toDateString();
-
-    let include = isBusinessDay(d, holidays);
-    if (mode === "excludeStartIncludeEnd" && sameAsStart) include = false;
-    if (mode === "excludeBoth" && (sameAsStart || sameAsEnd)) include = false;
-    // includeBoth leaves both ends as-is
-
-    if (include) count++;
+  while (remain > 0) {
+    cur = addDays(cur, dir);
+    if (!isWeekendByMask(cur, weekendMask) && !isHoliday(cur, holidays)) {
+      remain--;
+    }
   }
-
-  return count * sign;
+  return cur;
 };
 
-/** Add N business days (N can be negative). */
-const addBusinessDays = (startISO: string, n: number, holidays: Set<string>) => {
-  const start = new Date(startISO);
-  if (Number.isNaN(start.getTime())) return null;
+const compactNumber = (n: number) => new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(n);
 
-  const step = n >= 0 ? 1 : -1;
-  let remaining = Math.abs(n);
-  const d = new Date(start);
-
-  while (remaining > 0) {
-    d.setDate(d.getDate() + step);
-    if (isBusinessDay(d, holidays)) remaining--;
-  }
-  return d;
-};
-
-/* ---------------------------------- Page ----------------------------------- */
-
+/* ================= Component ================= */
 const BusinessDaysCalculator: React.FC = () => {
-  // Difference
-  const [fromISO, setFromISO] = useState<string>(() => toISODate(new Date()));
-  const [toISO, setToISO] = useState<string>(() => nextDate(toISODate(new Date()), 7));
-  const [mode, setMode] = useState<"excludeStartIncludeEnd" | "includeBoth" | "excludeBoth">(
-    "excludeStartIncludeEnd"
-  );
+  // Tabs / modes
+  const [mode, setMode] = useState<"between" | "offset">("between");
 
-  // Add/Subtract
-  const [startISO, setStartISO] = useState<string>(() => toISODate(new Date()));
-  const [deltaBiz, setDeltaBiz] = useState<number>(5);
+  // Between mode inputs
+  const [startISO, setStartISO] = useState<string>(isoToday());
+  const [endISO, setEndISO] = useState<string>(isoToday());
+  const [includeStart, setIncludeStart] = useState<boolean>(() => getInitialLocal("bd_inc_start", true));
+  const [includeEnd, setIncludeEnd] = useState<boolean>(() => getInitialLocal("bd_inc_end", true));
 
-  // Holidays
-  const [holidaysText, setHolidaysText] = useState<string>("");
-  const [holidaysSet, setHolidaysSet] = useState<Set<string>>(new Set());
+  // Offset mode inputs
+  const [baseISO, setBaseISO] = useState<string>(isoToday());
+  const [offset, setOffset] = useState<number>(10);
+  const [includeBaseIfBusiness, setIncludeBaseIfBusiness] = useState<boolean>(() => getInitialLocal("bd_inc_base", false));
+  const [offsetDirection, setOffsetDirection] = useState<"add" | "subtract">("add");
 
-  // Batch add/subtract
-  const [batchText, setBatchText] = useState<string>(""); // one date per line
-  const [batchN, setBatchN] = useState<number>(3);
+  // Common advanced controls
+  const [advanced, setAdvanced] = useState<boolean>(() => getInitialLocal("bd_adv", false));
+  const [weekendPreset, setWeekendPreset] = useState<string>(() => getInitialLocal("bd_wknd", "Mon–Fri"));
+  const [customWeekend, setCustomWeekend] = useState<string>(() => getInitialLocal("bd_wknd_custom", ""));
+  const [holidayText, setHolidayText] = useState<string>(() => getInitialLocal("bd_holidays", ""));
 
-  useEffect(() => {
-    // load holidays from LS
-    const saved = localStorage.getItem(HOL_LS_KEY);
-    if (saved) {
-      setHolidaysText(saved);
-      setHolidaysSet(new Set(parseHolidayText(saved)));
+  // Persist
+  useEffect(() => { localStorage.setItem("bd_inc_start", JSON.stringify(includeStart)); }, [includeStart]);
+  useEffect(() => { localStorage.setItem("bd_inc_end", JSON.stringify(includeEnd)); }, [includeEnd]);
+  useEffect(() => { localStorage.setItem("bd_inc_base", JSON.stringify(includeBaseIfBusiness)); }, [includeBaseIfBusiness]);
+  useEffect(() => { localStorage.setItem("bd_adv", JSON.stringify(advanced)); }, [advanced]);
+  useEffect(() => { localStorage.setItem("bd_wknd", JSON.stringify(weekendPreset)); }, [weekendPreset]);
+  useEffect(() => { localStorage.setItem("bd_wknd_custom", JSON.stringify(customWeekend)); }, [customWeekend]);
+  useEffect(() => { localStorage.setItem("bd_holidays", JSON.stringify(holidayText)); }, [holidayText]);
+
+  // Derived masks/sets
+  const weekendMask = useMemo(() => {
+    if (weekendPreset !== "Custom") return new Set(WEEKEND_PRESETS[weekendPreset]?.mask ?? [0, 6]);
+    // custom format: comma/space separated digits 0-6 (0=Sun .. 6=Sat)
+    const digits = customWeekend
+      .split(/[^0-9]+/)
+      .map((x) => x.trim())
+      .filter(Boolean)
+      .map((x) => Math.max(0, Math.min(6, Number(x))))
+      .filter((x) => !Number.isNaN(x));
+    return new Set(digits.length ? digits : [0, 6]);
+  }, [weekendPreset, customWeekend]);
+
+  const holidaysSet = useMemo(() => {
+    const lines = holidayText
+      .split(/\n|,|;|\s+/)
+      .map((s) => s.trim())
+      .filter(Boolean);
+    return new Set(lines);
+  }, [holidayText]);
+
+  // Calculations
+  const startDate = useMemo(() => parseISO(startISO), [startISO]);
+  const endDate = useMemo(() => parseISO(endISO), [endISO]);
+  const baseDate = useMemo(() => parseISO(baseISO), [baseISO]);
+
+  const betweenResult = useMemo(() => {
+    if (mode !== "between") return null;
+    return countBusinessBetween(startDate, endDate, weekendMask, holidaysSet, includeStart, includeEnd);
+  }, [mode, startDate, endDate, weekendMask, holidaysSet, includeStart, includeEnd]);
+
+  const targetDate = useMemo(() => {
+    if (mode !== "offset") return null;
+    const signed = offsetDirection === "add" ? offset : -offset;
+    return addBusinessDays(baseDate, signed, weekendMask, holidaysSet, includeBaseIfBusiness);
+  }, [mode, baseDate, offset, offsetDirection, weekendMask, holidaysSet, includeBaseIfBusiness]);
+
+  // Reset
+  const handleReset = useCallback(() => {
+    setMode("between");
+    setStartISO(isoToday());
+    setEndISO(isoToday());
+    setIncludeStart(true);
+    setIncludeEnd(true);
+    setBaseISO(isoToday());
+    setOffset(10);
+    setOffsetDirection("add");
+    setIncludeBaseIfBusiness(false);
+    setAdvanced(false);
+    setWeekendPreset("Mon–Fri");
+    setCustomWeekend("");
+    setHolidayText("");
+    if (typeof window !== "undefined") {
+      [
+        "bd_inc_start","bd_inc_end","bd_inc_base","bd_adv","bd_wknd","bd_wknd_custom","bd_holidays"
+      ].forEach(localStorage.removeItem.bind(localStorage));
     }
   }, []);
 
-  const diff = useMemo(() => {
-    if (!isValidISO(fromISO) || !isValidISO(toISO)) return 0;
-    return businessDaysBetween(fromISO, toISO, holidaysSet, mode);
-  }, [fromISO, toISO, holidaysSet, mode]);
+  // Copy
+  const [copied, setCopied] = useState(false);
+  const copySummary = useCallback(async () => {
+    let msg = "";
+    if (mode === "between" && betweenResult) {
+      const r = betweenResult;
+      msg = `Mode: Count Between\nStart: ${startISO}${includeStart ? " (included)" : ""}\nEnd: ${endISO}${includeEnd ? " (included)" : ""}\nBusiness days: ${r.businessDays}\nTotal days counted: ${r.totalDays}\nSkipped weekends: ${r.weekendDays}\nSkipped holidays: ${r.holidays}`;
+    } else if (mode === "offset" && targetDate) {
+      msg = `Mode: Add/Subtract Business Days\nBase: ${baseISO}${includeBaseIfBusiness ? " (include base if business)" : ""}\nOffset: ${offsetDirection === "add" ? "+" : "-"}${offset}\nResult: ${toISO(targetDate)}`;
+    }
+    try { await navigator.clipboard.writeText(msg); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch {}
+  }, [mode, betweenResult, startISO, endISO, includeStart, includeEnd, baseISO, includeBaseIfBusiness, offsetDirection, offset, targetDate]);
 
-  const addSubResult = useMemo(() => {
-    if (!isValidISO(startISO)) return null;
-    const d = addBusinessDays(startISO, deltaBiz, holidaysSet);
-    return d ? { iso: toISODate(d), label: d.toLocaleDateString(undefined, { weekday: "long", year: "numeric", month: "short", day: "numeric" }) } : null;
-  }, [startISO, deltaBiz, holidaysSet]);
+  /* ================= SEO ================= */
+  const faqSchema = useMemo(() => ({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "How do I count business days between two dates?", "acceptedAnswer": { "@type": "Answer", "text": "Select start and end dates, choose inclusivity, and set your weekend pattern and holidays in Advanced Mode." } },
+      { "@type": "Question", "name": "How do I add business days to a date?", "acceptedAnswer": { "@type": "Answer", "text": "Switch to the Add/Subtract tab, enter an offset, and the tool skips weekends/holidays to give the target date." } }
+    ]
+  }), []);
 
-  const batchParsed = useMemo(() => {
-    const rows = batchText
-      .split("\n")
-      .map((l) => l.trim())
-      .filter(Boolean)
-      .map((iso) => {
-        const valid = isValidISO(iso);
-        const d = valid ? addBusinessDays(iso, batchN, holidaysSet) : null;
-        return {
-          input: iso,
-          valid,
-          resultISO: d ? toISODate(d) : "—",
-          resultLabel: d
-            ? d.toLocaleDateString(undefined, {
-                weekday: "long",
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-              })
-            : "Invalid",
-        };
-      });
-    return rows;
-  }, [batchText, batchN, holidaysSet]);
+  const schemaArray = useMemo(() => ([
+    generateCalculatorSchema(
+      "Business Days Calculator",
+      seoData.businessDays?.description || "Count business days between dates or add/subtract business days, skipping weekends and custom holidays.",
+      "/business-days-calculator",
+      seoData.businessDays?.keywords || ["business days calculator", "work days between dates", "add business days", "skip weekends"]
+    ),
+    faqSchema,
+  ]), [faqSchema]);
 
-  const copy = (txt: string) => navigator.clipboard.writeText(txt);
-
-  const saveHolidays = () => {
-    localStorage.setItem(HOL_LS_KEY, holidaysText);
-    setHolidaysSet(new Set(parseHolidayText(holidaysText)));
-  };
-
-  const clearHolidays = () => {
-    setHolidaysText("");
-    setHolidaysSet(new Set());
-    localStorage.removeItem(HOL_LS_KEY);
-  };
-
+  /* ================= Render ================= */
   return (
     <>
       <SEOHead
-        title={seoData?.businessDays?.title ?? "Business Days Calculator – Workday Difference & Add/Subtract"}
-        description={
-          seoData?.businessDays?.description ??
-          "Calculate business days between dates (excludes weekends, optional holidays). Add or subtract workdays, batch process, and copy results."
-        }
+        title={seoData.businessDays?.title || "Business Days Calculator – Count & Add/Subtract"}
+        description={seoData.businessDays?.description || "Count business days between two dates or add/subtract business days. Configure weekend patterns and holidays."}
         canonical="https://calculatorhub.site/business-days-calculator"
-        schemaData={generateCalculatorSchema(
-          "Business Days Calculator",
-          seoData?.businessDays?.description ??
-            "Workday difference and add/subtract with optional holidays and batch processing.",
-          "/business-days-calculator",
-          seoData?.businessDays?.keywords ?? [
-            "business days calculator",
-            "workday calculator",
-            "add business days",
-            "business days between dates",
-            "skip weekends",
-          ]
-        )}
+        schemaData={schemaArray}
         breadcrumbs={[
           { name: "Date & Time Tools", url: "/category/date-time-tools" },
-          { name: "Business Days Calculator", url: "/business-days-calculator" },
+          { name: "Business Days Calculator", url: "/business-days-calculator" }
         ]}
       />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-      <div className="max-w-6xl mx-auto px-4 md:px-6">
-        <Breadcrumbs
-          items={[
-            { name: "Date & Time Tools", url: "/category/date-time-tools" },
-            { name: "Business Days Calculator", url: "/business-days-calculator" },
-          ]}
-        />
+      <div className="min-h-screen w-full py-10">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Breadcrumbs items={[{ name: "Date & Time Tools", url: "/category/date-time-tools" }, { name: "Business Days Calculator", url: "/business-days-calculator" }]} />
 
-        {/* Header */}
-        <div className="mb-6 md:mb-8 px-1">
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <div className="absolute -inset-1 rounded-2xl bg-blue-600/30 blur-lg" />
-              <div className="relative rounded-2xl bg-blue-600/10 p-3 border border-blue-500/40">
-                <Briefcase className="h-7 w-7 text-blue-400" />
-              </div>
-            </div>
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-white">Business Days Calculator</h1>
-              <p className="text-slate-300 text-sm md:text-base">
-                Count workdays between dates, add/subtract business days, and manage holidays (local only).
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Main grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-          {/* Difference */}
-          <section className={card} aria-label="Business days between two dates">
-            <h2 className="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">
-              <CalendarRange /> Business Days Between Dates
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className={labelCls}>From</label>
-                <input type="date" className={inputCls} value={fromISO} onChange={(e) => setFromISO(e.target.value)} />
-              </div>
-              <div>
-                <label className={labelCls}>To</label>
-                <input type="date" className={inputCls} value={toISO} onChange={(e) => setToISO(e.target.value)} />
-              </div>
-            </div>
-
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3">
-              <div>
-                <label className={labelCls}>Count Method</label>
-                <select
-                  value={mode}
-                  onChange={(e) => setMode(e.target.value as any)}
-                  className={inputCls}
-                  title="Default: exclude start, include end"
-                >
-                  <option value="excludeStartIncludeEnd">Exclude start, include end (default)</option>
-                  <option value="includeBoth">Include both</option>
-                  <option value="excludeBoth">Exclude both</option>
-                </select>
-              </div>
-              <div className="md:col-span-2">
-                <div className="rounded-xl bg-white/10 p-4 border border-white/10">
-                  <div className="text-slate-300 text-sm">Business Days</div>
-                  <div className="mt-1 text-3xl font-bold text-white">{diff}</div>
-                  <div className="mt-3 flex gap-2">
-                    <button className={`${btn} ${btnNeutral}`} onClick={() => copy(String(diff))}>
-                      <Copy size={16} /> Copy
-                    </button>
-                    <button
-                      className={`${btn} ${btnGhost}`}
-                      onClick={() => {
-                        setFromISO(toISODate(new Date()));
-                        setToISO(nextDate(toISODate(new Date()), 7));
-                        setMode("excludeStartIncludeEnd");
-                      }}
-                    >
-                      <RotateCcw size={16} /> Reset
-                    </button>
-                  </div>
-                  <p className="text-xs text-slate-400 mt-2">
-                    Weekends (Sat/Sun) are skipped. Add any holidays below to exclude them as well.
-                  </p>
-                </div>
-              </div>
-            </div>
+          {/* Hero */}
+          <section className="mt-6 mb-8">
+            <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 via-sky-300 to-fuchsia-400 bg-clip-text text-transparent">
+              Business Days Calculator
+            </h1>
+            <p className="mt-2 text-slate-300 max-w-2xl">Count workdays between dates or add/subtract business days from a date. Configure weekend patterns (Mon–Fri, Sun–Thu, custom) and holidays.</p>
           </section>
 
-          {/* Add/Subtract */}
-          <section className={card} aria-label="Add or subtract business days">
-            <h2 className="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">
-              <CalendarPlus /> Add/Subtract Business Days
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              <div>
-                <label className={labelCls}>Start Date</label>
-                <input type="date" className={inputCls} value={startISO} onChange={(e) => setStartISO(e.target.value)} />
-              </div>
-              <div>
-                <label className={labelCls}>Business Days (±)</label>
-                <input
-                  type="number"
-                  className={inputCls}
-                  value={deltaBiz}
-                  onChange={(e) => setDeltaBiz(Number(e.target.value))}
-                  placeholder="e.g., 10 or -10"
-                />
-              </div>
-              <div className="md:col-span-1">
-                <label className={labelCls}>Result</label>
-                <div className="rounded-xl bg-white/10 p-3 border border-white/10">
-                  <div className="text-slate-300 text-sm">{addSubResult ? "Date" : "—"}</div>
-                  <div className="text-lg font-semibold text-white">
-                    {addSubResult ? addSubResult.label : "Invalid"}
-                  </div>
-                  {addSubResult && <div className={smallMono}>{addSubResult.iso}</div>}
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-3 flex gap-2">
-              {addSubResult && (
-                <button className={`${btn} ${btnNeutral}`} onClick={() => copy(addSubResult.iso)}>
-                  <Copy size={16} /> Copy ISO
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Left: Inputs */}
+            <section className="rounded-2xl border border-white/10 bg-white/10 backdrop-blur-lg p-6 shadow-xl">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold text-slate-100">Inputs</h2>
+                <button onClick={handleReset} type="button" className="text-white bg-yellow-700 hover:bg-yellow-800 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-2.5 py-1.5 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800" aria-label="Reset all fields">
+                  <RotateCcw className="h-4 w-4" />
                 </button>
+              </div>
+
+              {/* Mode toggle */}
+              <div className="grid grid-cols-2 gap-2 mb-5">
+                <button type="button" onClick={() => setMode("between")} className={`px-3 py-2 rounded-xl border ${mode === "between" ? "border-emerald-400 bg-emerald-500/10 text-emerald-200" : "border-slate-600 bg-slate-900/40 text-slate-200"}`}>
+                  <CalendarRange className="inline h-4 w-4 mr-1" /> Count Between Dates
+                </button>
+                <button type="button" onClick={() => setMode("offset")} className={`px-3 py-2 rounded-xl border ${mode === "offset" ? "border-sky-400 bg-sky-500/10 text-sky-200" : "border-slate-600 bg-slate-900/40 text-slate-200"}`}>
+                  <CalendarPlus className="inline h-4 w-4 mr-1" /> Add/Subtract Days
+                </button>
+              </div>
+
+              {mode === "between" ? (
+                <div className="space-y-5">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-200 mb-2">Start Date</label>
+                    <input type="date" value={startISO} onChange={(e) => setStartISO(e.target.value || isoToday())} className="w-full px-4 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent" />
+                    <div className="mt-2 text-xs text-slate-400 flex items-center gap-2">
+                      <input id="inc-start" type="checkbox" className="accent-emerald-500" checked={includeStart} onChange={(e) => setIncludeStart(e.target.checked)} />
+                      <label htmlFor="inc-start">Include start day if it is business day</label>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-slate-200 mb-2">End Date</label>
+                    <input type="date" value={endISO} onChange={(e) => setEndISO(e.target.value || isoToday())} className="w-full px-4 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent" />
+                    <div className="mt-2 text-xs text-slate-400 flex items-center gap-2">
+                      <input id="inc-end" type="checkbox" className="accent-emerald-500" checked={includeEnd} onChange={(e) => setIncludeEnd(e.target.checked)} />
+                      <label htmlFor="inc-end">Include end day if it is business day</label>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-5">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-200 mb-2">Base Date</label>
+                    <input type="date" value={baseISO} onChange={(e) => setBaseISO(e.target.value || isoToday())} className="w-full px-4 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent" />
+                    <div className="mt-2 text-xs text-slate-400 flex items-center gap-2">
+                      <input id="inc-base" type="checkbox" className="accent-sky-500" checked={includeBaseIfBusiness} onChange={(e) => setIncludeBaseIfBusiness(e.target.checked)} />
+                      <label htmlFor="inc-base">Include base day if it is business day (forward)</label>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-slate-200 mb-2">Days</label>
+                      <input type="number" min={0} value={offset.toString()} onChange={(e) => setOffset(Math.max(0, Number(e.target.value) || 0))} className="w-full px-4 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-200 mb-2">Direction</label>
+                      <div className="grid grid-cols-2 gap-2">
+                        <button type="button" onClick={() => setOffsetDirection("add")} className={`px-3 py-2 rounded-xl border ${offsetDirection === "add" ? "border-sky-400 bg-sky-500/10 text-sky-200" : "border-slate-600 bg-slate-900/40 text-slate-200"}`}>
+                          <CalendarPlus className="inline h-4 w-4 mr-1" /> Add
+                        </button>
+                        <button type="button" onClick={() => setOffsetDirection("subtract")} className={`px-3 py-2 rounded-xl border ${offsetDirection === "subtract" ? "border-pink-400 bg-pink-500/10 text-pink-200" : "border-slate-600 bg-slate-900/40 text-slate-200"}`}>
+                          <CalendarMinus className="inline h-4 w-4 mr-1" /> Subtract
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               )}
-              <button
-                className={`${btn} ${btnGhost}`}
-                onClick={() => {
-                  setStartISO(toISODate(new Date()));
-                  setDeltaBiz(5);
-                }}
-              >
-                <RotateCcw size={16} /> Reset
-              </button>
+
+              {/* Advanced toggle */}
+              <div className="mt-6 rounded-xl p-4 bg-slate-900/50 border border-slate-700">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="text-slate-200 font-medium">Advanced Mode</div>
+                  <button onClick={() => setAdvanced(!advanced)} className="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-100 border border-white/10 hover:bg-slate-700">{advanced ? "Hide" : "Show"}</button>
+                </div>
+
+                {advanced && (
+                  <div className="mt-4 space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-slate-200 mb-1">Weekend Pattern</label>
+                      <select className="w-full px-3 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500" value={weekendPreset} onChange={(e) => setWeekendPreset(e.target.value)}>
+                        {Object.keys(WEEKEND_PRESETS).map((k) => (
+                          <option key={k} value={k}>{WEEKEND_PRESETS[k].label}</option>
+                        ))}
+                        <option value="Custom">Custom days (0=Sun..6=Sat)</option>
+                      </select>
+                    </div>
+
+                    {weekendPreset === "Custom" && (
+                      <div>
+                        <label className="block text-sm font-medium text-slate-200 mb-1">Custom Weekend Days</label>
+                        <input type="text" placeholder="e.g., 5,6 or 0 6" value={customWeekend} onChange={(e) => setCustomWeekend(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        <p className="text-xs text-slate-400 mt-1">Enter digits 0–6 separated by comma/space. Example: "5,6" for Fri+Sat.</p>
+                      </div>
+                    )}
+
+                    <div>
+                      <label className="block text-sm font-medium text-slate-200 mb-1">Custom Holidays</label>
+                      <textarea rows={3} placeholder="YYYY-MM-DD, YYYY-MM-DD\n2025-02-21, 2025-03-17" value={holidayText} onChange={(e) => setHolidayText(e.target.value)} className="w-full px-3 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                      <p className="text-xs text-slate-400 mt-1">Comma/line separated. Exact YYYY-MM-DD matches only.</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </section>
+
+            {/* Right: Results */}
+            <section className="rounded-2xl border border-white/10 bg-white/10 backdrop-blur-lg p-6 shadow-xl">
+              <h2 className="text-xl font-semibold text-slate-100 mb-4">Results</h2>
+
+              <div className="space-y-6">
+                {/* Primary card */}
+                {mode === "between" && betweenResult && (
+                  <div className="text-center p-4 rounded-xl bg-gradient-to-r from-emerald-500/15 via-sky-500/15 to-fuchsia-500/15 border border-emerald-400/30">
+                    <Briefcase className="h-8 w-8 text-emerald-300 mx-auto mb-2" aria-hidden="true" />
+                    <div className="text-2xl font-bold text-slate-100">{betweenResult.businessDays}</div>
+                    <div className="text-sm text-slate-300">Business Days</div>
+                    <div className="text-xs text-slate-400 mt-1">{startISO}{includeStart ? " (incl)" : ""} → {endISO}{includeEnd ? " (incl)" : ""}</div>
+                  </div>
+                )}
+
+                {mode === "offset" && targetDate && (
+                  <div className="text-center p-4 rounded-xl bg-gradient-to-r from-sky-500/15 via-emerald-500/15 to-fuchsia-500/15 border border-sky-400/30">
+                    <CalendarDays className="h-8 w-8 text-sky-300 mx-auto mb-2" aria-hidden="true" />
+                    <div className="text-2xl font-bold text-slate-100">{toISO(targetDate)}</div>
+                    <div className="text-sm text-slate-300">Target Date</div>
+                    <div className="text-xs text-slate-400 mt-1">Base {baseISO} • {offsetDirection === "add" ? "+" : "-"}{offset} business day(s)</div>
+                  </div>
+                )}
+
+                {/* Stat tiles */}
+                {mode === "between" && betweenResult && (
+                  <>
+                    <div className="grid grid-cols-3 gap-4">
+                      <div className="p-4 rounded-xl text-center bg-violet-500/10 border border-violet-400/20">
+                        <div className="text-xl font-semibold text-slate-100">{betweenResult.totalDays}</div>
+                        <div className="text-sm text-violet-300">Total Counted</div>
+                      </div>
+                      <div className="p-4 rounded-xl text-center bg-amber-500/10 border border-amber-400/20">
+                        <div className="text-xl font-semibold text-slate-100">{betweenResult.weekendDays}</div>
+                        <div className="text-sm text-amber-300">Weekend Days</div>
+                      </div>
+                      <div className="p-4 rounded-xl text-center bg-rose-500/10 border border-rose-400/20">
+                        <div className="text-xl font-semibold text-slate-100">{betweenResult.holidays}</div>
+                        <div className="text-sm text-rose-300">Holiday Matches</div>
+                      </div>
+                    </div>
+
+                    {/* Skipped list */}
+                    <div className="rounded-xl border border-white/10 bg-slate-900/40 p-4">
+                      <div className="flex items-center gap-2 text-slate-200 font-semibold mb-2"><ListX className="h-5 w-5" /> Skipped Dates</div>
+                      {betweenResult.skippedList.length ? (
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-slate-300 max-h-48 overflow-auto pr-1">
+                          {betweenResult.skippedList.map((t) => (
+                            <li key={t} className="px-3 py-2 rounded-lg bg-slate-800/50 border border-slate-700">{t}</li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p className="text-sm text-slate-400">No weekends/holidays within the counted range.</p>
+                      )}
+                    </div>
+                  </>
+                )}
+
+                <div className="flex items-center gap-3">
+                  <button onClick={copySummary} className="px-3 py-2 rounded-xl bg-teal-600 text-white hover:bg-teal-500 transition-colors shadow-sm"><Copy className="inline h-4 w-4 mr-1" /> {copied ? "Copied!" : "Copy"}</button>
+                  {copied && <span className="text-teal-300 text-sm">Summary copied</span>}
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <Suspense fallback={null}>
+            <div className="my-8">
+              <AdBanner type="bottom" />
             </div>
+            <RelatedCalculators currentPath="/business-days-calculator" category="date-time-tools" />
+          </Suspense>
+
+          {/* SEO snippet */}
+          <section className="mt-6">
+            <h2 className="text-3xl md:text-4xl text-white"><strong>What is a Business Days Calculator?</strong></h2>
+            <p className="text-slate-300 py-3 leading-relaxed">A tool to compute working days between dates or to shift a date by N business days, skipping weekends and your listed holidays. Configure regional workweeks and custom closures in Advanced Mode.</p>
           </section>
         </div>
-
-        {/* Holidays + Batch */}
-        <div className="mt-6 lg:mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Holidays */}
-          <section className={card} aria-label="Holidays manager">
-            <h2 className="text-xl md:text-2xl font-bold text-white mb-4">Holidays (Optional)</h2>
-            <p className="text-slate-300 text-sm mb-3">
-              Enter one date per line in <span className="font-mono">YYYY-MM-DD</span>. These dates will be excluded in
-              both calculations. Stored locally in your browser.
-            </p>
-            <textarea
-              rows={8}
-              className={inputCls}
-              placeholder={"2025-01-01\n2025-07-04\n2025-12-25"}
-              value={holidaysText}
-              onChange={(e) => setHolidaysText(e.target.value)}
-            />
-            <div className="mt-3 flex flex-wrap gap-2">
-              <button className={`${btn} ${btnPrimary}`} onClick={saveHolidays}>
-                <Save size={16} /> Save Holidays
-              </button>
-              <button className={`${btn} ${btnGhost}`} onClick={clearHolidays}>
-                <Trash2 size={16} /> Clear
-              </button>
-              <span className="text-slate-300 text-sm self-center">
-                {parseHolidayText(holidaysText).length} saved
-              </span>
-            </div>
-            {parseHolidayText(holidaysText).length > 0 && (
-              <p className="text-xs text-slate-400 mt-2">
-                Example use: national holidays, company shutdown days, or PTO.
-              </p>
-            )}
-          </section>
-
-          {/* Batch add/subtract */}
-          <section className={card} aria-label="Batch add/subtract">
-            <h2 className="text-xl md:text-2xl font-bold text-white mb-4">Batch Add/Subtract</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              <div className="md:col-span-2">
-                <label className={labelCls}>Dates (one per line)</label>
-                <textarea
-                  rows={6}
-                  className={inputCls}
-                  placeholder={"2025-03-01\n2025-03-15\n2025-04-01"}
-                  value={batchText}
-                  onChange={(e) => setBatchText(e.target.value)}
-                />
-              </div>
-              <div>
-                <label className={labelCls}>Business Days (±)</label>
-                <input
-                  type="number"
-                  className={inputCls}
-                  value={batchN}
-                  onChange={(e) => setBatchN(Number(e.target.value))}
-                />
-                <button
-                  className={`${btn} ${btnNeutral} mt-3`}
-                  onClick={() => {
-                    const csv =
-                      "date_in,offset, date_out\n" +
-                      batchParsed
-                        .map((r) => `${r.input},${batchN},${r.resultISO}`)
-                        .join("\n");
-                    copy(csv);
-                  }}
-                >
-                  <Copy size={16} /> Copy CSV
-                </button>
-              </div>
-            </div>
-
-            {batchParsed.length > 0 && (
-              <div className="mt-4 rounded-xl bg-white/5 border border-white/10 p-3 max-h-60 overflow-auto">
-                <table className="w-full text-left text-slate-200 text-sm">
-                  <thead className="text-slate-400">
-                    <tr>
-                      <th className="py-1 pr-2">Date In</th>
-                      <th className="py-1 pr-2">Offset</th>
-                      <th className="py-1">Result</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {batchParsed.map((r, i) => (
-                      <tr key={`${r.input}-${i}`} className={!r.valid ? "text-red-300" : ""}>
-                        <td className="py-1 pr-2 font-mono">{r.input}</td>
-                        <td className="py-1 pr-2">{batchN}</td>
-                        <td className="py-1">
-                          {r.resultISO}{" "}
-                          <span className="text-slate-400">({r.resultLabel})</span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </section>
-        </div>
-
-        <AdBanner />
-
-        {/* ---------------- SEO content (concise, linked) ---------------- */}
-        <div className="rounded-2xl p-8 mb-8">
-          <h2 className="text-3xl font-bold text-white mb-3">About Business Days Calculator</h2>
-          <p className="text-slate-300">
-            This tool skips weekends automatically and lets you exclude custom <strong>holidays</strong> for your region or company.
-            Use it to plan deliveries, SLAs, or sprint schedules. For exact calendar differences, try the{" "}
-            <a href="/date-difference" className="text-blue-300 underline hover:text-blue-200">Date Difference Calculator</a>, and for simple day offsets use{" "}
-            <a href="/time-add-subtract" className="text-blue-300 underline hover:text-blue-200">Time Add/Subtract</a>.
-          </p>
-
-          {/* FAQ (visible + JSON-LD parity) */}
-          <section className="space-y-3 mt-6">
-            <h3 className="text-xl font-semibold text-white">FAQ</h3>
-
-            <div className="bg-slate-800/60 p-4 rounded-lg">
-              <p className="font-medium text-white flex items-center gap-2">
-                <Info size={16} /> Which days are skipped?
-              </p>
-              <p className="text-slate-300">
-                Saturdays and Sundays are always skipped. Add optional holidays to exclude them as well.
-              </p>
-            </div>
-
-            <div className="bg-slate-800/60 p-4 rounded-lg">
-              <p className="font-medium text-white flex items-center gap-2">
-                <Info size={16} /> What does “Exclude start, include end” mean?
-              </p>
-              <p className="text-slate-300">
-                It doesn’t count the first day but does count the final day if it’s a business day. You can switch methods in the dropdown.
-              </p>
-            </div>
-
-            <script
-              type="application/ld+json"
-              dangerouslySetInnerHTML={{
-                __html: JSON.stringify({
-                  "@context": "https://schema.org",
-                  "@type": "FAQPage",
-                  "mainEntity": [
-                    {
-                      "@type": "Question",
-                      "name": "Which days are skipped?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Saturdays and Sundays are skipped. You can also add holidays to exclude specific dates."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "What does “Exclude start, include end” mean?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "It doesn’t count the first day but does count the final day if it’s a business day. You can change this behavior with the counting mode."
-                      }
-                    }
-                  ]
-                }),
-              }}
-            />
-          </section>
-        </div>
-
-        <RelatedCalculators currentPath="/business-days-calculator" category="date-time-tools" />
       </div>
     </>
   );
