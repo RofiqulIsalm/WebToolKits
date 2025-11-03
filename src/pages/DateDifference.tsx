@@ -1,1166 +1,615 @@
-/**
- * DateDifferencePro – 10/10 SEO + UX Edition (with contextual links + clean note reset)
- * -----------------------------------------------------------------------------
- * - Punchier SEO title/description for CTR
- * - Instant Answers snippet under H1 (Featured Snippet bait)
- * - Contextual internal links inside body copy (plus the links block)
- * - Notes reset immediately on successful save (no setTimeout)
- * - Memoized diff, countdown only if future, JSON-LDs preserved
- */
-
-import React, { useEffect, useMemo, useState, memo, PropsWithChildren, ReactNode } from "react";
+// Date Difference Calculator — Age Calculator UI pattern
+import React, { useState, useEffect, useMemo, useCallback, Suspense } from "react";
 import { Link } from "react-router-dom";
-import {
-  Clock,
-  History as HistoryIcon,
-  FileDown,
-  RotateCcw,
-  Edit3,
-  Trash2,
-  CalendarClock,
-  Info as InfoIcon,
-  CheckCircle2,
-  AlertTriangle,
-} from "lucide-react";
-import AdBanner from "../components/AdBanner";
+import { CalendarDays, Repeat, ArrowLeftRight, Info, Clock3 } from "lucide-react";
 import SEOHead from "../components/SEOHead";
 import Breadcrumbs from "../components/Breadcrumbs";
-import RelatedCalculators from "../components/RelatedCalculators";
 import { seoData, generateCalculatorSchema } from "../utils/seoData";
 
-/* ==========================================================================
- * Types
- * ========================================================================== */
+const RelatedCalculators = React.lazy(() => import("../components/RelatedCalculators"));
+const AdBanner = React.lazy(() => import("../components/AdBanner"));
 
-export type DiffResult = {
+/* =============================================
+   Types & Helpers
+============================================= */
+type Diff = {
   years: number;
   months: number;
   days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
   totalDays: number;
   totalWeeks: number;
+  totalMonths: number;
   totalHours: number;
   totalMinutes: number;
   totalSeconds: number;
-  negative: boolean;
+  businessDays?: number;
 };
 
-export type HistoryItem = {
-  id: string;
-  fromISO: string;
-  toISO: string;
-  createdAtISO: string;
-  summary: string;
-  noteTitle?: string;
-  noteBody?: string;
+const compactNumber = (n: number) =>
+  new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(n);
+
+const clampDateISO = (value: string) => {
+  const d = new Date(value || Date.now());
+  if (isNaN(d.getTime())) return new Date().toISOString().split("T")[0];
+  return d.toISOString().split("T")[0];
 };
 
-/* ==========================================================================
- * Constants & Utilities
- * ========================================================================== */
+const isoToday = () => new Date().toISOString().split("T")[0];
 
-const LS_KEY = "dateDiffHistory_v2";
-const SENTINEL_ZERO = "0";
-
-const pad2 = (n: number) => String(Math.abs(n)).padStart(2, "0");
-const isValidDate = (d: Date) => !Number.isNaN(d.getTime());
-
-const isValidInput = (iso: string): boolean => {
-  if (!iso || iso === SENTINEL_ZERO) return false;
-  const d = new Date(iso);
-  return !Number.isNaN(d.getTime());
-};
-
-const fmtDateTime = (iso: string) => {
-  const d = new Date(iso);
-  if (!isValidDate(d)) return "—";
-  return d.toLocaleString(undefined, {
-    year: "numeric",
-    month: "short",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-};
-
-const clampHistory = (items: HistoryItem[], max = 20) => items.slice(0, max);
-
-function loadHistory(): HistoryItem[] {
-  if (typeof window === "undefined") return [];
+const getInitialLocal = <T,>(key: string, fallback: T): T => {
+  if (typeof window === "undefined") return fallback;
   try {
-    const raw = localStorage.getItem(LS_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw) as HistoryItem[];
-    return Array.isArray(parsed) ? parsed : [];
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
+    return JSON.parse(raw) as T;
   } catch {
-    return [];
+    return fallback;
   }
-}
-function saveHistory(items: HistoryItem[]) {
-  if (typeof window === "undefined") return;
-  localStorage.setItem(LS_KEY, JSON.stringify(clampHistory(items)));
-}
-
-const toLocalDateTimeValue = (d: Date) => {
-  const year = d.getFullYear();
-  const month = pad2(d.getMonth() + 1);
-  const day = pad2(d.getDate());
-  const hour = pad2(d.getHours());
-  const min = pad2(d.getMinutes());
-  return `${year}-${month}-${day}T${hour}:${min}`;
 };
 
-/* ==========================================================================
- * Core diff
- * ========================================================================== */
+// Inclusive/Exclusive helpers
+const addDays = (d: Date, days: number) => {
+  const nd = new Date(d);
+  nd.setDate(nd.getDate() + days);
+  return nd;
+};
 
-function calcDateTimeDiff(fromISO: string, toISO: string): DiffResult {
-  if (!isValidInput(fromISO) || !isValidInput(toISO)) {
-    return {
-      years: 0,
-      months: 0,
-      days: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-      totalDays: 0,
-      totalWeeks: 0,
-      totalHours: 0,
-      totalMinutes: 0,
-      totalSeconds: 0,
-      negative: false,
-    };
-  }
+const toYMD = (d: Date) => d.toISOString().split("T")[0];
 
-  const from = new Date(fromISO);
-  const to = new Date(toISO);
-
-  const isNegative = from > to;
-  const start = isNegative ? to : from;
-  const end = isNegative ? from : to;
-
+// Year/Month/Day difference assuming end >= start
+const diffYMD = (start: Date, end: Date) => {
   let years = end.getFullYear() - start.getFullYear();
   let months = end.getMonth() - start.getMonth();
   let days = end.getDate() - start.getDate();
-
   if (days < 0) {
-    months -= 1;
-    const prevMonth = new Date(end.getFullYear(), end.getMonth(), 0);
-    days += prevMonth.getDate();
+    months--;
+    const lastMonth = new Date(end.getFullYear(), end.getMonth(), 0);
+    days += lastMonth.getDate();
   }
   if (months < 0) {
-    years -= 1;
+    years--;
     months += 12;
   }
-
-  const alignedStart = new Date(start);
-  alignedStart.setFullYear(start.getFullYear() + years);
-  alignedStart.setMonth(start.getMonth() + months);
-  alignedStart.setDate(start.getDate() + days);
-
-  let diffMs = Math.abs(end.getTime() - alignedStart.getTime());
-  let hours = Math.floor(diffMs / (1000 * 60 * 60));
-  diffMs -= hours * (1000 * 60 * 60);
-  let minutes = Math.floor(diffMs / (1000 * 60));
-  diffMs -= minutes * (1000 * 60);
-  let seconds = Math.floor(diffMs / 1000);
-
-  const totalMs = Math.abs(end.getTime() - start.getTime());
-  const totalSeconds = Math.floor(totalMs / 1000);
-  const totalMinutes = Math.floor(totalSeconds / 60);
-  const totalHours = Math.floor(totalMinutes / 60);
-  const totalDays = Math.floor(totalHours / 24);
-  const totalWeeks = Math.floor(totalDays / 7);
-
-  return {
-    years: isNegative ? -years : years,
-    months: isNegative ? -months : months,
-    days: isNegative ? -days : days,
-    hours: isNegative ? -hours : hours,
-    minutes: isNegative ? -minutes : minutes,
-    seconds: isNegative ? -seconds : seconds,
-    totalDays: isNegative ? -totalDays : totalDays,
-    totalWeeks: isNegative ? -totalWeeks : totalWeeks,
-    totalHours: isNegative ? -totalHours : totalHours,
-    totalMinutes: isNegative ? -totalMinutes : totalMinutes,
-    totalSeconds: isNegative ? -totalSeconds : totalSeconds,
-    negative: isNegative,
-  };
-}
-
-const buildDynamicSummary = (d: DiffResult) => {
-  const abs = (v: number) => Math.abs(v);
-  const parts: string[] = [];
-  if (abs(d.years)) parts.push(`${abs(d.years)}y`);
-  if (abs(d.months)) parts.push(`${abs(d.months)}m`);
-  if (abs(d.days)) parts.push(`${abs(d.days)}d`);
-  if (abs(d.hours)) parts.push(`${abs(d.hours)}h`);
-  if (abs(d.minutes)) parts.push(`${abs(d.minutes)}m`);
-  if (abs(d.seconds)) parts.push(`${abs(d.seconds)}s`);
-  return parts.length ? parts.join(", ") : "0s";
+  return { years, months, days };
 };
 
-/* ==========================================================================
- * Small Presentational Components
- * ========================================================================== */
-
-type InlineAlertProps = {
-  variant?: "info" | "success" | "warning" | "danger";
-  icon?: ReactNode;
-  children: ReactNode;
-  className?: string;
-  "data-testid"?: string;
-};
-const InlineAlert = memo(function InlineAlert({
-  variant = "info",
-  icon,
-  children,
-  className = "",
-  ...rest
-}: InlineAlertProps) {
-  const styles: Record<"info" | "success" | "warning" | "danger", string> = {
-    info: "bg-blue-50 text-blue-800 border-blue-200",
-    success: "bg-emerald-50 text-emerald-800 border-emerald-200",
-    warning: "bg-yellow-50 text-yellow-800 border-yellow-200",
-    danger: "bg-red-50 text-red-800 border-red-200",
-  };
-  return (
-    <div
-      className={`rounded-lg border px-3 py-2 text-sm inline-flex items-center gap-2 ${styles[variant]} ${className}`}
-      role="status"
-      aria-live="polite"
-      {...rest}
-    >
-      {icon}
-      <span>{children}</span>
-    </div>
-  );
-});
-
-type StatCardProps = {
-  label: string;
-  value: ReactNode;
-  className?: string;
-  "data-testid"?: string;
-};
-const StatCard = memo(function StatCard({ label, value, className = "", ...rest }: StatCardProps) {
-  return (
-    <div className={`p-4 rounded-lg text-center border ${className}`} {...rest}>
-      <div className="text-xl font-semibold text-gray-900">{value}</div>
-      <div className="text-sm text-gray-800">{label}</div>
-    </div>
-  );
-});
-
-type HistoryRowProps = {
-  item: HistoryItem;
-  countdownLabel: string;
-  completed: boolean;
-  onEdit: () => void;
-  onDelete: () => void;
-  onInfo?: (item: HistoryItem) => void;
-};
-const HistoryRow = memo(function HistoryRow({
-  item,
-  countdownLabel,
-  completed,
-  onEdit,
-  onDelete,
-  onInfo,
-}: HistoryRowProps) {
-  return (
-    <div
-      className={`py-3 px-3 flex flex-col md:flex-row md:items-center md:justify-between gap-2 rounded-lg border ${completed ? "bg-green-100 border-green-200" : "bg-gray-50 border-gray-200"}`}
-      data-testid="history-row"
-    >
-      <div>
-        <div className="font-medium text-gray-900">
-          {fmtDateTime(item.fromISO)} → {fmtDateTime(item.toISO)}
-        </div>
-        <div className="text-sm text-gray-800">{item.summary}</div>
-        <div className="text-xs text-gray-500">Saved {fmtDateTime(item.createdAtISO)}</div>
-        {!completed && <div className="text-sm font-semibold text-indigo-700 mt-1">{countdownLabel}</div>}
-      </div>
-      <div className="flex gap-2 flex-wrap">
-        {onInfo && (item.noteTitle || item.noteBody) && (
-          <button
-            onClick={() => onInfo(item)}
-            className="px-3 py-1.5 rounded-lg bg-white border border-gray-300 text-gray-800 hover:bg-gray-50 text-sm inline-flex items-center gap-1"
-            title="View details"
-          >
-            <InfoIcon className="w-4 h-4" />
-            Info
-          </button>
-        )}
-        <button
-          onClick={onEdit}
-          className="px-3 py-1.5 rounded-lg bg-blue-800 text-white hover:bg-blue-700 text-sm inline-flex items-center gap-1"
-          title="Edit"
-        >
-          <Edit3 className="w-4 h-4" />
-          Edit
-        </button>
-        <button
-          onClick={onDelete}
-          className="px-3 py-1.5 rounded-lg bg-red-700 text-white hover:bg-red-600 text-sm inline-flex items-center gap-1"
-          title="Delete"
-        >
-          <Trash2 className="w-4 h-4" />
-          Delete
-        </button>
-      </div>
-    </div>
-  );
-});
-
-type LabeledFieldProps = PropsWithChildren<{
-  label: string;
-  htmlFor?: string;
-}>;
-const LabeledField = ({ label, htmlFor, children }: LabeledFieldProps) => (
-  <div className="mb-4">
-    <label htmlFor={htmlFor} className="block text-sm font-medium text-gray-700 mb-2">
-      {label}
-    </label>
-    {children}
-  </div>
-);
-
-/** Simple accessible modal */
-const InlineModal = ({ open, title, description, onClose }: { open: boolean; title?: string; description?: string; onClose: () => void; }) => {
-  if (!open) return null;
-  return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40 p-0 sm:p-4" role="dialog" aria-modal="true">
-      <div className="bg-white w-full sm:max-w-lg sm:rounded-xl sm:shadow-lg sm:border sm:border-gray-200">
-        <div className="px-4 py-3 border-b border-gray-200 flex items-center justify-between">
-          <h3 className="text-base sm:text-lg font-semibold text-gray-900 truncate">{title || "Details"}</h3>
-          <button onClick={onClose} className="text-gray-600 hover:text-gray-900 px-2 py-1 rounded-md focus:outline-none focus:ring" aria-label="Close">✕</button>
-        </div>
-        <div className="p-4 sm:p-5">
-          {description ? (
-            <p className="text-sm sm:text-base text-gray-800 whitespace-pre-wrap">{description}</p>
-          ) : (
-            <p className="text-sm text-gray-600">No description provided.</p>
-          )}
-        </div>
-        <div className="px-4 py-3 border-t border-gray-200 flex justify-end">
-          <button onClick={onClose} className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 text-sm sm:text-base">Close</button>
-        </div>
-      </div>
-    </div>
-  );
+const isWeekend = (d: Date) => {
+  const w = d.getDay();
+  return w === 0 || w === 6;
 };
 
-/* ==========================================================================
- * Main Component
- * ========================================================================== */
+const isHoliday = (d: Date, set: Set<string>) => set.has(toYMD(d));
 
-const DateDifferencePro: React.FC = () => {
-  const [fromDateTime, setFromDateTime] = useState<string>(SENTINEL_ZERO);
-  const [toDateTime, setToDateTime] = useState<string>(SENTINEL_ZERO);
+const countBusinessDays = (
+  start: Date,
+  end: Date,
+  { excludeWeekends, holidays, includeStart, includeEnd }: { excludeWeekends: boolean; holidays: Set<string>; includeStart: boolean; includeEnd: boolean; }
+) => {
+  if (end < start) return 0;
+  let s = new Date(start);
+  let e = new Date(end);
+  if (!includeStart) s = addDays(s, 1);
+  if (!includeEnd) e = addDays(e, -1);
 
-  const [nowISO, setNowISO] = useState<string>(() => new Date().toISOString());
+  let count = 0;
+  for (let d = s; d <= e; d = addDays(d, 1)) {
+    if (excludeWeekends && isWeekend(d)) continue;
+    if (holidays.size && isHoliday(d, holidays)) continue;
+    count++;
+  }
+  return Math.max(count, 0);
+};
 
-  const [history, setHistory] = useState<HistoryItem[]>(() => loadHistory());
-  const [errorMsg, setErrorMsg] = useState<string>("");
-  const [noticeMsg, setNoticeMsg] = useState<string>("");
+/* =============================================
+   Component
+============================================= */
+const DateDifferenceCalculator: React.FC = () => {
+  // Inputs
+  const [startDate, setStartDate] = useState<string>(isoToday());
+  const [endDate, setEndDate] = useState<string>(isoToday());
+  const [error, setError] = useState<string>("");
 
-  // Optional notes UI
-  const [notesEnabled, setNotesEnabled] = useState<boolean>(false);
-  const [noteTitle, setNoteTitle] = useState<string>("");
-  const [noteBody, setNoteBody] = useState<string>("");
+  // Advanced options
+  const [advanced, setAdvanced] = useState<boolean>(() => getInitialLocal("dd_adv_enabled", false));
+  const [includeStart, setIncludeStart] = useState<boolean>(() => getInitialLocal("dd_adv_include_start", true));
+  const [includeEnd, setIncludeEnd] = useState<boolean>(() => getInitialLocal("dd_adv_include_end", true));
+  const [excludeWeekends, setExcludeWeekends] = useState<boolean>(() => getInitialLocal("dd_adv_excl_weekends", false));
+  const [holidayText, setHolidayText] = useState<string>(() => getInitialLocal("dd_adv_holidays", ""));
 
-  // Modal for history item details
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [modalTitle, setModalTitle] = useState<string>("");
-  const [modalBody, setModalBody] = useState<string>("");
+  // Live countdown / progress (when end is in future)
+  const [nowISO, setNowISO] = useState<string>(isoToday());
 
+  // Copy feedback
+  const [copied, setCopied] = useState(false);
+
+  // Persist advanced settings
+  useEffect(() => { localStorage.setItem("dd_adv_enabled", JSON.stringify(advanced)); }, [advanced]);
+  useEffect(() => { localStorage.setItem("dd_adv_include_start", JSON.stringify(includeStart)); }, [includeStart]);
+  useEffect(() => { localStorage.setItem("dd_adv_include_end", JSON.stringify(includeEnd)); }, [includeEnd]);
+  useEffect(() => { localStorage.setItem("dd_adv_excl_weekends", JSON.stringify(excludeWeekends)); }, [excludeWeekends]);
+  useEffect(() => { localStorage.setItem("dd_adv_holidays", JSON.stringify(holidayText)); }, [holidayText]);
+
+  // Derived
+  const start = useMemo(() => new Date(startDate), [startDate]);
+  const end = useMemo(() => new Date(endDate), [endDate]);
+
+  const holidaysSet = useMemo(() => {
+    const lines = holidayText.split(/\n|,|;|\s+/).map((s) => s.trim()).filter(Boolean);
+    return new Set(lines);
+  }, [holidayText]);
+
+  const diff: Diff = useMemo(() => {
+    if (isNaN(start.getTime()) || isNaN(end.getTime()) || start > end) {
+      return {
+        years: 0, months: 0, days: 0,
+        totalDays: 0, totalWeeks: 0, totalMonths: 0, totalHours: 0, totalMinutes: 0, totalSeconds: 0,
+        businessDays: 0,
+      };
+    }
+
+    // Inclusive logic for totals
+    const s = new Date(start);
+    const e = new Date(end);
+    let inclusiveAdjust = 0;
+    if (includeStart) inclusiveAdjust++;
+    if (includeEnd && start.getTime() !== end.getTime()) inclusiveAdjust++;
+
+    const ms = e.getTime() - s.getTime();
+    const totalDays = Math.floor(ms / (1000 * 60 * 60 * 24)) + (inclusiveAdjust ? 1 : 0);
+
+    const ymd = diffYMD(s, e);
+    const totalMonths = ymd.years * 12 + ymd.months;
+    const totalWeeks = Math.floor(totalDays / 7);
+    const totalHours = totalDays * 24;
+    const totalMinutes = totalHours * 60;
+    const totalSeconds = totalMinutes * 60;
+
+    const businessDays = advanced
+      ? countBusinessDays(s, e, { excludeWeekends, holidays: holidaysSet, includeStart, includeEnd })
+      : undefined;
+
+    return {
+      years: ymd.years,
+      months: ymd.months,
+      days: ymd.days,
+      totalDays,
+      totalWeeks,
+      totalMonths,
+      totalHours,
+      totalMinutes,
+      totalSeconds,
+      businessDays,
+    };
+  }, [start, end, includeStart, includeEnd, advanced, excludeWeekends, holidaysSet]);
+
+  // Validation
   useEffect(() => {
-    const id = setInterval(() => setNowISO(new Date().toISOString()), 1000);
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      setError("Please enter valid dates.");
+    } else if (start > end) {
+      setError("Start date cannot be later than the end date.");
+    } else {
+      setError("");
+    }
+  }, [start, end]);
+
+  // Countdown ticker when end is in the future
+  useEffect(() => {
+    const endMs = end.getTime();
+    const isFuture = !isNaN(endMs) && endMs > Date.now();
+    if (!advanced || !isFuture) return;
+    const id = setInterval(() => setNowISO(isoToday()), 1000);
     return () => clearInterval(id);
+  }, [advanced, end]);
+
+  const percentElapsed = useMemo(() => {
+    const startMs = start.getTime();
+    const endMs = end.getTime();
+    const nowMs = new Date().getTime();
+    if (isNaN(startMs) || isNaN(endMs) || endMs <= startMs) return 0;
+    const t = Math.min(Math.max(nowMs, startMs), endMs);
+    return ((t - startMs) / (endMs - startMs)) * 100;
+  }, [start, end, nowISO]);
+
+  const resultString = useMemo(
+    () => `Between ${startDate} and ${endDate}: ${diff.years} years, ${diff.months} months, ${diff.days} days (Total days: ${diff.totalDays})`,
+    [startDate, endDate, diff]
+  );
+
+  const handleCopy = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(resultString);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    } catch {}
+  }, [resultString]);
+
+  const handleReset = useCallback(() => {
+    setStartDate(isoToday());
+    setEndDate(isoToday());
+    setError("");
+    setCopied(false);
+    setAdvanced(false);
+    setIncludeStart(true);
+    setIncludeEnd(true);
+    setExcludeWeekends(false);
+    setHolidayText("");
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("dd_adv_enabled");
+      localStorage.removeItem("dd_adv_include_start");
+      localStorage.removeItem("dd_adv_include_end");
+      localStorage.removeItem("dd_adv_excl_weekends");
+      localStorage.removeItem("dd_adv_holidays");
+    }
   }, []);
 
-  // Enforce ordering: FROM <= TO (auto-correct on changes)
-  const enforceOrderAfterSet = (which: "from" | "to", val: string) => {
-    if (!isValidInput(val)) return;
-    if (which === "from") {
-      if (isValidInput(toDateTime)) {
-        const f = new Date(val).getTime();
-        const t = new Date(toDateTime).getTime();
-        if (f > t) {
-          setToDateTime(val);
-          setNoticeMsg("Adjusted: To aligned to From to keep order.");
+  const swapDates = useCallback(() => {
+    setStartDate(endDate);
+    setEndDate(startDate);
+  }, [startDate, endDate]);
+
+  /* ================= SEO / Schema ================= */
+  const faqSchema = useMemo(() => ({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I find the exact difference between two dates?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Pick a start and end date. The calculator returns the exact difference in years, months, days, and totals (weeks, days, hours, minutes, seconds)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I count business days only?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. In Advanced Mode, toggle business-day logic (exclude weekends) and optionally add custom holidays."
         }
       }
-    } else {
-      if (isValidInput(fromDateTime)) {
-        const f = new Date(fromDateTime).getTime();
-        const t = new Date(val).getTime();
-        if (t < f) {
-          setFromDateTime(val);
-          setNoticeMsg("Adjusted: From aligned to To to keep order.");
-        }
-      }
-    }
-  };
+    ]
+  }), []);
 
-  const abs = (n: number) => Math.abs(n);
+  const schemaArray = useMemo(
+    () => [
+      generateCalculatorSchema(
+        "Date Difference Calculator",
+        seoData.dateDifference?.description || "Find exact time between two dates with years/months/days and total days, hours, minutes.",
+        "/date-difference-calculator",
+        seoData.dateDifference?.keywords || ["date difference", "days between dates", "business days calculator"]
+      ),
+      faqSchema,
+    ],
+    [faqSchema]
+  );
 
-  // Memoized diff for render reuse
-  const diff = useMemo(() => calcDateTimeDiff(fromDateTime, toDateTime), [fromDateTime, toDateTime]);
-
-  // Countdown shows only when TO valid and future
-  const countdownActive = useMemo(() => {
-    if (!isValidInput(toDateTime)) return false;
-    const now = new Date(nowISO).getTime();
-    const tgt = new Date(toDateTime).getTime();
-    return tgt - now > 0;
-  }, [toDateTime, nowISO]);
-
-  const countdownText = useMemo(() => {
-    const now = new Date(nowISO);
-    const cdMs = isValidInput(toDateTime) ? Math.max(0, new Date(toDateTime).getTime() - now.getTime()) : 0;
-    const cdSec = Math.floor(cdMs / 1000);
-    const cdDays = Math.floor(cdSec / 86400);
-    const cdHours = Math.floor((cdSec % 86400) / 3600);
-    const cdMin = Math.floor((cdSec % 3600) / 60);
-    const cdSecs = cdSec % 60;
-    const parts: string[] = [];
-    if (cdDays) parts.push(`${cdDays}d`);
-    if (cdHours) parts.push(`${pad2(cdHours)}h`);
-    if (cdMin) parts.push(`${pad2(cdMin)}m`);
-    if (cdSecs) parts.push(`${pad2(cdSecs)}s`);
-    return parts.length ? parts.join(" ") : "0s";
-  }, [nowISO, toDateTime]);
-
-  const fromDow = useMemo(() => (isValidInput(fromDateTime) ? new Date(fromDateTime).toLocaleDateString(undefined, { weekday: "long" }) : ""), [fromDateTime]);
-  const toDow = useMemo(() => (isValidInput(toDateTime) ? new Date(toDateTime).toLocaleDateString(undefined, { weekday: "long" }) : ""), [toDateTime]);
-
-  // History countdowns
-  const historyCountdowns = useMemo(() => {
-    const nowTs = new Date(nowISO).getTime();
-    return history.map((h) => {
-      const t = new Date(h.toISO).getTime();
-      const remain = Math.max(0, t - nowTs);
-      const sec = Math.floor(remain / 1000);
-      const d = Math.floor(sec / 86400);
-      const hH = Math.floor((sec % 86400) / 3600);
-      const mM = Math.floor((sec % 3600) / 60);
-      const sS = sec % 60;
-      const parts: string[] = [];
-      if (d) parts.push(`${d}d`);
-      if (hH) parts.push(`${pad2(hH)}h`);
-      if (mM) parts.push(`${pad2(mM)}m`);
-      if (sS) parts.push(`${pad2(sS)}s`);
-      const label = remain <= 0 ? "Completed" : `${parts.join(" ")} remaining`;
-      return { id: h.id, complete: remain <= 0, label };
-    });
-  }, [history, nowISO]);
-
-  const findHistoryCountdown = (id: string) => historyCountdowns.find((x) => x.id === id);
-
-  /** Save and return boolean for success; consumer can reset notes immediately */
-  const addToHistory = (): boolean => {
-    if (fromDateTime === SENTINEL_ZERO && toDateTime === SENTINEL_ZERO) {
-      setErrorMsg("Values are zero — cannot save history.");
-      return false;
-    }
-    if (!isValidInput(fromDateTime) || !isValidInput(toDateTime)) {
-      setErrorMsg("Please select valid From and To dates.");
-      return false;
-    }
-    const fTs = new Date(fromDateTime).getTime();
-    const tTs = new Date(toDateTime).getTime();
-    if (fTs > tTs) {
-      setErrorMsg("From must be earlier than or equal to To.");
-      return false;
-    }
-    setErrorMsg("");
-    const f = new Date(fromDateTime);
-    const t = new Date(toDateTime);
-    const item: HistoryItem = {
-      id: `${Date.now()}`,
-      fromISO: f.toISOString(),
-      toISO: t.toISOString(),
-      createdAtISO: new Date().toISOString(),
-      summary: buildDynamicSummary(diff),
-      noteTitle: notesEnabled && noteTitle ? noteTitle : undefined,
-      noteBody: notesEnabled && noteBody ? noteBody : undefined,
-    };
-    const next = clampHistory([item, ...history]);
-    setHistory(next);
-    saveHistory(next);
-    setNoticeMsg("Saved to history.");
-    return true;
-  };
-
-  const addToHistoryWithNotes = () => {
-    const ok = addToHistory();
-    if (ok) {
-      // Reset note fields immediately on successful save
-      setNotesEnabled(false);
-      setNoteTitle("");
-      setNoteBody("");
-    }
-  };
-
-  const deleteHistoryItem = (id: string) => {
-    const next = history.filter((h) => h.id !== id);
-    setHistory(next);
-    saveHistory(next);
-  };
-
-  const handleExportPDF = async () => {
-    try {
-      const mod = await import("jspdf");
-      const { jsPDF } = mod as any;
-      const doc = new jsPDF();
-      const line = (y: number, text: string) => doc.text(text, 14, y);
-
-      let y = 14;
-      doc.setFontSize(16);
-      line(y, "Date Difference Report");
-      y += 8;
-
-      doc.setFontSize(11);
-      line(y, `Generated: ${fmtDateTime(new Date().toISOString())}`);
-      y += 8;
-
-      const fValid = isValidInput(fromDateTime);
-      const tValid = isValidInput(toDateTime);
-      line(y, `From: ${fValid ? fmtDateTime(new Date(fromDateTime).toISOString()) : "—"}`);
-      y += 6;
-      line(y, `To:   ${tValid ? fmtDateTime(new Date(toDateTime).toISOString()) : "—"}`);
-      y += 8;
-
-      const summary = buildDynamicSummary(diff);
-      line(y, `Summary: ${summary}`);
-      y += 6;
-
-      line(
-        y,
-        `Totals: ${Math.abs(diff.totalDays).toLocaleString()} days | ${Math.abs(diff.totalWeeks).toLocaleString()} weeks | ${Math.abs(diff.totalHours).toLocaleString()} hours | ${Math.abs(diff.totalMinutes).toLocaleString()} minutes | ${Math.abs(diff.totalSeconds).toLocaleString()} seconds`
-      );
-      y += 10;
-
-      doc.setFontSize(13);
-      line(y, "History");
-      y += 6;
-      doc.setFontSize(10);
-
-      if (!history.length) {
-        line(y, "No saved history.");
-      } else {
-        history.forEach((h, idx) => {
-          const row = `${idx + 1}. ${fmtDateTime(h.fromISO)}  →  ${fmtDateTime(h.toISO)}   |   ${h.summary}   |   saved ${fmtDateTime(h.createdAtISO)}`;
-          if (y > 280) {
-            doc.addPage();
-            y = 14;
-          }
-          line(y, row);
-          y += 6;
-        });
-      }
-
-      doc.save("date-difference.pdf");
-    } catch (e) {
-      alert("PDF export failed. Make sure 'jspdf' is installed.");
-    }
-  };
-
-  /* -----------------------------------------------------------------------
-   * Render
-   * --------------------------------------------------------------------- */
-
+  /* ================= Render ================= */
   return (
     <>
       <SEOHead
-        title={seoData?.dateDifference?.title ?? "Date Difference Calculator: Days Between Dates (Free)"}
-        description={
-          seoData?.dateDifference?.description ??
-          "Find days between dates and exact Y/M/D/H/M/S. Private, fast, and free—live countdown, notes, and PDF export. Try the Date Difference Calculator now."
-        }
-        canonical="https://calculatorhub.site/date-difference"
-        schemaData={generateCalculatorSchema(
-          "Date Difference Calculator",
-          seoData?.dateDifference?.description ??
-            "Find days between dates and exact Y/M/D/H/M/S. Private, fast, and free—live countdown, notes, and PDF export.",
-          "/date-difference",
-          seoData?.dateDifference?.keywords ?? ["date difference", "days between dates", "countdown", "time between dates"]
-        )}
+        title={seoData.dateDifference?.title || "Date Difference Calculator – Days Between Dates"}
+        description={seoData.dateDifference?.description || "Calculate the exact difference between two dates in years, months, days and totals. Advanced options for business days and holidays."}
+        canonical="https://calculatorhub.site/date-difference-calculator"
+        schemaData={schemaArray}
         breadcrumbs={[
           { name: "Date & Time Tools", url: "/category/date-time-tools" },
-          { name: "Date Difference Calculator", url: "/date-difference" },
+          { name: "Date Difference Calculator", url: "/date-difference-calculator" }
         ]}
       />
+
       <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-      {/* JSON-LD: WebApplication */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebApplication",
-            "name": "Date Difference Calculator",
-            "url": "https://calculatorhub.site/date-difference",
-            "applicationCategory": "CalculatorApplication",
-            "operatingSystem": "Web",
-            "description": "Calculate exact time between two date-times with calendar-aware precision, live countdown, notes, and PDF export.",
-            "image": "https://calculatorhub.site/images/date-difference-hero.webp",
-            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
-          }),
-        }}
-      />
-      {/* JSON-LD: BreadcrumbList */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              { "@type": "ListItem", "position": 1, "name": "Date & Time Tools", "item": "https://calculatorhub.site/category/date-time-tools" },
-              { "@type": "ListItem", "position": 2, "name": "Date Difference Calculator", "item": "https://calculatorhub.site/date-difference" }
-            ]
-          }),
-        }}
-      />
+      <div className="min-h-screen w-full py-10">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Breadcrumbs
+            items={[
+              { name: "Date & Time Tools", url: "/category/date-time-tools" },
+              { name: "Date Difference Calculator", url: "/date-difference-calculator" },
+            ]}
+          />
 
-      <div className="max-w-5xl mx-auto px-4 md:px-6">
-        <Breadcrumbs
-          items={[
-            { name: "Date & Time Tools", url: "/category/date-time-tools" },
-            { name: "Date Difference Calculator", url: "/date-difference" },
-          ]}
-        />
+          {/* Hero */}
+          <section className="mt-6 mb-8">
+            <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-teal-300 to-blue-400 bg-clip-text text-transparent">
+              Date Difference Calculator
+            </h1>
+            <p className="mt-2 text-slate-300 max-w-2xl">
+              Find the exact time between two dates. Get years, months, days and totals. Advanced Mode lets you count business days, exclude weekends, and add holidays.
+            </p>
+          </section>
 
-        {/* Above-the-fold intro with primary variants */}
-        <header className="mb-4 md:mb-6">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg flex items-center gap-3">
-            <CalendarClock className="w-8 h-8 text-white/90" />
-            Date Difference Calculator
-          </h1>
-          <p className="text-slate-300">
-            Find <a href="/days-between-dates" className="text-blue-300 underline underline-offset-2 hover:text-blue-200">days between dates</a>, total weeks, or the exact <strong>Y/M/D/H/M/S</strong> difference.  
-            Works 100% locally in your browser, with notes, history, and PDF export. Need a simple countdown? Try the{" "}
-            <a href="/countdown-timer" className="text-blue-300 underline underline-offset-2 hover:text-blue-200">Countdown Timer</a>.
-          </p>
-
-          {/* Instant Answers / Featured Snippet bait */}
-          
-        </header>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Inputs + Actions */}
-          <section className="lg:col-span-1 bg-white rounded-lg shadow-sm border border-gray-200 p-6" aria-label="Input and actions">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Select Date &amp; Time</h2>
-
-            {noticeMsg && (
-              <div className="mb-3">
-                <InlineAlert variant="info" icon={<InfoIcon className="w-4 h-4" />}>{noticeMsg}</InlineAlert>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Inputs */}
+            <section className="rounded-2xl border border-white/10 bg-white/10 backdrop-blur-lg p-6 shadow-xl">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold text-slate-100">Date Inputs</h2>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={swapDates}
+                    type="button"
+                    className="px-3 py-1.5 rounded-xl bg-slate-900/60 text-slate-100 border border-white/10 hover:bg-slate-800 flex items-center gap-1"
+                    aria-label="Swap start and end dates"
+                  >
+                    <ArrowLeftRight className="h-4 w-4" /> Swap
+                  </button>
+                  <button
+                    onClick={handleReset}
+                    type="button"
+                    className="text-white bg-yellow-700 hover:bg-yellow-800 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-2.5 py-1.5 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800"
+                    aria-label="Reset all fields"
+                  >
+                    Reset
+                  </button>
+                </div>
               </div>
-            )}
 
-            <LabeledField label="From" htmlFor="from-datetime">
-              <div className="flex gap-1">
-                <input
-                  id="from-datetime"
-                  type="datetime-local"
-                  value={fromDateTime === SENTINEL_ZERO ? "" : fromDateTime}
-                  onChange={(e) => {
-                    const v = e.target.value || SENTINEL_ZERO;
-                    setFromDateTime(v);
-                    if (v !== SENTINEL_ZERO) enforceOrderAfterSet("from", v);
-                  }}
-                  className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  aria-invalid={fromDateTime === SENTINEL_ZERO}
-                />
-              </div>
-            </LabeledField>
-
-            <LabeledField label="To" htmlFor="to-datetime">
-              <div className="flex gap-1">
-                <input
-                  id="to-datetime"
-                  type="datetime-local"
-                  value={toDateTime === SENTINEL_ZERO ? "" : toDateTime}
-                  onChange={(e) => {
-                    const v = e.target.value || SENTINEL_ZERO;
-                    setToDateTime(v);
-                    if (v !== SENTINEL_ZERO) enforceOrderAfterSet("to", v);
-                  }}
-                  className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  aria-invalid={toDateTime === SENTINEL_ZERO}
-                />
-              </div>
-            </LabeledField>
-
-            {/* Optional notes */}
-            <div className="mt-2 mb-2">
-              <label className="inline-flex items-center gap-2 text-sm text-gray-700">
-                <input
-                  type="checkbox"
-                  className="rounded border-gray-300"
-                  checked={notesEnabled}
-                  onChange={(e) => setNotesEnabled(e.target.checked)}
-                />
-                Add reason &amp; description (optional)
-              </label>
-            </div>
-
-            {notesEnabled && (
-              <div className="space-y-3 mb-2">
+              <div className="space-y-5">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Reason / Title</label>
+                  <label htmlFor="start-date" className="block text-sm font-medium text-slate-200 mb-2">
+                    Start Date
+                  </label>
                   <input
-                    type="text"
-                    value={noteTitle}
-                    onChange={(e) => setNoteTitle(e.target.value)}
-                    placeholder="e.g., Project deadline"
-                    className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    id="start-date"
+                    type="date"
+                    value={startDate}
+                    max={clampDateISO(endDate)}
+                    onChange={(e) => setStartDate(e.target.value || isoToday())}
+                    className="w-full px-4 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
+
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                  <textarea
-                    value={noteBody}
-                    onChange={(e) => setNoteBody(e.target.value)}
-                    rows={4}
-                    placeholder="Add more details (optional)"
-                    className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  <label htmlFor="end-date" className="block text-sm font-medium text-slate-200 mb-2">
+                    End Date
+                  </label>
+                  <input
+                    id="end-date"
+                    type="date"
+                    value={endDate}
+                    min={clampDateISO(startDate)}
+                    onChange={(e) => setEndDate(e.target.value || isoToday())}
+                    className="w-full px-4 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
-              </div>
-            )}
 
-            <div className="flex flex-col sm:flex-row gap-2 mb-2">
-              <button
-                onClick={addToHistoryWithNotes}
-                className="flex-1 px-4 py-2 bg-emerald-800 text-white rounded-lg hover:bg-emerald-700 transition-colors inline-flex items-center justify-center gap-2"
-              >
-                <HistoryIcon className="w-4 h-4" /> Save to History
-              </button>
-              <button
-                onClick={() => {
-                  setFromDateTime(SENTINEL_ZERO);
-                  setToDateTime(SENTINEL_ZERO);
-                  setErrorMsg("");
-                  setNoticeMsg("");
-                }}
-                className="flex-1 px-4 py-2 bg-gray-100 text-gray-900 rounded-lg hover:bg-gray-200 transition-colors inline-flex items-center justify-center gap-2"
-              >
-                <RotateCcw className="w-4 h-4" /> Reset
-              </button>
-            </div>
+                <button
+                  type="button"
+                  onClick={() => setEndDate(isoToday())}
+                  className="w-full px-4 py-2 rounded-xl font-medium transition-colors shadow-sm bg-blue-600 text-white hover:bg-blue-500"
+                  aria-label="Set end date to today"
+                >
+                  Set End Date to Today
+                </button>
 
-            <button
-              onClick={handleExportPDF}
-              className="flex-1 w-full px-4 py-2 bg-indigo-800 text-white rounded-lg hover:bg-indigo-700 transition-colors inline-flex items-center justify-center gap-2"
-            >
-              <FileDown className="w-5 h-5" /> Export PDF
-            </button>
-
-            {errorMsg && (
-              <div className="mt-2" aria-live="assertive">
-                <InlineAlert variant="danger" icon={<AlertTriangle className="w-4 h-4" />} data-testid="error-alert">
-                  {errorMsg}
-                </InlineAlert>
-              </div>
-            )}
-          </section>
-
-          {/* Results Panel */}
-          <section className="lg:col-span-1 bg-white rounded-lg shadow-sm border border-gray-200 p-6" aria-label="Results and totals">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Time Difference</h2>
-
-            <div className="space-y-6">
-              <div className="grid md:grid-cols-1 gap-4">
-                <div className="text-center p-4 bg-blue-50 rounded-lg">
-                  <Clock className="h-8 w-8 text-blue-800 mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-gray-900" data-testid="calendar-diff">
-                    {buildDynamicSummary(diff)}
-                  </div>
-                  <div className="text-sm text-gray-800">
-                    {diff.negative ? "From date is after To date" : "Calendar difference"}
-                  </div>
-                </div>
-
-                <div className="text-center p-4 bg-slate-50 rounded-lg">
-                  <div className="text-xl font-semibold text-gray-900" data-testid="from-label">
-                    {fromDateTime === SENTINEL_ZERO ? "---" : fmtDateTime(fromDateTime)}
-                  </div>
-                  <div className="text-sm text-gray-800">
-                    From • {fromDateTime === SENTINEL_ZERO ? "---" : fromDow || "—"}
-                  </div>
-                  <div className="mt-2 text-xl font-semibold text-gray-900" data-testid="to-label">
-                    {toDateTime === SENTINEL_ZERO ? "---" : fmtDateTime(toDateTime)}
-                  </div>
-                  <div className="text-sm text-gray-800">
-                    To • {toDateTime === SENTINEL_ZERO ? "---" : toDow || "—"}
-                  </div>
-                </div>
-              </div>
-
-              {isValidInput(fromDateTime) && isValidInput(toDateTime) && (
-                <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
-                  <StatCard label="Total Days" value={abs(diff.totalDays).toLocaleString()} className="bg-green-50 border-green-200" />
-                  <StatCard label="Total Weeks" value={abs(diff.totalWeeks).toLocaleString()} className="bg-yellow-50 border-yellow-200" />
-                  <StatCard label="Total Hours" value={abs(diff.totalHours).toLocaleString()} className="bg-purple-50 border-purple-200" />
-                  <StatCard label="Total Minutes" value={abs(diff.totalMinutes).toLocaleString()} className="bg-red-50 border-red-200" />
-                </div>
-              )}
-
-              {countdownActive && (
-                <div className="p-5 rounded-xl bg-indigo-50 border border-indigo-200">
-                  <div className="text-sm text-indigo-700">Live Countdown to the “To” date</div>
-                  <div className="mt-2 text-3xl font-bold text-indigo-900 tracking-wide" data-testid="countdown">
-                    {countdownText}
-                  </div>
-                </div>
-              )}
-            </div>
-          </section>
-        </div>
-
-        {/* History List */}
-        <section className="mt-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6" aria-label="Saved history">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-gray-900 inline-flex items-center gap-2">
-              <HistoryIcon className="w-5 h-5" /> History
-            </h2>
-            <div className="flex items-center gap-2">
-              <InlineAlert variant="success" icon={<CheckCircle2 className="w-4 h-4" />} className="hidden md:flex">
-                Saved items keep a live countdown.
-              </InlineAlert>
-              <button
-                onClick={() => {
-                  setHistory([]);
-                  saveHistory([]);
-                }}
-                className="px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm"
-              >
-                Clear
-              </button>
-            </div>
-          </div>
-
-          {history.length === 0 ? (
-            <div className="text-gray-800">No history yet. Click “Save to History” after a calculation.</div>
-          ) : (
-            <div className="space-y-2">
-              {history.map((h) => {
-                const hc = findHistoryCountdown(h.id);
-                const done = hc?.complete ?? false;
-                return (
-                  <HistoryRow
-                    key={h.id}
-                    item={h}
-                    countdownLabel={hc?.label ?? "0s"}
-                    completed={done}
-                    onEdit={() => {
-                      const from = new Date(h.fromISO);
-                      const to = new Date(h.toISO);
-                      setFromDateTime(toLocalDateTimeValue(from));
-                      setToDateTime(toLocalDateTimeValue(to));
-                      if (typeof window !== "undefined") {
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                      }
-                    }}
-                    onDelete={() => deleteHistoryItem(h.id)}
-                    onInfo={(item) => {
-                      setModalTitle(item.noteTitle || "Details");
-                      setModalBody(item.noteBody || "");
-                      setModalOpen(true);
-                    }}
-                  />
-                );
-              })}
-            </div>
-          )}
-        </section>
-
-        {/* Trust & About snippet */}
-        <div className="rounded-2xl p-6 mb-8 bg-slate-800/50 mt-8 text-slate-300">
-          <h2 className="text-2xl font-bold text-white mb-2">About This Date Difference Calculator</h2>
-          <p className="mb-2">
-            Fast, private, and accurate — this calculator runs <strong>100% locally in your browser</strong> and never uploads your data.
-            Instantly find the exact time between two date-times with calendar-aware precision (years, months, days, hours, minutes, seconds).
-            For quick conversions, try the <a href="/unix-timestamp-converter" className="text-blue-300 underline hover:text-blue-200">Unix Timestamp Converter</a>.
-          </p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            <span className="inline-flex items-center rounded-full bg-green-600/20 px-3 py-1 text-xs text-green-300 ring-1 ring-green-600/40">📅 Calendar-aware math</span>
-            <span className="inline-flex items-center rounded-full bg-blue-600/20 px-3 py-1 text-xs text-blue-300 ring-1 ring-blue-600/40">🔒 No tracking</span>
-            <span className="inline-flex items-center rounded-full bg-yellow-600/20 px-3 py-1 text-xs text-yellow-300 ring-1 ring-yellow-600/40">⚡ Real-time countdown</span>
-            <span className="inline-flex items-center rounded-full bg-purple-600/20 px-3 py-1 text-xs text-purple-300 ring-1 ring-purple-600/40">📝 Notes &amp; History</span>
-          </div>
-        </div>
-
-        <div className="rounded-2xl p-8 mb-8">
-          <h2 className="text-3xl font-bold text-white mb-4">Date Difference Calculator – Find Days, Weeks, or Exact Time Between Dates</h2>
-          <div className="space-y-4 text-slate-300">
-            <p>
-              Planning a project, tracking deadlines, or counting down to an event? This <strong>Date Difference Calculator</strong> gives you precise
-              results in real time — from total days and weeks to a <strong>dynamic calendar breakdown</strong> (years, months, days, hours, minutes, seconds).
-              It also includes a <strong>live countdown</strong> when your “To” date is in the future. For adding hours/minutes quickly, see{" "}
-              <a href="/time-add-subtract" className="text-blue-300 underline hover:text-blue-200">Time Add/Subtract</a>.
-            </p>
-
-            {/* Image 1 (add width/height to minimize CLS) */}
-            <figure className="rounded-xl overflow-hidden border border-slate-700/50">
-              <img
-                src="/images/date-difference-hero.webp"
-                width="1600"
-                height="900"
-                alt="Date Difference Calculator interface with inputs and dynamic results"
-                loading="lazy"
-                className="w-full h-auto object-cover"
-              />
-              <figcaption className="px-3 py-2 text-sm text-slate-400">Calculate the exact time between two dates — including totals and a live countdown.</figcaption>
-            </figure>
-
-            <p>
-              Enter your <strong>From</strong> and <strong>To</strong> dates/times, optionally add a note (title + description), and save the entry.
-              Your history is stored locally, and you can export a clean PDF report for sharing or record-keeping.  
-              Want to calculate birthdays or tenure? Use our <a href="/age-calculator" className="text-blue-300 underline hover:text-blue-200">Age Calculator</a>.
-            </p>
-
-            <AdBanner type="bottom" />
-
-            <h3 className="text-2xl font-semibold text-white mt-6">Why Use a Date Difference Calculator?</h3>
-            <ul className="list-disc list-inside space-y-2 ml-4">
-              <li><strong>Accurate Planning</strong> – Schedule sprints, product launches, or study plans with exact durations.</li>
-              <li><strong>Event Tracking</strong> – Count down to weddings, trips, exams, or holidays precisely.</li>
-              <li><strong>Work &amp; Payroll</strong> – Calculate days/hours between shifts or billing milestones.</li>
-              <li><strong>Personal Goals</strong> – Track streaks, habits, and progress over time.</li>
-            </ul>
-
-            {/* Image 2 */}
-            <figure className="rounded-xl overflow-hidden border border-slate-700/50">
-              <img
-                src="/images/calendar-countdown.webp"
-                width="1600"
-                height="900"
-                alt="Calendar with highlight and countdown overlay"
-                loading="lazy"
-                className="w-full h-auto object-cover"
-              />
-              <figcaption className="px-3 py-2 text-sm text-slate-400">See totals in days/weeks and a clean calendar-style breakdown.</figcaption>
-            </figure>
-
-            <h3 className="text-2xl font-semibold text-white mt-6">Key Features</h3>
-            <ul className="list-disc list-inside space-y-2 ml-4">
-              <li><strong>Calendar-aware difference</strong> – Handles months of different lengths correctly.</li>
-              <li><strong>Totals at a glance</strong> – Days, weeks, hours, minutes, and seconds.</li>
-              <li><strong>Live countdown</strong> – Only shown when the “To” date is valid and in the future.</li>
-              <li><strong>Notes &amp; History</strong> – Add a reason and description; view notes via a mobile-friendly modal.</li>
-              <li><strong>Privacy by design</strong> – All calculations happen in your browser.</li>
-              <li><strong>PDF export</strong> – Share or archive your results in one click.</li>
-            </ul>
-
-            {/* Helpful internal backlinks (3–4) */}
-            <section className="bg-slate-800/50 rounded-lg p-6 mt-8 text-slate-300">
-              <h3 className="text-xl font-semibold text-white mb-3">More Date &amp; Time Tools</h3>
-              <ul className="list-disc list-inside space-y-1">
-                <li><a href="/age-calculator" className="text-blue-400 hover:underline">Age Calculator</a> – Find exact age in years, months, and days.</li>
-                <li><a href="/time-add-subtract" className="text-blue-400 hover:underline">Time Add/Subtract</a> – Add or subtract hours, minutes, or days.</li>
-                <li><a href="/countdown-timer" className="text-blue-400 hover:underline">Countdown Timer</a> – Create a real-time countdown for any event.</li>
-                <li><a href="/unix-timestamp-converter" className="text-blue-400 hover:underline">Unix Timestamp Converter</a> – Convert between dates and epoch time.</li>
-              </ul>
-            </section>
-
-            {/* FAQ – 7 items, visible content */}
-            <section className="space-y-4">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                ❓ Frequently Asked Questions (<span className="text-yellow-300"> FAQ </span>)
-              </h2>
-
-              <div className="space-y-4 text-lg text-slate-100 leading-relaxed">
-                {/* Q1 */}
-                <div>
-                  <div className="bg-slate-800/60 p-4 mt-3 rounded-lg">
-                    <h3 className="font-semibold text-xl">
-                      <span className="text-yellow-300">Q1</span>: How does the Date Difference Calculator work?
-                    </h3>
-                    <p>
-                      Enter a <strong>From</strong> date/time and a <strong>To</strong> date/time. The tool calculates the exact difference with
-                      calendar awareness (years, months, days) and shows totals (days, weeks, hours, minutes, seconds). If the “To” date is in the future,
-                      you’ll also see a live countdown.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Q2 */}
-                <div>
-                  <div className="bg-slate-800/60 p-4 mt-3 rounded-lg">
-                    <h3 className="font-semibold text-xl">
-                      <span className="text-yellow-300">Q2</span>: Why do I see “From must be earlier than or equal to To”?
-                    </h3>
-                    <p>
-                      The calculator enforces logical ordering to keep results accurate. If you set <strong>From</strong> after <strong>To</strong>,
-                      it auto-aligns or shows a message so your range always remains valid (From ≤ To).
-                    </p>
-                  </div>
-                </div>
-
-                {/* Q3 */}
-                <div>
-                  <div className="bg-slate-800/60 p-4 mt-3 rounded-lg">
-                    <h3 className="font-semibold text-xl">
-                      <span className="text-yellow-300">Q3</span>: When does the countdown appear or hide?
-                    </h3>
-                    <p>
-                      The countdown appears only when your <strong>To</strong> date is valid and still in the future. Once the target time is reached,
-                      the countdown hides automatically and completed items in history show “Completed” instead of a ticking timer.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Q4 */}
-                <div>
-                  <div className="bg-slate-800/60 p-4 mt-3 rounded-lg">
-                    <h3 className="font-semibold text-xl">
-                      <span className="text-yellow-300">Q4</span>: Does it handle different month lengths and leap years?
-                    </h3>
-                    <p>
-                      Yes. The calendar-aware logic borrows days between months and respects varying month lengths and leap years,
-                      so year/month/day breakdowns are realistic, not just simple totals.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Q5 */}
-                <div>
-                  <div className="bg-slate-800/60 p-4 mt-3 rounded-lg">
-                    <h3 className="font-semibold text-xl">
-                      <span className="text-yellow-300">Q5</span>: Can I add notes or descriptions to a calculation?
-                    </h3>
-                    <p>
-                      Enable the <strong>“Add reason &amp; description (optional)”</strong> checkbox to reveal note fields.
-                      When you save to history, those notes are stored and can be viewed later via the <strong>Info</strong> (ⓘ) button in each history row.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Q6 */}
-                <div>
-                  <div className="bg-slate-800/60 p-4 mt-3 rounded-lg">
-                    <h3 className="font-semibold text-xl">
-                      <span className="text-yellow-300">Q6</span>: Is my data private? Do you upload anything to a server?
-                    </h3>
-                    <p>
-                      Your data stays on your device. Calculations are performed <strong>100% locally in your browser</strong>.
-                      History is stored in your local storage, and you can clear it anytime. No tracking, no uploads.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Q7 */}
-                <div>
-                  <div className="bg-slate-800/60 p-4 mt-3 rounded-lg">
-                    <h3 className="font-semibold text-xl">
-                      <span className="text-yellow-300">Q7</span>: Can I export results or share them?
-                    </h3>
-                    <p>
-                      Yes. Use the <strong>Export PDF</strong> button to generate a clean report including your input dates,
-                      dynamic summary, totals, and a history table (with timestamps). It’s ideal for planning, reporting, or record-keeping.
-                    </p>
-                  </div>
-                </div>
+                {error && (
+                  <p className="text-sm text-red-400" role="alert">
+                    {error}
+                  </p>
+                )}
               </div>
             </section>
 
-            {/* FAQ SCHEMA – 7 items matching visible content */}
-            <script
-              type="application/ld+json"
-              dangerouslySetInnerHTML={{
-                __html: JSON.stringify({
-                  "@context": "https://schema.org",
-                  "@type": "FAQPage",
-                  "mainEntity": [
-                    {
-                      "@type": "Question",
-                      "name": "How does the Date Difference Calculator work?",
-                      "acceptedAnswer": { "@type": "Answer", "text": "Enter From and To date-times to see calendar-aware differences and totals. A live countdown appears if the To date is in the future." }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Why do I see 'From must be earlier than or equal to To'?",
-                      "acceptedAnswer": { "@type": "Answer", "text": "The tool enforces From ≤ To to keep results accurate. If needed, it aligns inputs automatically." }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "When does the countdown appear or hide?",
-                      "acceptedAnswer": { "@type": "Answer", "text": "Only when the To date is valid and still in the future. It hides automatically after completion." }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Does it handle different month lengths and leap years?",
-                      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The calculator is calendar-aware and accounts for variable month lengths and leap years." }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Can I add notes or descriptions to a calculation?",
-                      "acceptedAnswer": { "@type": "Answer", "text": "Enable the optional notes fields. Saved notes are visible from the Info button in history." }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Is my data private? Do you upload anything to a server?",
-                      "acceptedAnswer": { "@type": "Answer", "text": "All calculations run locally in your browser. History stays on your device and can be cleared anytime." }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Can I export results or share them?",
-                      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Use Export PDF to generate a report with inputs, summary, totals, and saved history." }
-                    }
-                  ]
-                })
-              }}
-            />
+            {/* Results */}
+            <section className="rounded-2xl border border-white/10 bg-white/10 backdrop-blur-lg p-6 shadow-xl">
+              <h2 className="text-xl font-semibold text-slate-100 mb-4">Difference Results</h2>
 
-            <p className="mt-4">
-              Use this <strong>Date Difference Calculator</strong> to plan confidently — from personal events to professional projects.
-              It’s simple, accurate, and private by design.
-            </p>
+              <div className="space-y-6">
+                <div className="text-center p-4 rounded-XL bg-blue-500/10 border border-blue-400/20">
+                  <CalendarDays className="h-8 w-8 text-blue-300 mx-auto mb-2" aria-hidden="true" />
+                  <div className="text-2xl font-bold text-slate-100">
+                    {diff.years} years, {diff.months} months, {diff.days} days
+                  </div>
+                  <div className="text-sm text-slate-300">Exact Difference</div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-4 rounded-xl text-center bg-emerald-500/10 border border-emerald-400/20">
+                    <div className="text-xl font-semibold text-slate-100">{compactNumber(diff.totalDays)}</div>
+                    <div className="text-sm text-slate-300">Total Days</div>
+                  </div>
+                  <div className="p-4 rounded-xl text-center bg-amber-500/10 border border-amber-400/20">
+                    <div className="text-xl font-semibold text-slate-100">{compactNumber(diff.totalWeeks)}</div>
+                    <div className="text-sm text-slate-300">Total Weeks</div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-4 rounded-xl text-center bg-violet-500/10 border border-violet-400/20">
+                    <div className="text-xl font-semibold text-slate-100">{compactNumber(diff.totalMonths)}</div>
+                    <div className="text-sm text-slate-300">Total Months</div>
+                  </div>
+                  <div className="p-4 rounded-xl text-center bg-rose-500/10 border border-rose-400/20">
+                    <div className="text-xl font-semibold text-slate-100">{compactNumber(diff.totalHours)}</div>
+                    <div className="text-sm text-slate-300">Total Hours</div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="p-4 rounded-xl text-center bg-orange-500/10 border border-orange-400/20">
+                    <div className="text-xl font-semibold text-slate-100">{compactNumber(diff.totalMinutes)}</div>
+                    <div className="text-sm text-slate-300">Total Minutes</div>
+                  </div>
+                  <div className="p-4 rounded-xl text-center bg-sky-500/10 border border-sky-400/20">
+                    <div className="text-xl font-semibold text-slate-100">{compactNumber(diff.totalSeconds)}</div>
+                    <div className="text-sm text-slate-300">Total Seconds</div>
+                  </div>
+                  <div className="p-4 rounded-xl text-center bg-slate-500/10 border border-slate-400/20">
+                    <div className="text-xl font-semibold text-slate-100">{diff.years}</div>
+                    <div className="text-sm text-slate-300">Years (whole)</div>
+                  </div>
+                </div>
+
+                {advanced && typeof diff.businessDays === "number" && (
+                  <div className="p-4 rounded-xl text-center bg-teal-500/10 border border-teal-400/20">
+                    <div className="text-xl font-semibold text-slate-100">{compactNumber(diff.businessDays)}</div>
+                    <div className="text-sm text-slate-300">Business Days</div>
+                  </div>
+                )}
+
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={handleCopy}
+                    className="px-3 py-2 rounded-xl bg-teal-600 text-white hover:bg-teal-500 transition-colors shadow-sm"
+                    aria-live="polite"
+                  >
+                    {copied ? "Copied!" : "Copy"}
+                  </button>
+                  {copied && <span className="text-teal-300 text-sm">Summary copied to clipboard</span>}
+                </div>
+              </div>
+            </section>
           </div>
-        </div>
 
-        <AdBanner type="bottom" />
+          {/* Advanced Mode */}
+          <section className="mt-8 rounded-2xl border border-white/10 bg-white/10 backdrop-blur-lg shadow-xl overflow-hidden">
+            <div className="p-6">
+              <div className="flex items-center justify-between gap-4 mb-4">
+                <h2 className="text-xl font-semibold text-slate-100">Advanced Mode</h2>
+                <button
+                  onClick={() => setAdvanced(!advanced)}
+                  className="px-4 py-2 rounded-xl bg-slate-900/60 text-slate-100 hover:bg-slate-800 transition-colors border border-white/10"
+                >
+                  {advanced ? "Hide Advanced Mode" : "Show Advanced Mode"}
+                </button>
+              </div>
 
-        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
-          <div className="flex items-center gap-3">
-            <img
-              src="/images/calculatorhub-author.webp"
-              width="96"
-              height="96"
-              alt="CalculatorHub Security Tools Team"
-              className="w-12 h-12 rounded-full border border-gray-600"
-              loading="lazy"
-            />
-            <div>
-              <p className="font-semibold text-white">Written by the CalculatorHub Security Tools Team</p>
-              <p className="text-sm text-slate-400">
-                Experts in web utilities and calculators. Last updated: <time dateTime="2025-10-10">October 10, 2025</time>.
-              </p>
+              {advanced && (
+                <div className="space-y-6 transition-all duration-300 ease-out">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-slate-200 mb-1 flex items-center gap-1">
+                        Include Start Day <Info className="h-3.5 w-3.5 text-slate-400" />
+                      </label>
+                      <select
+                        className="w-full px-3 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        value={includeStart ? "yes" : "no"}
+                        onChange={(e) => setIncludeStart(e.target.value === "yes")}
+                      >
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-200 mb-1 flex items-center gap-1">
+                        Include End Day <Info className="h-3.5 w-3.5 text-slate-400" />
+                      </label>
+                      <select
+                        className="w-full px-3 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        value={includeEnd ? "yes" : "no"}
+                        onChange={(e) => setIncludeEnd(e.target.value === "yes")}
+                      >
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-200 mb-1">
+                        Exclude Weekends (Business Days)
+                      </label>
+                      <select
+                        className="w-full px-3 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        value={excludeWeekends ? "yes" : "no"}
+                        onChange={(e) => setExcludeWeekends(e.target.value === "yes")}
+                      >
+                        <option value="no">No</option>
+                        <option value="yes">Yes</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-slate-200 mb-1">Custom Holidays (YYYY-MM-DD, comma/line separated)</label>
+                    <textarea
+                      rows={3}
+                      className="w-full px-3 py-2 rounded-xl bg-slate-900/40 text-slate-100 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="2025-01-01, 2025-02-21\n2025-12-25"
+                      value={holidayText}
+                      onChange={(e) => setHolidayText(e.target.value)}
+                    />
+                    <p className="text-xs text-slate-400 mt-1">We only match exact dates in YYYY-MM-DD format.</p>
+                  </div>
+
+                  {/* Progress if end is in future */}
+                  {new Date(endDate).getTime() > Date.now() && (
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      <div className="p-4 rounded-xl border border-white/10 bg-slate-900/40">
+                        <h3 className="font-semibold text-slate-200 mb-2">⏳ Time Until End</h3>
+                        <LiveCountdown startISO={startDate} endISO={endDate} />
+                        <p className="text-sm text-slate-300 mt-2">
+                          End date is in the future. The countdown updates every second.
+                        </p>
+                      </div>
+
+                      <div className="p-4 rounded-xl border border-white/10 bg-slate-900/40">
+                        <h3 className="font-semibold text-slate-200 mb-2">📈 Interval Progress</h3>
+                        <div className="w-full bg-slate-700 rounded-full h-3 overflow-hidden">
+                          <div className="h-3 bg-gradient-to-r from-teal-400 to-blue-500" style={{ width: `${percentElapsed.toFixed(2)}%` }} />
+                        </div>
+                        <div className="mt-2 text-sm text-slate-300">
+                          Elapsed: <strong className="text-slate-100">{percentElapsed.toFixed(2)}%</strong> &nbsp;|&nbsp; Remaining: <strong className="text-slate-100">{(100 - percentElapsed).toFixed(2)}%</strong>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
-          </div>
-        </section>
+          </section>
 
-        <RelatedCalculators currentPath="/date-difference" category="date-time-tools" />
+          {/* Extras */}
+          <Suspense fallback={null}>
+            <div className="my-8">
+              <AdBanner type="bottom" />
+            </div>
+            <RelatedCalculators currentPath="/date-difference-calculator" category="date-time-tools" />
+          </Suspense>
 
-        {/* Details Modal */}
-        <InlineModal
-          open={modalOpen}
-          title={modalTitle}
-          description={modalBody}
-          onClose={() => setModalOpen(false)}
-        />
+          {/* SEO Content Section (brief) */}
+          <section className="mt-5">
+            <h2 className="text-3xl md:text-4xl text-white"><strong>What is a Date Difference Calculator?</strong></h2>
+            <p className="text-slate-300 py-3 leading-relaxed">
+              It measures the exact time between two dates in calendar units and totals. Use Advanced Mode for business-day counts and custom holidays.
+            </p>
 
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+              <div className="p-4 bg-blue-500/10 border border-blue-400/20 rounded-xl text-center">
+                <h3 className="text-lg font-semibold text-blue-300 mb-1">📅 Calendar Diff</h3>
+                <p className="text-slate-300 text-sm">Accurate Y/M/D difference with leap-year handling.</p>
+              </div>
+              <div className="p-4 bg-teal-500/10 border border-teal-400/20 rounded-xl text-center">
+                <h3 className="text-lg font-semibold text-teal-300 mb-1">🏢 Business Days</h3>
+                <p className="text-slate-300 text-sm">Exclude weekends and your custom holidays.</p>
+              </div>
+              <div className="p-4 bg-amber-500/10 border border-amber-400/20 rounded-xl text-center">
+                <h3 className="text-lg font-semibold text-amber-300 mb-1">⏱️ Totals</h3>
+                <p className="text-slate-300 text-sm">Days, weeks, months, hours, minutes, seconds.</p>
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
     </>
   );
 };
 
-export default DateDifferencePro;
+/* ================= Small Live Countdown ================= */
+const LiveCountdown: React.FC<{ startISO: string; endISO: string }> = ({ endISO }) => {
+  const [tick, setTick] = useState<number>(Date.now());
+  useEffect(() => { const id = setInterval(() => setTick(Date.now()), 1000); return () => clearInterval(id); }, []);
+  const end = new Date(endISO);
+  const now = new Date(tick);
+  let msLeft = Math.max(0, end.getTime() - now.getTime());
+  const seconds = Math.floor(msLeft / 1000) % 60;
+  const minutes = Math.floor(msLeft / (1000 * 60)) % 60;
+  const hours = Math.floor(msLeft / (1000 * 60 * 60)) % 24;
+  const days = Math.floor(msLeft / (1000 * 60 * 60 * 24));
+  return (
+    <div className="font-mono text-2xl font-bold text-teal-300 flex items-center gap-2">
+      <Clock3 className="h-6 w-6" /> {days}d {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
+    </div>
+  );
+};
+
+export default DateDifferenceCalculator;
