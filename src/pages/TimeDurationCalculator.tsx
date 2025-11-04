@@ -373,7 +373,7 @@ const TimeDurationCalculator: React.FC = () => {
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
           items={[
-            { name: "Utilities", url: "/category/utilities" },
+            { name: "Date & Time Tools", url: "/category/date-time-tools" },
             { name: "Time Duration Calculator", url: "/time-duration-calculator" },
           ]}
         />
@@ -526,11 +526,11 @@ const TimeDurationCalculator: React.FC = () => {
                         onChange={(ev) => updateExtra(e.id, { sign: (parseInt(ev.target.value) as 1 | -1) })}
                         className="w-full bg-[#0b1220] text-white text-xs px-2 py-1 border border-[#334155] rounded-md"
                       >
-                        <option value={1}>+ Add</option>
-                        <option value={-1}>− Sub</option>
+                        <option value={1}>Add</option>
+                        <option value={-1}>Sub</option>
                       </select>
                     </div>
-                    <div className="col-span-3">
+                    <div className="col-span-2">
                       <input
                         value={e.label}
                         onChange={(ev) => updateExtra(e.id, { label: ev.target.value })}
@@ -573,9 +573,16 @@ const TimeDurationCalculator: React.FC = () => {
                     <div className="col-span-1 text-right">
                       <button
                         onClick={() => removeExtra(e.id)}
-                        className="inline-flex items-center gap-1 text-xs text-slate-300 border border-[#334155] rounded px-2 py-1 hover:text-white hover:bg-[#0f172a]"
+                        title="Remove item"
+                        aria-label="Remove item"
+                        className="inline-flex items-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium
+                                   border border-red-400/60 text-red-300
+                                   hover:text-white hover:bg-red-600 hover:border-red-600
+                                   active:bg-red-700
+                                   focus:outline-none focus:ring-2 focus:ring-red-400/60
+                                   transition"
                       >
-                        <Minus className="h-3 w-3" /> Remove
+                        <Minus className="h-3 w-3" />
                       </button>
                     </div>
                   </div>
