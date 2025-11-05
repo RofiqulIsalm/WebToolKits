@@ -701,46 +701,177 @@ const CompoundInterestCalculator: React.FC = () => {
               This <strong>compound interest calculator website</strong> eliminates manual math and helps users see how even small contributions can turn into significant savings over time.
             </p>
           
-              {/* How to calculate */}
-              <h2 id="how-to-calculate" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-                How to Calculate Compound Interest (Formula & Step-by-Step)
+           {/* How to calculate */}
+          {principal > 0 && rate > 0 && (timeData.years + timeData.months + timeData.days) > 0 && (
+            <section className="mt-10">
+              <h2 id="ci-how-calculated" className="text-2xl font-semibold text-cyan-300 mb-4">
+                🧮 How Compound Interest Is Calculated (Step-by-Step)
               </h2>
-              <p>The standard formula without additional contributions is:</p>
-              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 not-prose">
-                <pre className="bg-transparent text-slate-200 whitespace-pre-wrap text-[14px] md:text-[15px]">
-            A = P × (1 + r/n)^(n × t)
-                </pre>
-                <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 mt-2 text-sm">
-                  <div className="bg-[#0f172a] rounded-md px-3 py-2"><span className="text-emerald-300 font-semibold">P</span> = Principal</div>
-                  <div className="bg-[#0f172a] rounded-md px-3 py-2"><span className="text-amber-300 font-semibold">r</span> = Annual rate (decimal)</div>
-                  <div className="bg-[#0f172a] rounded-md px-3 py-2"><span className="text-sky-300 font-semibold">n</span> = Compounds/year</div>
-                  <div className="bg-[#0f172a] rounded-md px-3 py-2"><span className="text-fuchsia-300 font-semibold">t</span> = Time (years)</div>
-                </div>
-              </div>
-            
-              <div className="mt-5">
-                <h3 className="text-xl font-semibold text-emerald-300 mb-2">Step-by-Step</h3>
-                <ol className="list-decimal list-inside space-y-1">
-                  <li>Convert percentage to decimal: <code className="text-cyan-300">r = APR ÷ 100</code></li>
-                  <li>Pick compounding frequency: <code className="text-cyan-300">n = 1, 4, 12, 365…</code></li>
-                  <li>Compute factor: <code className="text-cyan-300">(1 + r/n)^(n×t)</code></li>
-                  <li>Multiply by <code className="text-cyan-300">P</code> to get <code className="text-cyan-300">A</code></li>
-                  <li>Interest earned: <code className="text-cyan-300">A − P</code></li>
-                </ol>
-              </div>
-            
-              {/* Dynamic step-by-step (if your component exists) */}
-              {typeof CompoundInterestStepByStep !== "undefined" && (
-                <div className="mt-4">
-                  <CompoundInterestStepByStep
-                    principal={typeof principal !== "undefined" ? principal : 0}
-                    rate={typeof rate !== "undefined" ? rate : 0}
-                    rateUnit={typeof rateUnit !== "undefined" ? rateUnit : "APR"}
-                    timeData={typeof timeData !== "undefined" ? timeData : { years: 0, months: 0 }}
-                    finalAmount={typeof finalAmount !== "undefined" ? finalAmount : 0}
-                  />
-                </div>
-              )}
+          
+              {(() => { 
+                // ---------- Inputs ----------
+                const P = Number(principal) || 0;
+                const aprOrUnitRate = Number(rate) || 0; // % in the chosen unit
+                const totalDays = (timeData.years || 0) * 365 + (timeData.months || 0) * 30 + (timeData.days || 0);
+          
+                // Map unit → "period length (days)" used for the clean step math
+                const PERIOD_DAYS = {
+                  daily: 1,
+                  weekly: 7,
+                  monthly: 30,
+                  quarterly: 90,
+                  yearly: 365,
+                  custom: Math.max(0, (customRate.years || 0) * 365 + (customRate.months || 0) * 30 + (customRate.days || 0)),
+                } as const;
+          
+                const periodDays =
+                  rateUnit === 'custom'
+                    ? PERIOD_DAYS.custom || 0
+                    : PERIOD_DAYS[rateUnit as keyof typeof PERIOD_DAYS];
+          
+                // i = per-period rate (decimal)
+                // - For standard units we treat entered % as "per that unit".
+                // - For custom, we treat entered % as "per custom interval".
+                const i = (aprOrUnitRate / 100);
+          
+                // N = number of periods
+                // - For custom: how many whole custom intervals fit in totalDays
+                // - For others: how many full unit periods fit in totalDays
+                const N = periodDays > 0 ? Math.floor(totalDays / periodDays) : 0;
+          
+                // If user picked a unit but the duration doesn't complete even 1 full period,
+                // fall back to 1 period for a clearer step (matches intuition).
+                const effectiveN = N > 0 ? N : 1;
+          
+                // Core math (closed-form, not the daily simulation)
+                const onePlusI = 1 + i;
+                const pow = Math.pow(onePlusI, effectiveN);
+                const A_formula = P * pow; // A = P*(1+i)^N
+                const interestOnly = A_formula - P;
+          
+                // For your "live line" printing
+                const money = (v: number) =>
+                  (isFinite(v) ? v : 0).toLocaleString(undefined, { maximumFractionDigits: 2 });
+                const dec = (v: number, d = 8) =>
+                  isFinite(v) ? v.toFixed(d) : '—';
+          
+                // Friendly labels
+                const unitLabel = {
+                  daily: 'day',
+                  weekly: 'week',
+                  monthly: 'month',
+                  quarterly: 'quarter',
+                  yearly: 'year',
+                  custom: 'custom period',
+                }[rateUnit];
+          
+                // Also show the per-day model your simulator uses (for transparency)
+                const i_day = (getDailyRate || 0);           // daily decimal rate from your memo
+                const N_day = totalDays;                      // days
+                const A_dailyModel = P * Math.pow(1 + i_day, Math.max(0, N_day)); // P*(1+i_day)^days
+          
+                const delta = Math.abs(A_dailyModel - A_formula);
+          
+                return (
+                  <div className="relative rounded-2xl bg-gradient-to-br from-slate-800/90 via-slate-900/90 to-[#0b1220]/90 p-4 sm:p-6 ring-1 ring-indigo-500/30 shadow-xl">
+                    {/* top glow */}
+                    <div className="pointer-events-none absolute inset-x-0 -top-0.5 h-0.5 bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-emerald-500 opacity-60" />
+          
+                    {/* Quick formula */}
+                    <p className="mb-4 text-center font-mono text-[15px] leading-7 text-indigo-300">
+                      A = <span className="text-sky-300">P × (1 + i)<sup>N</sup></span>
+                    </p>
+          
+                    {/* Inputs row */}
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 mb-4">
+                      <div className="flex flex-wrap justify-between items-center gap-1 sm:gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-cyan-500/20">
+                        <span className="font-semibold text-cyan-300">P</span>
+                        <span className="text-slate-300">Principal</span>
+                        <span className="font-semibold text-white truncate">${money(P)}</span>
+                      </div>
+                      <div className="flex flex-wrap justify-between items-center gap-1 sm:gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-amber-500/20">
+                        <span className="font-semibold text-amber-300">i</span>
+                        <span className="text-slate-300">Rate / {unitLabel}</span>
+                        <span className="font-semibold text-white truncate">{dec(i, 8)}</span>
+                      </div>
+                      <div className="flex flex-wrap justify-between items-center gap-1 sm:gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-fuchsia-500/20">
+                        <span className="font-semibold text-fuchsia-300">N</span>
+                        <span className="text-slate-300"># of {unitLabel}s</span>
+                        <span className="font-semibold text-white truncate">{effectiveN}</span>
+                      </div>
+                    </div>
+          
+                    <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+          
+                    {/* Step details (live math) */}
+                    <div className="space-y-2 font-mono break-words text-slate-200 text-[13.5px] sm:text-sm">
+                      <div className="flex flex-wrap justify-between">
+                        <span className="font-semibold text-indigo-300">(1 + i)</span>
+                        <span className="text-white">{dec(onePlusI, 9)}</span>
+                      </div>
+          
+                      <div className="flex flex-wrap justify-between">
+                        <span className="font-semibold text-rose-300">(1 + i)<sup>N</sup></span>
+                        <span className="text-white">{dec(pow, 9)}</span>
+                      </div>
+          
+                      <div className="flex flex-wrap justify-between">
+                        <span className="font-semibold text-emerald-300">P × (1 + i)<sup>N</sup></span>
+                        <span className="text-white">${money(A_formula)}</span>
+                      </div>
+          
+                      <div className="flex flex-wrap justify-between">
+                        <span className="font-semibold text-sky-300">Interest (A − P)</span>
+                        <span className="text-white">${money(interestOnly)}</span>
+                      </div>
+                    </div>
+          
+                    <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+          
+                    {/* Pretty equation print (your requested lines) */}
+                    <p className="mb-2 text-slate-300">Pretty equation with your numbers:</p>
+                    <pre className="bg-slate-900/70 p-4 rounded-lg overflow-x-auto text-[13px] border border-slate-700">
+                      <code>{[
+          `A = P × (1 + i)^N`,
+          `A = ${Number(P).toLocaleString()} × (1 + ${dec(i, 8)})^${effectiveN}`,
+          `A = ${Number(P).toLocaleString()} × ${dec(pow, 9)}`,
+          `A = ${Number(A_formula).toLocaleString(undefined, { maximumFractionDigits: 2 })}`
+          ].join('\n')}</code>
+                    </pre>
+          
+                    {/* Final cards */}
+                    <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-center">
+                        <div className="text-emerald-300 text-xs uppercase">Final Amount (A)</div>
+                        <div className="font-semibold text-white">${money(A_formula)}</div>
+                      </div>
+                      <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-center">
+                        <div className="text-amber-300 text-xs uppercase">Interest Earned</div>
+                        <div className="font-semibold text-white">${money(interestOnly)}</div>
+                      </div>
+                      <div className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-center">
+                        <div className="text-sky-300 text-xs uppercase">Shown Unit</div>
+                        <div className="font-semibold text-white capitalize">{unitLabel}</div>
+                      </div>
+                    </div>
+          
+                    {/* Note about simulator vs closed-form */}
+                    {Number.isFinite(A_dailyModel) && delta > 0.005 && (
+                      <p className="mt-3 text-xs text-amber-300">
+                        Note: The on-page simulator compounds using a per-day model (
+                        <span className="font-mono">A = P × (1 + i<sub>day</sub>)<sup>days</sup></span>) for smooth growth,
+                        while this step section shows the clean per-{unitLabel} formula. Small differences are due to
+                        rounding and partial periods.
+                      </p>
+                    )}
+                  </div>
+                );
+              })()}
+            </section>
+          )}
+
+           
+             
 
            {/* EAR vs nominal */}
             <h2 id="ear" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
