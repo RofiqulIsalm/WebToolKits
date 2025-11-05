@@ -682,62 +682,210 @@ const TaxCalculator: React.FC = () => {
             </p>
 
            {/* ===== How Calculated ===== */}
-            <h2 id="how-calculated" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-              🧮 How Taxes Are Calculated (Step-by-Step)
-            </h2>
+          {typeof income === "number" && income > 0 && (
+            <section className="mt-10">
+              <h2 id="how-calculated" className="text-2xl font-semibold text-cyan-300 mb-4">
+                🧮 How Taxes Are Calculated (Step-by-Step)
+              </h2>
           
-            <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4 not-prose">
-              <ol className="list-decimal list-inside space-y-3 text-slate-200 text-sm">
-                <li>
-                  <strong>Start with Gross Income:</strong> your total annual earnings before tax.
-                </li>
-                <li>
-                  <strong>Subtract Allowances/Deductions:</strong> eligible items reduce your taxable base (standard deduction,
-                  personal allowance, retirement contributions, health insurance, etc.).
-                  <div className="mt-2 text-slate-300">
-                    Taxable Income = <span className="font-mono">Max(0, Gross Income − Deductions)</span>
-                  </div>
-                </li>
-                <li>
-                  <strong>Apply Progressive Slabs or Flat Rate:</strong> countries typically use brackets (slabs). Each part of income
-                  is taxed at its bracket’s marginal rate.
-                </li>
-                <li>
-                  <strong>Apply Credits/Rebates (if applicable):</strong> subtract eligible tax credits from computed tax.
-                </li>
-                <li>
-                  <strong>Add Surcharge/Levy (if applicable):</strong> some jurisdictions add health, solidarity, or high-income levies.
-                </li>
-                <li>
-                  <strong>Compute Effective Tax Rate:</strong>
-                  <div className="mt-2 text-slate-300">
-                    Effective Rate = <span className="font-mono">(Total Tax ÷ Gross Income) × 100%</span>
-                  </div>
-                </li>
-                <li>
-                  <strong>Net (Take-Home) Income:</strong>
-                  <div className="mt-2 text-slate-300">
-                    Net Income = <span className="font-mono">Gross Income − Total Tax</span>
-                  </div>
-                </li>
-              </ol>
-            </div>
+              {(() => {
+                // --- Safe inputs ---
+                const gross = Number(income) || 0;
+                const ded  = Math.min(Number(deductions) || 0, gross);
+                const taxable = Math.max(0, gross - ded);
           
-            <div className="mt-5">
-              <p className="mb-2">A tiny pseudo-code version of the slab calculation:</p>
-              <pre className="bg-slate-900/70 p-4 rounded-lg overflow-x-auto text-[13px] border border-slate-700">
-          {`let taxable = max(0, gross - deductions);
-          let tax = 0;
-          for (const slab of slabsAscending) {
-            const bandTop = slab.upper; // may be Infinity for the last band
-            const bandRate = slab.rate; // as decimal, e.g., 0.20
-            const bandAmount = Math.max(0, Math.min(taxable, bandTop - slab.lower));
-            tax += bandAmount * bandRate;
-          }
-          tax -= nonRefundableCredits; // floor at 0
-          tax = Math.max(0, tax) + surchargeOrLevy;`}
-              </pre>
-            </div>
+                // --- Helpers (local to this block) ---
+                const fmtMoney = (v: number) =>
+                  `${currencySymbol}${(v || 0).toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
+                const fmtPct = (r: number) => `${(r * 100).toFixed(2)}%`;
+          
+                type Slab = { lower: number; upper?: number | null; rate: number };
+          
+                // Try to extract slabs from engine metadata if your TAX_ENGINES exposes any.
+                // This is defensive: it won't crash if slabs are not present.
+                const extractSlabs = (eng: any): Slab[] | null => {
+                  if (!eng) return null;
+                  // Common places people stash slab data:
+                  if (Array.isArray(eng?.__meta?.slabs)) return eng.__meta.slabs as Slab[];
+                  if (Array.isArray(eng?.slabs)) return eng.slabs as Slab[];
+                  if (Array.isArray(eng?.RATES)) return eng.RATES as Slab[];
+                  return null;
+                };
+          
+                // Build rows from slabs
+                const buildRows = (txbl: number, slabs: Slab[]) => {
+                  let remain = Math.max(0, txbl);
+                  let cumTax = 0;
+                  const rows: {
+                    idx: number; lower: number; upper?: number | null; rate: number;
+                    bandAmt: number; bandTax: number; cumTax: number;
+                  }[] = [];
+          
+                  for (let i = 0; i < slabs.length; i++) {
+                    const s = slabs[i];
+                    const top = (s.upper ?? Number.POSITIVE_INFINITY);
+                    const width = Math.max(0, top - s.lower);
+                    if (remain <= 0 || width <= 0) break;
+          
+                    const bandAmt = Math.min(remain, width);
+                    const bandTax = bandAmt * s.rate;
+                    remain -= bandAmt;
+                    cumTax += bandTax;
+          
+                    rows.push({
+                      idx: i + 1,
+                      lower: s.lower,
+                      upper: s.upper,
+                      rate: s.rate,
+                      bandAmt,
+                      bandTax,
+                      cumTax,
+                    });
+                  }
+                  return { rows, totalTax: cumTax };
+                };
+          
+                // Try to get engine and slabs
+                const engine = country ? (TAX_ENGINES as any)[country] : undefined;
+                const slabs: Slab[] | null = extractSlabs(engine);
+          
+                // If slabs exist, build progressive breakdown; else show flat fallback
+                let rows: ReturnType<typeof buildRows>["rows"] = [];
+                let subtotalTax = 0;
+          
+                if (slabs && slabs.length) {
+                  const built = buildRows(taxable, slabs);
+                  rows = built.rows;
+                  subtotalTax = built.totalTax;
+                }
+          
+                // Some engines may add credits/surcharge internally; we only show a clean narrative here.
+                // If you have explicit "credits" / "surcharge" states, wire them here:
+                const credits = 0;     // replace if you track credits
+                const surcharge = 0;   // replace if you track surcharge
+                const afterCredits = Math.max(0, subtotalTax - credits);
+                const finalFromRows = afterCredits + surcharge;
+          
+                // Build dynamic lines (like EMI/SIP math printout)
+                const lines: string[] = [];
+                lines.push(`Taxable = ${fmtMoney(gross)} − ${fmtMoney(ded)} = ${fmtMoney(taxable)}`);
+          
+                if (rows.length) {
+                  rows.forEach((r) => {
+                    const bandLabel = r.upper != null
+                      ? `[${fmtMoney(r.lower)} – ${fmtMoney(r.upper)}]`
+                      : `≥ ${fmtMoney(r.lower)}`;
+                    lines.push(
+                      `Band ${r.idx} ${bandLabel}: ${fmtMoney(r.bandAmt)} × ${fmtPct(r.rate)} = ${fmtMoney(r.bandTax)}`
+                    );
+                  });
+                  lines.push(
+                    `Subtotal Tax = ${rows.map(r => fmtMoney(r.bandTax)).join(" + ")} = ${fmtMoney(subtotalTax)}`
+                  );
+                  if (credits > 0) lines.push(`− Credits = ${fmtMoney(credits)}`);
+                  if (surcharge > 0) lines.push(`+ Surcharge = ${fmtMoney(surcharge)}`);
+                  lines.push(`Total Tax = ${fmtMoney(finalFromRows)}`);
+                } else {
+                  // Fallback narrative (flat model)
+                  const flatRate = !country ? 0.10 : (tax > 0 && taxable > 0 ? (tax / taxable) : 0.10);
+                  lines.push(`No slab data available — applying flat rate: ${fmtPct(flatRate)}`);
+                  lines.push(`Total Tax = ${fmtMoney(taxable)} × ${fmtPct(flatRate)} = ${fmtMoney(tax)}`);
+                }
+          
+                const effectiveRate = gross > 0 ? ((tax / gross) * 100).toFixed(2) : "0.00";
+          
+                return (
+                  <>
+                    {/* Inputs summary tiles */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                      <div className="rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-3 py-2">
+                        <div className="text-cyan-300 text-xs uppercase">Gross Income</div>
+                        <div className="font-semibold text-white">{fmtMoney(gross)}</div>
+                      </div>
+                      <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2">
+                        <div className="text-amber-300 text-xs uppercase">Deductions</div>
+                        <div className="font-semibold text-white">{fmtMoney(ded)}</div>
+                      </div>
+                      <div className="rounded-lg border border-fuchsia-500/30 bg-fuchsia-500/10 px-3 py-2">
+                        <div className="text-fuchsia-300 text-xs uppercase">Taxable Income</div>
+                        <div className="font-semibold text-white">{fmtMoney(taxable)}</div>
+                      </div>
+                    </div>
+          
+                    {/* Main step card */}
+                    <div className="relative rounded-2xl bg-gradient-to-br from-slate-800/90 via-slate-900/90 to-[#0b1220]/90 p-4 sm:p-6 ring-1 ring-indigo-500/30 shadow-xl text-[13.5px] sm:text-sm leading-relaxed not-prose">
+                      {/* top glow */}
+                      <div className="pointer-events-none absolute inset-x-0 -top-0.5 h-0.5 bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-emerald-500 opacity-60" />
+          
+                      {/* Quick formula description */}
+                      <p className="mb-3 text-slate-300">
+                        We compute <strong>Taxable</strong> = <span className="font-mono">max(0, Gross − Deductions)</span>, then apply each
+                        <strong> tax slab</strong> progressively. If your country model isn’t loaded yet, we show a <strong>flat-rate</strong> explanation.
+                      </p>
+          
+                      {/* Progressive table (when slabs available) */}
+                      {rows.length > 0 && (
+                        <div className="overflow-x-auto rounded-lg border border-slate-700">
+                          <table className="min-w-full text-left text-sm">
+                            <thead className="bg-slate-800/70 text-slate-300">
+                              <tr className="border-b border-slate-700">
+                                <th className="p-3">Band</th>
+                                <th className="p-3">Range</th>
+                                <th className="p-3">Rate</th>
+                                <th className="p-3">Taxed Amount</th>
+                                <th className="p-3">Band Tax</th>
+                                <th className="p-3">Cumulative</th>
+                              </tr>
+                            </thead>
+                            <tbody className="text-slate-200">
+                              {rows.map((r) => (
+                                <tr key={r.idx} className="border-b border-slate-700 hover:bg-slate-800/40 transition-colors">
+                                  <td className="p-3">Band {r.idx}</td>
+                                  <td className="p-3">
+                                    {r.upper != null
+                                      ? `${fmtMoney(r.lower)} – ${fmtMoney(r.upper)}`
+                                      : `≥ ${fmtMoney(r.lower)}`}
+                                  </td>
+                                  <td className="p-3">{fmtPct(r.rate)}</td>
+                                  <td className="p-3">{fmtMoney(r.bandAmt)}</td>
+                                  <td className="p-3">{fmtMoney(r.bandTax)}</td>
+                                  <td className="p-3">{fmtMoney(r.cumTax)}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+          
+                      {/* Live equation (always show) */}
+                      <p className="mt-4 mb-2 text-slate-300">Live math with your inputs:</p>
+                      <pre className="bg-slate-900/70 p-4 rounded-lg overflow-x-auto text-[13px] border border-slate-700">
+                        <code>{lines.join("\n")}</code>
+                      </pre>
+          
+                      {/* Final cards */}
+                      <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-center">
+                          <div className="text-emerald-300 text-xs uppercase">Total Tax</div>
+                          <div className="font-semibold text-white">{fmtMoney(tax)}</div>
+                        </div>
+                        <div className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-center">
+                          <div className="text-sky-300 text-xs uppercase">Net Income</div>
+                          <div className="font-semibold text-white">{fmtMoney(netIncome)}</div>
+                        </div>
+                        <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-center">
+                          <div className="text-amber-300 text-xs uppercase">Effective Rate</div>
+                          <div className="font-semibold text-white">{effectiveRate}%</div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                );
+              })()}
+            </section>
+          )}
+
+           
           
             <h2 id="country-logic" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
               🧮 Tax Calculation Logic Used
