@@ -242,105 +242,188 @@ const CurrencyConverter: React.FC = () => {
   return (
     <>
        <SEOHead
-            title={seoData.currencyConverter.title}
-            description={seoData.currencyConverter.description}
-            keywords={seoData.currencyConverter.keywords}
-            canonical="https://calculatorhub.site/currency-converter"
-            schemaData={[
-              generateCalculatorSchema(
-                "Currency Converter",
-                seoData.currencyConverter.description,
-                "/currency-converter",
-                seoData.currencyConverter.keywords
-              ),
-              {
-                "@context": "https://schema.org",
-                "@type": "WebPage",
-                "mainEntity": {
-                  "@type": "Article",
-                  "headline": "Understanding Currency Converters: How They Work and Why You Need One",
-                  "description":
-                    "Learn what a currency converter is, how it works with live exchange rates, and why online currency calculators like moneyconverter and euro to pound converter are essential for travelers, businesses, and investors.",
-                  "image": [
-                    "https://calculatorhub.site/images/world-currency-map.jpg",
-                    "https://calculatorhub.site/images/currency-converter-dashboard.jpg",
-                    "https://calculatorhub.site/images/traveler-checking-rates.jpg"
-                  ],
-                  "author": {
-                    "@type": "Organization",
-                    "name": "CalculatorHub",
-                    "url": "https://calculatorhub.site"
-                  },
+              title={seoData.currencyConverter.title}
+              description={seoData.currencyConverter.description}
+              keywords={seoData.currencyConverter.keywords}
+              canonical="https://calculatorhub.site/currency-converter"
+              schemaData={[
+                // Calculator / WebApp metadata
+                {
+                  "@context": "https://schema.org",
+                  "@type": "WebApplication",
+                  "name": "Currency Converter",
+                  "url": "https://calculatorhub.site/currency-converter",
+                  "applicationCategory": "FinanceApplication",
+                  "operatingSystem": "Web",
+                  "description": seoData.currencyConverter.description,
+                  "inLanguage": "en",
                   "publisher": {
                     "@type": "Organization",
                     "name": "CalculatorHub",
-                    "logo": {
-                      "@type": "ImageObject",
-                      "url": "https://calculatorhub.site/images/logo.png"
-                    }
+                    "url": "https://calculatorhub.site",
+                    "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/logo.png" }
                   },
-                  "datePublished": "2025-10-21",
-                  "dateModified": "2025-10-21",
-                  "keywords": [
-                    "currency converter",
-                    "moneyconverter",
-                    "exchange rate calculator",
-                    "real time currency converter",
-                    "euro to pound converter",
-                    "currency converter euro to sterling",
-                    "convert euro to GBP",
-                    "currency exchange euro to pound",
-                    "accurate currency converter",
-                    "multi currency converter"
+                  "image": [
+                    "https://calculatorhub.site/images/world-currency-map.webp",
+                    "https://calculatorhub.site/images/currency-converter-dashboard.webp"
                   ],
-                  "articleSection": [
-                    "What is a Currency Converter?",
-                    "How Does the Currency Converter Work?",
-                    "Why Should You Use an Online Currency Calculator?",
-                    "Popular Currency Conversions",
-                    "Image Suggestions"
-                  ],
-                  "inLanguage": "en",
-                  "url": "https://calculatorhub.site/currency-converter",
-                  "about": {
-                    "@type": "Thing",
-                    "name": "Currency Conversion"
+                  "datePublished": "2025-11-05",
+                  "dateModified": "2025-11-05",
+                  "keywords": seoData.currencyConverter.keywords
+                },
+            
+                // WebPage+Article 
+                {
+                  "@context": "https://schema.org",
+                  "@type": "WebPage",
+                  "mainEntity": {
+                    "@type": "Article",
+                    "headline": "Understanding Currency Converters: How They Work and Why You Need One",
+                    "description":
+                      "Learn what a currency converter is, how it works with live exchange rates, and why online currency calculators like moneyconverter and euro to pound converter are essential for travelers, businesses, and investors.",
+                    "image": [
+                      "https://calculatorhub.site/images/world-currency-map.jpg",
+                      "https://calculatorhub.site/images/currency-converter-dashboard.jpg",
+                      "https://calculatorhub.site/images/traveler-checking-rates.jpg"
+                    ],
+                    "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+                    "publisher": {
+                      "@type": "Organization",
+                      "name": "CalculatorHub",
+                      "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/logo.png" }
+                    },
+                    "datePublished": "2025-10-21",
+                    "dateModified": "2025-10-21",
+                    "keywords": [
+                      "currency converter",
+                      "moneyconverter",
+                      "exchange rate calculator",
+                      "real time currency converter",
+                      "euro to pound converter",
+                      "currency converter euro to sterling",
+                      "convert euro to GBP",
+                      "currency exchange euro to pound",
+                      "accurate currency converter",
+                      "multi currency converter"
+                    ],
+                    "articleSection": [
+                      "What is a Currency Converter?",
+                      "How Does the Currency Converter Work?",
+                      "Why Should You Use an Online Currency Calculator?",
+                      "Popular Currency Conversions",
+                      "Image Suggestions"
+                    ],
+                    "inLanguage": "en",
+                    "url": "https://calculatorhub.site/currency-converter",
+                    "about": { "@type": "Thing", "name": "Currency Conversion" }
                   }
+                },
+            
+                // FAQ 
+                {
+                  "@context": "https://schema.org",
+                  "@type": "FAQPage",
+                  "mainEntity": [
+                    {
+                      "@type": "Question",
+                      "name": "What is a currency converter?",
+                      "acceptedAnswer": { "@type": "Answer", "text": "A currency converter is an online tool that allows users to calculate the value of one currency in another using real-time exchange rates." }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "How does an online currency calculator work?",
+                      "acceptedAnswer": { "@type": "Answer", "text": "An online currency calculator fetches live exchange data from financial markets and applies it to instantly convert currencies." }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "Is a real time currency converter accurate?",
+                      "acceptedAnswer": { "@type": "Answer", "text": "Yes, most real time currency converters use up-to-date rates from trusted global data sources like central banks and forex providers." }
+                    }
+                  ]
+                },
+            
+                // Breadcrumbs
+                {
+                  "@context": "https://schema.org",
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+                    { "@type": "ListItem", "position": 2, "name": "Currency & Finance", "item": "https://calculatorhub.site/category/currency-finance" },
+                    { "@type": "ListItem", "position": 3, "name": "Currency Converter", "item": "https://calculatorhub.site/currency-converter" }
+                  ]
+                },
+            
+                // Website + site-wide Search action (ভয়েস/সাইটলিঙ্ক সার্চের জন্য সহায়ক)
+                {
+                  "@context": "https://schema.org",
+                  "@type": "WebSite",
+                  "name": "CalculatorHub",
+                  "url": "https://calculatorhub.site",
+                  "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": "https://calculatorhub.site/search?q={query}",
+                    "query-input": "required name=query"
+                  }
+                },
+            
+                // Speakable 
+                {
+                  "@context": "https://schema.org",
+                  "@type": "SpeakableSpecification",
+                  "cssSelector": [".main-title", ".result-summary"]
                 }
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "FAQPage",
-                "mainEntity": [
-                  {
-                    "@type": "Question",
-                    "name": "What is a currency converter?",
-                    "acceptedAnswer": {
-                      "@type": "Answer",
-                      "text": "A currency converter is an online tool that allows users to calculate the value of one currency in another using real-time exchange rates."
-                    }
-                  },
-                  {
-                    "@type": "Question",
-                    "name": "How does an online currency calculator work?",
-                    "acceptedAnswer": {
-                      "@type": "Answer",
-                      "text": "An online currency calculator fetches live exchange data from financial markets and applies it to instantly convert currencies."
-                    }
-                  },
-                  {
-                    "@type": "Question",
-                    "name": "Is a real time currency converter accurate?",
-                    "acceptedAnswer": {
-                      "@type": "Answer",
-                      "text": "Yes, most real time currency converters use up-to-date rates from trusted global data sources like central banks and forex providers."
-                    }
-                  }
-                ]
-              }
-            ]}
-          />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+              ]}
+            />
+
+        {/* -- Core -- */}
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <link rel="canonical" href="https://calculatorhub.site/currency-converter" />
+        
+        {/* -- Hreflang -- */}
+        <link rel="alternate" href="https://calculatorhub.site/currency-converter" hreflang="en" />
+        <link rel="alternate" href="https://calculatorhub.site/bn/currency-converter" hreflang="bn" />
+        <link rel="alternate" href="https://calculatorhub.site/currency-converter" hreflang="x-default" />
+
+
+      {/* -- Open Graph -- */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Currency Converter — Live Exchange Rate Calculator" />
+      <meta property="og:description" content="Convert between 150+ world currencies with live exchange rates. Fast, accurate, and free currency calculator for travel, business, and investing." />
+      <meta property="og:url" content="https://calculatorhub.site/currency-converter" />
+      <meta property="og:image" content="https://calculatorhub.site/images/currency-converter-dashboard.webp" />
+      <meta property="og:image:alt" content="Currency converter app interface preview" />
+
+      {/* -- Twitter -- */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Currency Converter — Live Exchange Rate Calculator" />
+      <meta name="twitter:description" content="Convert between 150+ world currencies with live exchange rates. Fast, accurate, and free." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/currency-converter-dashboard.webp" />
+
+      
+      {/* -- Icons / PWA  -- */}
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <link rel="manifest" href="/site.webmanifest" />
+      <meta name="theme-color" content="#0ea5e9" />
+
+      {/* -- Performance: preconnect/dns-prefetch (fonts/CDN/API)  -- */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+      <link rel="dns-prefetch" href="https://api.exchangerate-api.com" />
+
+
+      {/* -- Performance: preconnect/dns-prefetch (fonts/CDN/API)  -- */}
+      <link rel="preload" as="image" href="/images/world-currency-map.webp" />
+      <link rel="preload" as="image" href="/images/currency-converter-dashboard.webp" />
+
+
+      {/* -- Security / Privacy  -- */}
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+
+      
       <div className="max-w-4xl mx-auto">
         <Breadcrumbs items={[
           { name: 'Currency & Finance', url: '/category/currency-finance' },
