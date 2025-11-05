@@ -289,21 +289,267 @@ const CompoundInterestCalculator: React.FC = () => {
   return (
     <>
       <SEOHead
-        title={seoData.compoundInterestCalculator.title}
-        description={seoData.compoundInterestCalculator.description}
-        canonical="https://calculatorhub.site/compound-interest-calculator"
-        schemaData={generateCalculatorSchema(
-          'Compound Interest Calculator',
-          seoData.compoundInterestCalculator.description,
-          '/compound-interest-calculator',
-          seoData.compoundInterestCalculator.keywords
-        )}
-        breadcrumbs={[
-          { name: 'Currency & Finance', url: '/category/currency-finance' },
-          { name: 'Compound Interest Calculator', url: '/compound-interest-calculator' }
-        ]}
-      />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+            title={seoData.compoundInterestCalculator?.title || 'Compound Interest Calculator – Free Online Future Value Tool'}
+            description={
+              seoData.compoundInterestCalculator?.description ||
+              'Project future value with daily/weekly/monthly/yearly/custom compounding. See total interest, breakdown tables, and step-by-step math.'
+            }
+            canonical="https://calculatorhub.site/compound-interest-calculator"
+            schemaData={[
+              // WebPage (+ Article wrapper for richer SERP features)
+              {
+                "@context": "https://schema.org",
+                "@type": ["WebPage","Article"],
+                "@id": "https://calculatorhub.site/compound-interest-calculator#webpage",
+                "url": "https://calculatorhub.site/compound-interest-calculator",
+                "name": "Compound Interest Calculator",
+                "headline": "Compound Interest Calculator – Free Online Future Value Tool",
+                "description": "Project future value with daily/weekly/monthly/yearly/custom compounding. See total interest, breakdown tables, and step-by-step math.",
+                "inLanguage": "en",
+                "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+                "primaryImageOfPage": {
+                  "@type": "ImageObject",
+                  "url": "https://calculatorhub.site/images/compound_interest_chart.webp",
+                  "width": 800,
+                  "height": 500
+                },
+                "author": { "@id": "https://calculatorhub.site/#organization" },
+                "publisher": { "@id": "https://calculatorhub.site/#organization" },
+                "datePublished": "2025-10-17",
+                "dateModified": "2025-10-17",
+                "keywords": [
+                  "compound interest calculator",
+                  "future value calculator",
+                  "EAR vs APR",
+                  "investment growth",
+                  "compounding frequency"
+                ]
+              },
+          
+              // Breadcrumbs
+              {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "@id": "https://calculatorhub.site/compound-interest-calculator#breadcrumbs",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Currency & Finance",
+                    "item": "https://calculatorhub.site/category/currency-finance"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Compound Interest Calculator",
+                    "item": "https://calculatorhub.site/compound-interest-calculator"
+                  }
+                ]
+              },
+          
+              // FAQ (must reflect visible questions on the page)
+              {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "@id": "https://calculatorhub.site/compound-interest-calculator#faq",
+                "mainEntity": [
+                  {
+                    "@type": "Question",
+                    "name": "What is compound interest in simple terms?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "It’s the interest earned on both the original amount and the previously accumulated interest."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Does compounding frequency matter?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Yes. For the same nominal rate, more frequent compounding generally yields a higher final amount, especially over long periods."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Can I set a custom compounding interval?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Yes. You can define a custom interval in years, months, and days to model special savings or investment products."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Is this calculator free to use?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Yes, it’s completely free and works on all devices."
+                    }
+                  }
+                ]
+              },
+          
+              // WebApplication (for tool pages)
+              {
+                "@context": "https://schema.org",
+                "@type": "WebApplication",
+                "@id": "https://calculatorhub.site/compound-interest-calculator#webapp",
+                "name": "Compound Interest Calculator",
+                "url": "https://calculatorhub.site/compound-interest-calculator",
+                "applicationCategory": "FinanceApplication",
+                "operatingSystem": "All",
+                "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+                "featureList": [
+                  "Daily/weekly/monthly/quarterly/yearly/custom compounding",
+                  "Future value and total interest in real time",
+                  "Detailed daily/weekly/monthly/yearly breakdown",
+                  "Include/exclude specific days to simulate business-day schedules"
+                ]
+              },
+          
+              // SoftwareApplication (optional but fine alongside WebApplication)
+              {
+                "@context": "https://schema.org",
+                "@type": "SoftwareApplication",
+                "@id": "https://calculatorhub.site/compound-interest-calculator#software",
+                "name": "Compound Interest Calculator",
+                "url": "https://calculatorhub.site/compound-interest-calculator",
+                "applicationCategory": "FinanceApplication",
+                "operatingSystem": "All",
+                "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+              },
+          
+              // Organization & WebSite (keep here until you move them to a global layout)
+              {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "@id": "https://calculatorhub.site/#organization",
+                "name": "CalculatorHub",
+                "url": "https://calculatorhub.site",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://calculatorhub.site/images/logo-512.png"
+                }
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "@id": "https://calculatorhub.site/#website",
+                "url": "https://calculatorhub.site",
+                "name": "CalculatorHub",
+                "publisher": { "@id": "https://calculatorhub.site/#organization" },
+                "inLanguage": "en"
+              }
+            ]}
+            breadcrumbs={[
+              { name: 'Currency & Finance', url: '/category/currency-finance' },
+              { name: 'Compound Interest Calculator', url: '/compound-interest-calculator' }
+            ]}
+          />
+
+      <>
+        {/* Core */}
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="robots"
+          content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+        />
+        <link
+          rel="canonical"
+          href="https://calculatorhub.site/compound-interest-calculator"
+        />
+      
+        {/* Hreflang (only include locales that actually exist) */}
+        <link
+          rel="alternate"
+          href="https://calculatorhub.site/compound-interest-calculator"
+          hreflang="en"
+        />
+        {/* <link rel="alternate" href="https://calculatorhub.site/bn/compound-interest-calculator" hreflang="bn" /> */}
+        <link
+          rel="alternate"
+          href="https://calculatorhub.site/compound-interest-calculator"
+          hreflang="x-default"
+        />
+      
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="CalculatorHub" />
+        <meta
+          property="og:title"
+          content="Compound Interest Calculator — Future Value, Total Interest & Growth"
+        />
+        <meta
+          property="og:description"
+          content="Project future value instantly with daily/weekly/monthly/yearly/custom compounding. See total interest, growth tables, and a detailed breakdown."
+        />
+        <meta
+          property="og:url"
+          content="https://calculatorhub.site/compound-interest-calculator"
+        />
+        <meta
+          property="og:image"
+          content="https://calculatorhub.site/images/compound_interest_chart.webp"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:locale" content="en_US" />
+        {/* <meta property="og:locale:alternate" content="bn_BD" /> */}
+      
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Compound Interest Calculator — Future Value, Total Interest & Growth"
+        />
+        <meta
+          name="twitter:description"
+          content="Free, accurate compound interest calculator with flexible compounding and rich breakdowns."
+        />
+        <meta
+          name="twitter:image"
+          content="https://calculatorhub.site/images/compound_interest_chart.webp"
+        />
+        {/* <meta name="twitter:site" content="@yourhandle" /> */}
+      
+        {/* Icons / PWA */}
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta name="theme-color" content="#0ea5e9" />
+      
+        {/* Performance: connections */}
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+        {/* Optional: preconnect to Supabase if used on this page */}
+        {/* <link rel="preconnect" href="https://YOUR-SUPABASE-PROJECT.supabase.co" crossOrigin="" /> */}
+      
+        {/* Performance: preload hero & key font (adjust paths if used) */}
+        <link
+          rel="preload"
+          as="image"
+          href="/images/compound_interest_chart.webp"
+          imagesrcset="/images/compound_interest_chart.webp 1x"
+          fetchpriority="high"
+        />
+        <link
+          rel="preload"
+          href="/fonts/Inter-Variable.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin=""
+        />
+      
+        {/* Optional quality-of-life */}
+        <link
+          rel="sitemap"
+          type="application/xml"
+          href="https://calculatorhub.site/sitemap.xml"
+        />
+        <meta name="referrer" content="no-referrer-when-downgrade" />
+        <meta name="format-detection" content="telephone=no" />
+      </>
+
       
 
       <div className="max-w-4xl mx-auto p-4 sm:p-6">
@@ -313,7 +559,6 @@ const CompoundInterestCalculator: React.FC = () => {
             { name: 'Compound Interest Calculator', url: '/compound-interest-calculator' }
           ]}
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {/* Title */}
         <div className="mb-8 text-left">
@@ -1203,100 +1448,6 @@ const CompoundInterestCalculator: React.FC = () => {
 
 
 
-        {/* JSON-LD Schemas */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'WebPage',
-              name: 'Compound Interest Calculator',
-              url: 'https://calculatorhub.site/compound-interest-calculator',
-              description:
-                'Free online Compound Interest Calculator. Instantly project future value with daily, weekly, monthly, quarterly, yearly, or custom compounding. See total interest and detailed breakdowns.',
-              breadcrumb: {
-                '@type': 'BreadcrumbList',
-                itemListElement: [
-                  {
-                    '@type': 'ListItem',
-                    position: 1,
-                    name: 'Currency & Finance',
-                    item: 'https://calculatorhub.site/category/currency-finance'
-                  },
-                  {
-                    '@type': 'ListItem',
-                    position: 2,
-                    name: 'Compound Interest Calculator',
-                    item: 'https://calculatorhub.site/compound-interest-calculator'
-                  }
-                ]
-              },
-              about: ['compound interest', 'future value', 'effective annual rate', 'investment growth', 'savings'],
-              inLanguage: 'en'
-            })
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'FAQPage',
-              mainEntity: [
-                {
-                  '@type': 'Question',
-                  name: 'What is compound interest?',
-                  acceptedAnswer: {
-                    '@type': 'Answer',
-                    text:
-                      'Compound interest is interest calculated on the initial principal and on interest previously added to the principal, allowing money to grow faster than simple interest.'
-                  }
-                },
-                {
-                  '@type': 'Question',
-                  name: 'Does compounding frequency matter?',
-                  acceptedAnswer: {
-                    '@type': 'Answer',
-                    text:
-                      'Yes. For the same nominal rate, more frequent compounding (e.g., daily vs. yearly) generally yields a higher final amount, especially over long periods.'
-                  }
-                },
-                {
-                  '@type': 'Question',
-                  name: 'Can I set a custom compounding interval?',
-                  acceptedAnswer: {
-                    '@type': 'Answer',
-                    text:
-                      'Yes. Define your own interval in years, months, and days to model special savings or investment products.'
-                  }
-                }
-              ]
-            })
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'SoftwareApplication',
-              name: 'Compound Interest Calculator',
-              applicationCategory: 'FinanceApplication',
-              operatingSystem: 'All',
-              url: 'https://calculatorhub.site/compound-interest-calculator',
-              description:
-                'Instantly compute future value and total interest with customizable compounding frequencies and time periods. Includes daily/weekly/monthly/yearly breakdowns.',
-              featureList: [
-                'Daily, weekly, monthly, quarterly, yearly, and custom compounding',
-                'Future value and total interest in real time',
-                'Detailed breakdown views',
-                'Include/Exclude specific days to simulate business-day schedules'
-              ],
-              aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.9', reviewCount: '1200' },
-              offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock' }
-            })
-          }}
-        />
 
         {/* Lazy non-critical pieces */}
         <Suspense fallback={null}>
