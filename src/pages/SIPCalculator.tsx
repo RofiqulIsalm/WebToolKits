@@ -20,7 +20,7 @@ import {
   Line,
   XAxis,
   YAxis,
-  BarChart,
+  BarChart, 
   Bar,
 } from "recharts";
 
@@ -269,17 +269,165 @@ const SipCalculator: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="SIP Calculator | Systematic Investment Plan Return Estimator"
-        description="Use CalculatorHub’s SIP Calculator to estimate your investment returns, maturity value, and total gains based on monthly investment, tenure, and return rate."
-        canonical="https://calculatorhub.site/sip-calculator"
-        schemaData={generateCalculatorSchema(
-          "SIP Calculator",
-          "Estimate SIP maturity amount and investment growth using CalculatorHub’s online SIP Calculator.",
-          "/sip-calculator",
-          ["sip calculator", "investment returns", "mutual fund calculator"]
-        )}
-      />
+            title="SIP Calculator (2025) — Systematic Investment Plan Maturity & Returns"
+            description="Free SIP Calculator to estimate maturity value, total investment, and gains. Live formula steps, charts, multi-currency, and shareable links."
+            keywords={[
+              "sip calculator",
+              "systematic investment plan",
+              "mutual fund sip",
+              "sip maturity amount",
+              "sip returns",
+              "investment calculator",
+              "wealth gain",
+              "compound interest"
+            ]}
+            canonical="https://calculatorhub.site/sip-calculator"
+            schemaData={[
+              /* WebPage (+ Article-like details) */
+              {
+                "@context":"https://schema.org",
+                "@type":"WebPage",
+                "@id":"https://calculatorhub.site/sip-calculator#webpage",
+                "url":"https://calculatorhub.site/sip-calculator",
+                "name":"SIP Calculator — Systematic Investment Plan Maturity & Returns",
+                "inLanguage":"en",
+                "isPartOf":{"@id":"https://calculatorhub.site/#website"},
+                "primaryImageOfPage":{
+                  "@type":"ImageObject",
+                  "@id":"https://calculatorhub.site/images/sip-calculator-visual.webp#primaryimg",
+                  "url":"https://calculatorhub.site/images/sip-calculator-visual.webp",
+                  "width":1200,"height":675
+                },
+                "mainEntity":{
+                  "@type":"Article",
+                  "@id":"https://calculatorhub.site/sip-calculator#article",
+                  "headline":"SIP Calculator — Maturity Amount, Total Investment & Wealth Gain",
+                  "description":"Estimate SIP maturity value with bank-grade math. Live formula steps, charts, multi-currency support, and FAQs.",
+                  "image":["https://calculatorhub.site/images/sip-calculator-visual.webp"],
+                  "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
+                  "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                  "datePublished":"2025-10-17",
+                  "dateModified":"2025-11-05",
+                  "mainEntityOfPage":{"@id":"https://calculatorhub.site/sip-calculator#webpage"},
+                  "articleSection":[
+                    "Overview","How to Use","Formula & Steps","Charts",
+                    "Example","Advanced Features","Benefits","Pros & Cons","FAQ"
+                  ]
+                }
+              },
+              /* Breadcrumbs */
+              {
+                "@context":"https://schema.org",
+                "@type":"BreadcrumbList",
+                "@id":"https://calculatorhub.site/sip-calculator#breadcrumbs",
+                "itemListElement":[
+                  {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+                  {"@type":"ListItem","position":2,"name":"Investments","item":"https://calculatorhub.site/category/investments"},
+                  {"@type":"ListItem","position":3,"name":"SIP Calculator","item":"https://calculatorhub.site/sip-calculator"}
+                ]
+              },
+              /* FAQPage (match your on-page FAQ questions) */
+              {
+                "@context":"https://schema.org",
+                "@type":"FAQPage",
+                "@id":"https://calculatorhub.site/sip-calculator#faq",
+                "mainEntity":[
+                  {
+                    "@type":"Question",
+                    "name":"What is a SIP Calculator?",
+                    "acceptedAnswer":{"@type":"Answer","text":"A SIP Calculator estimates maturity value from monthly contributions, expected return, and duration."}
+                  },
+                  {
+                    "@type":"Question",
+                    "name":"How is SIP calculated?",
+                    "acceptedAnswer":{"@type":"Answer","text":"Using FV = P × ((1 + r)^n − 1) ÷ r × (1 + r) where P=monthly investment, r=monthly rate, n=months."}
+                  },
+                  {
+                    "@type":"Question",
+                    "name":"Can I use it for different mutual funds?",
+                    "acceptedAnswer":{"@type":"Answer","text":"Yes—equity, hybrid, debt, or index funds can be simulated by adjusting the return rate."}
+                  },
+                  {
+                    "@type":"Question",
+                    "name":"Is the SIP Calculator free?",
+                    "acceptedAnswer":{"@type":"Answer","text":"Yes. It’s free, no sign-up required, and works on all devices."}
+                  }
+                ]
+              },
+              /* WebApplication */
+              {
+                "@context":"https://schema.org",
+                "@type":"WebApplication",
+                "@id":"https://calculatorhub.site/sip-calculator#webapp",
+                "name":"SIP Calculator",
+                "url":"https://calculatorhub.site/sip-calculator",
+                "applicationCategory":"FinanceApplication",
+                "operatingSystem":"Web",
+                "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                "image":["https://calculatorhub.site/images/sip-calculator-visual.webp"],
+                "description":"Estimate SIP maturity value, total investment, and gains. Live steps, charts, and multi-currency support."
+              },
+              /* Site & Org (shared IDs sitewide) */
+              {
+                "@context":"https://schema.org",
+                "@type":"WebSite",
+                "@id":"https://calculatorhub.site/#website",
+                "url":"https://calculatorhub.site",
+                "name":"CalculatorHub",
+                "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                "potentialAction":{
+                  "@type":"SearchAction",
+                  "target":"https://calculatorhub.site/search?q={query}",
+                  "query-input":"required name=query"
+                }
+              },
+              {
+                "@context":"https://schema.org",
+                "@type":"Organization",
+                "@id":"https://calculatorhub.site/#organization",
+                "name":"CalculatorHub",
+                "url":"https://calculatorhub.site",
+                "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
+              }
+            ]}
+          />
+
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="canonical" href="https://calculatorhub.site/sip-calculator" />
+      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+      
+
+      <link rel="alternate" href="https://calculatorhub.site/sip-calculator" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/sip-calculator" hreflang="x-default" />
+      
+
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="SIP Calculator — Maturity Amount & Returns" />
+      <meta property="og:description" content="Calculate SIP maturity value, total investment, and gains with live steps and charts." />
+      <meta property="og:url" content="https://calculatorhub.site/sip-calculator" />
+      <meta property="og:image" content="https://calculatorhub.site/images/sip-calculator-visual.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:locale" content="en_US" />
+       
+
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="SIP Calculator — Maturity Amount & Returns" />
+      <meta name="twitter:description" content="Free SIP calculator with live math, charts, and multi-currency support." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/sip-calculator-visual.webp" />
+      
+
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+      <link rel="preload" as="image" href="/images/sip-calculator-visual.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossorigin />
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#0ea5e9" />
+
       
 
       <div className="max-w-5xl mx-auto">
@@ -1000,371 +1148,246 @@ FV = ${formatCurrency(P * n)}`}</code>
 
 
   
-    <h2 id="sip-charts" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">📈 Real-Time Chart & Data Visualization</h2>
-    <p>
-      The SIP Calculator includes interactive **Pie** and **Bar charts** powered by Recharts. These visualize your 
-      investment growth, showing the split between invested capital and total returns.
-    </p>
-    <p>
-      - The **Pie Chart** shows the percentage of principal vs gains.  
-      - The **Bar Chart** displays year-by-year compounding growth.  
-    </p>
-    <p>
-      These visualizations make it a <strong>powerful SIP calculator</strong> for understanding investment progress. 
-      You can toggle between chart types easily and even highlight key data points.  
-      For professionals and educators, this acts as a **visual SIP calculator tutorial**.
-    </p>
-  
-    <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🌍 Multi-Currency and Localization Support</h2>
-    <p>
-      Another unique feature of this <strong>tool SIP calculator</strong> is its support for more than 
-      <strong>40 global currencies</strong>, including USD, INR, EUR, GBP, AUD, and SGD.  
-      Each currency uses its native locale formatting, ensuring numbers and symbols appear 
-      naturally for users across the world.
-    </p>
-    <p>
-      This makes it a globally accessible <strong>system SIP calculator</strong> — a universal solution for investors 
-      tracking mutual funds across borders.
-    </p>
-  
-    <h2 id="sip-advanced" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">⚙️ Advanced SIP Calculator Features</h2>
-    <ul className="space-y-2">
-      <li>✔️ **Live Math Engine** — shows all formula steps in real time.</li>
-      <li>✔️ **Copy Results** — share results or investment summary instantly.</li>
-      <li>✔️ **Copy Link** — encode your inputs into a sharable URL for easy reference.</li>
-      <li>✔️ **Local Storage** — automatically remembers your last values for quick reload.</li>
-      <li>✔️ **Responsive Design** — works smoothly on mobile, tablet, and desktop.</li>
-      <li>✔️ **SEO-Optimized Content** — including detailed guides, FAQs, and structured schema.</li>
-    </ul>
-    <p>
-      These smart enhancements make it not just a calculator but a **complete financial planning companion**.
-    </p>
-  
-    <h2 id="sip-benefits" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">✅ SIP Calculator Benefits</h2>
-    <ul className="space-y-2">
-      <li>🎯 Helps visualize how small monthly contributions grow into large wealth.</li>
-      <li>📊 Simplifies compounding math into clear visuals.</li>
-      <li>💡 Ideal for comparing multiple investment plans.</li>
-      <li>🌍 Works across multiple countries and currencies.</li>
-      <li>🔒 Secure — all calculations happen locally in your browser.</li>
-      <li>💼 Suitable for both individuals and advisors.</li>
-    </ul>
-  
-    <p>
-      These <strong>SIP calculator benefits</strong> ensure that every investor, whether a student, 
-      working professional, or retiree, can use this <strong>best SIP calculator</strong> for their planning needs.
-    </p>
-  
-    <h2 id="sip-example" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🔍 Example Calculation</h2>
-    <p>
-      Suppose someone invests <strong>$500 every month</strong> for 10 years at an average annual return of 12%.  
-      Using this <strong>solution SIP calculator</strong>, they will get:
-    </p>
-    <ul>
-      <li><strong>Total Investment:</strong> $60,000</li>
-      <li><strong>Wealth Gain:</strong> $49,947</li>
-      <li><strong>Final Maturity Value:</strong> $109,947</li>
-    </ul>
-  
-    <p>
-      These results update instantly on the chart. This feature allows users to experiment freely with different 
-      return rates and time periods — helping them discover the power of compounding visually.
-    </p>
-  
-    <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">👥 SIP Calculator for Beginners & Professionals</h2>
-    <p>
-      This platform acts as both an **educational** and a **professional SIP calculator**.  
-      Beginners can learn how investments grow, while financial planners can use it to explain projections to clients.  
-      The user interface is clean, responsive, and optimized for quick input.
-    </p>
-  
-    <p>
-      Because of its accuracy, transparency, and user-friendly experience, many consider it the 
-      <strong>best SIP calculator</strong> available online for 2025-2026.
-    </p>
-  
-   
-  
-    <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🌐 SIP Calculator Website & Accessibility</h2>
-    <p>
-      The <strong>SIP calculator website</strong> — part of CalculatorHub’s financial suite — 
-      uses modern React + Tailwind technology to deliver lightning-fast performance.  
-      No login or registration is required, ensuring privacy and speed.
-    </p>
-    <p>
-      Users can bookmark or share personalized links that automatically restore their inputs, 
-      making it an ideal <strong>system SIP calculator</strong> for everyday use.  
-      Whether accessed from desktop or mobile, it runs smoothly and retains data for convenience.
-    </p>
-  
-    <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🧭 Why This Is the Best SIP Calculator Online</h2>
-    <p>
-      This tool combines aesthetics, accuracy, and accessibility into one complete platform.  
-      It’s not just a calculator — it’s a comprehensive <strong>SIP calculator guide</strong>, tutorial, 
-      and interactive system rolled into one clean interface.
-    </p>
-    <ul className="space-y-1">
-      <li>🎨 Beautiful charts and animations.</li>
-      <li>📊 Step-by-step live math formula.</li>
-      <li>💻 Instant copy & share options.</li>
-      <li>🌍 Multi-currency support.</li>
-      <li>🔐 Privacy-first calculations (no data sent to servers).</li>
-    </ul>
-  
-    <p>
-      These elements make it a <strong>tool SIP calculator</strong> trusted by investors worldwide.
-    </p>
+          <h2 id="sip-charts" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">📈 Real-Time Chart & Data Visualization</h2>
+          <p>
+            The SIP Calculator includes interactive **Pie** and **Bar charts** powered by Recharts. These visualize your 
+            investment growth, showing the split between invested capital and total returns.
+          </p>
+          <p>
+            - The **Pie Chart** shows the percentage of principal vs gains.  
+            - The **Bar Chart** displays year-by-year compounding growth.  
+          </p>
+          <p>
+            These visualizations make it a <strong>powerful SIP calculator</strong> for understanding investment progress. 
+            You can toggle between chart types easily and even highlight key data points.  
+            For professionals and educators, this acts as a **visual SIP calculator tutorial**.
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🌍 Multi-Currency and Localization Support</h2>
+          <p>
+            Another unique feature of this <strong>tool SIP calculator</strong> is its support for more than 
+            <strong>40 global currencies</strong>, including USD, INR, EUR, GBP, AUD, and SGD.  
+            Each currency uses its native locale formatting, ensuring numbers and symbols appear 
+            naturally for users across the world.
+          </p>
+          <p>
+            This makes it a globally accessible <strong>system SIP calculator</strong> — a universal solution for investors 
+            tracking mutual funds across borders.
+          </p>
+        
+          <h2 id="sip-advanced" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">⚙️ Advanced SIP Calculator Features</h2>
+          <ul className="space-y-2">
+            <li>✔️ **Live Math Engine** — shows all formula steps in real time.</li>
+            <li>✔️ **Copy Results** — share results or investment summary instantly.</li>
+            <li>✔️ **Copy Link** — encode your inputs into a sharable URL for easy reference.</li>
+            <li>✔️ **Local Storage** — automatically remembers your last values for quick reload.</li>
+            <li>✔️ **Responsive Design** — works smoothly on mobile, tablet, and desktop.</li>
+            <li>✔️ **SEO-Optimized Content** — including detailed guides, FAQs, and structured schema.</li>
+          </ul>
+          <p>
+            These smart enhancements make it not just a calculator but a **complete financial planning companion**.
+          </p>
+        
+          <h2 id="sip-benefits" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">✅ SIP Calculator Benefits</h2>
+          <ul className="space-y-2">
+            <li>🎯 Helps visualize how small monthly contributions grow into large wealth.</li>
+            <li>📊 Simplifies compounding math into clear visuals.</li>
+            <li>💡 Ideal for comparing multiple investment plans.</li>
+            <li>🌍 Works across multiple countries and currencies.</li>
+            <li>🔒 Secure — all calculations happen locally in your browser.</li>
+            <li>💼 Suitable for both individuals and advisors.</li>
+          </ul>
+        
+          <p>
+            These <strong>SIP calculator benefits</strong> ensure that every investor, whether a student, 
+            working professional, or retiree, can use this <strong>best SIP calculator</strong> for their planning needs.
+          </p>
+        
+          <h2 id="sip-example" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🔍 Example Calculation</h2>
+          <p>
+            Suppose someone invests <strong>$500 every month</strong> for 10 years at an average annual return of 12%.  
+            Using this <strong>solution SIP calculator</strong>, they will get:
+          </p>
+          <ul>
+            <li><strong>Total Investment:</strong> $60,000</li>
+            <li><strong>Wealth Gain:</strong> $49,947</li>
+            <li><strong>Final Maturity Value:</strong> $109,947</li>
+          </ul>
+        
+          <p>
+            These results update instantly on the chart. This feature allows users to experiment freely with different 
+            return rates and time periods — helping them discover the power of compounding visually.
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">👥 SIP Calculator for Beginners & Professionals</h2>
+          <p>
+            This platform acts as both an **educational** and a **professional SIP calculator**.  
+            Beginners can learn how investments grow, while financial planners can use it to explain projections to clients.  
+            The user interface is clean, responsive, and optimized for quick input.
+          </p>
+        
+          <p>
+            Because of its accuracy, transparency, and user-friendly experience, many consider it the 
+            <strong>best SIP calculator</strong> available online for 2025-2026.
+          </p>
+        
+         
+        
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🌐 SIP Calculator Website & Accessibility</h2>
+          <p>
+            The <strong>SIP calculator website</strong> — part of CalculatorHub’s financial suite — 
+            uses modern React + Tailwind technology to deliver lightning-fast performance.  
+            No login or registration is required, ensuring privacy and speed.
+          </p>
+          <p>
+            Users can bookmark or share personalized links that automatically restore their inputs, 
+            making it an ideal <strong>system SIP calculator</strong> for everyday use.  
+            Whether accessed from desktop or mobile, it runs smoothly and retains data for convenience.
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🧭 Why This Is the Best SIP Calculator Online</h2>
+          <p>
+            This tool combines aesthetics, accuracy, and accessibility into one complete platform.  
+            It’s not just a calculator — it’s a comprehensive <strong>SIP calculator guide</strong>, tutorial, 
+            and interactive system rolled into one clean interface.
+          </p>
+          <ul className="space-y-1">
+            <li>🎨 Beautiful charts and animations.</li>
+            <li>📊 Step-by-step live math formula.</li>
+            <li>💻 Instant copy & share options.</li>
+            <li>🌍 Multi-currency support.</li>
+            <li>🔐 Privacy-first calculations (no data sent to servers).</li>
+          </ul>
+        
+          <p>
+            These elements make it a <strong>tool SIP calculator</strong> trusted by investors worldwide.
+          </p>
 
 
-  <h2 id="sip-pros-cons" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">⚖️ Pros &amp; Cons</h2>
-  <div className="grid md:grid-cols-2 gap-4">
-    <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
-      <h3 className="text-emerald-300 font-semibold mb-2">Pros</h3>
-      <ul className="list-disc list-inside space-y-1">
-        <li>Fast, accurate, and transparent</li>
-        <li>Beautiful visuals and exports</li>
-        <li>Multi-currency, mobile-ready</li>
-      </ul>
-    </div>
-    <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
-      <h3 className="text-rose-300 font-semibold mb-2">Cons</h3>
-      <ul className="list-disc list-inside space-y-1">
-        <li>Assumes steady returns; markets vary</li>
-        <li>No live fund NAVs (by design)</li>
-      </ul>
-    </div>
-  </div>
+          <h2 id="sip-pros-cons" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">⚖️ Pros &amp; Cons</h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
+              <h3 className="text-emerald-300 font-semibold mb-2">Pros</h3>
+              <ul className="list-disc list-inside space-y-1">
+                <li>Fast, accurate, and transparent</li>
+                <li>Beautiful visuals and exports</li>
+                <li>Multi-currency, mobile-ready</li>
+              </ul>
+            </div>
+            <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
+              <h3 className="text-rose-300 font-semibold mb-2">Cons</h3>
+              <ul className="list-disc list-inside space-y-1">
+                <li>Assumes steady returns; markets vary</li>
+                <li>No live fund NAVs (by design)</li>
+              </ul>
+            </div>
+          </div>
 
-  {/* ===================== FAQ SECTION (Styled) ===================== */}
-  <section className="space-y-6 mt-16">
-    <h2 id="sip-faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
-      ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
-    </h2>
+          {/* ===================== FAQ SECTION (Styled) ===================== */}
+          <section className="space-y-6 mt-16">
+            <h2 id="sip-faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
+              ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
+            </h2>
+        
+            <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2">
+                  <span className="text-yellow-300">Q1:</span> What is a SIP Calculator?
+                </h3>
+                <p>
+                  A <strong>SIP Calculator</strong> helps you estimate the future value of your mutual fund investments
+                  based on regular monthly contributions, an expected return rate, and your investment duration.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2">
+                  <span className="text-yellow-300">Q2:</span> How is SIP calculated?
+                </h3>
+                <p>
+                  SIP is calculated using the formula: <code className="text-cyan-300">FV = P × ((1 + r)ⁿ − 1) ÷ r × (1 + r)</code>, where
+                  <strong>P</strong> is your monthly SIP amount, <strong>r</strong> is the monthly rate of return, and <strong>n</strong> is the total
+                  number of months. This calculator applies that instantly for you.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2">
+                  <span className="text-yellow-300">Q3:</span> Can I use this for different mutual funds?
+                </h3>
+                <p>
+                  Yes — whether it’s <strong>equity funds</strong>, <strong>hybrid funds</strong>, <strong>index funds</strong> or <strong>debt funds</strong>, you can simulate the expected returns
+                  by adjusting the rate of return in this SIP Calculator.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2">
+                  <span className="text-yellow-300">Q4:</span> What is the ideal duration for a SIP?
+                </h3>
+                <p>
+                  Longer tenures (5–15 years or more) typically deliver stronger results because of compounding — the longer your money stays invested, the higher the growth potential.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2">
+                  <span className="text-yellow-300">Q5:</span> Is this SIP Calculator free?
+                </h3>
+                <p>
+                  Yes — this tool is completely <strong>free to use</strong>, with no registration required and fully responsive on all devices.
+                </p>
+              </div>
+            </div>
+          </section>
+        </section>
 
-    <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
-      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-        <h3 className="font-semibold text-xl mb-2">
-          <span className="text-yellow-300">Q1:</span> What is a SIP Calculator?
-        </h3>
-        <p>
-          A <strong>SIP Calculator</strong> helps you estimate the future value of your mutual fund investments
-          based on regular monthly contributions, an expected return rate, and your investment duration.
-        </p>
-      </div>
-
-      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-        <h3 className="font-semibold text-xl mb-2">
-          <span className="text-yellow-300">Q2:</span> How is SIP calculated?
-        </h3>
-        <p>
-          SIP is calculated using the formula: <code className="text-cyan-300">FV = P × ((1 + r)ⁿ − 1) ÷ r × (1 + r)</code>, where
-          <strong>P</strong> is your monthly SIP amount, <strong>r</strong> is the monthly rate of return, and <strong>n</strong> is the total
-          number of months. This calculator applies that instantly for you.
-        </p>
-      </div>
-
-      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-        <h3 className="font-semibold text-xl mb-2">
-          <span className="text-yellow-300">Q3:</span> Can I use this for different mutual funds?
-        </h3>
-        <p>
-          Yes — whether it’s <strong>equity funds</strong>, <strong>hybrid funds</strong>, <strong>index funds</strong> or <strong>debt funds</strong>, you can simulate the expected returns
-          by adjusting the rate of return in this SIP Calculator.
-        </p>
-      </div>
-
-      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-        <h3 className="font-semibold text-xl mb-2">
-          <span className="text-yellow-300">Q4:</span> What is the ideal duration for a SIP?
-        </h3>
-        <p>
-          Longer tenures (5–15 years or more) typically deliver stronger results because of compounding — the longer your money stays invested, the higher the growth potential.
-        </p>
-      </div>
-
-      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-        <h3 className="font-semibold text-xl mb-2">
-          <span className="text-yellow-300">Q5:</span> Is this SIP Calculator free?
-        </h3>
-        <p>
-          Yes — this tool is completely <strong>free to use</strong>, with no registration required and fully responsive on all devices.
-        </p>
-      </div>
-    </div>
-  </section>
-</section>
-
-{/* ==================== AUTHOR SECTION ==================== */}
-<section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
-  <div className="flex items-center gap-3">
-    <img
-      src="/images/calculatorhub-author.webp"
-      alt="CalculatorHub Finance Tools Team"
-      className="w-12 h-12 rounded-full border border-gray-600"
-      loading="lazy"
-    />
-    <div>
-      <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
-      <p className="text-sm text-slate-400">
-        Experts in mortgages and online financial tools. Last updated:{" "}
-        <time dateTime="2025-10-17">October 17, 2025</time>.
-      </p>
-    </div>
-  </div>
-
-  <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
-    <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
-      🚀 Explore more finance tools on CalculatorHub:
-    </p>
-    <div className="flex flex-wrap gap-3 text-sm">
-      <Link
-        to="/cagr-calculator"
-        className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
-      >
-        <span className="text-emerald-400">📊</span> CAGR Calculator
-      </Link>
-
-      <Link
-        to="/lump-sum-investment-calculator"
-        className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
-      >
-        <span className="text-sky-400">💰</span> Lump Sum Investment Calculator
-      </Link>
-
-      <Link
-        to="/roi-calculator"
-        className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
-      >
-        <span className="text-indigo-400">📈</span> ROI Calculator
-      </Link>
-    </div>
-  </div>
-</section>
-
-
-{/* ============= SIP CALCULATOR ENHANCED SEO SCHEMAS ================ */}
-<script
-  type="application/ld+json"
-  dangerouslySetInnerHTML={{
-    __html: JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "WebPage",
-      "name": "SIP Calculator",
-      "url": "https://calculatorhub.site/sip-calculator",
-      "description":
-        "Free online SIP Calculator by CalculatorHub. Instantly calculate SIP maturity value, total investment, and wealth gain using compound growth. Compare SIP returns and plan your investments easily.",
-      "breadcrumb": {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Investments & Finance",
-            "item": "https://calculatorhub.site/category/investments"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "SIP Calculator",
-            "item": "https://calculatorhub.site/sip-calculator"
-          }
-        ]
-      },
-      "hasPart": {
-        "@type": "CreativeWork",
-        "name": "SIP Calculator Features",
-        "about": [
-          "Calculates SIP maturity value and total investment",
-          "Supports multiple currencies",
-          "Provides visual charts for growth and returns",
-          "Ideal for mutual fund investors",
-          "Free, fast, and mobile-friendly"
-        ]
-      }
-    })
-  }}
-/>
-
-<script
-  type="application/ld+json"
-  dangerouslySetInnerHTML={{
-    __html: JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is a SIP Calculator?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text":
-              "A SIP Calculator helps you estimate the maturity amount and returns from your mutual fund SIP based on monthly investment, expected return rate, and duration."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How is SIP calculated?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text":
-              "SIP is calculated using the formula FV = P × ((1 + r)ⁿ − 1) ÷ r × (1 + r), where P is the monthly investment, r is the monthly interest rate, and n is the total number of months."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I use this calculator for mutual funds?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text":
-              "Yes, it can be used for any mutual fund SIP including equity, hybrid, debt, and index funds."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Is the SIP Calculator free to use?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text":
-              "Yes, it’s completely free, requires no sign-up, and supports multiple currencies."
-          }
-        }
-      ]
-    })
-  }}
-/>
-
-<script
-  type="application/ld+json"
-  dangerouslySetInnerHTML={{
-    __html: JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "SIP Calculator",
-      "operatingSystem": "All",
-      "applicationCategory": "FinanceApplication",
-      "description":
-        "Instant SIP Calculator to estimate mutual fund returns, total investment, and wealth gained. Works in multiple currencies and provides visual charts for growth tracking.",
-      "url": "https://calculatorhub.site/sip-calculator",
-      "featureList": [
-        "Estimate SIP maturity amount and total gains",
-        "Supports multiple currencies",
-        "Interactive charts for growth tracking",
-        "Free, accurate, and mobile-friendly"
-      ],
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.9",
-        "reviewCount": "1850"
-      }
-    })
-  }}
-/>
-
-
-
-
-
-
+        {/* ==================== AUTHOR SECTION ==================== */}
+        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/calculatorhub-author.webp"
+              alt="CalculatorHub Finance Tools Team"
+              className="w-12 h-12 rounded-full border border-gray-600"
+              loading="lazy"
+            />
+            <div>
+              <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
+              <p className="text-sm text-slate-400">
+                Experts in mortgages and online financial tools. Last updated:{" "}
+                <time dateTime="2025-10-17">October 17, 2025</time>.
+              </p>
+            </div>
+          </div>
+        
+          <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
+              🚀 Explore more finance tools on CalculatorHub:
+            </p>
+            <div className="flex flex-wrap gap-3 text-sm">
+              <Link
+                to="/cagr-calculator"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
+              >
+                <span className="text-emerald-400">📊</span> CAGR Calculator
+              </Link>
+        
+              <Link
+                to="/lump-sum-investment-calculator"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
+              >
+                <span className="text-sky-400">💰</span> Lump Sum Investment Calculator
+              </Link>
+        
+              <Link
+                to="/roi-calculator"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
+              >
+                <span className="text-indigo-400">📈</span> ROI Calculator
+              </Link>
+            </div>
+          </div>
+        </section>
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/sip-calculator" category="investments" />
