@@ -589,6 +589,21 @@ const TaxCalculator: React.FC = () => {
 
         {/* ==================== SEO CONTENT SECTION ==================== */}
          <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+            {/* ===== Table of Contents ===== */}
+            <nav className="mt-2 mb-10 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200">
+              <h2 className="text-lg font-semibold text-cyan-300 mb-3">📖 Table of Contents</h2>
+              <ol className="list-decimal list-inside space-y-2 text-sm">
+                <li><a href="#overview" className="text-indigo-400 hover:underline">Overview: What This Calculator Does</a></li>
+                <li><a href="#how-to-use" className="text-indigo-400 hover:underline">How to Use the Income Tax Calculator</a></li>
+                <li><a href="#how-calculated" className="text-indigo-400 hover:underline">How Taxes Are Calculated (Step-by-Step)</a></li>
+                <li><a href="#country-logic" className="text-indigo-400 hover:underline">Country-Specific Logic (2025)</a></li>
+                <li><a href="#example" className="text-indigo-400 hover:underline">Worked Example (Generic)</a></li>
+                <li><a href="#benefits" className="text-indigo-400 hover:underline">Key Benefits</a></li>
+                <li><a href="#pros-cons" className="text-indigo-400 hover:underline">Pros &amp; Cons</a></li>
+                <li><a href="#faq" className="text-indigo-400 hover:underline">FAQ</a></li>
+              </ol>
+            </nav>
+           
             <h1 className="text-3xl font-bold text-cyan-400 mb-6">
               Global Income Tax Calculator 2025 – Accurate, Fast & Country-Specific Results
             </h1>
@@ -624,7 +639,7 @@ const TaxCalculator: React.FC = () => {
               </figcaption>
             </figure>
           
-            <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            <h2 id="overview" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
               🌍 What Is an Income Tax Calculator?
             </h2>
             <p>
@@ -646,7 +661,7 @@ const TaxCalculator: React.FC = () => {
               It supports multiple regions and is continuously updated for fiscal accuracy.
             </p>
           
-            <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            <h2 id="how-to-use" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
               💡 How to Use This Income Tax Calculator
             </h2>
             <p>
@@ -665,8 +680,66 @@ const TaxCalculator: React.FC = () => {
               Users can change inputs in real time to see how deductions, exemptions, and additional earnings
               affect their taxes — making this the <strong>best income tax calculator</strong> for smart financial planning.
             </p>
+
+           {/* ===== How Calculated ===== */}
+            <h2 id="how-calculated" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              🧮 How Taxes Are Calculated (Step-by-Step)
+            </h2>
           
-            <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4 not-prose">
+              <ol className="list-decimal list-inside space-y-3 text-slate-200 text-sm">
+                <li>
+                  <strong>Start with Gross Income:</strong> your total annual earnings before tax.
+                </li>
+                <li>
+                  <strong>Subtract Allowances/Deductions:</strong> eligible items reduce your taxable base (standard deduction,
+                  personal allowance, retirement contributions, health insurance, etc.).
+                  <div className="mt-2 text-slate-300">
+                    Taxable Income = <span className="font-mono">Max(0, Gross Income − Deductions)</span>
+                  </div>
+                </li>
+                <li>
+                  <strong>Apply Progressive Slabs or Flat Rate:</strong> countries typically use brackets (slabs). Each part of income
+                  is taxed at its bracket’s marginal rate.
+                </li>
+                <li>
+                  <strong>Apply Credits/Rebates (if applicable):</strong> subtract eligible tax credits from computed tax.
+                </li>
+                <li>
+                  <strong>Add Surcharge/Levy (if applicable):</strong> some jurisdictions add health, solidarity, or high-income levies.
+                </li>
+                <li>
+                  <strong>Compute Effective Tax Rate:</strong>
+                  <div className="mt-2 text-slate-300">
+                    Effective Rate = <span className="font-mono">(Total Tax ÷ Gross Income) × 100%</span>
+                  </div>
+                </li>
+                <li>
+                  <strong>Net (Take-Home) Income:</strong>
+                  <div className="mt-2 text-slate-300">
+                    Net Income = <span className="font-mono">Gross Income − Total Tax</span>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          
+            <div className="mt-5">
+              <p className="mb-2">A tiny pseudo-code version of the slab calculation:</p>
+              <pre className="bg-slate-900/70 p-4 rounded-lg overflow-x-auto text-[13px] border border-slate-700">
+          {`let taxable = max(0, gross - deductions);
+          let tax = 0;
+          for (const slab of slabsAscending) {
+            const bandTop = slab.upper; // may be Infinity for the last band
+            const bandRate = slab.rate; // as decimal, e.g., 0.20
+            const bandAmount = Math.max(0, Math.min(taxable, bandTop - slab.lower));
+            tax += bandAmount * bandRate;
+          }
+          tax -= nonRefundableCredits; // floor at 0
+          tax = Math.max(0, tax) + surchargeOrLevy;`}
+              </pre>
+            </div>
+          
+            <h2 id="country-logic" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
               🧮 Tax Calculation Logic Used
             </h2>
             <p>
@@ -690,7 +763,7 @@ const TaxCalculator: React.FC = () => {
               giving users a realistic estimate before they file their actual returns.
             </p>
           
-            <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            <h2 id="example" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
               📈 Example Calculation for 2026
             </h2>
             <p>
@@ -710,7 +783,7 @@ const TaxCalculator: React.FC = () => {
               offering financial clarity at a glance.
             </p>
           
-            <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            <h2 id="benefits" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
               ✅ Key Benefits of the Income Tax Calculator
             </h2>
             <ul className="space-y-2">
@@ -763,10 +836,33 @@ const TaxCalculator: React.FC = () => {
               Its dynamic updates, multi-region support, and mobile optimization make it accessible to anyone — 
               from a student filing their first return to a business owner managing payroll taxes.
             </p>
+
+           {/* ===== Pros/Cons ===== */}
+          <h2 id="pros-cons" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            ⚖️ Pros and Cons
+          </h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
+              <h3 className="text-emerald-300 font-semibold mb-2">Pros</h3>
+              <ul className="list-disc list-inside space-y-1">
+                <li>Fast, accurate, transparent outputs.</li>
+                <li>Country-specific logic with locale formatting.</li>
+                <li>Scenario testing and instant updates.</li>
+              </ul>
+            </div>
+            <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
+              <h3 className="text-rose-300 font-semibold mb-2">Cons</h3>
+              <ul className="list-disc list-inside space-y-1">
+                <li>Not a legal filing tool or financial advice.</li>
+                <li>Requires correct inputs to match your situation.</li>
+                <li>Local/municipal taxes may vary by region.</li>
+              </ul>
+            </div>
+          </div>
           
             {/* ===================== FAQ SECTION ===================== */}
             <section className="space-y-6 mt-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
+              <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
                 ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
               </h2>
           
