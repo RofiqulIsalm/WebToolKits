@@ -1188,7 +1188,9 @@ useEffect(() => {
     <ol className="list-decimal list-inside space-y-2 text-sm">
       <li><a href="#what-is-emi" className="text-indigo-400 hover:underline">What is an EMI?</a></li>
       <li><a href="#how-emi-calculator-works" className="text-indigo-400 hover:underline">How the Loan EMI Calculator Works</a></li>
+      {principal > 0 && (years > 0 || months > 0) && (
       <li><a href="#how-to-calculate" className="text-indigo-400 hover:underline">How to Calculate EMI (Formula & Steps)</a></li>
+    )}
       <li><a href="#why-use" className="text-indigo-400 hover:underline">Why Use Our EMI Calculator</a></li>
       <li><a href="#how-to-use" className="text-indigo-400 hover:underline">How to Use This Calculator</a></li>
       <li><a href="#example" className="text-indigo-400 hover:underline">Worked Example</a></li>
@@ -1242,7 +1244,7 @@ useEffect(() => {
   </p>
 
   {/* ===== How the calculator works ===== */}
-  <h2 id="how-emi-calculator-works" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+  <h2 id="how-to-calculate" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
     How Does the Loan EMI Calculator Work?
   </h2>
   <p>
@@ -1261,52 +1263,149 @@ useEffect(() => {
   </p>
 
   {/* ===== How to Calculate (Formula & Steps) ===== */}
-  <h2 id="how-to-calculate" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-    How to Calculate EMI (Formula & Step-by-Step)
-  </h2>
-  <p>
-    EMI is calculated using the standard reducing-balance formula. We convert the annual rate to a monthly
-    rate and apply compounding across the number of months in your tenure.
-  </p>
+    {/* ===== How Calculated (EMI – Step-by-Step, live) ===== */}
+{principal > 0 && (years > 0 || months > 0) && (
+  <section className="mt-8">
+    <h2 id="emi-how-calculated" className="text-2xl font-semibold text-cyan-300 mb-4">
+      🧮 How EMI Is Calculated (Step-by-Step)
+    </h2>
 
-  {/* Formula Card */}
-  <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 not-prose">
-    <div className="font-mono text-[14px] md:text-[15px] text-slate-200">
-      <div className="mb-2">
-        <span className="text-cyan-300 font-semibold">EMI</span> = [ <span className="text-emerald-300">P</span> × <span className="text-amber-300">R</span> × (1 + <span className="text-amber-300">R</span>)<sup className="text-sky-300">N</sup> ] ÷ [ (1 + <span className="text-amber-300">R</span>)<sup className="text-sky-300">N</sup> − 1 ]
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-3">
-        <div className="bg-[#0f172a] rounded-md px-3 py-2"><span className="text-emerald-300 font-semibold">P</span> = Principal (loan amount)</div>
-        <div className="bg-[#0f172a] rounded-md px-3 py-2"><span className="text-amber-300 font-semibold">R</span> = Monthly interest rate (APR/12/100)</div>
-        <div className="bg-[#0f172a] rounded-md px-3 py-2"><span className="text-sky-300 font-semibold">N</span> = Tenure in months</div>
-      </div>
-    </div>
-  </div>
+    {(() => {
+      // Inputs
+      const P = Number(principal) || 0;
+      const rAnnual = Number(annualRate) || 0;
+      const N = Math.max(1, (Number(years) || 0) * 12 + (Number(months) || 0)); // months
+      const R = rAnnual > 0 ? rAnnual / 12 / 100 : 0; // monthly decimal rate
 
-  {/* Step-by-step numeric walk-through */}
-  <div className="mt-5">
-    <h3 className="text-xl font-semibold text-emerald-300 mb-2">Step-by-Step Walkthrough</h3>
-    <ol className="list-decimal list-inside space-y-1">
-      <li>Convert annual interest to monthly: <code className="text-cyan-300">R = (Annual% ÷ 12 ÷ 100)</code></li>
-      <li>Convert tenure to months: <code className="text-cyan-300">N = Years × 12 (or include extra months)</code></li>
-      <li>Compute the factor: <code className="text-cyan-300">(1 + R)<sup>N</sup></code></li>
-      <li>Apply the formula to get EMI.</li>
-      <li>Compute totals: <code className="text-cyan-300">Total Payment = EMI × N</code> and <code className="text-cyan-300">Total Interest = Total Payment − P</code>.</li>
-    </ol>
-  </div>
+      // Helpers
+      const money = (v: number) =>
+        `${currency}${(isFinite(v) ? v : 0).toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
+      const dec = (v: number, d = 8) => (isFinite(v) ? v.toFixed(d) : '—');
 
-  {/* Dynamic component hook (optional, if present in your codebase) */}
-  {/* Example: show step-by-step with live inputs */}
-  {typeof EMIStepByStepDynamic !== "undefined" && principal > 0 && annualRate > 0 && (years > 0 || months > 0) && (
-    <div className="mt-4">
-      <EMIStepByStepDynamic
-        principal={principal}
-        annualRate={annualRate}
-        years={years}
-        months={months}
-      />
-    </div>
-  )}
+      // Core math
+      let EMI = 0, onePlusR_pow_N = 0, totalPay = 0, totalInt = 0;
+
+      if (R === 0) {
+        EMI = P / N;
+        onePlusR_pow_N = 1; // neutral
+      } else {
+        onePlusR_pow_N = Math.pow(1 + R, N);
+        EMI = (P * R * onePlusR_pow_N) / (onePlusR_pow_N - 1);
+      }
+
+      totalPay = EMI * N;
+      totalInt = totalPay - P;
+
+      const prettyLines = R === 0
+        ? [
+            `EMI = P ÷ N`,
+            `EMI = ${money(P)} ÷ ${N}`,
+            `EMI = ${money(EMI)}`,
+            `Total Payment = EMI × N = ${money(totalPay)}`,
+            `Total Interest = Total Payment − P = ${money(totalInt)}`
+          ]
+        : [
+            `EMI = P × R × (1 + R)^N] ÷ ((1 + R)^N − 1)`,
+            `EMI = ${money(P)} × ${dec(R, 8)} × ${dec(onePlusR_pow_N, 9)} ÷ (${dec(onePlusR_pow_N, 9)} − 1)`,
+            `EMI = ${money(EMI)}`,
+            `Total Payment = EMI × N = ${money(totalPay)}`,
+            `Total Interest = Total Payment − P = ${money(totalInt)}`
+          ];
+
+      return (
+        <div className="relative rounded-2xl bg-gradient-to-br from-slate-800/90 via-slate-900/90 to-[#0b1220]/90 p-4 sm:p-6 ring-1 ring-indigo-500/30 shadow-xl">
+          <div className="pointer-events-none absolute inset-x-0 -top-0.5 h-0.5 bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-emerald-500 opacity-60" />
+
+          {/* Formula header */}
+          <p className="mb-4 text-center font-mono text-[15px] leading-7 text-indigo-300">
+            EMI = <span className="text-sky-300">[ P × R × (1 + R)<sup>N</sup> ] ÷ [ (1 + R)<sup>N</sup> − 1 ]</span>
+          </p>
+
+          {/* Inputs row */}
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 mb-4">
+            <div className="flex justify-between items-center gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-emerald-500/20">
+              <span className="font-semibold text-emerald-300">P</span>
+              <span className="text-slate-300">Principal</span>
+              <span className="font-semibold text-white truncate">{money(P)}</span>
+            </div>
+            <div className="flex justify-between items-center gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-amber-500/20">
+              <span className="font-semibold text-amber-300">R</span>
+              <span className="text-slate-300">Monthly rate</span>
+              <span className="font-semibold text-white truncate">
+                {rAnnual > 0 ? dec(R, 8) : '0'}
+              </span>
+            </div>
+            <div className="flex justify-between items-center gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-fuchsia-500/20">
+              <span className="font-semibold text-fuchsia-300">N</span>
+              <span className="text-slate-300">Months</span>
+              <span className="font-semibold text-white truncate">{N}</span>
+            </div>
+          </div>
+
+          {/* Steps */}
+          <div className="space-y-2 font-mono break-words text-slate-200 text-[13.5px] sm:text-sm">
+            {R !== 0 && (
+              <>
+                <div className="flex justify-between">
+                  <span className="font-semibold text-indigo-300">(1 + R)</span>
+                  <span className="text-white">{dec(1 + R, 9)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-semibold text-rose-300">(1 + R)<sup>N</sup></span>
+                  <span className="text-white">{dec(onePlusR_pow_N, 9)}</span>
+                </div>
+              </>
+            )}
+            <div className="flex justify-between">
+              <span className="font-semibold text-emerald-300">EMI</span>
+              <span className="text-white">{money(EMI)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="font-semibold text-sky-300">Total Payment (EMI × N)</span>
+              <span className="text-white">{money(totalPay)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="font-semibold text-amber-300">Total Interest (− P)</span>
+              <span className="text-white">{money(totalInt)}</span>
+            </div>
+          </div>
+
+          {/* Pretty equation block */}
+          <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+          <p className="mb-2 text-slate-300">Pretty equation with your numbers:</p>
+          <pre className="bg-slate-900/70 p-4 rounded-lg overflow-x-auto text-[13px] border border-slate-700">
+            <code>{prettyLines.join('\n')}</code>
+          </pre>
+
+          {/* Summary tiles */}
+          <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-center">
+              <div className="text-emerald-300 text-xs uppercase">Monthly EMI</div>
+              <div className="font-semibold text-white">{money(EMI)}</div>
+            </div>
+            <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-center">
+              <div className="text-amber-300 text-xs uppercase">Total Interest</div>
+              <div className="font-semibold text-white">{money(totalInt)}</div>
+            </div>
+            <div className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-center">
+              <div className="text-sky-300 text-xs uppercase">Total Payment</div>
+              <div className="font-semibold text-white">{money(totalPay)}</div>
+            </div>
+          </div>
+
+          {/* 0% APR note */}
+          {R === 0 && (
+            <p className="mt-3 text-xs text-amber-300">
+             Note: At 0% interest, EMI = Principal ÷ Months; there is no compounding.
+            </p>
+          )}
+        </div>
+      );
+    })()}
+  </section>
+)}
+
+  
 
   {/* Visual aid */}
   <div className="my-6 flex justify-center">
