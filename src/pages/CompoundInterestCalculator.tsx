@@ -638,7 +638,9 @@ const CompoundInterestCalculator: React.FC = () => {
     <ol className="list-decimal list-inside space-y-2 text-sm">
       <li><a href="#what-is" className="text-indigo-400 hover:underline">What Is Compound Interest?</a></li>
       <li><a href="#how-it-works" className="text-indigo-400 hover:underline">How the Calculator Works</a></li>
-      <li><a href="#how-to-calculate" className="text-indigo-400 hover:underline">How to Calculate (Formula & Steps)</a></li>
+      {principal > 0 && rate > 0 && (timeData.years + timeData.months + timeData.days) > 0 && (
+        <li><a href="#how-to-calculate" className="text-indigo-400 hover:underline">How to Calculate (Formula & Steps)</a></li>
+      )}
       <li><a href="#ear" className="text-indigo-400 hover:underline">EAR vs Nominal Rate</a></li>
       <li><a href="#contributions" className="text-indigo-400 hover:underline">With Recurring Contributions</a></li>
       <li><a href="#frequency" className="text-indigo-400 hover:underline">Compounding Frequency Impact</a></li>
