@@ -587,12 +587,13 @@ useEffect(() => {
             Try our Loan EMI, Income Tax, or Currency Converter next!
           </p>
         </div>
-        <a
-          href="/category/currency-finance"
-          className="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-md hover:bg-indigo-50 transition"
+        <Link
+          to="/category/currency-finance"
+          prefetch="intent"
+          className="inline-block bg-white text-indigo-700 font-semibold px-4 py-2 rounded-md hover:bg-indigo-50 transition duration-200 shadow-sm hover:shadow-md"
         >
           Explore More Calculators
-        </a>
+        </Link>
       </div>
 
 
