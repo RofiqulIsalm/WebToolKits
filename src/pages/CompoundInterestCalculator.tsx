@@ -704,7 +704,7 @@ const CompoundInterestCalculator: React.FC = () => {
            {/* How to calculate */}
           {principal > 0 && rate > 0 && (timeData.years + timeData.months + timeData.days) > 0 && (
             <section className="mt-10">
-              <h2 id="ci-how-calculated" className="text-2xl font-semibold text-cyan-300 mb-4">
+              <h2 id="how-to-calculate" className="text-2xl font-semibold text-cyan-300 mb-4">
                 🧮 How Compound Interest Is Calculated (Step-by-Step)
               </h2>
           
