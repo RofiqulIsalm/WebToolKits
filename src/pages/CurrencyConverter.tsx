@@ -10,7 +10,7 @@ import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
 import { fallbackRates } from '../utils/fallbackRates';
 
-
+ 
  
 const CurrencyConverter: React.FC = () => {
   const [amount, setAmount] = useState<number>(1);
