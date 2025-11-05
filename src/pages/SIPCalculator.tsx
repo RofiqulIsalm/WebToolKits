@@ -713,7 +713,24 @@ const SipCalculator: React.FC = () => {
 
   {/* ==================== SEO CONTENT SECTION ==================== */}
 <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
-   <h1 className="text-3xl font-bold text-cyan-400 mb-6">
+
+   {/* ===== Table of Contents ===== */}
+    <nav className="mt-2 mb-10 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200">
+      <h2 className="text-lg font-semibold text-cyan-300 mb-3">📖 Table of Contents</h2>
+      <ol className="list-decimal list-inside space-y-2 text-sm">
+        <li><a href="#sip-overview" className="text-indigo-400 hover:underline">Overview: What This SIP Calculator Does</a></li>
+        <li><a href="#sip-how-to-use" className="text-indigo-400 hover:underline">How to Use the Calculator</a></li>
+        <li><a href="#sip-how-calculated" className="text-indigo-400 hover:underline">How SIP is Calculated (Step-by-Step)</a></li>
+        <li><a href="#sip-charts" className="text-indigo-400 hover:underline">Charts & Visualization</a></li>
+        <li><a href="#sip-example" className="text-indigo-400 hover:underline">Worked Example</a></li>
+        <li><a href="#sip-advanced" className="text-indigo-400 hover:underline">Advanced Features</a></li>
+        <li><a href="#sip-benefits" className="text-indigo-400 hover:underline">Benefits</a></li>
+        <li><a href="#sip-pros-cons" className="text-indigo-400 hover:underline">Pros &amp; Cons</a></li>
+        <li><a href="#sip-faq" className="text-indigo-400 hover:underline">FAQ</a></li>
+      </ol>
+    </nav>
+  
+   <h1 id="sip-overview" className="text-3xl font-bold text-cyan-400 mb-6">
     SIP Calculator – Free, Easy & Powerful Investment Growth Tool (2025)
   </h1>
   
@@ -767,7 +784,7 @@ const SipCalculator: React.FC = () => {
       how investments grow and how tenure, rate, and amount interact.
     </p>
   
-    <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">💡 How to Use SIP Calculator (Step-by-Step Tutorial)</h2>
+    <h2 id="sip-how-to-use" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">💡 How to Use SIP Calculator (Step-by-Step Tutorial)</h2>
     <p>
       Using this <strong>SIP calculator tutorial</strong> takes less than a minute — the system 
       automatically computes and visualizes your investment outcome. Here’s how:
@@ -811,8 +828,177 @@ const SipCalculator: React.FC = () => {
       step — from exponentiation to factor calculation — a rare and educational feature that distinguishes this 
       <strong>professional SIP calculator</strong> from others online.
     </p>
+
+     {/* ===== How Calculated (Mortgage-style) ===== */}
+{months > 0 && monthlyInvestment > 0 && (
+  <section className="mt-10">
+    <h2 id="sip-how-calculated" className="text-2xl font-semibold text-cyan-300 mb-4">
+      🧮 How SIP is Calculated (Step-by-Step)
+    </h2>
+
+    <p className="mb-2">
+      We use the standard <strong>future value of a recurring investment</strong> (ordinary annuity — deposit at end of month).
+      Let <strong>P</strong> be monthly contribution, <strong>r</strong> the monthly rate (<em>annual ÷ 12 ÷ 100</em>),
+      and <strong>n</strong> the total months:
+    </p>
+
+    <pre className="bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto">
+      <code>{"FV = P × ((1 + r)^n − 1) ÷ r × (1 + r)"}</code>
+    </pre>
+
+    <p className="text-xs text-slate-400 mt-1">
+      Note: For <em>start-of-month</em> deposits (annuity-due), drop the trailing <span className="font-mono">(1 + r)</span>.
+    </p>
+
+    <div className="relative rounded-2xl bg-gradient-to-br from-slate-800/90 via-slate-900/90 to-[#0b1220]/90 p-4 sm:p-6 ring-1 ring-indigo-500/30 shadow-xl text-[13.5px] sm:text-sm leading-relaxed not-prose mt-4">
+      {/* top glow */}
+      <div className="pointer-events-none absolute inset-x-0 -top-0.5 h-0.5 bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-emerald-500 opacity-60" />
+
+      {/* Formula line */}
+      <p className="mb-4 text-center font-mono text-[15px] leading-7 text-indigo-300">
+        FV = <span className="text-sky-300">P × ((1 + r)^n − 1) ÷ r</span> × <span className="text-fuchsia-300">(1 + r)</span>
+      </p>
+
+      {/* Inputs row */}
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 mb-4">
+        <div className="flex flex-wrap justify-between items-center gap-1 sm:gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-cyan-500/20">
+          <span className="font-semibold text-cyan-300">P</span>
+          <span className="text-slate-300">Monthly</span>
+          <span className="font-semibold text-white truncate">
+            {formatCurrency(P)}
+          </span>
+        </div>
+        <div className="flex flex-wrap justify-between items-center gap-1 sm:gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-amber-500/20">
+          <span className="font-semibold text-amber-300">r</span>
+          <span className="text-slate-300">Monthly rate</span>
+          <span className="font-semibold text-white truncate">
+            {Number.isFinite(r) ? r.toFixed(8) : "—"}
+          </span>
+        </div>
+        <div className="flex flex-wrap justify-between items-center gap-1 sm:gap-2 bg-[#0f172a] px-3 py-2 rounded-lg border border-fuchsia-500/20">
+          <span className="font-semibold text-fuchsia-300">n</span>
+          <span className="text-slate-300">Months</span>
+          <span className="font-semibold text-white truncate">{n}</span>
+        </div>
+      </div>
+
+      <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+
+      {/* Step details */}
+      {r === 0 ? (
+        <div className="text-slate-300 text-center sm:text-left font-mono">
+          <span className="font-semibold">r = 0</span> ⇒ FV = P × n ={" "}
+          <span className="text-white font-semibold">
+            {formatCurrency(P * n)}
+          </span>
+        </div>
+      ) : (
+        <div className="space-y-2 font-mono break-words">
+          <div className="flex flex-wrap justify-between">
+            <span className="font-semibold text-indigo-300">(1 + r)^n</span>
+            <span className="text-white">{Number.isFinite(pow) ? pow.toFixed(9) : "—"}</span>
+          </div>
+
+          <div className="flex flex-wrap justify-between">
+            <span className="font-semibold text-rose-300">(1 + r)^n − 1</span>
+            <span className="text-white">{Number.isFinite(numerator) ? numerator.toFixed(9) : "—"}</span>
+          </div>
+
+          <div className="flex flex-wrap justify-between">
+            <span className="font-semibold text-emerald-300">((1 + r)^n − 1) ÷ r</span>
+            <span className="text-white">{Number.isFinite(factor) ? factor.toFixed(9) : "—"}</span>
+          </div>
+
+          <div className="flex flex-wrap justify-between">
+            <span className="font-semibold text-sky-300">P × factor</span>
+            <span className="text-white">
+              {Number.isFinite(factor) ? formatCurrency(P * factor) : "—"}
+            </span>
+          </div>
+
+          <div className="flex flex-wrap justify-between">
+            <span className="font-semibold text-pink-300">× (1 + r)</span>
+            <span className="text-white">
+              {Number.isFinite(futureValueCalc) ? formatCurrency(futureValueCalc) : "—"}
+            </span>
+          </div>
+        </div>
+      )}
+
+      <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+
+      {/* Pseudo-code */}
+      <p className="mb-2 text-slate-300">Math for SIP FV:</p>
+      <pre className="bg-slate-900/70 p-4 rounded-lg overflow-x-auto text-[13px] border border-slate-700">
+        {/* Numeric expansion (exact steps with live numbers) */}
+{r === 0 ? (
+  <pre className="bg-slate-900/70 p-4 rounded-lg overflow-x-auto text-[13px] border border-slate-700">
+    <code>{`FV = P × n
+FV = ${formatCurrency(P)} × ${n}
+FV = ${formatCurrency(P * n)}`}</code>
+  </pre>
+) : (
+  (() => {
+    // pretty number (non-currency) formatter
+    const fmtNum = (x: number, max = 8) =>
+      Number.isFinite(x)
+        ? new Intl.NumberFormat(currentLocale, { maximumFractionDigits: max }).format(x)
+        : "—";
+
+    const Pcur = formatCurrency(P);
+    const rStr = fmtNum(r, 8);                 // monthly rate (decimal)
+    const nStr = `${n}`;
+    const onePlusRStr = fmtNum(onePlusR, 8);   // (1 + r)
+    const powStr = fmtNum(pow, 9);             // (1 + r)^n
+    const numStr = fmtNum(numerator, 9);       // ( (1 + r)^n − 1 )
+    const facStr = fmtNum(factor, 9);          // ((1 + r)^n − 1) / r
+    const PtimesFac = Number.isFinite(P * factor) ? formatCurrency(P * factor) : "—";
+    const finalFV = Number.isFinite(futureValueCalc) ? formatCurrency(futureValueCalc) : "—";
+
+    const lines = [
+      `FV = P × ((1 + r)^n − 1) ÷ r × (1 + r)`,
+      `FV = ${Pcur} × ((1 + ${rStr})^${nStr} − 1) ÷ ${rStr} × (1 + ${rStr})`,
+      `FV = ${Pcur} × (${powStr} − 1) ÷ ${rStr} × ${onePlusRStr}`,
+      `FV = ${Pcur} × ${numStr} ÷ ${rStr} × ${onePlusRStr}`,
+      `FV = ${Pcur} × ${facStr} × ${onePlusRStr}`,
+      `FV = ${PtimesFac} × ${onePlusRStr}`,
+      `FV = ${finalFV}`,
+    ].join("\n");
+
+    return (
+      <pre className="bg-slate-900/70 p-4 rounded-lg overflow-x-auto text-[13px] border border-slate-700">
+        <code>{lines}</code>
+      </pre>
+    );
+  })()
+)}
+
+      </pre>
+
+      {/* Final FV (from your memoized calc) */}
+      <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-2 rounded-xl bg-[#0f172a] px-4 py-3 ring-1 ring-emerald-500/30">
+        <span className="text-sm text-emerald-300 whitespace-nowrap">📦 Maturity Value (FV)</span>
+        <span className="text-lg sm:text-xl font-bold tracking-wide text-white">
+          {formatCurrency(futureValue)}
+        </span>
+      </div>
+
+      {/* Optional: sanity note if someone compares both formulas */}
+      {Number.isFinite(futureValueCalc) && Math.abs(futureValueCalc - futureValue) > 0.005 && (
+        <p className="mt-2 text-xs text-amber-300">
+          Note: Displayed FV uses the same formula; minor differences may be due to rounding.
+        </p>
+      )}
+    </div>
+  </section>
+)}
+
+
+
+
+
   
-    <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">📈 Real-Time Chart & Data Visualization</h2>
+    <h2 id="sip-charts" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">📈 Real-Time Chart & Data Visualization</h2>
     <p>
       The SIP Calculator includes interactive **Pie** and **Bar charts** powered by Recharts. These visualize your 
       investment growth, showing the split between invested capital and total returns.
@@ -839,7 +1025,7 @@ const SipCalculator: React.FC = () => {
       tracking mutual funds across borders.
     </p>
   
-    <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">⚙️ Advanced SIP Calculator Features</h2>
+    <h2 id="sip-advanced" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">⚙️ Advanced SIP Calculator Features</h2>
     <ul className="space-y-2">
       <li>✔️ **Live Math Engine** — shows all formula steps in real time.</li>
       <li>✔️ **Copy Results** — share results or investment summary instantly.</li>
@@ -852,7 +1038,7 @@ const SipCalculator: React.FC = () => {
       These smart enhancements make it not just a calculator but a **complete financial planning companion**.
     </p>
   
-    <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">✅ SIP Calculator Benefits</h2>
+    <h2 id="sip-benefits" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">✅ SIP Calculator Benefits</h2>
     <ul className="space-y-2">
       <li>🎯 Helps visualize how small monthly contributions grow into large wealth.</li>
       <li>📊 Simplifies compounding math into clear visuals.</li>
@@ -867,7 +1053,7 @@ const SipCalculator: React.FC = () => {
       working professional, or retiree, can use this <strong>best SIP calculator</strong> for their planning needs.
     </p>
   
-    <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🔍 Example Calculation</h2>
+    <h2 id="sip-example" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🔍 Example Calculation</h2>
     <p>
       Suppose someone invests <strong>$500 every month</strong> for 10 years at an average annual return of 12%.  
       Using this <strong>solution SIP calculator</strong>, they will get:
@@ -895,20 +1081,7 @@ const SipCalculator: React.FC = () => {
       <strong>best SIP calculator</strong> available online for 2025-2026.
     </p>
   
-    <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">⚖️ SIP Calculator Pros and Cons</h2>
-    <p><strong>Pros:</strong></p>
-    <ul>
-      <li>Fast, accurate, and visually engaging results.</li>
-      <li>Works with multiple return rates and durations.</li>
-      <li>Supports currency localization and mobile layout.</li>
-      <li>Includes live math display for transparency.</li>
-      <li>Completely free — no login required.</li>
-    </ul>
-    <p><strong>Cons:</strong></p>
-    <ul>
-      <li>Does not fetch live mutual fund data (by design for privacy).</li>
-      <li>Assumes consistent returns, while real markets vary.</li>
-    </ul>
+   
   
     <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🌐 SIP Calculator Website & Accessibility</h2>
     <p>
@@ -940,9 +1113,29 @@ const SipCalculator: React.FC = () => {
       These elements make it a <strong>tool SIP calculator</strong> trusted by investors worldwide.
     </p>
 
+
+  <h2 id="sip-pros-cons" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">⚖️ Pros &amp; Cons</h2>
+  <div className="grid md:grid-cols-2 gap-4">
+    <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
+      <h3 className="text-emerald-300 font-semibold mb-2">Pros</h3>
+      <ul className="list-disc list-inside space-y-1">
+        <li>Fast, accurate, and transparent</li>
+        <li>Beautiful visuals and exports</li>
+        <li>Multi-currency, mobile-ready</li>
+      </ul>
+    </div>
+    <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
+      <h3 className="text-rose-300 font-semibold mb-2">Cons</h3>
+      <ul className="list-disc list-inside space-y-1">
+        <li>Assumes steady returns; markets vary</li>
+        <li>No live fund NAVs (by design)</li>
+      </ul>
+    </div>
+  </div>
+
   {/* ===================== FAQ SECTION (Styled) ===================== */}
   <section className="space-y-6 mt-16">
-    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
+    <h2 id="sip-faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
       ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
     </h2>
 
