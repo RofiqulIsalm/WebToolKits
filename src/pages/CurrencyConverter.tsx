@@ -463,6 +463,16 @@ const CurrencyConverter: React.FC = () => {
         
       <AdBanner type="bottom" />
         <div className="seo-content text-white space-y-6 mt-10">
+          <nav className="mt-16 mb-8 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-cyan-300 mb-3">📖 Table of Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#what-is" className="text-indigo-400 hover:underline">What is Currency Converter</a></li>
+              <li><a href="#how-to-calculate" className="text-indigo-400 hover:underline"> How Currency Converter Work</a></li>
+              <li><a href="#benefits" className="text-indigo-400 hover:underline">Benefits</a></li>
+              <li><a href="#faq" className="text-indigo-400 hover:underline">FAQ</a></li>
+            </ol>
+          </nav>
+    
 
         <h2 className="text-2xl font-bold">Understanding Currency Converters: How They Work and Why You Need One</h2>
           {/*------------ world map ----------------*/}
@@ -474,13 +484,13 @@ const CurrencyConverter: React.FC = () => {
               />
             </div>
           
-        <h2 className="text-2xl font-bold">What is a Currency Converter?</h2>
+        <h2 id="what-is" className="text-2xl font-bold">What is a Currency Converter?</h2>
           <p>A <strong>currency converter </strong>is a practical online tool that allows people to quickly and accurately convert one currency into another. It works using <strong>live exchange rates</strong>, ensuring that the value you see reflects the most current market prices. Whether you are a traveler planning a trip abroad, an investor managing international assets, or a business owner trading across borders, a <strong>real time currency converter</strong> simplifies the process of currency exchange.</p>
           <p>In essence, a <strong>money converter</strong> or <strong>foreign exchange calculator </strong>saves time and reduces uncertainty by giving users instant access to the value of their money in another currency. For instance, a person who wants to<strong> convert dollars</strong> to euros or check the<strong> currency conversion rates today</strong> can simply enter the amount and select the desired currencies to get an immediate result.</p>
           <p>Over the years, the best <strong>currency converter</strong> tools have evolved into feature-rich platforms that can handle multiple currencies, historical exchange rates, and automatic rate updates. Whether it’s a<strong> travel currency converter</strong> or an <strong>international currency converter</strong>, users can depend on these tools to stay financially prepared wherever they go.</p>
           
          
-        <h2 className="text-2xl font-bold">How Does the Currency Converter Work?</h2>
+        <h2 id="how-to-calculate" className="text-2xl font-bold">How Does the Currency Converter Work?</h2>
         <p>
       A <strong>currency converter</strong> operates by pulling<strong> real-time exchange data </strong>from global financial markets. These rates fluctuate constantly due to economic indicators, inflation, and geopolitical factors that influence the strength of different currencies. The system updates every few seconds, ensuring accuracy when you use a <strong>real time currency converter </strong>or <strong>exchange rate calculator</strong>.
         </p>  
@@ -501,7 +511,6 @@ const CurrencyConverter: React.FC = () => {
             </code>
           </div>
         <p>
-
           {/*---------- image ---------------*/}
           <div className="my-6 flex justify-center">
               <img
@@ -518,7 +527,7 @@ const CurrencyConverter: React.FC = () => {
 
           <AdBanner type="bottom" />
       
-        <h2 className="text-2xl font-bold">Why Should You Use an Online Currency Calculator?</h2>
+        <h2 id="benefits" className="text-2xl font-bold">Why Should You Use an Online Currency Calculator?</h2>
           <p>
             There are countless reasons why people rely on a <strong>currency calculator online</strong>, especially in an increasingly connected global economy. Here are a few major benefits:
           </p>
@@ -621,7 +630,7 @@ In short, the logic may be simple, but the impact is powerful: a <strong>currenc
 
         {/*--------------------FAQ------------------------*/}
         <section className="space-y-6 mt-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
+          <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
             ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
           </h2>
         
