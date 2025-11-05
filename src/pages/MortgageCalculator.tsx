@@ -1194,29 +1194,59 @@ useEffect(() => {
                     <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
               
                     {/* Calculation formula lines */}
-                    <div className="overflow-x-auto rounded-md bg-[#0f172a] px-3 py-2 border border-slate-700 text-slate-300 text-[13px] whitespace-nowrap scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent">
-                <div className="min-w-max">
-                  <span className="font-semibold text-slate-100">EMI</span> =
-                  <span className="text-white">
-                    {" "}{formatCurrency(emiSteps.P, currentLocale, currency)}{" "}
-                  </span>
-                  × <span className="text-white">{emiSteps.r.toFixed(8)}</span>
-                  {" "}×{" "}
-                  <span className="text-white">{emiSteps.pow.toFixed(6)}</span>
-                  {" "}÷{" "}
-                  <span className="text-white">{emiSteps.denominator.toFixed(6)}</span>
-                </div>
-              
-                <div className="min-w-max text-slate-400">
-                  ={" "}
-                  <span className="text-white">
-                    {formatCurrency(emiSteps.numerator, currentLocale, currency)}
-                  </span>
-                  {" "}÷{" "}
-                  <span className="text-white">{emiSteps.denominator.toFixed(6)}</span>
-                </div>
-              </div>
-              
+                    <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+
+                        {/* Pseudo-code */}
+                        <p className="mb-2 text-slate-300">Math for Mortgage EMI :</p>
+                        <pre className="bg-slate-900/70 p-4 rounded-lg overflow-x-auto text-[13px] border border-slate-700">
+                          {/* Numeric expansion (exact steps with live numbers) */}
+                          {emiSteps.isZeroRate ? (
+                            <pre className="bg-slate-900/70 p-4 rounded-lg overflow-x-auto text-[13px] border border-slate-700 mt-3">
+                              <code>{`EMI = P / n
+                          EMI = ${formatCurrency(emiSteps.P, currentLocale, currency)} / ${emiSteps.n || 1}
+                          EMI = ${formatCurrency(
+                            (emiSteps.P || 0) / Math.max(1, (emiSteps.n || 0)),
+                            currentLocale,
+                            currency
+                          )}`}</code>
+                            </pre>
+                          ) : (
+                            (() => {
+                              const fmtNum = (x: number, max = 9) =>
+                                Number.isFinite(x)
+                                  ? new Intl.NumberFormat(currentLocale, { maximumFractionDigits: max }).format(x)
+                                  : "—";
+                          
+                              const Pcur = formatCurrency(emiSteps.P, currentLocale, currency);
+                              const rStr = emiSteps.r.toFixed(8);
+                              const nStr = `${emiSteps.n}`;
+                              const powStr = fmtNum(emiSteps.pow, 9);                 // (1 + r)^n
+                              const denomStr = fmtNum(emiSteps.denominator, 9);       // (1 + r)^n − 1
+                              const pTimesRcur = formatCurrency(emiSteps.pTimesR, currentLocale, currency); // P × r
+                              const numerCur = formatCurrency(emiSteps.numerator, currentLocale, currency); // (P × r) × (1 + r)^n
+                              const emiCur = formatCurrency(emiSteps.emi, currentLocale, currency);
+                          
+                              const lines = [
+                                `EMI = P × r × (1 + r)^n ÷ ((1 + r)^n − 1)`,
+                                `EMI = ${Pcur} × ${rStr} × (1 + ${rStr})^${nStr} ÷ ( (1 + ${rStr})^${nStr} − 1 )`,
+                                `EMI = ${Pcur} × ${rStr} × ${powStr} ÷ ${denomStr}`,
+                                `EMI = (${Pcur} × ${rStr}) × ${powStr} ÷ ${denomStr}`,
+                                `EMI = ${pTimesRcur} × ${powStr} ÷ ${denomStr}`,
+                                `EMI = ${numerCur} ÷ ${denomStr}`,
+                                `EMI = ${emiCur}`,
+                              ].join("\n");
+                          
+                              return (
+                                <pre className="bg-slate-900/70 p-4 rounded-lg overflow-x-auto text-[13px] border border-slate-700 mt-3">
+                                  <code>{lines}</code>
+                                </pre>
+                              );
+                            })()
+                          )}
+
+                  
+                        </pre>
+                    
                   </div>
                 ) : (
                   <div className="text-slate-300 text-center sm:text-left font-mono">
