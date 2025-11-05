@@ -1002,7 +1002,23 @@ useEffect(() => {
 
         {/* ==================== SEO CONTENT SECTION ==================== */}
           <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
-              <h1 className="text-3xl font-bold text-cyan-400 mb-6">
+
+            {/* ===== Table of Contents ===== */}
+            <nav className="mt-2 mb-10 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200">
+              <h2 className="text-lg font-semibold text-cyan-300 mb-3">📖 Table of Contents</h2>
+              <ol className="list-decimal list-inside space-y-2 text-sm">
+                <li><a href="#overview" className="text-indigo-400 hover:underline">Overview: What This Mortgage Calculator Does</a></li>
+                <li><a href="#how-to-use" className="text-indigo-400 hover:underline">How to Use the Calculator</a></li>
+                <li><a href="#how-calculated" className="text-indigo-400 hover:underline">How the Payment is Calculated (Step-by-Step)</a></li>
+                <li><a href="#piti" className="text-indigo-400 hover:underline">What’s in a Payment: PITI + HOA</a></li>
+                <li><a href="#example" className="text-indigo-400 hover:underline">Worked Example</a></li>
+                <li><a href="#benefits" className="text-indigo-400 hover:underline">Benefits</a></li>
+                <li><a href="#tips" className="text-indigo-400 hover:underline">Money-Saving Tips</a></li>
+                <li><a href="#pros-cons" className="text-indigo-400 hover:underline">Pros &amp; Cons</a></li>
+                <li><a href="#faq" className="text-indigo-400 hover:underline">FAQ</a></li>
+              </ol>
+            </nav>
+              <h1 id="overview" className="text-3xl font-bold text-cyan-400 mb-6">
                 Mortgage Calculator – Free, Advanced & Easy-to-Use Home Loan Estimator 2025-2026
               </h1>
             
@@ -1052,7 +1068,7 @@ useEffect(() => {
                 annual percentage rate (APR), and property taxes in plain language.
               </p>
             
-              <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              <h2 id="how-to-use" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
                 💡 How to Use the Mortgage Calculator
               </h2>
               <p>
@@ -1099,7 +1115,7 @@ useEffect(() => {
                {/*Dynamic live math */}
 
           {/* ===== Responsive, colorful EMI step-by-step ===== */}
-              <h2 id="how-emi" className="mt-12 mb-3 text-2xl font-extrabold tracking-tight text-center sm:text-left">
+              <h2 id="how-calculated" className="mt-12 mb-3 text-2xl font-extrabold tracking-tight text-center sm:text-left">
                 <span className="bg-gradient-to-r from-cyan-300 via-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">
                   🧮 How EMI is Calculated
                 </span>
@@ -1242,10 +1258,20 @@ useEffect(() => {
 
 
 
-
+              {/* ===== PITI Breakdown ===== */}
+              <h2 id="piti" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🏦 What’s in a Payment: PITI + HOA</h2>
+              <ul className="list-disc list-inside space-y-1">
+                <li><strong>Principal</strong> — amount that reduces your balance.</li>
+                <li><strong>Interest</strong> — cost of borrowing.</li>
+                <li><strong>Taxes</strong> — property tax (often paid monthly into escrow).</li>
+                <li><strong>Insurance</strong> — homeowners insurance (and mortgage insurance when applicable).</li>
+                <li><strong>HOA</strong> — homeowners association dues, if any.</li>
+              </ul>
+              <p className="text-sm text-slate-400">Your displayed “Monthly Payment” can include P+I only or full PITI+HOA, depending on toggles.</p>
             
-            
-              <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+                        
+              {/* ===== Example ===== */}
+              <h2 id="example" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
                 📈 Example Calculation
               </h2>
               <p>
@@ -1262,7 +1288,7 @@ useEffect(() => {
                 your remaining balance and total interest — turning complex math into clear visual data.
               </p>
             
-              <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              <h2 id="benefits" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
                 ✅ Mortgage Calculator Benefits
               </h2>
               <p>
@@ -1283,7 +1309,7 @@ useEffect(() => {
                 accurate financial logic.
               </p>
             
-              <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              <h2 id="tips" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
                 🧭 Mortgage Planning Tips
               </h2>
               <p>
@@ -1350,10 +1376,32 @@ useEffect(() => {
                 <strong> mortgage calculator guide</strong> — empowering users to understand the entire mortgage
                 lifecycle from approval to payoff.
               </p>
+
+             {/* ===== Pros / Cons ===== */}
+              <h2 id="pros-cons" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">⚖️ Pros and Cons</h2>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
+                  <h3 className="text-emerald-300 font-semibold mb-2">Pros</h3>
+                  <ul className="list-disc list-inside space-y-1">
+                    <li>Bank-grade math &amp; detailed schedules.</li>
+                    <li>Visual charts and clear breakdowns.</li>
+                    <li>Desktop, tablet, and mobile support.</li>
+                  </ul>
+                </div>
+                <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
+                  <h3 className="text-rose-300 font-semibold mb-2">Cons</h3>
+                  <ul className="list-disc list-inside space-y-1">
+                    <li>Regional taxes/insurance vary; enter your values.</li>
+                    <li>Accuracy depends on correct inputs.</li>
+                    <li>Not a substitute for professional advice.</li>
+                  </ul>
+                </div>
+              </div>
+
             
               {/* ===================== FAQ SECTION ===================== */}
               <section className="space-y-6 mt-16">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
+                <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
                   ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
                 </h2>
             
