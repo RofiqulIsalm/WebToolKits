@@ -720,7 +720,9 @@ const SipCalculator: React.FC = () => {
       <ol className="list-decimal list-inside space-y-2 text-sm">
         <li><a href="#sip-overview" className="text-indigo-400 hover:underline">Overview: What This SIP Calculator Does</a></li>
         <li><a href="#sip-how-to-use" className="text-indigo-400 hover:underline">How to Use the Calculator</a></li>
-        <li><a href="#sip-how-calculated" className="text-indigo-400 hover:underline">How SIP is Calculated (Step-by-Step)</a></li>
+        {months > 0 && monthlyInvestment > 0 && (
+          <li><a href="#sip-how-calculated" className="text-indigo-400 hover:underline">How SIP is Calculated (Step-by-Step)</a></li>
+        )}
         <li><a href="#sip-charts" className="text-indigo-400 hover:underline">Charts & Visualization</a></li>
         <li><a href="#sip-example" className="text-indigo-400 hover:underline">Worked Example</a></li>
         <li><a href="#sip-advanced" className="text-indigo-400 hover:underline">Advanced Features</a></li>
