@@ -5,7 +5,7 @@ import {
   Share2,
   Copy,
   PieChart as PieChartIcon,
-  ChevronDown,
+  ChevronDown, 
   ChevronUp,
   Info,
 } from "lucide-react";
