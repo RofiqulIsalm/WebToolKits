@@ -595,7 +595,9 @@ const TaxCalculator: React.FC = () => {
               <ol className="list-decimal list-inside space-y-2 text-sm">
                 <li><a href="#overview" className="text-indigo-400 hover:underline">Overview: What This Calculator Does</a></li>
                 <li><a href="#how-to-use" className="text-indigo-400 hover:underline">How to Use the Income Tax Calculator</a></li>
-                <li><a href="#how-calculated" className="text-indigo-400 hover:underline">How Taxes Are Calculated (Step-by-Step)</a></li>
+                {typeof income === "number" && income > 0 && (
+                  <li><a href="#how-calculated" className="text-indigo-400 hover:underline">How Taxes Are Calculated (Step-by-Step)</a></li>
+                )}
                 <li><a href="#country-logic" className="text-indigo-400 hover:underline">Country-Specific Logic (2025)</a></li>
                 <li><a href="#example" className="text-indigo-400 hover:underline">Worked Example (Generic)</a></li>
                 <li><a href="#benefits" className="text-indigo-400 hover:underline">Key Benefits</a></li>
