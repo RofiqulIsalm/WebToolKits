@@ -420,140 +420,198 @@ useEffect(() => {
   return (
     <>
       <SEOHead
-            title={seoData.mortgageCalculator.title}
-            description={seoData.mortgageCalculator.description}
+            title="Mortgage Calculator (2025–2026) — Free Advanced Home Loan & Refinance Estimator"
+            description="Use our free mortgage calculator to estimate monthly payments, total interest, and amortization. Perfect for first-time buyers, investors, and small businesses."
+            keywords={[
+              "mortgage calculator",
+              "home loan calculator",
+              "monthly mortgage payment",
+              "amortization schedule",
+              "mortgage refinance calculator",
+              "PITI calculator",
+              "loan EMI",
+              "mortgage interest",
+              "affordability calculator"
+            ]}
             canonical="https://calculatorhub.site/mortgage-calculator"
-            schemaData={generateCalculatorSchema(
-              "Mortgage Calculator",
-              seoData.mortgageCalculator.description,
-              "/mortgage-calculator",
-              seoData.mortgageCalculator.keywords
-            )}
-          />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {/* ===== Enhanced SEO & Social Metadata (Optimized for Google & Social) ===== */}
-        <>
-          {/* --- Open Graph Meta Tags --- */}
-          <meta property="og:type" content="website" />
-          <meta property="og:site_name" content="CalculatorHub" />
-          <meta property="og:locale" content="en_US" />
-          <meta property="og:title" content={seoData.mortgageCalculator.title} />
-          <meta property="og:description" content={seoData.mortgageCalculator.description} />
-          <meta property="og:url" content="https://calculatorhub.site/mortgage-calculator" />
-          <meta
-            property="og:image"
-            content="https://calculatorhub.site/images/mortgage-calculator-hero.webp"
-          />
-          <meta property="og:image:alt" content="Mortgage Calculator by CalculatorHub – EMI, Interest, and Payment Chart" />
-  
-          <meta property="og:image:width" content="1200" />
-          <meta property="og:image:height" content="630" />
-        
-          {/* --- Twitter Card Meta Tags --- */}
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:site" content="@CalculatorHub" />
-          <meta name="twitter:creator" content="@CalculatorHub" />
-          <meta name="twitter:title" content={seoData.mortgageCalculator.title} />
-          <meta name="twitter:description" content={seoData.mortgageCalculator.description} />
-          <meta
-            name="twitter:image"
-            content="https://calculatorhub.site/images/mortgage-calculator-hero.webp"
-          />
-          <meta
-            name="twitter:image:alt"
-            content="Interactive mortgage calculator showing EMI breakdown and amortization chart"
-          />
-        
-          {/* --- Rich Schema Markup (FAQ + Breadcrumb + WebPage) --- */}
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                "@context": "https://schema.org",
-                "@graph": [
+            schemaData={[
+              /* 1) WebPage (+ Article details) */
+              {
+                "@context":"https://schema.org",
+                "@type":"WebPage",
+                "@id":"https://calculatorhub.site/mortgage-calculator#webpage",
+                "url":"https://calculatorhub.site/mortgage-calculator",
+                "name":"Mortgage Calculator (2025–2026) — Free Advanced Home Loan & Refinance Estimator",
+                "inLanguage":"en",
+                "isPartOf":{"@id":"https://calculatorhub.site/#website"},
+                "primaryImageOfPage":{
+                  "@type":"ImageObject",
+                  "@id":"https://calculatorhub.site/images/mortgage-calculator-hero.webp#primaryimg",
+                  "url":"https://calculatorhub.site/images/mortgage-calculator-hero.webp",
+                  "width":1200,"height":675
+                },
+                "mainEntity":{
+                  "@type":"Article",
+                  "@id":"https://calculatorhub.site/mortgage-calculator#article",
+                  "headline":"Mortgage Calculator — Payments, Total Interest & Amortization",
+                  "description":"Estimate monthly mortgage payments, total interest and amortization with a bank-grade formula. Includes tips and FAQs.",
+                  "image":[
+                    "https://calculatorhub.site/images/mortgage-calculator-hero.webp"
+                  ],
+                  "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
+                  "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                  "datePublished":"2025-10-17",
+                  "dateModified":"2025-11-05",
+                  "mainEntityOfPage":{"@id":"https://calculatorhub.site/mortgage-calculator#webpage"},
+                  "articleSection":[
+                    "Overview","How to Use","Formula & Steps","PITI + HOA",
+                    "Example","Benefits","Tips","Pros & Cons","FAQ"
+                  ]
+                }
+              },
+          
+              /* 2) Breadcrumbs */
+              {
+                "@context":"https://schema.org",
+                "@type":"BreadcrumbList",
+                "@id":"https://calculatorhub.site/mortgage-calculator#breadcrumbs",
+                "itemListElement":[
+                  {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+                  {"@type":"ListItem","position":2,"name":"Currency & Finance","item":"https://calculatorhub.site/category/currency-finance"},
+                  {"@type":"ListItem","position":3,"name":"Mortgage Calculator","item":"https://calculatorhub.site/mortgage-calculator"}
+                ]
+              },
+          
+              /* 3) FAQPage (matches on-page FAQ) */
+              {
+                "@context":"https://schema.org",
+                "@type":"FAQPage",
+                "@id":"https://calculatorhub.site/mortgage-calculator#faq",
+                "mainEntity":[
                   {
-                    "@type": "WebPage",
-                    "@id": "https://calculatorhub.site/mortgage-calculator",
-                    "url": "https://calculatorhub.site/mortgage-calculator",
-                    "name": "Mortgage Calculator | Free Home Loan EMI & Interest Estimator",
-                    "description":
-                      "Use CalculatorHub’s Mortgage Calculator to estimate your monthly EMI, total interest, and amortization schedule instantly across multiple currencies.",
-                    "inLanguage": "en-US",
-                    "isPartOf": {
-                      "@type": "WebSite",
-                      "name": "CalculatorHub",
-                      "url": "https://calculatorhub.site"
-                    },
-                    "image": {
-                      "@type": "ImageObject",
-                      "url": "https://calculatorhub.site/images/mortgage-calculator-hero.webp",
-                      "width": 1200,
-                      "height": 630
-                    },
+                    "@type":"Question",
+                    "name":"What does a Mortgage Calculator do?",
+                    "acceptedAnswer":{"@type":"Answer","text":"It estimates your monthly mortgage payment, total interest, and payoff amount using bank-grade amortization math."}
                   },
                   {
-                    "@type": "BreadcrumbList",
-                    "itemListElement": [
-                      {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Currency & Finance",
-                        "item": "https://calculatorhub.site/category/currency-finance"
-                      },
-                      {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Mortgage Calculator",
-                        "item": "https://calculatorhub.site/mortgage-calculator"
-                      }
-                    ]
+                    "@type":"Question",
+                    "name":"How accurate is it?",
+                    "acceptedAnswer":{"@type":"Answer","text":"It uses standard lender formulas; accuracy depends on correct inputs for rate, term and principal."}
                   },
                   {
-                    "@type": "FAQPage",
-                    "mainEntity": [
-                      {
-                        "@type": "Question",
-                        "name": "What is a mortgage EMI?",
-                        "acceptedAnswer": {
-                          "@type": "Answer",
-                          "text":
-                            "EMI (Equated Monthly Installment) is the fixed monthly payment you make to repay your mortgage over time."
-                        }
-                      },
-                      {
-                        "@type": "Question",
-                        "name": "Does the calculator support down payment?",
-                        "acceptedAnswer": {
-                          "@type": "Answer",
-                          "text":
-                            "Yes, you can enter a down payment and we automatically reduce the financed principal before calculating EMI."
-                        }
-                      },
-                      {
-                        "@type": "Question",
-                        "name": "Can I share my results?",
-                        "acceptedAnswer": {
-                          "@type": "Answer",
-                          "text":
-                            "Use the Copy Link button to generate a shareable URL with your inputs encoded so anyone can open the same scenario."
-                        }
-                      },
-                      {
-                        "@type": "Question",
-                        "name": "Do you store my data?",
-                        "acceptedAnswer": {
-                          "@type": "Answer",
-                          "text":
-                            "No, all calculations run locally in your browser using localStorage only for your convenience."
-                        }
-                      }
-                    ]
+                    "@type":"Question",
+                    "name":"Is it free to use?",
+                    "acceptedAnswer":{"@type":"Answer","text":"Yes—completely free with unlimited calculations."}
+                  },
+                  {
+                    "@type":"Question",
+                    "name":"Can businesses use it?",
+                    "acceptedAnswer":{"@type":"Answer","text":"Yes, it works for commercial loans and investment property scenarios."}
+                  },
+                  {
+                    "@type":"Question",
+                    "name":"Can I download results?",
+                    "acceptedAnswer":{"@type":"Answer","text":"A downloadable Excel/CSV version is planned so you can calculate offline."}
                   }
                 ]
-              }),
-            }}
+              },
+          
+              /* 4) WebApplication */
+              {
+                "@context":"https://schema.org",
+                "@type":"WebApplication",
+                "@id":"https://calculatorhub.site/mortgage-calculator#webapp",
+                "name":"Mortgage Calculator",
+                "url":"https://calculatorhub.site/mortgage-calculator",
+                "applicationCategory":"FinanceApplication",
+                "operatingSystem":"Web",
+                "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                "image":["https://calculatorhub.site/images/mortgage-calculator-hero.webp"],
+                "description":"Advanced mortgage estimator with EMI, amortization schedule, and multi-currency formatting."
+              },
+          
+              /* 5) SoftwareApplication (optional) */
+              {
+                "@context":"https://schema.org",
+                "@type":"SoftwareApplication",
+                "@id":"https://calculatorhub.site/mortgage-calculator#software",
+                "name":"Mortgage Calculator by CalculatorHub",
+                "applicationCategory":"FinanceApplication",
+                "operatingSystem":"All",
+                "url":"https://calculatorhub.site/mortgage-calculator",
+                "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                "description":"Free mortgage EMI & amortization tool for buyers, investors, and small businesses."
+              },
+          
+              /* 6) Site & Org (shared IDs sitewide) */
+              {
+                "@context":"https://schema.org",
+                "@type":"WebSite",
+                "@id":"https://calculatorhub.site/#website",
+                "url":"https://calculatorhub.site",
+                "name":"CalculatorHub",
+                "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                "potentialAction":{
+                  "@type":"SearchAction",
+                  "target":"https://calculatorhub.site/search?q={query}",
+                  "query-input":"required name=query"
+                }
+              },
+              {
+                "@context":"https://schema.org",
+                "@type":"Organization",
+                "@id":"https://calculatorhub.site/#organization",
+                "name":"CalculatorHub",
+                "url":"https://calculatorhub.site",
+                "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
+              }
+            ]}
           />
-        </>
+
+          {/* Core */}
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+          <link rel="canonical" href="https://calculatorhub.site/mortgage-calculator" />
+          
+
+          {/* Hreflang (only keep real locales you ship) */}
+          <link rel="alternate" href="https://calculatorhub.site/mortgage-calculator" hreflang="en" />
+          <link rel="alternate" href="https://calculatorhub.site/mortgage-calculator" hreflang="x-default" />
+          
+
+          {/* Open Graph */}
+          <meta property="og:type" content="website" />
+          <meta property="og:site_name" content="CalculatorHub" />
+          <meta property="og:title" content="Mortgage Calculator (2025–2026) — Free Home Loan & Refinance Estimator" />
+          <meta property="og:description" content="Estimate monthly mortgage payments, total interest, and amortization with a bank-grade formula. Free & mobile-friendly." />
+          <meta property="og:url" content="https://calculatorhub.site/mortgage-calculator" />
+          <meta property="og:image" content="https://calculatorhub.site/images/mortgage-calculator-hero.webp" />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:locale" content="en_US" />
+          
+
+          {/* Twitter */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="Mortgage Calculator — Payments, Interest & Amortization" />
+          <meta name="twitter:description" content="Free mortgage calculator with EMI, total interest and amortization schedule." />
+          <meta name="twitter:image" content="https://calculatorhub.site/images/mortgage-calculator-hero.webp" />
+          
+
+           {/* Performance & PWA */}
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+          <link rel="preload" as="image" href="/images/mortgage-calculator-hero.webp" fetchpriority="high" />
+          <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossorigin />
+          <link rel="manifest" href="/site.webmanifest" />
+          <link rel="icon" href="/favicon.ico" />
+          <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+          <meta name="theme-color" content="#0ea5e9" />
+
+
+
+
 
 
 
