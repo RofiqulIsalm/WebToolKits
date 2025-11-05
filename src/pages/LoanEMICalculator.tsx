@@ -1172,363 +1172,451 @@ useEffect(() => {
         )}
 
 
-          {/* ==================== SEO CONTENT SECTION ==================== */}
-      <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
-        <h2 className="text-3xl font-bold text-cyan-400 mb-6">
-  Loan EMI Calculator – Free, Accurate & Instant Results
-        </h2>
+{/* ==================== SEO CONTENT SECTION (LOAN EMI) ==================== */}
+<section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+  {/* ===== Page H1 ===== */}
+  <h1 className="text-3xl font-bold text-cyan-400 mb-6">
+    Loan EMI Calculator – Free, Accurate & Instant Results
+  </h1>
 
-        <p>
-          Managing finances effectively is one of the biggest challenges for individuals and businesses today. When it comes to taking a loan — whether for buying a dream home, funding higher education, or supporting a startup — understanding monthly repayments is crucial. The <strong>Loan EMI Calculator</strong> is a simple yet powerful online tool that helps users calculate their <strong>Equated Monthly Installments (EMI)</strong> in just a few seconds.
-        </p>
-        
-        <p>
-          This <strong>affordable loan EMI calculator</strong> makes it possible to plan finances better, compare multiple loan options, and avoid unpleasant surprises during repayment. With its intuitive design and accurate results, users can confidently make smarter financial decisions.
-        </p>
-        
-        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">What Is an EMI?</h2>
-        <p>
-          An <strong>EMI (Equated Monthly Installment)</strong> is the fixed amount a borrower pays every month to repay a loan, including both principal and interest. Each EMI payment consists of two components:
-        </p>
-        <ul>
-          <li>
-            <strong>Principal:</strong> The portion of the loan amount that reduces the outstanding balance.
-          </li>
-          <li>
-            <strong>Interest:</strong> The cost paid to the lender for borrowing the money.
-          </li>
-        </ul>
-        
-        <p>
-          In the initial months, the interest portion is higher, while the principal portion increases gradually. This repayment structure continues until the loan is fully paid off.
-        </p>
-        <p>
-          For those new to financial planning, the <strong>loan EMI calculator for beginners</strong> explains this concept clearly, ensuring users understand how EMIs work and how each factor affects repayment.
-        </p>
-        
-        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">How Does the Loan EMI Calculator Work?</h2>
-        <p>
-          The <strong>loan EMI calculator</strong> simplifies complex math into a fast, easy, and accurate digital tool. It allows users to calculate EMIs instantly by entering just three essential inputs:
-        </p>
-        <ol className="list-decimal list-inside space-y-2">
-          <li><strong>Loan Amount (Principal):</strong> The amount borrowed from a bank or financial institution.</li>
-          <li><strong>Interest Rate (%):</strong> The rate charged annually by the lender.</li>
-          <li><strong>Tenure (Months or Years):</strong> The period over which the loan will be repaid.</li>
-        </ol>
-        
-        <p>
-          Once these details are entered, the <strong>easy loan EMI calculator</strong> automatically calculates the monthly installment and displays:
-        </p>
-        <ul>
-          <li>EMI amount</li>
-          <li>Total interest payable</li>
-          <li>Total repayment (principal + interest)</li>
-        </ul>
-        <p>
-          This eliminates guesswork and helps users find the most <strong>affordable loan option</strong> before applying.
-        </p>
-        
-        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">EMI Calculation Formula</h2>
-        <p>The EMI amount is derived using this mathematical formula:</p>
-        <pre className="bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto">
-          EMI = [P × R × (1 + R)^N] / [(1 + R)^N – 1]
-        </pre>
-        
-        {/* Dynamic Step-by-Step Example */}
-        {principal > 0 && annualRate > 0 && (years > 0 || months > 0) && (
-          <EMIStepByStepDynamic
-            principal={principal}
-            annualRate={annualRate}
-            years={years}
-            months={months}
-          />
-        )}
-        
-        <p>
-          While this formula may seem complicated, the <strong>loan EMI calculator app</strong> handles all the calculations instantly, displaying the EMI and total interest with precision. It’s the perfect tool for users who prefer accuracy without the manual effort.
-        </p>
-        
-        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Why Use Our EMI Calculator?</h2>
-        <p>
-          There are countless tools available online, but this <strong>professional loan EMI calculator</strong> stands out for its accuracy, versatility, and simplicity.
-        </p>
-        <p>Here’s what makes it special:</p>
-        <ul className="space-y-2">
-          <li>✅ <strong>Instant & Accurate Results:</strong> Delivers results in real time — no waiting or guesswork.</li>
-          <li>✅ <strong>User-Friendly Interface:</strong> Easy to navigate for everyone, including those new to finance.</li>
-          <li>✅ <strong>Completely Free:</strong> Accessible anytime without registration or hidden fees.</li>
-          <li>✅ <strong>All Loan Types Supported:</strong> Works for personal, car, home, education, and enterprise loans.</li>
-          <li>✅ <strong>Customizable Options:</strong> Users can modify values to test various interest rates and tenures.</li>
-          <li>✅ <strong>Visual Charts:</strong> Some versions even display principal vs. interest breakdowns graphically.</li>
-        </ul>
-        
-        <p>
-          The <strong>loan EMI calculator review</strong> from existing users highlights how this tool saves time, improves budgeting, and helps people avoid over-borrowing.
-        </p>
-        <p>
-          Whether it’s a <strong>small business loan EMI calculator</strong> or a personal loan estimator, the benefits remain the same — instant insights for informed financial planning.
-        </p>
-        
-        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">How to Use This Loan EMI Calculator</h2>
-        <p>Using this calculator is as simple as 1-2-3:</p>
-        <ul>
-          <li>Enter Loan Details – Input your desired loan amount, interest rate, and tenure.</li>
-          <li>Click Calculate – The calculator processes the data and displays the EMI instantly.</li>
-          <li>Analyze Results – View the breakup of total interest, total payment, and EMI schedule.</li>
-        </ul>
-        
-        <p>
-          Users can compare different lenders, adjust the repayment tenure, and choose the most <strong>affordable loan EMI calculator</strong> setting that suits their monthly budget.
-        </p>
-        <p>
-          Those who prefer guidance can also check the <strong>loan EMI calculator tutorial</strong> for a detailed walkthrough.
-        </p>
-        
-        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Example: EMI for <strong>{currencySymbol}</strong>10 Lakh Loan</h2>
-        <p>Let’s look at a practical example.</p>
-        <p>A borrower takes a <strong><strong>{currencySymbol}</strong>10 lakh loan</strong> at an annual interest rate of <strong>10%</strong> for <strong>5 years (60 months)</strong>.</p>
-        <ul>
-          <li>Principal: <strong>{currencySymbol}</strong>10,00,000</li>
-          <li>Interest Rate: 10% p.a.</li>
-          <li>Tenure: 60 months</li>
-        </ul>
-        <p><strong>Total Interest Payable:</strong> <strong>{currencySymbol}</strong>2,74,820</p>
-        <p><strong>Total Payment (Principal + Interest):</strong> <strong>{currencySymbol}</strong>12,74,820</p>
-        <p>
-          This example shows how a <strong>loan EMI calculator explained</strong> with real-world figures can help users make informed financial decisions before applying for a loan.
-        </p>
-        
-        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Understanding Interest Rates & Tenure</h2>
-        <p>Interest rate and tenure are the two biggest factors that influence EMI.</p>
-        <ul>
-          <li>A higher interest rate increases the EMI and total repayment cost.</li>
-          <li>A longer tenure reduces EMI but increases total interest payable.</li>
-        </ul>
-        <p>
-          The <strong>loan EMI calculator guide</strong> lets users experiment with different values to find the perfect balance between affordability and long-term savings.
-        </p>
-        <p>
-          For instance, someone planning to buy a car may choose a short-term affordable loan EMI calculator setup to save on total interest, while a business might opt for a longer tenure to keep monthly costs low.
-        </p>
-        
-        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Comparing Loans with the EMI Calculator</h2>
-        <p>
-          One of the most useful features of this calculator is the ability to compare multiple loan options side by side. Users can input different interest rates and tenures from various banks to see which one offers the lowest EMI.
-        </p>
-        <p>
-          This <strong>loan EMI calculator vs</strong> approach makes it easy to identify the best deal and avoid overpaying in interest.
-        </p>
-        <p>
-          Additionally, the calculator serves as a <strong>solution loan EMI calculator</strong> for financial advisors, helping them illustrate repayment plans to clients in a clear and transparent manner.
-        </p>
-        
-        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">How Prepayments Save Interest</h2>
-        <p>
-          Making <strong>prepayments</strong> (partial or full) during the loan tenure can help save a significant amount on interest.
-        </p>
-        <p>
-          When a borrower pays off part of the principal early, the outstanding amount reduces, leading to lower future interest charges.
-        </p>
-        <p>
-          This tool shows exactly how much interest can be saved and how prepayment affects the remaining EMIs. It’s particularly useful for small businesses and entrepreneurs who experience fluctuating cash flows.
-        </p>
-        <p>
-          By using the <strong>small business loan EMI calculator</strong>, they can plan prepayments strategically and become debt-free faster.
-        </p>
-        
-        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Benefits of Using a Loan EMI Calculator</h2>
-        <p>Here are some notable benefits of using a <strong>loan EMI calculator explained</strong> in simple terms:</p>
-        <ul>
-          <li>Clarity: Get a clear picture of your monthly repayment obligation.</li>
-          <li>Transparency: Avoid hidden charges by understanding how interest is applied.</li>
-          <li>Confidence: Apply for loans knowing what you can afford.</li>
-          <li>Planning: Manage multiple loans with ease using EMI projections.</li>
-          <li>Convenience: Access the <strong>loan EMI calculator app</strong> anytime, anywhere.</li>
-        </ul>
-        <p>
-          These advantages make the <strong>professional loan EMI calculator</strong> a must-have for every borrower.
-        </p>
-        
-        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Loan EMI Calculator Pros and Cons</h2>
-        <p>Like any tool, there are a few pros and cons:</p>
-        <p><strong>Pros:</strong></p>
-        <ul>
-          <li>Quick and easy to use</li>
-          <li>Accurate calculations</li>
-          <li>Free and accessible online</li>
-          <li>Great for loan comparison</li>
-        </ul>
-        <p><strong>Cons:</strong></p>
-        <ul>
-          <li>Relies on user input accuracy</li>
-          <li>Doesn’t account for variable interest rates</li>
-          <li>May not include additional bank fees</li>
-        </ul>
-        <p>
-          However, for most use cases, the <strong>loan EMI calculator benefits</strong> far outweigh its limitations, making it one of the best financial planning tools available.
-        </p>
+  {/* ===== Table of Contents ===== */}
+  <nav
+    aria-label="Table of contents"
+    className="mt-8 mb-10 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200"
+  >
+    <h2 className="text-lg font-semibold text-cyan-300 mb-3">📖 Table of Contents</h2>
+    <ol className="list-decimal list-inside space-y-2 text-sm">
+      <li><a href="#what-is-emi" className="text-indigo-400 hover:underline">What is an EMI?</a></li>
+      <li><a href="#how-emi-calculator-works" className="text-indigo-400 hover:underline">How the Loan EMI Calculator Works</a></li>
+      <li><a href="#how-to-calculate" className="text-indigo-400 hover:underline">How to Calculate EMI (Formula & Steps)</a></li>
+      <li><a href="#why-use" className="text-indigo-400 hover:underline">Why Use Our EMI Calculator</a></li>
+      <li><a href="#how-to-use" className="text-indigo-400 hover:underline">How to Use This Calculator</a></li>
+      <li><a href="#example" className="text-indigo-400 hover:underline">Worked Example</a></li>
+      <li><a href="#rates-tenure" className="text-indigo-400 hover:underline">Interest Rates & Tenure Explained</a></li>
+      <li><a href="#comparison" className="text-indigo-400 hover:underline">Comparing Loan Offers</a></li>
+      <li><a href="#prepayment" className="text-indigo-400 hover:underline">Prepayments & Interest Savings</a></li>
+      <li><a href="#pros-cons" className="text-indigo-400 hover:underline">Pros & Cons</a></li>
+      <li><a href="#faq" className="text-indigo-400 hover:underline">FAQ</a></li>
+    </ol>
+  </nav>
 
+  {/* ===== Intro ===== */}
+  <p>
+    Managing finances effectively is one of the biggest challenges for individuals and businesses today.
+    When it comes to taking a loan—whether for buying a dream home, funding higher education, or
+    supporting a startup—understanding monthly repayments is crucial. The
+    <strong> Loan EMI Calculator</strong> is a simple yet powerful online tool that helps you calculate your
+    <strong> Equated Monthly Installments (EMI)</strong> in seconds so you can plan ahead with confidence.
+  </p>
+  <p>
+    This <strong>affordable loan EMI calculator</strong> makes it easy to compare lenders, optimize your tenure,
+    and avoid unpleasant surprises during repayment. With its intuitive design and accurate results, you’ll
+    be able to make smarter, data-driven borrowing decisions.
+  </p>
 
-      
-        {/* ===================== FAQ SECTION (12+) ===================== */}
-        <section className="space-y-6 mt-16" aria-label="Loan EMI Calculator FAQs">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
-            ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
-          </h2>
+  {/* ===== Hero Illustration ===== */}
+  <div className="mb-8 text-center">
+    <img
+      src="/images/loan-emi-calculator-hero.webp"
+      alt="Loan EMI calculator dashboard showing EMI, total interest, and amortization graph"
+      className="mx-auto rounded-lg shadow-lg w-full max-w-3xl"
+      loading="lazy"
+    />
+  </div>
 
-          <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
-            {/* Q1 */}
-            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-              <h3 className="font-semibold text-xl mb-2">
-                <span className="text-yellow-300">Q1:</span> What is a Loan EMI Calculator?
-              </h3>
-              <p>
-                A <strong>Loan EMI Calculator</strong> helps you compute your monthly Equated Monthly Installment based on
-                the principal, interest rate, and tenure. It shows your EMI, total interest, and total repayment amount instantly.
-              </p>
-            </div>
+  {/* ===== What is EMI ===== */}
+  <h2 id="what-is-emi" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">What Is an EMI?</h2>
+  <p>
+    An <strong>EMI (Equated Monthly Installment)</strong> is the fixed amount a borrower pays every month to
+    repay a loan. Each EMI includes two parts:
+  </p>
+  <ul className="list-disc list-inside">
+    <li><strong>Principal:</strong> The portion that reduces your outstanding loan balance.</li>
+    <li><strong>Interest:</strong> The cost you pay the lender for borrowing money.</li>
+  </ul>
+  <p>
+    In the initial months, the <em>interest portion is higher</em> and the <em>principal portion is lower</em>.
+    Over time, this relationship flips—more principal and less interest—until the loan is fully paid off.
+    For those new to personal finance, our <strong>loan EMI calculator for beginners</strong> makes this easy to
+    visualize with a clear amortization breakdown.
+  </p>
 
-            {/* Q2 */}
-            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-              <h3 className="font-semibold text-xl mb-2">
-                <span className="text-yellow-300">Q2:</span> How is EMI calculated?
-              </h3>
-              <p>
-                EMI uses the formula <code className="text-cyan-300">[P × R × (1 + R)^N] / [(1 + R)^N – 1]</code>, where <strong>P</strong> is
-                the loan amount, <strong>R</strong> is the monthly interest rate, and <strong>N</strong> is the number of months.
-              </p>
-            </div>
+  {/* ===== How the calculator works ===== */}
+  <h2 id="how-emi-calculator-works" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+    How Does the Loan EMI Calculator Work?
+  </h2>
+  <p>
+    The <strong>loan EMI calculator</strong> condenses otherwise complex math into a quick, accurate tool. Enter
+    three essential inputs and get instant results:
+  </p>
+  <ol className="list-decimal list-inside space-y-1">
+    <li><strong>Loan Amount (Principal)</strong> — the money you intend to borrow.</li>
+    <li><strong>Interest Rate (% p.a.)</strong> — annual rate charged by the lender.</li>
+    <li><strong>Tenure</strong> — the repayment period in months or years.</li>
+  </ol>
+  <p>
+    You’ll immediately see your <strong>EMI</strong>, <strong>Total Interest</strong>, and
+    <strong> Total Payment</strong> (principal + interest). This removes guesswork and helps you identify the
+    most <strong>affordable loan option</strong> before you apply.
+  </p>
 
-            {/* Q3 */}
-            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-              <h3 className="font-semibold text-xl mb-2">
-                <span className="text-yellow-300">Q3:</span> Can I use this calculator for home, car, or personal loans?
-              </h3>
-              <p>
-                Yes. It works for all major retail loans—<strong>home</strong>, <strong>car</strong>, <strong>education</strong>, and{" "}
-                <strong>personal loans</strong>—with accurate results for each.
-              </p>
-            </div>
+  {/* ===== How to Calculate (Formula & Steps) ===== */}
+  <h2 id="how-to-calculate" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+    How to Calculate EMI (Formula & Step-by-Step)
+  </h2>
+  <p>
+    EMI is calculated using the standard reducing-balance formula. We convert the annual rate to a monthly
+    rate and apply compounding across the number of months in your tenure.
+  </p>
 
-            {/* Q4 */}
-            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-              <h3 className="font-semibold text-xl mb-2">
-                <span className="text-yellow-300">Q4:</span> What are prepayments and how do they help?
-              </h3>
-              <p>
-                Prepayments are extra payments toward principal—either one‑time or monthly. They reduce the outstanding
-                balance early, cutting future interest and shortening the tenure.
-              </p>
-            </div>
+  {/* Formula Card */}
+  <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 not-prose">
+    <div className="font-mono text-[14px] md:text-[15px] text-slate-200">
+      <div className="mb-2">
+        <span className="text-cyan-300 font-semibold">EMI</span> = [ <span className="text-emerald-300">P</span> × <span className="text-amber-300">R</span> × (1 + <span className="text-amber-300">R</span>)<sup className="text-sky-300">N</sup> ] ÷ [ (1 + <span className="text-amber-300">R</span>)<sup className="text-sky-300">N</sup> − 1 ]
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-3">
+        <div className="bg-[#0f172a] rounded-md px-3 py-2"><span className="text-emerald-300 font-semibold">P</span> = Principal (loan amount)</div>
+        <div className="bg-[#0f172a] rounded-md px-3 py-2"><span className="text-amber-300 font-semibold">R</span> = Monthly interest rate (APR/12/100)</div>
+        <div className="bg-[#0f172a] rounded-md px-3 py-2"><span className="text-sky-300 font-semibold">N</span> = Tenure in months</div>
+      </div>
+    </div>
+  </div>
 
-            {/* Q5 */}
-            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-              <h3 className="font-semibold text-xl mb-2">
-                <span className="text-yellow-300">Q5:</span> Can I download the amortization schedule?
-              </h3>
-              <p>
-                Yes. Export the detailed month‑by‑month schedule as a CSV for analysis or record‑keeping.
-              </p>
-            </div>
+  {/* Step-by-step numeric walk-through */}
+  <div className="mt-5">
+    <h3 className="text-xl font-semibold text-emerald-300 mb-2">Step-by-Step Walkthrough</h3>
+    <ol className="list-decimal list-inside space-y-1">
+      <li>Convert annual interest to monthly: <code className="text-cyan-300">R = (Annual% ÷ 12 ÷ 100)</code></li>
+      <li>Convert tenure to months: <code className="text-cyan-300">N = Years × 12 (or include extra months)</code></li>
+      <li>Compute the factor: <code className="text-cyan-300">(1 + R)<sup>N</sup></code></li>
+      <li>Apply the formula to get EMI.</li>
+      <li>Compute totals: <code className="text-cyan-300">Total Payment = EMI × N</code> and <code className="text-cyan-300">Total Interest = Total Payment − P</code>.</li>
+    </ol>
+  </div>
 
-            {/* Q6 */}
-            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-              <h3 className="font-semibold text-xl mb-2">
-                <span className="text-yellow-300">Q6:</span> Is this EMI calculator free?
-              </h3>
-              <p>
-                Absolutely—100% free, no registration, and runs locally in your browser.
-              </p>
-            </div>
+  {/* Dynamic component hook (optional, if present in your codebase) */}
+  {/* Example: show step-by-step with live inputs */}
+  {typeof EMIStepByStepDynamic !== "undefined" && principal > 0 && annualRate > 0 && (years > 0 || months > 0) && (
+    <div className="mt-4">
+      <EMIStepByStepDynamic
+        principal={principal}
+        annualRate={annualRate}
+        years={years}
+        months={months}
+      />
+    </div>
+  )}
 
-            {/* Q7 */}
-            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-              <h3 className="font-semibold text-xl mb-2">
-                <span className="text-yellow-300">Q7:</span> Does the calculator support multiple currencies?
-              </h3>
-              <p>
-                Yes. It detects your locale and lets you switch between ₹, $, €, £, and ¥.
-              </p>
-            </div>
+  {/* Visual aid */}
+  <div className="my-6 flex justify-center">
+    <img
+      src="/images/emi-formula-infographic.webp"
+      alt="Infographic showing EMI formula inputs and outputs with principal, rate, and tenure"
+      className="rounded-lg shadow-md w-full max-w-2xl"
+      loading="lazy"
+    />
+  </div>
 
-            {/* Q8 */}
-            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-              <h3 className="font-semibold text-xl mb-2">
-                <span className="text-yellow-300">Q8:</span> Will extra monthly payments reduce my EMI?
-              </h3>
-              <p>
-                Typically, they shorten the tenure rather than reducing the EMI. The end result is lower total interest paid.
-              </p>
-            </div>
+  {/* ===== Why use ===== */}
+  <h2 id="why-use" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Why Use Our EMI Calculator?</h2>
+  <p>There are many tools online, but this <strong>professional loan EMI calculator</strong> stands out for:</p>
+  <ul className="space-y-2">
+    <li>✅ <strong>Instant & Accurate Results:</strong> Real-time outputs with bank-grade math.</li>
+    <li>✅ <strong>User-Friendly Interface:</strong> Easy enough for first-time borrowers.</li>
+    <li>✅ <strong>Free & Private:</strong> No sign-up, no tracking—runs locally in your browser.</li>
+    <li>✅ <strong>All Loan Types:</strong> Home, car, personal, education, small-business loans.</li>
+    <li>✅ <strong>What-if Analysis:</strong> Tweak rate/tenure to fit your monthly budget.</li>
+    <li>✅ <strong>Visual Charts:</strong> Breakdown of principal vs. interest and payoff over time.</li>
+  </ul>
 
-            {/* Q9 */}
-            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-              <h3 className="font-semibold text-xl mb-2">
-                <span className="text-yellow-300">Q9:</span> Is the EMI formula different for zero‑interest loans?
-              </h3>
-              <p>
-                If the rate is truly 0%, EMI simplifies to principal divided by months—no compounding interest.
-              </p>
-            </div>
+  {/* ===== How to use ===== */}
+  <h2 id="how-to-use" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">How to Use This Loan EMI Calculator</h2>
+  <ol className="list-decimal list-inside space-y-1">
+    <li>Enter <strong>Loan Amount</strong>, <strong>Annual Interest %</strong>, and <strong>Tenure</strong>.</li>
+    <li>Hit <strong>Calculate</strong> to see EMI, total interest, and total payment.</li>
+    <li>Adjust inputs to compare lenders and choose the most affordable plan.</li>
+  </ol>
+  <p>
+    Prefer a walkthrough? Check the embedded <strong>loan EMI calculator tutorial</strong> above (step-by-step card),
+    which mirrors the math using your live inputs.
+  </p>
 
-            {/* Q10 */}
-            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-              <h3 className="font-semibold text-xl mb-2">
-                <span className="text-yellow-300">Q10:</span> How do I compare two loan offers?
-              </h3>
-              <p>
-                Use the built‑in comparison panel: adjust the rate and tenure for Loan B and compare EMI, total interest, and total payment.
-              </p>
-            </div>
+  {/* ===== Example ===== */}
+  <h2 id="example" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+    Example: EMI for <strong>{typeof currencySymbol !== "undefined" ? currencySymbol : "₹"}</strong>10 Lakh Loan
+  </h2>
+  <p>Suppose you borrow <strong>{typeof currencySymbol !== "undefined" ? currencySymbol : "₹"}10,00,000</strong> at <strong>10% p.a.</strong> for <strong>5 years (60 months)</strong>.</p>
+  <ul className="list-disc list-inside">
+    <li>Principal: <strong>{typeof currencySymbol !== "undefined" ? currencySymbol : "₹"}</strong>10,00,000</li>
+    <li>Interest Rate: 10% p.a. ⇒ monthly <code className="text-cyan-300">R = 10/12/100 = 0.008333…</code></li>
+    <li>Tenure: <code className="text-cyan-300">N = 60</code> months</li>
+  </ul>
+  <p>
+    Using the formula, you get the EMI, then compute <strong>Total Interest</strong> and
+    <strong> Total Payment</strong>. This end-to-end example shows how a
+    <strong> loan EMI calculator explained</strong> with real numbers helps you evaluate affordability in seconds.
+  </p>
 
-            {/* Q11 */}
-            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-              <h3 className="font-semibold text-xl mb-2">
-                <span className="text-yellow-300">Q11:</span> Does this match bank calculations?
-              </h3>
-              <p>
-                Yes. The formula and reducing‑balance method mirror standard bank and NBFC practice.
-              </p>
-            </div>
+  {/* ===== Interest & Tenure ===== */}
+  <h2 id="rates-tenure" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Understanding Interest Rates & Tenure</h2>
+  <ul className="list-disc list-inside">
+    <li><strong>Higher rate</strong> ⇒ higher EMI and higher total interest.</li>
+    <li><strong>Longer tenure</strong> ⇒ lower EMI but higher total interest.</li>
+  </ul>
+  <p>
+    The <strong>loan EMI calculator guide</strong> lets you test combinations to strike the right balance between
+    monthly comfort and lifetime interest savings.
+  </p>
+  <p>
+    Buying a car soon? A shorter term can reduce total interest. Running a business with variable cash flow?
+    A longer term can smooth your monthly obligations.
+  </p>
 
-            {/* Q12 */}
-            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-              <h3 className="font-semibold text-xl mb-2">
-                <span className="text-yellow-300">Q12:</span> Where can I learn more about loans and amortization?
-              </h3>
-              <p>
-                See authoritative guides at{" "}
-                <a href="https://www.rbi.org.in/" target="_blank" rel="nofollow noopener noreferrer" className="text-indigo-300 underline">RBI</a>,{" "}
-                <a href="https://www.investopedia.com/amortization-4689744" target="_blank" rel="nofollow noopener noreferrer" className="text-indigo-300 underline">Investopedia</a>{" "}
-                and{" "}
-                <a href="https://en.wikipedia.org/wiki/Amortization_calculator" target="_blank" rel="nofollow noopener noreferrer" className="text-indigo-300 underline">Wikipedia</a>.
-              </p>
-            </div>
-          </div>
-        </section>
+  {/* ===== Comparison ===== */}
+  <h2 id="comparison" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Comparing Loans with the EMI Calculator</h2>
+  <p>
+    Compare multiple bank offers by adjusting rate and tenure side-by-side. This
+    <strong> loan EMI calculator vs</strong> approach clarifies the trade-offs in seconds and helps you avoid
+    overpaying on interest. Financial advisors can also use this as a transparent
+    <strong> solution loan EMI calculator</strong> to present payoff plans to clients.
+  </p>
 
-      </section>
+  {/* ===== Prepayment ===== */}
+  <h2 id="prepayment" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">How Prepayments Save Interest</h2>
+  <p>
+    Making <strong>prepayments</strong> (partial or full) reduces the outstanding principal earlier, which directly
+    cuts future interest charges and often shortens the tenure. Our calculator shows how prepaying even small
+    amounts can produce large interest savings over time—crucial for small businesses and entrepreneurs with
+    fluctuating income.
+  </p>
 
-          {/* =================== AUTHOR & BACKLINK SECTION =================== */}
-        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
-            <div className="flex items-center gap-3">
-              <img src="/images/calculatorhub-author.webp" alt="CalculatorHub Finance Tools Team" className="w-12 h-12 rounded-full border border-gray-600" loading="lazy" />
-              <div>
-                <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
-                <p className="text-sm text-slate-400">Experts in mortgages and online financial tools. Last updated:{" "} <time dateTime="2025-10-17">October 17, 2025</time>.</p>
-              </div>
-            </div>
-          
-            <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
-              <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">🚀 Explore more finance tools on CalculatorHub:</p>
-              <div className="flex flex-wrap gap-3 text-sm">
-                <Link to="/loan-affordability-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"><span className="text-sky-400">🏦</span> Loan Affordability Calculator</Link>
-                <Link to="/loan-comparison-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"><span className="text-indigo-400">🔁</span> Loan Comparison Calculator</Link>
-                <Link to="/home-loan-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"><span className="text-emerald-400">🏠</span> Home Loan Calculator</Link>
-              </div>
-            </div>
-          </section>
+  {/* ===== Benefits list ===== */}
+  <h3 className="text-xl font-semibold text-emerald-300 mt-8 mb-3">Benefits at a Glance</h3>
+  <ul className="list-disc list-inside">
+    <li><strong>Clarity:</strong> Understand your monthly obligation precisely.</li>
+    <li><strong>Transparency:</strong> See how interest is applied each month.</li>
+    <li><strong>Confidence:</strong> Borrow within your real budget.</li>
+    <li><strong>Planning:</strong> Juggle multiple loans with clear projections.</li>
+    <li><strong>Convenience:</strong> Use the <strong>loan EMI calculator app</strong> anywhere, anytime.</li>
+  </ul>
 
+  {/* ===== Pros & Cons ===== */}
+  <h2 id="pros-cons" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Loan EMI Calculator: Pros & Cons</h2>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="bg-[#0f172a] border border-emerald-600/30 rounded-lg p-4">
+      <p className="font-semibold text-emerald-300 mb-2">Pros</p>
+      <ul className="list-disc list-inside space-y-1">
+        <li>Fast and easy to use</li>
+        <li>Accurate, bank-style calculations</li>
+        <li>Free and accessible online</li>
+        <li>Ideal for comparing multiple offers</li>
+      </ul>
+    </div>
+    <div className="bg-[#0f172a] border border-rose-600/30 rounded-lg p-4">
+      <p className="font-semibold text-rose-300 mb-2">Cons</p>
+      <ul className="list-disc list-inside space-y-1">
+        <li>Assumes accurate user inputs</li>
+        <li>Doesn’t model floating/variable rates over time</li>
+        <li>May not include lender fees or insurance by default</li>
+      </ul>
+    </div>
+  </div>
+  <p className="mt-4">
+    For most scenarios, the <strong>loan EMI calculator benefits</strong> far outweigh these limitations,
+    making it one of the best tools for borrowing decisions.
+  </p>
+
+  {/* ===== Supporting visual ===== */}
+  <div className="my-6 flex justify-center">
+    <img
+      src="/images/emi-amortization-chart.webp"
+      alt="Amortization chart showing decreasing interest and increasing principal share over time"
+      className="rounded-lg shadow-md w-full max-w-2xl"
+      loading="lazy"
+    />
+  </div>
+
+  {/* Optional Ad between content blocks */}
+  <AdBanner type="bottom" />
+
+  {/* ===================== FAQ SECTION ===================== */}
+  <section id="faq" className="space-y-6 mt-16" aria-label="Loan EMI Calculator FAQs">
+    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
+      ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
+    </h2>
+
+    <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+      {/* Q1 */}
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2">
+          <span className="text-yellow-300">Q1:</span> What is a Loan EMI Calculator?
+        </h3>
+        <p>
+          A <strong>Loan EMI Calculator</strong> computes your monthly Equated Monthly Installment using your
+          principal, interest rate, and tenure. It also returns total interest and total payment instantly.
+        </p>
+      </div>
+
+      {/* Q2 */}
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2">
+          <span className="text-yellow-300">Q2:</span> How is EMI calculated?
+        </h3>
+        <p>
+          EMI uses <code className="text-cyan-300">[P × R × (1 + R)^N] / [(1 + R)^N − 1]</code>, where
+          <strong> P</strong> = principal, <strong>R</strong> = monthly rate (APR/12/100), and <strong>N</strong> = months.
+        </p>
+      </div>
+
+      {/* Q3 */}
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2">
+          <span className="text-yellow-300">Q3:</span> Can I use this for home, car, or personal loans?
+        </h3>
+        <p>
+          Yes. It works for <strong>home</strong>, <strong>car</strong>, <strong>education</strong>, and
+          <strong> personal loans</strong>, and more.
+        </p>
+      </div>
+
+      {/* Q4 */}
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2">
+          <span className="text-yellow-300">Q4:</span> What are prepayments and how do they help?
+        </h3>
+        <p>
+          Prepayments are extra principal payments made during the tenure. They reduce interest going forward and can shorten the repayment period.
+        </p>
+      </div>
+
+      {/* Q5 */}
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2">
+          <span className="text-yellow-300">Q5:</span> Can I download the amortization schedule?
+        </h3>
+        <p>
+          Yes—export month-by-month details as CSV for analysis and record-keeping.
+        </p>
+      </div>
+
+      {/* Q6 */}
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2">
+          <span className="text-yellow-300">Q6:</span> Is this EMI calculator free?
+        </h3>
+        <p>
+          Absolutely—<strong>100% free</strong>, no registration, and privacy-friendly.
+        </p>
+      </div>
+
+      {/* Q7 */}
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2">
+          <span className="text-yellow-300">Q7:</span> Do you support multiple currencies?
+        </h3>
+        <p>
+          Yes—switch between ₹, $, €, £, ¥ and more depending on your locale.
+        </p>
+      </div>
+
+      {/* Q8 */}
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2">
+          <span className="text-yellow-300">Q8:</span> Will extra monthly payments reduce my EMI?
+        </h3>
+        <p>
+          Typically, extra payments shorten your tenure; the net result is lower total interest paid.
+        </p>
+      </div>
+
+      {/* Q9 */}
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2">
+          <span className="text-yellow-300">Q9:</span> Is the EMI formula different for a 0% loan?
+        </h3>
+        <p>
+          If the true interest rate is 0%, EMI simplifies to <code className="text-cyan-300">Principal ÷ Months</code>.
+        </p>
+      </div>
+
+      {/* Q10 */}
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2">
+          <span className="text-yellow-300">Q10:</span> How do I compare two loan offers?
+        </h3>
+        <p>
+          Adjust rate/tenure for a second scenario and compare EMI, total interest, and total payment side-by-side.
+        </p>
+      </div>
+
+      {/* Q11 */}
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2">
+          <span className="text-yellow-300">Q11:</span> Will results match bank calculations?
+        </h3>
+        <p>
+          Yes—the formula and reducing-balance method mirror standard bank/NBFC practice.
+        </p>
+      </div>
+
+      {/* Q12 */}
+      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+        <h3 className="font-semibold text-xl mb-2">
+          <span className="text-yellow-300">Q12:</span> Where can I learn more about amortization?
+        </h3>
+        <p>
+          Check authoritative guides from your central bank and well-reviewed finance references.
+        </p>
+      </div>
+    </div>
+  </section>
+</section>
+
+{/* =================== AUTHOR & BACKLINK SECTION =================== */}
+<section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+  <div className="flex items-center gap-3">
+    <img
+      src="/images/calculatorhub-author.webp"
+      alt="CalculatorHub Finance Tools Team"
+      className="w-12 h-12 rounded-full border border-gray-600"
+      loading="lazy"
+    />
+    <div>
+      <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
+      <p className="text-sm text-slate-400">
+        Experts in mortgages and online financial tools. Last updated:{" "}
+        <time dateTime="2025-10-17">October 17, 2025</time>.
+      </p>
+    </div>
+  </div>
+
+  <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+    <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
+      🚀 Explore more finance tools on CalculatorHub:
+    </p>
+    <div className="flex flex-wrap gap-3 text-sm">
+      <Link
+        to="/loan-affordability-calculator"
+        className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
+      >
+        <span className="text-sky-400">🏦</span> Loan Affordability Calculator
+      </Link>
+      <Link
+        to="/loan-comparison-calculator"
+        className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
+      >
+        <span className="text-indigo-400">🔁</span> Loan Comparison Calculator
+      </Link>
+      <Link
+        to="/home-loan-calculator"
+        className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
+      >
+        <span className="text-emerald-400">🏠</span> Home Loan Calculator
+      </Link>
+    </div>
+  </div>
+</section>
 
      {/* ============= LOAN EMI CALCULATOR ENHANCED SEO SCHEMAS ================ */}
               <script
