@@ -188,49 +188,273 @@ const TaxCalculator: React.FC = () => {
   return (
     <>
       <SEOHead
-          title={
-            selectedCountry
-              ? `${countryName} Income Tax Calculator | Accurate ${countryName} Tax Estimator`
-              : 'Global Income Tax Calculator | 2025 Tax Estimator Tool'
-          }
-          description={
-            selectedCountry
-              ? `Calculate your ${countryName} income tax for 2025 with instant results. Includes ${countryName} tax slabs, deductions, and effective tax rate breakdowns.`
-              : 'Use our free Global Income Tax Calculator to estimate your taxes in 50+ countries. Includes tax slabs, deductions, and effective tax rate breakdowns for 2025.'
-          }
-          canonical="https://calculatorhub.site/tax-calculator"
-          schemaData={generateCalculatorSchema(
-            selectedCountry ? `${countryName} Tax Calculator` : 'Global Tax Calculator',
-            selectedCountry
-              ? `Instantly calculate your ${countryName} tax liability for 2025 using local tax rates and deductions.`
-              : 'Instantly calculate income tax for multiple countries with accurate 2025 rates.',
-            '/tax-calculator',
-            seoData.taxCalculator.keywords
-          )}
-          openGraph={{
-            title: 'Global Income Tax Calculator 2025 | Estimate Taxes Worldwide',
-            alt: 'Country-specific income tax calculator banner showing flag, calculator, and tax forms for 2025.',
-            description:
-              selectedCountry
-                ? `Estimate your ${countryName} tax for 2025 with detailed breakdowns of deductions, rates, and net income.`
-                : 'Estimate income tax for 50+ countries with this free tax calculator.',
-            url: 'https://calculatorhub.site/tax-calculator',
-            image: 'https://calculatorhub.site/images/global-income-tax-calculator-2025.webp',
-            type: 'website',
-          }}
-          twitter={{
-            card: 'summary_large_image',
-            title: selectedCountry
-              ? `${countryName} Income Tax Calculator`
-              : 'Global Income Tax Calculator',
-            description:
-              selectedCountry
-                ? `Calculate your ${countryName} tax instantly with our 2025 income tax estimator.`
-                : 'Free Global Tax Calculator for 2025 with detailed tax breakdowns and smart saving tips.',
-            image: 'https://calculatorhub.site/images/global-income-tax-calculator-2025.webp',
-          }}
+              title={
+                selectedCountry
+                  ? `${countryName} Income Tax Calculator — 2025 Accurate Tax Estimator`
+                  : 'Global Income Tax Calculator (2025) — Estimate Taxes in 50+ Countries'
+              }
+              description={
+                selectedCountry
+                  ? `Calculate your ${countryName} income tax for 2025 with instant results. Includes local slabs, deductions, effective rate, monthly take-home and charts.`
+                  : 'Free Global Income Tax Calculator (2025). Estimate taxes across 50+ countries with country-specific slabs, deductions, effective rate, and charts.'
+              }
+              keywords={[
+                selectedCountry ? `${countryName} tax calculator` : 'global tax calculator',
+                'income tax calculator',
+                '2025 tax calculator',
+                'tax slabs',
+                'deductions',
+                'effective tax rate',
+                'net income',
+                'take-home pay',
+                'payroll estimator'
+              ]}
+              canonical="https://calculatorhub.site/tax-calculator"
+              schemaData={[
+                // 1) WebPage (+ Article details nested)
+                {
+                  "@context":"https://schema.org",
+                  "@type":"WebPage",
+                  "@id":"https://calculatorhub.site/tax-calculator#webpage",
+                  "url":"https://calculatorhub.site/tax-calculator",
+                  "name": selectedCountry
+                    ? `${countryName} Income Tax Calculator (2025)`
+                    : "Global Income Tax Calculator (2025)",
+                  "inLanguage":"en",
+                  "isPartOf":{"@id":"https://calculatorhub.site/#website"},
+                  "primaryImageOfPage":{
+                    "@type":"ImageObject",
+                    "@id":"https://calculatorhub.site/images/global-income-tax-calculator-2025.webp#primaryimg",
+                    "url":"https://calculatorhub.site/images/global-income-tax-calculator-2025.webp",
+                    "width":1200,"height":675
+                  },
+                  "mainEntity":{
+                    "@type":"Article",
+                    "@id":"https://calculatorhub.site/tax-calculator#article",
+                    "headline": selectedCountry
+                      ? `${countryName} Income Tax Calculator — 2025 Slabs, Deductions & Net Income`
+                      : "Global Income Tax Calculator — Country-Specific Slabs, Deductions & Net Income",
+                    "description": selectedCountry
+                      ? `Instant ${countryName} tax estimate for 2025 with slabs, deductions, effective rate and take-home.`
+                      : "Instant global tax estimates with country-specific slabs, deductions, effective rate and take-home.",
+                    "image":[
+                      "https://calculatorhub.site/images/global-income-tax-calculator-2025.webp",
+                      "https://calculatorhub.site/images/country-specific-income-tax-calculator-2025.webp"
+                    ],
+                    "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
+                    "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                    "datePublished":"2025-10-17",
+                    "dateModified":"2025-11-05",
+                    "mainEntityOfPage":{"@id":"https://calculatorhub.site/tax-calculator#webpage"},
+                    "articleSection":[
+                      "Overview",
+                      "How to Use",
+                      "How Taxes Are Calculated",
+                      "Country-Specific Logic",
+                      "Worked Example",
+                      "Benefits",
+                      "Pros & Cons",
+                      "FAQ"
+                    ]
+                  }
+                },
+            
+                // 2) Breadcrumbs
+                {
+                  "@context":"https://schema.org",
+                  "@type":"BreadcrumbList",
+                  "@id":"https://calculatorhub.site/tax-calculator#breadcrumbs",
+                  "itemListElement":[
+                    {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+                    {"@type":"ListItem","position":2,"name":"Currency & Finance","item":"https://calculatorhub.site/category/currency-finance"},
+                    {"@type":"ListItem","position":3,"name":"Tax Calculator","item":"https://calculatorhub.site/tax-calculator"}
+                  ]
+                },
+            
+                // 3) FAQ (matches your visible FAQ)
+                {
+                  "@context":"https://schema.org",
+                  "@type":"FAQPage",
+                  "@id":"https://calculatorhub.site/tax-calculator#faq",
+                  "mainEntity":[
+                    {
+                      "@type":"Question",
+                      "name":"What is an Income Tax Calculator?",
+                      "acceptedAnswer":{"@type":"Answer","text":"A tool that estimates taxes from your income and deductions, showing slabs, exemptions, effective rate, and take-home."}
+                    },
+                    {
+                      "@type":"Question",
+                      "name":"Is it free to use?",
+                      "acceptedAnswer":{"@type":"Answer","text":"Yes, it’s completely free and works without registration."}
+                    },
+                    {
+                      "@type":"Question",
+                      "name":"Can small businesses use it?",
+                      "acceptedAnswer":{"@type":"Answer","text":"Yes. It supports freelancers and small businesses with deductions/credits."}
+                    },
+                    {
+                      "@type":"Question",
+                      "name":"How often is it updated?",
+                      "acceptedAnswer":{"@type":"Answer","text":"Annually for new fiscal rules; models are refined as laws change."}
+                    },
+                    {
+                      "@type":"Question",
+                      "name":"Does it save my data?",
+                      "acceptedAnswer":{"@type":"Answer","text":"No. All calculations run locally in your browser for privacy."}
+                    }
+                  ]
+                },
+            
+                // 4) WebApplication
+                {
+                  "@context":"https://schema.org",
+                  "@type":"WebApplication",
+                  "@id":"https://calculatorhub.site/tax-calculator#webapp",
+                  "name": selectedCountry ? `${countryName} Tax Calculator` : "Global Tax Calculator",
+                  "url":"https://calculatorhub.site/tax-calculator",
+                  "applicationCategory":"FinanceApplication",
+                  "operatingSystem":"Web",
+                  "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                  "image":[
+                    "https://calculatorhub.site/images/global-income-tax-calculator-2025.webp"
+                  ],
+                  "description": selectedCountry
+                    ? `Estimate ${countryName} taxes for 2025 with slabs, deductions and net take-home.`
+                    : "Estimate taxes worldwide with country-specific slabs and deductions."
+                },
+            
+                // 5) SoftwareApplication (optional but helpful)
+                {
+                  "@context":"https://schema.org",
+                  "@type":"SoftwareApplication",
+                  "@id":"https://calculatorhub.site/tax-calculator#software",
+                  "name":"Income Tax Calculator",
+                  "applicationCategory":"FinanceApplication",
+                  "operatingSystem":"All",
+                  "url":"https://calculatorhub.site/tax-calculator",
+                  "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                  "description":"Country-aware tax estimator with slabs, deductions, effective rate and charts."
+                },
+            
+                // 6) Site & Org (ids reused site-wide)
+                {
+                  "@context":"https://schema.org",
+                  "@type":"WebSite",
+                  "@id":"https://calculatorhub.site/#website",
+                  "url":"https://calculatorhub.site",
+                  "name":"CalculatorHub",
+                  "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                  "potentialAction":{
+                    "@type":"SearchAction",
+                    "target":"https://calculatorhub.site/search?q={query}",
+                    "query-input":"required name=query"
+                  }
+                },
+                {
+                  "@context":"https://schema.org",
+                  "@type":"Organization",
+                  "@id":"https://calculatorhub.site/#organization",
+                  "name":"CalculatorHub",
+                  "url":"https://calculatorhub.site",
+                  "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
+                }
+              ]}
+            />
+
+      <> 
+        {/* Core */}
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="robots"
+          content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
         />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="canonical" href="https://calculatorhub.site/tax-calculator" />
+      
+        {/* Hreflang (only include locales that actually exist) */}
+        <link
+          rel="alternate"
+          href="https://calculatorhub.site/tax-calculator"
+          hreflang="en"
+        />
+        {/* <link rel="alternate" href="https://calculatorhub.site/bn/tax-calculator" hreflang="bn" /> */}
+        <link
+          rel="alternate"
+          href="https://calculatorhub.site/tax-calculator"
+          hreflang="x-default"
+        />
+      
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="CalculatorHub" />
+        <meta
+          property="og:title"
+          content="Global Income Tax Calculator 2025 — Estimate Taxes, Deductions & Net Income"
+        />
+        <meta
+          property="og:description"
+          content="Estimate your 2025 income tax in seconds. Supports multiple countries, deductions, effective rates, and clean visual breakdowns."
+        />
+        <meta property="og:url" content="https://calculatorhub.site/tax-calculator" />
+        <meta
+          property="og:image"
+          content="https://calculatorhub.site/images/global-income-tax-calculator-2025.webp"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:locale" content="en_US" />
+        {/* <meta property="og:locale:alternate" content="bn_BD" /> */}
+      
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Global Income Tax Calculator 2025 — Fast, Accurate & Country-Specific"
+        />
+        <meta
+          name="twitter:description"
+          content="Free tax estimator with deductions, net income, and effective tax rate. Updated for 2025."
+        />
+        <meta
+          name="twitter:image"
+          content="https://calculatorhub.site/images/global-income-tax-calculator-2025.webp"
+        />
+        {/* <meta name="twitter:site" content="@yourhandle" /> */}
+      
+        {/* Icons / PWA */}
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta name="theme-color" content="#0ea5e9" />
+      
+        {/* Performance: connections */}
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+        {/* Optional: preconnect to Supabase if this page fetches from it */}
+        {/* <link rel="preconnect" href="https://YOUR-SUPABASE-PROJECT.supabase.co" crossOrigin="" /> */}
+      
+        {/* Performance: preload hero & key font (adjust paths if used) */}
+        <link
+          rel="preload"
+          as="image"
+          href="/images/global-income-tax-calculator-2025.webp"
+          imagesrcset="/images/global-income-tax-calculator-2025.webp 1x"
+          fetchpriority="high"
+        />
+        <link
+          rel="preload"
+          href="/fonts/Inter-Variable.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin=""
+        />
+      
+        {/* Optional quality-of-life */}
+        <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+        <meta name="referrer" content="no-referrer-when-downgrade" />
+        <meta name="format-detection" content="telephone=no" />
+      </>
+
       
   
 
@@ -1134,3 +1358,4 @@ const TaxCalculator: React.FC = () => {
 
 export default TaxCalculator; 
   
+ 
