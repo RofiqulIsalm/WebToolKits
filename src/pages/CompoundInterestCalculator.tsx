@@ -629,10 +629,30 @@ const CompoundInterestCalculator: React.FC = () => {
 
         {/* -------- SEO Content (shortened here; your long section preserved) -------- */}
          <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+
+           <nav
+    aria-label="Table of contents"
+    className="mt-8 mb-10 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200"
+  >
+    <h2 className="text-lg font-semibold text-cyan-300 mb-3">📖 Table of Contents</h2>
+    <ol className="list-decimal list-inside space-y-2 text-sm">
+      <li><a href="#what-is" className="text-indigo-400 hover:underline">What Is Compound Interest?</a></li>
+      <li><a href="#how-it-works" className="text-indigo-400 hover:underline">How the Calculator Works</a></li>
+      <li><a href="#how-to-calculate" className="text-indigo-400 hover:underline">How to Calculate (Formula & Steps)</a></li>
+      <li><a href="#ear" className="text-indigo-400 hover:underline">EAR vs Nominal Rate</a></li>
+      <li><a href="#contributions" className="text-indigo-400 hover:underline">With Recurring Contributions</a></li>
+      <li><a href="#frequency" className="text-indigo-400 hover:underline">Compounding Frequency Impact</a></li>
+      <li><a href="#example" className="text-indigo-400 hover:underline">Worked Example</a></li>
+      <li><a href="#tips" className="text-indigo-400 hover:underline">Tips to Grow Faster</a></li>
+      <li><a href="#mistakes" className="text-indigo-400 hover:underline">Common Mistakes to Avoid</a></li>
+      <li><a href="#faq" className="text-indigo-400 hover:underline">FAQ</a></li>
+    </ol>
+  </nav>
+           
             <h2 className="text-3xl font-bold text-cyan-400 mb-6">
               Compound Interest Calculator – Free, Accurate & Smart Savings Tool
             </h2>
-          
+           
             <p>
               Understanding how money grows is essential for anyone looking to build wealth, save for the future, or plan long-term investments. The 
               <strong> Compound Interest Calculator </strong> is a simple yet powerful 
@@ -644,7 +664,7 @@ const CompoundInterestCalculator: React.FC = () => {
               <strong> easy compound interest calculator </strong> gives quick, accurate, and reliable results—instantly showing how much their principal will grow with reinvested interest.
             </p>
           
-            <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">What Is Compound Interest?</h2>
+            <h2 id="what-is" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">What Is Compound Interest?</h2>
             <p>
               Compound interest is the process where the interest earned on an investment is added back to the principal, allowing future interest to be calculated on the increased total. 
               In simpler terms, it’s “interest on interest.”
@@ -657,7 +677,7 @@ const CompoundInterestCalculator: React.FC = () => {
               The <strong>compound interest calculator for beginners</strong> helps users understand this phenomenon visually by showing year-by-year growth and total returns.
             </p>
           
-            <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">How Does the Compound Interest Calculator Work?</h2>
+            <h2 id="how-it-works" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">How Does the Compound Interest Calculator Work?</h2>
             <p>
               The <strong>system compound interest calculator</strong> makes complex financial calculations effortless. Users simply input:
             </p>
@@ -681,24 +701,81 @@ const CompoundInterestCalculator: React.FC = () => {
               This <strong>compound interest calculator website</strong> eliminates manual math and helps users see how even small contributions can turn into significant savings over time.
             </p>
           
-            <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Compound Interest Formula</h2>
-            <p>The formula used in the calculator is:</p>
-            <pre className="bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto">
-              A = P × (1 + r/n)^(n × t)
-            </pre>
+              {/* How to calculate */}
+              <h2 id="how-to-calculate" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+                How to Calculate Compound Interest (Formula & Step-by-Step)
+              </h2>
+              <p>The standard formula without additional contributions is:</p>
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 not-prose">
+                <pre className="bg-transparent text-slate-200 whitespace-pre-wrap text-[14px] md:text-[15px]">
+            A = P × (1 + r/n)^(n × t)
+                </pre>
+                <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 mt-2 text-sm">
+                  <div className="bg-[#0f172a] rounded-md px-3 py-2"><span className="text-emerald-300 font-semibold">P</span> = Principal</div>
+                  <div className="bg-[#0f172a] rounded-md px-3 py-2"><span className="text-amber-300 font-semibold">r</span> = Annual rate (decimal)</div>
+                  <div className="bg-[#0f172a] rounded-md px-3 py-2"><span className="text-sky-300 font-semibold">n</span> = Compounds/year</div>
+                  <div className="bg-[#0f172a] rounded-md px-3 py-2"><span className="text-fuchsia-300 font-semibold">t</span> = Time (years)</div>
+                </div>
+              </div>
+            
+              <div className="mt-5">
+                <h3 className="text-xl font-semibold text-emerald-300 mb-2">Step-by-Step</h3>
+                <ol className="list-decimal list-inside space-y-1">
+                  <li>Convert percentage to decimal: <code className="text-cyan-300">r = APR ÷ 100</code></li>
+                  <li>Pick compounding frequency: <code className="text-cyan-300">n = 1, 4, 12, 365…</code></li>
+                  <li>Compute factor: <code className="text-cyan-300">(1 + r/n)^(n×t)</code></li>
+                  <li>Multiply by <code className="text-cyan-300">P</code> to get <code className="text-cyan-300">A</code></li>
+                  <li>Interest earned: <code className="text-cyan-300">A − P</code></li>
+                </ol>
+              </div>
+            
+              {/* Dynamic step-by-step (if your component exists) */}
+              {typeof CompoundInterestStepByStep !== "undefined" && (
+                <div className="mt-4">
+                  <CompoundInterestStepByStep
+                    principal={typeof principal !== "undefined" ? principal : 0}
+                    rate={typeof rate !== "undefined" ? rate : 0}
+                    rateUnit={typeof rateUnit !== "undefined" ? rateUnit : "APR"}
+                    timeData={typeof timeData !== "undefined" ? timeData : { years: 0, months: 0 }}
+                    finalAmount={typeof finalAmount !== "undefined" ? finalAmount : 0}
+                  />
+                </div>
+              )}
+
+           {/* EAR vs nominal */}
+            <h2 id="ear" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              Effective Annual Rate (EAR) vs Nominal Rate
+            </h2>
             <p>
-              Where:
-              <br />A = Final amount after time (t)
-              <br />P = Principal amount
-              <br />r = Annual interest rate (decimal)
-              <br />n = Number of compounding periods per year
-              <br />t = Time in years
+              The <strong>nominal APR</strong> is the headline rate. The <strong>Effective Annual Rate (EAR)</strong>
+              reflects the impact of compounding within the year:
             </p>
-          
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 not-prose">
+              <code className="text-green-300">EAR = (1 + r/n)<sup>n</sup> − 1</code>
+            </div>
             <p>
-              The <strong>compound interest calculator explained</strong> section in the tool shows step-by-step calculations for better understanding and transparency.
+              More frequent compounding ⇒ higher EAR ⇒ slightly larger final balances. Your calculator can show both for clarity.
             </p>
-          
+
+            {/* Contributions */}
+            <h2 id="contributions" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              Compound Interest with Recurring Contributions (Deposits)
+            </h2>
+            <p>
+              If you add a fixed amount every period—e.g., monthly—you’re using an
+              <strong> annuity with compounding</strong>. With contribution <em>C</em> each period and periodic rate
+              <em> i = r/n</em>, over <em>N = n×t</em> periods, future value is:
+            </p>
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 not-prose">
+              <pre className="bg-transparent text-slate-200 whitespace-pre-wrap text-[14px] md:text-[15px]">
+          A = P × (1 + i)^N  +  C × [((1 + i)^N − 1) / i]
+              </pre>
+            </div>
+            <p>
+              This shows why <strong>consistent contributions + time</strong> dramatically accelerate growth—even with modest rates.
+            </p>
+
+
             <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Why Use Our Compound Interest Calculator?</h2>
             <p>
               Among many options available online, this <strong>professional compound interest calculator</strong> stands out because of:
@@ -729,7 +806,7 @@ const CompoundInterestCalculator: React.FC = () => {
               A complete <strong>compound interest calculator tutorial</strong> is available for those who prefer a guided step-by-step explanation.
             </p>
           
-            <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Example: $10,000 Investment at 8% Interest</h2>
+            <h2 id="example" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Example: $10,000 Investment at 8% Interest</h2>
             <p>
               Suppose an investor deposits <strong>$10,000</strong> at <strong>8% annual interest</strong>, compounded <strong>monthly</strong> for <strong>10 years</strong>.
             </p>
@@ -762,40 +839,49 @@ const CompoundInterestCalculator: React.FC = () => {
 
            
           
-            <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Understanding Compounding Frequency</h2>
-            <p>
-              Compounding frequency plays a crucial role in returns. The more frequent the compounding, the higher the total growth.
-            </p>
-            <div className="overflow-x-auto mt-4 border border-slate-700 rounded-lg">
-                <table className="min-w-full text-left text-sm border-collapse">
-                  <thead className="bg-slate-800/70 text-slate-300">
-                    <tr className="border-b border-slate-700">
-                      <th className="p-3 whitespace-nowrap">Frequency</th>
-                      <th className="p-3 whitespace-nowrap">Compounds / Year</th>
-                      <th className="p-3 whitespace-nowrap">
-                        Example Growth<br className="sm:hidden" /> (10 Years @ 8%)
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-slate-200">
-                    <tr className="border-b border-slate-700 hover:bg-slate-800/40 transition-colors">
-                      <td className="p-3">Annually</td>
-                      <td className="p-3">1</td>
-                      <td className="p-3">$21,589</td>
-                    </tr>
-                    <tr className="border-b border-slate-700 hover:bg-slate-800/40 transition-colors">
-                      <td className="p-3">Quarterly</td>
-                      <td className="p-3">4</td>
-                      <td className="p-3">$22,080</td>
-                    </tr>
-                    <tr className="hover:bg-slate-800/40 transition-colors">
-                      <td className="p-3">Monthly</td>
-                      <td className="p-3">12</td>
-                      <td className="p-3">$22,196</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+             {/* Frequency impact */}
+          <h2 id="frequency" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            Understanding Compounding Frequency
+          </h2>
+          
+          <p>
+            The more often compounding occurs, the higher the ending balance—though differences shrink as frequency gets very high.
+            Continuous compounding uses{" "}
+            <code className="text-cyan-300">
+              A = P × e<sup>r×t</sup>
+            </code>{" "}
+            and is a useful upper-bound approximation.
+          </p>
+          
+          <div className="overflow-x-auto mt-4 border border-slate-700 rounded-lg">
+            <table className="min-w-full text-left text-sm border-collapse">
+              <thead className="bg-slate-800/70 text-slate-300">
+                <tr className="border-b border-slate-700">
+                  <th className="p-3 whitespace-nowrap">Frequency</th>
+                  <th className="p-3 whitespace-nowrap">Compounds / Year</th>
+                  <th className="p-3 whitespace-nowrap">Example (10 Years @ 8%)</th>
+                </tr>
+              </thead>
+              <tbody className="text-slate-200">
+                <tr className="border-b border-slate-700 hover:bg-slate-800/40 transition-colors">
+                  <td className="p-3">Annually</td><td className="p-3">1</td><td className="p-3">$21,589</td>
+                </tr>
+                <tr className="border-b border-slate-700 hover:bg-slate-800/40 transition-colors">
+                  <td className="p-3">Quarterly</td><td className="p-3">4</td><td className="p-3">$22,080</td>
+                </tr>
+                <tr className="border-b border-slate-700 hover:bg-slate-800/40 transition-colors">
+                  <td className="p-3">Monthly</td><td className="p-3">12</td><td className="p-3">$22,196</td>
+                </tr>
+                <tr className="hover:bg-slate-800/40 transition-colors">
+                  <td className="p-3">
+                    Continuous (e<sup>r×t</sup>)
+                  </td>
+                  <td className="p-3">∞</td>
+                  <td className="p-3">~$22,255</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
           
             <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Benefits of Using a Compound Interest Calculator</h2>
@@ -871,10 +957,28 @@ const CompoundInterestCalculator: React.FC = () => {
                 Quick comparison of principal, simple interest, and compounded value over time.
               </p>
             </div>
+            {/* Tips */}
+            <h2 id="tips" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Pro Tips to Grow Faster</h2>
+            <ul className="list-disc list-inside">
+              <li><strong>Start early:</strong> Time in the market beats timing the market.</li>
+              <li><strong>Automate deposits:</strong> Consistent contributions outperform sporadic lump sums.</li>
+              <li><strong>Increase frequency:</strong> Monthly/quarterly compounding nudges balances higher.</li>
+              <li><strong>Reinvest earnings:</strong> Keep interest compounding; avoid unnecessary withdrawals.</li>
+              <li><strong>Mind fees & taxes:</strong> Small drags compound negatively over long horizons.</li>
+            </ul>
+          
+            {/* Mistakes */}
+            <h2 id="mistakes" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Common Mistakes to Avoid</h2>
+            <ul className="list-disc list-inside">
+              <li>Using nominal APR as EAR—always check effective rate vs compounding.</li>
+              <li>Ignoring contribution timing (start/end of period changes the math).</li>
+              <li>Underestimating the impact of fees/inflation on real returns.</li>
+              <li>Comparing scenarios with different compounding bases (monthly vs yearly) without adjusting.</li>
+            </ul>
 
             {/* ===================== FAQ SECTION ===================== */}
             <section className="space-y-6 mt-16" aria-label="Compound Interest Calculator FAQs">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
+              <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
                 ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
               </h2>
           
