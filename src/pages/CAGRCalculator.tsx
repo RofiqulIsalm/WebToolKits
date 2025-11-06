@@ -159,17 +159,141 @@ const CAGRCalculator: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="CAGR Calculator | Annual Growth Rate | CalculatorHub"
-        description="Calculate your compound annual growth rate (CAGR) to measure investment performance accurately over time."
-        canonical="https://calculatorhub.site/cagr-calculator"
-        schemaData={generateCalculatorSchema(
-          "CAGR Calculator",
-          "Find your investment's annualized growth rate using CalculatorHub’s free CAGR Calculator.",
-          "/cagr-calculator",
-          ["CAGR calculator", "compound annual growth rate", "investment growth", "finance calculator"]
-        )}
-      />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+            title="CAGR Calculator — Compound Annual Growth Rate (2025–2026)"
+            description="Free online CAGR Calculator. Compute compound annual growth rate from initial & final value over years/months. Share results, see gain/loss, and compare investments."
+            keywords={[
+              "CAGR calculator",
+              "compound annual growth rate",
+              "investment return",
+              "annualized growth",
+              "finance calculator"
+            ]}
+            canonical="https://calculatorhub.site/cagr-calculator"
+            schemaData={[
+              {
+                "@context":"https://schema.org",
+                "@type":"WebPage",
+                "@id":"https://calculatorhub.site/cagr-calculator#webpage",
+                "url":"https://calculatorhub.site/cagr-calculator",
+                "name":"CAGR Calculator — Compound Annual Growth Rate",
+                "inLanguage":"en",
+                "isPartOf":{"@id":"https://calculatorhub.site/#website"},
+                "primaryImageOfPage":{
+                  "@type":"ImageObject",
+                  "@id":"https://calculatorhub.site/images/cagr-calculator-hero.webp#primaryimg",
+                  "url":"https://calculatorhub.site/images/cagr-calculator-hero.webp",
+                  "width":1200,"height":675
+                },
+                "mainEntity":{
+                  "@type":"Article",
+                  "@id":"https://calculatorhub.site/cagr-calculator#article",
+                  "headline":"CAGR Calculator — Understand and Measure Investment Growth",
+                  "description":"Compute CAGR from initial/final value and duration. See gain/loss and average annual return.",
+                  "image":["https://calculatorhub.site/images/cagr-calculator-hero.webp"],
+                  "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
+                  "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                  "datePublished":"2025-10-17",
+                  "dateModified":"2025-11-06",
+                  "mainEntityOfPage":{"@id":"https://calculatorhub.site/cagr-calculator#webpage"},
+                  "articleSection":["What is CAGR","Formula","How to Use","Example","FAQ"]
+                }
+              },
+              {
+                "@context":"https://schema.org",
+                "@type":"BreadcrumbList",
+                "@id":"https://calculatorhub.site/cagr-calculator#breadcrumbs",
+                "itemListElement":[
+                  {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+                  {"@type":"ListItem","position":2,"name":"Currency & Finance","item":"https://calculatorhub.site/category/currency-finance"},
+                  {"@type":"ListItem","position":3,"name":"CAGR Calculator","item":"https://calculatorhub.site/cagr-calculator"}
+                ]
+              },
+              {
+                "@context":"https://schema.org",
+                "@type":"FAQPage",
+                "@id":"https://calculatorhub.site/cagr-calculator#faq",
+                "mainEntity":[
+                  {"@type":"Question","name":"What is CAGR used for?","acceptedAnswer":{"@type":"Answer","text":"CAGR measures average annual growth considering compounding, enabling fair comparison between investments."}},
+                  {"@type":"Question","name":"Is the calculator free?","acceptedAnswer":{"@type":"Answer","text":"Yes, it’s free to use online with no registration."}},
+                  {"@type":"Question","name":"Can I include months?","acceptedAnswer":{"@type":"Answer","text":"Yes, enter years and months; the tool normalizes duration automatically."}}
+                ]
+              },
+              {
+                "@context":"https://schema.org",
+                "@type":"WebApplication",
+                "@id":"https://calculatorhub.site/cagr-calculator#webapp",
+                "name":"CAGR Calculator",
+                "url":"https://calculatorhub.site/cagr-calculator",
+                "applicationCategory":"FinanceApplication",
+                "operatingSystem":"Web",
+                "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                "image":["https://calculatorhub.site/images/cagr-calculator-hero.webp"]
+              },
+              {
+                "@context":"https://schema.org",
+                "@type":"SoftwareApplication",
+                "@id":"https://calculatorhub.site/cagr-calculator#software",
+                "name":"Compound Annual Growth Rate Tool",
+                "applicationCategory":"FinanceApplication",
+                "operatingSystem":"All",
+                "url":"https://calculatorhub.site/cagr-calculator",
+                "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                "description":"Interactive CAGR computation with shareable deep-link."
+              },
+              {
+                "@context":"https://schema.org",
+                "@type":"WebSite",
+                "@id":"https://calculatorhub.site/#website",
+                "url":"https://calculatorhub.site",
+                "name":"CalculatorHub",
+                "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                "potentialAction":{"@type":"SearchAction","target":"https://calculatorhub.site/search?q={query}","query-input":"required name=query"}
+              },
+              {
+                "@context":"https://schema.org",
+                "@type":"Organization",
+                "@id":"https://calculatorhub.site/#organization",
+                "name":"CalculatorHub",
+                "url":"https://calculatorhub.site",
+                "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
+              }
+            ]}
+          />
+          
+          {/* Outside meta/link tags */}
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+          <link rel="canonical" href="https://calculatorhub.site/cagr-calculator" />
+          <link rel="alternate" href="https://calculatorhub.site/cagr-calculator" hreflang="en" />
+          <link rel="alternate" href="https://calculatorhub.site/bn/cagr-calculator" hreflang="bn" />
+          <link rel="alternate" href="https://calculatorhub.site/cagr-calculator" hreflang="x-default" />
+          <meta property="og:type" content="website" />
+          <meta property="og:site_name" content="CalculatorHub" />
+          <meta property="og:title" content="CAGR Calculator — Compound Annual Growth Rate" />
+          <meta property="og:description" content="Compute CAGR from initial/final value and duration. Share results and compare investments." />
+          <meta property="og:url" content="https://calculatorhub.site/cagr-calculator" />
+          <meta property="og:image" content="https://calculatorhub.site/images/cagr-calculator-hero.webp" />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:image:alt" content="CAGR calculator dashboard and chart" />
+          <meta property="og:locale" content="en_US" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="CAGR Calculator — Compound Annual Growth Rate" />
+          <meta name="twitter:description" content="Free online CAGR calculator with gain/loss breakdown and shareable link." />
+          <meta name="twitter:image" content="https://calculatorhub.site/images/cagr-calculator-hero.webp" />
+          <link rel="manifest" href="/site.webmanifest" />
+          <link rel="icon" href="/favicon.ico" />
+          <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+          <meta name="theme-color" content="#0ea5e9" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+          <link rel="preload" as="image" href="/images/cagr-calculator-hero.webp" fetchpriority="high" />
+          <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+          <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+          <meta name="referrer" content="no-referrer-when-downgrade" />
+          <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
