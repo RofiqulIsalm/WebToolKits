@@ -184,18 +184,208 @@ const PersonalLoanCalculator: React.FC = () => {
      ============================================================ */
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title="Personal Loan Calculator | CalculatorHub"
-        description="Calculate your personal loan EMI, total interest, and total payment easily with CalculatorHub’s free online personal loan calculator."
+        title="Personal Loan Calculator — EMI, Total Interest & Payment (2025–2026)"
+        description="Free Personal Loan Calculator to estimate monthly EMI, total interest, and total payment from loan amount, rate, and tenure. Fast, accurate, and mobile-friendly."
+        keywords={[
+          "personal loan calculator",
+          "EMI calculator",
+          "unsecured loan calculator",
+          "personal loan interest",
+          "monthly installment",
+          "amortization schedule",
+          "loan payment calculator",
+          "borrow calculator"
+        ]}
         canonical="https://calculatorhub.site/personal-loan-calculator"
-        schemaData={generateCalculatorSchema(
-          "Personal Loan Calculator",
-          "Instantly calculate EMI, total interest, and repayment schedule for your personal loan.",
-          "/personal-loan-calculator",
-          ["personal loan calculator", "EMI calculator", "unsecured loan EMI"]
-        )}
+        schemaData={[
+          // 1) WebPage + Article
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://calculatorhub.site/personal-loan-calculator#webpage",
+            "url": "https://calculatorhub.site/personal-loan-calculator",
+            "name": "Personal Loan Calculator (2025–2026) — EMI, Total Interest & Payment",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "@id": "https://calculatorhub.site/images/personal-loan-calculator.webp#primaryimg",
+              "url": "https://calculatorhub.site/images/personal-loan-calculator.webp",
+              "width": 1200,
+              "height": 675
+            },
+            "mainEntity": {
+              "@type": "Article",
+              "@id": "https://calculatorhub.site/personal-loan-calculator#article",
+              "headline": "Personal Loan Calculator — EMI, Interest & Example Explained",
+              "description": "Calculate personal loan EMI, total payment, and interest using loan amount, rate, and tenure. Includes formula, example, and FAQs.",
+              "image": ["https://calculatorhub.site/images/personal-loan-calculator.webp"],
+              "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "datePublished": "2025-10-17",
+              "dateModified": "2025-11-06",
+              "mainEntityOfPage": { "@id": "https://calculatorhub.site/personal-loan-calculator#webpage" },
+              "articleSection": [
+                "What is Personal Loan Calculator",
+                "How to Use",
+                "EMI Formula",
+                "Example",
+                "Benefits",
+                "Small Business Use",
+                "FAQ"
+              ]
+            }
+          },
+      
+          // 2) Breadcrumbs
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id": "https://calculatorhub.site/personal-loan-calculator#breadcrumbs",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+              { "@type": "ListItem", "position": 2, "name": "Currency & Finance", "item": "https://calculatorhub.site/category/currency-finance" },
+              { "@type": "ListItem", "position": 3, "name": "Personal Loan Calculator", "item": "https://calculatorhub.site/personal-loan-calculator" }
+            ]
+          },
+      
+          // 3) FAQ
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": "https://calculatorhub.site/personal-loan-calculator#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "How can I lower my personal loan EMI?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Choose a longer tenure, negotiate a lower rate, improve your credit score, or part-prepay to reduce the outstanding principal."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does this calculator include processing fees or taxes?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. It estimates principal and interest. Add fees to the loan amount if you want them reflected in EMI."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I set 0% interest to simulate a no-cost loan?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Set the rate to 0% to get a flat monthly payment equal to loan amount divided by number of months."
+                }
+              }
+            ]
+          },
+      
+          // 4) WebApplication
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id": "https://calculatorhub.site/personal-loan-calculator#webapp",
+            "name": "Personal Loan Calculator",
+            "url": "https://calculatorhub.site/personal-loan-calculator",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "Web",
+            "description": "Compute personal loan EMI, total interest, and total payment with shareable summaries and visuals.",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "image": ["https://calculatorhub.site/images/personal-loan-calculator.webp"]
+          },
+      
+          // 5) SoftwareApplication
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "@id": "https://calculatorhub.site/personal-loan-calculator#software",
+            "name": "Personal Loan EMI Calculator",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "All",
+            "url": "https://calculatorhub.site/personal-loan-calculator",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "description": "Interactive loan tool with EMI formula, example, and printable summaries."
+          },
+      
+          // 6) WebSite + Organization (global)
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://calculatorhub.site/#website",
+            "url": "https://calculatorhub.site",
+            "name": "CalculatorHub",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://calculatorhub.site/#organization",
+            "name": "CalculatorHub",
+            "url": "https://calculatorhub.site",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://calculatorhub.site/images/logo.png"
+            }
+          }
+        ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/personal-loan-calculator" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/personal-loan-calculator" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/personal-loan-calculator" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/personal-loan-calculator" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Personal Loan Calculator (2025–2026) — EMI, Interest & Payment" />
+      <meta property="og:description" content="Estimate EMI, total interest, and total payment for your personal loan. Free, fast, and privacy-friendly." />
+      <meta property="og:url" content="https://calculatorhub.site/personal-loan-calculator" />
+      <meta property="og:image" content="https://calculatorhub.site/images/personal-loan-calculator.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Personal loan calculator dashboard showing EMI and interest breakdown" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Personal Loan Calculator — EMI, Interest & Payment" />
+      <meta name="twitter:description" content="Free calculator to plan your personal loan with EMI, total payment, and interest." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/personal-loan-calculator.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#ec4899" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/personal-loan-calculator.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
 
 
       <div className="max-w-5xl mx-auto">
