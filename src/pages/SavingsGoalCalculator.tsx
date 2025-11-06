@@ -202,21 +202,217 @@ const SavingsGoalCalculator: React.FC = () => {
      ============================================================ */
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title={seoData.savingsGoalCalculator?.title || "Savings Goal Calculator | CalculatorHub"}
-        description={
-          seoData.savingsGoalCalculator?.description ||
-          "Estimate how long it will take to reach your savings goal, or how much you'll accumulate over time with interest."
-        }
+        title="Savings Goal Calculator — Time to Goal, Compound Growth & Final Value"
+        description="Use our free Savings Goal Calculator to estimate time to reach your target, total contributions, compound growth, and final value. Perfect for budgeting and long-term planning."
+        keywords={[
+          "savings goal calculator",
+          "time to savings goal",
+          "compound interest savings",
+          "monthly contribution calculator",
+          "future value calculator",
+          "goal planner",
+          "investment growth calculator",
+          "savings target calculator",
+          "budget planning tool",
+          "financial goal tracker"
+        ]}
         canonical="https://calculatorhub.site/savings-goal-calculator"
-        schemaData={generateCalculatorSchema(
-          "Savings Goal Calculator",
-          "Plan your financial goals by estimating growth with monthly contributions and interest.",
-          "/savings-goal-calculator",
-          ["savings goal", "compound interest", "future value", "finance calculator"]
-        )}
+        schemaData={[
+          // 1) WebPage + Article
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://calculatorhub.site/savings-goal-calculator#webpage",
+            "url": "https://calculatorhub.site/savings-goal-calculator",
+            "name": "Savings Goal Calculator (2025–2026) — Time to Goal, Contributions & Growth",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "@id": "https://calculatorhub.site/images/savings-goal-calculator-hero.webp#primaryimg",
+              "url": "https://calculatorhub.site/images/savings-goal-calculator-hero.webp",
+              "width": 1200,
+              "height": 675
+            },
+            "mainEntity": {
+              "@type": "Article",
+              "@id": "https://calculatorhub.site/savings-goal-calculator#article",
+              "headline": "Savings Goal Calculator — Plan Contributions, Compound Growth & Time to Goal",
+              "description": "Forecast time to reach your savings target with monthly contributions and compound growth. Includes charts, tips, and example scenarios.",
+              "image": [
+                "https://calculatorhub.site/images/savings-goal-calculator-hero.webp"
+              ],
+              "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "datePublished": "2025-10-17",
+              "dateModified": "2025-11-06",
+              "mainEntityOfPage": { "@id": "https://calculatorhub.site/savings-goal-calculator#webpage" },
+              "articleSection": [
+                "What is a Savings Goal Calculator",
+                "How to Use",
+                "Benefits",
+                "Example Calculation",
+                "How It Works",
+                "Simple vs Premium vs Advanced",
+                "Cost & Deals",
+                "Smart Tips",
+                "FAQ"
+              ]
+            }
+          },
+      
+          // 2) Breadcrumbs
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id": "https://calculatorhub.site/savings-goal-calculator#breadcrumbs",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+              { "@type": "ListItem", "position": 2, "name": "Currency & Finance", "item": "https://calculatorhub.site/category/currency-finance" },
+              { "@type": "ListItem", "position": 3, "name": "Savings Goal Calculator", "item": "https://calculatorhub.site/savings-goal-calculator" }
+            ]
+          },
+      
+          // 3) FAQ
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": "https://calculatorhub.site/savings-goal-calculator#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What rate should I use?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Use your account’s APY or an average long-term investment return. This calculator compounds monthly."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I include one-time deposits?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Add them into current savings or use a premium version that supports lump-sum inputs."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What if I already hit my goal?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "If your balance equals or exceeds your goal, the time-to-goal will be zero—congratulations!"
+                }
+              }
+            ]
+          },
+      
+          // 4) WebApplication
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id": "https://calculatorhub.site/savings-goal-calculator#webapp",
+            "name": "Savings Goal Calculator",
+            "url": "https://calculatorhub.site/savings-goal-calculator",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "Web",
+            "description": "Estimate time to reach a savings target with monthly contributions and compound growth. Visual breakdown of contributions vs growth.",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "image": [
+              "https://calculatorhub.site/images/savings-goal-calculator-hero.webp"
+            ]
+          },
+      
+          // 5) SoftwareApplication (optional)
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "@id": "https://calculatorhub.site/savings-goal-calculator#software",
+            "name": "Savings Goal Calculator",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "All",
+            "url": "https://calculatorhub.site/savings-goal-calculator",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "description": "Interactive savings planner with monthly compounding, charts, and shareable results."
+          },
+      
+          // 6) WebSite + Organization (global)
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://calculatorhub.site/#website",
+            "url": "https://calculatorhub.site",
+            "name": "CalculatorHub",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://calculatorhub.site/#organization",
+            "name": "CalculatorHub",
+            "url": "https://calculatorhub.site",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://calculatorhub.site/images/logo.png"
+            }
+          }
+        ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/savings-goal-calculator" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/savings-goal-calculator" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/savings-goal-calculator" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/savings-goal-calculator" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Savings Goal Calculator (2025–2026) — Time to Goal, Contributions & Growth" />
+      <meta property="og:description" content="Free Savings Goal Calculator to project time to goal, total contributions, compound growth, and final value." />
+      <meta property="og:url" content="https://calculatorhub.site/savings-goal-calculator" />
+      <meta property="og:image" content="https://calculatorhub.site/images/savings-goal-calculator-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Savings Goal Calculator dashboard showing contributions vs growth breakdown" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Savings Goal Calculator — Time to Goal, Compound Growth & Final Value" />
+      <meta name="twitter:description" content="Plan your savings with monthly contributions and compound growth. See time to goal and final value instantly." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/savings-goal-calculator-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#06b6d4" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/savings-goal-calculator-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
       
 
 
