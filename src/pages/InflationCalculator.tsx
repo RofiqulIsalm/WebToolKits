@@ -163,21 +163,214 @@ const InflationCalculator: React.FC = () => {
      ============================================================ */
   return (
     <>
-      <SEOHead
-        title={seoData.inflationCalculator?.title || "Inflation Calculator | CalculatorHub"}
-        description={
-          seoData.inflationCalculator?.description ||
-          "Estimate how inflation affects your money's purchasing power over time with CalculatorHub’s Inflation Calculator."
-        }
-        canonical="https://calculatorhub.site/inflation-calculator"
-        schemaData={generateCalculatorSchema(
-          "Inflation Calculator",
-          "Estimate real value loss due to inflation and compare future purchasing power.",
-          "/inflation-calculator",
-          ["inflation", "future value", "money value", "real purchasing power"]
-        )}
-      />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+     {/** ================= Inflation Calculator — TECHNICAL SEO ================= */}
+        <SEOHead
+          title="Inflation Calculator — Real Value & Purchasing Power Estimator (2025)"
+          description="Use our free Inflation Calculator to see how inflation reduces the purchasing power of money over time. Enter amount, rate, and years to get future real value and value lost—fast, accurate, and privacy-friendly."
+          keywords={[
+            "Inflation calculator",
+            "purchasing power",
+            "real value",
+            "future value with inflation",
+            "CPI calculator",
+            "money value over time",
+            "price inflation tool",
+            "inflation impact calculator",
+            "inflation adjustment",
+          ]}
+          canonical="https://calculatorhub.site/inflation-calculator"
+          schemaData={[
+            // 1) WebPage + Article
+            {
+              "@context": "https://schema.org",
+              "@type": "WebPage",
+              "@id": "https://calculatorhub.site/inflation-calculator#webpage",
+              "url": "https://calculatorhub.site/inflation-calculator",
+              "name": "Inflation Calculator (2025) — Real Value & Purchasing Power Estimator",
+              "inLanguage": "en",
+              "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+              "primaryImageOfPage": {
+                "@type": "ImageObject",
+                "@id": "https://calculatorhub.site/images/inflation-calculator-hero.webp#primaryimg",
+                "url": "https://calculatorhub.site/images/inflation-calculator-hero.webp",
+                "width": 1200,
+                "height": 630
+              },
+              "mainEntity": {
+                "@type": "Article",
+                "@id": "https://calculatorhub.site/inflation-calculator#article",
+                "headline": "Inflation Calculator — Understand Real Value, Value Lost, and Purchasing Power",
+                "description": "Calculate the future real value of money and inflation-driven value loss. Includes charts, multi-currency formatting, copy & share, and live tips.",
+                "image": [
+                  "https://calculatorhub.site/images/inflation-calculator-hero.webp"
+                ],
+                "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+                "publisher": { "@id": "https://calculatorhub.site/#organization" },
+                "datePublished": "2025-10-17",
+                "dateModified": "2025-11-06",
+                "mainEntityOfPage": { "@id": "https://calculatorhub.site/inflation-calculator#webpage" },
+                "articleSection": [
+                  "What is an Inflation Calculator",
+                  "How It Works",
+                  "Tips & Scenarios",
+                  "Simple vs Advanced",
+                  "Benefits",
+                  "FAQs"
+                ]
+              }
+            },
+        
+            // 2) Breadcrumbs
+            {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "@id": "https://calculatorhub.site/inflation-calculator#breadcrumbs",
+              "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+                { "@type": "ListItem", "position": 2, "name": "Currency & Finance", "item": "https://calculatorhub.site/category/currency-finance" },
+                { "@type": "ListItem", "position": 3, "name": "Inflation Calculator", "item": "https://calculatorhub.site/inflation-calculator" }
+              ]
+            },
+        
+            // 3) FAQ
+            {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "@id": "https://calculatorhub.site/inflation-calculator#faq",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "What does the Inflation Calculator do?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "It estimates future purchasing power by adjusting today’s amount for a chosen average inflation rate over a set number of years."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Is the calculator accurate?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "It uses the standard compound inflation formula and provides reliable estimates assuming a constant average inflation rate."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Do I need an account to use it?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. It’s free and runs entirely in your browser without sign-in or data collection."
+                  }
+                }
+              ]
+            },
+        
+            // 4) WebApplication
+            {
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              "@id": "https://calculatorhub.site/inflation-calculator#webapp",
+              "name": "Inflation Calculator",
+              "url": "https://calculatorhub.site/inflation-calculator",
+              "applicationCategory": "FinanceApplication",
+              "operatingSystem": "Web",
+              "description": "Calculate future real value and value lost due to inflation, with charts and shareable results.",
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "image": [
+                "https://calculatorhub.site/images/inflation-calculator-hero.webp"
+              ]
+            },
+        
+            // 5) SoftwareApplication (optional)
+            {
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              "@id": "https://calculatorhub.site/inflation-calculator#software",
+              "name": "Inflation Impact Calculator",
+              "applicationCategory": "FinanceApplication",
+              "operatingSystem": "All",
+              "url": "https://calculatorhub.site/inflation-calculator",
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "description": "Interactive inflation impact tool with multi-currency display, charts, and copy/share options."
+            },
+        
+            // 6) WebSite + Organization (global)
+            {
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "@id": "https://calculatorhub.site/#website",
+              "url": "https://calculatorhub.site",
+              "name": "CalculatorHub",
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://calculatorhub.site/search?q={query}",
+                "query-input": "required name=query"
+              }
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "@id": "https://calculatorhub.site/#organization",
+              "name": "CalculatorHub",
+              "url": "https://calculatorhub.site",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://calculatorhub.site/images/logo.png"
+              }
+            }
+          ]}
+        />
+        
+        {/** ===== Outside meta/links just like your FD page ===== */}
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <link rel="canonical" href="https://calculatorhub.site/inflation-calculator" />
+        
+        {/** Hreflang */}
+        <link rel="alternate" href="https://calculatorhub.site/inflation-calculator" hrefLang="en" />
+        <link rel="alternate" href="https://calculatorhub.site/bn/inflation-calculator" hrefLang="bn" />
+        <link rel="alternate" href="https://calculatorhub.site/inflation-calculator" hrefLang="x-default" />
+        
+        {/** Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="CalculatorHub" />
+        <meta property="og:title" content="Inflation Calculator (2025) — Real Value & Purchasing Power Estimator" />
+        <meta property="og:description" content="Free Inflation Calculator to estimate future purchasing power and value lost due to inflation. Fast, accurate, and privacy-safe." />
+        <meta property="og:url" content="https://calculatorhub.site/inflation-calculator" />
+        <meta property="og:image" content="https://calculatorhub.site/images/inflation-calculator-hero.webp" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Inflation calculator dashboard showing value loss over years" />
+        <meta property="og:locale" content="en_US" />
+        
+        {/** Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Inflation Calculator — Real Value & Purchasing Power Estimator" />
+        <meta name="twitter:description" content="See how inflation changes the value of money over time. Calculate future real value and value lost." />
+        <meta name="twitter:image" content="https://calculatorhub.site/images/inflation-calculator-hero.webp" />
+        <meta name="twitter:creator" content="@CalculatorHub" />
+        <meta name="twitter:site" content="@CalculatorHub" />
+        
+        {/** PWA & theme */}
+        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+        <meta name="theme-color" content="#0ea5e9" />
+        
+        {/** Perf: preconnect/preload (match your stack) */}
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+        <link rel="preload" as="image" href="/images/inflation-calculator-hero.webp" fetchpriority="high" />
+        <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+        
+        {/** Misc */}
+        <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+        <meta name="referrer" content="no-referrer-when-downgrade" />
+        <meta name="format-detection" content="telephone=no" />
+        {/** ================= /Inflation Calculator — TECHNICAL SEO ================= */}
+
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
@@ -421,177 +614,177 @@ const InflationCalculator: React.FC = () => {
         )}
 
         {/* ===== SEO Content Section ===== */}
-        {/* ===== SEO Content Section ===== */}
-<section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
-  <h1 className="text-3xl font-bold text-cyan-400 mb-6">
-    Inflation Calculator 2025 – Understand the True Value of Money
-  </h1>
 
-  <p>
-    The <strong>Inflation Calculator by CalculatorHub</strong> is a professional yet{" "}
-    <strong>easy Inflation Calculator</strong> designed to help users understand how{" "}
-    inflation reduces the purchasing power of money over time. Whether used by individuals,{" "}
-    businesses, or analysts, this <strong>tool Inflation Calculator</strong> delivers{" "}
-    accurate and instant results without requiring financial expertise.
-  </p>
-
-  <figure className="my-8">
-    <img
-      src="/images/inflation-calculator-hero.webp"
-      alt="Inflation calculator dashboard showing value loss over years"
-      title="Inflation Calculator 2025 | Real Value Estimator"
-      className="rounded-lg shadow-md border border-slate-700 mx-auto"
-      loading="lazy"
-    />
-    <figcaption className="text-center text-sm text-slate-400 mt-2">
-      Visualization of the Inflation Calculator dark-finance UI.
-    </figcaption>
-  </figure>
-
-  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-    📘 What is an Inflation Calculator?
-  </h2>
-  <p>
-    A <strong>simple Inflation Calculator</strong> estimates how much your current{" "}
-    savings or income will be worth in the future after accounting for inflation.{" "}
-    It’s an essential <strong>service Inflation Calculator</strong> that highlights{" "}
-    the hidden loss of value in cash or uninvested funds over time. For users who{" "}
-    prefer deeper analytics, the <strong>advanced Inflation Calculator</strong> offers{" "}
-    customizable inflation assumptions and time horizons.
-  </p>
-
-  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-    💡 How to Use Inflation Calculator
-  </h2>
-  <ol className="list-decimal list-inside space-y-2">
-    <li>Enter the <strong>current amount</strong> you wish to evaluate.</li>
-    <li>Add the <strong>annual inflation rate</strong> (e.g., 3%, 5%, etc.).</li>
-    <li>Enter the <strong>number of years</strong> you want to project.</li>
-    <li>Click "Calculate" to see your <strong>future value</strong> and{" "}
-      <strong>value lost</strong>.</li>
-    <li>Compare multiple scenarios to plan for inflation-adjusted goals.</li>
-  </ol>
-  <p>
-    Even beginners find this interface friendly — it doubles as a{" "}
-    <strong>professional Inflation Calculator</strong> and a{" "}
-    <strong>free Inflation Calculator</strong> for quick real-world projections.
-  </p>
-
-  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-    🧠 Inflation Calculator Tips
-  </h2>
-  <ul className="list-disc list-inside space-y-2">
-    <li>Use realistic inflation rates (typically 2–6%).</li>
-    <li>For long-term planning, test several inflation scenarios.</li>
-    <li>Compare your investment returns against inflation to gauge real growth.</li>
-    <li>Revisit calculations yearly as market conditions change.</li>
-  </ul>
-
-  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-    ⚙️ Simple vs Advanced Inflation Calculator
-  </h2>
-  <p>
-    The <strong>simple Inflation Calculator</strong> gives quick, no-frills projections.{" "}
-    However, power users and enterprises may prefer the{" "}
-    <strong>advanced Inflation Calculator</strong> or{" "}
-    <strong>enterprise Inflation Calculator</strong>, which includes features like{" "}
-    multi-currency inputs, graphical analysis, and exportable results. These advanced{" "}
-    versions are designed for professionals and analysts who require precision and depth.
-  </p>
-
-  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-    🌟 Inflation Calculator Review
-  </h2>
-  <p>
-    Users consistently rate CalculatorHub’s tool as the{" "}
-    <strong>best Inflation Calculator</strong> for its accuracy, visual design, and ease of use.{" "}
-    Unlike many paid tools, this <strong>free Inflation Calculator</strong> delivers{" "}
-    professional-grade insights at no cost. The interface is fast, responsive, and{" "}
-    100% privacy-friendly — no data is stored or shared.
-  </p>
-
-  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-    💼 Premium & Professional Options
-  </h2>
-  <p>
-    For those needing advanced capabilities, CalculatorHub also offers a{" "}
-    <strong>premium Inflation Calculator</strong> designed for small firms, analysts,{" "}
-    and consultants. It provides exportable reports, data comparisons, and integration{" "}
-    with other tools. Meanwhile, the <strong>affordable Inflation Calculator solution</strong>{" "}
-    keeps professional insights accessible without enterprise-level pricing.
-  </p>
-
-  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-    🌐 Inflation Calculator Online – Free and Accessible
-  </h2>
-  <p>
-    The <strong>Inflation Calculator online</strong> runs directly in your browser —{" "}
-    no downloads or sign-ups required. It’s completely free, making it ideal for{" "}
-    individuals or small business owners who need quick, reliable inflation estimates.{" "}
-    Unlike typical subscription-based apps, users don’t have to{" "}
-    <strong>buy Inflation Calculator</strong> software; everything is web-based.
-  </p>
-
-  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-    🚀 Inflation Calculator Benefits
-  </h2>
-  <ul className="list-disc list-inside space-y-2">
-    <li>Instantly visualize the decline of money’s value due to inflation.</li>
-    <li>Helps adjust long-term investment or retirement plans realistically.</li>
-    <li>Improves business forecasting accuracy for pricing and budgets.</li>
-    <li>Available as a <strong>solution Inflation Calculator</strong> across all devices.</li>
-  </ul>
-
-  <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-    🧩 Professional & Enterprise Use Cases
-  </h2>
-  <p>
-    Many organizations adopt the <strong>enterprise Inflation Calculator</strong> for{" "}
-    financial forecasting, global salary planning, and currency comparisons.{" "}
-    The <strong>professional Inflation Calculator</strong> version integrates seamlessly{" "}
-    with internal reporting dashboards to deliver actionable insights — a perfect{" "}
-    <strong>solution Inflation Calculator</strong> for companies planning ahead.
-  </p>
-
-  {/* FAQ Section */}
-  <section id="faq" className="space-y-6 mt-16">
-    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
-      ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
-    </h2>
-
-    <div className="space-y-5 text-lg text-slate-100 leading-relaxed">
-      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-        <h3 className="font-semibold text-xl mb-2 text-yellow-300">
-          Q1: What is inflation and why does it matter?
-        </h3>
+      <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+        <h1 className="text-3xl font-bold text-cyan-400 mb-6">
+          Inflation Calculator 2025 – Understand the True Value of Money
+        </h1>
+      
         <p>
-          Inflation represents the rate at which general prices increase, decreasing
-          purchasing power over time. Understanding it helps you make smarter financial decisions.
+          The <strong>Inflation Calculator by CalculatorHub</strong> is a professional yet{" "}
+          <strong>easy Inflation Calculator</strong> designed to help users understand how{" "}
+          inflation reduces the purchasing power of money over time. Whether used by individuals,{" "}
+          businesses, or analysts, this <strong>tool Inflation Calculator</strong> delivers{" "}
+          accurate and instant results without requiring financial expertise.
         </p>
-      </div>
-
-      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-        <h3 className="font-semibold text-xl mb-2 text-yellow-300">
-          Q2: Is this Inflation Calculator accurate?
-        </h3>
+      
+        <figure className="my-8">
+          <img
+            src="/images/inflation-calculator-hero.webp"
+            alt="Inflation calculator dashboard showing value loss over years"
+            title="Inflation Calculator 2025 | Real Value Estimator"
+            className="rounded-lg shadow-md border border-slate-700 mx-auto"
+            loading="lazy"
+          />
+          <figcaption className="text-center text-sm text-slate-400 mt-2">
+            Visualization of the Inflation Calculator dark-finance UI.
+          </figcaption>
+        </figure>
+      
+        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+          📘 What is an Inflation Calculator?
+        </h2>
         <p>
-          Yes. It uses the compound inflation formula and provides reliable results assuming
-          a constant average rate. It’s accurate enough for both personal and professional analysis.
+          A <strong>simple Inflation Calculator</strong> estimates how much your current{" "}
+          savings or income will be worth in the future after accounting for inflation.{" "}
+          It’s an essential <strong>service Inflation Calculator</strong> that highlights{" "}
+          the hidden loss of value in cash or uninvested funds over time. For users who{" "}
+          prefer deeper analytics, the <strong>advanced Inflation Calculator</strong> offers{" "}
+          customizable inflation assumptions and time horizons.
         </p>
-      </div>
-
-      <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
-        <h3 className="font-semibold text-xl mb-2 text-yellow-300">
-          Q3: Is the Inflation Calculator free to use?
-        </h3>
+      
+        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+          💡 How to Use Inflation Calculator
+        </h2>
+        <ol className="list-decimal list-inside space-y-2">
+          <li>Enter the <strong>current amount</strong> you wish to evaluate.</li>
+          <li>Add the <strong>annual inflation rate</strong> (e.g., 3%, 5%, etc.).</li>
+          <li>Enter the <strong>number of years</strong> you want to project.</li>
+          <li>Click "Calculate" to see your <strong>future value</strong> and{" "}
+            <strong>value lost</strong>.</li>
+          <li>Compare multiple scenarios to plan for inflation-adjusted goals.</li>
+        </ol>
         <p>
-          Absolutely. It’s a <strong>free Inflation Calculator</strong> built for accessibility,
-          allowing anyone to explore future value scenarios without cost or registration.
+          Even beginners find this interface friendly — it doubles as a{" "}
+          <strong>professional Inflation Calculator</strong> and a{" "}
+          <strong>free Inflation Calculator</strong> for quick real-world projections.
         </p>
-      </div>
-    </div>
-  </section>
-</section>
+      
+        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+          🧠 Inflation Calculator Tips
+        </h2>
+        <ul className="list-disc list-inside space-y-2">
+          <li>Use realistic inflation rates (typically 2–6%).</li>
+          <li>For long-term planning, test several inflation scenarios.</li>
+          <li>Compare your investment returns against inflation to gauge real growth.</li>
+          <li>Revisit calculations yearly as market conditions change.</li>
+        </ul>
+      
+        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+          ⚙️ Simple vs Advanced Inflation Calculator
+        </h2>
+        <p>
+          The <strong>simple Inflation Calculator</strong> gives quick, no-frills projections.{" "}
+          However, power users and enterprises may prefer the{" "}
+          <strong>advanced Inflation Calculator</strong> or{" "}
+          <strong>enterprise Inflation Calculator</strong>, which includes features like{" "}
+          multi-currency inputs, graphical analysis, and exportable results. These advanced{" "}
+          versions are designed for professionals and analysts who require precision and depth.
+        </p>
+      
+        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+          🌟 Inflation Calculator Review
+        </h2>
+        <p>
+          Users consistently rate CalculatorHub’s tool as the{" "}
+          <strong>best Inflation Calculator</strong> for its accuracy, visual design, and ease of use.{" "}
+          Unlike many paid tools, this <strong>free Inflation Calculator</strong> delivers{" "}
+          professional-grade insights at no cost. The interface is fast, responsive, and{" "}
+          100% privacy-friendly — no data is stored or shared.
+        </p>
+      
+        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+          💼 Premium & Professional Options
+        </h2>
+        <p>
+          For those needing advanced capabilities, CalculatorHub also offers a{" "}
+          <strong>premium Inflation Calculator</strong> designed for small firms, analysts,{" "}
+          and consultants. It provides exportable reports, data comparisons, and integration{" "}
+          with other tools. Meanwhile, the <strong>affordable Inflation Calculator solution</strong>{" "}
+          keeps professional insights accessible without enterprise-level pricing.
+        </p>
+      
+        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+          🌐 Inflation Calculator Online – Free and Accessible
+        </h2>
+        <p>
+          The <strong>Inflation Calculator online</strong> runs directly in your browser —{" "}
+          no downloads or sign-ups required. It’s completely free, making it ideal for{" "}
+          individuals or small business owners who need quick, reliable inflation estimates.{" "}
+          Unlike typical subscription-based apps, users don’t have to{" "}
+          <strong>buy Inflation Calculator</strong> software; everything is web-based.
+        </p>
+      
+        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+          🚀 Inflation Calculator Benefits
+        </h2>
+        <ul className="list-disc list-inside space-y-2">
+          <li>Instantly visualize the decline of money’s value due to inflation.</li>
+          <li>Helps adjust long-term investment or retirement plans realistically.</li>
+          <li>Improves business forecasting accuracy for pricing and budgets.</li>
+          <li>Available as a <strong>solution Inflation Calculator</strong> across all devices.</li>
+        </ul>
+      
+        <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+          🧩 Professional & Enterprise Use Cases
+        </h2>
+        <p>
+          Many organizations adopt the <strong>enterprise Inflation Calculator</strong> for{" "}
+          financial forecasting, global salary planning, and currency comparisons.{" "}
+          The <strong>professional Inflation Calculator</strong> version integrates seamlessly{" "}
+          with internal reporting dashboards to deliver actionable insights — a perfect{" "}
+          <strong>solution Inflation Calculator</strong> for companies planning ahead.
+        </p>
+      
+        {/* FAQ Section */}
+        <section id="faq" className="space-y-6 mt-16">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
+            ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
+          </h2>
+      
+          <div className="space-y-5 text-lg text-slate-100 leading-relaxed">
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+              <h3 className="font-semibold text-xl mb-2 text-yellow-300">
+                Q1: What is inflation and why does it matter?
+              </h3>
+              <p>
+                Inflation represents the rate at which general prices increase, decreasing
+                purchasing power over time. Understanding it helps you make smarter financial decisions.
+              </p>
+            </div>
+      
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+              <h3 className="font-semibold text-xl mb-2 text-yellow-300">
+                Q2: Is this Inflation Calculator accurate?
+              </h3>
+              <p>
+                Yes. It uses the compound inflation formula and provides reliable results assuming
+                a constant average rate. It’s accurate enough for both personal and professional analysis.
+              </p>
+            </div>
+      
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+              <h3 className="font-semibold text-xl mb-2 text-yellow-300">
+                Q3: Is the Inflation Calculator free to use?
+              </h3>
+              <p>
+                Absolutely. It’s a <strong>free Inflation Calculator</strong> built for accessibility,
+                allowing anyone to explore future value scenarios without cost or registration.
+              </p>
+            </div>
+          </div>
+        </section> 
+      </section>
 
         {/* ===== Footer & Related Tools ===== */}
         <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
