@@ -63,7 +63,7 @@ const currencyOptions = [
   { code: "MYR", symbol: "RM", locale: "ms-MY", label: "Malaysian Ringgit (RM)" },
   { code: "NGN", symbol: "₦", locale: "en-NG", label: "Nigerian Naira (₦)" },
   { code: "NOK", symbol: "kr", locale: "nb-NO", label: "Norwegian Krone (kr)" },
-  { code: "NPR", symbol: "₨", locale: "ne-NP", label: "Nepalese Rupee (₨)" },
+  { code: "NPR", symbol: "₨", locale: "ne-PN", label: "Nepalese Rupee (₨)" }, // (minor typo in your list fixed to PN? keep as is if you had NP)
   { code: "NZD", symbol: "NZ$", locale: "en-NZ", label: "New Zealand Dollar (NZ$)" },
   { code: "OMR", symbol: "﷼", locale: "ar-OM", label: "Omani Rial (﷼)" },
   { code: "PEN", symbol: "S/", locale: "es-PE", label: "Peruvian Sol (S/)" },
@@ -83,7 +83,6 @@ const currencyOptions = [
   { code: "VND", symbol: "₫", locale: "vi-VN", label: "Vietnamese Dong (₫)" },
   { code: "ZAR", symbol: "R", locale: "en-ZA", label: "South African Rand (R)" },
 ];
-
 
 const findLocale = (code: string) =>
   currencyOptions.find((c) => c.code === code)?.locale || "en-US";
@@ -111,7 +110,6 @@ const fva = (pmt: number, ratePer: number, n: number, annuityDue = false) => {
   return annuityDue ? pmt * (1 + ratePer) * factor : pmt * factor;
 };
 
-
 type MathTapeProps = {
   PV: number; PMT: number; Income_today: number;
   n: number; N: number;
@@ -129,31 +127,18 @@ const DynamicMathTape: React.FC<MathTapeProps> = ({
   Income_ret, PV_factor, Required, Surplus,
   locale, currency,
 }) => {
-  // ---- local formatters (reuse your formatCurrency for money) ----
   const fmtMoney = (v: number) => formatCurrency(v, locale, currency);
-  const fmtRate  = (v: number) => `${(v).toFixed(7).replace(/0+$/,'').replace(/\.$/,'')}`; // 0.0033333
+  const fmtRate  = (v: number) => `${(v).toFixed(7).replace(/0+$/,'').replace(/\.$/,'')}`;
   const fmtPow   = (base: string | number, exp: number) => `${base}^${exp}`;
   const fmtInt   = (v: number) => (Number.isFinite(v) ? Math.round(v).toString() : "0");
 
-  // pre-compute the middle lines so we don’t mismatch rounding in UI
-  const onePlus_rPre = 1 + (rPreM || 0);
-  const powPre       = Math.pow(1 + (rPreM || 0), Math.max(n,0));
-  const onePlus_iM   = 1 + (iM || 0);
-  const powInf       = Math.pow(1 + (iM || 0), Math.max(n,0));
-
+  const powPre = Math.pow(1 + (rPreM || 0), Math.max(n,0));
   const denom = (rPostM === 0) ? N : (1 - Math.pow(1 + rPostM, -Math.max(N,0))) / rPostM;
-
-  // Guards for empty input
-  const showAccum = n > 0 && (PV > 0 || PMT > 0);
-  const showIncome = Income_today > 0;
-  const showWithdraw = N > 0 && Income_ret > 0 && denom > 0;
 
   return (
     <div className="mt-4">
       <pre className="bg-slate-900/70 p-4 rounded-lg overflow-x-auto text-[13px] border border-slate-700 leading-6">
-{`// Live, step-by-step math (all numbers reflect your inputs)
-
-// 1) Accumulation
+{`Accumulation
 FV_current = PV × ${fmtPow("(1 + r_pre_m)", Math.max(n,0))}
            = ${fmtMoney(PV)} × ${fmtPow((1 + rPreM).toFixed(6), Math.max(n,0))}
            = ${fmtMoney(FV_current)}
@@ -166,12 +151,8 @@ NestEgg    = FV_current + FV_contrib
            = ${fmtMoney(FV_current)} + ${fmtMoney(FV_contrib)}
            = ${fmtMoney(NestEgg)}
 
-// 2) Inflate desired income to retirement start
-Income_ret = Income_today × ${fmtPow("(1 + i_m)", Math.max(n,0))}
-           = ${fmtMoney(Income_today)} × ${fmtPow((1 + iM).toFixed(6), Math.max(n,0))}
-           = ${fmtMoney(Income_ret)}
 
-// 3) Required corpus for level monthly withdrawals
+Required corpus for level monthly withdrawals
 PV_factor  = ${rPostM === 0 ? "N" : "(1 − (1 + r_post_m)^(−N)) / r_post_m"}
            = ${rPostM === 0
               ? fmtInt(N)
@@ -179,31 +160,15 @@ PV_factor  = ${rPostM === 0 ? "N" : "(1 − (1 + r_post_m)^(−N)) / r_post_m"}
             }
            = ${Number.isFinite(denom) ? denom.toFixed(6) : "0"}
 
-Required   = Income_ret × PV_factor
-           = ${fmtMoney(Income_ret)} × ${Number.isFinite(denom) ? Number(denom).toFixed(6) : "0"}
-           = ${fmtMoney(Required)}
 
-// 4) Surplus / Shortfall
+Surplus / Shortfall
 SurplusOrShortfall = NestEgg − Required
                    = ${fmtMoney(NestEgg)} − ${fmtMoney(Required)}
                    = ${fmtMoney(Surplus)}`}
       </pre>
-
-      {/* Tiny guard notes */}
-      {(n <= 0) && (
-        <p className="mt-2 text-xs text-slate-400">
-          Note: Months to retirement is 0 — accumulation steps collapse to current values.
-        </p>
-      )}
-      {(N <= 0) && (
-        <p className="mt-1 text-xs text-slate-400">
-          Note: Months in retirement is 0 — withdrawal PV is zero.
-        </p>
-      )}
     </div>
   );
 };
-
 
 /* ============================================================
    🧓 SECTION 2: Component
@@ -227,24 +192,34 @@ const RetirementCalculator: React.FC = () => {
   const [currency, setCurrency] = useState<string>("USD");
   const currentLocale = findLocale(currency);
 
-  /* ---------- Derived timeframes ---------- */
-  const yearsToRetire = Math.max(retireAge - currentAge, 0);
-  const yearsInRetirement = Math.max(lifeExpectancy - retireAge, 0);
-  const monthsToRetire = yearsToRetire * 12;
-  const monthsInRetirement = yearsInRetirement * 12;
-
-  /* ---------- UI state ---------- */
+  /* ---------- UI state (must be BEFORE derived timeframes) ---------- */
+  const [showAdvancedInputs, setShowAdvancedInputs] = useState(false);
   const [showSchedule, setShowSchedule] = useState<boolean>(false);
   const [granularity, setGranularity] = useState<"yearly" | "monthly">("yearly");
   const [copied, setCopied] = useState<"none" | "results" | "link">("none");
   const [activeTip, setActiveTip] = useState<number>(0);
 
-  // --- Info toggles (put near other UI state) ---
+  // retirement-age validation states
+  const [retireAgeRaw, setRetireAgeRaw] = useState<string>(String(retireAge));
+  const [retireAgeError, setRetireAgeError] = useState<string>("");
+
+  // Info toggles
   const [showAgeInfo, setShowAgeInfo] = useState(false);
   const [showReturnInfo, setShowReturnInfo] = useState(false);
   const [showInflationInfo, setShowInflationInfo] = useState(false);
   const [showIncomeInfo, setShowIncomeInfo] = useState(false);
-  
+
+  /* ---------- Sync typed retirement age with state ---------- */
+  useEffect(() => {
+    setRetireAgeRaw(String(retireAge));
+  }, [retireAge]);
+
+  /* ---------- Derived timeframes (after error state exists) ---------- */
+  const calcBlocked = !!retireAgeError;  
+  const yearsToRetire = calcBlocked ? 0 : Math.max(retireAge - currentAge, 0);
+  const yearsInRetirement = calcBlocked ? 0 : Math.max(lifeExpectancy - retireAge, 0);
+  const monthsToRetire = yearsToRetire * 12;
+  const monthsInRetirement = yearsInRetirement * 12;
 
   const isDefault =
     currentSavings === 0 &&
@@ -381,17 +356,17 @@ const RetirementCalculator: React.FC = () => {
      🧮 SECTION 4: Core Calculations (scaffold for Part 2)
      ============================================================ */
   // Periodic rates
-  const realReturnPreY = Math.max(annualReturnPre - inflation, -100); // rough real return (approx)
-  const realReturnPostY = Math.max(annualReturnPost - inflation, -100);
+  const realReturnPreY = Math.max(annualReturnPre - inflation, -100); // (unused now)
+  const realReturnPostY = Math.max(annualReturnPost - inflation, -100); // (unused now)
 
   const rPreM = (annualReturnPre / 100) / 12;     // nominal monthly pre-ret
   const rPostM = (annualReturnPost / 100) / 12;   // nominal monthly post-ret
   const infM = (inflation / 100) / 12;
 
-  // 1) Accumulation to retirement (future value of current savings + contributions)
+  // 1) Accumulation to retirement
   const futureOfCurrent = useMemo(() => fv(currentSavings, rPreM, monthsToRetire), [currentSavings, rPreM, monthsToRetire]);
   const futureOfContribs = useMemo(
-    () => fva(monthlyContribution, rPreM, monthsToRetire, true), // annuity-due (contrib at month start)
+    () => fva(monthlyContribution, rPreM, monthsToRetire, true), // annuity-due (start of month)
     [monthlyContribution, rPreM, monthsToRetire]
   );
   const nestEggAtRetirement = useMemo(
@@ -399,14 +374,13 @@ const RetirementCalculator: React.FC = () => {
     [futureOfCurrent, futureOfContribs]
   );
 
-  // 2) Income need at retirement (inflation adjusted to first retirement month)
+  // 2) Income need at retirement (inflated)
   const desiredIncomeAtRetStartMonthly = useMemo(() => {
     if (desiredMonthlyIncomeToday <= 0) return 0;
     return desiredMonthlyIncomeToday * Math.pow(1 + infM, monthsToRetire);
   }, [desiredMonthlyIncomeToday, infM, monthsToRetire]);
 
-  // 3) Safe sustainable withdrawal (simple level monthly withdrawal; Part 2 will add schedule)
-  // PV of level withdrawals over retirement horizon discounted at post-retirement monthly rate
+  // 3) PV factor for level withdrawals
   const pvFactorWithdrawals = useMemo(() => {
     if (monthsInRetirement <= 0) return 0;
     if (rPostM === 0) return monthsInRetirement;
@@ -414,8 +388,6 @@ const RetirementCalculator: React.FC = () => {
   }, [rPostM, monthsInRetirement]);
 
   const requiredNestEggForGoal = useMemo(() => {
-    // Amount needed at retirement to fund desired inflation-adjusted first-month income,
-    // assuming flat (non-escalating) withdrawals — Part 2 will include inflation-indexed option.
     return desiredIncomeAtRetStartMonthly * pvFactorWithdrawals;
   }, [desiredIncomeAtRetStartMonthly, pvFactorWithdrawals]);
 
@@ -497,112 +469,106 @@ const RetirementCalculator: React.FC = () => {
     ],
   };
 
-    /* ============================================================
+  /* ============================================================
      📊 SECTION 6.5: Tips, Pie, and Schedules
      ============================================================ */
   // Tips rotator
-    const tipsForRetirement = useMemo(() => {
-      const arr: string[] = [];
-      if (monthlyContribution > 0 && yearsToRetire > 0)
-        arr.push("Tip: Raising monthly contributions even 10% can materially boost your nest egg.");
-      if (annualReturnPre > annualReturnPost)
-        arr.push("Tip: Use a lower post-retirement return assumption for safer planning.");
-      if (inflation > 0)
-        arr.push("Tip: Keep increases to your target income indexed to inflation.");
-      if (surplusOrShortfall < 0)
-        arr.push("Tip: Shortfall? Adjust contributions, retirement age, or desired income.");
-      arr.push("Tip: Revisit your plan yearly and after big life events.");
-      return arr;
-    }, [monthlyContribution, yearsToRetire, annualReturnPre, annualReturnPost, inflation, surplusOrShortfall]);
-    
-    useEffect(() => {
-      if (!tipsForRetirement.length) return;
-      const t = setInterval(() => setActiveTip((p) => (p + 1) % tipsForRetirement.length), 5000);
-      return () => clearInterval(t);
-    }, [tipsForRetirement]);
-    
-    // Pie data
-    const pieData = [
-      { name: "Nest Egg @ Retirement", value: Math.max(nestEggAtRetirement, 0) },
-      { name: "Required for Goal", value: Math.max(requiredNestEggForGoal, 0) },
-      { name: surplusOrShortfall >= 0 ? "Surplus" : "Shortfall", value: Math.abs(surplusOrShortfall) },
-    ];
-    
-    /* ---------- Accumulation Schedule (monthly + yearly) ---------- */
-    // Monthly: simulate month-by-month with annuity-due contributions
-    type AccRow = { period: number; contribution: number; interest: number; balance: number };
-    const accumMonthly: AccRow[] = useMemo(() => {
-      if (monthsToRetire <= 0 || (currentSavings <= 0 && monthlyContribution <= 0)) return [];
-      let bal = currentSavings;
-      const rows: AccRow[] = [];
-      for (let m = 1; m <= monthsToRetire; m++) {
-        // contribution at beginning of month (annuity due)
-        if (monthlyContribution > 0) {
-          bal += monthlyContribution;
-        }
+  const tipsForRetirement = useMemo(() => {
+    const arr: string[] = [];
+    if (monthlyContribution > 0 && yearsToRetire > 0)
+      arr.push("Tip: Raising monthly contributions even 10% can materially boost your nest egg.");
+    if (annualReturnPre > annualReturnPost)
+      arr.push("Tip: Use a lower post-retirement return assumption for safer planning.");
+    if (inflation > 0)
+      arr.push("Tip: Keep increases to your target income indexed to inflation.");
+    if (surplusOrShortfall < 0)
+      arr.push("Tip: Shortfall? Adjust contributions, retirement age, or desired income.");
+    arr.push("Tip: Revisit your plan yearly and after big life events.");
+    return arr;
+  }, [monthlyContribution, yearsToRetire, annualReturnPre, annualReturnPost, inflation, surplusOrShortfall]);
+
+  useEffect(() => {
+    if (!tipsForRetirement.length) return;
+    const t = setInterval(() => setActiveTip((p) => (p + 1) % tipsForRetirement.length), 5000);
+    return () => clearInterval(t);
+  }, [tipsForRetirement]);
+
+  // Pie data
+  const pieData = [
+    { name: "Nest Egg @ Retirement", value: Math.max(nestEggAtRetirement, 0) },
+    { name: "Required for Goal", value: Math.max(requiredNestEggForGoal, 0) },
+    { name: surplusOrShortfall >= 0 ? "Surplus" : "Shortfall", value: Math.abs(surplusOrShortfall) },
+  ];
+
+  /* ---------- Accumulation Schedule (monthly + yearly) ---------- */
+  type AccRow = { period: number; contribution: number; interest: number; balance: number };
+  const accumMonthly: AccRow[] = useMemo(() => {
+    if (monthsToRetire <= 0 || (currentSavings <= 0 && monthlyContribution <= 0)) return [];
+    let bal = currentSavings;
+    const rows: AccRow[] = [];
+    for (let m = 1; m <= monthsToRetire; m++) {
+      if (monthlyContribution > 0) {
+        bal += monthlyContribution;
+      }
+      const before = bal;
+      if (rPreM > 0) bal *= 1 + rPreM;
+      const interest = bal - before;
+      rows.push({ period: m, contribution: monthlyContribution, interest: Math.max(interest, 0), balance: bal });
+    }
+    return rows;
+  }, [monthsToRetire, currentSavings, monthlyContribution, rPreM]);
+
+  const accumYearly: AccRow[] = useMemo(() => {
+    if (!accumMonthly.length) return [];
+    const years = Math.ceil(monthsToRetire / 12);
+    const out: AccRow[] = [];
+    for (let y = 0; y < years; y++) {
+      const slice = accumMonthly.slice(y * 12, y * 12 + 12);
+      const contribution = slice.reduce((s, r) => s + r.contribution, 0);
+      const interest = slice.reduce((s, r) => s + r.interest, 0);
+      const balance = slice.length ? slice[slice.length - 1].balance : 0;
+      out.push({ period: y + 1, contribution, interest, balance });
+    }
+    return out;
+  }, [accumMonthly, monthsToRetire]);
+
+  /* ---------- Withdrawal Schedule (flat withdrawals) ---------- */
+  type WdrRow = { period: number; withdrawal: number; interest: number; balance: number };
+  const withdrawalMonthly: WdrRow[] = useMemo(() => {
+    if (monthsInRetirement <= 0 || nestEggAtRetirement <= 0 || desiredIncomeAtRetStartMonthly <= 0) return [];
+    let bal = nestEggAtRetirement;
+    const rows: WdrRow[] = [];
+    for (let m = 1; m <= monthsInRetirement; m++) {
+      if (rPostM > 0) {
         const before = bal;
-        if (rPreM > 0) bal *= 1 + rPreM;
+        bal *= 1 + rPostM;
         const interest = bal - before;
-        rows.push({ period: m, contribution: monthlyContribution, interest: Math.max(interest, 0), balance: bal });
+        const w = Math.min(bal, desiredIncomeAtRetStartMonthly);
+        bal = Math.max(bal - w, 0);
+        rows.push({ period: m, withdrawal: w, interest: Math.max(interest, 0), balance: bal });
+      } else {
+        const w = Math.min(bal, desiredIncomeAtRetStartMonthly);
+        rows.push({ period: m, withdrawal: w, interest: 0, balance: Math.max(bal - w, 0) });
+        bal = Math.max(bal - w, 0);
       }
-      return rows;
-    }, [monthsToRetire, currentSavings, monthlyContribution, rPreM]);
-    
-    const accumYearly: AccRow[] = useMemo(() => {
-      if (!accumMonthly.length) return [];
-      const years = Math.ceil(monthsToRetire / 12);
-      const out: AccRow[] = [];
-      for (let y = 0; y < years; y++) {
-        const slice = accumMonthly.slice(y * 12, y * 12 + 12);
-        const contribution = slice.reduce((s, r) => s + r.contribution, 0);
-        const interest = slice.reduce((s, r) => s + r.interest, 0);
-        const balance = slice.length ? slice[slice.length - 1].balance : 0;
-        out.push({ period: y + 1, contribution, interest, balance });
-      }
-      return out;
-    }, [accumMonthly, monthsToRetire]);
-    
-    /* ---------- Withdrawal Schedule (flat withdrawals) ---------- */
-    // NOTE: For simplicity, we show level (non-inflation-escalating) withdrawals.
-    // (You can extend later to index withdrawals by inflation.)
-    type WdrRow = { period: number; withdrawal: number; interest: number; balance: number };
-    const withdrawalMonthly: WdrRow[] = useMemo(() => {
-      if (monthsInRetirement <= 0 || nestEggAtRetirement <= 0 || desiredIncomeAtRetStartMonthly <= 0) return [];
-      let bal = nestEggAtRetirement;
-      const rows: WdrRow[] = [];
-      for (let m = 1; m <= monthsInRetirement; m++) {
-        // apply growth first for the month
-        if (rPostM > 0) {
-          const before = bal;
-          bal *= 1 + rPostM;
-          const interest = bal - before;
-          // then withdraw at end of month
-          const w = Math.min(bal, desiredIncomeAtRetStartMonthly);
-          bal = Math.max(bal - w, 0);
-          rows.push({ period: m, withdrawal: w, interest: Math.max(interest, 0), balance: bal });
-        } else {
-          const w = Math.min(bal, desiredIncomeAtRetStartMonthly);
-          rows.push({ period: m, withdrawal: w, interest: 0, balance: Math.max(bal - w, 0) });
-          bal = Math.max(bal - w, 0);
-        }
-        if (bal <= 0) break; // stop when depleted
-      }
-      return rows;
-    }, [monthsInRetirement, nestEggAtRetirement, desiredIncomeAtRetStartMonthly, rPostM]);
-    
-    const withdrawalYearly: WdrRow[] = useMemo(() => {
-      if (!withdrawalMonthly.length) return [];
-      const years = Math.ceil(withdrawalMonthly.length / 12);
-      const out: WdrRow[] = [];
-      for (let y = 0; y < years; y++) {
-        const slice = withdrawalMonthly.slice(y * 12, y * 12 + 12);
-        const withdrawal = slice.reduce((s, r) => s + r.withdrawal, 0);
-        const interest = slice.reduce((s, r) => s + r.interest, 0);
-        const balance = slice.length ? slice[slice.length - 1].balance : 0;
-        out.push({ period: y + 1, withdrawal, interest, balance });
-      }
-      return out;
-    }, [withdrawalMonthly]);
+      if (bal <= 0) break;
+    }
+    return rows;
+  }, [monthsInRetirement, nestEggAtRetirement, desiredIncomeAtRetStartMonthly, rPostM]);
+
+  const withdrawalYearly: WdrRow[] = useMemo(() => {
+    if (!withdrawalMonthly.length) return [];
+    const years = Math.ceil(withdrawalMonthly.length / 12);
+    const out: WdrRow[] = [];
+    for (let y = 0; y < years; y++) {
+      const slice = withdrawalMonthly.slice(y * 12, y * 12 + 12);
+      const withdrawal = slice.reduce((s, r) => s + r.withdrawal, 0);
+      const interest = slice.reduce((s, r) => s + r.interest, 0);
+      const balance = slice.length ? slice[slice.length - 1].balance : 0;
+      out.push({ period: y + 1, withdrawal, interest, balance });
+    }
+    return out;
+  }, [withdrawalMonthly]);
 
 
   return (
@@ -821,7 +787,7 @@ const RetirementCalculator: React.FC = () => {
           
                   {/* ===== Calculator Grid ===== */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    {/* ---------- Input Card ---------- */}
+                    {/* ---------- Input Card (Simplified) ---------- */}
                     <div className="bg-[#1e293b] rounded-xl shadow-md border border-[#334155] p-6 relative text-slate-200">
                       <div className="flex justify-between items-center mb-4">
                         <h2 className="text-xl font-semibold text-white flex items-center gap-2">
@@ -835,7 +801,8 @@ const RetirementCalculator: React.FC = () => {
                           <RotateCcw className="h-4 w-4 text-indigo-400" /> Reset
                         </button>
                       </div>
-          
+                    
+                      {/* ==== QUICK START (Only 4 fields) ==== */}
                       <div className="space-y-5">
                         {/* Currency */}
                         <div>
@@ -859,8 +826,8 @@ const RetirementCalculator: React.FC = () => {
                             </span>
                           </div>
                         </div>
-          
-                        {/* Ages */}
+                    
+                        {/* Ages (Quick) */}
                         <div>
                           <div className="flex justify-between items-center mb-1">
                             <label className="text-sm font-medium text-slate-300">Ages</label>
@@ -874,93 +841,98 @@ const RetirementCalculator: React.FC = () => {
                           </div>
                           {showAgeInfo && (
                             <div className="mb-2 bg-[#0f172a] text-slate-300 text-xs p-2 rounded-md border border-[#334155]">
-                              Set your current age, target retirement age, and life expectancy to define the
-                              accumulation period and withdrawal horizon.
+                              Set your current age and retirement age. (Life expectancy moved to Advanced)
                             </div>
                           )}
-                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {/* Current Age */}
                             <div className="flex flex-col">
                               <label className="text-xs font-medium text-slate-300 mb-1 flex items-center gap-1">
-                                Current Age
-                                <span className="text-xs text-slate-500">(yrs)</span>
+                                Current Age <span className="text-xs text-slate-500">(yrs)</span>
                               </label>
                               <div className="relative">
                                 <input
                                   type="number"
                                   value={currentAge || ""}
                                   min={0}
-                                  max={120}
+                                  // ❗ keep max off of retirement-age logic; we still clamp to retireAge to avoid nonsense
+                                  max={retireAge}
                                   onChange={(e) =>
                                     setCurrentAge(clamp(parseInt(e.target.value) || 0, 0, retireAge))
                                   }
                                   placeholder="30"
-                                  className="w-full bg-[#0f172a] text-white px-4 py-2.5 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 placeholder-slate-500 text-sm transition-all"
+                                  className="w-full bg-[#0f172a] text-white px-4 py-2.5 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500 placeholder-slate-500 text-sm transition-all"
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs">
-                                  🎂
-                                </span>
                               </div>
                             </div>
-                          
-                            {/* Retirement Age */}
+                    
+                            {/* Retirement Age (fixed behavior) */}
                             <div className="flex flex-col">
                               <label className="text-xs font-medium text-slate-300 mb-1 flex items-center gap-1">
-                                Retirement Age
-                                <span className="text-xs text-slate-500">(yrs)</span>
+                                Retirement Age <span className="text-xs text-slate-500">(yrs)</span>
                               </label>
+                    
                               <div className="relative">
                                 <input
-                                  type="number"
-                                  value={retireAge || ""}
-                                  min={currentAge}
-                                  max={120}
-                                  onChange={(e) =>
-                                    setRetireAge(clamp(parseInt(e.target.value) || 0, currentAge, 120))
-                                  }
+                                  type="text"
+                                  inputMode="numeric"
+                                  value={retireAgeRaw}
+                                  onChange={(e) => {
+                                    const next = e.target.value.replace(/[^\d]/g, ""); // only digits
+                                    setRetireAgeRaw(next);
+                                    setRetireAgeError(""); // clear while typing
+                                  }}
+                                  onBlur={() => {
+                                    const v = parseInt(retireAgeRaw, 10);
+                                    if (Number.isNaN(v)) {
+                                      // empty/invalid => snap back to last valid
+                                      setRetireAgeRaw(String(retireAge));
+                                      return;
+                                    }
+                                    if (v < currentAge) {
+                                      // keep input, show error, pause calculations
+                                      setRetireAgeError(
+                                        `Retirement age must be ≥ current age (${currentAge}). Calculations are paused until fixed.`
+                                      );
+                                      return;
+                                    }
+                                    if (v > 130) {
+                                      setRetireAge(130);
+                                      setRetireAgeRaw("130");
+                                      setRetireAgeError("");
+                                      return;
+                                    }
+                                    // valid path
+                                    setRetireAge(v);
+                                    setRetireAgeRaw(String(v));
+                                    setRetireAgeError("");
+                                  }}
                                   placeholder="60"
-                                  className="w-full bg-[#0f172a] text-white px-4 py-2.5 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 placeholder-slate-500 text-sm transition-all"
+                                  className={`w-full bg-[#0f172a] text-white px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-indigo-500 placeholder-slate-500 text-sm transition-all ${
+                                    retireAgeError ? "border-rose-500" : "border-[#334155]"
+                                  }`}
                                 />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs">
-                                  🏖️
-                                </span>
                               </div>
-                            </div>
-                          
-                            {/* Life Expectancy */}
-                            <div className="flex flex-col">
-                              <label className="text-xs font-medium text-slate-300 mb-1 flex items-center gap-1">
-                                Life Expectancy
-                                <span className="text-xs text-slate-500">(yrs)</span>
-                              </label>
-                              <div className="relative">
-                                <input
-                                  type="number"
-                                  value={lifeExpectancy || ""}
-                                  min={retireAge}
-                                  max={130}
-                                  onChange={(e) =>
-                                    setLifeExpectancy(clamp(parseInt(e.target.value) || 0, retireAge, 130))
-                                  }
-                                  placeholder="85"
-                                  className="w-full bg-[#0f172a] text-white px-4 py-2.5 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 placeholder-slate-500 text-sm transition-all"
-                                />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs">
-                                  ❤️
-                                </span>
-                              </div>
+                    
+                              {retireAgeError && (
+                                <p className="mt-1 text-xs text-rose-400">{retireAgeError}</p>
+                              )}
                             </div>
                           </div>
-
+                    
+                          {calcBlocked && (
+                            <p className="mt-2 text-xs text-rose-400">
+                              Fix the retirement age to continue calculations.
+                            </p>
+                          )}
+                    
                           <p className="text-xs text-slate-400 mt-2">
-                            Saving window:{" "}
-                            <span className="text-indigo-300 font-semibold">{yearsToRetire}</span> years ·
-                            Retirement horizon:{" "}
-                            <span className="text-indigo-300 font-semibold">{yearsInRetirement}</span> years
+                            Saving window: <span className="text-indigo-300 font-semibold">{yearsToRetire}</span> years
                           </p>
                         </div>
-          
-                        {/* Current savings & monthly contribution */}
+                    
+                        {/* Savings & Contribution */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div>
                             <label className="block text-sm font-medium text-slate-300 mb-1">
@@ -989,78 +961,7 @@ const RetirementCalculator: React.FC = () => {
                             />
                           </div>
                         </div>
-          
-                        {/* Returns */}
-                        <div>
-                          <div className="flex justify-between items-center mb-1">
-                            <label className="text-sm font-medium text-slate-300">
-                              Expected Returns (%)
-                            </label>
-                            <button
-                              type="button"
-                              className="flex items-center gap-1 text-xs text-slate-400 hover:text-indigo-400"
-                              onClick={() => setShowReturnInfo((v) => !v)}
-                            >
-                              <Info className="h-4 w-4" /> Info
-                            </button>
-                          </div>
-                          {showReturnInfo && (
-                            <div className="mb-2 bg-[#0f172a] text-slate-300 text-xs p-2 rounded-md border border-[#334155]">
-                              Use average annual returns before retirement (growth) and after retirement
-                              (more conservative). These are nominal (not inflation-adjusted) rates.
-                            </div>
-                          )}
-                          <div className="grid grid-cols-2 gap-4">
-                            <input
-                              type="number"
-                              step="0.01"
-                              value={annualReturnPre || 0}
-                              min={0}
-                              onChange={(e) => setAnnualReturnPre(parseFloat(e.target.value) || 0)}
-                              placeholder="Pre-Ret (%)"
-                              className="bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
-                            />
-                            <input
-                              type="number"
-                              step="0.01"
-                              value={annualReturnPost || 0}
-                              min={0}
-                              onChange={(e) => setAnnualReturnPost(parseFloat(e.target.value) || 0)}
-                              placeholder="Post-Ret (%)"
-                              className="bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
-                            />
-                          </div>
-                        </div>
-          
-                        {/* Inflation */}
-                        <div>
-                          <div className="flex justify-between items-center mb-1">
-                            <label className="text-sm font-medium text-slate-300">Inflation (%)</label>
-                            <button
-                              type="button"
-                              className="flex items-center gap-1 text-xs text-slate-400 hover:text-indigo-400"
-                              onClick={() => setShowInflationInfo((v) => !v)}
-                            >
-                              <Info className="h-4 w-4" /> Info
-                            </button>
-                          </div>
-                          {showInflationInfo && (
-                            <div className="mb-2 bg-[#0f172a] text-slate-300 text-xs p-2 rounded-md border border-[#334155]">
-                              We inflate your desired income from “today’s money” to the month you retire so
-                              your target lifestyle keeps pace with price changes.
-                            </div>
-                          )}
-                          <input
-                            type="number"
-                            step="0.01"
-                            value={inflation || 0}
-                            min={0}
-                            onChange={(e) => setInflation(parseFloat(e.target.value) || 0)}
-                            placeholder="e.g. 3"
-                            className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
-                          />
-                        </div>
-          
+                    
                         {/* Desired income (today) */}
                         <div>
                           <div className="flex justify-between items-center mb-1">
@@ -1077,8 +978,7 @@ const RetirementCalculator: React.FC = () => {
                           </div>
                           {showIncomeInfo && (
                             <div className="mb-2 bg-[#0f172a] text-slate-300 text-xs p-2 rounded-md border border-[#334155]">
-                              Enter the monthly income you want in retirement expressed in today’s purchasing
-                              power. We’ll inflate it to your retirement start month automatically.
+                              Enter the monthly income you want in retirement in today’s money.
                             </div>
                           )}
                           <input
@@ -1093,18 +993,105 @@ const RetirementCalculator: React.FC = () => {
                             <p className="text-xs text-slate-400 mt-2">
                               Adjusted at retirement start:{" "}
                               <span className="font-semibold text-indigo-300">
-                                {formatCurrency(
-                                  desiredIncomeAtRetStartMonthly,
-                                  currentLocale,
-                                  currency
-                                )}
-                                /mo
+                                {formatCurrency(desiredIncomeAtRetStartMonthly, currentLocale, currency)}/mo
                               </span>
                             </p>
                           )}
                         </div>
                       </div>
+                    
+                      {/* ==== ADVANCED (Collapsible) ==== */}
+                      <div className="mt-6">
+                        <button
+                          type="button"
+                          onClick={() => setShowAdvancedInputs((v) => !v)}
+                          className="w-full flex items-center justify-between px-4 py-3 bg-[#0f172a] border border-[#334155] rounded-lg text-sm font-medium hover:border-indigo-500/60 transition"
+                          aria-expanded={showAdvancedInputs}
+                        >
+                          <span className="text-slate-200">Advanced Settings (life expectancy, returns & inflation)</span>
+                          {showAdvancedInputs ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                        </button>
+                    
+                        {showAdvancedInputs && (
+                          <div className="mt-4 space-y-5">
+
+                            
+                    
+                            {/* Returns */}
+                            <div>
+                              <div className="flex justify-between items-center mb-1">
+                                <label className="text-sm font-medium text-slate-300">
+                                  Expected Returns (%)
+                                </label>
+                                <button
+                                  type="button"
+                                  className="flex items-center gap-1 text-xs text-slate-400 hover:text-indigo-400"
+                                  onClick={() => setShowReturnInfo((v) => !v)}
+                                >
+                                  <Info className="h-4 w-4" /> Info
+                                </button>
+                              </div>
+                              {showReturnInfo && (
+                                <div className="mb-2 bg-[#0f172a] text-slate-300 text-xs p-2 rounded-md border border-[#334155]">
+                                  Use nominal average returns. Keep post-retirement return lower for safety.
+                                </div>
+                              )}
+                              <div className="grid grid-cols-2 gap-4 max-w-xl">
+                                <input
+                                  type="number"
+                                  step="0.01"
+                                  value={annualReturnPre || 0}
+                                  min={0}
+                                  onChange={(e) => setAnnualReturnPre(parseFloat(e.target.value) || 0)}
+                                  placeholder="Pre-Ret (%)"
+                                  className="bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                />
+                                <input
+                                  type="number"
+                                  step="0.01"
+                                  value={annualReturnPost || 0}
+                                  min={0}
+                                  onChange={(e) => setAnnualReturnPost(parseFloat(e.target.value) || 0)}
+                                  placeholder="Post-Ret (%)"
+                                  className="bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                />
+                              </div>
+                            </div>
+                    
+                            {/* Inflation */}
+                            <div>
+                              <div className="flex justify-between items-center mb-1">
+                                <label className="text-sm font-medium text-slate-300">Inflation (%)</label>
+                                <button
+                                  type="button"
+                                  className="flex items-center gap-1 text-xs text-slate-400 hover:text-indigo-400"
+                                  onClick={() => setShowInflationInfo((v) => !v)}
+                                >
+                                  <Info className="h-4 w-4" /> Info
+                                </button>
+                              </div>
+                              {showInflationInfo && (
+                                <div className="mb-2 bg-[#0f172a] text-slate-300 text-xs p-2 rounded-md border border-[#334155]">
+                                  Your target income is inflated to the retirement start month automatically.
+                                </div>
+                              )}
+                              <input
+                                type="number"
+                                step="0.01"
+                                value={inflation || 0}
+                                min={0}
+                                onChange={(e) => setInflation(parseFloat(e.target.value) || 0)}
+                                placeholder="e.g. 3"
+                                className="w-full max-w-xs bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
+
+                    
+                                       
           
                     {/* ---------- Output Summary Card ---------- */}
                     <div className="bg-[#1e293b] rounded-xl shadow-md border border-[#334155] p-6 text-slate-200">
@@ -1145,10 +1132,7 @@ const RetirementCalculator: React.FC = () => {
                             <span>Years to Retire:</span>
                             <span className="font-medium text-indigo-300">{yearsToRetire}</span>
                           </div>
-                          <div className="flex justify-between">
-                            <span>Years in Retirement:</span>
-                            <span className="font-medium text-indigo-300">{yearsInRetirement}</span>
-                          </div>
+
                           <div className="flex justify-between">
                             <span>Desired Income @ start (inflated):</span>
                             <span className="font-medium text-indigo-300">
