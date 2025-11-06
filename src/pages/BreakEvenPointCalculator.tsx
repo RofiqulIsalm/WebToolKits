@@ -203,17 +203,217 @@ const BreakEvenCalculator: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="Break-Even Point Calculator | CalculatorHub"
-        description="Calculate your business break-even point in units and revenue. Find out when your sales will start generating profit."
-        canonical="https://calculatorhub.site/break-even-calculator"
-        schemaData={generateCalculatorSchema(
-          "Break-Even Point Calculator",
-          "Find the sales level where total revenue equals total cost with CalculatorHub’s Break-Even Calculator.",
-          "/break-even-calculator",
-          ["break-even calculator", "cost revenue analysis", "business profitability tool"]
-        )}
-      />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+            title="Break-Even Point Calculator | CalculatorHub"
+            description="Calculate your business break-even point in units and revenue. Find out when your sales will start generating profit."
+            canonical="https://calculatorhub.site/break-even-calculator"
+            schemaData={[
+              // 1) WebPage + Article wrapper (primary)
+              {
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "@id": "https://calculatorhub.site/break-even-calculator#webpage",
+                "url": "https://calculatorhub.site/break-even-calculator",
+                "name": "Break-Even Point Calculator",
+                "inLanguage": "en",
+                "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+                "primaryImageOfPage": {
+                  "@type": "ImageObject",
+                  "@id": "https://calculatorhub.site/images/break-even-calculator-hero.webp#primaryimg",
+                  "url": "https://calculatorhub.site/images/break-even-calculator-hero.webp",
+                  "width": 1200,
+                  "height": 675
+                },
+                "mainEntity": {
+                  "@type": "Article",
+                  "@id": "https://calculatorhub.site/break-even-calculator#article",
+                  "headline": "Break-Even Point Calculator — How to Calculate Break-Even Sales",
+                  "description": "Calculate the break-even point for your business, determining when sales cover costs and start generating profit.",
+                  "image": [
+                    "https://calculatorhub.site/images/break-even-calculator-hero.webp",
+                    "https://calculatorhub.site/images/break-even-calculator-chart.webp"
+                  ],
+                  "author": {
+                    "@type": "Organization",
+                    "name": "CalculatorHub",
+                    "url": "https://calculatorhub.site"
+                  },
+                  "publisher": {
+                    "@type": "Organization",
+                    "@id": "https://calculatorhub.site/#organization",
+                    "name": "CalculatorHub",
+                    "logo": {
+                      "@type": "ImageObject",
+                      "url": "https://calculatorhub.site/images/logo.png"
+                    }
+                  },
+                  "datePublished": "2025-10-17",
+                  "dateModified": "2025-11-05",
+                  "mainEntityOfPage": { "@id": "https://calculatorhub.site/break-even-calculator#webpage" },
+                  "keywords": [
+                    "break-even calculator", "cost revenue analysis", "business profitability tool", "break-even sales", "business cost calculator"
+                  ],
+                  "articleSection": [
+                    "What is a Break-Even Point?",
+                    "How the Break-Even Calculator Works",
+                    "Break-Even Analysis Example",
+                    "Break-Even Revenue & Profit Calculations",
+                    "FAQ"
+                  ]
+                }
+              },
+          
+              // 2) Breadcrumbs
+              {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "@id": "https://calculatorhub.site/break-even-calculator#breadcrumbs",
+                "itemListElement": [
+                  { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+                  { "@type": "ListItem", "position": 2, "name": "Currency & Finance", "item": "https://calculatorhub.site/category/currency-finance" },
+                  { "@type": "ListItem", "position": 3, "name": "Break-Even Calculator", "item": "https://calculatorhub.site/break-even-calculator" }
+                ]
+              },
+          
+              // 3) FAQ (ensure these Q&As exist in the visible FAQ)
+              {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "@id": "https://calculatorhub.site/break-even-calculator#faq",
+                "mainEntity": [
+                  {
+                    "@type": "Question",
+                    "name": "What is a Break-Even Point Calculator?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "A Break-Even Point Calculator helps you determine the sales volume at which your business's total revenue equals its total cost, indicating when your business will start making a profit."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "How do I calculate the break-even point?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "The break-even point is calculated by dividing your fixed costs by the difference between the selling price per unit and the variable cost per unit."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "What is the difference between break-even revenue and profit?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Break-even revenue is the amount of money needed to cover both fixed and variable costs, while profit is the money left over after covering all costs."
+                    }
+                  }
+                ]
+              },
+          
+              // 4) WebApplication (calculator as an app)
+              {
+                "@context": "https://schema.org",
+                "@type": "WebApplication",
+                "@id": "https://calculatorhub.site/break-even-calculator#webapp",
+                "name": "Break-Even Point Calculator",
+                "url": "https://calculatorhub.site/break-even-calculator",
+                "applicationCategory": "FinanceApplication",
+                "operatingSystem": "Web",
+                "description": "Use this free break-even point calculator to determine when your business will start making a profit. Calculate the units sold, revenue, and profit for your business.",
+                "inLanguage": "en",
+                "publisher": { "@id": "https://calculatorhub.site/#organization" },
+                "image": [
+                  "https://calculatorhub.site/images/break-even-calculator-hero.webp",
+                  "https://calculatorhub.site/images/break-even-calculator-chart.webp"
+                ],
+                "datePublished": "2025-10-17",
+                "dateModified": "2025-11-05",
+                "keywords": ["break-even", "cost analysis", "business profit", "cost revenue", "business calculator"]
+              },
+          
+              // 5) SoftwareApplication (optional)
+              {
+                "@context": "https://schema.org",
+                "@type": "SoftwareApplication",
+                "@id": "https://calculatorhub.site/break-even-calculator#software",
+                "name": "Break-Even Calculator",
+                "applicationCategory": "FinanceApplication",
+                "operatingSystem": "All",
+                "description": "Easily calculate break-even point in units and revenue. See the exact point when your business becomes profitable after calculating fixed costs, variable costs, and sales price per unit.",
+                "url": "https://calculatorhub.site/break-even-calculator",
+                "publisher": { "@id": "https://calculatorhub.site/#organization" }
+              },
+          
+              // 6) Site-wide Website node (dedupe)
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "@id": "https://calculatorhub.site/#website",
+                "url": "https://calculatorhub.site",
+                "name": "CalculatorHub",
+                "publisher": { "@id": "https://calculatorhub.site/#organization" },
+                "potentialAction": {
+                  "@type": "SearchAction",
+                  "target": "https://calculatorhub.site/search?q={query}",
+                  "query-input": "required name=query"
+                }
+              },
+          
+              // 7) Organization (single source of truth)
+              {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "@id": "https://calculatorhub.site/#organization",
+                "name": "CalculatorHub",
+                "url": "https://calculatorhub.site",
+                "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/logo.png" }
+              }
+            ]}
+          />
+          
+          {/* -- Core -- */}
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+          <link rel="canonical" href="https://calculatorhub.site/break-even-calculator" />
+          
+          {/* -- Hreflang (only locales that exist) -- */}
+          <link rel="alternate" href="https://calculatorhub.site/break-even-calculator" hreflang="en" />
+          <link rel="alternate" href="https://calculatorhub.site/break-even-calculator" hreflang="x-default" />
+          
+          {/* -- Open Graph -- */}
+          <meta property="og:type" content="website" />
+          <meta property="og:site_name" content="CalculatorHub" />
+          <meta property="og:title" content="Break-Even Point Calculator | CalculatorHub" />
+          <meta property="og:description" content="Calculate your break-even point in units and revenue. Determine when your business will become profitable." />
+          <meta property="og:url" content="https://calculatorhub.site/break-even-calculator" />
+          <meta property="og:image" content="https://calculatorhub.site/images/break-even-calculator-hero.webp" />
+          <meta property="og:image:width" content="1600" />
+          <meta property="og:image:height" content="900" />
+          <meta property="og:locale" content="en_US" />
+          
+          {/* -- Twitter -- */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="Break-Even Point Calculator | CalculatorHub" />
+          <meta name="twitter:description" content="Calculate your business break-even point and see when you'll start making profit." />
+          <meta name="twitter:image" content="https://calculatorhub.site/images/break-even-calculator-hero.webp" />
+          
+          {/* -- Icons / PWA -- */}
+          <link rel="icon" href="/favicon.ico" />
+          <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+          <link rel="manifest" href="/site.webmanifest" />
+          <meta name="theme-color" content="#0ea5e9" />
+          
+          {/* -- Performance -- */}
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+          
+          {/* -- Performance: preload hero image & font -- */}
+          <link rel="preload" as="image" href="/images/break-even-calculator-hero.webp" imagesrcset="/images/break-even-calculator-hero.webp 1x" fetchpriority="high" />
+          <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossorigin />
+          
+          {/* -- Optional quality-of-life -- */}
+          <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+          <meta name="referrer" content="no-referrer-when-downgrade" />
+          <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
