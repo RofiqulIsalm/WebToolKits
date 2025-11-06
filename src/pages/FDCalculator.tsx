@@ -445,141 +445,227 @@ const FDCalculator: React.FC = () => {
   return (
     <>
       <SEOHead
-        title={seoNode.title}
-        description={seoNode.description}
-        canonical="https://calculatorhub.site/fd-calculator"
-        schemaData={generateCalculatorSchema(
-          "FD Calculator",
-          seoNode.description,
-          "/fd-calculator",
-          seoNode.keywords || []
-        )}
-      />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      {/* ===== Enhanced SEO & Social Metadata ===== */}
-      <>
-        {/* --- Open Graph --- */}
+            title="FD Calculator — Fixed Deposit Maturity & Interest Estimator"
+            description="Use our free FD Calculator to calculate fixed deposit maturity, periodic payouts, and compounding growth across multiple currencies. Perfect for investors and savers."
+            keywords={[
+              "FD calculator",
+              "fixed deposit calculator",
+              "bank FD interest",
+              "maturity value calculator",
+              "cumulative FD",
+              "non-cumulative FD",
+              "interest payout calculator",
+              "compound interest FD",
+              "fixed deposit comparison",
+            ]}
+            canonical="https://calculatorhub.site/fd-calculator"
+            schemaData={[
+              // 1) WebPage + Article
+              {
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "@id": "https://calculatorhub.site/fd-calculator#webpage",
+                "url": "https://calculatorhub.site/fd-calculator",
+                "name": "FD Calculator (2025–2026) — Fixed Deposit Maturity & Interest Estimator",
+                "inLanguage": "en",
+                "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+                "primaryImageOfPage": {
+                  "@type": "ImageObject",
+                  "@id": "https://calculatorhub.site/images/fd-calculator-hero.webp#primaryimg",
+                  "url": "https://calculatorhub.site/images/fd-calculator-hero.webp",
+                  "width": 1200,
+                  "height": 675
+                },
+                "mainEntity": {
+                  "@type": "Article",
+                  "@id": "https://calculatorhub.site/fd-calculator#article",
+                  "headline": "FD Calculator — Fixed Deposit Maturity, Interest & Compounding Explained",
+                  "description": "Calculate your fixed deposit maturity, interest earned, and compounding growth with flexible modes: cumulative and payout. Includes charts, schedules, and live tips.",
+                  "image": [
+                    "https://calculatorhub.site/images/fd-calculator-hero.webp"
+                  ],
+                  "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+                  "publisher": { "@id": "https://calculatorhub.site/#organization" },
+                  "datePublished": "2025-10-17",
+                  "dateModified": "2025-11-05",
+                  "mainEntityOfPage": { "@id": "https://calculatorhub.site/fd-calculator#webpage" },
+                  "articleSection": [
+                    "What is an FD Calculator",
+                    "How It Works",
+                    "Cumulative vs Payout",
+                    "Compounding Frequencies",
+                    "FD Benefits",
+                    "FAQs"
+                  ]
+                }
+              },
+          
+              // 2) Breadcrumbs
+              {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "@id": "https://calculatorhub.site/fd-calculator#breadcrumbs",
+                "itemListElement": [
+                  { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+                  { "@type": "ListItem", "position": 2, "name": "Currency & Finance", "item": "https://calculatorhub.site/category/currency-finance" },
+                  { "@type": "ListItem", "position": 3, "name": "FD Calculator", "item": "https://calculatorhub.site/fd-calculator" }
+                ]
+              },
+          
+              // 3) FAQ
+              {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "@id": "https://calculatorhub.site/fd-calculator#faq",
+                "mainEntity": [
+                  {
+                    "@type": "Question",
+                    "name": "What is a cumulative FD?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "In a cumulative fixed deposit, the interest is compounded and paid at maturity, maximizing your total earnings."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "What is a non-cumulative FD?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "A non-cumulative or payout FD pays interest at regular intervals — monthly, quarterly, or yearly — ideal for consistent income."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Does compounding frequency affect returns?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Yes, higher compounding frequencies such as monthly or quarterly lead to slightly higher maturity values."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Is this FD Calculator free to use?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Yes, the CalculatorHub FD Calculator is completely free and runs locally on your browser for privacy."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Can small businesses use this calculator?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Absolutely, it’s suitable for small businesses to plan deposits, estimate interest, and compare bank FD options."
+                    }
+                  }
+                ]
+              },
+          
+              // 4) WebApplication
+              {
+                "@context": "https://schema.org",
+                "@type": "WebApplication",
+                "@id": "https://calculatorhub.site/fd-calculator#webapp",
+                "name": "FD Calculator",
+                "url": "https://calculatorhub.site/fd-calculator",
+                "applicationCategory": "FinanceApplication",
+                "operatingSystem": "Web",
+                "description": "Calculate fixed deposit maturity, interest, and periodic payouts with compounding and chart visualization.",
+                "publisher": { "@id": "https://calculatorhub.site/#organization" },
+                "image": [
+                  "https://calculatorhub.site/images/fd-calculator-hero.webp"
+                ]
+              },
+          
+              // 5) SoftwareApplication (optional)
+              {
+                "@context": "https://schema.org",
+                "@type": "SoftwareApplication",
+                "@id": "https://calculatorhub.site/fd-calculator#software",
+                "name": "Fixed Deposit Calculator",
+                "applicationCategory": "FinanceApplication",
+                "operatingSystem": "All",
+                "url": "https://calculatorhub.site/fd-calculator",
+                "publisher": { "@id": "https://calculatorhub.site/#organization" },
+                "description": "Interactive fixed deposit calculator with cumulative and payout modes, schedule table, and exportable results."
+              },
+          
+              // 6) WebSite + Organization (global)
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "@id": "https://calculatorhub.site/#website",
+                "url": "https://calculatorhub.site",
+                "name": "CalculatorHub",
+                "publisher": { "@id": "https://calculatorhub.site/#organization" },
+                "potentialAction": {
+                  "@type": "SearchAction",
+                  "target": "https://calculatorhub.site/search?q={query}",
+                  "query-input": "required name=query"
+                }
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "@id": "https://calculatorhub.site/#organization",
+                "name": "CalculatorHub",
+                "url": "https://calculatorhub.site",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://calculatorhub.site/images/logo.png"
+                }
+              }
+            ]}
+          />
+
+
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <link rel="canonical" href="https://calculatorhub.site/fd-calculator" />
+        
+        
+        <link rel="alternate" href="https://calculatorhub.site/fd-calculator" hreflang="en" />
+        <link rel="alternate" href="https://calculatorhub.site/bn/fd-calculator" hreflang="bn" /> 
+        <link rel="alternate" href="https://calculatorhub.site/fd-calculator" hreflang="x-default" />
+        
+        
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="CalculatorHub" />
-        <meta property="og:locale" content="en_US" />
-        <meta property="og:title" content={seoNode.title} />
-        <meta property="og:description" content={seoNode.description} />
+        <meta property="og:title" content="FD Calculator (2025–2026) — Fixed Deposit Maturity & Interest Estimator" />
+        <meta property="og:description" content="Free FD Calculator to compute maturity, interest, and periodic payouts across currencies. Fast, accurate, and privacy-safe." />
         <meta property="og:url" content="https://calculatorhub.site/fd-calculator" />
-        <meta
-          property="og:image"
-          content="https://calculatorhub.site/images/fd-calculator-hero.webp"
-        />
-        <meta
-          property="og:image:alt"
-          content="FD Calculator by CalculatorHub – Maturity, Interest, and Payout Chart"
-        />
+        <meta property="og:image" content="https://calculatorhub.site/images/fd-calculator-hero.webp" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-
-        {/* --- Twitter --- */}
+        <meta property="og:image:alt" content="FD Calculator dashboard showing maturity, compounding, and interest breakdown" />
+        <meta property="og:locale" content="en_US" />
+        
+        
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@CalculatorHub" />
+        <meta name="twitter:title" content="FD Calculator — Fixed Deposit Maturity & Interest Estimator" />
+        <meta name="twitter:description" content="Free, privacy-friendly FD Calculator with payout and compounding options." />
+        <meta name="twitter:image" content="https://calculatorhub.site/images/fd-calculator-hero.webp" />
         <meta name="twitter:creator" content="@CalculatorHub" />
-        <meta name="twitter:title" content={seoNode.title} />
-        <meta name="twitter:description" content={seoNode.description} />
-        <meta
-          name="twitter:image"
-          content="https://calculatorhub.site/images/fd-calculator-hero.webp"
-        />
-        <meta
-          name="twitter:image:alt"
-          content="Interactive fixed deposit calculator with payout and compounding options"
-        />
+        <meta name="twitter:site" content="@CalculatorHub" />
+        
+        
+        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+        <meta name="theme-color" content="#0ea5e9" />
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+        <link rel="preload" as="image" href="/images/fd-calculator-hero.webp" fetchpriority="high" />
+        <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossorigin />
+        
+        
+        <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+        <meta name="referrer" content="no-referrer-when-downgrade" />
+        <meta name="format-detection" content="telephone=no" />
 
-        {/* --- JSON-LD (WebPage + Breadcrumb + FAQ) --- */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@graph": [
-                {
-                  "@type": "WebPage",
-                  "@id": "https://calculatorhub.site/fd-calculator",
-                  url: "https://calculatorhub.site/fd-calculator",
-                  name: "FD Calculator | Fixed Deposit Maturity & Interest Estimator",
-                  description: seoNode.description,
-                  inLanguage: "en-US",
-                  isPartOf: {
-                    "@type": "WebSite",
-                    name: "CalculatorHub",
-                    url: "https://calculatorhub.site",
-                  },
-                  image: {
-                    "@type": "ImageObject",
-                    url: "https://calculatorhub.site/images/fd-calculator-hero.webp",
-                    width: 1200,
-                    height: 630,
-                  },
-                },
-                {
-                  "@type": "BreadcrumbList",
-                  itemListElement: [
-                    {
-                      "@type": "ListItem",
-                      position: 1,
-                      name: "Currency & Finance",
-                      item: "https://calculatorhub.site/category/currency-finance",
-                    },
-                    {
-                      "@type": "ListItem",
-                      position: 2,
-                      name: "FD Calculator",
-                      item: "https://calculatorhub.site/fd-calculator",
-                    },
-                  ],
-                },
-                {
-                  "@type": "FAQPage",
-                  mainEntity: [
-                    {
-                      "@type": "Question",
-                      name: "What is a cumulative FD?",
-                      acceptedAnswer: {
-                        "@type": "Answer",
-                        text:
-                          "In a cumulative FD, interest is compounded and paid at maturity, maximizing the final amount.",
-                      },
-                    },
-                    {
-                      "@type": "Question",
-                      name: "What is a non-cumulative (payout) FD?",
-                      acceptedAnswer: {
-                        "@type": "Answer",
-                        text:
-                          "Interest is paid out at a fixed frequency (monthly/quarterly/yearly) without compounding. Good for regular income.",
-                      },
-                    },
-                    {
-                      "@type": "Question",
-                      name: "Which compounding frequency should I choose?",
-                      acceptedAnswer: {
-                        "@type": "Answer",
-                        text:
-                          "More frequent compounding (e.g., monthly or quarterly) generally yields slightly higher maturity compared to yearly.",
-                      },
-                    },
-                    {
-                      "@type": "Question",
-                      name: "Do you store my data?",
-                      acceptedAnswer: {
-                        "@type": "Answer",
-                        text:
-                          "No, calculations run locally. We only use localStorage to remember your last session on this device.",
-                      },
-                    },
-                  ],
-                },
-              ],
-            }),
-          }}
-        />
-      </>
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
@@ -603,12 +689,12 @@ const FDCalculator: React.FC = () => {
             <p className="font-semibold text-lg">Compare other finance tools 📊</p>
             <p className="text-sm text-indigo-100">Try our Loan EMI, Mortgage, or Tax tools next!</p>
           </div>
-          <a
-            href="/category/currency-finance"
-            className="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-md hover:bg-indigo-50 transition"
-          >
-            Explore More Calculators
-          </a>
+          <Link
+              to="/category/currency-finance"
+              className="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-md hover:bg-indigo-50 transition"
+            >
+              Explore More Calculators
+            </Link>
         </div>
 
         {/* ===== Calculator Grid ===== */}
