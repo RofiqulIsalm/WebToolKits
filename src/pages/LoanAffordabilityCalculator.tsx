@@ -193,18 +193,205 @@ const LoanAffordabilityCalculator: React.FC = () => {
      ============================================================ */
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title="Loan Affordability Calculator | CalculatorHub"
-        description="Estimate how much loan you can afford based on your income, expenses, and interest rate using this free online calculator."
+        title="Loan Affordability Calculator — How Much Can I Borrow? (2025–2026)"
+        description="Free Loan Affordability Calculator to estimate the maximum loan you can afford based on income, expenses, DTI ratio, interest rate, and term. Fast, accurate, mobile-friendly."
+        keywords={[
+          "loan affordability calculator",
+          "how much loan can I afford",
+          "borrow capacity",
+          "maximum mortgage",
+          "DTI calculator",
+          "affordable EMI",
+          "income vs expenses",
+          "mortgage affordability tool"
+        ]}
         canonical="https://calculatorhub.site/loan-affordability-calculator"
-        schemaData={generateCalculatorSchema(
-          "Loan Affordability Calculator",
-          "Find the maximum home or personal loan you can afford based on income, expenses, and interest rate.",
-          "/loan-affordability-calculator",
-          ["loan affordability", "how much loan can I afford", "mortgage limit", "finance calculator"]
-        )}
+        schemaData={[
+          // 1) WebPage + nested Article
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://calculatorhub.site/loan-affordability-calculator#webpage",
+            "url": "https://calculatorhub.site/loan-affordability-calculator",
+            "name": "Loan Affordability Calculator — Estimate What You Can Borrow",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "@id": "https://calculatorhub.site/images/loan-affordability-calculator-hero.webp#primaryimg",
+              "url": "https://calculatorhub.site/images/loan-affordability-calculator-hero.webp",
+              "width": 1200,
+              "height": 675
+            },
+            "mainEntity": {
+              "@type": "Article",
+              "@id": "https://calculatorhub.site/loan-affordability-calculator#article",
+              "headline": "Loan Affordability Calculator — DTI-Based Borrowing Power",
+              "description": "Compute affordable EMI and maximum loan from income, expenses, DTI ratio, interest rate, and term. Includes example, tips, and FAQs.",
+              "image": ["https://calculatorhub.site/images/loan-affordability-calculator-hero.webp"],
+              "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "datePublished": "2025-10-17",
+              "dateModified": "2025-11-06",
+              "mainEntityOfPage": { "@id": "https://calculatorhub.site/loan-affordability-calculator#webpage" },
+              "articleSection": [
+                "What is Loan Affordability",
+                "How to Use",
+                "Example",
+                "Benefits",
+                "Small Business Use",
+                "FAQ"
+              ]
+            }
+          },
+      
+          // 2) Breadcrumbs
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id": "https://calculatorhub.site/loan-affordability-calculator#breadcrumbs",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+              { "@type": "ListItem", "position": 2, "name": "Currency & Finance", "item": "https://calculatorhub.site/category/currency-finance" },
+              { "@type": "ListItem", "position": 3, "name": "Loan Affordability Calculator", "item": "https://calculatorhub.site/loan-affordability-calculator" }
+            ]
+          },
+      
+          // 3) FAQ
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": "https://calculatorhub.site/loan-affordability-calculator#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What DTI ratio should I use?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Most lenders prefer a debt-to-income ratio between 35% and 45% including the new EMI. Lower ratios generally increase approval odds."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does the calculator include taxes, insurance, or fees?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. It estimates principal and interest affordability. Add expected taxes, insurance, HOA, or processing fees to expenses for a conservative result."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How can I increase my borrowing power?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Reduce monthly expenses, improve credit to get a lower rate, choose a longer term, or increase income. Any of these can raise the affordable EMI."
+                }
+              }
+            ]
+          },
+      
+          // 4) WebApplication
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id": "https://calculatorhub.site/loan-affordability-calculator#webapp",
+            "name": "Loan Affordability Calculator",
+            "url": "https://calculatorhub.site/loan-affordability-calculator",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "Web",
+            "description": "Estimate maximum affordable loan and EMI from income, expenses, DTI ratio, rate, and term.",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "image": ["https://calculatorhub.site/images/loan-affordability-calculator-hero.webp"]
+          },
+      
+          // 5) SoftwareApplication
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "@id": "https://calculatorhub.site/loan-affordability-calculator#software",
+            "name": "Borrowing Power & Affordability Tool",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "All",
+            "url": "https://calculatorhub.site/loan-affordability-calculator",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "description": "Interactive affordability tool with shareable summaries and printable results."
+          },
+      
+          // 6) WebSite + Organization (global)
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://calculatorhub.site/#website",
+            "url": "https://calculatorhub.site",
+            "name": "CalculatorHub",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://calculatorhub.site/#organization",
+            "name": "CalculatorHub",
+            "url": "https://calculatorhub.site",
+            "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/logo.png" }
+          }
+        ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/loan-affordability-calculator" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/loan-affordability-calculator" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/loan-affordability-calculator" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/loan-affordability-calculator" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Loan Affordability Calculator — How Much Can I Borrow?" />
+      <meta property="og:description" content="Estimate maximum affordable loan and EMI using income, expenses, DTI, interest rate, and term." />
+      <meta property="og:url" content="https://calculatorhub.site/loan-affordability-calculator" />
+      <meta property="og:image" content="https://calculatorhub.site/images/loan-affordability-calculator-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Affordability calculator dashboard with EMI and DTI breakdown" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Loan Affordability Calculator — DTI-Based Borrowing Power" />
+      <meta name="twitter:description" content="Free tool to find your affordable EMI and maximum loan. Fast, accurate, privacy-friendly." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/loan-affordability-calculator-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#06b6d4" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/loan-affordability-calculator-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
