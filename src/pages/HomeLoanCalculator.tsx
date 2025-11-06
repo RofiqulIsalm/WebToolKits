@@ -198,18 +198,210 @@ const HomeLoanCalculator: React.FC = () => {
      ============================================================ */
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title="Home Loan Calculator | CalculatorHub"
-        description="Estimate your home loan EMI, total interest, and total payment easily with CalculatorHub’s free online home loan calculator."
+        title="Home Loan Calculator — EMI, Total Interest & Payment (2025–2026)"
+        description="Free Home Loan Calculator to estimate monthly EMI, total interest, and total payment from home price, down payment, rate, and tenure. Fast, accurate, and mobile-friendly."
+        keywords={[
+          "home loan calculator",
+          "house loan calculator",
+          "mortgage EMI calculator",
+          "home loan interest",
+          "monthly mortgage payment",
+          "principal vs interest chart",
+          "amortization schedule",
+          "property loan calculator",
+          "mortgage calculator"
+        ]}
         canonical="https://calculatorhub.site/home-loan-calculator"
-        schemaData={generateCalculatorSchema(
-          "Home Loan Calculator",
-          "Instantly compute home loan EMI, total payment, and interest with CalculatorHub.",
-          "/home-loan-calculator",
-          ["home loan calculator", "house loan calculator", "home EMI calculator"]
-        )}
+        schemaData={[
+          // 1) WebPage + Article
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://calculatorhub.site/home-loan-calculator#webpage",
+            "url": "https://calculatorhub.site/home-loan-calculator",
+            "name": "Home Loan Calculator (2025–2026) — EMI, Total Interest & Payment",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "@id": "https://calculatorhub.site/images/home-loan-calculator.webp#primaryimg",
+              "url": "https://calculatorhub.site/images/home-loan-calculator.webp",
+              "width": 1200,
+              "height": 675
+            },
+            "mainEntity": {
+              "@type": "Article",
+              "@id": "https://calculatorhub.site/home-loan-calculator#article",
+              "headline": "Home Loan Calculator — EMI, Interest & Amortization Explained",
+              "description": "Calculate home loan EMI, total payment, and interest using home price, down payment, rate, and tenure. Includes formula, example, and FAQs.",
+              "image": ["https://calculatorhub.site/images/home-loan-calculator.webp"],
+              "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "datePublished": "2025-10-17",
+              "dateModified": "2025-11-06",
+              "mainEntityOfPage": { "@id": "https://calculatorhub.site/home-loan-calculator#webpage" },
+              "articleSection": [
+                "What is Home Loan Calculator",
+                "How to Use",
+                "EMI Formula",
+                "Example",
+                "Benefits",
+                "Tips",
+                "FAQ"
+              ]
+            }
+          },
+      
+          // 2) Breadcrumbs
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id": "https://calculatorhub.site/home-loan-calculator#breadcrumbs",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+              { "@type": "ListItem", "position": 2, "name": "Currency & Finance", "item": "https://calculatorhub.site/category/currency-finance" },
+              { "@type": "ListItem", "position": 3, "name": "Home Loan Calculator", "item": "https://calculatorhub.site/home-loan-calculator" }
+            ]
+          },
+      
+          // 3) FAQ
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": "https://calculatorhub.site/home-loan-calculator#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "How can I reduce my home loan EMI?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Increase your down payment, choose a shorter tenure, improve your credit score, or refinance at a lower rate. Prepayments lower overall interest."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does this calculator include taxes, insurance, or HOA fees?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. It estimates principal and interest only. Add those costs to your price if you want them reflected in EMI."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I set 0% interest?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Set rate to 0% to get a flat monthly payment equal to loan amount divided by number of months."
+                }
+              }
+            ]
+          },
+      
+          // 4) WebApplication
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id": "https://calculatorhub.site/home-loan-calculator#webapp",
+            "name": "Home Loan Calculator",
+            "url": "https://calculatorhub.site/home-loan-calculator",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "Web",
+            "description": "Compute home EMI, total interest, and total payment with shareable results and visuals.",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "image": ["https://calculatorhub.site/images/home-loan-calculator.webp"]
+          },
+      
+          // 5) SoftwareApplication
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "@id": "https://calculatorhub.site/home-loan-calculator#software",
+            "name": "Mortgage & Home EMI Calculator",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "All",
+            "url": "https://calculatorhub.site/home-loan-calculator",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "description": "Interactive mortgage tool with EMI formula, examples, and printable summaries."
+          },
+      
+          // 6) WebSite + Organization (global)
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://calculatorhub.site/#website",
+            "url": "https://calculatorhub.site",
+            "name": "CalculatorHub",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://calculatorhub.site/#organization",
+            "name": "CalculatorHub",
+            "url": "https://calculatorhub.site",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://calculatorhub.site/images/logo.png"
+            }
+          }
+        ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/home-loan-calculator" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/home-loan-calculator" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/home-loan-calculator" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/home-loan-calculator" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Home Loan Calculator (2025–2026) — EMI, Interest & Total Payment" />
+      <meta property="og:description" content="Estimate EMI, total interest, and total payment for your mortgage. Free, fast, and privacy-friendly." />
+      <meta property="og:url" content="https://calculatorhub.site/home-loan-calculator" />
+      <meta property="og:image" content="https://calculatorhub.site/images/home-loan-calculator.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Home loan calculator dashboard showing EMI and interest breakdown" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Home Loan Calculator — EMI, Interest & Total Payment" />
+      <meta name="twitter:description" content="Free calculator to plan your mortgage with EMI, total payment, and interest." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/home-loan-calculator.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#06b6d4" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/home-loan-calculator.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+      
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
