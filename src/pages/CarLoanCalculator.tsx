@@ -198,18 +198,210 @@ const CarLoanCalculator: React.FC = () => {
      ============================================================ */
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title="Car Loan Calculator | CalculatorHub"
-        description="Estimate your car loan EMI, total interest, and total payment easily with CalculatorHub’s free online car loan calculator."
+        title="Car Loan Calculator — Auto Loan EMI, Total Interest & Payment (2025–2026)"
+        description="Free Car Loan Calculator to estimate monthly EMI, total interest, and total payment from car price, down payment, rate, and term. Fast, accurate, and privacy-friendly."
+        keywords={[
+          "car loan calculator",
+          "auto loan calculator",
+          "car EMI calculator",
+          "vehicle finance calculator",
+          "car loan interest",
+          "monthly car payment",
+          "auto finance EMI",
+          "principal vs interest chart",
+          "loan amortization"
+        ]}
         canonical="https://calculatorhub.site/car-loan-calculator"
-        schemaData={generateCalculatorSchema(
-          "Car Loan Calculator",
-          "Instantly compute car loan EMI, total payment, and interest with CalculatorHub.",
-          "/car-loan-calculator",
-          ["car loan calculator", "auto loan calculator", "EMI car finance"]
-        )}
+        schemaData={[
+          // 1) WebPage + Article
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://calculatorhub.site/car-loan-calculator#webpage",
+            "url": "https://calculatorhub.site/car-loan-calculator",
+            "name": "Car Loan Calculator (2025–2026) — Auto Loan EMI, Total Interest & Payment",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "@id": "https://calculatorhub.site/images/car-loan-calculator-hero.webp#primaryimg",
+              "url": "https://calculatorhub.site/images/car-loan-calculator-hero.webp",
+              "width": 1200,
+              "height": 675
+            },
+            "mainEntity": {
+              "@type": "Article",
+              "@id": "https://calculatorhub.site/car-loan-calculator#article",
+              "headline": "Car Loan Calculator — EMI, Interest & Amortization Explained",
+              "description": "Calculate car loan EMI, total payment, and interest using price, down payment, rate, and term. Includes formula, example, and FAQs.",
+              "image": ["https://calculatorhub.site/images/car-loan-calculator-hero.webp"],
+              "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "datePublished": "2025-10-17",
+              "dateModified": "2025-11-06",
+              "mainEntityOfPage": { "@id": "https://calculatorhub.site/car-loan-calculator#webpage" },
+              "articleSection": [
+                "What is Car Loan Calculator",
+                "How to Use",
+                "EMI Formula",
+                "Example",
+                "Benefits",
+                "Comparison",
+                "FAQ"
+              ]
+            }
+          },
+      
+          // 2) Breadcrumbs
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id": "https://calculatorhub.site/car-loan-calculator#breadcrumbs",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+              { "@type": "ListItem", "position": 2, "name": "Currency & Finance", "item": "https://calculatorhub.site/category/currency-finance" },
+              { "@type": "ListItem", "position": 3, "name": "Car Loan Calculator", "item": "https://calculatorhub.site/car-loan-calculator" }
+            ]
+          },
+      
+          // 3) FAQ
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": "https://calculatorhub.site/car-loan-calculator#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "How do I lower my car loan EMI?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Increase your down payment, choose a shorter tenure, or negotiate a lower interest rate. Extra prepayments also reduce interest."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does this calculator include taxes, insurance, or fees?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. It estimates principal and interest only. Add taxes, insurance, and fees to your car price if you want them reflected."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I set zero interest?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Set interest to 0% to see a flat monthly payment of loan amount divided by number of months."
+                }
+              }
+            ]
+          },
+      
+          // 4) WebApplication
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id": "https://calculatorhub.site/car-loan-calculator#webapp",
+            "name": "Car Loan Calculator",
+            "url": "https://calculatorhub.site/car-loan-calculator",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "Web",
+            "description": "Compute car EMI, total interest, and total payment with shareable results and visuals.",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "image": ["https://calculatorhub.site/images/car-loan-calculator-hero.webp"]
+          },
+      
+          // 5) SoftwareApplication (optional)
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "@id": "https://calculatorhub.site/car-loan-calculator#software",
+            "name": "Auto Loan & EMI Calculator",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "All",
+            "url": "https://calculatorhub.site/car-loan-calculator",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "description": "Interactive auto finance tool with EMI formula, examples, and printable results."
+          },
+      
+          // 6) WebSite + Organization (global)
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://calculatorhub.site/#website",
+            "url": "https://calculatorhub.site",
+            "name": "CalculatorHub",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://calculatorhub.site/#organization",
+            "name": "CalculatorHub",
+            "url": "https://calculatorhub.site",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://calculatorhub.site/images/logo.png"
+            }
+          }
+        ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/car-loan-calculator" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/car-loan-calculator" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/car-loan-calculator" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/car-loan-calculator" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Car Loan Calculator (2025–2026) — Auto Loan EMI & Interest" />
+      <meta property="og:description" content="Estimate EMI, total interest, and total payment for your auto loan. Free, fast, and privacy-friendly." />
+      <meta property="og:url" content="https://calculatorhub.site/car-loan-calculator" />
+      <meta property="og:image" content="https://calculatorhub.site/images/car-loan-calculator-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Car loan calculator dashboard showing EMI and interest breakdown" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Car Loan Calculator — Auto Loan EMI, Interest & Total Payment" />
+      <meta name="twitter:description" content="Free calculator to plan your car finance with EMI, total payment, and interest." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/car-loan-calculator-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#0ea5e9" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/car-loan-calculator-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
