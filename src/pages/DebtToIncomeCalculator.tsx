@@ -146,16 +146,142 @@ const DebtToIncomeCalculator: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="Debt-to-Income Ratio Calculator | CalculatorHub"
-        description="Calculate your debt-to-income (DTI) ratio instantly and find out if your financial health qualifies for a loan."
-        canonical="https://calculatorhub.site/debt-to-income-ratio-calculator"
-        schemaData={generateCalculatorSchema(
-          "Debt-to-Income Ratio Calculator",
-          "Find your DTI ratio and check your financial health easily with CalculatorHub’s free online calculator.",
-          "/debt-to-income-ratio-calculator",
-          ["debt-to-income ratio", "DTI calculator", "loan eligibility", "finance"]
-        )}
-      />
+            title="Debt-to-Income (DTI) Ratio Calculator — Check Loan Readiness (2025–2026)"
+            description="Free DTI Calculator to measure your debt-to-income ratio from monthly income and debts. See status bands, tips to improve, and share results."
+            keywords={[
+              "debt to income ratio calculator",
+              "DTI calculator",
+              "loan eligibility",
+              "mortgage readiness",
+              "finance tools",
+              "credit health"
+            ]}
+            canonical="https://calculatorhub.site/debt-to-income-ratio-calculator"
+            schemaData={[
+              {
+                "@context":"https://schema.org",
+                "@type":"WebPage",
+                "@id":"https://calculatorhub.site/debt-to-income-ratio-calculator#webpage",
+                "url":"https://calculatorhub.site/debt-to-income-ratio-calculator",
+                "name":"Debt-to-Income Ratio (DTI) Calculator",
+                "inLanguage":"en",
+                "isPartOf":{"@id":"https://calculatorhub.site/#website"},
+                "primaryImageOfPage":{
+                  "@type":"ImageObject",
+                  "@id":"https://calculatorhub.site/images/debt-to-income-calculator-hero.webp#primaryimg",
+                  "url":"https://calculatorhub.site/images/debt-to-income-calculator-hero.webp",
+                  "width":1200,"height":675
+                },
+                "mainEntity":{
+                  "@type":"Article",
+                  "@id":"https://calculatorhub.site/debt-to-income-ratio-calculator#article",
+                  "headline":"Debt-to-Income Ratio (DTI) Calculator — Measure Your Financial Strength",
+                  "description":"Compute DTI from income and debt, see status bands and improvement tips.",
+                  "image":["https://calculatorhub.site/images/debt-to-income-calculator-hero.webp"],
+                  "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
+                  "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                  "datePublished":"2025-10-17",
+                  "dateModified":"2025-11-06",
+                  "mainEntityOfPage":{"@id":"https://calculatorhub.site/debt-to-income-ratio-calculator#webpage"},
+                  "articleSection":["What is DTI","How to Use","Example","Tips","FAQ"]
+                }
+              },
+              {
+                "@context":"https://schema.org",
+                "@type":"BreadcrumbList",
+                "@id":"https://calculatorhub.site/debt-to-income-ratio-calculator#breadcrumbs",
+                "itemListElement":[
+                  {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+                  {"@type":"ListItem","position":2,"name":"Currency & Finance","item":"https://calculatorhub.site/category/currency-finance"},
+                  {"@type":"ListItem","position":3,"name":"Debt-to-Income Ratio Calculator","item":"https://calculatorhub.site/debt-to-income-ratio-calculator"}
+                ]
+              },
+              {
+                "@context":"https://schema.org",
+                "@type":"FAQPage",
+                "@id":"https://calculatorhub.site/debt-to-income-ratio-calculator#faq",
+                "mainEntity":[
+                  {"@type":"Question","name":"What is a good DTI for loan approval?","acceptedAnswer":{"@type":"Answer","text":"Most lenders prefer DTI under 36%. Lower is better; under 30% is excellent."}},
+                  {"@type":"Question","name":"Does DTI include utilities or groceries?","acceptedAnswer":{"@type":"Answer","text":"DTI uses monthly debt obligations like mortgage/rent, auto, student loans, and credit card minimums; living expenses aren’t counted unless a lender specifies."}},
+                  {"@type":"Question","name":"How can I improve DTI quickly?","acceptedAnswer":{"@type":"Answer","text":"Pay down high-interest cards, consolidate at lower rates, or increase income. Avoid taking new debt before application."}}
+                ]
+              },
+              {
+                "@context":"https://schema.org",
+                "@type":"WebApplication",
+                "@id":"https://calculatorhub.site/debt-to-income-ratio-calculator#webapp",
+                "name":"DTI Calculator",
+                "url":"https://calculatorhub.site/debt-to-income-ratio-calculator",
+                "applicationCategory":"FinanceApplication",
+                "operatingSystem":"Web",
+                "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                "image":["https://calculatorhub.site/images/debt-to-income-calculator-hero.webp"]
+              },
+              {
+                "@context":"https://schema.org",
+                "@type":"SoftwareApplication",
+                "@id":"https://calculatorhub.site/debt-to-income-ratio-calculator#software",
+                "name":"Debt-to-Income Analyzer",
+                "applicationCategory":"FinanceApplication",
+                "operatingSystem":"All",
+                "url":"https://calculatorhub.site/debt-to-income-ratio-calculator",
+                "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                "description":"Interactive DTI tool with shareable summary."
+              },
+              {
+                "@context":"https://schema.org",
+                "@type":"WebSite",
+                "@id":"https://calculatorhub.site/#website",
+                "url":"https://calculatorhub.site",
+                "name":"CalculatorHub",
+                "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                "potentialAction":{"@type":"SearchAction","target":"https://calculatorhub.site/search?q={query}","query-input":"required name=query"}
+              },
+              {
+                "@context":"https://schema.org",
+                "@type":"Organization",
+                "@id":"https://calculatorhub.site/#organization",
+                "name":"CalculatorHub",
+                "url":"https://calculatorhub.site",
+                "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
+              }
+            ]}
+          />
+          
+          {/* Outside meta/link tags */}
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+          <link rel="canonical" href="https://calculatorhub.site/debt-to-income-ratio-calculator" />
+          <link rel="alternate" href="https://calculatorhub.site/debt-to-income-ratio-calculator" hreflang="en" />
+          <link rel="alternate" href="https://calculatorhub.site/bn/debt-to-income-ratio-calculator" hreflang="bn" />
+          <link rel="alternate" href="https://calculatorhub.site/debt-to-income-ratio-calculator" hreflang="x-default" />
+          <meta property="og:type" content="website" />
+          <meta property="og:site_name" content="CalculatorHub" />
+          <meta property="og:title" content="Debt-to-Income (DTI) Ratio Calculator — Check Loan Readiness" />
+          <meta property="og:description" content="Measure DTI from income and debts. See status and tips to qualify for loans." />
+          <meta property="og:url" content="https://calculatorhub.site/debt-to-income-ratio-calculator" />
+          <meta property="og:image" content="https://calculatorhub.site/images/debt-to-income-calculator-hero.webp" />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:image:alt" content="DTI calculator dashboard with debt vs income breakdown" />
+          <meta property="og:locale" content="en_US" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="Debt-to-Income (DTI) Ratio Calculator — Check Loan Readiness" />
+          <meta name="twitter:description" content="Free online DTI tool with instant results and shareable summary." />
+          <meta name="twitter:image" content="https://calculatorhub.site/images/debt-to-income-calculator-hero.webp" />
+          <link rel="manifest" href="/site.webmanifest" />
+          <link rel="icon" href="/favicon.ico" />
+          <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+          <meta name="theme-color" content="#06b6d4" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+          <link rel="preload" as="image" href="/images/debt-to-income-calculator-hero.webp" fetchpriority="high" />
+          <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+          <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+          <meta name="referrer" content="no-referrer-when-downgrade" />
+          <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
