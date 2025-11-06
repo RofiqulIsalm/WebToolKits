@@ -32,58 +32,58 @@ import RelatedCalculators from "../components/RelatedCalculators";
 const LS_KEY = "rd_calculator_style_v1";
 
 const currencyOptions = [
-  { code: "USD", symbol: "$", locale: "en-US", label: "US Dollar ($)" },
+  { code: "AED", symbol: "د.إ", locale: "ar-AE", label: "UAE Dirham (د.إ)" },
+  { code: "ARS", symbol: "$", locale: "es-AR", label: "Argentine Peso ($)" },
+  { code: "AUD", symbol: "A$", locale: "en-AU", label: "Australian Dollar (A$)" },
+  { code: "BDT", symbol: "৳", locale: "bn-BD", label: "Bangladeshi Taka (৳)" },
+  { code: "BHD", symbol: "BD", locale: "ar-BH", label: "Bahraini Dinar (BD)" },
+  { code: "BRL", symbol: "R$", locale: "pt-BR", label: "Brazilian Real (R$)" },
+  { code: "CAD", symbol: "C$", locale: "en-CA", label: "Canadian Dollar (C$)" },
+  { code: "CHF", symbol: "CHF", locale: "de-CH", label: "Swiss Franc (CHF)" },
+  { code: "CLP", symbol: "$", locale: "es-CL", label: "Chilean Peso ($)" },
+  { code: "CNY", symbol: "¥", locale: "zh-CN", label: "Chinese Yuan (¥)" },
+  { code: "COP", symbol: "$", locale: "es-CO", label: "Colombian Peso ($)" },
+  { code: "CZK", symbol: "Kč", locale: "cs-CZ", label: "Czech Koruna (Kč)" },
+  { code: "DKK", symbol: "kr", locale: "da-DK", label: "Danish Krone (kr)" },
+  { code: "EGP", symbol: "£", locale: "ar-EG", label: "Egyptian Pound (£)" },
   { code: "EUR", symbol: "€", locale: "de-DE", label: "Euro (€)" },
   { code: "GBP", symbol: "£", locale: "en-GB", label: "British Pound (£)" },
-  { code: "INR", symbol: "₹", locale: "en-IN", label: "Indian Rupee (₹)" },
-  { code: "AUD", symbol: "A$", locale: "en-AU", label: "Australian Dollar (A$)" },
-  { code: "CAD", symbol: "C$", locale: "en-CA", label: "Canadian Dollar (C$)" },
-  { code: "SGD", symbol: "S$", locale: "en-SG", label: "Singapore Dollar (S$)" },
-  { code: "JPY", symbol: "¥", locale: "ja-JP", label: "Japanese Yen (¥)" },
-  { code: "CNY", symbol: "¥", locale: "zh-CN", label: "Chinese Yuan (¥)" },
-  { code: "NZD", symbol: "NZ$", locale: "en-NZ", label: "New Zealand Dollar (NZ$)" },
-  { code: "CHF", symbol: "CHF", locale: "de-CH", label: "Swiss Franc (CHF)" },
   { code: "HKD", symbol: "HK$", locale: "zh-HK", label: "Hong Kong Dollar (HK$)" },
-  { code: "SEK", symbol: "kr", locale: "sv-SE", label: "Swedish Krona (kr)" },
-  { code: "NOK", symbol: "kr", locale: "nb-NO", label: "Norwegian Krone (kr)" },
-  { code: "DKK", symbol: "kr", locale: "da-DK", label: "Danish Krone (kr)" },
-  { code: "ZAR", symbol: "R", locale: "en-ZA", label: "South African Rand (R)" },
-  { code: "BRL", symbol: "R$", locale: "pt-BR", label: "Brazilian Real (R$)" },
-  { code: "RUB", symbol: "₽", locale: "ru-RU", label: "Russian Ruble (₽)" },
-  { code: "KRW", symbol: "₩", locale: "ko-KR", label: "South Korean Won (₩)" },
-  { code: "THB", symbol: "฿", locale: "th-TH", label: "Thai Baht (฿)" },
-  { code: "IDR", symbol: "Rp", locale: "id-ID", label: "Indonesian Rupiah (Rp)" },
-  { code: "MYR", symbol: "RM", locale: "ms-MY", label: "Malaysian Ringgit (RM)" },
-  { code: "PHP", symbol: "₱", locale: "en-PH", label: "Philippine Peso (₱)" },
-  { code: "VND", symbol: "₫", locale: "vi-VN", label: "Vietnamese Dong (₫)" },
-  { code: "SAR", symbol: "﷼", locale: "ar-SA", label: "Saudi Riyal (﷼)" },
-  { code: "AED", symbol: "د.إ", locale: "ar-AE", label: "UAE Dirham (د.إ)" },
-  { code: "QAR", symbol: "﷼", locale: "ar-QA", label: "Qatari Riyal (﷼)" },
-  { code: "KWD", symbol: "KD", locale: "ar-KW", label: "Kuwaiti Dinar (KD)" },
-  { code: "BHD", symbol: "BD", locale: "ar-BH", label: "Bahraini Dinar (BD)" },
-  { code: "OMR", symbol: "﷼", locale: "ar-OM", label: "Omani Rial (﷼)" },
-  { code: "PKR", symbol: "₨", locale: "ur-PK", label: "Pakistani Rupee (₨)" },
-  { code: "BDT", symbol: "৳", locale: "bn-BD", label: "Bangladeshi Taka (৳)" },
-  { code: "LKR", symbol: "Rs", locale: "si-LK", label: "Sri Lankan Rupee (Rs)" },
-  { code: "NPR", symbol: "₨", locale: "ne-NP", label: "Nepalese Rupee (₨)" },
-  { code: "MMK", symbol: "K", locale: "my-MM", label: "Myanmar Kyat (K)" },
-  { code: "KES", symbol: "Sh", locale: "en-KE", label: "Kenyan Shilling (Sh)" },
-  { code: "NGN", symbol: "₦", locale: "en-NG", label: "Nigerian Naira (₦)" },
-  { code: "EGP", symbol: "£", locale: "ar-EG", label: "Egyptian Pound (£)" },
-  { code: "ILS", symbol: "₪", locale: "he-IL", label: "Israeli Shekel (₪)" },
-  { code: "TRY", symbol: "₺", locale: "tr-TR", label: "Turkish Lira (₺)" },
-  { code: "PLN", symbol: "zł", locale: "pl-PL", label: "Polish Zloty (zł)" },
-  { code: "CZK", symbol: "Kč", locale: "cs-CZ", label: "Czech Koruna (Kč)" },
   { code: "HUF", symbol: "Ft", locale: "hu-HU", label: "Hungarian Forint (Ft)" },
+  { code: "IDR", symbol: "Rp", locale: "id-ID", label: "Indonesian Rupiah (Rp)" },
+  { code: "ILS", symbol: "₪", locale: "he-IL", label: "Israeli Shekel (₪)" },
+  { code: "INR", symbol: "₹", locale: "en-IN", label: "Indian Rupee (₹)" },
+  { code: "JPY", symbol: "¥", locale: "ja-JP", label: "Japanese Yen (¥)" },
+  { code: "KES", symbol: "Sh", locale: "en-KE", label: "Kenyan Shilling (Sh)" },
+  { code: "KRW", symbol: "₩", locale: "ko-KR", label: "South Korean Won (₩)" },
+  { code: "KWD", symbol: "KD", locale: "ar-KW", label: "Kuwaiti Dinar (KD)" },
+  { code: "LKR", symbol: "Rs", locale: "si-LK", label: "Sri Lankan Rupee (Rs)" },
+  { code: "MMK", symbol: "K", locale: "my-MM", label: "Myanmar Kyat (K)" },
   { code: "MXN", symbol: "$", locale: "es-MX", label: "Mexican Peso ($)" },
-  { code: "CLP", symbol: "$", locale: "es-CL", label: "Chilean Peso ($)" },
-  { code: "COP", symbol: "$", locale: "es-CO", label: "Colombian Peso ($)" },
-  { code: "ARS", symbol: "$", locale: "es-AR", label: "Argentine Peso ($)" },
+  { code: "MYR", symbol: "RM", locale: "ms-MY", label: "Malaysian Ringgit (RM)" },
+  { code: "NGN", symbol: "₦", locale: "en-NG", label: "Nigerian Naira (₦)" },
+  { code: "NOK", symbol: "kr", locale: "nb-NO", label: "Norwegian Krone (kr)" },
+  { code: "NPR", symbol: "₨", locale: "ne-NP", label: "Nepalese Rupee (₨)" },
+  { code: "NZD", symbol: "NZ$", locale: "en-NZ", label: "New Zealand Dollar (NZ$)" },
+  { code: "OMR", symbol: "﷼", locale: "ar-OM", label: "Omani Rial (﷼)" },
   { code: "PEN", symbol: "S/", locale: "es-PE", label: "Peruvian Sol (S/)" },
-  { code: "UYU", symbol: "$U", locale: "es-UY", label: "Uruguayan Peso ($U)" },
+  { code: "PHP", symbol: "₱", locale: "en-PH", label: "Philippine Peso (₱)" },
+  { code: "PKR", symbol: "₨", locale: "ur-PK", label: "Pakistani Rupee (₨)" },
+  { code: "PLN", symbol: "zł", locale: "pl-PL", label: "Polish Zloty (zł)" },
+  { code: "QAR", symbol: "﷼", locale: "ar-QA", label: "Qatari Riyal (﷼)" },
+  { code: "RUB", symbol: "₽", locale: "ru-RU", label: "Russian Ruble (₽)" },
+  { code: "SAR", symbol: "﷼", locale: "ar-SA", label: "Saudi Riyal (﷼)" },
+  { code: "SEK", symbol: "kr", locale: "sv-SE", label: "Swedish Krona (kr)" },
+  { code: "SGD", symbol: "S$", locale: "en-SG", label: "Singapore Dollar (S$)" },
+  { code: "THB", symbol: "฿", locale: "th-TH", label: "Thai Baht (฿)" },
+  { code: "TRY", symbol: "₺", locale: "tr-TR", label: "Turkish Lira (₺)" },
   { code: "TWD", symbol: "NT$", locale: "zh-TW", label: "New Taiwan Dollar (NT$)" },
-  { code: "HKD", symbol: "HK$", locale: "zh-HK", label: "Hong Kong Dollar (HK$)" },
+  { code: "USD", symbol: "$", locale: "en-US", label: "US Dollar ($)" },
+  { code: "UYU", symbol: "$U", locale: "es-UY", label: "Uruguayan Peso ($U)" },
+  { code: "VND", symbol: "₫", locale: "vi-VN", label: "Vietnamese Dong (₫)" },
+  { code: "ZAR", symbol: "R", locale: "en-ZA", label: "South African Rand (R)" },
 ];
+
 
 const findLocale = (code: string) =>
   currencyOptions.find((c) => c.code === code)?.locale || "en-US";
@@ -371,23 +371,194 @@ const RDCalculator: React.FC = () => {
 
   return (
     <>
-	      <SEOHead
-        title={seo.title}
-        description={seo.description}
-        canonical="https://calculatorhub.site/rd-calculator"
-        schemaData={generateCalculatorSchema(
-          "Recurring Deposit (RD) Calculator",
-          seo.description,
-          "/rd-calculator",
-          seo.keywords || []
-        )}
-      />
-      
+        {/** ================= SEOHead: single source of truth ================ */}
+        <SEOHead
+          title="Recurring Deposit (RD) Calculator — Maturity, Interest & Schedule (2025)"
+          description="Free RD Calculator: estimate maturity amount, total deposits and interest with monthly, quarterly or yearly compounding. Multi-currency, mobile friendly, with pie chart and schedule."
+          keywords={[
+            "RD calculator",
+            "recurring deposit calculator",
+            "maturity amount",
+            "interest on RD",
+            "quarterly compounding",
+            "monthly deposit calculator",
+            "savings calculator",
+          ]}
+          canonical="https://calculatorhub.site/rd-calculator"
+          openGraph={{
+            title: "Recurring Deposit (RD) Calculator — Maturity, Interest & Schedule",
+            description:
+              "Estimate RD maturity, total deposits and interest with realistic compounding and shareable links.",
+            url: "https://calculatorhub.site/rd-calculator",
+            images: [
+              {
+                url: "https://calculatorhub.site/images/rd-calculator-hero.webp",
+                width: 1200,
+                height: 630,
+                alt: "Recurring Deposit (RD) Calculator by CalculatorHub — maturity, deposits, interest breakdown",
+              },
+            ],
+            siteName: "CalculatorHub",
+            type: "website",
+            locale: "en_US",
+          }}
+          twitter={{
+            card: "summary_large_image",
+            site: "@CalculatorHub",
+            creator: "@CalculatorHub",
+            title: "Recurring Deposit (RD) Calculator — Maturity, Interest & Schedule",
+            description:
+              "Free RD calculator with pie chart & detailed schedule. Monthly/Quarterly/Yearly compounding.",
+            image: "https://calculatorhub.site/images/rd-calculator-hero.webp",
+          }}
+          schemaData={[
+            {
+              "@context": "https://schema.org",
+              "@type": "WebPage",
+              "@id": "https://calculatorhub.site/rd-calculator#webpage",
+              url: "https://calculatorhub.site/rd-calculator",
+              name: "Recurring Deposit (RD) Calculator — Maturity, Interest & Schedule",
+              inLanguage: "en",
+              isPartOf: { "@id": "https://calculatorhub.site/#website" },
+              primaryImageOfPage: {
+                "@type": "ImageObject",
+                "@id": "https://calculatorhub.site/images/rd-calculator-hero.webp#primaryimg",
+                url: "https://calculatorhub.site/images/rd-calculator-hero.webp",
+                width: 1200,
+                height: 630,
+              },
+              mainEntity: {
+                "@type": "Article",
+                "@id": "https://calculatorhub.site/rd-calculator#article",
+                headline:
+                  "Recurring Deposit (RD) Calculator — Maturity, Interest & Schedule",
+                description:
+                  "Estimate RD maturity, deposits and interest with realistic compounding and detailed schedules.",
+                image: ["https://calculatorhub.site/images/rd-calculator-hero.webp"],
+                author: {
+                  "@type": "Organization",
+                  name: "CalculatorHub",
+                  url: "https://calculatorhub.site",
+                },
+                publisher: { "@id": "https://calculatorhub.site/#organization" },
+                datePublished: "2025-10-17",
+                dateModified: "2025-11-05",
+                mainEntityOfPage: {
+                  "@id": "https://calculatorhub.site/rd-calculator#webpage",
+                },
+                articleSection: [
+                  "Overview",
+                  "How to Use",
+                  "Formula & Steps",
+                  "Tips",
+                  "Comparison",
+                  "FAQ",
+                ],
+              },
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "@id": "https://calculatorhub.site/rd-calculator#breadcrumbs",
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: "Home",
+                  item: "https://calculatorhub.site/",
+                },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: "Currency & Finance",
+                  item:
+                    "https://calculatorhub.site/category/currency-finance",
+                },
+                {
+                  "@type": "ListItem",
+                  position: 3,
+                  name: "RD Calculator",
+                  item: "https://calculatorhub.site/rd-calculator",
+                },
+              ],
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "@id": "https://calculatorhub.site/rd-calculator#faq",
+              mainEntity: [
+                {
+                  "@type": "Question",
+                  name: "How accurate are RD results?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text:
+                      "We simulate monthly deposits and apply interest exactly at your chosen compounding frequency (monthly, quarterly, or yearly).",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "Can I share my results?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text:
+                      "Yes. Copy a shareable URL with your parameters embedded; revisit or compare anytime.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "Is this free to use?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text:
+                      "Absolutely—free, privacy-friendly, and runs locally in your browser.",
+                  },
+                },
+              ],
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              "@id": "https://calculatorhub.site/rd-calculator#webapp",
+              name: "RD Calculator",
+              url: "https://calculatorhub.site/rd-calculator",
+              applicationCategory: "FinanceApplication",
+              operatingSystem: "Web",
+              publisher: { "@id": "https://calculatorhub.site/#organization" },
+              image: ["https://calculatorhub.site/images/rd-calculator-hero.webp"],
+              description:
+                "Recurring Deposit maturity & interest calculator with monthly/quarterly/yearly compounding.",
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "@id": "https://calculatorhub.site/#website",
+              url: "https://calculatorhub.site",
+              name: "CalculatorHub",
+              publisher: { "@id": "https://calculatorhub.site/#organization" },
+              potentialAction: {
+                "@type": "SearchAction",
+                target: "https://calculatorhub.site/search?q={query}",
+                "query-input": "required name=query",
+              },
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "@id": "https://calculatorhub.site/#organization",
+              name: "CalculatorHub",
+              url: "https://calculatorhub.site",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://calculatorhub.site/images/logo.png",
+              },
+            },
+          ]}
+        />
+ 
 
-      {/* --- Open Graph & Twitter --- */}
-      <>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         
+        <meta name="viewport" content="width=device-width, initial-scale=1" />  
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="CalculatorHub" />
         <meta property="og:locale" content="en_US" />
@@ -414,96 +585,16 @@ const RDCalculator: React.FC = () => {
           name="twitter:image"
           content="https://calculatorhub.site/images/rd-calculator-hero.webp"
         />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin/>
+        <link rel="preload" as="image" href="/images/rd-calculator-hero.webp" fetchpriority="high"/>
+        <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossorigin/>
 
-        {/* Structured data: WebPage + Breadcrumb + FAQ */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@graph": [
-                {
-                  "@type": "WebPage",
-                  "@id": "https://calculatorhub.site/rd-calculator",
-                  "url": "https://calculatorhub.site/rd-calculator",
-                  "name": "Recurring Deposit (RD) Calculator | Maturity, Interest & Chart",
-                  "description": seo.description,
-                  "inLanguage": "en-US",
-                  "isPartOf": {
-                    "@type": "WebSite",
-                    "name": "CalculatorHub",
-                    "url": "https://calculatorhub.site",
-                  },
-                  "image": {
-                    "@type": "ImageObject",
-                    "url": "https://calculatorhub.site/images/rd-calculator-hero.webp",
-                    "width": 1200,
-                    "height": 630,
-                  },
-                },
-                {
-                  "@type": "BreadcrumbList",
-                  "itemListElement": [
-                    {
-                      "@type": "ListItem",
-                      "position": 1,
-                      "name": "Currency & Finance",
-                      "item": "https://calculatorhub.site/category/currency-finance",
-                    },
-                    {
-                      "@type": "ListItem",
-                      "position": 2,
-                      "name": "RD Calculator",
-                      "item": "https://calculatorhub.site/rd-calculator",
-                    },
-                  ],
-                },
-                {
-                  "@type": "FAQPage",
-                  "mainEntity": [
-                    {
-                      "@type": "Question",
-                      "name": "What is a Recurring Deposit (RD)?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text":
-                          "An RD is a savings product where you deposit a fixed amount every month for a fixed tenure and earn interest compounded at a set frequency (e.g., quarterly).",
-                      },
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Which compounding option should I pick?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text":
-                          "Most banks compound RD interest quarterly. If your bank compounds monthly or yearly, choose the matching option for accurate maturity estimation.",
-                      },
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Do you store my data?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text":
-                          "No. Calculations run locally in your browser. We only use localStorage to remember your last session for convenience on your device.",
-                      },
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Can I share my RD results?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text":
-                          "Yes. Use the Copy Link button to generate a shareable URL with your inputs encoded so anyone can open the same scenario.",
-                      },
-                    },
-                  ],
-                },
-              ],
-            }),
-          }}
-        />
-      </>
+
+
+    
+
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
@@ -530,12 +621,13 @@ const RDCalculator: React.FC = () => {
               Try our Loan EMI, Mortgage, or Currency Converter next!
             </p>
           </div>
-          <a
-            href="/category/currency-finance"
-            className="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-md hover:bg-indigo-50 transition"
-          >
-            Explore More Calculators
-          </a>
+          <Link
+              to="/category/currency-finance"
+              className="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-md hover:bg-indigo-50 transition"
+            >
+              Explore More Calculators
+            </Link>
+
         </div>
 
         {/* Calculator Grid */}
