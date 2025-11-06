@@ -174,17 +174,223 @@ const PayRaiseCalculator: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="Pay Raise / Salary Hike Calculator | CalculatorHub"
-        description="Calculate your new salary after a raise or promotion. Find percentage increase, raise amount, and compare monthly vs yearly income."
-        canonical="https://calculatorhub.site/pay-raise-calculator"
-        schemaData={generateCalculatorSchema(
-          "Pay Raise Calculator",
-          "Estimate your new salary, raise percentage, and total annual income after a pay hike.",
-          "/pay-raise-calculator",
-          ["pay raise", "salary hike", "promotion calculator", "income increase"]
-        )}
-      />
+            title="Pay Raise / Salary Hike Calculator | CalculatorHub"
+            description="Calculate your new salary after a raise or promotion. Find percentage increase, raise amount, and compare monthly vs yearly income."
+            canonical="https://calculatorhub.site/pay-raise-calculator"
+            schemaData={[
+              // 1) WebPage + Article wrapper (primary)
+              {
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "@id": "https://calculatorhub.site/pay-raise-calculator#webpage",
+                "url": "https://calculatorhub.site/pay-raise-calculator",
+                "name": "Pay Raise / Salary Hike Calculator",
+                "inLanguage": "en",
+                "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+                "primaryImageOfPage": {
+                  "@type": "ImageObject",
+                  "@id": "https://calculatorhub.site/images/pay-raise-calculator-hero.webp#primaryimg",
+                  "url": "https://calculatorhub.site/images/pay-raise-calculator-hero.webp",
+                  "width": 1200,
+                  "height": 675
+                },
+                "mainEntity": {
+                  "@type": "Article",
+                  "@id": "https://calculatorhub.site/pay-raise-calculator#article",
+                  "headline": "Pay Raise / Salary Hike Calculator — Estimate Your New Income",
+                  "description": "Estimate your new salary, raise percentage, and total annual income after a pay hike or promotion.",
+                  "image": [
+                    "https://calculatorhub.site/images/pay-raise-calculator-hero.webp",
+                    "https://calculatorhub.site/images/pay-raise-calculator-graph.webp"
+                  ],
+                  "author": {
+                    "@type": "Organization",
+                    "name": "CalculatorHub",
+                    "url": "https://calculatorhub.site"
+                  },
+                  "publisher": {
+                    "@type": "Organization",
+                    "@id": "https://calculatorhub.site/#organization",
+                    "name": "CalculatorHub",
+                    "logo": {
+                      "@type": "ImageObject",
+                      "url": "https://calculatorhub.site/images/logo.png"
+                    }
+                  },
+                  "datePublished": "2025-10-17",
+                  "dateModified": "2025-11-05",
+                  "mainEntityOfPage": { "@id": "https://calculatorhub.site/pay-raise-calculator#webpage" },
+                  "keywords": [
+                    "pay raise", "salary hike", "promotion calculator", "income increase", "salary increase", "salary calculator"
+                  ],
+                  "articleSection": [
+                    "What is a Pay Raise Calculator?",
+                    "How the Salary Hike Calculator Works",
+                    "Salary Raise Example",
+                    "FAQ"
+                  ]
+                }
+              },
+          
+              // 2) Breadcrumbs
+              {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "@id": "https://calculatorhub.site/pay-raise-calculator#breadcrumbs",
+                "itemListElement": [
+                  { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+                  { "@type": "ListItem", "position": 2, "name": "Currency & Finance", "item": "https://calculatorhub.site/category/currency-finance" },
+                  { "@type": "ListItem", "position": 3, "name": "Pay Raise Calculator", "item": "https://calculatorhub.site/pay-raise-calculator" }
+                ]
+              },
+          
+              // 3) FAQ (ensure these Q&As exist in the visible FAQ)
+              {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "@id": "https://calculatorhub.site/pay-raise-calculator#faq",
+                "mainEntity": [
+                  {
+                    "@type": "Question",
+                    "name": "What is a Pay Raise Calculator?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "A Pay Raise Calculator helps you calculate your new salary after a raise or promotion. It shows the percentage increase, raise amount, and compares monthly and yearly income."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "How is my pay raise calculated?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "You can calculate your salary raise by inputting your current salary and either the raise percentage or fixed amount. The tool then calculates your new salary, raise amount, and percentage increase."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Can I use this calculator for both percentage and fixed raise?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Yes, the calculator allows you to choose whether to calculate your raise as a percentage of your salary or as a fixed amount."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Can I compare monthly and yearly income?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Yes, you can see both your monthly and yearly income after the raise, helping you better understand your salary growth."
+                    }
+                  }
+                ]
+              },
+          
+              // 4) WebApplication (calculator as an app)
+              {
+                "@context": "https://schema.org",
+                "@type": "WebApplication",
+                "@id": "https://calculatorhub.site/pay-raise-calculator#webapp",
+                "name": "Pay Raise / Salary Hike Calculator",
+                "url": "https://calculatorhub.site/pay-raise-calculator",
+                "applicationCategory": "FinanceApplication",
+                "operatingSystem": "Web",
+                "description": "Free online tool to calculate your new salary after a raise, including raise percentage, amount, and comparison between monthly vs yearly income.",
+                "inLanguage": "en",
+                "publisher": { "@id": "https://calculatorhub.site/#organization" },
+                "image": [
+                  "https://calculatorhub.site/images/pay-raise-calculator-hero.webp",
+                  "https://calculatorhub.site/images/pay-raise-calculator-graph.webp"
+                ],
+                "datePublished": "2025-10-17",
+                "dateModified": "2025-11-05",
+                "keywords": ["pay raise", "salary hike", "income increase", "raise calculator", "salary calculator"]
+              },
+          
+              // 5) SoftwareApplication (optional)
+              {
+                "@context": "https://schema.org",
+                "@type": "SoftwareApplication",
+                "@id": "https://calculatorhub.site/pay-raise-calculator#software",
+                "name": "Pay Raise Calculator",
+                "applicationCategory": "FinanceApplication",
+                "operatingSystem": "All",
+                "description": "Instantly calculate your salary raise and new salary after promotion or raise. Provides both percentage and fixed raise options.",
+                "url": "https://calculatorhub.site/pay-raise-calculator",
+                "publisher": { "@id": "https://calculatorhub.site/#organization" }
+              },
+          
+              // 6) Site-wide Website node (dedupe)
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "@id": "https://calculatorhub.site/#website",
+                "url": "https://calculatorhub.site",
+                "name": "CalculatorHub",
+                "publisher": { "@id": "https://calculatorhub.site/#organization" },
+                "potentialAction": {
+                  "@type": "SearchAction",
+                  "target": "https://calculatorhub.site/search?q={query}",
+                  "query-input": "required name=query"
+                }
+              },
+          
+              // 7) Organization (single source of truth)
+              {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "@id": "https://calculatorhub.site/#organization",
+                "name": "CalculatorHub",
+                "url": "https://calculatorhub.site",
+                "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/logo.png" }
+              }
+            ]}
+          />
+      
+      {/* -- Core -- */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/pay-raise-calculator" />
+      
+      {/* -- Hreflang (only locales that exist) -- */}
+      <link rel="alternate" href="https://calculatorhub.site/pay-raise-calculator" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/pay-raise-calculator" hreflang="x-default" />
+      
+      {/* -- Open Graph -- */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Pay Raise / Salary Hike Calculator | CalculatorHub" />
+      <meta property="og:description" content="Calculate your new salary after a raise or promotion. Find percentage increase, raise amount, and compare monthly vs yearly income." />
+      <meta property="og:url" content="https://calculatorhub.site/pay-raise-calculator" />
+      <meta property="og:image" content="https://calculatorhub.site/images/pay-raise-calculator-hero.webp" />
+      <meta property="og:image:width" content="1600" />
+      <meta property="og:image:height" content="900" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/* -- Twitter -- */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Pay Raise / Salary Hike Calculator | CalculatorHub" />
+      <meta name="twitter:description" content="Calculate your new salary, raise percentage, and total yearly growth after a pay increase or promotion." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/pay-raise-calculator-hero.webp" />
+      
+      {/* -- Icons / PWA -- */}
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <link rel="manifest" href="/site.webmanifest" />
+      <meta name="theme-color" content="#0ea5e9" />
+      
+      {/* -- Performance -- */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      
+      {/* -- Performance: preload hero image & font -- */}
+      <link rel="preload" as="image" href="/images/pay-raise-calculator-hero.webp" imagesrcset="/images/pay-raise-calculator-hero.webp 1x" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossorigin />
+      
+      {/* -- Optional quality-of-life -- */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
  
 
       <div className="max-w-5xl mx-auto">
