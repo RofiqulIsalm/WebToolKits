@@ -156,18 +156,213 @@ const SimpleInterestCalculator: React.FC = () => {
      ============================================================ */
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title="Simple Interest Calculator | CalculatorHub"
-        description="Calculate simple interest and total amount easily using this free online simple interest calculator."
+        title="Simple Interest Calculator — SI, Total Amount & Fast Interest Breakdown"
+        description="Use our free Simple Interest Calculator to compute SI and total amount (P + SI) from principal, annual rate, and time. Fast, accurate, mobile-friendly."
+        keywords={[
+          "simple interest calculator",
+          "SI calculator",
+          "interest formula",
+          "total amount calculator",
+          "principal rate time",
+          "loan interest calculator",
+          "deposit interest calculator",
+          "finance calculator",
+          "P R T / 100",
+          "simple vs compound interest"
+        ]}
         canonical="https://calculatorhub.site/simple-interest-calculator"
-        schemaData={generateCalculatorSchema(
-          "Simple Interest Calculator",
-          "Quickly find interest and total amount with CalculatorHub’s free online tool.",
-          "/simple-interest-calculator",
-          ["simple interest calculator", "interest formula", "finance tool"]
-        )}
+        schemaData={[
+          // 1) WebPage + Article
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://calculatorhub.site/simple-interest-calculator#webpage",
+            "url": "https://calculatorhub.site/simple-interest-calculator",
+            "name": "Simple Interest Calculator (2025–2026) — Compute SI & Total Amount",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "@id": "https://calculatorhub.site/images/simple-interest-calculator-hero.webp#primaryimg",
+              "url": "https://calculatorhub.site/images/simple-interest-calculator-hero.webp",
+              "width": 1200,
+              "height": 675
+            },
+            "mainEntity": {
+              "@type": "Article",
+              "@id": "https://calculatorhub.site/simple-interest-calculator#article",
+              "headline": "Simple Interest Calculator — Formula, Examples & Instant Results",
+              "description": "Calculate simple interest and total amount using SI = (P × R × T) / 100. Includes examples, tips, and comparisons.",
+              "image": ["https://calculatorhub.site/images/simple-interest-calculator-hero.webp"],
+              "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "datePublished": "2025-10-17",
+              "dateModified": "2025-11-06",
+              "mainEntityOfPage": { "@id": "https://calculatorhub.site/simple-interest-calculator#webpage" },
+              "articleSection": [
+                "What is Simple Interest",
+                "How to Use",
+                "Formula",
+                "Example",
+                "Benefits",
+                "Comparison & Cost",
+                "Beginner Guide",
+                "Alternatives",
+                "FAQ"
+              ]
+            }
+          },
+      
+          // 2) Breadcrumbs
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id": "https://calculatorhub.site/simple-interest-calculator#breadcrumbs",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+              { "@type": "ListItem", "position": 2, "name": "Currency & Finance", "item": "https://calculatorhub.site/category/currency-finance" },
+              { "@type": "ListItem", "position": 3, "name": "Simple Interest Calculator", "item": "https://calculatorhub.site/simple-interest-calculator" }
+            ]
+          },
+      
+          // 3) FAQ
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": "https://calculatorhub.site/simple-interest-calculator#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "How does a Simple Interest Calculator work?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "It multiplies principal, annual rate, and time in years, then divides by 100 to get SI, and adds it to principal for total amount."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What’s the difference between simple and compound interest?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Simple interest applies only on the principal; compound interest accrues on principal plus previously earned interest."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is this calculator free to use?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes, it’s free, privacy-friendly, and runs locally in your browser."
+                }
+              }
+            ]
+          },
+      
+          // 4) WebApplication
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id": "https://calculatorhub.site/simple-interest-calculator#webapp",
+            "name": "Simple Interest Calculator",
+            "url": "https://calculatorhub.site/simple-interest-calculator",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "Web",
+            "description": "Compute simple interest (SI) and total amount with a clean UI and instant results.",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "image": ["https://calculatorhub.site/images/simple-interest-calculator-hero.webp"]
+          },
+      
+          // 5) SoftwareApplication (optional)
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "@id": "https://calculatorhub.site/simple-interest-calculator#software",
+            "name": "Simple Interest Calculator",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "All",
+            "url": "https://calculatorhub.site/simple-interest-calculator",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "description": "Interactive SI tool with examples, shareable results, and chart breakdown."
+          },
+      
+          // 6) WebSite + Organization (global)
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://calculatorhub.site/#website",
+            "url": "https://calculatorhub.site",
+            "name": "CalculatorHub",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://calculatorhub.site/#organization",
+            "name": "CalculatorHub",
+            "url": "https://calculatorhub.site",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://calculatorhub.site/images/logo.png"
+            }
+          }
+        ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/simple-interest-calculator" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/simple-interest-calculator" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/simple-interest-calculator" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/simple-interest-calculator" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Simple Interest Calculator (2025–2026) — Compute SI & Total Amount" />
+      <meta property="og:description" content="Free Simple Interest Calculator to find SI and total amount quickly using P, R, and T." />
+      <meta property="og:url" content="https://calculatorhub.site/simple-interest-calculator" />
+      <meta property="og:image" content="https://calculatorhub.site/images/simple-interest-calculator-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Simple Interest Calculator dashboard showing SI vs principal breakdown" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Simple Interest Calculator — SI, Total Amount & Fast Interest Breakdown" />
+      <meta name="twitter:description" content="Compute SI and total amount from principal, rate, and time. Fast, accurate, and mobile-friendly." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/simple-interest-calculator-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#38bdf8" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/simple-interest-calculator-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
       
 
 
