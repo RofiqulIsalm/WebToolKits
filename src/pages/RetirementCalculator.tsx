@@ -32,58 +32,58 @@ const LS_KEY = "retirement_calculator_style_v1";   // localStorage key
 const URL_KEY = "rtc";                              // query key (?rtc=...)
 
 const currencyOptions = [
-  { code: "USD", symbol: "$", locale: "en-US", label: "US Dollar ($)" },
+  { code: "AED", symbol: "د.إ", locale: "ar-AE", label: "UAE Dirham (د.إ)" },
+  { code: "ARS", symbol: "$", locale: "es-AR", label: "Argentine Peso ($)" },
+  { code: "AUD", symbol: "A$", locale: "en-AU", label: "Australian Dollar (A$)" },
+  { code: "BDT", symbol: "৳", locale: "bn-BD", label: "Bangladeshi Taka (৳)" },
+  { code: "BHD", symbol: "BD", locale: "ar-BH", label: "Bahraini Dinar (BD)" },
+  { code: "BRL", symbol: "R$", locale: "pt-BR", label: "Brazilian Real (R$)" },
+  { code: "CAD", symbol: "C$", locale: "en-CA", label: "Canadian Dollar (C$)" },
+  { code: "CHF", symbol: "CHF", locale: "de-CH", label: "Swiss Franc (CHF)" },
+  { code: "CLP", symbol: "$", locale: "es-CL", label: "Chilean Peso ($)" },
+  { code: "CNY", symbol: "¥", locale: "zh-CN", label: "Chinese Yuan (¥)" },
+  { code: "COP", symbol: "$", locale: "es-CO", label: "Colombian Peso ($)" },
+  { code: "CZK", symbol: "Kč", locale: "cs-CZ", label: "Czech Koruna (Kč)" },
+  { code: "DKK", symbol: "kr", locale: "da-DK", label: "Danish Krone (kr)" },
+  { code: "EGP", symbol: "£", locale: "ar-EG", label: "Egyptian Pound (£)" },
   { code: "EUR", symbol: "€", locale: "de-DE", label: "Euro (€)" },
   { code: "GBP", symbol: "£", locale: "en-GB", label: "British Pound (£)" },
-  { code: "INR", symbol: "₹", locale: "en-IN", label: "Indian Rupee (₹)" },
-  { code: "AUD", symbol: "A$", locale: "en-AU", label: "Australian Dollar (A$)" },
-  { code: "CAD", symbol: "C$", locale: "en-CA", label: "Canadian Dollar (C$)" },
-  { code: "SGD", symbol: "S$", locale: "en-SG", label: "Singapore Dollar (S$)" },
-  { code: "JPY", symbol: "¥", locale: "ja-JP", label: "Japanese Yen (¥)" },
-  { code: "CNY", symbol: "¥", locale: "zh-CN", label: "Chinese Yuan (¥)" },
-  { code: "NZD", symbol: "NZ$", locale: "en-NZ", label: "New Zealand Dollar (NZ$)" },
-  { code: "CHF", symbol: "CHF", locale: "de-CH", label: "Swiss Franc (CHF)" },
   { code: "HKD", symbol: "HK$", locale: "zh-HK", label: "Hong Kong Dollar (HK$)" },
-  { code: "SEK", symbol: "kr", locale: "sv-SE", label: "Swedish Krona (kr)" },
-  { code: "NOK", symbol: "kr", locale: "nb-NO", label: "Norwegian Krone (kr)" },
-  { code: "DKK", symbol: "kr", locale: "da-DK", label: "Danish Krone (kr)" },
-  { code: "ZAR", symbol: "R", locale: "en-ZA", label: "South African Rand (R)" },
-  { code: "BRL", symbol: "R$", locale: "pt-BR", label: "Brazilian Real (R$)" },
-  { code: "RUB", symbol: "₽", locale: "ru-RU", label: "Russian Ruble (₽)" },
-  { code: "KRW", symbol: "₩", locale: "ko-KR", label: "South Korean Won (₩)" },
-  { code: "THB", symbol: "฿", locale: "th-TH", label: "Thai Baht (฿)" },
-  { code: "IDR", symbol: "Rp", locale: "id-ID", label: "Indonesian Rupiah (Rp)" },
-  { code: "MYR", symbol: "RM", locale: "ms-MY", label: "Malaysian Ringgit (RM)" },
-  { code: "PHP", symbol: "₱", locale: "en-PH", label: "Philippine Peso (₱)" },
-  { code: "VND", symbol: "₫", locale: "vi-VN", label: "Vietnamese Dong (₫)" },
-  { code: "SAR", symbol: "﷼", locale: "ar-SA", label: "Saudi Riyal (﷼)" },
-  { code: "AED", symbol: "د.إ", locale: "ar-AE", label: "UAE Dirham (د.إ)" },
-  { code: "QAR", symbol: "﷼", locale: "ar-QA", label: "Qatari Riyal (﷼)" },
-  { code: "KWD", symbol: "KD", locale: "ar-KW", label: "Kuwaiti Dinar (KD)" },
-  { code: "BHD", symbol: "BD", locale: "ar-BH", label: "Bahraini Dinar (BD)" },
-  { code: "OMR", symbol: "﷼", locale: "ar-OM", label: "Omani Rial (﷼)" },
-  { code: "PKR", symbol: "₨", locale: "ur-PK", label: "Pakistani Rupee (₨)" },
-  { code: "BDT", symbol: "৳", locale: "bn-BD", label: "Bangladeshi Taka (৳)" },
-  { code: "LKR", symbol: "Rs", locale: "si-LK", label: "Sri Lankan Rupee (Rs)" },
-  { code: "NPR", symbol: "₨", locale: "ne-NP", label: "Nepalese Rupee (₨)" },
-  { code: "MMK", symbol: "K", locale: "my-MM", label: "Myanmar Kyat (K)" },
-  { code: "KES", symbol: "Sh", locale: "en-KE", label: "Kenyan Shilling (Sh)" },
-  { code: "NGN", symbol: "₦", locale: "en-NG", label: "Nigerian Naira (₦)" },
-  { code: "EGP", symbol: "£", locale: "ar-EG", label: "Egyptian Pound (£)" },
-  { code: "ILS", symbol: "₪", locale: "he-IL", label: "Israeli Shekel (₪)" },
-  { code: "TRY", symbol: "₺", locale: "tr-TR", label: "Turkish Lira (₺)" },
-  { code: "PLN", symbol: "zł", locale: "pl-PL", label: "Polish Zloty (zł)" },
-  { code: "CZK", symbol: "Kč", locale: "cs-CZ", label: "Czech Koruna (Kč)" },
   { code: "HUF", symbol: "Ft", locale: "hu-HU", label: "Hungarian Forint (Ft)" },
+  { code: "IDR", symbol: "Rp", locale: "id-ID", label: "Indonesian Rupiah (Rp)" },
+  { code: "ILS", symbol: "₪", locale: "he-IL", label: "Israeli Shekel (₪)" },
+  { code: "INR", symbol: "₹", locale: "en-IN", label: "Indian Rupee (₹)" },
+  { code: "JPY", symbol: "¥", locale: "ja-JP", label: "Japanese Yen (¥)" },
+  { code: "KES", symbol: "Sh", locale: "en-KE", label: "Kenyan Shilling (Sh)" },
+  { code: "KRW", symbol: "₩", locale: "ko-KR", label: "South Korean Won (₩)" },
+  { code: "KWD", symbol: "KD", locale: "ar-KW", label: "Kuwaiti Dinar (KD)" },
+  { code: "LKR", symbol: "Rs", locale: "si-LK", label: "Sri Lankan Rupee (Rs)" },
+  { code: "MMK", symbol: "K", locale: "my-MM", label: "Myanmar Kyat (K)" },
   { code: "MXN", symbol: "$", locale: "es-MX", label: "Mexican Peso ($)" },
-  { code: "CLP", symbol: "$", locale: "es-CL", label: "Chilean Peso ($)" },
-  { code: "COP", symbol: "$", locale: "es-CO", label: "Colombian Peso ($)" },
-  { code: "ARS", symbol: "$", locale: "es-AR", label: "Argentine Peso ($)" },
+  { code: "MYR", symbol: "RM", locale: "ms-MY", label: "Malaysian Ringgit (RM)" },
+  { code: "NGN", symbol: "₦", locale: "en-NG", label: "Nigerian Naira (₦)" },
+  { code: "NOK", symbol: "kr", locale: "nb-NO", label: "Norwegian Krone (kr)" },
+  { code: "NPR", symbol: "₨", locale: "ne-NP", label: "Nepalese Rupee (₨)" },
+  { code: "NZD", symbol: "NZ$", locale: "en-NZ", label: "New Zealand Dollar (NZ$)" },
+  { code: "OMR", symbol: "﷼", locale: "ar-OM", label: "Omani Rial (﷼)" },
   { code: "PEN", symbol: "S/", locale: "es-PE", label: "Peruvian Sol (S/)" },
-  { code: "UYU", symbol: "$U", locale: "es-UY", label: "Uruguayan Peso ($U)" },
+  { code: "PHP", symbol: "₱", locale: "en-PH", label: "Philippine Peso (₱)" },
+  { code: "PKR", symbol: "₨", locale: "ur-PK", label: "Pakistani Rupee (₨)" },
+  { code: "PLN", symbol: "zł", locale: "pl-PL", label: "Polish Zloty (zł)" },
+  { code: "QAR", symbol: "﷼", locale: "ar-QA", label: "Qatari Riyal (﷼)" },
+  { code: "RUB", symbol: "₽", locale: "ru-RU", label: "Russian Ruble (₽)" },
+  { code: "SAR", symbol: "﷼", locale: "ar-SA", label: "Saudi Riyal (﷼)" },
+  { code: "SEK", symbol: "kr", locale: "sv-SE", label: "Swedish Krona (kr)" },
+  { code: "SGD", symbol: "S$", locale: "en-SG", label: "Singapore Dollar (S$)" },
+  { code: "THB", symbol: "฿", locale: "th-TH", label: "Thai Baht (฿)" },
+  { code: "TRY", symbol: "₺", locale: "tr-TR", label: "Turkish Lira (₺)" },
   { code: "TWD", symbol: "NT$", locale: "zh-TW", label: "New Taiwan Dollar (NT$)" },
-  { code: "HKD", symbol: "HK$", locale: "zh-HK", label: "Hong Kong Dollar (HK$)" },
+  { code: "USD", symbol: "$", locale: "en-US", label: "US Dollar ($)" },
+  { code: "UYU", symbol: "$U", locale: "es-UY", label: "Uruguayan Peso ($U)" },
+  { code: "VND", symbol: "₫", locale: "vi-VN", label: "Vietnamese Dong (₫)" },
+  { code: "ZAR", symbol: "R", locale: "en-ZA", label: "South African Rand (R)" },
 ];
+
 
 const findLocale = (code: string) =>
   currencyOptions.find((c) => c.code === code)?.locale || "en-US";
@@ -110,6 +110,100 @@ const fva = (pmt: number, ratePer: number, n: number, annuityDue = false) => {
   const factor = (Math.pow(1 + ratePer, n) - 1) / ratePer;
   return annuityDue ? pmt * (1 + ratePer) * factor : pmt * factor;
 };
+
+
+type MathTapeProps = {
+  PV: number; PMT: number; Income_today: number;
+  n: number; N: number;
+  rPreM: number; rPostM: number; iM: number;
+  FV_current: number; FV_contrib: number; NestEgg: number;
+  Income_ret: number; PV_factor: number; Required: number; Surplus: number;
+  locale: string; currency: string;
+};
+
+const DynamicMathTape: React.FC<MathTapeProps> = ({
+  PV, PMT, Income_today,
+  n, N,
+  rPreM, rPostM, iM,
+  FV_current, FV_contrib, NestEgg,
+  Income_ret, PV_factor, Required, Surplus,
+  locale, currency,
+}) => {
+  // ---- local formatters (reuse your formatCurrency for money) ----
+  const fmtMoney = (v: number) => formatCurrency(v, locale, currency);
+  const fmtRate  = (v: number) => `${(v).toFixed(7).replace(/0+$/,'').replace(/\.$/,'')}`; // 0.0033333
+  const fmtPow   = (base: string | number, exp: number) => `${base}^${exp}`;
+  const fmtInt   = (v: number) => (Number.isFinite(v) ? Math.round(v).toString() : "0");
+
+  // pre-compute the middle lines so we don’t mismatch rounding in UI
+  const onePlus_rPre = 1 + (rPreM || 0);
+  const powPre       = Math.pow(1 + (rPreM || 0), Math.max(n,0));
+  const onePlus_iM   = 1 + (iM || 0);
+  const powInf       = Math.pow(1 + (iM || 0), Math.max(n,0));
+
+  const denom = (rPostM === 0) ? N : (1 - Math.pow(1 + rPostM, -Math.max(N,0))) / rPostM;
+
+  // Guards for empty input
+  const showAccum = n > 0 && (PV > 0 || PMT > 0);
+  const showIncome = Income_today > 0;
+  const showWithdraw = N > 0 && Income_ret > 0 && denom > 0;
+
+  return (
+    <div className="mt-4">
+      <pre className="bg-slate-900/70 p-4 rounded-lg overflow-x-auto text-[13px] border border-slate-700 leading-6">
+{`// Live, step-by-step math (all numbers reflect your inputs)
+
+// 1) Accumulation
+FV_current = PV × ${fmtPow("(1 + r_pre_m)", Math.max(n,0))}
+           = ${fmtMoney(PV)} × ${fmtPow((1 + rPreM).toFixed(6), Math.max(n,0))}
+           = ${fmtMoney(FV_current)}
+
+FV_contrib = PMT × (1 + r_pre_m) × ( ${fmtPow("(1 + r_pre_m)", Math.max(n,0))} − 1 ) / r_pre_m
+           = ${fmtMoney(PMT)} × ${(1 + rPreM).toFixed(6)} × ( ${powPre.toFixed(6)} − 1 ) / ${fmtRate(rPreM)}
+           = ${fmtMoney(FV_contrib)}
+
+NestEgg    = FV_current + FV_contrib
+           = ${fmtMoney(FV_current)} + ${fmtMoney(FV_contrib)}
+           = ${fmtMoney(NestEgg)}
+
+// 2) Inflate desired income to retirement start
+Income_ret = Income_today × ${fmtPow("(1 + i_m)", Math.max(n,0))}
+           = ${fmtMoney(Income_today)} × ${fmtPow((1 + iM).toFixed(6), Math.max(n,0))}
+           = ${fmtMoney(Income_ret)}
+
+// 3) Required corpus for level monthly withdrawals
+PV_factor  = ${rPostM === 0 ? "N" : "(1 − (1 + r_post_m)^(−N)) / r_post_m"}
+           = ${rPostM === 0
+              ? fmtInt(N)
+              : `(1 − ${(1 + rPostM).toFixed(6)}^(-${fmtInt(N)})) / ${fmtRate(rPostM)}`
+            }
+           = ${Number.isFinite(denom) ? denom.toFixed(6) : "0"}
+
+Required   = Income_ret × PV_factor
+           = ${fmtMoney(Income_ret)} × ${Number.isFinite(denom) ? Number(denom).toFixed(6) : "0"}
+           = ${fmtMoney(Required)}
+
+// 4) Surplus / Shortfall
+SurplusOrShortfall = NestEgg − Required
+                   = ${fmtMoney(NestEgg)} − ${fmtMoney(Required)}
+                   = ${fmtMoney(Surplus)}`}
+      </pre>
+
+      {/* Tiny guard notes */}
+      {(n <= 0) && (
+        <p className="mt-2 text-xs text-slate-400">
+          Note: Months to retirement is 0 — accumulation steps collapse to current values.
+        </p>
+      )}
+      {(N <= 0) && (
+        <p className="mt-1 text-xs text-slate-400">
+          Note: Months in retirement is 0 — withdrawal PV is zero.
+        </p>
+      )}
+    </div>
+  );
+};
+
 
 /* ============================================================
    🧓 SECTION 2: Component
@@ -514,47 +608,183 @@ const RetirementCalculator: React.FC = () => {
   return (
     <>
               <SEOHead
-                  title={seo.title}
-                  description={seo.description}
+                  title="Retirement Calculator (2025–2026) — Nest Egg, Income & Shortfall Planner"
+                  description="Project your retirement nest egg, inflation-adjusted income needs, and surplus/shortfall with pre/post-retirement returns and monthly contributions."
+                  keywords={[
+                    "retirement calculator",
+                    "nest egg calculator",
+                    "retirement income calculator",
+                    "financial independence",
+                    "FIRE calculator",
+                    "inflation calculator retirement",
+                    "withdrawal calculator",
+                    "post-retirement returns"
+                  ]}
                   canonical="https://calculatorhub.site/retirement-calculator"
-                  schemaData={generateCalculatorSchema(
-                    "Retirement Calculator",
-                    seo.description,
-                    "/retirement-calculator",
-                    seo.keywords || []
-                  )}
+                  schemaData={[
+                    /** 1) WebPage (+Article) **/
+                    {
+                      "@context":"https://schema.org",
+                      "@type":"WebPage",
+                      "@id":"https://calculatorhub.site/retirement-calculator#webpage",
+                      "url":"https://calculatorhub.site/retirement-calculator",
+                      "name":"Retirement Calculator (2025–2026) — Nest Egg, Income & Shortfall Planner",
+                      "inLanguage":"en",
+                      "isPartOf":{"@id":"https://calculatorhub.site/#website"},
+                      "primaryImageOfPage":{
+                        "@type":"ImageObject",
+                        "@id":"https://calculatorhub.site/images/retirement-calculator-hero.webp#primaryimg",
+                        "url":"https://calculatorhub.site/images/retirement-calculator-hero.webp",
+                        "width":1200,"height":675
+                      },
+                      "mainEntity":{
+                        "@type":"Article",
+                        "@id":"https://calculatorhub.site/retirement-calculator#article",
+                        "headline":"Retirement Calculator — Nest Egg & Income Planner",
+                        "description":"Estimate your nest egg, inflation-adjusted income at retirement, and surplus/shortfall using monthly compounding and realistic assumptions.",
+                        "image":[
+                          "https://calculatorhub.site/images/retirement-calculator-hero.webp"
+                        ],
+                        "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
+                        "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                        "datePublished":"2025-10-17",
+                        "dateModified":"2025-11-06",
+                        "mainEntityOfPage":{"@id":"https://calculatorhub.site/retirement-calculator#webpage"},
+                        "articleSection":[
+                          "What Is","How to Use","Calculation Details",
+                          "Beginners","Advanced Settings","Benefits","Pricing",
+                          "Small Business","Comparison","FAQ"
+                        ]
+                      }
+                    },
+                
+                    /** 2) Breadcrumbs **/
+                    {
+                      "@context":"https://schema.org",
+                      "@type":"BreadcrumbList",
+                      "@id":"https://calculatorhub.site/retirement-calculator#breadcrumbs",
+                      "itemListElement":[
+                        {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+                        {"@type":"ListItem","position":2,"name":"Currency & Finance","item":"https://calculatorhub.site/category/currency-finance"},
+                        {"@type":"ListItem","position":3,"name":"Retirement Calculator","item":"https://calculatorhub.site/retirement-calculator"}
+                      ]
+                    },
+                
+                    /** 3) FAQPage (aligns with on-page FAQ) **/
+                    {
+                      "@context":"https://schema.org",
+                      "@type":"FAQPage",
+                      "@id":"https://calculatorhub.site/retirement-calculator#faq",
+                      "mainEntity":[
+                        {
+                          "@type":"Question",
+                          "name":"Is this a tool I can use online?",
+                          "acceptedAnswer":{"@type":"Answer","text":"Yes. It runs in your browser without sign-in for basic use."}
+                        },
+                        {
+                          "@type":"Question",
+                          "name":"How does a premium Retirement Calculator differ?",
+                          "acceptedAnswer":{"@type":"Answer","text":"Premium adds saved scenarios, advisor sharing, exports, and advanced settings like dynamic withdrawals or taxes."}
+                        },
+                        {
+                          "@type":"Question",
+                          "name":"Can beginners use it without guidance?",
+                          "acceptedAnswer":{"@type":"Answer","text":"Absolutely. Defaults and plain-English labels make it beginner friendly."}
+                        }
+                      ]
+                    },
+                
+                    /** 4) WebApplication **/
+                    {
+                      "@context":"https://schema.org",
+                      "@type":"WebApplication",
+                      "@id":"https://calculatorhub.site/retirement-calculator#webapp",
+                      "name":"Retirement Calculator",
+                      "url":"https://calculatorhub.site/retirement-calculator",
+                      "applicationCategory":"FinanceApplication",
+                      "operatingSystem":"Web",
+                      "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                      "image":["https://calculatorhub.site/images/retirement-calculator-hero.webp"],
+                      "description":"Nest egg & retirement income planner with pre/post-retirement returns and inflation."
+                    },
+                
+                    /** 5) SoftwareApplication (optional) **/
+                    {
+                      "@context":"https://schema.org",
+                      "@type":"SoftwareApplication",
+                      "@id":"https://calculatorhub.site/retirement-calculator#software",
+                      "name":"Retirement Calculator by CalculatorHub",
+                      "applicationCategory":"FinanceApplication",
+                      "operatingSystem":"All",
+                      "url":"https://calculatorhub.site/retirement-calculator",
+                      "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                      "description":"Free retirement planner with monthly compounding, inflation, and surplus/shortfall."
+                    },
+                
+                    /** 6) Site & Org (sitewide IDs) **/
+                    {
+                      "@context":"https://schema.org",
+                      "@type":"WebSite",
+                      "@id":"https://calculatorhub.site/#website",
+                      "url":"https://calculatorhub.site",
+                      "name":"CalculatorHub",
+                      "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                      "potentialAction":{
+                        "@type":"SearchAction",
+                        "target":"https://calculatorhub.site/search?q={query}",
+                        "query-input":"required name=query"
+                      }
+                    },
+                    {
+                      "@context":"https://schema.org",
+                      "@type":"Organization",
+                      "@id":"https://calculatorhub.site/#organization",
+                      "name":"CalculatorHub",
+                      "url":"https://calculatorhub.site",
+                      "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
+                    }
+                  ]}
                 />
+
           
                 {/* --- Open Graph & Twitter Meta --- */}
                 <>
                   <meta name="viewport" content="width=device-width, initial-scale=1" />
+                  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+                  <link rel="canonical" href="https://calculatorhub.site/retirement-calculator" />
+                  
+                  
+                  <link rel="alternate" href="https://calculatorhub.site/retirement-calculator" hreflang="en" />
+                  <link rel="alternate" href="https://calculatorhub.site/retirement-calculator" hreflang="x-default" />
+                  
                   
                   <meta property="og:type" content="website" />
                   <meta property="og:site_name" content="CalculatorHub" />
-                  <meta property="og:locale" content="en_US" />
-                  <meta property="og:title" content={seo.title} />
-                  <meta property="og:description" content={seo.description} />
+                  <meta property="og:title" content="Retirement Calculator (2025–2026) — Nest Egg, Income & Shortfall Planner" />
+                  <meta property="og:description" content="Project your nest egg, inflation-adjusted income, and surplus/shortfall with realistic monthly compounding." />
                   <meta property="og:url" content="https://calculatorhub.site/retirement-calculator" />
-                  <meta
-                    property="og:image"
-                    content="https://calculatorhub.site/images/retirement-calculator-hero.webp"
-                  />
-                  <meta
-                    property="og:image:alt"
-                    content="Retirement Calculator by CalculatorHub — nest egg and income planning"
-                  />
+                  <meta property="og:image" content="https://calculatorhub.site/images/retirement-calculator-hero.webp" />
                   <meta property="og:image:width" content="1200" />
                   <meta property="og:image:height" content="630" />
-          
+                  <meta property="og:locale" content="en_US" />
+                  
+                  
                   <meta name="twitter:card" content="summary_large_image" />
-                  <meta name="twitter:site" content="@CalculatorHub" />
-                  <meta name="twitter:creator" content="@CalculatorHub" />
-                  <meta name="twitter:title" content={seo.title} />
-                  <meta name="twitter:description" content={seo.description} />
-                  <meta
-                    name="twitter:image"
-                    content="https://calculatorhub.site/images/retirement-calculator-hero.webp"
-                  />
+                  <meta name="twitter:title" content="Retirement Calculator — Nest Egg & Income Planner" />
+                  <meta name="twitter:description" content="Free retirement planner with inflation and pre/post-retirement returns." />
+                  <meta name="twitter:image" content="https://calculatorhub.site/images/retirement-calculator-hero.webp" />
+                  
+                  
+                  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+                  <link rel="preconnect" href="https://fonts.googleapis.com" />
+                  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+                  <link rel="preload" as="image" href="/images/retirement-calculator-hero.webp" fetchpriority="high" />
+                  <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossorigin />
+                  <link rel="manifest" href="/site.webmanifest" />
+                  <link rel="icon" href="/favicon.ico" />
+                  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+                  <meta name="theme-color" content="#0ea5e9" />
+
                 </>
           
                 <div className="max-w-5xl mx-auto">
@@ -581,12 +811,12 @@ const RetirementCalculator: React.FC = () => {
                       <p className="font-semibold text-lg">Compare other finance tools 📊</p>
                       <p className="text-sm text-indigo-100">Try Mortgage, RD, or Currency Converter next!</p>
                     </div>
-                    <a
-                      href="/category/currency-finance"
-                      className="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-md hover:bg-indigo-50 transition"
-                    >
-                      Explore More Calculators
-                    </a>
+                    <Link
+                        to="/category/currency-finance"
+                        className="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-md hover:bg-indigo-50 transition"
+                      >
+                        Explore More Calculators
+                    </Link>
                   </div>
           
                   {/* ===== Calculator Grid ===== */}
@@ -1221,94 +1451,50 @@ const RetirementCalculator: React.FC = () => {
             <li>Review the projected <strong>nest egg</strong>, the <strong>required corpus</strong>, and any <strong>surplus/shortfall</strong>.</li>
           </ol>
 
-           {/* ==================== HOW CALCULATION WORKS ==================== */}
-          <section id="calculation-details" className="mt-12 text-slate-200">
-            <h2 className="text-2xl font-semibold text-cyan-300 mb-4">
-              🧮 How This Retirement Calculation Works
-            </h2>
-          
-            <p className="text-sm text-slate-300 mb-5">
-              The model has two phases: <strong>Accumulation (before retirement)</strong> and{" "}
-              <strong>Withdrawal (after retirement)</strong>.
-              We compound monthly, treat contributions as <em>annuity-due</em> (at the start of each month),
-              and inflate the target income from today to your retirement start month.
-            </p>
-          
-            {/* 1. Accumulation */}
-            <div className="space-y-3">
-              <h3 className="text-lg font-semibold text-indigo-300">1) Accumulation to Retirement</h3>
-              <div className="overflow-x-auto rounded-lg border border-[#334155] bg-[#0b1220]">
-                <div className="min-w-[600px] p-4 text-sm leading-relaxed">
-                  <p className="mb-2"><strong>Monthly rate before retirement:</strong> <code>r_pre_m = annualReturnPre / 100 / 12</code></p>
-                  <p className="mb-2"><strong>Months until retirement:</strong> <code>n = (retireAge - currentAge) × 12</code></p>
-                  <p className="mb-2"><strong>Future value of current savings:</strong> <code>FV_current = PV × (1 + r_pre_m)^n</code></p>
-                  <p className="mb-2"><strong>Future value of monthly contributions (annuity-due):</strong> <code>FV_contrib = PMT × (1 + r_pre_m) × ((1 + r_pre_m)^n − 1) / r_pre_m</code></p>
-                  <p className="mb-0"><strong>Nest egg at retirement:</strong> <code>NestEgg = FV_current + FV_contrib</code></p>
-                </div>
-              </div>
-            </div>
-          
-            {/* 2. Inflation */}
-            <div className="space-y-3 mt-6">
-              <h3 className="text-lg font-semibold text-indigo-300">2) Inflation Adjustment for Target Income</h3>
-              <div className="overflow-x-auto rounded-lg border border-[#334155] bg-[#0b1220]">
-                <div className="min-w-[600px] p-4 text-sm leading-relaxed">
-                  <p className="mb-2"><strong>Monthly inflation:</strong> <code>i_m = inflation / 100 / 12</code></p>
-                  <p className="mb-0"><strong>Desired income at retirement start:</strong> <code>Income_ret = Income_today × (1 + i_m)^n</code></p>
-                </div>
-              </div>
-            </div>
-          
-            {/* 3. Withdrawal */}
-            <div className="space-y-3 mt-6">
-              <h3 className="text-lg font-semibold text-indigo-300">3) Corpus Needed for Withdrawals (Level Monthly)</h3>
-              <div className="overflow-x-auto rounded-lg border border-[#334155] bg-[#0b1220]">
-                <div className="min-w-[650px] p-4 text-sm leading-relaxed">
-                  <p className="mb-2"><strong>Monthly post-retirement return:</strong> <code>r_post_m = annualReturnPost / 100 / 12</code></p>
-                  <p className="mb-2"><strong>Months in retirement:</strong> <code>N = (lifeExpectancy − retireAge) × 12</code></p>
-                  <p className="mb-2">
-                    <strong>PV factor (level withdrawals):</strong>{" "}
-                    <code>PV_factor = (1 − (1 + r_post_m)^(−N)) / r_post_m</code>{" "}
-                    <span className="text-slate-400">(if <code>r_post_m = 0</code>, then <code>PV_factor = N</code>)</span>
-                  </p>
-                  <p className="mb-0"><strong>Required nest egg for target:</strong> <code>Required = Income_ret × PV_factor</code></p>
-                </div>
-              </div>
-            </div>
-          
-            {/* 4. Surplus */}
-            <div className="space-y-3 mt-6">
-              <h3 className="text-lg font-semibold text-indigo-300">4) Surplus / Shortfall</h3>
-              <div className="overflow-x-auto rounded-lg border border-[#334155] bg-[#0b1220]">
-                <div className="min-w-[500px] p-4 text-sm leading-relaxed">
-                  <p className="mb-0"><code>SurplusOrShortfall = NestEgg − Required</code></p>
-                </div>
-              </div>
-            </div>
-          
-            {/* Example */}
-            <div className="space-y-3 mt-6">
-              <h3 className="text-lg font-semibold text-emerald-300">Mini Example (Illustrative Numbers)</h3>
-              <div className="bg-[#062014] border border-emerald-600/40 rounded-lg p-4 text-sm leading-relaxed overflow-x-auto">
-                <div className="min-w-[650px]">
-                  <p className="mb-2"><strong>Inputs:</strong> <code>currentAge=30</code>, <code>retireAge=60</code>, <code>lifeExpectancy=85</code>, <code>currentSavings=25,000</code>, <code>monthlyContribution=500</code>, <code>annualReturnPre=7%</code>, <code>annualReturnPost=4%</code>, <code>inflation=3%</code>, <code>desiredIncomeToday=2,500</code></p>
-                  <p className="mb-1">Compute <code>n=360</code>, <code>N=300</code>, <code>r_pre_m≈0.005833</code>, <code>r_post_m≈0.003333</code>, <code>i_m=0.0025</code>.</p>
-                  <p className="mb-1"><code>NestEgg ≈ FV_current + FV_contrib</code> (compounding monthly, contributions at start).</p>
-                  <p className="mb-1"><code>Income_ret ≈ 2,500 × (1.0025)^360</code>.</p>
-                  <p className="mb-1"><code>Required ≈ Income_ret × ((1 − (1.003333)^(−300)) / 0.003333)</code>.</p>
-                  <p className="mb-0"><code>SurplusOrShortfall = NestEgg − Required</code>.</p>
-                </div>
-              </div>
-            </div>
-           
-            {/* Notes */}
-            <div className="mt-6 text-xs text-slate-400">
-              <p>
-                Notes: Returns are assumptions, not guarantees. The withdrawal schedule shown uses level (non-inflation-indexed) withdrawals for clarity;
-                you can extend it to inflation-indexed withdrawals by growing the monthly withdrawal with inflation and discounting appropriately.
-              </p>
-            </div>
-          </section>
+           {/* ===== How Calculated (Mortgage-style step-by-step) ===== */}
+  <section id="how-calculated" className="mt-12 text-slate-200">
+    <h2 className="text-2xl font-semibold text-cyan-300 mb-4">🧮 How the Retirement Number Is Calculated (Step-by-Step)</h2>
+
+    <p className="text-sm text-slate-300 mb-5">
+      Two phases: <strong>Accumulation</strong> (before retirement) and <strong>Withdrawal</strong> (after retirement).
+      We compound monthly and (by default) treat contributions as <em>annuity-due</em> (at the start of each month).
+      Your target income is inflated from today to the retirement start month.
+    </p>
+
+    {/* Pseudo-code (mortgage-style) */}
+    <div className="mt-5">
+      <p className="mb-2">Retirement Math :</p>
+      <DynamicMathTape
+            // inputs
+            PV={currentSavings}
+            PMT={monthlyContribution}
+            Income_today={desiredMonthlyIncomeToday}
+            // time + rates
+            n={monthsToRetire}
+            N={monthsInRetirement}
+            rPreM={rPreM}
+            rPostM={rPostM}
+            iM={infM}
+            // derived numbers you already compute
+            FV_current={futureOfCurrent}
+            FV_contrib={futureOfContribs}
+            NestEgg={nestEggAtRetirement}
+            Income_ret={desiredIncomeAtRetStartMonthly}
+            PV_factor={pvFactorWithdrawals}
+            Required={requiredNestEggForGoal}
+            Surplus={surplusOrShortfall}
+            // formatting
+            locale={currentLocale}
+            currency={currency}
+          />
+
+      <p className="mt-2 text-xs text-slate-400">
+        To model inflation-indexed withdrawals, grow the withdrawal each month at <code>i_m</code> and discount with <code>r_post_m</code>,
+        summing the present values (a growing annuity).
+      </p>
+    </div>
+  </section>
+
                  
         
           <h2 id="beginners" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
