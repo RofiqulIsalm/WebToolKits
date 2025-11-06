@@ -176,18 +176,156 @@ const LumpSumInvestmentCalculator: React.FC = () => {
      ============================================================ */
   return (
     <>
-      <SEOHead
-        title="Lump Sum Investment Calculator | CalculatorHub"
-        description="Estimate your future returns on one-time investments using our free lump sum investment calculator with CAGR and compound interest."
-        canonical="https://calculatorhub.site/lump-sum-investment-calculator"
-        schemaData={generateCalculatorSchema(
-          "Lump Sum Investment Calculator",
-          "Calculate the future value and CAGR of a one-time investment using CalculatorHub’s free tool.",
-          "/lump-sum-investment-calculator",
-          ["lump sum calculator", "compound interest", "investment growth", "finance tool"]
-        )}
-      />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+     <SEOHead
+          title={
+            seoData.lumpSumInvestmentCalculator?.title ||
+            "Lump Sum Investment Calculator — Future Value (FV), Total Gain & CAGR"
+          }
+          description={
+            seoData.lumpSumInvestmentCalculator?.description ||
+            "Free Lump Sum Investment Calculator: compute future value (FV), total gain, and CAGR with annual/quarterly/monthly compounding. Mobile-friendly, fast, and accurate."
+          }
+          keywords={
+            seoData.lumpSumInvestmentCalculator?.keywords || [
+              "lump sum investment calculator","future value calculator","compound interest",
+              "CAGR calculator","investment growth","wealth calculator","FV calculator"
+            ]
+          }
+          canonical="https://calculatorhub.site/lump-sum-investment-calculator"
+          schemaData={[
+            // 1) WebPage (+ Article inside mainEntity)
+            {
+              "@context":"https://schema.org",
+              "@type":"WebPage",
+              "@id":"https://calculatorhub.site/lump-sum-investment-calculator#webpage",
+              "url":"https://calculatorhub.site/lump-sum-investment-calculator",
+              "name":"Lump Sum Investment Calculator",
+              "inLanguage":"en",
+              "isPartOf":{"@id":"https://calculatorhub.site/#website"},
+              "primaryImageOfPage":{
+                "@type":"ImageObject",
+                "@id":"https://calculatorhub.site/images/lump-sum-calculator-hero.webp#primaryimg",
+                "url":"https://calculatorhub.site/images/lump-sum-calculator-hero.webp",
+                "width":1600,"height":900
+              },
+              "mainEntity":{
+                "@type":"Article",
+                "@id":"https://calculatorhub.site/lump-sum-investment-calculator#article",
+                "headline":"Lump Sum Investment Calculator — FV, Total Gain & CAGR",
+                "description":"Estimate future value (FV), total growth, and annualized return (CAGR) for one-time investments with flexible compounding.",
+                "image":[
+                  "https://calculatorhub.site/images/lump-sum-calculator-hero.webp"
+                ],
+                "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
+                "publisher":{"@type":"Organization","@id":"https://calculatorhub.site/#organization","name":"CalculatorHub",
+                  "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}},
+                "datePublished":"2025-10-17","dateModified":"2025-11-06",
+                "mainEntityOfPage":{"@id":"https://calculatorhub.site/lump-sum-investment-calculator#webpage"},
+                "keywords":["lump sum","future value","compound interest","CAGR","investment calculator"],
+                "articleSection":[
+                  "What is Lump Sum?","Compound Interest Formula",
+                  "FV & CAGR Explained","How to Use the Calculator","FAQ"
+                ]
+              }
+            },
+            // 2) Breadcrumbs
+            {
+              "@context":"https://schema.org","@type":"BreadcrumbList",
+              "@id":"https://calculatorhub.site/lump-sum-investment-calculator#breadcrumbs",
+              "itemListElement":[
+                {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+                {"@type":"ListItem","position":2,"name":"Currency & Finance","item":"https://calculatorhub.site/category/currency-finance"},
+                {"@type":"ListItem","position":3,"name":"Lump Sum Investment Calculator","item":"https://calculatorhub.site/lump-sum-investment-calculator"}
+              ]
+            },
+            // 3) FAQ (ensure these exist on page)
+            {
+              "@context":"https://schema.org","@type":"FAQPage",
+              "@id":"https://calculatorhub.site/lump-sum-investment-calculator#faq",
+              "mainEntity":[
+                {"@type":"Question","name":"What does the Lump Sum Calculator do?",
+                 "acceptedAnswer":{"@type":"Answer","text":"It estimates the future value of a one-time investment using your rate, duration, and compounding to show FV, total gain, and CAGR."}},
+                {"@type":"Question","name":"Which compounding options are supported?",
+                 "acceptedAnswer":{"@type":"Answer","text":"Annually, semi-annually, quarterly, and monthly compounding are supported."}},
+                {"@type":"Question","name":"Is the tool free?",
+                 "acceptedAnswer":{"@type":"Answer","text":"Yes, it’s completely free and works on any device."}}
+              ]
+            },
+            // 4) WebApplication
+            {
+              "@context":"https://schema.org","@type":"WebApplication",
+              "@id":"https://calculatorhub.site/lump-sum-investment-calculator#webapp",
+              "name":"Lump Sum Investment Calculator",
+              "url":"https://calculatorhub.site/lump-sum-investment-calculator",
+              "applicationCategory":"FinanceApplication","operatingSystem":"Web",
+              "description":"FV, total gain, and CAGR for one-time investments with flexible compounding.",
+              "inLanguage":"en","publisher":{"@id":"https://calculatorhub.site/#organization"},
+              "image":["https://calculatorhub.site/images/lump-sum-calculator-hero.webp"],
+              "datePublished":"2025-10-17","dateModified":"2025-11-06",
+              "keywords":["future value","compound interest","FV","CAGR","investment"]
+            },
+            // 5) SoftwareApplication
+            {
+              "@context":"https://schema.org","@type":"SoftwareApplication",
+              "@id":"https://calculatorhub.site/lump-sum-investment-calculator#software",
+              "name":"Lump Sum Investment Calculator","applicationCategory":"FinanceApplication",
+              "operatingSystem":"All","url":"https://calculatorhub.site/lump-sum-investment-calculator",
+              "description":"Accurate FV & CAGR calculator with compounding options.",
+              "publisher":{"@id":"https://calculatorhub.site/#organization"}
+            },
+            // 6) WebSite (global singleton via @id)
+            {
+              "@context":"https://schema.org","@type":"WebSite","@id":"https://calculatorhub.site/#website",
+              "url":"https://calculatorhub.site","name":"CalculatorHub",
+              "publisher":{"@id":"https://calculatorhub.site/#organization"},
+              "potentialAction":{"@type":"SearchAction","target":"https://calculatorhub.site/search?q={query}","query-input":"required name=query"}
+            },
+            // 7) Organization
+            {
+              "@context":"https://schema.org","@type":"Organization","@id":"https://calculatorhub.site/#organization",
+              "name":"CalculatorHub","url":"https://calculatorhub.site",
+              "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
+            }
+          ]}
+        />
+        
+        {/* -- Core -- */}
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <link rel="canonical" href="https://calculatorhub.site/lump-sum-investment-calculator" />
+        
+        {/* -- Hreflang (only locales that exist) -- */}
+        <link rel="alternate" href="https://calculatorhub.site/lump-sum-investment-calculator" hreflang="en" />
+        <link rel="alternate" href="https://calculatorhub.site/lump-sum-investment-calculator" hreflang="x-default" />
+        
+        {/* -- Open Graph -- */}
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="CalculatorHub" />
+        <meta property="og:title" content="Lump Sum Investment Calculator — Future Value (FV), Total Gain & CAGR" />
+        <meta property="og:description" content="Compute FV, total gain, and CAGR with annual/quarterly/monthly compounding. Free and mobile-friendly." />
+        <meta property="og:url" content="https://calculatorhub.site/lump-sum-investment-calculator" />
+        <meta property="og:image" content="https://calculatorhub.site/images/lump-sum-calculator-hero.webp" />
+        <meta property="og:image:width" content="1600" />
+        <meta property="og:image:height" content="900" />
+        <meta property="og:locale" content="en_US" />
+        
+        {/* -- Twitter -- */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Lump Sum Investment Calculator — Future Value (FV), Total Gain & CAGR" />
+        <meta name="twitter:description" content="Free lump sum calculator with FV, CAGR, and compounding options." />
+        <meta name="twitter:image" content="https://calculatorhub.site/images/lump-sum-calculator-hero.webp" />
+        
+        {/* -- Icons / PWA -- */}
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta name="theme-color" content="#0f172a" />
+        
+        {/* -- Performance -- */}
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
