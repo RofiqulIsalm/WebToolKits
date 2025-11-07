@@ -75,6 +75,19 @@ const SavingsGoalCalculator: React.FC = () => {
   const isDefault =
     !goalAmount && !currentSavings && !monthlyContribution && !annualRate;
 
+
+  // —— helpers for display ——
+  const fmt = (n: number) => formatCurrency(isFinite(n) ? n : 0, currentLocale, currency);
+  const pct = (r: number) => `${(r * 100).toFixed(3)}%`;
+  const ym = (m: number) => (m > 0 ? `${Math.floor(m / 12)}y ${m % 12}m` : "—");
+  
+  // —— derived for "how it's calculated" preview ——
+  const r_m = Math.max(0, annualRate) / 12 / 100; // monthly growth rate
+  const firstGrowth = currentSavings * r_m;        // interest/growth in month 1 (on currentSavings)
+  const b1 = currentSavings * (1 + r_m) + monthlyContribution; // balance after first month
+  const feasible = goalAmount > 0 && monthlyContribution > 0;  // matches your current logic
+
+
   /* ============================================================
      🔁 STATE PERSISTENCE
      ============================================================ */
@@ -734,6 +747,139 @@ const SavingsGoalCalculator: React.FC = () => {
             It’s a <strong>free Savings Goal Calculator online</strong> that instantly estimates your financial journey.
             Use it to plan budgets, emergency funds, or investment milestones.
           </p>
+
+          {/* ===== How It's Calculated (Step-by-Step) ===== */}
+          <section id="how-calculated" className="mt-8 text-slate-200">
+            <h2 className="mb-4 text-2xl font-extrabold tracking-tight">
+              <span className="bg-gradient-to-r from-cyan-300 via-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">
+                🧮 How Your Savings Timeline Is Calculated (Step-by-Step)
+              </span>
+            </h2>
+          
+            <p className="text-sm text-slate-300 mb-4">
+              We simulate your balance month by month. Each month the current balance grows by the monthly rate,
+              then your planned contribution is added. We repeat until the balance reaches your goal.
+            </p>
+          
+            {/* Inputs strip */}
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 mb-3">
+              <div className="flex items-center justify-between gap-2 rounded-lg border border-cyan-500/20 bg-[#0f172a] px-3 py-2">
+                <span className="font-semibold text-cyan-300">Goal</span>
+                <span className="text-slate-300">Target Amount</span>
+                <span className="font-semibold text-white truncate">{fmt(goalAmount)}</span>
+              </div>
+              <div className="flex items-center justify-between gap-2 rounded-lg border border-cyan-500/20 bg-[#0f172a] px-3 py-2">
+                <span className="font-semibold text-cyan-300">B₀</span>
+                <span className="text-slate-300">Current Savings</span>
+                <span className="font-semibold text-white truncate">{fmt(currentSavings)}</span>
+              </div>
+              <div className="flex items-center justify-between gap-2 rounded-lg border border-cyan-500/20 bg-[#0f172a] px-3 py-2">
+                <span className="font-semibold text-cyan-300">p</span>
+                <span className="text-slate-300">Monthly Contribution</span>
+                <span className="font-semibold text-white truncate">{fmt(monthlyContribution)}</span>
+              </div>
+              <div className="flex items-center justify-between gap-2 rounded-lg border border-cyan-500/20 bg-[#0f172a] px-3 py-2">
+                <span className="font-semibold text-cyan-300">rₘ</span>
+                <span className="text-slate-300">Monthly Rate</span>
+                <span className="font-semibold text-white truncate">{pct(r_m)}</span>
+              </div>
+            </div>
+          
+            {/* Formula headline */}
+            <p className="font-mono text-[15px] leading-7 text-indigo-300 mb-3">
+              rₘ = APY ÷ 12 ÷ 100 &nbsp;&nbsp;|&nbsp;&nbsp;
+              growthₘ = B<sub>m−1</sub> × rₘ &nbsp;&nbsp;|&nbsp;&nbsp;
+              B<sub>m</sub> = B<sub>m−1</sub> × (1 + rₘ) + p
+            </p>
+          
+            {/* Step boxes */}
+            <div className="space-y-4">
+              {/* 1) Monthly Rate */}
+              <div>
+                <h3 className="text-lg font-semibold text-indigo-300">1) Monthly Growth Rate</h3>
+                <div className="rounded-lg border border-[#334155] bg-[#0f172a] p-3 font-mono text-[13px] text-slate-200 overflow-x-auto">
+          {`r_m = APY / 12 / 100
+          APY = ${annualRate || 0}%
+          r_m = ${pct(r_m)}`}
+                </div>
+              </div>
+          
+              {/* 2) Feasibility Check (aligned with current logic) */}
+              <div>
+                <h3 className="text-lg font-semibold text-indigo-300">2) Feasibility (Need a monthly contribution)</h3>
+                <div className="rounded-lg border border-[#334155] bg-[#0f172a] p-3 font-mono text-[13px] text-slate-200 overflow-x-auto">
+          {`Condition: goal > 0 and monthly_contribution > 0
+          goal = ${fmt(goalAmount)}
+          monthly_contribution = ${fmt(monthlyContribution)}
+          Result: ${feasible ? "OK ✅ (simulation runs)" : "Not OK ❌ (add a monthly contribution)"}`}
+                </div>
+                {!feasible && (
+                  <p className="mt-2 text-xs text-slate-400">
+                    Note: This version models monthly contributions. If you want a “no-contribution, pure-compound to goal”
+                    mode, enable that in an advanced version.
+                  </p>
+                )}
+              </div>
+          
+              {/* 3) First Month Preview */}
+              <div>
+                <h3 className="text-lg font-semibold text-indigo-300">3) First Month Math</h3>
+                <div className="rounded-lg border border-[#334155] bg-[#0f172a] p-3 font-mono text-[13px] text-slate-200 overflow-x-auto">
+          {`growth1 = B0 × r_m
+          growth1 = ${fmt(currentSavings)} × ${pct(r_m)}
+          growth1 = ${fmt(firstGrowth)}
+          
+          B1 = B0 × (1 + r_m) + p
+          B1 = ${fmt(currentSavings)} × (1 + ${pct(r_m)}) + ${fmt(monthlyContribution)}
+          B1 = ${fmt(b1)}`}
+                </div>
+              </div>
+          
+              {/* 4) General Recurrence */}
+              <div>
+                <h3 className="text-lg font-semibold text-indigo-300">4) General Recurrence (each month m)</h3>
+                <div className="rounded-lg border border-[#334155] bg-[#0f172a] p-3 font-mono text-[13px] text-slate-200 overflow-x-auto">
+          {`growth_m = B_{m−1} × r_m
+          B_m      = B_{m−1} × (1 + r_m) + p
+          
+          Stop when B_m ≥ Goal → months_to_goal = m`}
+                </div>
+              </div>
+          
+              {/* 5) Totals */}
+              <div>
+                <h3 className="text-lg font-semibold text-indigo-300">5) Totals</h3>
+                <div className="rounded-lg border border-[#334155] bg-[#0f172a] p-3 font-mono text-[13px] text-slate-200 overflow-x-auto">
+          {`Months to Goal  = ${monthsToGoal > 0 ? `${monthsToGoal} (${ym(monthsToGoal)})` : "—"}
+          Total Value      = ${fmt(totalValue)}
+          Total Growth     = ${fmt(totalGrowth)}
+          Total Contributed= ${fmt(totalContributed)}`}
+                </div>
+              </div>
+            </div>
+          
+            {/* Copy-friendly math tape */}
+            <div className="mt-5 rounded-xl border border-slate-700 bg-[#0f172a] p-3 font-mono text-[13px] text-slate-200 overflow-x-auto whitespace-pre">
+          {`// Savings Goal Math Tape
+          Goal      = ${fmt(goalAmount)}
+          B0        = ${fmt(currentSavings)}
+          APY       = ${annualRate || 0}%
+          r_m       = ${pct(r_m)}
+          p         = ${fmt(monthlyContribution)}
+          growth1   = B0 × r_m = ${fmt(firstGrowth)}
+          B1        = B0 × (1 + r_m) + p = ${fmt(b1)}
+          Months    = ${monthsToGoal > 0 ? `${monthsToGoal} (${ym(monthsToGoal)})` : "—"}
+          Contrib   = ${fmt(totalContributed)}
+          Growth    = ${fmt(totalGrowth)}
+          Final     = ${fmt(totalValue)}`}
+            </div>
+          
+            <p className="mt-3 text-xs text-slate-400">
+              Assumptions: fixed APY, monthly compounding, and no withdrawals. This version requires a positive monthly
+              contribution for the timeline. For variable rates, lump sums, or contribution escalators, use the advanced mode.
+            </p>
+          </section>
+
         
           {/* ========== Benefits ========== */}
           <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
