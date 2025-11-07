@@ -164,17 +164,217 @@ const LoanComparisonCalculator: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="Loan Comparison Calculator | CalculatorHub"
-        description="Compare two loan offers side by side — see monthly EMIs, total interest, and overall payments with CalculatorHub’s Loan Comparison Tool."
-        canonical="https://calculatorhub.site/loan-comparison-calculator"
-        schemaData={generateCalculatorSchema(
-          "Loan Comparison Calculator",
-          "Compare two loan options based on EMI, interest, and total cost. Choose the best loan for your finances.",
-          "/loan-comparison-calculator",
-          ["loan comparison", "EMI difference", "interest rate comparison"]
-        )}
-      />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+            title="Loan Comparison Calculator | CalculatorHub"
+            description="Compare two loan offers side by side — see monthly EMIs, total interest, and overall payments with CalculatorHub’s Loan Comparison Tool."
+            canonical="https://calculatorhub.site/loan-comparison-calculator"
+            schemaData={[
+              // 1) WebPage + Article wrapper (primary)
+              {
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "@id": "https://calculatorhub.site/loan-comparison-calculator#webpage",
+                "url": "https://calculatorhub.site/loan-comparison-calculator",
+                "name": "Loan Comparison Calculator",
+                "inLanguage": "en",
+                "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+                "primaryImageOfPage": {
+                  "@type": "ImageObject",
+                  "@id": "https://calculatorhub.site/images/loan-comparison-calculator-hero.webp#primaryimg",
+                  "url": "https://calculatorhub.site/images/loan-comparison-calculator-hero.webp",
+                  "width": 1200,
+                  "height": 675
+                },
+                "mainEntity": {
+                  "@type": "Article",
+                  "@id": "https://calculatorhub.site/loan-comparison-calculator#article",
+                  "headline": "Loan Comparison Calculator — Compare Monthly EMI, Total Payment & Interest",
+                  "description": "Compare two loan options side-by-side and decide which one is cheaper. See EMI, total interest, and overall payments with ease.",
+                  "image": [
+                    "https://calculatorhub.site/images/loan-comparison-calculator-hero.webp",
+                    "https://calculatorhub.site/images/loan-comparison-calculator-chart.webp"
+                  ],
+                  "author": {
+                    "@type": "Organization",
+                    "name": "CalculatorHub",
+                    "url": "https://calculatorhub.site"
+                  },
+                  "publisher": {
+                    "@type": "Organization",
+                    "@id": "https://calculatorhub.site/#organization",
+                    "name": "CalculatorHub",
+                    "logo": {
+                      "@type": "ImageObject",
+                      "url": "https://calculatorhub.site/images/logo.png"
+                    }
+                  },
+                  "datePublished": "2025-10-17",
+                  "dateModified": "2025-11-05",
+                  "mainEntityOfPage": { "@id": "https://calculatorhub.site/loan-comparison-calculator#webpage" },
+                  "keywords": [
+                    "loan comparison", "EMI comparison", "interest rate comparison", "loan cost comparison", "loan options"
+                  ],
+                  "articleSection": [
+                    "What is Loan Comparison?",
+                    "How the Loan Comparison Calculator Works",
+                    "Loan Comparison Example",
+                    "Comparison Graphs & Charts",
+                    "FAQ"
+                  ]
+                }
+              },
+          
+              // 2) Breadcrumbs
+              {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "@id": "https://calculatorhub.site/loan-comparison-calculator#breadcrumbs",
+                "itemListElement": [
+                  { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+                  { "@type": "ListItem", "position": 2, "name": "Currency & Finance", "item": "https://calculatorhub.site/category/currency-finance" },
+                  { "@type": "ListItem", "position": 3, "name": "Loan Comparison Calculator", "item": "https://calculatorhub.site/loan-comparison-calculator" }
+                ]
+              },
+          
+              // 3) FAQ (ensure these Q&As exist in the visible FAQ)
+              {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "@id": "https://calculatorhub.site/loan-comparison-calculator#faq",
+                "mainEntity": [
+                  {
+                    "@type": "Question",
+                    "name": "What is a Loan Comparison Calculator?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "A Loan Comparison Calculator helps you compare two loan offers based on key factors such as monthly EMI, total interest, and overall cost, helping you choose the best loan for your needs."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "How does the Loan Comparison Calculator work?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "The calculator computes the monthly EMI, total repayment, and total interest for two loans. It then presents them side-by-side for easy comparison."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "How do I use the Loan Comparison Calculator?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "To use the calculator, simply enter the loan amount, interest rate, and term for each loan. The tool will instantly display the EMI, total repayment, and total interest for each loan, allowing you to make an informed decision."
+                    }
+                  }
+                ]
+              },
+          
+              // 4) WebApplication (calculator as an app)
+              {
+                "@context": "https://schema.org",
+                "@type": "WebApplication",
+                "@id": "https://calculatorhub.site/loan-comparison-calculator#webapp",
+                "name": "Loan Comparison Calculator",
+                "url": "https://calculatorhub.site/loan-comparison-calculator",
+                "applicationCategory": "FinanceApplication",
+                "operatingSystem": "Web",
+                "description": "Easily compare two loan options side-by-side and make smarter financial decisions with detailed EMI, interest, and total payment breakdowns.",
+                "inLanguage": "en",
+                "publisher": { "@id": "https://calculatorhub.site/#organization" },
+                "image": [
+                  "https://calculatorhub.site/images/loan-comparison-calculator-hero.webp",
+                  "https://calculatorhub.site/images/loan-comparison-calculator-chart.webp"
+                ],
+                "datePublished": "2025-10-17",
+                "dateModified": "2025-11-05",
+                "keywords": ["loan comparison", "EMI", "interest", "loan cost", "loan options"]
+              },
+          
+              // 5) SoftwareApplication (optional)
+              {
+                "@context": "https://schema.org",
+                "@type": "SoftwareApplication",
+                "@id": "https://calculatorhub.site/loan-comparison-calculator#software",
+                "name": "Loan Comparison Calculator",
+                "applicationCategory": "FinanceApplication",
+                "operatingSystem": "All",
+                "description": "Compare multiple loan options with ease. See EMI, total interest, and total repayment for each option to make the most cost-effective decision.",
+                "url": "https://calculatorhub.site/loan-comparison-calculator",
+                "publisher": { "@id": "https://calculatorhub.site/#organization" }
+              },
+          
+              // 6) Site-wide Website node (dedupe)
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "@id": "https://calculatorhub.site/#website",
+                "url": "https://calculatorhub.site",
+                "name": "CalculatorHub",
+                "publisher": { "@id": "https://calculatorhub.site/#organization" },
+                "potentialAction": {
+                  "@type": "SearchAction",
+                  "target": "https://calculatorhub.site/search?q={query}",
+                  "query-input": "required name=query"
+                }
+              },
+          
+              // 7) Organization (single source of truth)
+              {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "@id": "https://calculatorhub.site/#organization",
+                "name": "CalculatorHub",
+                "url": "https://calculatorhub.site",
+                "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/logo.png" }
+              }
+            ]}
+          />
+          
+          {/* -- Core -- */}
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+          <link rel="canonical" href="https://calculatorhub.site/loan-comparison-calculator" />
+          
+          {/* -- Hreflang (only locales that exist) -- */}
+          <link rel="alternate" href="https://calculatorhub.site/loan-comparison-calculator" hreflang="en" />
+          <link rel="alternate" href="https://calculatorhub.site/loan-comparison-calculator" hreflang="x-default" />
+          
+          {/* -- Open Graph -- */}
+          <meta property="og:type" content="website" />
+          <meta property="og:site_name" content="CalculatorHub" />
+          <meta property="og:title" content="Loan Comparison Calculator | CalculatorHub" />
+          <meta property="og:description" content="Compare two loan offers side by side — see monthly EMIs, total interest, and overall payments with CalculatorHub’s Loan Comparison Tool." />
+          <meta property="og:url" content="https://calculatorhub.site/loan-comparison-calculator" />
+          <meta property="og:image" content="https://calculatorhub.site/images/loan-comparison-calculator-hero.webp" />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:locale" content="en_US" />
+          
+          {/* -- Twitter -- */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="Loan Comparison Calculator | CalculatorHub" />
+          <meta name="twitter:description" content="Compare two loan offers side by side — see monthly EMIs, total interest, and overall payments." />
+          <meta name="twitter:image" content="https://calculatorhub.site/images/loan-comparison-calculator-hero.webp" />
+          
+          {/* -- Icons / PWA -- */}
+          <link rel="icon" href="/favicon.ico" />
+          <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+          <link rel="manifest" href="/site.webmanifest" />
+          <meta name="theme-color" content="#0ea5e9" />
+          
+          {/* -- Performance -- */}
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+          
+          {/* -- Performance: preload hero image & font -- */}
+          <link rel="preload" as="image" href="/images/loan-comparison-calculator-hero.webp" imagesrcset="/images/loan-comparison-calculator-hero.webp 1x" fetchpriority="high" />
+          <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossorigin />
+          
+          {/* -- Optional quality-of-life -- */}
+          <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+          <meta name="referrer" content="no-referrer-when-downgrade" />
+          <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-6xl mx-auto">
         <Breadcrumbs
