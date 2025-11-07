@@ -72,6 +72,26 @@ const CreditCardPayoffCalculator: React.FC = () => {
   const currentLocale = findLocale(currency);
   const isDefault = !balance && !interestRate && !monthlyPayment;
 
+
+  // ====== HOW-CALC DERIVEDS (for math tape) ======
+  const [showFormulas, setShowFormulas] = useState(false);
+
+  const r_m = useMemo(() => (interestRate > 0 ? (interestRate / 100) / 12 : 0), [interestRate]);
+  
+  const feasible = useMemo(() => {
+    if (balance <= 0 || monthlyPayment <= 0) return false;
+    return monthlyPayment > balance * r_m; // must cover at least monthly interest
+  }, [balance, monthlyPayment, r_m]);
+  
+  // first-month step preview (for numeric line-by-line)
+  const firstInterest = useMemo(() => (balance > 0 ? balance * r_m : 0), [balance, r_m]);
+  const firstPrincipal = useMemo(() => Math.max(monthlyPayment - firstInterest, 0), [monthlyPayment, firstInterest]);
+  const b1 = useMemo(() => Math.max(balance - firstPrincipal, 0), [balance, firstPrincipal]);
+  
+  // helpers for clean numbers in tape
+  const fmt = (n: number) => formatCurrency(n, currentLocale, currency);
+  const pct = (n: number) => `${(n * 100).toFixed(3)}%`; // show r_m as %
+
   /* ============================================================
      🔁 STATE PERSISTENCE
      ============================================================ */
@@ -696,6 +716,196 @@ const CreditCardPayoffCalculator: React.FC = () => {
             This workflow keeps things friendly for first-timers while still feeling like an
             <strong> advanced Credit Card Payoff Calculator</strong> when deeper exploration is needed.
           </p>
+
+          {/* ===== How It’s Calculated (Clear & Visual) ===== */}
+          <section id="how-calculated" className="mt-10">
+            <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur p-5">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <h2 className="text-2xl font-extrabold tracking-tight">
+                  <span className="bg-gradient-to-r from-cyan-300 via-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">
+                    🧮 How your payoff is calculated
+                  </span>
+                </h2>
+          
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setShowFormulas((s) => !s)}
+                    className="text-xs sm:text-sm px-3 py-1.5 rounded-lg border border-[#334155] bg-[#0f172a] text-slate-200 hover:border-indigo-500 transition"
+                  >
+                    {showFormulas ? "Hide formulas" : "Show formulas"}
+                  </button>
+                </div>
+              </div>
+          
+              {/* Feasibility banner */}
+              <div
+                className={[
+                  "mt-4 rounded-xl border px-4 py-3 text-sm",
+                  feasible
+                    ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200"
+                    : "border-rose-500/30 bg-rose-500/10 text-rose-200",
+                ].join(" ")}
+              >
+                {feasible ? (
+                  <div className="flex items-start gap-2">
+                    <span>✅</span>
+                    <p>
+                      Your payment is <span className="font-semibold">high enough</span> to cover monthly interest. A payoff timeline can be calculated.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="flex items-start gap-2">
+                    <span>⚠️</span>
+                    <p>
+                      Payment is <span className="font-semibold">too low</span>. Increase it above{" "}
+                      <span className="font-semibold">{fmt(balance * r_m)}</span> (this month’s interest) to make progress.
+                    </p>
+                  </div>
+                )}
+              </div>
+          
+              {/* Compact input summary tiles */}
+              <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="rounded-xl bg-[#0f172a] border border-[#334155] p-3">
+                  <div className="text-xs text-slate-400">Starting balance (B₀)</div>
+                  <div className="text-lg font-semibold text-white">{fmt(balance)}</div>
+                </div>
+                <div className="rounded-xl bg-[#0f172a] border border-[#334155] p-3">
+                  <div className="text-xs text-slate-400">APR</div>
+                  <div className="text-lg font-semibold text-white">{interestRate ? `${interestRate}%` : "—"}</div>
+                  <div className="text-[11px] text-slate-400 mt-1">Monthly rate rₘ ≈ {pct(r_m)}</div>
+                </div>
+                <div className="rounded-xl bg-[#0f172a] border border-[#334155] p-3">
+                  <div className="text-xs text-slate-400">Monthly payment (p)</div>
+                  <div className="text-lg font-semibold text-white">{fmt(monthlyPayment)}</div>
+                </div>
+              </div>
+          
+              {/* Stepper: plain-English first, math on toggle */}
+              <ol className="mt-6 space-y-4">
+                {/* Step 1 */}
+                <li className="rounded-xl border border-white/10 bg-white/5 p-4">
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-indigo-500/20 text-indigo-200 text-xs font-bold">1</span>
+                    <h3 className="text-sm font-semibold text-white">We convert APR to a monthly rate</h3>
+                  </div>
+                  {showFormulas && (
+                    <div className="mt-2 font-mono text-[13px] text-indigo-300">
+                      rₘ = APR ÷ 12 ÷ 100 → rₘ = {interestRate || 0}% ÷ 12 ÷ 100 ≈ {pct(r_m)}
+                    </div>
+                  )}
+                </li>
+          
+                {/* Step 2 */}
+                <li className="rounded-xl border border-white/10 bg-white/5 p-4">
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-indigo-500/20 text-indigo-200 text-xs font-bold">2</span>
+                    <h3 className="text-sm font-semibold text-white">We check if your payment beats this month’s interest</h3>
+                  </div>
+                  <p className="mt-1 text-sm text-slate-300">
+                    This month’s interest is about <span className="font-semibold">{fmt(balance * r_m)}</span>. Your payment is{" "}
+                    <span className="font-semibold">{fmt(monthlyPayment)}</span>.
+                  </p>
+                  {showFormulas && (
+                    <div className="mt-2 font-mono text-[13px] text-indigo-300">
+                      Condition: p &gt; B₀ × rₘ → {fmt(monthlyPayment)} vs {fmt(balance)} × {pct(r_m)} = {fmt(balance * r_m)}
+                    </div>
+                  )}
+                </li>
+          
+                {/* Step 3 */}
+                <li className="rounded-xl border border-white/10 bg-white/5 p-4">
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-indigo-500/20 text-indigo-200 text-xs font-bold">3</span>
+                    <h3 className="text-sm font-semibold text-white">We preview month 1</h3>
+                  </div>
+                  <div className="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+                    <div className="rounded-lg bg-[#0f172a] border border-[#334155] p-3">
+                      <div className="text-slate-400 text-xs">Interest (i₁)</div>
+                      <div className="font-semibold">{fmt(firstInterest)}</div>
+                    </div>
+                    <div className="rounded-lg bg-[#0f172a] border border-[#334155] p-3">
+                      <div className="text-slate-400 text-xs">Goes to principal</div>
+                      <div className="font-semibold">{fmt(firstPrincipal)}</div>
+                    </div>
+                    <div className="rounded-lg bg-[#0f172a] border border-[#334155] p-3">
+                      <div className="text-slate-400 text-xs">New balance (B₁)</div>
+                      <div className="font-semibold">{fmt(b1)}</div>
+                    </div>
+                  </div>
+                  {showFormulas && (
+                    <div className="mt-2 font-mono text-[13px] text-indigo-300 whitespace-pre">
+          {`i₁ = B₀ × rₘ = ${fmt(balance)} × ${pct(r_m)} = ${fmt(firstInterest)}
+          principal₁ = p − i₁ = ${fmt(monthlyPayment)} − ${fmt(firstInterest)} = ${fmt(firstPrincipal)}
+          B₁ = B₀ − principal₁ = ${fmt(balance)} − ${fmt(firstPrincipal)} = ${fmt(b1)}`}
+                    </div>
+                  )}
+                </li>
+          
+                {/* Step 4 */}
+                <li className="rounded-xl border border-white/10 bg-white/5 p-4">
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-indigo-500/20 text-indigo-200 text-xs font-bold">4</span>
+                    <h3 className="text-sm font-semibold text-white">We repeat monthly until the balance reaches zero</h3>
+                  </div>
+                  {showFormulas && (
+                    <div className="mt-2 font-mono text-[13px] text-indigo-300 whitespace-pre">
+          {`i_m = B_{m−1} × rₘ
+          principal_m = p − i_m
+          B_m = B_{m−1} − principal_m
+          
+          Stop when B_m ≤ 0 → months_to_payoff = m`}
+                    </div>
+                  )}
+                </li>
+              </ol>
+          
+              {/* Totals + mini progress */}
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="rounded-xl bg-[#0f172a] border border-[#334155] p-4 text-center">
+                  <div className="text-xs text-slate-400">Months to payoff</div>
+                  <div className="text-2xl font-bold text-white">
+                    {monthsToPayoff > 0 ? monthsToPayoff : (monthsToPayoff === -1 ? "—" : "—")}
+                  </div>
+                </div>
+                <div className="rounded-xl bg-[#0f172a] border border-[#334155] p-4 text-center">
+                  <div className="text-xs text-slate-400">Total interest</div>
+                  <div className="text-2xl font-bold text-white">{fmt(totalInterest)}</div>
+                </div>
+                <div className="rounded-xl bg-[#0f172a] border border-[#334155] p-4 text-center">
+                  <div className="text-xs text-slate-400">Total paid</div>
+                  <div className="text-2xl font-bold text-white">{fmt(totalPaid)}</div>
+                </div>
+              </div>
+          
+              {/* Copy-friendly math tape (collapsed behind formulas toggle for simplicity) */}
+              {showFormulas && (
+            <pre className="mt-5 rounded-xl border border-slate-700 bg-[#0f172a] p-3 overflow-x-auto">
+  <code className="font-mono text-[13px] text-slate-200">
+{`// Credit Card Payoff Math Tape
+B0         = ${fmt(balance)}
+APR        = ${interestRate || 0}%
+r_m        = ${pct(r_m)}
+p          = ${fmt(monthlyPayment)}
+i1         = B0 × r_m = ${fmt(firstInterest)}
+principal1 = p − i1 = ${fmt(firstPrincipal)}
+B1         = B0 − principal1 = ${fmt(b1)}
+Months     = ${monthsToPayoff > 0 ? monthsToPayoff : (monthsToPayoff === -1 ? "N/A (raise payment)" : "—")}
+Interest   = ${fmt(totalInterest)}
+Paid       = ${fmt(totalPaid)}`}
+  </code>
+</pre>
+
+              )}
+          
+              <p className="mt-4 text-[12px] text-slate-400">
+                Assumptions: fixed APR & fixed payment, and <em>no new charges</em> while repaying. If your payment ≤ monthly
+                interest, the balance grows and a payoff date can’t be computed.
+              </p>
+            </div>
+          </section>
+
+
         
           {/* ========== Example ========== */}
           <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
