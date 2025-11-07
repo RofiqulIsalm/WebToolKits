@@ -158,6 +158,40 @@ const InflationCalculator: React.FC = () => {
     setTimeout(() => setCopied("none"), 1500);
   };
 
+  /** ============ Dynamic Inflation Math Tape (inline component) ============ */
+  const InflationMathTape: React.FC<{
+    amount: number;
+    inflationRate: number;
+    years: number;
+    futureValue: number;
+    valueLost: number;
+    locale: string;
+    currency: string;
+  }> = ({ amount, inflationRate, years, futureValue, valueLost, locale, currency }) => {
+    const r = inflationRate / 100;
+    const factor = Math.pow(1 + r, Math.max(years, 0));
+    const symbol = findSymbol(currency);
+  
+    const nf = (x: number, digs = 6) =>
+      Number.isFinite(x) ? x.toLocaleString(undefined, { maximumFractionDigits: digs }) : "0";
+  
+    return (
+      <div className="mt-4 rounded-lg border border-slate-700 bg-[#0f172a] p-3 font-mono text-[13px] text-slate-200">
+        <div className="whitespace-pre leading-7 overflow-x-auto">
+          {`V_future  =  A ÷ (1 + r)^t
+  V_future  =  ${formatCurrency(amount, locale, currency)} ÷ (1 + ${nf(r, 6)})^${years}
+  V_future  =  ${formatCurrency(amount, locale, currency)} ÷ ${nf(factor, 9)}
+  V_future  =  ${formatCurrency(futureValue, locale, currency)}
+  
+  ValueLost =  A − V_future
+  ValueLost =  ${formatCurrency(amount, locale, currency)} − ${formatCurrency(futureValue, locale, currency)}
+  ValueLost =  ${formatCurrency(valueLost, locale, currency)}`}
+        </div>
+      </div>
+    );
+  };
+
+
   /* ============================================================
      🎨 RENDER
      ============================================================ */
@@ -691,6 +725,132 @@ const InflationCalculator: React.FC = () => {
           multi-currency inputs, graphical analysis, and exportable results. These advanced{" "}
           versions are designed for professionals and analysts who require precision and depth.
         </p>
+
+        {/* ===== How Calculated (Mortgage-style) ===== */}
+        {amount > 0 && years >= 0 && inflationRate >= 0 && (
+          <section id="how-calculated" className="mt-8">
+            <h2 className="mb-3 text-2xl font-extrabold tracking-tight">
+              <span className="bg-gradient-to-r from-cyan-300 via-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">
+                🧮 How the Inflation Result is Calculated
+              </span>
+            </h2>
+        
+            {/* Headline formula */}
+            <p className="mb-4 font-mono text-[15px] leading-7 text-indigo-300">
+              V<sub>future</sub> = A &nbsp;÷&nbsp; (1 + r)<sup>t</sup>
+            </p>
+        
+            {/* Input tiles (like P, r, n) */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-3">
+              <div className="flex items-center justify-between gap-2 rounded-lg border border-cyan-500/20 bg-[#0f172a] px-3 py-2">
+                <span className="font-semibold text-cyan-300">A</span>
+                <span className="text-slate-300">Amount</span>
+                <span className="font-semibold text-white truncate">
+                  {formatCurrency(amount, currentLocale, currency)}
+                </span>
+              </div>
+              <div className="flex items-center justify-between gap-2 rounded-lg border border-amber-500/20 bg-[#0f172a] px-3 py-2">
+                <span className="font-semibold text-amber-300">r</span>
+                <span className="text-slate-300">Inflation (annual)</span>
+                <span className="font-semibold text-white truncate">
+                  {inflationRate || 0}%</span>
+              </div>
+              <div className="flex items-center justify-between gap-2 rounded-lg border border-fuchsia-500/20 bg-[#0f172a] px-3 py-2">
+                <span className="font-semibold text-fuchsia-300">t</span>
+                <span className="text-slate-300">Years</span>
+                <span className="font-semibold text-white truncate">{years || 0}</span>
+              </div>
+            </div>
+        
+            {/* Divider */}
+            <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+        
+            {/* Step details (right-aligned results) */}
+            {(() => {
+              const r = inflationRate / 100;
+              const factor = Math.pow(1 + r, Math.max(years, 0));
+              return (
+                <div className="space-y-2 rounded-lg border border-slate-700 bg-[#0f172a] p-3 font-mono">
+                  <div className="flex flex-wrap justify-between">
+                    <span className="font-semibold text-indigo-300">(1 + r)<sup>t</sup></span>
+                    <span className="text-white">
+                      {(1 + r).toLocaleString(undefined, { maximumFractionDigits: 9 })}
+                      <sup className="align-super text-[10px]">^{years || 0}</sup> ={" "}
+                      {factor.toLocaleString(undefined, { maximumFractionDigits: 9 })}
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap justify-between">
+                    <span className="font-semibold text-emerald-300">V_future</span>
+                    <span className="text-white">
+                      {formatCurrency(futureValue, currentLocale, currency)}
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap justify-between">
+                    <span className="font-semibold text-rose-300">Value Lost</span>
+                    <span className="text-white">
+                      {formatCurrency(valueLost, currentLocale, currency)}
+                    </span>
+                  </div>
+                </div>
+              );
+            })()}
+        
+            {/* Compact calc lines (copy-friendly) */}
+            <div className="mt-3 overflow-x-auto rounded-md border border-slate-700 bg-[#0f172a] px-3 py-2 text-[13px] text-slate-300 whitespace-nowrap">
+              <div className="min-w-max">
+                Future Value = {formatCurrency(amount, currentLocale, currency)} ÷ (1 + { (inflationRate/100).toLocaleString(undefined,{maximumFractionDigits:6}) })^{years || 0}
+                {" "} = {formatCurrency(futureValue, currentLocale, currency)}
+              </div>
+              <div className="min-w-max">
+                Value Lost = {formatCurrency(amount, currentLocale, currency)} − {formatCurrency(futureValue, currentLocale, currency)}
+                {" "} = {formatCurrency(valueLost, currentLocale, currency)}
+              </div>
+            </div>
+        
+            {/* 3 summary tiles */}
+            <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-center">
+                <div className="text-emerald-300 text-xs uppercase">Future Real Value</div>
+                <div className="font-semibold text-white text-sm truncate">
+                  {formatCurrency(futureValue, currentLocale, currency)}
+                </div>
+              </div>
+              <div className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-center">
+                <div className="text-rose-300 text-xs uppercase">Value Lost</div>
+                <div className="font-semibold text-white text-sm truncate">
+                  {formatCurrency(valueLost, currentLocale, currency)}
+                </div>
+              </div>
+              <div className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-center">
+                <div className="text-sky-300 text-xs uppercase">Original Amount</div>
+                <div className="font-semibold text-white text-sm truncate">
+                  {formatCurrency(amount, currentLocale, currency)}
+                </div>
+              </div>
+            </div>
+        
+            {/* Final result card (mirror EMI result) */}
+            <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-2 rounded-xl bg-[#0f172a] px-4 py-3 ring-1 ring-indigo-500/30">
+              <span className="text-sm text-indigo-300 whitespace-nowrap">🎯 Net effect of inflation</span>
+              <span className="text-lg sm:text-xl font-bold tracking-wide text-white">
+                {formatCurrency(amount, currentLocale, currency)} →{" "}
+                {formatCurrency(futureValue, currentLocale, currency)} in {years || 0} yrs
+              </span>
+            </div>
+        
+            {/* The detailed math tape */}
+            <InflationMathTape
+              amount={amount}
+              inflationRate={inflationRate}
+              years={years}
+              futureValue={futureValue}
+              valueLost={valueLost}
+              locale={currentLocale}
+              currency={currency}
+            />
+          </section>
+        )}
+
       
         <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
           🌟 Inflation Calculator Review
