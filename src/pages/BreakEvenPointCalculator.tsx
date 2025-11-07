@@ -615,7 +615,7 @@ const BreakEvenCalculator: React.FC = () => {
         
           <figure className="my-8">
             <img
-              src="/images/loan-affordability-calculator-hero.webp"
+              src="/images/break-even-calculator-hero.webp"
               alt="Loan Affordability Calculator dashboard showing EMI and affordability chart"
               title="Loan Affordability Calculator 2025 | CalculatorHub"
               className="rounded-lg shadow-md border border-slate-700 mx-auto"
