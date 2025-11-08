@@ -782,7 +782,7 @@ const SimpleInterestCalculator: React.FC = () => {
         
           {/* Formula bar */}
           <div className="rounded-xl bg-[#0b1220] border border-[#334155] p-3 font-mono text-[13px] text-indigo-300 overflow-x-auto">
-            SI = (P × R_% × T) / 100 &nbsp; | &nbsp; R_dec = R_% / 100 &nbsp; | &nbsp; Total = P + SI
+            SI = (P × R_% × T) / 100 &nbsp; | &nbsp; Rate = R_% / 100 &nbsp; | &nbsp; Total = P + SI
           </div>
         
           {/* Details cards */}
@@ -791,7 +791,7 @@ const SimpleInterestCalculator: React.FC = () => {
               <h3 className="text-sm font-semibold text-indigo-300 mb-2">Rate Conversion</h3>
               <div className="font-mono text-[13px] text-slate-200 overflow-x-auto whitespace-pre">
         {`R_%   = ${r_y || 0}%
-        Rate = ${r_dec.toFixed(6)}`}
+Rate  = ${r_dec.toFixed(6)}`}
               </div>
             </div>
         
@@ -799,8 +799,8 @@ const SimpleInterestCalculator: React.FC = () => {
               <h3 className="text-sm font-semibold text-emerald-300 mb-2">First-Year Interest (no compounding)</h3>
               <div className="font-mono text-[13px] text-slate-200 overflow-x-auto whitespace-pre">
         {`1st year = P × Rate
-                 = ${fmt(principal)} × ${r_dec.toFixed(6)}
-                 = ${fmt(i_per_year)}`}
+         = ${fmt(principal)} × ${r_dec.toFixed(6)}
+         = ${fmt(i_per_year)}`}
               </div>
             </div>
         
@@ -808,7 +808,7 @@ const SimpleInterestCalculator: React.FC = () => {
               <h3 className="text-sm font-semibold text-cyan-300 mb-2">Totals</h3>
               <div className="font-mono text-[13px] text-slate-200 overflow-x-auto whitespace-pre">
         {`SI    = ${fmt(i_total)}
-        Total = P + SI = ${fmt(total)}`}
+Total = P + SI = ${fmt(total)}`}
               </div>
             </div>
           </div>
@@ -818,12 +818,12 @@ const SimpleInterestCalculator: React.FC = () => {
         {`Simple Interest Snapshot
         P        = ${fmt(principal)}
         R_%      = ${r_y || 0}%
-        Rate    = ${r_dec.toFixed(6)}
-        Time  = ${timeYears || 0} (${yearsPretty(timeYears)})
+        Rate     = ${r_dec.toFixed(6)}
+        Time     = ${timeYears || 0} (${yearsPretty(timeYears)})
         
-        1st year  = P × R_dec = ${fmt(i_per_year)}
-        SI_total = ${fmt(i_total)}
-        Total    = ${fmt(total)}`}
+        1st year  = P × Rate = ${fmt(i_per_year)}
+        SI_total  = ${fmt(i_total)}
+        Total     = ${fmt(total)}`}
           </div>
         
           {/* Helper tip */}
