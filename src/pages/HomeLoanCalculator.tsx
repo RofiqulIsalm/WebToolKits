@@ -22,6 +22,7 @@ import Breadcrumbs from "../components/Breadcrumbs";
 import AdBanner from "../components/AdBanner";
 import RelatedCalculators from "../components/RelatedCalculators";
 import { seoData, generateCalculatorSchema } from "../utils/seoData";
+import HomeLoanExplainBlock from "../components/HomeLoanExplainBlock";
 
 /* ============================================================
    📦 CONSTANTS
@@ -771,6 +772,19 @@ const HomeLoanCalculator: React.FC = () => {
           It is the foundation of the <strong>solution Home Loan Calculator</strong> 
           approach used by banks, brokers, and top lending institutions.
         </p>
+       <HomeLoanExplainBlock
+            homePrice={homePrice}
+            downPayment={downPayment}
+            loanYears={loanYears}
+            loanMonths={loanMonths}
+            interestRate={interestRate}
+            emi={emi}
+            totalPayment={totalPayment}
+            totalInterest={totalInterest}
+            currency={currency}
+            currentLocale={currentLocale}
+            formatCurrency={formatCurrency}
+          />
       
         <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
           📘 Example Calculation
