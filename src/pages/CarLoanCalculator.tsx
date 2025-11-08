@@ -23,6 +23,7 @@ import Breadcrumbs from "../components/Breadcrumbs";
 import AdBanner from "../components/AdBanner";
 import RelatedCalculators from "../components/RelatedCalculators";
 import { seoData, generateCalculatorSchema } from "../utils/seoData";
+import CarLoanExplainBlock from "../components/CarLoanExplainBlock";
 
 /* ============================================================
    📦 CONSTANTS
@@ -746,6 +747,20 @@ const CarLoanCalculator: React.FC = () => {
             the most accurate EMI breakdown possible. The <strong>advanced Car Loan Calculator</strong>
             version also accounts for prepayment and extra payment options to plan ahead.
           </p>
+
+          <CarLoanExplainBlock
+              carPrice={carPrice}
+              downPayment={downPayment}
+              loanYears={loanYears}
+              loanMonths={loanMonths}
+              interestRate={interestRate}
+              emi={emi}
+              totalPayment={totalPayment}
+              totalInterest={totalInterest}
+              currency={currency}
+              currentLocale={currentLocale}
+              formatCurrency={formatCurrency}
+            />
         
           <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
             📘 Example Calculation
