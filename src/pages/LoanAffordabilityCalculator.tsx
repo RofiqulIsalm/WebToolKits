@@ -13,6 +13,8 @@ import Breadcrumbs from "../components/Breadcrumbs";
 import AdBanner from "../components/AdBanner";
 import RelatedCalculators from "../components/RelatedCalculators";
 import { seoData, generateCalculatorSchema } from "../utils/seoData";
+import LoanAffordabilityExplainBlock from "../components/LoanAffordabilityExplainBlock";
+
 
 /* ============================================================
    📦 CONSTANTS
@@ -747,6 +749,22 @@ const LoanAffordabilityCalculator: React.FC = () => {
     can make smart borrowing decisions in minutes using this
     <strong> simple Loan Affordability Calculator</strong>.
   </p>
+
+  <LoanAffordabilityExplainBlock
+    income={income}
+    expenses={expenses}
+    debtRatio={debtRatio}
+    interestRate={interestRate}
+    loanYears={loanYears}
+    maxLoan={maxLoan}
+    emi={emi}
+    totalPayment={totalPayment}
+    totalInterest={totalInterest}
+    currency={currency}
+    currentLocale={currentLocale}
+    formatCurrency={formatCurrency}
+  />
+
 
   <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
     🧮 Example Calculation
