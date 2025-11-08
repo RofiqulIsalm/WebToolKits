@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -8,11 +7,21 @@ import {
   Share2,
   Info,
 } from "lucide-react";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Tooltip as ReTooltip,
+  Legend,
+} from "recharts";
+
 import SEOHead from "../components/SEOHead";
 import Breadcrumbs from "../components/Breadcrumbs";
 import AdBanner from "../components/AdBanner";
 import RelatedCalculators from "../components/RelatedCalculators";
 import { seoData, generateCalculatorSchema } from "../utils/seoData";
+import DTIExplainBlock from "../components/DTIExplainBlock";
 
 /* ============================================================
    📦 CONSTANTS
@@ -36,7 +45,14 @@ const formatCurrency = (num: number, locale: string, currency: string) =>
     style: "currency",
     currency,
     maximumFractionDigits: 0,
-  }).format(num);
+  }).format(Math.max(0, Number(num) || 0));
+
+/* Small helper to safely parse number inputs (keeps empty -> 0, blocks NaN) */
+const parseNum = (v: string) => {
+  if (v === "" || v === null) return 0;
+  const n = Number(v);
+  return Number.isFinite(n) && n >= 0 ? n : 0;
+};
 
 /* ============================================================
    💳 COMPONENT
@@ -59,6 +75,14 @@ const DebtToIncomeCalculator: React.FC = () => {
   const currentLocale = findLocale(currency);
   const isDefault = !income && !debts;
 
+  const getStatus = (ratio: number) => {
+    if (ratio < 20) return "Excellent";
+    if (ratio < 36) return "Good";
+    if (ratio < 43) return "Fair";
+    if (ratio < 50) return "High Risk";
+    return "Critical";
+  };
+
   /* ============================================================
      🔁 PERSISTENCE
      ============================================================ */
@@ -67,9 +91,9 @@ const DebtToIncomeCalculator: React.FC = () => {
       const raw = localStorage.getItem(LS_KEY);
       if (raw) {
         const s = JSON.parse(raw);
-        setIncome(s.income || 0);
-        setDebts(s.debts || 0);
-        setCurrency(s.currency || "USD");
+        setIncome(Number(s.income) || 0);
+        setDebts(Number(s.debts) || 0);
+        setCurrency(typeof s.currency === "string" ? s.currency : "USD");
       }
     } catch {
       console.warn("⚠️ Could not load state");
@@ -87,24 +111,42 @@ const DebtToIncomeCalculator: React.FC = () => {
     }
   }, [hydrated, income, debts, currency]);
 
+  /* Restore from ?dti= share link */
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const q = params.get("dti");
+      if (q) {
+        const s = JSON.parse(atob(q));
+        if (s && typeof s === "object") {
+          setIncome(Number(s.income) || 0);
+          setDebts(Number(s.debts) || 0);
+          setCurrency(typeof s.currency === "string" ? s.currency : "USD");
+        }
+      }
+    } catch (e) {
+      console.warn("Could not parse dti query:", e);
+    }
+  }, []);
+
   /* ============================================================
      🧮 CALCULATION
      ============================================================ */
   useEffect(() => {
-    if (income <= 0 || debts <= 0) {
+    const inc = Math.max(0, Number(income) || 0);
+    const dbt = Math.max(0, Number(debts) || 0);
+
+    if (inc <= 0) {
       setDti(0);
       setStatus("");
       return;
     }
 
-    const ratio = (debts / income) * 100;
-    setDti(ratio);
+    const ratio = (dbt / inc) * 100;
+    const clean = Number.isFinite(ratio) && ratio >= 0 ? ratio : 0;
 
-    if (ratio < 20) setStatus("Excellent");
-    else if (ratio < 36) setStatus("Good");
-    else if (ratio < 43) setStatus("Fair");
-    else if (ratio < 50) setStatus("High Risk");
-    else setStatus("Critical");
+    setDti(clean);
+    setStatus(clean > 0 ? getStatus(clean) : "");
   }, [income, debts]);
 
   /* ============================================================
@@ -122,8 +164,8 @@ const DebtToIncomeCalculator: React.FC = () => {
       "Debt-to-Income Ratio Summary",
       `Monthly Income: ${formatCurrency(income, currentLocale, currency)}`,
       `Monthly Debt Payments: ${formatCurrency(debts, currentLocale, currency)}`,
-      `Debt-to-Income Ratio: ${dti.toFixed(2)}%`,
-      `Status: ${status}`,
+      `Debt-to-Income Ratio: ${Number.isFinite(dti) ? dti.toFixed(2) : "—"}%`,
+      `Status: ${status || "—"}`,
     ].join("\n");
 
     await navigator.clipboard.writeText(text);
@@ -140,148 +182,154 @@ const DebtToIncomeCalculator: React.FC = () => {
     setTimeout(() => setCopied("none"), 1500);
   };
 
+  const statusColor =
+    status === "Excellent" ? "text-emerald-400" :
+    status === "Good" ? "text-green-300" :
+    status === "Fair" ? "text-yellow-300" :
+    status === "High Risk" ? "text-orange-300" :
+    status === "Critical" ? "text-rose-400" : "text-slate-200";
+
   /* ============================================================
      🎨 RENDER START
      ============================================================ */
   return (
     <>
       <SEOHead
-            title="Debt-to-Income (DTI) Ratio Calculator — Check Loan Readiness (2025–2026)"
-            description="Free DTI Calculator to measure your debt-to-income ratio from monthly income and debts. See status bands, tips to improve, and share results."
-            keywords={[
-              "debt to income ratio calculator",
-              "DTI calculator",
-              "loan eligibility",
-              "mortgage readiness",
-              "finance tools",
-              "credit health"
-            ]}
-            canonical="https://calculatorhub.site/debt-to-income-ratio-calculator"
-            schemaData={[
-              {
-                "@context":"https://schema.org",
-                "@type":"WebPage",
-                "@id":"https://calculatorhub.site/debt-to-income-ratio-calculator#webpage",
-                "url":"https://calculatorhub.site/debt-to-income-ratio-calculator",
-                "name":"Debt-to-Income Ratio (DTI) Calculator",
-                "inLanguage":"en",
-                "isPartOf":{"@id":"https://calculatorhub.site/#website"},
-                "primaryImageOfPage":{
-                  "@type":"ImageObject",
-                  "@id":"https://calculatorhub.site/images/debt-to-income-calculator-hero.webp#primaryimg",
-                  "url":"https://calculatorhub.site/images/debt-to-income-calculator-hero.webp",
-                  "width":1200,"height":675
-                },
-                "mainEntity":{
-                  "@type":"Article",
-                  "@id":"https://calculatorhub.site/debt-to-income-ratio-calculator#article",
-                  "headline":"Debt-to-Income Ratio (DTI) Calculator — Measure Your Financial Strength",
-                  "description":"Compute DTI from income and debt, see status bands and improvement tips.",
-                  "image":["https://calculatorhub.site/images/debt-to-income-calculator-hero.webp"],
-                  "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
-                  "publisher":{"@id":"https://calculatorhub.site/#organization"},
-                  "datePublished":"2025-10-17",
-                  "dateModified":"2025-11-06",
-                  "mainEntityOfPage":{"@id":"https://calculatorhub.site/debt-to-income-ratio-calculator#webpage"},
-                  "articleSection":["What is DTI","How to Use","Example","Tips","FAQ"]
-                }
-              },
-              {
-                "@context":"https://schema.org",
-                "@type":"BreadcrumbList",
-                "@id":"https://calculatorhub.site/debt-to-income-ratio-calculator#breadcrumbs",
-                "itemListElement":[
-                  {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
-                  {"@type":"ListItem","position":2,"name":"Currency & Finance","item":"https://calculatorhub.site/category/currency-finance"},
-                  {"@type":"ListItem","position":3,"name":"Debt-to-Income Ratio Calculator","item":"https://calculatorhub.site/debt-to-income-ratio-calculator"}
-                ]
-              },
-              {
-                "@context":"https://schema.org",
-                "@type":"FAQPage",
-                "@id":"https://calculatorhub.site/debt-to-income-ratio-calculator#faq",
-                "mainEntity":[
-                  {"@type":"Question","name":"What is a good DTI for loan approval?","acceptedAnswer":{"@type":"Answer","text":"Most lenders prefer DTI under 36%. Lower is better; under 30% is excellent."}},
-                  {"@type":"Question","name":"Does DTI include utilities or groceries?","acceptedAnswer":{"@type":"Answer","text":"DTI uses monthly debt obligations like mortgage/rent, auto, student loans, and credit card minimums; living expenses aren’t counted unless a lender specifies."}},
-                  {"@type":"Question","name":"How can I improve DTI quickly?","acceptedAnswer":{"@type":"Answer","text":"Pay down high-interest cards, consolidate at lower rates, or increase income. Avoid taking new debt before application."}}
-                ]
-              },
-              {
-                "@context":"https://schema.org",
-                "@type":"WebApplication",
-                "@id":"https://calculatorhub.site/debt-to-income-ratio-calculator#webapp",
-                "name":"DTI Calculator",
-                "url":"https://calculatorhub.site/debt-to-income-ratio-calculator",
-                "applicationCategory":"FinanceApplication",
-                "operatingSystem":"Web",
-                "publisher":{"@id":"https://calculatorhub.site/#organization"},
-                "image":["https://calculatorhub.site/images/debt-to-income-calculator-hero.webp"]
-              },
-              {
-                "@context":"https://schema.org",
-                "@type":"SoftwareApplication",
-                "@id":"https://calculatorhub.site/debt-to-income-ratio-calculator#software",
-                "name":"Debt-to-Income Analyzer",
-                "applicationCategory":"FinanceApplication",
-                "operatingSystem":"All",
-                "url":"https://calculatorhub.site/debt-to-income-ratio-calculator",
-                "publisher":{"@id":"https://calculatorhub.site/#organization"},
-                "description":"Interactive DTI tool with shareable summary."
-              },
-              {
-                "@context":"https://schema.org",
-                "@type":"WebSite",
-                "@id":"https://calculatorhub.site/#website",
-                "url":"https://calculatorhub.site",
-                "name":"CalculatorHub",
-                "publisher":{"@id":"https://calculatorhub.site/#organization"},
-                "potentialAction":{"@type":"SearchAction","target":"https://calculatorhub.site/search?q={query}","query-input":"required name=query"}
-              },
-              {
-                "@context":"https://schema.org",
-                "@type":"Organization",
-                "@id":"https://calculatorhub.site/#organization",
-                "name":"CalculatorHub",
-                "url":"https://calculatorhub.site",
-                "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
-              }
-            ]}
-          />
+        title="Debt-to-Income (DTI) Ratio Calculator — Check Loan Readiness (2025–2026)"
+        description="Free DTI Calculator to measure your debt-to-income ratio from monthly income and debts. See status bands, tips to improve, and share results."
+        keywords={[
+          "debt to income ratio calculator",
+          "DTI calculator",
+          "loan eligibility",
+          "mortgage readiness",
+          "finance tools",
+          "credit health"
+        ]}
+        canonical="https://calculatorhub.site/debt-to-income-ratio-calculator"
+        schemaData={[
+          {
+            "@context":"https://schema.org",
+            "@type":"WebPage",
+            "@id":"https://calculatorhub.site/debt-to-income-ratio-calculator#webpage",
+            "url":"https://calculatorhub.site/debt-to-income-ratio-calculator",
+            "name":"Debt-to-Income Ratio (DTI) Calculator",
+            "inLanguage":"en",
+            "isPartOf":{"@id":"https://calculatorhub.site/#website"},
+            "primaryImageOfPage":{
+              "@type":"ImageObject",
+              "@id":"https://calculatorhub.site/images/debt-to-income-calculator-hero.webp#primaryimg",
+              "url":"https://calculatorhub.site/images/debt-to-income-calculator-hero.webp",
+              "width":1200,"height":675
+            },
+            "mainEntity":{
+              "@type":"Article",
+              "@id":"https://calculatorhub.site/debt-to-income-ratio-calculator#article",
+              "headline":"Debt-to-Income Ratio (DTI) Calculator — Measure Your Financial Strength",
+              "description":"Compute DTI from income and debt, see status bands and improvement tips.",
+              "image":["https://calculatorhub.site/images/debt-to-income-calculator-hero.webp"],
+              "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
+              "publisher":{"@id":"https://calculatorhub.site/#organization"},
+              "datePublished":"2025-10-17",
+              "dateModified":"2025-11-06",
+              "mainEntityOfPage":{"@id":"https://calculatorhub.site/debt-to-income-ratio-calculator#webpage"},
+              "articleSection":["What is DTI","How to Use","Example","Tips","FAQ"]
+            }
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"BreadcrumbList",
+            "@id":"https://calculatorhub.site/debt-to-income-ratio-calculator#breadcrumbs",
+            "itemListElement":[
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+              {"@type":"ListItem","position":2,"name":"Currency & Finance","item":"https://calculatorhub.site/category/currency-finance"},
+              {"@type":"ListItem","position":3,"name":"Debt-to-Income Ratio Calculator","item":"https://calculatorhub.site/debt-to-income-ratio-calculator"}
+            ]
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"FAQPage",
+            "@id":"https://calculatorhub.site/debt-to-income-ratio-calculator#faq",
+            "mainEntity":[
+              {"@type":"Question","name":"What is a good DTI for loan approval?","acceptedAnswer":{"@type":"Answer","text":"Most lenders prefer DTI under 36%. Lower is better; under 30% is excellent."}},
+              {"@type":"Question","name":"Does DTI include utilities or groceries?","acceptedAnswer":{"@type":"Answer","text":"DTI uses monthly debt obligations like mortgage/rent, auto, student loans, and credit card minimums; living expenses aren’t counted unless a lender specifies."}},
+              {"@type":"Question","name":"How can I improve DTI quickly?","acceptedAnswer":{"@type":"Answer","text":"Pay down high-interest cards, consolidate at lower rates, or increase income. Avoid taking new debt before application."}}
+            ]
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"WebApplication",
+            "@id":"https://calculatorhub.site/debt-to-income-ratio-calculator#webapp",
+            "name":"DTI Calculator",
+            "url":"https://calculatorhub.site/debt-to-income-ratio-calculator",
+            "applicationCategory":"FinanceApplication",
+            "operatingSystem":"Web",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "image":["https://calculatorhub.site/images/debt-to-income-calculator-hero.webp"]
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"SoftwareApplication",
+            "@id":"https://calculatorhub.site/debt-to-income-ratio-calculator#software",
+            "name":"Debt-to-Income Analyzer",
+            "applicationCategory":"FinanceApplication",
+            "operatingSystem":"All",
+            "url":"https://calculatorhub.site/debt-to-income-ratio-calculator",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "description":"Interactive DTI tool with shareable summary."
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"WebSite",
+            "@id":"https://calculatorhub.site/#website",
+            "url":"https://calculatorhub.site",
+            "name":"CalculatorHub",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "potentialAction":{"@type":"SearchAction","target":"https://calculatorhub.site/search?q={query}","query-input":"required name=query"}
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"Organization",
+            "@id":"https://calculatorhub.site/#organization",
+            "name":"CalculatorHub",
+            "url":"https://calculatorhub.site",
+            "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
+          }
+        ]}
+      />
           
-          {/* Outside meta/link tags */}
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-          <link rel="canonical" href="https://calculatorhub.site/debt-to-income-ratio-calculator" />
-          <link rel="alternate" href="https://calculatorhub.site/debt-to-income-ratio-calculator" hreflang="en" />
-          <link rel="alternate" href="https://calculatorhub.site/bn/debt-to-income-ratio-calculator" hreflang="bn" />
-          <link rel="alternate" href="https://calculatorhub.site/debt-to-income-ratio-calculator" hreflang="x-default" />
-          <meta property="og:type" content="website" />
-          <meta property="og:site_name" content="CalculatorHub" />
-          <meta property="og:title" content="Debt-to-Income (DTI) Ratio Calculator — Check Loan Readiness" />
-          <meta property="og:description" content="Measure DTI from income and debts. See status and tips to qualify for loans." />
-          <meta property="og:url" content="https://calculatorhub.site/debt-to-income-ratio-calculator" />
-          <meta property="og:image" content="https://calculatorhub.site/images/debt-to-income-calculator-hero.webp" />
-          <meta property="og:image:width" content="1200" />
-          <meta property="og:image:height" content="630" />
-          <meta property="og:image:alt" content="DTI calculator dashboard with debt vs income breakdown" />
-          <meta property="og:locale" content="en_US" />
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content="Debt-to-Income (DTI) Ratio Calculator — Check Loan Readiness" />
-          <meta name="twitter:description" content="Free online DTI tool with instant results and shareable summary." />
-          <meta name="twitter:image" content="https://calculatorhub.site/images/debt-to-income-calculator-hero.webp" />
-          <link rel="manifest" href="/site.webmanifest" />
-          <link rel="icon" href="/favicon.ico" />
-          <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
-          <meta name="theme-color" content="#06b6d4" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
-          <link rel="preload" as="image" href="/images/debt-to-income-calculator-hero.webp" fetchpriority="high" />
-          <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
-          <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
-          <meta name="referrer" content="no-referrer-when-downgrade" />
-          <meta name="format-detection" content="telephone=no" />
-
+      {/* Outside meta/link tags */}
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/debt-to-income-ratio-calculator" />
+      <link rel="alternate" href="https://calculatorhub.site/debt-to-income-ratio-calculator" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/debt-to-income-ratio-calculator" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/debt-to-income-ratio-calculator" hreflang="x-default" />
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Debt-to-Income (DTI) Ratio Calculator — Check Loan Readiness" />
+      <meta property="og:description" content="Measure DTI from income and debts. See status and tips to qualify for loans." />
+      <meta property="og:url" content="https://calculatorhub.site/debt-to-income-ratio-calculator" />
+      <meta property="og:image" content="https://calculatorhub.site/images/debt-to-income-calculator-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="DTI calculator dashboard with debt vs income breakdown" />
+      <meta property="og:locale" content="en_US" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Debt-to-Income (DTI) Ratio Calculator — Check Loan Readiness" />
+      <meta name="twitter:description" content="Free online DTI tool with instant results and shareable summary." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/debt-to-income-calculator-hero.webp" />
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#06b6d4" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/debt-to-income-calculator-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
@@ -290,7 +338,6 @@ const DebtToIncomeCalculator: React.FC = () => {
             { name: "Debt-to-Income Ratio Calculator", url: "/debt-to-income-ratio-calculator" },
           ]}
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {/* ===== Header ===== */}
         <div className="mb-8">
@@ -348,7 +395,7 @@ const DebtToIncomeCalculator: React.FC = () => {
                   type="number"
                   min={0}
                   value={income || ""}
-                  onChange={(e) => setIncome(parseFloat(e.target.value) || 0)}
+                  onChange={(e) => setIncome(parseNum(e.target.value))}
                   placeholder="e.g. 5000"
                   className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
                 />
@@ -365,18 +412,29 @@ const DebtToIncomeCalculator: React.FC = () => {
                 </label>
                 {showInfo && (
                   <p className="text-xs bg-[#0f172a] border border-[#334155] rounded-md p-2 mt-1">
-                    Include all monthly payments such as mortgage, car loan, 
-                    student loan, and credit card minimums.
+                    Include all monthly payments such as mortgage/rent, auto, student loan, and credit card minimums.
                   </p>
                 )}
                 <input
                   type="number"
                   min={0}
                   value={debts || ""}
-                  onChange={(e) => setDebts(parseFloat(e.target.value) || 0)}
+                  onChange={(e) => setDebts(parseNum(e.target.value))}
                   placeholder="e.g. 1500"
                   className="w-full bg-[#0f172a] text-white px-4 py-2 border border-[#334155] rounded-lg focus:ring-2 focus:ring-indigo-500"
                 />
+
+                {/* Gentle warnings */}
+                {income > 0 && debts > income && (
+                  <p className="mt-2 text-xs text-amber-300">
+                    Heads up: your debt payments exceed your gross income — this will push DTI above 100%.
+                  </p>
+                )}
+                {income === 0 && debts > 0 && (
+                  <p className="mt-2 text-xs text-rose-300">
+                    Enter monthly income to calculate DTI.
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -390,14 +448,14 @@ const DebtToIncomeCalculator: React.FC = () => {
             <div className="space-y-6">
               <div className="text-center p-4 bg-[#0f172a] rounded-lg border border-[#334155]">
                 <div className="text-3xl font-bold text-white">
-                  {dti.toFixed(2)}%
+                  {Number.isFinite(dti) ? dti.toFixed(2) : "—"}%
                 </div>
                 <div className="text-sm text-slate-400">Debt-to-Income Ratio</div>
               </div>
 
               {status && (
                 <div className="text-center p-3 rounded-lg border border-[#334155] bg-[#0f172a]">
-                  <p className="text-lg font-semibold text-white">Status: {status}</p>
+                  <p className={`text-lg font-semibold ${statusColor}`}>Status: {status}</p>
                 </div>
               )}
 
@@ -423,6 +481,7 @@ const DebtToIncomeCalculator: React.FC = () => {
             </div>
           </div>
         </div>
+
         {/* ===== Chart & Insights ===== */}
         {income > 0 && debts > 0 && (
           <div className="mt-6 bg-[#1e293b] rounded-xl border border-[#334155] p-6 text-slate-200">
@@ -437,8 +496,8 @@ const DebtToIncomeCalculator: React.FC = () => {
                   <PieChart>
                     <Pie
                       data={[
-                        { name: "Debt Payments", value: debts },
-                        { name: "Remaining Income", value: income - debts },
+                        { name: "Debt Payments", value: Math.max(debts, 0) },
+                        { name: "Remaining Income", value: Math.max(income - debts, 0) }, // ✅ clamp to avoid negatives
                       ]}
                       dataKey="value"
                       innerRadius={60}
@@ -450,7 +509,7 @@ const DebtToIncomeCalculator: React.FC = () => {
                     </Pie>
                     <ReTooltip
                       formatter={(v: any) =>
-                        formatCurrency(Number(v), currentLocale, currency)
+                        formatCurrency(Number(v) || 0, currentLocale, currency)
                       }
                     />
                     <Legend />
@@ -469,7 +528,7 @@ const DebtToIncomeCalculator: React.FC = () => {
                 <div className="p-4 bg-[#0f172a] border border-[#334155] rounded-lg text-center hover:border-emerald-500 transition">
                   <p className="text-sm text-slate-400">Remaining Income</p>
                   <p className="font-semibold text-white text-lg">
-                    {formatCurrency(income - debts, currentLocale, currency)}
+                    {formatCurrency(Math.max(income - debts, 0), currentLocale, currency)}
                   </p>
                 </div>
               </div>
@@ -578,6 +637,15 @@ const DebtToIncomeCalculator: React.FC = () => {
             this <strong>Debt-to-Income Ratio Calculator online</strong> intuitive, making
             it a top choice for both beginners and experts.
           </p>
+
+          <DTIExplainBlock
+            income={income}
+            debts={debts}
+            dti={dti}
+            currency={currency}
+            currentLocale={currentLocale}
+            formatCurrency={formatCurrency}
+          />
         
           <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
             📘 Example of Debt-to-Income Ratio Calculation
@@ -737,34 +805,32 @@ const DebtToIncomeCalculator: React.FC = () => {
             </div>
           </section>
         </section>
+
         {/* ===== Footer & Related Tools ===== */}
         <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
-            <div className="flex items-center gap-3">
-              <img src="/images/calculatorhub-author.webp" alt="CalculatorHub Finance Tools Team" className="w-12 h-12 rounded-full border border-gray-600" loading="lazy" />
-              <div>
-                <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
-                <p className="text-sm text-slate-400">Experts in mortgages and online financial tools. Last updated: <time dateTime="2025-10-17">October 17, 2025</time>.</p>
-              </div>
+          <div className="flex items-center gap-3">
+            <img src="/images/calculatorhub-author.webp" alt="CalculatorHub Finance Tools Team" className="w-12 h-12 rounded-full border border-gray-600" loading="lazy" />
+            <div>
+              <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
+              <p className="text-sm text-slate-400">Experts in mortgages and online financial tools. Last updated: <time dateTime="2025-10-17">October 17, 2025</time>.</p>
             </div>
-          
-            <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
-              <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">🚀 Explore more finance tools on CalculatorHub:</p>
-              <div className="flex flex-wrap gap-3 text-sm">
-                <Link to="/loan-affordability-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200">
-                  <span className="text-sky-400">🏦</span> Loan Affordability Calculator
-                </Link>
-                <Link to="/mortgage-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200">
-                  <span className="text-emerald-400">🏠</span> Mortgage Calculator
-                </Link>
-                <Link to="/personal-loan-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-rose-600/20 text-rose-300 hover:text-rose-400 px-3 py-2 rounded-md border border-slate-700 hover:border-rose-500 transition-all duration-200">
-                  <span className="text-rose-400">🧾</span> Personal Loan Calculator
-                </Link>
-              </div>
-            </div>
-          </section>
-
-
+          </div>
         
+          <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">🚀 Explore more finance tools on CalculatorHub:</p>
+            <div className="flex flex-wrap gap-3 text-sm">
+              <Link to="/loan-affordability-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200">
+                <span className="text-sky-400">🏦</span> Loan Affordability Calculator
+              </Link>
+              <Link to="/mortgage-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200">
+                <span className="text-emerald-400">🏠</span> Mortgage Calculator
+              </Link>
+              <Link to="/personal-loan-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-rose-600/20 text-rose-300 hover:text-rose-400 px-3 py-2 rounded-md border border-slate-700 hover:border-rose-500 transition-all duration-200">
+                <span className="text-rose-400">🧾</span> Personal Loan Calculator
+              </Link>
+            </div>
+          </div>
+        </section>
 
         <AdBanner type="bottom" />
         <RelatedCalculators
