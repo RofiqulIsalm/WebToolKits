@@ -71,6 +71,52 @@ const SimpleInterestCalculator: React.FC = () => {
   const currentLocale = findLocale(currency);
   const isDefault = !principal && !rate && !timeYears;
 
+  // —— helpers for display ——
+  const fmt = (n: number) => formatCurrency(isFinite(n) ? n : 0, currentLocale, currency);
+  const pct = (p: number) => `${(p).toFixed(3)}%`;
+  const yearsPretty = (y: number) => {
+    if (!isFinite(y) || y <= 0) return "—";
+    const yrs = Math.floor(y);
+    const mos = Math.round((y - yrs) * 12);
+    return yrs > 0 ? `${yrs}y ${mos}m` : `${mos}m`;
+  };
+  
+  // —— derived values for preview ——
+  const r_y = Math.max(0, rate);                     // annual % as entered
+  const r_dec = r_y / 100;                           // annual rate in decimal
+  const i_per_year = principal * r_dec;              // interest in first year (simple 
+  const i_total = simpleInterest;                    // already computed by your effect
+  const total = totalAmount;   
+
+  
+  // 1) Helper (put above your component or inside it)
+  const copyToClipboardSafe = async (text: string) => {
+    try {
+      if (window.isSecureContext && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+      // Fallback: hidden textarea + execCommand
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.top = "-1000px";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return ok;
+    } catch {
+      return false;
+    }
+  };
+
+  const [snapCopied, setSnapCopied] = useState(false);
+
+
+
   /* ============================================================
      🔁 PERSISTENCE
      ============================================================ */
@@ -660,6 +706,137 @@ const SimpleInterestCalculator: React.FC = () => {
             The <strong>advanced Simple Interest Calculator</strong> applies this formula instantly
             to deliver accurate results every time.
           </p>
+         {/* ===== Snapshot (uses your helpers) ===== */}
+        <section className="mt-8 space-y-5">
+          {/* Title */}
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-extrabold tracking-tight">
+              <span className="bg-gradient-to-r from-cyan-300 via-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">
+                📌 Rate & Term Snapshot
+              </span>
+            </h2>
+        
+            {/* Copy snapshot */}
+            <button
+                onClick={async () => {
+                  const tape = [
+                    "======Snapshot======",
+                    `P        = ${fmt(principal)}`,
+                    `R%      = ${r_y || 0}%`,
+                    `R    = ${r_dec.toFixed(6)}`,
+                    `Time  = ${timeYears || 0} (${yearsPretty(timeYears)})`,
+                    "",
+                    "First-year (simple, no compounding)",
+                    `First-year  = P × R = ${fmt(i_per_year)}`,
+                    "",
+                    "Totals",
+                    `SI       = ${fmt(i_total)}`,
+                    `Total    = ${fmt(total)}`
+                  ].join("\n");
+              
+                  const ok = await copyToClipboardSafe(tape);
+                  setSnapCopied(ok);
+                  setTimeout(() => setSnapCopied(false), 1400);
+                }}
+                className="relative text-xs md:text-sm bg-[#0f172a] hover:bg-[#0b1220] text-slate-200 border border-[#334155] rounded-lg px-3 py-2 transition"
+                title="Copy snapshot"
+              >
+                Copy Snapshot
+                {snapCopied && (
+                  <span className="absolute -right-2 -top-2 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 text-[11px]">
+                    Copied!
+                  </span>
+                )}
+              </button>
+          </div>
+        
+          {/* Stat tiles */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            <div className="rounded-xl bg-[#0f172a] border border-[#334155] p-4 hover:border-sky-500 transition">
+              <p className="text-xs text-slate-400">Principal</p>
+              <p className="text-lg font-semibold text-white">{fmt(principal)}</p>
+            </div>
+            <div className="rounded-xl bg-[#0f172a] border border-[#334155] p-4 hover:border-indigo-500 transition">
+              <p className="text-xs text-slate-400">Rate (annual)</p>
+              <p className="text-lg font-semibold text-white">{r_y || 0}%</p>
+            </div>
+            <div className="rounded-xl bg-[#0f172a] border border-[#334155] p-4 hover:border-fuchsia-500 transition">
+              <p className="text-xs text-slate-400">Rate (decimal)</p>
+              <p className="text-lg font-semibold text-white">{r_dec.toFixed(6)}</p>
+            </div>
+            <div className="rounded-xl bg-[#0f172a] border border-[#334155] p-4 hover:border-emerald-500 transition">
+              <p className="text-xs text-slate-400">Time</p>
+              <p className="text-lg font-semibold text-white">
+                {timeYears || 0}y <span className="text-slate-400 text-sm">({yearsPretty(timeYears)})</span>
+              </p>
+            </div>
+            <div className="rounded-xl bg-[#0f172a] border border-[#334155] p-4 hover:border-cyan-500 transition">
+              <p className="text-xs text-slate-400">1st-Year Interest</p>
+              <p className="text-lg font-semibold text-white">{fmt(i_per_year)}</p>
+            </div>
+            <div className="rounded-xl bg-[#0f172a] border border-[#334155] p-4 hover:border-amber-500 transition">
+              <p className="text-xs text-slate-400">Total (P + SI)</p>
+              <p className="text-lg font-semibold text-white">{fmt(total)}</p>
+            </div>
+          </div>
+        
+          {/* Formula bar */}
+          <div className="rounded-xl bg-[#0b1220] border border-[#334155] p-3 font-mono text-[13px] text-indigo-300 overflow-x-auto">
+            SI = (P × R_% × T) / 100 &nbsp; | &nbsp; R_dec = R_% / 100 &nbsp; | &nbsp; Total = P + SI
+          </div>
+        
+          {/* Details cards */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="rounded-xl bg-[#0f172a] border border-[#334155] p-4">
+              <h3 className="text-sm font-semibold text-indigo-300 mb-2">Rate Conversion</h3>
+              <div className="font-mono text-[13px] text-slate-200 overflow-x-auto whitespace-pre">
+        {`R_%   = ${r_y || 0}%
+        Rate = ${r_dec.toFixed(6)}`}
+              </div>
+            </div>
+        
+            <div className="rounded-xl bg-[#0f172a] border border-[#334155] p-4">
+              <h3 className="text-sm font-semibold text-emerald-300 mb-2">First-Year Interest (no compounding)</h3>
+              <div className="font-mono text-[13px] text-slate-200 overflow-x-auto whitespace-pre">
+        {`1st year = P × Rate
+                 = ${fmt(principal)} × ${r_dec.toFixed(6)}
+                 = ${fmt(i_per_year)}`}
+              </div>
+            </div>
+        
+            <div className="rounded-xl bg-[#0f172a] border border-[#334155] p-4 lg:col-span-2">
+              <h3 className="text-sm font-semibold text-cyan-300 mb-2">Totals</h3>
+              <div className="font-mono text-[13px] text-slate-200 overflow-x-auto whitespace-pre">
+        {`SI    = ${fmt(i_total)}
+        Total = P + SI = ${fmt(total)}`}
+              </div>
+            </div>
+          </div>
+        
+          {/* Compact tape (with preserved line breaks) */}
+          <div className="rounded-xl border border-slate-700 bg-[#0f172a] p-3 font-mono text-[13px] text-slate-200 overflow-x-auto whitespace-pre">
+        {`Simple Interest Snapshot
+        P        = ${fmt(principal)}
+        R_%      = ${r_y || 0}%
+        Rate    = ${r_dec.toFixed(6)}
+        Time  = ${timeYears || 0} (${yearsPretty(timeYears)})
+        
+        1st year  = P × R_dec = ${fmt(i_per_year)}
+        SI_total = ${fmt(i_total)}
+        Total    = ${fmt(total)}`}
+          </div>
+        
+          {/* Helper tip */}
+          <p className="text-xs text-slate-400">
+            Tip: Simple interest is linear — doubling any one of P, R, or T (keeping others fixed) doubles SI.
+          </p>
+        </section>
+
+
+          
+          
+
+
         
           <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
             📘 Example Calculation
