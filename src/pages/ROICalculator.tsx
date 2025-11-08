@@ -22,6 +22,8 @@ import Breadcrumbs from "../components/Breadcrumbs";
 import AdBanner from "../components/AdBanner";
 import RelatedCalculators from "../components/RelatedCalculators";
 import { seoData, generateCalculatorSchema } from "../utils/seoData";
+import ROIExplainBlock from "../components/ROIExplainBlock";
+
 
 /* ============================================================
    📦 CONSTANTS
@@ -737,6 +739,17 @@ const ROICalculator: React.FC = () => {
           <p className="font-mono text-center text-indigo-300">
             Annualized ROI (%) = [(Final Value ÷ Total Invested) ^(1 / Years) − 1] × 100
           </p>
+
+          <ROIExplainBlock
+            initialInvestment={initialInvestment}
+            additionalContributions={additionalContributions}
+            finalValue={finalValue}
+            years={years}
+            months={months}
+            currentLocale={currentLocale}
+            currency={currency}
+            formatCurrency={formatCurrency}
+          />
         
           {/* Added: Benefits */}
           <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🌟 ROI Calculator Benefits</h2>
