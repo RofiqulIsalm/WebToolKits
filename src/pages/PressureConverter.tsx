@@ -224,22 +224,231 @@ export default function PressureConverter() {
 
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title={seoData.pressureConverter?.title ?? 'Pressure Converter'}
-        description={seoData.pressureConverter?.description ?? 'Convert pressure between Pa, kPa, bar, atm, psi, torr, inHg, and more.'}
+        title="Pressure Converter — Pa ⇄ kPa, bar, atm, psi, torr, mmHg, inHg (2025–2026)"
+        description="Free Pressure Converter with precision control, Normal/Compact/Scientific formats, favorites, history, CSV export, and shareable URLs. Convert between Pa, kPa, MPa, bar, atm, psi, psf, torr, mmHg, inHg, hPa/mbar, kgf/cm²."
+        keywords={[
+          "pressure converter",
+          "kPa to psi",
+          "psi to kPa",
+          "bar to psi",
+          "psi to bar",
+          "atm to kPa",
+          "torr to Pa",
+          "mmHg to kPa",
+          "inHg to kPa",
+          "hPa to mbar",
+          "kgf/cm2 to bar",
+          "MPa to psi",
+          "Pa to bar",
+          "psf to psi",
+          "convert pressure units"
+        ]}
         canonical="https://calculatorhub.site/pressure-converter"
-        schemaData={generateCalculatorSchema(
-          'Pressure Converter',
-          seoData.pressureConverter?.description ?? 'Convert pressure between Pa, kPa, bar, atm, psi, torr, inHg, and more.',
-          '/pressure-converter',
-          seoData.pressureConverter?.keywords ?? ['pressure converter','kPa to psi','bar to psi','atm to kPa','torr to Pa']
-        )}
-        breadcrumbs={[
-          { name: 'Unit Converters', url: '/category/unit-converters' },
-          { name: 'Pressure Converter', url: '/pressure-converter' },
+        schemaData={[
+          /* 1) WebPage + Article */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://calculatorhub.site/pressure-converter#webpage",
+            "url": "https://calculatorhub.site/pressure-converter",
+            "name": "Pressure Converter (2025–2026) — Pa ⇄ kPa, bar, atm, psi, torr, mmHg, inHg",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "@id": "https://calculatorhub.site/images/pressure-converter-hero.webp#primaryimg",
+              "url": "https://calculatorhub.site/images/pressure-converter-hero.webp",
+              "width": 1200,
+              "height": 675
+            },
+            "mainEntity": {
+              "@type": "Article",
+              "@id": "https://calculatorhub.site/pressure-converter#article",
+              "headline": "Pressure Converter — Fast, Accurate, and Shareable",
+              "description": "Convert Pa, kPa, MPa, GPa, bar, mbar/hPa, atm, torr, mmHg, inHg, psi, psf, and kgf/cm² with precision & format controls, favorites, history, keyboard shortcuts, and CSV export.",
+              "image": ["https://calculatorhub.site/images/pressure-converter-hero.webp"],
+              "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "datePublished": "2025-11-09",
+              "dateModified": "2025-11-09",
+              "mainEntityOfPage": { "@id": "https://calculatorhub.site/pressure-converter#webpage" },
+              "articleSection": [
+                "How to Use",
+                "Supported Units",
+                "Precision & Formats",
+                "Keyboard Shortcuts",
+                "Copy & CSV Export",
+                "FAQ"
+              ]
+            }
+          },
+      
+          /* 2) Breadcrumbs */
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id": "https://calculatorhub.site/pressure-converter#breadcrumbs",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+              { "@type": "ListItem", "position": 2, "name": "Unit Converters", "item": "https://calculatorhub.site/category/unit-converters" },
+              { "@type": "ListItem", "position": 3, "name": "Pressure Converter", "item": "https://calculatorhub.site/pressure-converter" }
+            ]
+          },
+      
+          /* 3) FAQ */
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": "https://calculatorhub.site/pressure-converter#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Which pressure units are supported?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Pa, kPa, MPa, GPa, bar, mbar, hPa, atm, torr, mmHg, inHg, psi, psf, and kgf/cm²."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is hPa the same as mbar?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. 1 hPa equals 1 mbar (both equal 100 Pa)."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What’s the relation between torr and mmHg?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "1 torr is defined as 101325/760 Pa (≈133.322 Pa). 1 mmHg (conventional) is approximately 133.322387 Pa, effectively equal for most practical work."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I copy or export all results?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Copy the full grid or download a CSV. Options are also persisted in the URL for easy sharing."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does it save favorites and recent conversions?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Favorites and the last 10 conversions are stored locally in your browser."
+                }
+              }
+            ]
+          },
+      
+          /* 4) WebApplication */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id": "https://calculatorhub.site/pressure-converter#webapp",
+            "name": "Pressure Converter",
+            "url": "https://calculatorhub.site/pressure-converter",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Web",
+            "description": "Pressure conversion with precision controls, Normal/Compact/Scientific formats, favorites, history, and CSV export.",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "image": ["https://calculatorhub.site/images/pressure-converter-hero.webp"]
+          },
+      
+          /* 5) SoftwareApplication */
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "@id": "https://calculatorhub.site/pressure-converter#software",
+            "name": "Advanced Pressure Converter",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "All",
+            "url": "https://calculatorhub.site/pressure-converter",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "description": "Interactive pressure unit converter with shareable links and CSV export."
+          },
+      
+          /* 6) WebSite + Organization (global) */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://calculatorhub.site/#website",
+            "url": "https://calculatorhub.site",
+            "name": "CalculatorHub",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://calculatorhub.site/#organization",
+            "name": "CalculatorHub",
+            "url": "https://calculatorhub.site",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://calculatorhub.site/images/logo.png"
+            }
+          }
         ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/pressure-converter" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/pressure-converter" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/pressure-converter" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/pressure-converter" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Pressure Converter (2025–2026) — Pa, kPa, bar, atm, psi, torr, mmHg, inHg" />
+      <meta property="og:description" content="Convert pressure units with precision controls, Normal/Compact/Scientific formats, favorites, history, and CSV export." />
+      <meta property="og:url" content="https://calculatorhub.site/pressure-converter" />
+      <meta property="og:image" content="https://calculatorhub.site/images/pressure-converter-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Pressure converter UI showing unit swapping and formatted results" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Pressure Converter — Pa, kPa, bar, atm, psi, torr & more" />
+      <meta name="twitter:description" content="Fast, accurate pressure conversions with precision controls, favorites, history, and CSV export." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/pressure-converter-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#111827" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/pressure-converter-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto text-gray-200">
         <Breadcrumbs
