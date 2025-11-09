@@ -264,37 +264,224 @@ const GcdLcmCalculator: React.FC = () => {
      ============================================================ */
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title="GCD & LCM Calculator | Euclidean Steps, Multi-Number Reduction"
-        description="Compute the Greatest Common Divisor (GCD) and Least Common Multiple (LCM) for any list of integers. See Euclidean algorithm steps, reduction chain, shareable link, and more."
+        title="GCD & LCM Calculator — Euclidean Steps and Multi-Number Reduction (2025–2026)"
+        description="Paste integers separated by comma/space/semicolon/line to compute GCD and LCM. See Euclidean algorithm steps for a chosen pair, reduction chains across many numbers, copy/share link, and edge-case handling."
+        keywords={[
+          "gcd calculator",
+          "lcm calculator",
+          "greatest common divisor",
+          "least common multiple",
+          "euclidean algorithm steps",
+          "gcd lcm of multiple numbers",
+          "math tools",
+          "number theory calculator"
+        ]}
         canonical="https://calculatorhub.site/gcd-lcm-calculator"
-        schemaData={generateCalculatorSchema(
-          "GCD & LCM Calculator",
-          "Find GCD and LCM for multiple integers with Euclid steps and reduction chains.",
-          "/gcd-lcm-calculator",
-          [
-            "gcd calculator",
-            "lcm calculator",
-            "euclidean algorithm",
-            "math tools",
-            "greatest common divisor",
-            "least common multiple",
-          ]
-        )}
+        schemaData={[
+          // 1) WebPage + Article
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://calculatorhub.site/gcd-lcm-calculator#webpage",
+            "url": "https://calculatorhub.site/gcd-lcm-calculator",
+            "name": "GCD & LCM Calculator (2025–2026) — Euclidean Steps & Multi-Number Reduction",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "@id": "https://calculatorhub.site/images/gcd-lcm-calculator-hero.webp#primaryimg",
+              "url": "https://calculatorhub.site/images/gcd-lcm-calculator-hero.webp",
+              "width": 1200,
+              "height": 675
+            },
+            "mainEntity": {
+              "@type": "Article",
+              "@id": "https://calculatorhub.site/gcd-lcm-calculator#article",
+              "headline": "GCD & LCM Calculator — Euclidean Steps, Reduction Chains, and Shareable Links",
+              "description": "Compute GCD and LCM for lists of integers. View Euclidean algorithm steps for a selected pair, see GCD/LCM reduction chains, and copy or share results. Handles negatives and zeros.",
+              "image": ["https://calculatorhub.site/images/gcd-lcm-calculator-hero.webp"],
+              "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "datePublished": "2025-11-09",
+              "dateModified": "2025-11-09",
+              "mainEntityOfPage": { "@id": "https://calculatorhub.site/gcd-lcm-calculator#webpage" },
+              "articleSection": [
+                "How to Use",
+                "Inputs & Parsing",
+                "Euclidean Algorithm Steps",
+                "GCD/LCM Reduction Chains",
+                "Copy & Share",
+                "FAQ"
+              ]
+            }
+          },
+      
+          // 2) Breadcrumbs
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id": "https://calculatorhub.site/gcd-lcm-calculator#breadcrumbs",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+              { "@type": "ListItem", "position": 2, "name": "Math Tools", "item": "https://calculatorhub.site/category/math-tools" },
+              { "@type": "ListItem", "position": 3, "name": "GCD & LCM Calculator", "item": "https://calculatorhub.site/gcd-lcm-calculator" }
+            ]
+          },
+      
+          // 3) FAQ
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": "https://calculatorhub.site/gcd-lcm-calculator#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "How should I enter numbers?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Paste integers separated by comma, space, semicolon, pipe, or new line. Negatives and zeros are allowed; non-integers are truncated."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What conventions does the calculator use?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "gcd uses absolute values; gcd(a,0)=|a| and gcd(0,0)=0 by this tool’s convention. lcm is non-negative and lcm(a,0)=0."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How are GCD and LCM computed for many numbers?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Both are reduced left-to-right: gcd(a,b,c)=gcd(gcd(a,b),c) and lcm(a,b,c)=lcm(lcm(a,b),c)."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I see Euclidean algorithm steps?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Enable the pair toggle and choose an index to see a detailed a=b·q+r table for that adjacent pair."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I share my current inputs and settings?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. The tool encodes state into the URL so you can copy a shareable link."
+                }
+              }
+            ]
+          },
+      
+          // 4) WebApplication
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id": "https://calculatorhub.site/gcd-lcm-calculator#webapp",
+            "name": "GCD & LCM Calculator",
+            "url": "https://calculatorhub.site/gcd-lcm-calculator",
+            "applicationCategory": "EducationalApplication",
+            "operatingSystem": "Web",
+            "description": "Compute GCD/LCM for multiple integers with Euclidean steps, reduction chains, and shareable URLs.",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "image": ["https://calculatorhub.site/images/gcd-lcm-calculator-hero.webp"]
+          },
+      
+          // 5) SoftwareApplication (optional)
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "@id": "https://calculatorhub.site/gcd-lcm-calculator#software",
+            "name": "GCD & LCM Calculator",
+            "applicationCategory": "EducationalApplication",
+            "operatingSystem": "All",
+            "url": "https://calculatorhub.site/gcd-lcm-calculator",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "description": "Interactive number-theory tool showing Euclidean steps and multi-number reduction."
+          },
+      
+          // 6) WebSite + Organization (global)
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://calculatorhub.site/#website",
+            "url": "https://calculatorhub.site",
+            "name": "CalculatorHub",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://calculatorhub.site/#organization",
+            "name": "CalculatorHub",
+            "url": "https://calculatorhub.site",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://calculatorhub.site/images/logo.png"
+            }
+          }
+        ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-      {/* Minimal OG/Twitter */}
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/gcd-lcm-calculator" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/gcd-lcm-calculator" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/gcd-lcm-calculator" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/gcd-lcm-calculator" hreflang="x-default" />
+      
+      {/** Open Graph */}
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="CalculatorHub" />
-      <meta property="og:title" content="GCD & LCM Calculator | Euclidean Steps, Multi-Number Reduction" />
+      <meta property="og:title" content="GCD & LCM Calculator — Euclidean Steps & Multi-Number Reduction" />
+      <meta property="og:description" content="Compute GCD/LCM for any list of integers. See Euclid steps, reduction chains, and copy/share link." />
       <meta property="og:url" content="https://calculatorhub.site/gcd-lcm-calculator" />
-      <meta
-        property="og:description"
-        content="Compute GCD/LCM for any list of integers. See Euclid steps, reduction chain, copy/share link."
-      />
       <meta property="og:image" content="https://calculatorhub.site/images/gcd-lcm-calculator-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="GCD & LCM calculator UI showing Euclidean step table and reduction chains" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="GCD & LCM Calculator — Euclidean Steps & Reduction Chains" />
+      <meta name="twitter:description" content="Paste integers to get GCD/LCM with Euclid steps and multi-number reduction. Share results via URL." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/gcd-lcm-calculator-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#0ea5e9" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/gcd-lcm-calculator-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
