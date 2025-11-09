@@ -713,6 +713,382 @@ export default function WeightConverter() {
           </div>
         </div>
 
+        {/* ==================== SEO CONTENT SECTION (~2000 words) ==================== */}
+        <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+        
+          {/* ===== Table of Contents ===== */}
+          <nav className="mt-2 mb-10 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-cyan-300 mb-3">📖 Table of Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#overview" className="text-indigo-400 hover:underline">Overview: What This Weight Converter Does</a></li>
+              <li><a href="#how-to-use" className="text-indigo-400 hover:underline">How to Use the Converter</a></li>
+              <li><a href="#units" className="text-indigo-400 hover:underline">Supported Units & Exact Definitions</a></li>
+              <li><a href="#precision-format" className="text-indigo-400 hover:underline">Precision & Number Formats</a></li>
+              <li><a href="#shortcuts" className="text-indigo-400 hover:underline">Shortcuts, Favorites, History & Sharing</a></li>
+              <li><a href="#examples" className="text-indigo-400 hover:underline">Worked Examples</a></li>
+              <li><a href="#use-cases" className="text-indigo-400 hover:underline">Real-World Use Cases</a></li>
+              <li><a href="#accuracy" className="text-indigo-400 hover:underline">Accuracy, Rounding & Best Practices</a></li>
+              <li><a href="#pitfalls" className="text-indigo-400 hover:underline">Common Pitfalls to Avoid</a></li>
+              <li><a href="#mini-table" className="text-indigo-400 hover:underline">Quick Reference Mini-Table</a></li>
+              <li><a href="#benefits" className="text-indigo-400 hover:underline">Key Benefits</a></li>
+              <li><a href="#tips" className="text-indigo-400 hover:underline">Power Tips</a></li>
+              <li><a href="#accessibility" className="text-indigo-400 hover:underline">Accessibility & Performance</a></li>
+              <li><a href="#pros-cons" className="text-indigo-400 hover:underline">Pros & Cons</a></li>
+              <li><a href="#faq" className="text-indigo-400 hover:underline">FAQ</a></li>
+            </ol>
+          </nav>
+        
+          {/* ===== Overview ===== */}
+          <h1 id="overview" className="text-3xl font-bold text-cyan-400 mb-6">
+            Weight Converter — kg ⇄ lb, g ⇄ oz, stone & tons (Accurate, Fast & Shareable)
+          </h1>
+        
+          <p>
+            Whether you’re prepping a nutrition label, sizing freight, speccing materials for a product, or simply converting
+            a recipe from grams to ounces, accuracy matters. The <strong>Weight Converter by CalculatorHub</strong> delivers
+            precision results instantly across metric and imperial systems — with <strong>precision control</strong> up to 12
+            decimals, <strong>Normal/Compact/Scientific formats</strong>, <strong>Favorites</strong> to pin go-to units, a
+            <strong> local History</strong> of recent conversions, and a <strong>shareable URL</strong> that preserves state for
+            teammates and clients. You can even export a <strong>CSV</strong> of the whole results grid for reports or spreadsheets.
+          </p>
+        
+          <p>
+            Under the hood, the tool uses SI-consistent definitions and the modern international standards you expect:
+            <strong> 1 lb = 0.45359237 kg</strong> (exact), <strong>1 oz = 28.349523125 g</strong> (avoirdupois),
+            <strong> 1 stone = 6.35029318 kg</strong>, <strong>1 short ton (US)</strong> = <strong>2000 lb</strong>,
+            <strong> 1 long ton (Imperial)</strong> = <strong>2240 lb</strong>, and <strong>1 tonne</strong> = <strong>1000 kg</strong>.
+            The result is an <em>engineering-grade</em> converter that is still easy enough for everyday use.
+          </p>
+        
+          <figure className="my-8">
+            <img
+              src="/images/weight-converter-hero.webp"
+              alt="Weight converter dashboard showing unit swapping, precision slider, and formatted results"
+              title="Weight Converter — kilograms to pounds, grams to ounces, stones, US/Imperial tons"
+              className="rounded-lg shadow-md border border-slate-700 mx-auto"
+              loading="lazy"
+            />
+            <figcaption className="text-center text-sm text-slate-400 mt-2">
+              Convert micrograms to tons — and everything in between — with precision, shortcuts, CSV export, and shareable links.
+            </figcaption>
+          </figure>
+        
+          {/* ===== How to Use ===== */}
+          <h2 id="how-to-use" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            💡 How to Use the Converter
+          </h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Enter your <strong>Value</strong> (commas allowed; empty counts as 0 for quick trials).</li>
+            <li>Pick the <strong>From</strong> unit (e.g., kilogram).</li>
+            <li>Pick the <strong>To</strong> unit (e.g., pound).</li>
+            <li>Open <em>More options</em> and set <strong>Precision</strong> (0–12 decimals) and preferred <strong>Format</strong>.</li>
+            <li>Read the <strong>Direct Result</strong> or scroll the <strong>All Units</strong> grid to compare every supported unit at once.</li>
+          </ol>
+          <p className="text-sm text-slate-400">
+            Your inputs and preferences (value, units, format, precision) sync into the page URL automatically — ideal for sharing exact states or bookmarking workflows you revisit often.
+          </p>
+        
+          {/* ===== Units & Definitions ===== */}
+          <h2 id="units" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            ⚖️ Supported Units & Exact Definitions
+          </h2>
+          <p>
+            Supported: <strong>microgram</strong>, <strong>milligram</strong>, <strong>gram</strong>, <strong>kilogram</strong>,
+            <strong> tonne</strong> (metric ton), <strong>ounce</strong> (avoirdupois), <strong>pound</strong> (lb),
+            <strong> stone</strong>, <strong>US short ton</strong> (2000 lb), and <strong>Imperial long ton</strong> (2240 lb).
+            Core exact factors:
+          </p>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>1 lb</strong> = <strong>0.45359237 kg</strong> (exact)</li>
+            <li><strong>1 oz</strong> = <strong>28.349523125 g</strong> (exact; 1 oz = 1/16 lb)</li>
+            <li><strong>1 stone</strong> = <strong>14 lb</strong> = <strong>6.35029318 kg</strong></li>
+            <li><strong>1 short ton (US)</strong> = <strong>2000 lb</strong> ≈ <strong>907.18474 kg</strong></li>
+            <li><strong>1 long ton (Imp.)</strong> = <strong>2240 lb</strong> ≈ <strong>1016.0469088 kg</strong></li>
+            <li><strong>1 tonne</strong> (metric ton) = <strong>1000 kg</strong></li>
+            <li><strong>1 kg</strong> = <strong>1000 g</strong> = <strong>1e6 mg</strong> = <strong>1e9 µg</strong></li>
+          </ul>
+          <p>
+            Using these standardized relationships ensures consistency across labeling, procurement, R&amp;D, healthcare, logistics, and international trade.
+          </p>
+        
+          {/* ===== Precision & Formats ===== */}
+          <h2 id="precision-format" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            🎯 Precision & Number Formats (Normal, Compact, Scientific)
+          </h2>
+          <p>
+            Numbers should be as clear as the decision they inform. Choose <strong>Precision</strong> from 0–12 decimals to match
+            your task: fewer decimals for invoices, more for lab and QA logs. Then choose your <strong>Format</strong>:
+          </p>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Normal</strong> — traditional decimal notation with trimmed trailing zeros for clean reading.</li>
+            <li><strong>Compact</strong> — short notation (e.g., 1.2K, 3.4M) for dashboards and slides.</li>
+            <li><strong>Scientific</strong> — e-notation (e.g., 3.2005e+06) for nano-scale or very large masses.</li>
+          </ul>
+          <p className="text-sm text-slate-400">
+            Extremely small/large magnitudes may auto-switch to scientific when using Normal to preserve readability.
+          </p>
+        
+          {/* ===== Shortcuts & Sharing ===== */}
+          <h2 id="shortcuts" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            ⚡ Shortcuts, Favorites, History, Copy & CSV
+          </h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Keyboard</strong>: <kbd>/</kbd> focus value, <kbd>S</kbd> focus From, <kbd>T</kbd> focus To, <kbd>X</kbd> swap.</li>
+            <li><strong>Favorites</strong>: pin your 3–5 most-used units to skip scrolling every time.</li>
+            <li><strong>History</strong>: your last 10 conversions are stored locally in the browser (privacy-friendly).</li>
+            <li><strong>Copy</strong>: copy any single result, or <em>Copy All</em> to capture the full grid.</li>
+            <li><strong>CSV export</strong>: download all unit values for spreadsheets, audits, or documentation.</li>
+            <li><strong>Shareable URL</strong>: your current value/units/format/precision are encoded in the link.</li>
+          </ul>
+        
+          {/* ===== Worked Examples ===== */}
+          <h2 id="examples" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            📈 Worked Examples (Rounded to 5–6 Significant Digits)
+          </h2>
+          <ul className="space-y-2">
+            <li><strong>1 kg → lb</strong>: 1 kg ≈ <strong>2.20462 lb</strong>.</li>
+            <li><strong>5 kg → oz</strong>: 5 kg × (35.27396195 oz/kg) ≈ <strong>176.37 oz</strong>.</li>
+            <li><strong>100 g → oz</strong>: 100 g ÷ 28.349523125 ≈ <strong>3.52740 oz</strong>.</li>
+            <li><strong>1 lb → g</strong>: 1 lb = <strong>453.59237 g</strong> (exact).</li>
+            <li><strong>50 lb → kg</strong>: 50 × 0.45359237 = <strong>22.6796185 kg</strong>.</li>
+            <li><strong>10 stone → kg</strong>: 10 × 6.35029318 = <strong>63.5029318 kg</strong>.</li>
+            <li><strong>0.25 short ton → kg</strong>: 0.25 × 907.18474 ≈ <strong>226.796185 kg</strong>.</li>
+            <li><strong>1 long ton → lb</strong>: <strong>2240 lb</strong> (exact) ≈ <strong>1016.0469 kg</strong>.</li>
+            <li><strong>750 mg → g</strong>: <strong>0.75 g</strong> (since 1000 mg = 1 g).</li>
+            <li><strong>120,000 µg → mg</strong>: <strong>120 mg</strong> (since 1000 µg = 1 mg).</li>
+          </ul>
+          <p className="text-sm text-slate-400">
+            Your live page will present numbers with your current <em>Precision</em> and <em>Format</em> settings.
+          </p>
+        
+          {/* ===== Real-World Use Cases ===== */}
+          <h2 id="use-cases" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            🧰 Real-World Use Cases (Who This Helps & Why)
+          </h2>
+          <p>
+            A single converter that respects exact factors is useful across industries. Common scenarios include:
+          </p>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Food & Nutrition</strong>: Convert recipes and labels between grams/ounces/pounds; standardize serving sizes for export markets.</li>
+            <li><strong>Manufacturing & BOMs</strong>: Normalize component masses in kg or lb; export CSV for QA checklists and ERP imports.</li>
+            <li><strong>Healthcare & Pharma</strong>: Use mg/µg with Scientific notation for dosage calculations and lab documentation.</li>
+            <li><strong>Logistics & Freight</strong>: Switch between short ton, long ton, tonne, and pounds to match carrier paperwork and customs declarations.</li>
+            <li><strong>E-commerce</strong>: Display compact weights on product cards, full precision on PDPs and spec sheets.</li>
+            <li><strong>Education</strong>: Teach unit relationships from micrograms to tons; the All Units grid reinforces scale intuition.</li>
+            <li><strong>Fitness</strong>: Convert between kg/lb and stone for workout logs, tracking apps, and client plans.</li>
+          </ul>
+        
+          {/* ===== Accuracy & Best Practices ===== */}
+          <h2 id="accuracy" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            ✅ Accuracy, Rounding & Best Practices
+          </h2>
+          <p>
+            The converter uses exact definitions where applicable (e.g., <strong>1 lb = 0.45359237 kg</strong>), computes in
+            double-precision floating point, and then formats values according to your display settings. For compliance-sensitive
+            contexts (labels, SOPs, certificates), consider:
+          </p>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Choosing enough <strong>decimals</strong> to avoid cumulative error when aggregating.</li>
+            <li>Locking <strong>Scientific</strong> format for microgram-level work to keep trailing zeros in check.</li>
+            <li>Exporting <strong>CSV</strong> and letting your spreadsheet handle internal precision; round only at the final step for publication.</li>
+            <li>Documenting the <strong>precision</strong> and <strong>unit system</strong> used to prevent ambiguity.</li>
+          </ul>
+          <p>
+            Remember: adding rounded numbers can yield slight discrepancies. Keep internal calculations at higher precision, then round for the final output.
+          </p>
+        
+          {/* ===== Pitfalls ===== */}
+          <h2 id="pitfalls" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            ⚠️ Common Pitfalls to Avoid
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Wrong ton type</strong>: US short ton (2000 lb) vs Imperial long ton (2240 lb) vs metric tonne (1000 kg). Choose carefully.</li>
+            <li><strong>Confusing mass vs weight</strong>: colloquially “weight” often means mass. This tool converts mass units; local gravity is not considered.</li>
+            <li><strong>Inconsistent precision</strong>: agree on decimals across a team; share the URL to lock an exact view.</li>
+            <li><strong>Locale formatting</strong>: commas vs. periods can vary; format numbers to match your style guide.</li>
+          </ul>
+        
+          {/* ===== Quick Reference Table ===== */}
+          <h2 id="mini-table" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            🗂️ Quick Reference Mini-Table
+          </h2>
+          <p className="text-sm text-slate-400 mb-3">
+            The factors most people reach for first:
+          </p>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <li>1 kg ≈ 2.20462 lb</li>
+              <li>1 lb = 0.45359237 kg (exact)</li>
+              <li>1 oz = 28.349523125 g (exact)</li>
+              <li>1 stone = 14 lb = 6.35029318 kg</li>
+              <li>1 tonne = 1000 kg</li>
+              <li>1 short ton (US) = 2000 lb</li>
+              <li>1 long ton (Imp.) = 2240 lb</li>
+              <li>1 g = 1000 mg = 1e6 µg</li>
+            </ul>
+          </div>
+        
+          {/* ===== Benefits ===== */}
+          <h2 id="benefits" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            🌟 Key Benefits You’ll Notice Immediately
+          </h2>
+          <ul className="space-y-2">
+            <li>✔️ <strong>Accurate, standards-based</strong> factors for professional and academic use.</li>
+            <li>✔️ <strong>Two-way conversion</strong> + <strong>All Units</strong> grid for instant context.</li>
+            <li>✔️ <strong>Precision/format controls</strong> that match your audience and compliance needs.</li>
+            <li>✔️ <strong>Favorites</strong> & <strong>History</strong> to remove repetitive steps.</li>
+            <li>✔️ <strong>Copy/CSV export</strong> for reports, SOPs, and audits.</li>
+            <li>✔️ <strong>Privacy-friendly</strong>: settings stored locally; no sign-in required.</li>
+          </ul>
+        
+          {/* ===== Tips ===== */}
+          <h2 id="tips" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            🧭 Power Tips to Work Faster
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li>Pin <strong>kg</strong>, <strong>g</strong>, <strong>lb</strong>, <strong>oz</strong>, and <strong>tonne</strong> as Favorites — most daily tasks use these five.</li>
+            <li>Toggle <strong>Scientific</strong> for microgram/milligram work to avoid reading long strings of zeros.</li>
+            <li>Use <strong>Compact</strong> when building dashboards with limited space.</li>
+            <li><strong>Export CSV</strong> for internal validation and keep a copy in your change-control log.</li>
+            <li>Share the URL with precision locked so collaborators see exactly what you see.</li>
+          </ul>
+        
+          {/* ===== Accessibility & Performance ===== */}
+          <h2 id="accessibility" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            ♿ Accessibility & Performance Considerations
+          </h2>
+          <p>
+            The interface supports keyboard navigation and uses clear labels on all inputs and buttons. The dark theme improves
+            contrast in low-light environments, and the layout scales smoothly across mobile, tablet, and desktop screens. Alt
+            text and ARIA labels help assistive technologies convey context. Under the hood, calculations are instantaneous and
+            stored locally for a fast return visit; cautious preloading ensures performance without bloat.
+          </p>
+        
+          {/* ===== Pros / Cons ===== */}
+          <h2 id="pros-cons" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            ⚖️ Pros & Cons
+          </h2>
+          <p className="mb-2">A balanced snapshot to set expectations.</p>
+          <p><strong>Pros:</strong></p>
+          <ul>
+            <li>Exact base definitions, consistent results, and flexible presentation formats.</li>
+            <li>Keyboard-friendly, fast UI with local persistence and shareable state.</li>
+            <li>All-in-one grid for sanity checks and teaching unit relationships.</li>
+          </ul>
+          <p><strong>Cons:</strong></p>
+          <ul>
+            <li>Focuses on mass/weight only — use separate tools for volume, area, or length.</li>
+            <li>Rounding style is user-controlled; agree on standards for team deliverables.</li>
+            <li>Locale number formatting may differ from your brand guide; switch formats as needed.</li>
+          </ul>
+        
+          {/* ===== FAQ ===== */}
+          <section className="space-y-6 mt-16">
+            <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
+              ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
+            </h2>
+        
+            <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q1: Which weight units are supported?</h3>
+                <p>
+                  Microgram, milligram, gram, kilogram, tonne (metric ton), ounce (oz), pound (lb), stone, US short ton, and Imperial long ton.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q2: How do precision and formats work?</h3>
+                <p>
+                  Set decimals from 0–12 and choose Normal, Compact, or Scientific. Very small/large values may show in Scientific when Normal is selected, for readability.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q3: Can I save my most-used units?</h3>
+                <p>
+                  Yes. Mark any unit as a Favorite. Your Favorites and the last 10 conversions are saved locally in your browser for quick access.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q4: Can I share or export results?</h3>
+                <p>
+                  Absolutely. Copy a value, use <strong>Copy All</strong> for the full grid, export a <strong>CSV</strong>, or share the page URL — it encodes your current state.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q5: Is my data stored on a server?</h3>
+                <p>
+                  No. Favorites and history live entirely in your browser. We don’t require accounts or store your inputs remotely.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q6: What’s the difference between short ton, long ton, and tonne?</h3>
+                <p>
+                  A US short ton is 2000 lb (~907.18474 kg); an Imperial long ton is 2240 lb (~1016.0469 kg); a metric tonne is 1000 kg (≈2204.62262 lb).
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q7: Does this tool convert “weight” or “mass”?</h3>
+                <p>
+                  It converts between <em>mass</em> units (kg, lb, etc.). In everyday language people say weight — this calculator uses standardized mass relationships and does not account for local gravity differences.
+                </p>
+              </div>
+            </div>
+          </section>
+        </section>
+        
+        {/* =================== AUTHOR & BACKLINK SECTION =================== */}
+        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/calculatorhub-author.webp"
+              alt="CalculatorHub Tools Team"
+              className="w-12 h-12 rounded-full border border-gray-600"
+              loading="lazy"
+            />
+            <div>
+              <p className="font-semibold text-white">Written by the CalculatorHub Tools Team</p>
+              <p className="text-sm text-slate-400">
+                Specialists in unit conversion and calculator UX. Last updated:{" "}
+                <time dateTime="2025-11-09">November 9, 2025</time>.
+              </p>
+            </div>
+          </div>
+        
+          <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
+              🚀 Explore more unit & math tools on CalculatorHub:
+            </p>
+            <div className="flex flex-wrap gap-3 text-sm">
+              <a
+                href="/length-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
+              >
+                <span className="text-indigo-400">📏</span> Length Converter
+              </a>
+        
+              <a
+                href="/area-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
+              >
+                <span className="text-sky-400">📐</span> Area Converter
+              </a>
+        
+              <a
+                href="/volume-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-pink-600/20 text-pink-300 hover:text-pink-400 px-3 py-2 rounded-md border border-slate-700 hover:border-pink-500 transition-all duration-200"
+              >
+                <span className="text-pink-400">🧪</span> Volume Converter
+              </a>
+            </div>
+          </div>
+        </section>
+
+
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/weight-converter" category="unit-converters" />
       </div>
