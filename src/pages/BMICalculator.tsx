@@ -452,22 +452,223 @@ const BMICalculator: React.FC = () => {
 
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title={seoData.bmiCalculator.title}
-        description={seoData.bmiCalculator.description}
+        title="BMI Calculator — WHO & Asian Standards, Metric/Imperial | 2025–2026"
+        description="Fast BMI calculator with WHO & Asian classifications. Supports metric (cm, kg) and imperial (in, lb), shows category, healthy weight range, target weight, shareable summary image, and more."
+        keywords={[
+          "BMI calculator",
+          "body mass index calculator",
+          "BMI WHO vs Asian",
+          "healthy weight range",
+          "BMI chart",
+          "BMI metric imperial",
+          "BMI category",
+          "BMI normal range",
+          "BMI overweight obese",
+          "target weight from BMI"
+        ]}
         canonical="https://calculatorhub.site/bmi-calculator"
-        schemaData={generateCalculatorSchema(
-          "BMI Calculator",
-          seoData.bmiCalculator.description,
-          "/bmi-calculator",
-          seoData.bmiCalculator.keywords
-        )}
-        breadcrumbs={[
-          { name: 'Math Tools', url: '/category/math-tools' },
-          { name: 'BMI Calculator', url: '/bmi-calculator' }
+        schemaData={[
+          /* 1) WebPage + nested Article */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebPage",
+            "@id":"https://calculatorhub.site/bmi-calculator#webpage",
+            "url":"https://calculatorhub.site/bmi-calculator",
+            "name":"BMI Calculator — WHO & Asian Standards",
+            "inLanguage":"en",
+            "isPartOf":{"@id":"https://calculatorhub.site/#website"},
+            "primaryImageOfPage":{
+              "@type":"ImageObject",
+              "@id":"https://calculatorhub.site/images/bmi-calculator-hero.webp#primaryimg",
+              "url":"https://calculatorhub.site/images/bmi-calculator-hero.webp",
+              "width":1200,
+              "height":675
+            },
+            "mainEntity":{
+              "@type":"Article",
+              "@id":"https://calculatorhub.site/bmi-calculator#article",
+              "headline":"BMI Calculator — Metric/Imperial with WHO & Asian Categories",
+              "description":"Calculate BMI with metric or imperial inputs, compare WHO vs Asian thresholds, and get healthy weight range and target suggestions.",
+              "image":["https://calculatorhub.site/images/bmi-calculator-hero.webp"],
+              "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
+              "publisher":{"@id":"https://calculatorhub.site/#organization"},
+              "datePublished":"2025-11-09",
+              "dateModified":"2025-11-09",
+              "mainEntityOfPage":{"@id":"https://calculatorhub.site/bmi-calculator#webpage"},
+              "articleSection":[
+                "How to Use",
+                "WHO vs Asian Thresholds",
+                "Healthy Weight Range",
+                "Target Weight",
+                "Metric vs Imperial",
+                "FAQ"
+              ]
+            }
+          },
+      
+          /* 2) Breadcrumbs */
+          {
+            "@context":"https://schema.org",
+            "@type":"BreadcrumbList",
+            "@id":"https://calculatorhub.site/bmi-calculator#breadcrumbs",
+            "itemListElement":[
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+              {"@type":"ListItem","position":2,"name":"Math Tools","item":"https://calculatorhub.site/category/math-tools"},
+              {"@type":"ListItem","position":3,"name":"BMI Calculator","item":"https://calculatorhub.site/bmi-calculator"}
+            ]
+          },
+      
+          /* 3) FAQ */
+          {
+            "@context":"https://schema.org",
+            "@type":"FAQPage",
+            "@id":"https://calculatorhub.site/bmi-calculator#faq",
+            "mainEntity":[
+              {
+                "@type":"Question",
+                "name":"What is BMI and how is it calculated?",
+                "acceptedAnswer":{
+                  "@type":"Answer",
+                  "text":"BMI = weight(kg) ÷ [height(m)]². In imperial units the tool converts lb and in to kg and m automatically."
+                }
+              },
+              {
+                "@type":"Question",
+                "name":"What’s the difference between WHO and Asian BMI categories?",
+                "acceptedAnswer":{
+                  "@type":"Answer",
+                  "text":"Asian cutoffs flag health risk at lower BMI values (e.g., normal up to 22.9 vs 24.9 in WHO). You can toggle both in the calculator."
+                }
+              },
+              {
+                "@type":"Question",
+                "name":"Is BMI a diagnosis?",
+                "acceptedAnswer":{
+                  "@type":"Answer",
+                  "text":"No. BMI is a screening tool. Muscle mass, age, sex, and ethnicity affect interpretation. Consult a clinician for personalized advice."
+                }
+              },
+              {
+                "@type":"Question",
+                "name":"How do I find a healthy weight for my height?",
+                "acceptedAnswer":{
+                  "@type":"Answer",
+                  "text":"The tool shows a healthy weight range for your height and a mid-range target based on the selected BMI standard."
+                }
+              },
+              {
+                "@type":"Question",
+                "name":"Can I share or download my result?",
+                "acceptedAnswer":{
+                  "@type":"Answer",
+                  "text":"Yes. Copy a shareable link or download a fixed-size summary image from the Share section."
+                }
+              }
+            ]
+          },
+      
+          /* 4) WebApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebApplication",
+            "@id":"https://calculatorhub.site/bmi-calculator#webapp",
+            "name":"BMI Calculator",
+            "url":"https://calculatorhub.site/bmi-calculator",
+            "applicationCategory":"HealthApplication",
+            "operatingSystem":"Web",
+            "description":"BMI calculator with metric/imperial input, WHO & Asian categories, healthy range and target weight, and shareable summary.",
+            "image":["https://calculatorhub.site/images/bmi-calculator-hero.webp"],
+            "publisher":{"@id":"https://calculatorhub.site/#organization"}
+          },
+      
+          /* 5) SoftwareApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"SoftwareApplication",
+            "@id":"https://calculatorhub.site/bmi-calculator#software",
+            "name":"Advanced BMI Calculator",
+            "applicationCategory":"HealthApplication",
+            "operatingSystem":"All",
+            "url":"https://calculatorhub.site/bmi-calculator",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "description":"Interactive BMI tool supporting WHO and Asian thresholds with shareable results."
+          },
+      
+          /* 6) WebSite + Organization (global) */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebSite",
+            "@id":"https://calculatorhub.site/#website",
+            "url":"https://calculatorhub.site",
+            "name":"CalculatorHub",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "potentialAction":{
+              "@type":"SearchAction",
+              "target":"https://calculatorhub.site/search?q={query}",
+              "query-input":"required name=query"
+            }
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"Organization",
+            "@id":"https://calculatorhub.site/#organization",
+            "name":"CalculatorHub",
+            "url":"https://calculatorhub.site",
+            "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
+          }
         ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/bmi-calculator" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/bmi-calculator" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/bmi-calculator" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/bmi-calculator" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="BMI Calculator — WHO & Asian Standards" />
+      <meta property="og:description" content="Calculate BMI with metric/imperial, compare WHO vs Asian thresholds, and get healthy weight range and target weight." />
+      <meta property="og:url" content="https://calculatorhub.site/bmi-calculator" />
+      <meta property="og:image" content="https://calculatorhub.site/images/bmi-calculator-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="BMI calculator UI showing result ring and category chips" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="BMI Calculator — Metric/Imperial with WHO & Asian Categories" />
+      <meta name="twitter:description" content="Instant BMI with healthy weight range, target weight, and shareable summary image." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/bmi-calculator-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#0b1220" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/bmi-calculator-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       {/* Page wrapper */}
       <div className="relative overflow-x-hidden pt-[env(safe-area-inset-top)]">
