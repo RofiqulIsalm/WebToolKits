@@ -177,7 +177,7 @@ const AverageCalculator: React.FC = () => {
 
   const median = useMemo(() => {
     if (count === 0) return NaN;
-    const mid = Math.floor(count - 1) / 2;
+    const mid = Math.floor((count - 1) / 2);
     return count % 2
       ? sorted[Math.floor(mid)]
       : (sorted[count / 2 - 1] + sorted[count / 2]) / 2;
@@ -267,24 +267,214 @@ const AverageCalculator: React.FC = () => {
      ============================================================ */
   return (
     <>
+     {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title="Average Calculator | Mean, Median, Mode, Range & Standard Deviation"
-        description="Free Average Calculator: paste numbers to get mean, median, mode, range, variance, and standard deviation. Supports weighted mean, shareable link, and chart."
+        title="Average Calculator — Mean, Median, Mode, Range, Variance & Standard Deviation"
+        description="Free Average Calculator: paste numbers to get mean, median, mode, range, variance, and standard deviation. Supports weighted mean, frequency chart, copy/CSV, and shareable links."
+        keywords={[
+          "average calculator",
+          "mean calculator",
+          "median calculator",
+          "mode calculator",
+          "range calculator",
+          "variance calculator",
+          "standard deviation calculator",
+          "weighted average",
+          "descriptive statistics",
+          "math tools",
+        ]}
         canonical="https://calculatorhub.site/average-calculator"
-        schemaData={generateCalculatorSchema(
-          "Average Calculator",
-          "Compute mean, median, mode, range, variance, and standard deviation with optional weighted mean.",
-          "/average-calculator",
-          [
-            "average calculator",
-            "mean median mode",
-            "variance standard deviation",
-            "weighted average",
-            "math tools",
-          ]
-        )}
+        schemaData={[
+          /* 1) WebPage + Article */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://calculatorhub.site/average-calculator#webpage",
+            "url": "https://calculatorhub.site/average-calculator",
+            "name": "Average Calculator — Mean, Median, Mode, Range, Variance & Std Dev",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "@id": "https://calculatorhub.site/images/average-calculator-hero.webp#primaryimg",
+              "url": "https://calculatorhub.site/images/average-calculator-hero.webp",
+              "width": 1200,
+              "height": 675
+            },
+            "mainEntity": {
+              "@type": "Article",
+              "@id": "https://calculatorhub.site/average-calculator#article",
+              "headline": "Average Calculator — Fast, Accurate, Shareable",
+              "description": "Compute mean, median, mode, range, variance and standard deviation. Optional weighted mean, URL state sharing, and frequency chart.",
+              "image": ["https://calculatorhub.site/images/average-calculator-hero.webp"],
+              "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "datePublished": "2025-11-09",
+              "dateModified": "2025-11-09",
+              "mainEntityOfPage": { "@id": "https://calculatorhub.site/average-calculator#webpage" },
+              "articleSection": [
+                "How to Use",
+                "Weighted Mean",
+                "Population vs Sample",
+                "Frequency Chart",
+                "Copy & Share"
+              ]
+            }
+          },
+      
+          /* 2) Breadcrumbs */
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id": "https://calculatorhub.site/average-calculator#breadcrumbs",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+              { "@type": "ListItem", "position": 2, "name": "Math Tools", "item": "https://calculatorhub.site/category/math-tools" },
+              { "@type": "ListItem", "position": 3, "name": "Average Calculator", "item": "https://calculatorhub.site/average-calculator" }
+            ]
+          },
+      
+          /* 3) FAQ */
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": "https://calculatorhub.site/average-calculator#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Which statistics does this calculator compute?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Mean, median, mode, range, variance, and standard deviation. It can also compute a weighted mean."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "When should I use sample vs population variance?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Use sample variance (divide by n−1) when your data are a sample from a larger population. Use population variance (divide by n) when you have the full population."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How are weights handled?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "The weighted mean uses Σ(x·w)/Σw. Extra weights are ignored; missing weights are treated as 0."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I share or export my results?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. You can copy all results or copy a shareable URL that preserves your inputs."
+                }
+              }
+            ]
+          },
+      
+          /* 4) WebApplication */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id": "https://calculatorhub.site/average-calculator#webapp",
+            "name": "Average Calculator",
+            "url": "https://calculatorhub.site/average-calculator",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Web",
+            "description": "Descriptive statistics with weighted mean, URL state sharing, and frequency distribution chart.",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "image": ["https://calculatorhub.site/images/average-calculator-hero.webp"]
+          },
+      
+          /* 5) SoftwareApplication */
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "@id": "https://calculatorhub.site/average-calculator#software",
+            "name": "Advanced Average Calculator",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "All",
+            "url": "https://calculatorhub.site/average-calculator",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "description": "Compute mean, median, mode, range, variance, and standard deviation. Includes weighted mean."
+          },
+      
+          /* 6) WebSite + Organization (global) */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://calculatorhub.site/#website",
+            "url": "https://calculatorhub.site",
+            "name": "CalculatorHub",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://calculatorhub.site/#organization",
+            "name": "CalculatorHub",
+            "url": "https://calculatorhub.site",
+            "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/logo.png" }
+          }
+        ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/average-calculator" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/average-calculator" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/average-calculator" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/average-calculator" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Average Calculator — Mean, Median, Mode, Range, Variance & Std Dev" />
+      <meta property="og:description" content="Paste numbers to get mean, median, mode, range, variance & std dev. Weighted mean, chart, copy & share links." />
+      <meta property="og:url" content="https://calculatorhub.site/average-calculator" />
+      <meta property="og:image" content="https://calculatorhub.site/images/average-calculator-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Average Calculator UI with results and chart" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Average Calculator — Mean, Median, Mode, Range, Variance & Std Dev" />
+      <meta name="twitter:description" content="Descriptive stats calculator with weighted mean, frequency chart, copy & share." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/average-calculator-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#6366f1" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/average-calculator-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+      
 
       {/* OG/Twitter minimal set (SEOHead may already include equivalents) */}
       <meta property="og:type" content="website" />
