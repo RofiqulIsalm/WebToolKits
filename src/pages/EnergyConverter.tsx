@@ -231,22 +231,226 @@ export default function EnergyConverter() {
 
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title={seoData.energyConverter?.title ?? 'Energy Converter'}
-        description={seoData.energyConverter?.description ?? 'Convert energy between J, kJ, MJ, kWh, eV, cal, BTU, and more.'}
+        title="Energy Converter — J ⇄ kJ, MJ, kWh, eV, cal, BTU, Therms, TNT (2025–2026)"
+        description="Free Energy Converter with precision control, Normal/Compact/Scientific formats, favorites, history, CSV export, and shareable URLs. Convert J, kJ, MJ, GJ, Wh, kWh, MWh, eV, keV, MeV, GeV, cal, kcal, BTU, ft·lb, therm (US/UK), and ton of TNT."
+        keywords={[
+          "energy converter",
+          "kWh to MJ",
+          "J to kWh",
+          "eV to J",
+          "cal to J",
+          "kcal to kJ",
+          "BTU to kJ",
+          "Wh to J",
+          "MWh to GJ",
+          "therm to kWh",
+          "ft lb to J",
+          "TNT to J",
+          "convert energy units"
+        ]}
         canonical="https://calculatorhub.site/energy-converter"
-        schemaData={generateCalculatorSchema(
-          'Energy Converter',
-          seoData.energyConverter?.description ?? 'Convert energy between J, kJ, MJ, kWh, eV, cal, BTU, and more.',
-          '/energy-converter',
-          seoData.energyConverter?.keywords ?? ['energy converter','kWh to MJ','J to kWh','cal to J','BTU to kJ','eV to J']
-        )}
-        breadcrumbs={[
-          { name: 'Unit Converters', url: '/category/unit-converters' },
-          { name: 'Energy Converter', url: '/energy-converter' },
+        schemaData={[
+          /* 1) WebPage + Article */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://calculatorhub.site/energy-converter#webpage",
+            "url": "https://calculatorhub.site/energy-converter",
+            "name": "Energy Converter (2025–2026) — J ⇄ kJ, MJ, kWh, eV, cal, BTU",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "@id": "https://calculatorhub.site/images/energy-converter-hero.webp#primaryimg",
+              "url": "https://calculatorhub.site/images/energy-converter-hero.webp",
+              "width": 1200,
+              "height": 675
+            },
+            "mainEntity": {
+              "@type": "Article",
+              "@id": "https://calculatorhub.site/energy-converter#article",
+              "headline": "Energy Converter — Fast, Accurate, and Shareable",
+              "description": "Convert between Joules, watt-hours, electronvolts, calories, BTU, therms, ft·lb, and TNT with precision & format controls, favorites, history, keyboard shortcuts, and CSV export.",
+              "image": ["https://calculatorhub.site/images/energy-converter-hero.webp"],
+              "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "datePublished": "2025-11-09",
+              "dateModified": "2025-11-09",
+              "mainEntityOfPage": { "@id": "https://calculatorhub.site/energy-converter#webpage" },
+              "articleSection": [
+                "How to Use",
+                "Supported Units",
+                "Precision & Formats",
+                "Keyboard Shortcuts",
+                "Copy & CSV Export",
+                "FAQ"
+              ]
+            }
+          },
+      
+          /* 2) Breadcrumbs */
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id": "https://calculatorhub.site/energy-converter#breadcrumbs",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+              { "@type": "ListItem", "position": 2, "name": "Unit Converters", "item": "https://calculatorhub.site/category/unit-converters" },
+              { "@type": "ListItem", "position": 3, "name": "Energy Converter", "item": "https://calculatorhub.site/energy-converter" }
+            ]
+          },
+      
+          /* 3) FAQ */
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": "https://calculatorhub.site/energy-converter#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Which energy units are supported?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "J, kJ, MJ, GJ, Wh, kWh, MWh, GWh, eV, keV, MeV, GeV, cal, kcal, BTU (IT), ft·lb, therm (US/UK), and ton of TNT."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is 1 kWh equal to 3.6 MJ?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. 1 kilowatt-hour equals exactly 3.6 megajoules (1 kWh = 3.6×10^6 J)."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Which calorie definition is used?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Thermochemical calorie: 1 cal = 4.184 J. Food Calories on labels are kilocalories (kcal)."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I export all results?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. You can copy the grid or download a CSV file. Your settings persist in the URL for sharing."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does it save my favorites and history?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Favorites and the most recent 10 conversions are saved locally in your browser."
+                }
+              }
+            ]
+          },
+      
+          /* 4) WebApplication */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id": "https://calculatorhub.site/energy-converter#webapp",
+            "name": "Energy Converter",
+            "url": "https://calculatorhub.site/energy-converter",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Web",
+            "description": "Energy conversion with precision controls, Normal/Compact/Scientific formats, favorites, history, and CSV export.",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "image": ["https://calculatorhub.site/images/energy-converter-hero.webp"]
+          },
+      
+          /* 5) SoftwareApplication */
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "@id": "https://calculatorhub.site/energy-converter#software",
+            "name": "Advanced Energy Converter",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "All",
+            "url": "https://calculatorhub.site/energy-converter",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "description": "Interactive energy unit converter with shareable links and CSV export."
+          },
+      
+          /* 6) WebSite + Organization (global) */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://calculatorhub.site/#website",
+            "url": "https://calculatorhub.site",
+            "name": "CalculatorHub",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://calculatorhub.site/#organization",
+            "name": "CalculatorHub",
+            "url": "https://calculatorhub.site",
+            "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/logo.png" }
+          }
         ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/energy-converter" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/energy-converter" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/energy-converter" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/energy-converter" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Energy Converter (2025–2026) — J, kJ, MJ, kWh, eV, cal, BTU" />
+      <meta property="og:description" content="Convert energy units with precision controls, Normal/Compact/Scientific formats, favorites, history, and CSV export." />
+      <meta property="og:url" content="https://calculatorhub.site/energy-converter" />
+      <meta property="og:image" content="https://calculatorhub.site/images/energy-converter-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Energy converter UI with unit swap and formatted results" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Energy Converter — J, kJ, MJ, kWh, eV, cal, BTU & more" />
+      <meta name="twitter:description" content="Fast, accurate energy conversions. Precision controls, favorites, history, CSV export." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/energy-converter-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#0b0f19" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/energy-converter-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto text-gray-200">
         <Breadcrumbs
