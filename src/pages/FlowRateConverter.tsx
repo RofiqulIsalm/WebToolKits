@@ -253,22 +253,213 @@ export default function FlowRateConverter() {
 
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title={seoData.flowRateConverter?.title ?? 'Flow Rate Converter'}
-        description={seoData.flowRateConverter?.description ?? 'Convert between m³/s, m³/h, L/min, CFM, GPM (US/Imp), ft³/s, barrels/day, and more.'}
+        title="Flow Rate Converter — m³/s ⇄ m³/h ⇄ L/min ⇄ CFM ⇄ GPM (US/Imp) ⇄ ft³/s ⇄ bbl/d"
+        description="Convert volumetric flow across engineering units: m³/s, m³/h, L/min, CFM, GPM (US/Imp), ft³/s, in³/s, barrels/day, and more. Includes precision control, Normal/Compact/Scientific formats, favorites, history, CSV export, and shareable URLs."
+        keywords={[
+          "flow rate converter",
+          "L/min to GPM",
+          "GPM to L/min",
+          "CFM to L/s",
+          "m3/h to GPM",
+          "m3/s to CFM",
+          "ft3/min to m3/h",
+          "bbl/d to m3/s",
+          "US gallon to liter",
+          "imperial gallon to liter",
+          "flow unit conversion"
+        ]}
         canonical="https://calculatorhub.site/flow-rate-converter"
-        schemaData={generateCalculatorSchema(
-          'Flow Rate Converter',
-          seoData.flowRateConverter?.description ?? 'Convert between m³/s, m³/h, L/min, CFM, GPM (US/Imp), ft³/s, barrels/day, and more.',
-          '/flow-rate-converter',
-          seoData.flowRateConverter?.keywords ?? ['flow converter','L/min to GPM','CFM to L/s','m3/h to GPM','bbl/d to m3/s']
-        )}
-        breadcrumbs={[
-          { name: 'Unit Converters', url: '/category/unit-converters' },
-          { name: 'Flow Rate Converter', url: '/flow-rate-converter' },
+        schemaData={[
+          /* 1) WebPage + Article */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebPage",
+            "@id":"https://calculatorhub.site/flow-rate-converter#webpage",
+            "url":"https://calculatorhub.site/flow-rate-converter",
+            "name":"Flow Rate Converter — m³/s, m³/h, L/min, CFM, GPM (US/Imp), ft³/s, bbl/d",
+            "inLanguage":"en",
+            "isPartOf":{"@id":"https://calculatorhub.site/#website"},
+            "primaryImageOfPage":{
+              "@type":"ImageObject",
+              "@id":"https://calculatorhub.site/images/flow-rate-converter-hero.webp#primaryimg",
+              "url":"https://calculatorhub.site/images/flow-rate-converter-hero.webp",
+              "width":1200,"height":675
+            },
+            "mainEntity":{
+              "@type":"Article",
+              "@id":"https://calculatorhub.site/flow-rate-converter#article",
+              "headline":"Flow Rate Converter — Engineering & Process Units",
+              "description":"Instantly convert between m³/s, m³/h, L/min, L/s, CFM, GPM (US/Imp), ft³/s, in³/s, and barrels/day. Precision controls, number formats, keyboard shortcuts, copy/CSV export, favorites, history, and shareable links.",
+              "image":["https://calculatorhub.site/images/flow-rate-converter-hero.webp"],
+              "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
+              "publisher":{"@id":"https://calculatorhub.site/#organization"},
+              "datePublished":"2025-11-09",
+              "dateModified":"2025-11-09",
+              "mainEntityOfPage":{"@id":"https://calculatorhub.site/flow-rate-converter#webpage"},
+              "articleSection":[
+                "Supported Units",
+                "US vs Imperial Gallon",
+                "Precision & Number Formats",
+                "Keyboard Shortcuts",
+                "Copy & CSV Export",
+                "FAQ"
+              ]
+            }
+          },
+      
+          /* 2) Breadcrumbs */
+          {
+            "@context":"https://schema.org",
+            "@type":"BreadcrumbList",
+            "@id":"https://calculatorhub.site/flow-rate-converter#breadcrumbs",
+            "itemListElement":[
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+              {"@type":"ListItem","position":2,"name":"Unit Converters","item":"https://calculatorhub.site/category/unit-converters"},
+              {"@type":"ListItem","position":3,"name":"Flow Rate Converter","item":"https://calculatorhub.site/flow-rate-converter"}
+            ]
+          },
+      
+          /* 3) FAQ */
+          {
+            "@context":"https://schema.org",
+            "@type":"FAQPage",
+            "@id":"https://calculatorhub.site/flow-rate-converter#faq",
+            "mainEntity":[
+              {
+                "@type":"Question",
+                "name":"How many liters are in a US gallon?",
+                "acceptedAnswer":{"@type":"Answer","text":"1 US gallon = 3.785411784 liters (0.003785411784 m³)."}
+              },
+              {
+                "@type":"Question",
+                "name":"How many liters are in an Imperial gallon?",
+                "acceptedAnswer":{"@type":"Answer","text":"1 Imperial gallon = 4.54609 liters (0.00454609 m³)."}
+              },
+              {
+                "@type":"Question",
+                "name":"What is 1 CFM in L/s?",
+                "acceptedAnswer":{"@type":"Answer","text":"1 ft³/min (CFM) = 0.028316846592 m³/min ≈ 0.47194745 L/s."}
+              },
+              {
+                "@type":"Question",
+                "name":"How do I convert L/min to US GPM?",
+                "acceptedAnswer":{"@type":"Answer","text":"Divide L/min by 3.785411784 and multiply by 1.0 (since GPM is US gal/min). Example: 10 L/min ≈ 2.6417 US GPM."}
+              },
+              {
+                "@type":"Question",
+                "name":"What is a barrel per day (bbl/d) in m³/s?",
+                "acceptedAnswer":{"@type":"Answer","text":"1 bbl = 0.158987294928 m³. Divide by 86400: 1 bbl/d ≈ 1.84197×10⁻⁶ m³/s."}
+              },
+              {
+                "@type":"Question",
+                "name":"CFM vs GPM — what’s the difference?",
+                "acceptedAnswer":{"@type":"Answer","text":"CFM measures volumetric flow in cubic feet per minute (gas/air common). GPM measures flow in gallons per minute (liquid common). They use different base volumes, so a direct conversion requires consistent unit factors."}
+              }
+            ]
+          },
+      
+          /* 4) WebApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebApplication",
+            "@id":"https://calculatorhub.site/flow-rate-converter#webapp",
+            "name":"Flow Rate Converter",
+            "url":"https://calculatorhub.site/flow-rate-converter",
+            "applicationCategory":"UtilitiesApplication",
+            "operatingSystem":"Web",
+            "description":"Interactive converter for m³/s, m³/h, L/min, CFM, GPM (US/Imp), ft³/s, in³/s, and bbl/d with precision controls and CSV export.",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "image":["https://calculatorhub.site/images/flow-rate-converter-hero.webp"]
+          },
+      
+          /* 5) SoftwareApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"SoftwareApplication",
+            "@id":"https://calculatorhub.site/flow-rate-converter#software",
+            "name":"Advanced Flow Rate Converter",
+            "applicationCategory":"UtilitiesApplication",
+            "operatingSystem":"All",
+            "url":"https://calculatorhub.site/flow-rate-converter",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "description":"Convert between common flow units used in HVAC, process, oil & gas, and lab calculations."
+          },
+      
+          /* 6) WebSite + Organization (global) */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebSite",
+            "@id":"https://calculatorhub.site/#website",
+            "url":"https://calculatorhub.site",
+            "name":"CalculatorHub",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "potentialAction":{
+              "@type":"SearchAction",
+              "target":"https://calculatorhub.site/search?q={query}",
+              "query-input":"required name=query"
+            }
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"Organization",
+            "@id":"https://calculatorhub.site/#organization",
+            "name":"CalculatorHub",
+            "url":"https://calculatorhub.site",
+            "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
+          }
         ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/flow-rate-converter" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/flow-rate-converter" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/flow-rate-converter" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/flow-rate-converter" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Flow Rate Converter — m³/s, m³/h, L/min, CFM, GPM (US/Imp), ft³/s, bbl/d" />
+      <meta property="og:description" content="Fast, precise flow conversions with Normal/Compact/Scientific formats, favorites, history, and CSV export." />
+      <meta property="og:url" content="https://calculatorhub.site/flow-rate-converter" />
+      <meta property="og:image" content="https://calculatorhub.site/images/flow-rate-converter-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Flow rate converter UI showing L/min ↔ GPM and CFM ↔ L/s conversions" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Flow Rate Converter — m³/s, L/min, CFM, GPM, ft³/s, bbl/d" />
+      <meta name="twitter:description" content="Engineer-ready flow conversions with precision controls and CSV export." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/flow-rate-converter-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#071a2b" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/flow-rate-converter-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto text-gray-200">
         <Breadcrumbs
