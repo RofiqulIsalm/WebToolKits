@@ -225,36 +225,108 @@ const FactorialCalculator: React.FC = () => {
      ============================================================ */
   return (
     <>
-      <SEOHead
-        title="Factorial Calculator | Exact n! (BigInt), Digits & Scientific Approximation"
-        description="Compute n! exactly with BigInt (fast up to ~1,000). Also shows digits, scientific approximation via Stirling/Kamenetsky, steps, shareable link, and a growth chart."
-        canonical="https://calculatorhub.site/factorial-calculator"
-        schemaData={generateCalculatorSchema(
-          "Factorial Calculator",
-          "Exact factorial with BigInt (up to ~1,000), digits of n!, scientific approximation, and growth chart of log10(n!).",
-          "/factorial-calculator",
-          [
-            "factorial calculator",
-            "n factorial",
-            "bigint factorial",
-            "stirling approximation",
-            "math tools",
-          ]
-        )}
-      />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+     <SEOHead
+          title="Factorial Calculator — Exact BigInt n!, Digits, Trailing Zeros & Scientific Approximation"
+          description="Compute n! exactly with BigInt (fast up to ~1,000), digits in n!, trailing zeros, leading digits, and a precise scientific approximation. Includes log10(n!) growth chart and shareable links."
+          keywords={[
+            "factorial calculator","n factorial","n!","digits of n!","trailing zeros of factorial",
+            "stirling approximation","kamenetsky","bigint factorial","log10 factorial","math tools"
+          ]}
+          canonical="https://calculatorhub.site/factorial-calculator"
+          schemaData={[
+            {
+              "@context":"https://schema.org","@type":"WebPage","@id":"https://calculatorhub.site/factorial-calculator#webpage",
+              "url":"https://calculatorhub.site/factorial-calculator",
+              "name":"Factorial Calculator — Exact BigInt n!, Digits & Approximation",
+              "inLanguage":"en",
+              "isPartOf":{"@id":"https://calculatorhub.site/#website"},
+              "primaryImageOfPage":{"@type":"ImageObject","url":"https://calculatorhub.site/images/factorial-calculator-hero.webp","width":1200,"height":675},
+              "mainEntity":{
+                "@type":"Article","@id":"https://calculatorhub.site/factorial-calculator#article",
+                "headline":"Exact factorial (BigInt), digits, trailing zeros, and scientific approximation",
+                "description":"Compute exact n! up to ~1,000 using BigInt, plus digits, trailing zeros, leading digits, and scientific approximation.",
+                "image":["https://calculatorhub.site/images/factorial-calculator-hero.webp"],
+                "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
+                "publisher":{"@id":"https://calculatorhub.site/#organization"},
+                "datePublished":"2025-11-09","dateModified":"2025-11-09",
+                "articleSection":["Factorial","Digits","Trailing Zeros","Stirling Approximation","Log Growth"]
+              }
+            },
+            {
+              "@context":"https://schema.org","@type":"BreadcrumbList","@id":"https://calculatorhub.site/factorial-calculator#breadcrumbs",
+              "itemListElement":[
+                {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+                {"@type":"ListItem","position":2,"name":"Math Tools","item":"https://calculatorhub.site/category/math-tools"},
+                {"@type":"ListItem","position":3,"name":"Factorial Calculator","item":"https://calculatorhub.site/factorial-calculator"}
+              ]
+            },
+            {
+              "@context":"https://schema.org","@type":"FAQPage","@id":"https://calculatorhub.site/factorial-calculator#faq",
+              "mainEntity":[
+                {"@type":"Question","name":"How many digits are in n!?","acceptedAnswer":{"@type":"Answer","text":"We use a precise log-based formula to compute digits without evaluating n! directly."}},
+                {"@type":"Question","name":"What are trailing zeros of n!?","acceptedAnswer":{"@type":"Answer","text":"They equal the exponent of 10 in n!, computed with Legendre’s formula summing ⌊n/5^k⌋."}},
+                {"@type":"Question","name":"Do you show exact n!?","acceptedAnswer":{"@type":"Answer","text":"Yes, for n ≤ ~1,000 using BigInt. For larger n we show digits, leading digits, and a scientific approximation."}}
+              ]
+            },
+            {
+              "@context":"https://schema.org","@type":"WebApplication","@id":"https://calculatorhub.site/factorial-calculator#webapp",
+              "name":"Factorial Calculator","url":"https://calculatorhub.site/factorial-calculator",
+              "applicationCategory":"UtilitiesApplication","operatingSystem":"Web",
+              "description":"Exact BigInt factorial up to ~1,000, plus digits, trailing zeros, leading digits, and scientific approximation."
+            },
+            {
+              "@context":"https://schema.org","@type":"SoftwareApplication","@id":"https://calculatorhub.site/factorial-calculator#software",
+              "name":"Advanced Factorial Calculator","applicationCategory":"UtilitiesApplication","operatingSystem":"All",
+              "url":"https://calculatorhub.site/factorial-calculator",
+              "description":"Compute n! exactly (BigInt) or via precise approximations with shareable results."
+            },
+            {
+              "@context":"https://schema.org","@type":"WebSite","@id":"https://calculatorhub.site/#website",
+              "url":"https://calculatorhub.site","name":"CalculatorHub",
+              "publisher":{"@id":"https://calculatorhub.site/#organization"},
+              "potentialAction":{"@type":"SearchAction","target":"https://calculatorhub.site/search?q={query}","query-input":"required name=query"}
+            },
+            {
+              "@context":"https://schema.org","@type":"Organization","@id":"https://calculatorhub.site/#organization",
+              "name":"CalculatorHub","url":"https://calculatorhub.site",
+              "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
+            }
+          ]}
+        />
+        
+        {/* Outside meta/link (minimal but complete) */}
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <link rel="canonical" href="https://calculatorhub.site/factorial-calculator" />
+        <link rel="alternate" href="https://calculatorhub.site/factorial-calculator" hreflang="en" />
+        <link rel="alternate" href="https://calculatorhub.site/bn/factorial-calculator" hreflang="bn" />
+        <link rel="alternate" href="https://calculatorhub.site/factorial-calculator" hreflang="x-default" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="CalculatorHub" />
+        <meta property="og:title" content="Factorial Calculator — Exact BigInt, Digits & Approximation" />
+        <meta property="og:description" content="Exact n! up to ~1,000 with BigInt, plus digits, trailing zeros, and scientific approximation." />
+        <meta property="og:url" content="https://calculatorhub.site/factorial-calculator" />
+        <meta property="og:image" content="https://calculatorhub.site/images/factorial-calculator-hero.webp" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Factorial calculator UI showing digits and chart" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Factorial Calculator — Exact BigInt, Digits & Approximation" />
+        <meta name="twitter:description" content="Compute n! exactly (BigInt) or via precise approximations, with digits and trailing zeros." />
+        <meta name="twitter:image" content="https://calculatorhub.site/images/factorial-calculator-hero.webp" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+        <meta name="theme-color" content="#6366f1" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+        <link rel="preload" as="image" href="/images/factorial-calculator-hero.webp" fetchpriority="high" />
+        <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+        <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+        <meta name="referrer" content="no-referrer-when-downgrade" />
+        <meta name="format-detection" content="telephone=no" />
 
-      {/* Minimal OG/Twitter */}
-      <meta property="og:type" content="website" />
-      <meta property="og:site_name" content="CalculatorHub" />
-      <meta property="og:title" content="Factorial Calculator | Exact n! (BigInt), Digits & Approx" />
-      <meta property="og:url" content="https://calculatorhub.site/factorial-calculator" />
-      <meta
-        property="og:description"
-        content="Exact factorial up to ~1,000 using BigInt, plus digits & scientific approximation for huge n, with steps and chart."
-      />
-      <meta property="og:image" content="https://calculatorhub.site/images/factorial-calculator-hero.webp" />
-      <meta name="twitter:card" content="summary_large_image" />
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
