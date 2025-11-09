@@ -249,22 +249,212 @@ export default function PowerConverter() {
 
   return (
     <>
+     {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title={seoData.powerConverter?.title ?? 'Power Converter'}
-        description={seoData.powerConverter?.description ?? 'Convert W, kW, MW, hp, BTU/h, kcal/h, TR, plus dBm and dBW.'}
+        title="Power Converter — W ⇄ kW ⇄ MW ⇄ hp ⇄ BTU/h ⇄ TR ⇄ dBm ⇄ dBW"
+        description="Fast, precise power conversions across watts, kilowatts, megawatts, horsepower, BTU/h, kilocalories per hour, tons of refrigeration, plus logarithmic units dBm and dBW. Features precision control, Normal/Compact/Scientific formats, favorites, history, CSV export, and shareable URLs."
+        keywords={[
+          "power converter",
+          "kW to hp",
+          "hp to kW",
+          "W to BTU/h",
+          "BTU/h to W",
+          "TR to kW",
+          "kcal/h to W",
+          "cal/s to W",
+          "dBm to W",
+          "dBW to W",
+          "megawatt to horsepower",
+          "gigawatt to megawatt",
+          "metric horsepower to watts",
+          "mechanical horsepower to watts",
+          "ton of refrigeration conversion"
+        ]}
         canonical="https://calculatorhub.site/power-converter"
-        schemaData={generateCalculatorSchema(
-          'Power Converter',
-          seoData.powerConverter?.description ?? 'Convert W, kW, MW, hp, BTU/h, kcal/h, TR, plus dBm and dBW.',
-          '/power-converter',
-          seoData.powerConverter?.keywords ?? ['power converter','kW to hp','W to BTU/h','dBm to W','dBW to W','TR to kW']
-        )}
-        breadcrumbs={[
-          { name: 'Unit Converters', url: '/category/unit-converters' },
-          { name: 'Power Converter', url: '/power-converter' },
+        schemaData={[
+          /* 1) WebPage + Article */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebPage",
+            "@id":"https://calculatorhub.site/power-converter#webpage",
+            "url":"https://calculatorhub.site/power-converter",
+            "name":"Power Converter — W, kW, MW, hp, BTU/h, TR, dBm, dBW",
+            "inLanguage":"en",
+            "isPartOf":{"@id":"https://calculatorhub.site/#website"},
+            "primaryImageOfPage":{
+              "@type":"ImageObject",
+              "@id":"https://calculatorhub.site/images/power-converter-hero.webp#primaryimg",
+              "url":"https://calculatorhub.site/images/power-converter-hero.webp",
+              "width":1200,"height":675
+            },
+            "mainEntity":{
+              "@type":"Article",
+              "@id":"https://calculatorhub.site/power-converter#article",
+              "headline":"Power Converter — Linear & Logarithmic Units (dBm/dBW)",
+              "description":"Convert W, kW, MW, hp, BTU/h, kcal/h, TR and logarithmic units dBm/dBW with precision controls, keyboard shortcuts, favorites, history and CSV export.",
+              "image":["https://calculatorhub.site/images/power-converter-hero.webp"],
+              "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
+              "publisher":{"@id":"https://calculatorhub.site/#organization"},
+              "datePublished":"2025-11-09",
+              "dateModified":"2025-11-09",
+              "mainEntityOfPage":{"@id":"https://calculatorhub.site/power-converter#webpage"},
+              "articleSection":[
+                "Supported Units",
+                "Linear vs Logarithmic",
+                "Precision & Formats",
+                "Keyboard Shortcuts",
+                "Copy & CSV Export",
+                "FAQ"
+              ]
+            }
+          },
+      
+          /* 2) Breadcrumbs */
+          {
+            "@context":"https://schema.org",
+            "@type":"BreadcrumbList",
+            "@id":"https://calculatorhub.site/power-converter#breadcrumbs",
+            "itemListElement":[
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+              {"@type":"ListItem","position":2,"name":"Unit Converters","item":"https://calculatorhub.site/category/unit-converters"},
+              {"@type":"ListItem","position":3,"name":"Power Converter","item":"https://calculatorhub.site/power-converter"}
+            ]
+          },
+      
+          /* 3) FAQ */
+          {
+            "@context":"https://schema.org",
+            "@type":"FAQPage",
+            "@id":"https://calculatorhub.site/power-converter#faq",
+            "mainEntity":[
+              {
+                "@type":"Question",
+                "name":"What is the difference between mechanical hp and metric hp?",
+                "acceptedAnswer":{"@type":"Answer","text":"Mechanical horsepower ≈ 745.69987 W; metric horsepower (PS) ≈ 735.49875 W. Select hp or hp(M) accordingly."}
+              },
+              {
+                "@type":"Question",
+                "name":"How do you convert dBm and dBW?",
+                "acceptedAnswer":{"@type":"Answer","text":"They are logarithmic power levels. dBm references 1 mW, dBW references 1 W. Conversions use: W = 10^(dBm/10)×1 mW and W = 10^(dBW/10)."}
+              },
+              {
+                "@type":"Question",
+                "name":"What is a ton of refrigeration (TR)?",
+                "acceptedAnswer":{"@type":"Answer","text":"1 TR = 12,000 BTU/h ≈ 3.51685284 kW. The tool converts TR directly to W/kW and vice versa."}
+              },
+              {
+                "@type":"Question",
+                "name":"Do you support CSV export and copy?",
+                "acceptedAnswer":{"@type":"Answer","text":"Yes. Use Copy All for a clipboard list or export a CSV of the results grid."}
+              },
+              {
+                "@type":"Question",
+                "name":"Are compact and scientific formats available?",
+                "acceptedAnswer":{"@type":"Answer","text":"Yes. Choose Normal, Compact, or Scientific and set decimals from 0–12 for precise formatting."}
+              }
+            ]
+          },
+      
+          /* 4) WebApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebApplication",
+            "@id":"https://calculatorhub.site/power-converter#webapp",
+            "name":"Power Converter",
+            "url":"https://calculatorhub.site/power-converter",
+            "applicationCategory":"UtilitiesApplication",
+            "operatingSystem":"Web",
+            "description":"Convert power units including W, kW, MW, hp, BTU/h, kcal/h, TR, dBm and dBW with shareable links and CSV export.",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "image":["https://calculatorhub.site/images/power-converter-hero.webp"]
+          },
+      
+          /* 5) SoftwareApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"SoftwareApplication",
+            "@id":"https://calculatorhub.site/power-converter#software",
+            "name":"Advanced Power Converter",
+            "applicationCategory":"UtilitiesApplication",
+            "operatingSystem":"All",
+            "url":"https://calculatorhub.site/power-converter",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "description":"Interactive converter for linear and logarithmic power units."
+          },
+      
+          /* 6) WebSite + Organization (global) */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebSite",
+            "@id":"https://calculatorhub.site/#website",
+            "url":"https://calculatorhub.site",
+            "name":"CalculatorHub",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "potentialAction":{
+              "@type":"SearchAction",
+              "target":"https://calculatorhub.site/search?q={query}",
+              "query-input":"required name=query"
+            }
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"Organization",
+            "@id":"https://calculatorhub.site/#organization",
+            "name":"CalculatorHub",
+            "url":"https://calculatorhub.site",
+            "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
+          }
         ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/power-converter" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/power-converter" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/power-converter" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/power-converter" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Power Converter — W, kW, MW, hp, BTU/h, TR, dBm, dBW" />
+      <meta property="og:description" content="Convert kW↔hp, W↔BTU/h, TR↔kW, kcal/h↔W, dBm/dBW↔W with precision controls, favorites, history and CSV export." />
+      <meta property="og:url" content="https://calculatorhub.site/power-converter" />
+      <meta property="og:image" content="https://calculatorhub.site/images/power-converter-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Power converter UI showing kW ↔ hp and dBm ↔ W conversions" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Power Converter — kW↔hp, W↔BTU/h, TR, dBm/dBW" />
+      <meta name="twitter:description" content="Lightning-fast power conversions with Normal/Compact/Scientific formats and CSV export." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/power-converter-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#1f0a00" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/power-converter-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto text-gray-200">
         <Breadcrumbs
