@@ -218,22 +218,227 @@ export default function TimeConverter() {
 
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title={seoData.timeConverter?.title ?? 'Time Converter'}
-        description={seoData.timeConverter?.description ?? 'Convert between ns, µs, ms, s, min, h, d, wk, month (avg), year (avg).'}
+        title="Time Converter — ns ⇄ µs ⇄ ms ⇄ s ⇄ min ⇄ h ⇄ d ⇄ wk ⇄ month (avg) ⇄ year (avg)"
+        description="Instant, precise time conversions across ns, µs, ms, s, minutes, hours, days, weeks, average months and years. Includes precision control, Normal/Compact/Scientific formats, favorites, history, keyboard shortcuts, CSV export, and shareable URLs."
+        keywords={[
+          "time converter",
+          "seconds to minutes",
+          "minutes to hours",
+          "hours to days",
+          "days to weeks",
+          "weeks to days",
+          "ms to s",
+          "microseconds to milliseconds",
+          "nanoseconds to microseconds",
+          "month to seconds",
+          "year to seconds",
+          "average civil year 365.2425",
+          "average month 30.436875",
+          "time unit conversion"
+        ]}
         canonical="https://calculatorhub.site/time-converter"
-        schemaData={generateCalculatorSchema(
-          'Time Converter',
-          seoData.timeConverter?.description ?? 'Convert between ns, µs, ms, s, min, h, d, wk, month (avg), year (avg).',
-          '/time-converter',
-          seoData.timeConverter?.keywords ?? ['time converter','seconds to hours','minutes to days','ms to s','week to days','month to seconds']
-        )}
-        breadcrumbs={[
-          { name: 'Unit Converters', url: '/category/unit-converters' },
-          { name: 'Time Converter', url: '/time-converter' },
+        schemaData={[
+          /* 1) WebPage + Article */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://calculatorhub.site/time-converter#webpage",
+            "url": "https://calculatorhub.site/time-converter",
+            "name": "Time Converter — ns, µs, ms, s, min, h, d, wk, month (avg), year (avg)",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "@id": "https://calculatorhub.site/images/time-converter-hero.webp#primaryimg",
+              "url": "https://calculatorhub.site/images/time-converter-hero.webp",
+              "width": 1200,
+              "height": 675
+            },
+            "mainEntity": {
+              "@type": "Article",
+              "@id": "https://calculatorhub.site/time-converter#article",
+              "headline": "Time Converter — Fast, Accurate, Shareable",
+              "description": "Convert between nanoseconds, microseconds, milliseconds, seconds, minutes, hours, days, weeks, average months and years with precision controls, favorites, history, keyboard shortcuts and CSV export.",
+              "image": ["https://calculatorhub.site/images/time-converter-hero.webp"],
+              "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "datePublished": "2025-11-09",
+              "dateModified": "2025-11-09",
+              "mainEntityOfPage": { "@id": "https://calculatorhub.site/time-converter#webpage" },
+              "articleSection": [
+                "How to Use",
+                "Supported Units",
+                "Precision & Formats",
+                "Keyboard Shortcuts",
+                "Copy & CSV Export",
+                "FAQ"
+              ]
+            }
+          },
+      
+          /* 2) Breadcrumbs */
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id": "https://calculatorhub.site/time-converter#breadcrumbs",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+              { "@type": "ListItem", "position": 2, "name": "Unit Converters", "item": "https://calculatorhub.site/category/unit-converters" },
+              { "@type": "ListItem", "position": 3, "name": "Time Converter", "item": "https://calculatorhub.site/time-converter" }
+            ]
+          },
+      
+          /* 3) FAQ */
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": "https://calculatorhub.site/time-converter#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What definition of month and year do you use?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "For deterministic results, this tool uses average civil values: 1 year = 365.2425 days and 1 month = 1/12 of that year (~30.436875 days)."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How many seconds are in a day and a week?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "1 day = 86,400 seconds. 1 week = 7 days = 604,800 seconds."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I switch to compact or scientific notation?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Choose Normal, Compact, or Scientific formats and adjust decimal precision from 0–12."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does the tool support shortcuts?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes: “/” focuses the value, “S” focuses From, “T” focuses To, and “X” swaps units."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I export all results?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Use Copy All to clipboard or export a CSV of the full results grid."
+                }
+              }
+            ]
+          },
+      
+          /* 4) WebApplication */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id": "https://calculatorhub.site/time-converter#webapp",
+            "name": "Time Converter",
+            "url": "https://calculatorhub.site/time-converter",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Web",
+            "description": "Convert time units with precision controls, favorites, history, keyboard shortcuts, and CSV export.",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "image": ["https://calculatorhub.site/images/time-converter-hero.webp"]
+          },
+      
+          /* 5) SoftwareApplication */
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "@id": "https://calculatorhub.site/time-converter#software",
+            "name": "Advanced Time Converter",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "All",
+            "url": "https://calculatorhub.site/time-converter",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "description": "Interactive converter for nanoseconds to years with shareable links and CSV export."
+          },
+      
+          /* 6) WebSite + Organization (global) */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://calculatorhub.site/#website",
+            "url": "https://calculatorhub.site",
+            "name": "CalculatorHub",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://calculatorhub.site/#organization",
+            "name": "CalculatorHub",
+            "url": "https://calculatorhub.site",
+            "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/logo.png" }
+          }
         ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/time-converter" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/time-converter" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/time-converter" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/time-converter" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Time Converter — ns ⇄ µs ⇄ ms ⇄ s ⇄ min ⇄ h ⇄ d ⇄ wk ⇄ month ⇄ year" />
+      <meta property="og:description" content="Convert nanoseconds to years with precision controls, multiple formats, favorites, history, and CSV export." />
+      <meta property="og:url" content="https://calculatorhub.site/time-converter" />
+      <meta property="og:image" content="https://calculatorhub.site/images/time-converter-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Time converter UI showing seconds ↔ minutes ↔ hours" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Time Converter — ns to year (avg) in one click" />
+      <meta name="twitter:description" content="Lightning-fast time conversions from ns to year with pro formatting and CSV export." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/time-converter-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#0b0720" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/time-converter-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto text-gray-200">
         <Breadcrumbs
