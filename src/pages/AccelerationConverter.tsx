@@ -231,22 +231,215 @@ export default function AccelerationConverter() {
 
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title={seoData.accelerationConverter?.title ?? 'Acceleration Converter'}
-        description={seoData.accelerationConverter?.description ?? 'Convert between m/s², g, Gal (cm/s²), ft/s², in/s², km/h/s, km/h², mph/s, knot/s.'}
+        title="Acceleration Converter — m/s² ⇄ g ⇄ Gal (cm/s²) ⇄ ft/s² ⇄ in/s² ⇄ km/h/s ⇄ km/h² ⇄ mph/s ⇄ knot/s"
+        description="Convert acceleration instantly across engineering units: m/s², g (9.80665 m/s²), Gal (cm/s²), ft/s², in/s², km/h/s, km/h², mph/s, and knot/s. Features precision control, Normal/Compact/Scientific formats, favorites, history, CSV export, and shareable URLs."
+        keywords={[
+          "acceleration converter",
+          "m/s2 to g",
+          "g to m/s2",
+          "cm/s2 to m/s2",
+          "gal to m/s2",
+          "ft/s2 to m/s2",
+          "in/s2 to m/s2",
+          "km/h/s to m/s2",
+          "km/h^2 to m/s^2",
+          "mph/s to m/s2",
+          "knot/s to m/s2",
+          "standard gravity 9.80665",
+          "acceleration unit conversion"
+        ]}
         canonical="https://calculatorhub.site/acceleration-converter"
-        schemaData={generateCalculatorSchema(
-          'Acceleration Converter',
-          seoData.accelerationConverter?.description ?? 'Convert between m/s², g, Gal (cm/s²), ft/s², in/s², km/h/s, km/h², mph/s, knot/s.',
-          '/acceleration-converter',
-          seoData.accelerationConverter?.keywords ?? ['acceleration converter','m/s2 to g','ft/s2 to m/s2','Gal to m/s2','mph/s to m/s2']
-        )}
-        breadcrumbs={[
-          { name: 'Unit Converters', url: '/category/unit-converters' },
-          { name: 'Acceleration Converter', url: '/acceleration-converter' },
+        schemaData={[
+          /* 1) WebPage + Article */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebPage",
+            "@id":"https://calculatorhub.site/acceleration-converter#webpage",
+            "url":"https://calculatorhub.site/acceleration-converter",
+            "name":"Acceleration Converter — m/s², g, Gal, ft/s², in/s², km/h/s, km/h², mph/s, knot/s",
+            "inLanguage":"en",
+            "isPartOf":{"@id":"https://calculatorhub.site/#website"},
+            "primaryImageOfPage":{
+              "@type":"ImageObject",
+              "@id":"https://calculatorhub.site/images/acceleration-converter-hero.webp#primaryimg",
+              "url":"https://calculatorhub.site/images/acceleration-converter-hero.webp",
+              "width":1200,"height":675
+            },
+            "mainEntity":{
+              "@type":"Article",
+              "@id":"https://calculatorhub.site/acceleration-converter#article",
+              "headline":"Acceleration Converter — Engineering & Physics Units",
+              "description":"Convert between m/s², g (g₀=9.80665 m/s²), Gal (cm/s²), ft/s², in/s², km/h/s, km/h², mph/s, and knot/s with precision & formatting controls, keyboard shortcuts, favorites, history, copy/CSV export, and shareable links.",
+              "image":["https://calculatorhub.site/images/acceleration-converter-hero.webp"],
+              "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
+              "publisher":{"@id":"https://calculatorhub.site/#organization"},
+              "datePublished":"2025-11-09",
+              "dateModified":"2025-11-09",
+              "mainEntityOfPage":{"@id":"https://calculatorhub.site/acceleration-converter#webpage"},
+              "articleSection":[
+                "Supported Units",
+                "Standard Gravity & Gal",
+                "Precision & Number Formats",
+                "Keyboard Shortcuts",
+                "Copy & CSV Export",
+                "FAQ"
+              ]
+            }
+          },
+      
+          /* 2) Breadcrumbs */
+          {
+            "@context":"https://schema.org",
+            "@type":"BreadcrumbList",
+            "@id":"https://calculatorhub.site/acceleration-converter#breadcrumbs",
+            "itemListElement":[
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+              {"@type":"ListItem","position":2,"name":"Unit Converters","item":"https://calculatorhub.site/category/unit-converters"},
+              {"@type":"ListItem","position":3,"name":"Acceleration Converter","item":"https://calculatorhub.site/acceleration-converter"}
+            ]
+          },
+      
+          /* 3) FAQ */
+          {
+            "@context":"https://schema.org",
+            "@type":"FAQPage",
+            "@id":"https://calculatorhub.site/acceleration-converter#faq",
+            "mainEntity":[
+              {
+                "@type":"Question",
+                "name":"What is 1 g in m/s²?",
+                "acceptedAnswer":{"@type":"Answer","text":"Standard gravity g₀ = 9.80665 m/s²."}
+              },
+              {
+                "@type":"Question",
+                "name":"What is a Gal?",
+                "acceptedAnswer":{"@type":"Answer","text":"Gal is cm/s². 1 Gal = 0.01 m/s²."}
+              },
+              {
+                "@type":"Question",
+                "name":"How do I convert km/h/s to m/s²?",
+                "acceptedAnswer":{"@type":"Answer","text":"Multiply by 1000/3600 ≈ 0.2777777778. Example: 3 km/h/s ≈ 0.8333 m/s²."}
+              },
+              {
+                "@type":"Question",
+                "name":"mph/s to m/s² factor?",
+                "acceptedAnswer":{"@type":"Answer","text":"1 mph/s = 0.44704 m/s²."}
+              },
+              {
+                "@type":"Question",
+                "name":"knot/s to m/s² factor?",
+                "acceptedAnswer":{"@type":"Answer","text":"1 knot/s ≈ 0.5144444444 m/s²."}
+              },
+              {
+                "@type":"Question",
+                "name":"What’s the difference between km/h/s and km/h²?",
+                "acceptedAnswer":{"@type":"Answer","text":"km/h/s is acceleration (speed change per second). km/h² is also acceleration but uses hours in the denominator twice; 1 km/h² ≈ 0.0000771604938 m/s²."}
+              }
+            ]
+          },
+      
+          /* 4) WebApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebApplication",
+            "@id":"https://calculatorhub.site/acceleration-converter#webapp",
+            "name":"Acceleration Converter",
+            "url":"https://calculatorhub.site/acceleration-converter",
+            "applicationCategory":"UtilitiesApplication",
+            "operatingSystem":"Web",
+            "description":"Instant conversion among m/s², g, Gal, ft/s², in/s², km/h/s, km/h², mph/s, and knot/s with shareable links and CSV.",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "image":["https://calculatorhub.site/images/acceleration-converter-hero.webp"]
+          },
+      
+          /* 5) SoftwareApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"SoftwareApplication",
+            "@id":"https://calculatorhub.site/acceleration-converter#software",
+            "name":"Advanced Acceleration Converter",
+            "applicationCategory":"UtilitiesApplication",
+            "operatingSystem":"All",
+            "url":"https://calculatorhub.site/acceleration-converter",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "description":"Interactive converter for m/s², g, Gal (cm/s²), ft/s², in/s², km/h/s, km/h², mph/s, and knot/s."
+          },
+      
+          /* 6) WebSite + Organization (global) */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebSite",
+            "@id":"https://calculatorhub.site/#website",
+            "url":"https://calculatorhub.site",
+            "name":"CalculatorHub",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "potentialAction":{
+              "@type":"SearchAction",
+              "target":"https://calculatorhub.site/search?q={query}",
+              "query-input":"required name=query"
+            }
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"Organization",
+            "@id":"https://calculatorhub.site/#organization",
+            "name":"CalculatorHub",
+            "url":"https://calculatorhub.site",
+            "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
+          }
         ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/acceleration-converter" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/acceleration-converter" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/acceleration-converter" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/acceleration-converter" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Acceleration Converter — m/s², g, Gal, ft/s², in/s², km/h/s, km/h², mph/s, knot/s" />
+      <meta property="og:description" content="Fast, precise acceleration conversions with Normal/Compact/Scientific formats, favorites, history, and CSV export." />
+      <meta property="og:url" content="https://calculatorhub.site/acceleration-converter" />
+      <meta property="og:image" content="https://calculatorhub.site/images/acceleration-converter-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Acceleration converter UI showing m/s² ↔ g and mph/s ↔ m/s² conversions" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Acceleration Converter — m/s²↔g, Gal, ft/s², in/s², km/h/s, km/h², mph/s, knot/s" />
+      <meta name="twitter:description" content="Engineer-ready acceleration conversions with precision controls and CSV export." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/acceleration-converter-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#150b27" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/acceleration-converter-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto text-gray-200">
         <Breadcrumbs
