@@ -237,22 +237,216 @@ export default function DataStorageConverter() {
 
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title={seoData.dataStorageConverter?.title ?? 'Data Storage Converter'}
-        description={seoData.dataStorageConverter?.description ?? 'Convert between bits/bytes, SI (kB, MB, GB) and IEC (KiB, MiB, GiB) units.'}
+        title="Data Storage Converter — Bits ⇄ Bytes, SI (kB, MB, GB) & IEC (KiB, MiB, GiB) | 2025–2026"
+        description="Convert data sizes across bits/bytes, decimal (kB, MB, GB, TB, PB) and binary (KiB, MiB, GiB, TiB, PiB). Precision, Normal/Compact/Scientific formats, favorites, history, CSV export, and shareable URLs."
+        keywords={[
+          "data storage converter",
+          "GB to GiB",
+          "MB to MiB",
+          "kB vs KiB",
+          "bit to byte",
+          "bytes to bits",
+          "decimal vs binary storage",
+          "TB to TiB",
+          "convert data units",
+          "file size converter",
+          "1024 vs 1000"
+        ]}
         canonical="https://calculatorhub.site/data-storage-converter"
-        schemaData={generateCalculatorSchema(
-          'Data Storage Converter',
-          seoData.dataStorageConverter?.description ?? 'Convert between bits/bytes, SI (kB, MB, GB) and IEC (KiB, MiB, GiB) units.',
-          '/data-storage-converter',
-          seoData.dataStorageConverter?.keywords ?? ['data storage converter','GB to GiB','MB to MiB','kB to KB','bit to byte']
-        )}
-        breadcrumbs={[
-          { name: 'Unit Converters', url: '/category/unit-converters' },
-          { name: 'Data Storage Converter', url: '/data-storage-converter' },
+        schemaData={[
+          /* 1) WebPage + Article */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://calculatorhub.site/data-storage-converter#webpage",
+            "url": "https://calculatorhub.site/data-storage-converter",
+            "name": "Data Storage Converter — Bits ⇄ Bytes, SI & IEC",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "@id": "https://calculatorhub.site/images/data-storage-converter-hero.webp#primaryimg",
+              "url": "https://calculatorhub.site/images/data-storage-converter-hero.webp",
+              "width": 1200,
+              "height": 675
+            },
+            "mainEntity": {
+              "@type": "Article",
+              "@id": "https://calculatorhub.site/data-storage-converter#article",
+              "headline": "Data Storage Converter — Fast, Accurate, Shareable",
+              "description": "Convert between bits/bytes and SI/IEC units with precision controls, favorites, history, keyboard shortcuts, and CSV export.",
+              "image": ["https://calculatorhub.site/images/data-storage-converter-hero.webp"],
+              "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "datePublished": "2025-11-09",
+              "dateModified": "2025-11-09",
+              "mainEntityOfPage": { "@id": "https://calculatorhub.site/data-storage-converter#webpage" },
+              "articleSection": [
+                "How to Use",
+                "Supported Units",
+                "Precision & Formats",
+                "Keyboard Shortcuts",
+                "Copy & CSV Export",
+                "FAQ"
+              ]
+            }
+          },
+      
+          /* 2) Breadcrumbs */
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id": "https://calculatorhub.site/data-storage-converter#breadcrumbs",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+              { "@type": "ListItem", "position": 2, "name": "Unit Converters", "item": "https://calculatorhub.site/category/unit-converters" },
+              { "@type": "ListItem", "position": 3, "name": "Data Storage Converter", "item": "https://calculatorhub.site/data-storage-converter" }
+            ]
+          },
+      
+          /* 3) FAQ */
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": "https://calculatorhub.site/data-storage-converter#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What’s the difference between GB and GiB?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "GB is decimal (10^9 bytes), GiB is binary (2^30 bytes). 1 GB ≈ 0.931 GiB, and 1 GiB ≈ 1.074 GB."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Do you support both SI and IEC units?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Decimal (kB, MB, GB, TB, PB) and binary (KiB, MiB, GiB, TiB, PiB), plus bits/bytes and their kilo/mega/giga/peta forms."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I copy or export the results?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "You can copy all values to clipboard or download a CSV. Your preferences persist in the URL for easy sharing."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does the tool save my favorites and history?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes—up to 10 recent conversions and your favorite units are stored locally in your browser."
+                }
+              }
+            ]
+          },
+      
+          /* 4) WebApplication */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id": "https://calculatorhub.site/data-storage-converter#webapp",
+            "name": "Data Storage Converter",
+            "url": "https://calculatorhub.site/data-storage-converter",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Web",
+            "description": "Convert data sizes between bits/bytes and SI/IEC units with precision controls, favorites, history, and CSV export.",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "image": ["https://calculatorhub.site/images/data-storage-converter-hero.webp"]
+          },
+      
+          /* 5) SoftwareApplication */
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "@id": "https://calculatorhub.site/data-storage-converter#software",
+            "name": "Advanced Data Storage Converter",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "All",
+            "url": "https://calculatorhub.site/data-storage-converter",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "description": "Interactive data size converter with shareable links and CSV export."
+          },
+      
+          /* 6) WebSite + Organization (global) */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://calculatorhub.site/#website",
+            "url": "https://calculatorhub.site",
+            "name": "CalculatorHub",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://calculatorhub.site/#organization",
+            "name": "CalculatorHub",
+            "url": "https://calculatorhub.site",
+            "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/logo.png" }
+          }
         ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/data-storage-converter" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/data-storage-converter" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/data-storage-converter" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/data-storage-converter" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Data Storage Converter — Bits ⇄ Bytes, SI & IEC" />
+      <meta property="og:description" content="Fast, accurate conversions across bits/bytes and SI/IEC units. Precision controls, favorites, history, CSV export." />
+      <meta property="og:url" content="https://calculatorhub.site/data-storage-converter" />
+      <meta property="og:image" content="https://calculatorhub.site/images/data-storage-converter-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Data storage converter UI with SI/IEC toggle and formatted results" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Data Storage Converter — Bits ⇄ Bytes, SI (kB, MB, GB) & IEC (KiB, MiB, GiB)" />
+      <meta name="twitter:description" content="Convert file sizes with precision. Normal/Compact/Scientific formats, favorites, history, CSV." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/data-storage-converter-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#071926" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/data-storage-converter-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto text-gray-200">
         <Breadcrumbs
