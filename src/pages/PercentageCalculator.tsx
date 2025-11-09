@@ -293,38 +293,192 @@ const PercentageCalculator: React.FC = () => {
      ============================================================ */
   return (
     <>
+      {/* ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title="Percentage Calculator | Fast % Of, Increase/Decrease & Change"
-        description="Free Percentage Calculator: instantly compute X% of Y, what percent X is of Y, percentage increase/decrease, and percent change. With steps, chart, and shareable link."
+        title="Percentage Calculator — X% of Y, Increase/Decrease & Percent Change"
+        description="Free Percentage Calculator: instantly find X% of Y, what percent X is of Y, percentage increase/decrease, and percent change from A to B — with steps, visual pie chart, copy & share link."
+        keywords={[
+          "percentage calculator",
+          "what is x percent of y",
+          "x is what percent of y",
+          "percent increase",
+          "percent decrease",
+          "percent change calculator",
+          "percent math with steps",
+          "quick percent tool"
+        ]}
         canonical="https://calculatorhub.site/percentage-calculator"
-        schemaData={generateCalculatorSchema(
-          "Percentage Calculator",
-          "Compute percentages, increase/decrease, and percent change with instant steps and visuals.",
-          "/percentage-calculator",
-          [
-            "percentage calculator",
-            "what is x percent of y",
-            "percent increase decrease",
-            "percent change",
-            "math tools",
-          ]
-        )}
+        schemaData={[
+          /* 1) WebPage + nested Article */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebPage",
+            "@id":"https://calculatorhub.site/percentage-calculator#webpage",
+            "url":"https://calculatorhub.site/percentage-calculator",
+            "name":"Percentage Calculator — X% of Y, Increase/Decrease & Change",
+            "inLanguage":"en",
+            "isPartOf":{"@id":"https://calculatorhub.site/#website"},
+            "primaryImageOfPage":{
+              "@type":"ImageObject",
+              "@id":"https://calculatorhub.site/images/percentage-calculator-hero.webp#primaryimg",
+              "url":"https://calculatorhub.site/images/percentage-calculator-hero.webp",
+              "width":1200,
+              "height":675
+            },
+            "mainEntity":{
+              "@type":"Article",
+              "@id":"https://calculatorhub.site/percentage-calculator#article",
+              "headline":"Percentage Calculator — Fast % Of, Increase/Decrease & Change",
+              "description":"Compute X% of Y, what percent X is of Y, percentage increase/decrease, and percent change with steps and visuals.",
+              "image":["https://calculatorhub.site/images/percentage-calculator-hero.webp"],
+              "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
+              "publisher":{"@id":"https://calculatorhub.site/#organization"},
+              "datePublished":"2025-11-09",
+              "dateModified":"2025-11-09",
+              "mainEntityOfPage":{"@id":"https://calculatorhub.site/percentage-calculator#webpage"},
+              "articleSection":[
+                "How to Use",
+                "Percent of",
+                "What Percent",
+                "Increase/Decrease",
+                "Percent Change",
+                "FAQ"
+              ]
+            }
+          },
+      
+          /* 2) Breadcrumbs */
+          {
+            "@context":"https://schema.org",
+            "@type":"BreadcrumbList",
+            "@id":"https://calculatorhub.site/percentage-calculator#breadcrumbs",
+            "itemListElement":[
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+              {"@type":"ListItem","position":2,"name":"Math Tools","item":"https://calculatorhub.site/category/math-tools"},
+              {"@type":"ListItem","position":3,"name":"Percentage Calculator","item":"https://calculatorhub.site/percentage-calculator"}
+            ]
+          },
+      
+          /* 3) FAQ */
+          {
+            "@context":"https://schema.org",
+            "@type":"FAQPage",
+            "@id":"https://calculatorhub.site/percentage-calculator#faq",
+            "mainEntity":[
+              {
+                "@type":"Question",
+                "name":"How do I calculate X% of Y?",
+                "acceptedAnswer":{"@type":"Answer","text":"Multiply Y by (X ÷ 100). Example: 15% of 200 = 200 × 0.15 = 30."}
+              },
+              {
+                "@type":"Question",
+                "name":"How do I find what percent X is of Y?",
+                "acceptedAnswer":{"@type":"Answer","text":"Use (X ÷ Y) × 100. The calculator shows steps automatically."}
+              },
+              {
+                "@type":"Question",
+                "name":"What is percent change?",
+                "acceptedAnswer":{"@type":"Answer","text":"Percent change = ((B − A) ÷ A) × 100, where A is the start value."}
+              }
+            ]
+          },
+      
+          /* 4) WebApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebApplication",
+            "@id":"https://calculatorhub.site/percentage-calculator#webapp",
+            "name":"Percentage Calculator",
+            "url":"https://calculatorhub.site/percentage-calculator",
+            "applicationCategory":"EducationalApplication",
+            "operatingSystem":"Web",
+            "description":"Interactive percentage calculator with modes for percent of, what percent, increase/decrease, and percent change; includes steps and charts.",
+            "image":["https://calculatorhub.site/images/percentage-calculator-hero.webp"],
+            "publisher":{"@id":"https://calculatorhub.site/#organization"}
+          },
+      
+          /* 5) SoftwareApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"SoftwareApplication",
+            "@id":"https://calculatorhub.site/percentage-calculator#software",
+            "name":"Advanced Percentage Calculator",
+            "applicationCategory":"EducationalApplication",
+            "operatingSystem":"All",
+            "url":"https://calculatorhub.site/percentage-calculator",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "description":"Fast % math tool with shareable state in URL and visual breakdown."
+          },
+      
+          /* 6) WebSite + Organization (global) */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebSite",
+            "@id":"https://calculatorhub.site/#website",
+            "url":"https://calculatorhub.site",
+            "name":"CalculatorHub",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "potentialAction":{
+              "@type":"SearchAction",
+              "target":"https://calculatorhub.site/search?q={query}",
+              "query-input":"required name=query"
+            }
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"Organization",
+            "@id":"https://calculatorhub.site/#organization",
+            "name":"CalculatorHub",
+            "url":"https://calculatorhub.site",
+            "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
+          }
+        ]}
       />
+      
+      {/* ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-      {/* --- Basic Open Graph / Twitter (optional if SEOHead doesn’t cover) --- */}
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/percentage-calculator" />
+      
+      {/* Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/percentage-calculator" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/percentage-calculator" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/percentage-calculator" hreflang="x-default" />
+      
+      {/* Open Graph / Twitter */}
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="CalculatorHub" />
-      <meta property="og:locale" content="en_US" />
-      <meta property="og:title" content="Percentage Calculator | Fast % Of, Increase/Decrease & Change" />
-      <meta
-        property="og:description"
-        content="Compute X% of Y, what percent X is of Y, percentage increase/decrease, and percent change. With steps, chart, copy & share."
-      />
+      <meta property="og:title" content="Percentage Calculator — X% of Y, Increase/Decrease & Change" />
+      <meta property="og:description" content="Compute X% of Y, what percent X is of Y, percentage increase/decrease, and percent change. With steps, chart, copy & share." />
       <meta property="og:url" content="https://calculatorhub.site/percentage-calculator" />
       <meta property="og:image" content="https://calculatorhub.site/images/percentage-calculator-hero.webp" />
-      <meta property="og:image:alt" content="Percentage Calculator with live steps and chart" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Percentage Calculator with live steps and pie chart" />
+      <meta property="og:locale" content="en_US" />
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Percentage Calculator — Fast % Of, Increase/Decrease & Change" />
+      <meta name="twitter:description" content="Instant % math with steps, visuals, and shareable link." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/percentage-calculator-hero.webp" />
+      
+      {/* PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#0f172a" />
+      
+      {/* Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/percentage-calculator-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/* Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
