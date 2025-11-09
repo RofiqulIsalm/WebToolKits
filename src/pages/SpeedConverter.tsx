@@ -214,22 +214,220 @@ export default function SpeedConverter() {
 
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title={seoData.speedConverter?.title ?? 'Speed Converter'}
-        description={seoData.speedConverter?.description ?? 'Convert speeds between m/s, km/h, mph, knots, ft/s, and more.'}
+        title="Speed Converter — m/s ⇄ km/h, mph, knots, ft/s & more (2025–2026)"
+        description="Free Speed Converter with precision control, Normal/Compact/Scientific formats, favorites, history, CSV export, and shareable URLs. Convert m/s, km/h, mph, knots, ft/s, in/s, and even fractions of light speed (c)."
+        keywords={[
+          "speed converter",
+          "mps to kph",
+          "kph to mps",
+          "mph to kph",
+          "knots to mph",
+          "ft/s to m/s",
+          "in/s to m/s",
+          "km/s to m/s",
+          "speed of light c to m/s",
+          "convert speed units",
+          "precision converter",
+          "scientific notation"
+        ]}
         canonical="https://calculatorhub.site/speed-converter"
-        schemaData={generateCalculatorSchema(
-          'Speed Converter',
-          seoData.speedConverter?.description ?? 'Convert speeds between m/s, km/h, mph, knots, ft/s, and more.',
-          '/speed-converter',
-          seoData.speedConverter?.keywords ?? ['speed converter','mps to kph','mph to kph','knots to mph']
-        )}
-        breadcrumbs={[
-          { name: 'Unit Converters', url: '/category/unit-converters' },
-          { name: 'Speed Converter', url: '/speed-converter' },
+        schemaData={[
+          // 1) WebPage + Article
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://calculatorhub.site/speed-converter#webpage",
+            "url": "https://calculatorhub.site/speed-converter",
+            "name": "Speed Converter (2025–2026) — m/s ⇄ km/h, mph, knots, ft/s",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "@id": "https://calculatorhub.site/images/speed-converter-hero.webp#primaryimg",
+              "url": "https://calculatorhub.site/images/speed-converter-hero.webp",
+              "width": 1200,
+              "height": 675
+            },
+            "mainEntity": {
+              "@type": "Article",
+              "@id": "https://calculatorhub.site/speed-converter#article",
+              "headline": "Speed Converter — Fast, Accurate, and Shareable",
+              "description": "Convert between mm/s, cm/s, m/s, km/h, km/s, ft/s, in/s, mph, knots, and c. Includes precision & format controls, favorites, history, shortcuts, and CSV export.",
+              "image": ["https://calculatorhub.site/images/speed-converter-hero.webp"],
+              "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "datePublished": "2025-11-09",
+              "dateModified": "2025-11-09",
+              "mainEntityOfPage": { "@id": "https://calculatorhub.site/speed-converter#webpage" },
+              "articleSection": [
+                "How to Use",
+                "Supported Units",
+                "Precision & Formats",
+                "Keyboard Shortcuts",
+                "Copy & CSV Export",
+                "FAQ"
+              ]
+            }
+          },
+      
+          // 2) Breadcrumbs
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id": "https://calculatorhub.site/speed-converter#breadcrumbs",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+              { "@type": "ListItem", "position": 2, "name": "Unit Converters", "item": "https://calculatorhub.site/category/unit-converters" },
+              { "@type": "ListItem", "position": 3, "name": "Speed Converter", "item": "https://calculatorhub.site/speed-converter" }
+            ]
+          },
+      
+          // 3) FAQ
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": "https://calculatorhub.site/speed-converter#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Which speed units are supported?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Millimeter/second, centimeter/second, meter/second, kilometer/hour, kilometer/second, foot/second, inch/second, mile/hour, knot, and speed of light (c)."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How do precision and formats work?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Set decimals from 0–12 and choose Normal, Compact, or Scientific formatting. Extremely small/large results can auto-swap to scientific in Normal mode."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I copy or export results?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Copy the full grid or download a CSV. The tool also preserves state in the URL for easy sharing."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does it save favorites and recent conversions?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Favorites and the 10 most recent conversions are stored locally in your browser."
+                }
+              }
+            ]
+          },
+      
+          // 4) WebApplication
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id": "https://calculatorhub.site/speed-converter#webapp",
+            "name": "Speed Converter",
+            "url": "https://calculatorhub.site/speed-converter",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Web",
+            "description": "Speed conversion with precision controls, Normal/Compact/Scientific formats, favorites, history, and CSV export.",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "image": ["https://calculatorhub.site/images/speed-converter-hero.webp"]
+          },
+      
+          // 5) SoftwareApplication (optional)
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "@id": "https://calculatorhub.site/speed-converter#software",
+            "name": "Advanced Speed Converter",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "All",
+            "url": "https://calculatorhub.site/speed-converter",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "description": "Interactive speed unit converter with shareable links and CSV export."
+          },
+      
+          // 6) WebSite + Organization (global)
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://calculatorhub.site/#website",
+            "url": "https://calculatorhub.site",
+            "name": "CalculatorHub",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://calculatorhub.site/#organization",
+            "name": "CalculatorHub",
+            "url": "https://calculatorhub.site",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://calculatorhub.site/images/logo.png"
+            }
+          }
         ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/speed-converter" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/speed-converter" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/speed-converter" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/speed-converter" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Speed Converter (2025–2026) — m/s ⇄ km/h, mph, knots, ft/s" />
+      <meta property="og:description" content="Convert speed units with precision controls, Normal/Compact/Scientific formats, favorites, history, CSV export, and shareable URLs." />
+      <meta property="og:url" content="https://calculatorhub.site/speed-converter" />
+      <meta property="og:image" content="https://calculatorhub.site/images/speed-converter-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Speed converter UI showing unit swapping and formatted results" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Speed Converter — m/s, km/h, mph, knots & more" />
+      <meta name="twitter:description" content="Fast, accurate speed conversions with precision controls, favorites, history, and CSV export." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/speed-converter-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#06b6d4" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/speed-converter-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto text-gray-200">
         <Breadcrumbs
