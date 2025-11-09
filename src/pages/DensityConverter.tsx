@@ -232,22 +232,210 @@ export default function DensityConverter() {
 
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title={seoData.densityConverter?.title ?? 'Density Converter'}
-        description={seoData.densityConverter?.description ?? 'Convert between kg/m³, g/cm³, g/mL, kg/L, lb/ft³, lb/in³, oz/in³, slug/ft³, lb/gal (US/Imp).'}
+        title="Density Converter — kg/m³ ⇄ g/cm³ ⇄ g/mL ⇄ kg/L ⇄ lb/ft³ ⇄ lb/in³ ⇄ oz/in³ ⇄ slug/ft³ ⇄ lb/gal"
+        description="Convert density units instantly: kg/m³, g/cm³, g/mL, kg/L, lb/ft³, lb/in³, oz/in³, slug/ft³, and lb/gal (US & Imperial). Includes precision control, Normal/Compact/Scientific formats, favorites, history, CSV export, and shareable URLs."
+        keywords={[
+          "density converter",
+          "g/cm3 to kg/m3",
+          "kg/m3 to g/cm3",
+          "g/mL to kg/m3",
+          "kg/L to g/cm3",
+          "lb/ft3 to kg/m3",
+          "lb/in3 to kg/m3",
+          "oz/in3 to kg/m3",
+          "slug/ft3 to kg/m3",
+          "lb/gal to kg/m3",
+          "us gallon to kg/m3",
+          "imperial gallon to kg/m3",
+          "density unit conversion"
+        ]}
         canonical="https://calculatorhub.site/density-converter"
-        schemaData={generateCalculatorSchema(
-          'Density Converter',
-          seoData.densityConverter?.description ?? 'Convert between kg/m³, g/cm³, g/mL, kg/L, lb/ft³, lb/in³, oz/in³, slug/ft³, lb/gal (US/Imp).',
-          '/density-converter',
-          seoData.densityConverter?.keywords ?? ['density converter','g/cm3 to kg/m3','lb/ft3 to kg/m3','g/mL to kg/m3','lb/gal to kg/m3']
-        )}
-        breadcrumbs={[
-          { name: 'Unit Converters', url: '/category/unit-converters' },
-          { name: 'Density Converter', url: '/density-converter' },
+        schemaData={[
+          /* 1) WebPage + Article */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebPage",
+            "@id":"https://calculatorhub.site/density-converter#webpage",
+            "url":"https://calculatorhub.site/density-converter",
+            "name":"Density Converter — kg/m³, g/cm³, g/mL, kg/L, lb/ft³, lb/in³, oz/in³, slug/ft³, lb/gal",
+            "inLanguage":"en",
+            "isPartOf":{"@id":"https://calculatorhub.site/#website"},
+            "primaryImageOfPage":{
+              "@type":"ImageObject",
+              "@id":"https://calculatorhub.site/images/density-converter-hero.webp#primaryimg",
+              "url":"https://calculatorhub.site/images/density-converter-hero.webp",
+              "width":1200,"height":675
+            },
+            "mainEntity":{
+              "@type":"Article",
+              "@id":"https://calculatorhub.site/density-converter#article",
+              "headline":"Density Converter — Engineering & Scientific Units",
+              "description":"Convert between kg/m³, g/cm³, g/mL, kg/L, lb/ft³, lb/in³, oz/in³, slug/ft³, and lb/gal (US/Imp). Features precision/format controls, keyboard shortcuts, favorites, history, copy/CSV export, and shareable links.",
+              "image":["https://calculatorhub.site/images/density-converter-hero.webp"],
+              "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
+              "publisher":{"@id":"https://calculatorhub.site/#organization"},
+              "datePublished":"2025-11-09",
+              "dateModified":"2025-11-09",
+              "mainEntityOfPage":{"@id":"https://calculatorhub.site/density-converter#webpage"},
+              "articleSection":[
+                "Supported Units",
+                "Metric vs US/Imperial",
+                "Precision & Number Formats",
+                "Keyboard Shortcuts",
+                "Copy & CSV Export",
+                "FAQ"
+              ]
+            }
+          },
+      
+          /* 2) Breadcrumbs */
+          {
+            "@context":"https://schema.org",
+            "@type":"BreadcrumbList",
+            "@id":"https://calculatorhub.site/density-converter#breadcrumbs",
+            "itemListElement":[
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+              {"@type":"ListItem","position":2,"name":"Unit Converters","item":"https://calculatorhub.site/category/unit-converters"},
+              {"@type":"ListItem","position":3,"name":"Density Converter","item":"https://calculatorhub.site/density-converter"}
+            ]
+          },
+      
+          /* 3) FAQ */
+          {
+            "@context":"https://schema.org",
+            "@type":"FAQPage",
+            "@id":"https://calculatorhub.site/density-converter#faq",
+            "mainEntity":[
+              {
+                "@type":"Question",
+                "name":"How do you convert g/cm³ to kg/m³?",
+                "acceptedAnswer":{"@type":"Answer","text":"Multiply by 1000. For example, 1 g/cm³ = 1000 kg/m³ (water at ~4°C is ≈1 g/cm³)."}
+              },
+              {
+                "@type":"Question",
+                "name":"What is lb/ft³ in kg/m³?",
+                "acceptedAnswer":{"@type":"Answer","text":"Use 1 lb/ft³ ≈ 16.01846337 kg/m³. Multiply the lb/ft³ value by 16.01846337 to get kg/m³."}
+              },
+              {
+                "@type":"Question",
+                "name":"How do US and Imperial gallon densities differ?",
+                "acceptedAnswer":{"@type":"Answer","text":"1 lb/US gal ≈ 119.8264273 kg/m³, while 1 lb/Imp gal ≈ 99.77637266 kg/m³ due to the different gallon volumes."}
+              },
+              {
+                "@type":"Question",
+                "name":"Are g/L and kg/m³ the same?",
+                "acceptedAnswer":{"@type":"Answer","text":"Numerically yes: 1 g/L = 1 kg/m³. Likewise, 1 mg/mL = 1 kg/m³."}
+              },
+              {
+                "@type":"Question",
+                "name":"What are typical reference values?",
+                "acceptedAnswer":{"@type":"Answer","text":"Fresh water at ~4°C is ≈ 1000 kg/m³; air at sea level is ≈ 1.2 kg/m³ (varies with T/P)."}
+              }
+            ]
+          },
+      
+          /* 4) WebApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebApplication",
+            "@id":"https://calculatorhub.site/density-converter#webapp",
+            "name":"Density Converter",
+            "url":"https://calculatorhub.site/density-converter",
+            "applicationCategory":"UtilitiesApplication",
+            "operatingSystem":"Web",
+            "description":"Instant conversion among metric and US/Imperial density units with shareable links and CSV.",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "image":["https://calculatorhub.site/images/density-converter-hero.webp"]
+          },
+      
+          /* 5) SoftwareApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"SoftwareApplication",
+            "@id":"https://calculatorhub.site/density-converter#software",
+            "name":"Advanced Density Converter",
+            "applicationCategory":"UtilitiesApplication",
+            "operatingSystem":"All",
+            "url":"https://calculatorhub.site/density-converter",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "description":"Interactive converter for kg/m³, g/cm³, g/mL, kg/L, lb/ft³, lb/in³, oz/in³, slug/ft³, and lb/gal."
+          },
+      
+          /* 6) WebSite + Organization (global) */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebSite",
+            "@id":"https://calculatorhub.site/#website",
+            "url":"https://calculatorhub.site",
+            "name":"CalculatorHub",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "potentialAction":{
+              "@type":"SearchAction",
+              "target":"https://calculatorhub.site/search?q={query}",
+              "query-input":"required name=query"
+            }
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"Organization",
+            "@id":"https://calculatorhub.site/#organization",
+            "name":"CalculatorHub",
+            "url":"https://calculatorhub.site",
+            "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
+          }
         ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/density-converter" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/density-converter" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/density-converter" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/density-converter" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Density Converter — kg/m³, g/cm³, g/mL, kg/L, lb/ft³, lb/in³, oz/in³, slug/ft³, lb/gal" />
+      <meta property="og:description" content="Fast, precise density conversions with Normal/Compact/Scientific formats, favorites, history, and CSV export." />
+      <meta property="og:url" content="https://calculatorhub.site/density-converter" />
+      <meta property="og:image" content="https://calculatorhub.site/images/density-converter-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Density converter UI showing g/cm³ ↔ kg/m³ and lb/ft³ ↔ kg/m³ conversions" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Density Converter — g/cm³↔kg/m³, g/mL, kg/L, lb/ft³, lb/in³, oz/in³, slug/ft³, lb/gal" />
+      <meta name="twitter:description" content="Engineer-ready density conversions with precision controls and CSV export." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/density-converter-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#0b1220" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/density-converter-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto text-gray-200">
         <Breadcrumbs
