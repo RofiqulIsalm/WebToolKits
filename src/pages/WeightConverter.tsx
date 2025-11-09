@@ -234,22 +234,221 @@ export default function WeightConverter() {
 
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title={seoData.weightConverter?.title || 'Weight Converter — CalculatorHub'}
-        description={seoData.weightConverter?.description || 'Convert between kilograms, grams, pounds, ounces, and more.'}
+        title="Weight Converter — kg to lb, g to oz, stone & tons (2025–2026)"
+        description="Free Weight Converter with precision control, scientific/compact formats, favorites, history, CSV export, and shareable URLs. Convert kilograms to pounds, grams to ounces, stones, US/Imperial tons, and more."
+        keywords={[
+          "weight converter",
+          "mass converter",
+          "kg to lb",
+          "lb to kg",
+          "grams to ounces",
+          "g to oz",
+          "microgram to milligram",
+          "stone to kg",
+          "metric ton to short ton",
+          "long ton to short ton",
+          "ounces to grams",
+          "precision converter",
+          "scientific notation converter"
+        ]}
         canonical="https://calculatorhub.site/weight-converter"
-        schemaData={generateCalculatorSchema(
-          'Weight Converter',
-          seoData.weightConverter?.description || 'Convert between kilograms, grams, pounds, ounces, and more.',
-          '/weight-converter',
-          seoData.weightConverter?.keywords || ['weight converter','kg to lb','lb to kg','grams to ounces']
-        )}
-        breadcrumbs={[
-          { name: 'Unit Converters', url: '/category/unit-converters' },
-          { name: 'Weight Converter', url: '/weight-converter' },
+        schemaData={[
+          // 1) WebPage + Article
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://calculatorhub.site/weight-converter#webpage",
+            "url": "https://calculatorhub.site/weight-converter",
+            "name": "Weight Converter (2025–2026) — kg ⇄ lb, g ⇄ oz, stone & tons",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "@id": "https://calculatorhub.site/images/weight-converter-hero.webp#primaryimg",
+              "url": "https://calculatorhub.site/images/weight-converter-hero.webp",
+              "width": 1200,
+              "height": 675
+            },
+            "mainEntity": {
+              "@type": "Article",
+              "@id": "https://calculatorhub.site/weight-converter#article",
+              "headline": "Weight Converter — Fast, Accurate, and Shareable",
+              "description": "Convert between microgram, milligram, gram, kilogram, tonne, ounce, pound, stone, US ton, and Imperial ton. Includes precision & format controls, favorites, history, shortcuts, and CSV export.",
+              "image": ["https://calculatorhub.site/images/weight-converter-hero.webp"],
+              "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "datePublished": "2025-11-09",
+              "dateModified": "2025-11-09",
+              "mainEntityOfPage": { "@id": "https://calculatorhub.site/weight-converter#webpage" },
+              "articleSection": [
+                "How to Use",
+                "Supported Units",
+                "Precision & Format",
+                "Keyboard Shortcuts",
+                "Copy & CSV Export",
+                "FAQ"
+              ]
+            }
+          },
+      
+          // 2) Breadcrumbs
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id": "https://calculatorhub.site/weight-converter#breadcrumbs",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+              { "@type": "ListItem", "position": 2, "name": "Unit Converters", "item": "https://calculatorhub.site/category/unit-converters" },
+              { "@type": "ListItem", "position": 3, "name": "Weight Converter", "item": "https://calculatorhub.site/weight-converter" }
+            ]
+          },
+      
+          // 3) FAQ
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": "https://calculatorhub.site/weight-converter#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Which weight units are supported?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Microgram, milligram, gram, kilogram, tonne, ounce (oz), pound (lb), stone, US short ton, and Imperial long ton."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How do precision and formats work?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Use the slider to set decimals (0–12). Choose Normal, Compact, or Scientific to format results. Very small/large values can auto-switch to scientific when using Normal."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I copy or export results?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Copy the full grid or download a CSV. You can also share the state via URL parameters."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does it save favorites and recent conversions?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Favorites and the 10 most recent conversions are stored locally in your browser."
+                }
+              }
+            ]
+          },
+      
+          // 4) WebApplication
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id": "https://calculatorhub.site/weight-converter#webapp",
+            "name": "Weight Converter",
+            "url": "https://calculatorhub.site/weight-converter",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Web",
+            "description": "Weight conversion with precision controls, scientific/compact formats, favorites, history, and CSV export.",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "image": ["https://calculatorhub.site/images/weight-converter-hero.webp"]
+          },
+      
+          // 5) SoftwareApplication (optional)
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "@id": "https://calculatorhub.site/weight-converter#software",
+            "name": "Advanced Weight Converter",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "All",
+            "url": "https://calculatorhub.site/weight-converter",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "description": "Interactive mass/weight unit converter with shareable links and CSV export."
+          },
+      
+          // 6) WebSite + Organization (global)
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://calculatorhub.site/#website",
+            "url": "https://calculatorhub.site",
+            "name": "CalculatorHub",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://calculatorhub.site/#organization",
+            "name": "CalculatorHub",
+            "url": "https://calculatorhub.site",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://calculatorhub.site/images/logo.png"
+            }
+          }
         ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/weight-converter" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/weight-converter" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/weight-converter" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/weight-converter" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Weight Converter (2025–2026) — kg ⇄ lb, g ⇄ oz, stone & tons" />
+      <meta property="og:description" content="Convert weight units with precision, scientific/compact formats, favorites, history, CSV export, and shareable URLs." />
+      <meta property="og:url" content="https://calculatorhub.site/weight-converter" />
+      <meta property="og:image" content="https://calculatorhub.site/images/weight-converter-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Weight converter UI showing formatted results and unit swapping" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Weight Converter — kg to lb, g to oz, stone & tons" />
+      <meta name="twitter:description" content="Fast, accurate weight conversions with precision controls, favorites, history, and CSV export." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/weight-converter-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#0ea5e9" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/weight-converter-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto text-gray-200">
         <Breadcrumbs
