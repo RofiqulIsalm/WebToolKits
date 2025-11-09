@@ -256,22 +256,228 @@ export default function FrequencyConverter() {
 
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title={seoData.frequencyConverter?.title ?? 'Frequency Converter'}
-        description={seoData.frequencyConverter?.description ?? 'Convert between Hz, kHz, MHz, GHz, RPM, CPM, RPS, BPM and period units (s, ms, μs, ns, min, h).'}
+        title="Frequency Converter — Hz, kHz, MHz, GHz ↔ RPM/CPM/BPM & Period (s, ms, μs, ns) | 2025–2026"
+        description="Instantly convert between frequency (Hz, kHz, MHz, GHz, THz, mHz, μHz), rotational units (RPM, RPS), event rates (CPM, BPM), and period (s, ms, μs, ns, min, h). Includes precision control, Normal/Compact/Scientific formats, keyboard shortcuts, favorites, history, CSV export, and shareable URLs."
+        keywords={[
+          "frequency converter",
+          "Hz to kHz",
+          "Hz to RPM",
+          "RPM to Hz",
+          "CPM to Hz",
+          "BPM to Hz",
+          "period to frequency",
+          "ms to Hz",
+          "microsecond to Hz",
+          "frequency period converter",
+          "cycles per minute",
+          "revolutions per minute",
+          "beats per minute"
+        ]}
         canonical="https://calculatorhub.site/frequency-converter"
-        schemaData={generateCalculatorSchema(
-          'Frequency Converter',
-          seoData.frequencyConverter?.description ?? 'Convert between Hz, kHz, MHz, GHz, RPM, CPM, RPS, BPM and period units (s, ms, μs, ns, min, h).',
-          '/frequency-converter',
-          seoData.frequencyConverter?.keywords ?? ['frequency converter','Hz to kHz','RPM to Hz','ms period to Hz','BPM to Hz']
-        )}
-        breadcrumbs={[
-          { name: 'Unit Converters', url: '/category/unit-converters' },
-          { name: 'Frequency Converter', url: '/frequency-converter' },
+        schemaData={[
+          /* 1) WebPage + Article */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebPage",
+            "@id":"https://calculatorhub.site/frequency-converter#webpage",
+            "url":"https://calculatorhub.site/frequency-converter",
+            "name":"Frequency Converter — Hz ↔ RPM/CPM/BPM & Period",
+            "inLanguage":"en",
+            "isPartOf":{"@id":"https://calculatorhub.site/#website"},
+            "primaryImageOfPage":{
+              "@type":"ImageObject",
+              "@id":"https://calculatorhub.site/images/frequency-converter-hero.webp#primaryimg",
+              "url":"https://calculatorhub.site/images/frequency-converter-hero.webp",
+              "width":1200,
+              "height":675
+            },
+            "mainEntity":{
+              "@type":"Article",
+              "@id":"https://calculatorhub.site/frequency-converter#article",
+              "headline":"Frequency Converter — Fast, Accurate, Shareable",
+              "description":"Convert Hz/kHz/MHz/GHz/THz, RPM/RPS/CPM/BPM and periods (s, ms, μs, ns, min, h) with precision controls, favorites, history, shortcuts, and CSV export.",
+              "image":["https://calculatorhub.site/images/frequency-converter-hero.webp"],
+              "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
+              "publisher":{"@id":"https://calculatorhub.site/#organization"},
+              "datePublished":"2025-11-09",
+              "dateModified":"2025-11-09",
+              "mainEntityOfPage":{"@id":"https://calculatorhub.site/frequency-converter#webpage"},
+              "articleSection":[
+                "How to Use",
+                "Supported Units",
+                "Frequency ↔ Period",
+                "RPM/CPM/BPM Conversions",
+                "Precision & Formats",
+                "Keyboard Shortcuts",
+                "Copy & CSV Export",
+                "FAQ"
+              ]
+            }
+          },
+      
+          /* 2) Breadcrumbs */
+          {
+            "@context":"https://schema.org",
+            "@type":"BreadcrumbList",
+            "@id":"https://calculatorhub.site/frequency-converter#breadcrumbs",
+            "itemListElement":[
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+              {"@type":"ListItem","position":2,"name":"Unit Converters","item":"https://calculatorhub.site/category/unit-converters"},
+              {"@type":"ListItem","position":3,"name":"Frequency Converter","item":"https://calculatorhub.site/frequency-converter"}
+            ]
+          },
+      
+          /* 3) FAQ */
+          {
+            "@context":"https://schema.org",
+            "@type":"FAQPage",
+            "@id":"https://calculatorhub.site/frequency-converter#faq",
+            "mainEntity":[
+              {
+                "@type":"Question",
+                "name":"How do I convert RPM to Hz?",
+                "acceptedAnswer":{
+                  "@type":"Answer",
+                  "text":"1 RPM = 1⁄60 Hz. Multiply RPM by 1⁄60 to get Hz. Example: 1200 RPM = 20 Hz."
+                }
+              },
+              {
+                "@type":"Question",
+                "name":"How do I convert frequency to period?",
+                "acceptedAnswer":{
+                  "@type":"Answer",
+                  "text":"Period (seconds) = 1 ÷ frequency (Hz). For milliseconds, microseconds, etc., convert seconds to the desired unit."
+                }
+              },
+              {
+                "@type":"Question",
+                "name":"Is RPS the same as Hz?",
+                "acceptedAnswer":{
+                  "@type":"Answer",
+                  "text":"Yes. 1 revolution per second corresponds to 1 cycle per second, i.e., 1 Hz."
+                }
+              },
+              {
+                "@type":"Question",
+                "name":"Can I convert BPM or CPM to Hz?",
+                "acceptedAnswer":{
+                  "@type":"Answer",
+                  "text":"Yes. BPM and CPM are per-minute rates. Divide by 60 to convert to Hz (events per second)."
+                }
+              },
+              {
+                "@type":"Question",
+                "name":"Does the tool save favorites and recent conversions?",
+                "acceptedAnswer":{
+                  "@type":"Answer",
+                  "text":"Yes—favorites and up to 10 recent conversions are stored locally in your browser."
+                }
+              }
+            ]
+          },
+      
+          /* 4) WebApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebApplication",
+            "@id":"https://calculatorhub.site/frequency-converter#webapp",
+            "name":"Frequency Converter",
+            "url":"https://calculatorhub.site/frequency-converter",
+            "applicationCategory":"UtilitiesApplication",
+            "operatingSystem":"Web",
+            "description":"Convert Hz, kHz, MHz, GHz, RPM, RPS, CPM, BPM and periods with precision controls and CSV export.",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "image":["https://calculatorhub.site/images/frequency-converter-hero.webp"]
+          },
+      
+          /* 5) SoftwareApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"SoftwareApplication",
+            "@id":"https://calculatorhub.site/frequency-converter#software",
+            "name":"Advanced Frequency Converter",
+            "applicationCategory":"UtilitiesApplication",
+            "operatingSystem":"All",
+            "url":"https://calculatorhub.site/frequency-converter",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "description":"Interactive frequency & period converter with shareable links and CSV export."
+          },
+      
+          /* 6) WebSite + Organization (global) */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebSite",
+            "@id":"https://calculatorhub.site/#website",
+            "url":"https://calculatorhub.site",
+            "name":"CalculatorHub",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "potentialAction":{
+              "@type":"SearchAction",
+              "target":"https://calculatorhub.site/search?q={query}",
+              "query-input":"required name=query"
+            }
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"Organization",
+            "@id":"https://calculatorhub.site/#organization",
+            "name":"CalculatorHub",
+            "url":"https://calculatorhub.site",
+            "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
+          }
         ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/frequency-converter" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/frequency-converter" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/frequency-converter" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/frequency-converter" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Frequency Converter — Hz ↔ RPM/CPM/BPM & Period" />
+      <meta property="og:description" content="Fast, accurate conversion between Hz, kHz, MHz, GHz, RPM, CPM, BPM and period units. Precision, shortcuts, favorites, history, CSV." />
+      <meta property="og:url" content="https://calculatorhub.site/frequency-converter" />
+      <meta property="og:image" content="https://calculatorhub.site/images/frequency-converter-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Frequency converter UI showing Hz↔RPM and period conversions" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Frequency Converter — Hz, kHz, MHz, GHz ↔ RPM/CPM/BPM & Period" />
+      <meta name="twitter:description" content="Convert frequency, rotational speed, event rates, and period with precision and CSV export." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/frequency-converter-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#120A2A" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/frequency-converter-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto text-gray-200">
         <Breadcrumbs
