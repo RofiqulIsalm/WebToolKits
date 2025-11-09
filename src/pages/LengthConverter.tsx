@@ -228,22 +228,220 @@ export default function LengthConverter() {
 
   return (
     <>
+     {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title={seoData.lengthConverter.title}
-        description={seoData.lengthConverter.description}
+        title="Length Converter — Meter to Feet, cm to inch, km to miles (2025–2026)"
+        description="Free Length Converter with precision control, scientific/compact formats, favorites, history, and shareable links. Convert meters to feet, cm to inches, km to miles, and more — fast and privacy-friendly."
+        keywords={[
+          "length converter",
+          "unit converter length",
+          "meter to feet",
+          "meters to inches",
+          "cm to inch",
+          "mm to inch",
+          "km to miles",
+          "inches to cm",
+          "feet to meter",
+          "length conversion table",
+          "scientific notation",
+          "precision control"
+        ]}
         canonical="https://calculatorhub.site/length-converter"
-        schemaData={generateCalculatorSchema(
-          'Length Converter',
-          seoData.lengthConverter.description,
-          '/length-converter',
-          seoData.lengthConverter.keywords
-        )}
-        breadcrumbs={[
-          { name: 'Unit Converters', url: '/category/unit-converters' },
-          { name: 'Length Converter', url: '/length-converter' },
+        schemaData={[
+          // 1) WebPage + Article
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://calculatorhub.site/length-converter#webpage",
+            "url": "https://calculatorhub.site/length-converter",
+            "name": "Length Converter (2025–2026) — Meter to Feet, cm ⇄ inch, km ⇄ miles",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "@id": "https://calculatorhub.site/images/length-converter-hero.webp#primaryimg",
+              "url": "https://calculatorhub.site/images/length-converter-hero.webp",
+              "width": 1200,
+              "height": 675
+            },
+            "mainEntity": {
+              "@type": "Article",
+              "@id": "https://calculatorhub.site/length-converter#article",
+              "headline": "Length Converter — Fast, Accurate, and Shareable",
+              "description": "Convert between nanometers, micrometers, millimeters, centimeters, meters, kilometers, inches, feet, yards, and miles. Includes precision/format controls, favorites, history, and CSV export.",
+              "image": ["https://calculatorhub.site/images/length-converter-hero.webp"],
+              "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "datePublished": "2025-11-09",
+              "dateModified": "2025-11-09",
+              "mainEntityOfPage": { "@id": "https://calculatorhub.site/length-converter#webpage" },
+              "articleSection": [
+                "How to Use",
+                "Supported Units",
+                "Precision & Format",
+                "Shortcuts",
+                "CSV Export",
+                "FAQ"
+              ]
+            }
+          },
+      
+          // 2) Breadcrumbs
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id": "https://calculatorhub.site/length-converter#breadcrumbs",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+              { "@type": "ListItem", "position": 2, "name": "Unit Converters", "item": "https://calculatorhub.site/category/unit-converters" },
+              { "@type": "ListItem", "position": 3, "name": "Length Converter", "item": "https://calculatorhub.site/length-converter" }
+            ]
+          },
+      
+          // 3) FAQ
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": "https://calculatorhub.site/length-converter#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Which length units are supported?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Nanometer, micrometer, millimeter, centimeter, meter, kilometer, inch, foot, yard, and mile."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How do precision and formats work?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Use the slider to set decimals (0–12). Choose Normal, Compact, or Scientific to format results. Extremely small/large values auto-switch to scientific in Normal if needed."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I copy or export results?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Copy the full grid or export CSV with one click. You can also share state via URL parameters."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does the converter remember my favorites and history?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Favorites and the 10 most recent conversions are stored locally in your browser."
+                }
+              }
+            ]
+          },
+      
+          // 4) WebApplication
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id": "https://calculatorhub.site/length-converter#webapp",
+            "name": "Length Converter",
+            "url": "https://calculatorhub.site/length-converter",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Web",
+            "description": "Length conversion with precision, scientific formatting, favorites, history, and CSV export.",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "image": ["https://calculatorhub.site/images/length-converter-hero.webp"]
+          },
+      
+          // 5) SoftwareApplication (optional)
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "@id": "https://calculatorhub.site/length-converter#software",
+            "name": "Advanced Length Converter",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "All",
+            "url": "https://calculatorhub.site/length-converter",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "description": "Interactive length unit converter with shareable links and export."
+          },
+      
+          // 6) WebSite + Organization (global)
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://calculatorhub.site/#website",
+            "url": "https://calculatorhub.site",
+            "name": "CalculatorHub",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://calculatorhub.site/#organization",
+            "name": "CalculatorHub",
+            "url": "https://calculatorhub.site",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://calculatorhub.site/images/logo.png"
+            }
+          }
         ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/length-converter" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/length-converter" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/length-converter" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/length-converter" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Length Converter (2025–2026) — Meter ⇄ Feet, cm ⇄ inch, km ⇄ miles" />
+      <meta property="og:description" content="Convert length units with precision and scientific/compact formats. Favorites, history, CSV export, and shareable URLs." />
+      <meta property="og:url" content="https://calculatorhub.site/length-converter" />
+      <meta property="og:image" content="https://calculatorhub.site/images/length-converter-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Length converter dashboard showing unit swaps and formatted results" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Length Converter — Meter to Feet, cm to inch, km to miles" />
+      <meta name="twitter:description" content="Fast, accurate length conversions with precision controls, favorites, history, and CSV export." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/length-converter-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#0ea5e9" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/length-converter-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto text-gray-200">
         <Breadcrumbs
