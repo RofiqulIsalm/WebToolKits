@@ -224,22 +224,191 @@ export default function AngleConverter() {
 
   return (
     <>
+      {/* ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title={seoData.angleConverter?.title ?? 'Angle Converter'}
-        description={seoData.angleConverter?.description ?? 'Convert between degrees, radians, turns, gradians (gon), arcminutes, arcseconds, milliradians, and mils.'}
+        title="Angle Converter — Degrees (°), Radians (rad), Turns, Grads, Arcmin, Arcsec, mrad, Mils"
+        description="Fast, precise angle conversions between degrees, radians, turns, gradians (gon), arcminutes, arcseconds, milliradians, and NATO mils. Precision slider, Normal/Compact/Scientific formats, favorites/history, copy & CSV export, and shareable URLs."
+        keywords={[
+          "angle converter","deg to rad","rad to deg","degrees to radians",
+          "turn to degree","grad to degree","arcmin to degree","arcsec to degree",
+          "mrad to rad","mil to degree","NATO mil","gon converter"
+        ]}
         canonical="https://calculatorhub.site/angle-converter"
-        schemaData={generateCalculatorSchema(
-          'Angle Converter',
-          seoData.angleConverter?.description ?? 'Convert between degrees, radians, turns, gradians (gon), arcminutes, arcseconds, milliradians, and mils.',
-          '/angle-converter',
-          seoData.angleConverter?.keywords ?? ['angle converter','deg to rad','rad to deg','turn to deg','grad to deg','arcmin to deg','mils to rad']
-        )}
-        breadcrumbs={[
-          { name: 'Unit Converters', url: '/category/unit-converters' },
-          { name: 'Angle Converter', url: '/angle-converter' },
+        schemaData={[
+          /* 1) WebPage + Article */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebPage",
+            "@id":"https://calculatorhub.site/angle-converter#webpage",
+            "url":"https://calculatorhub.site/angle-converter",
+            "name":"Angle Converter — Degrees, Radians, Turns, Grads, Arcmin, Arcsec, mrad, Mils",
+            "inLanguage":"en",
+            "isPartOf":{"@id":"https://calculatorhub.site/#website"},
+            "primaryImageOfPage":{
+              "@type":"ImageObject",
+              "@id":"https://calculatorhub.site/images/angle-converter-hero.webp#primaryimg",
+              "url":"https://calculatorhub.site/images/angle-converter-hero.webp",
+              "width":1200,"height":675
+            },
+            "mainEntity":{
+              "@type":"Article",
+              "@id":"https://calculatorhub.site/angle-converter#article",
+              "headline":"Angle Unit Converter",
+              "description":"Convert degrees, radians, turns, gradians, arcminutes, arcseconds, milliradians, and NATO mils with precision controls and export tools.",
+              "image":["https://calculatorhub.site/images/angle-converter-hero.webp"],
+              "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
+              "publisher":{"@id":"https://calculatorhub.site/#organization"},
+              "datePublished":"2025-11-09",
+              "dateModified":"2025-11-09",
+              "mainEntityOfPage":{"@id":"https://calculatorhub.site/angle-converter#webpage"},
+              "articleSection":[
+                "Supported Units","Radians & Degrees","Turns & Grads",
+                "Arcminute/Arcsecond","Milliradian & NATO mil","Precision & Formats","FAQ"
+              ]
+            }
+          },
+          /* 2) Breadcrumbs */
+          {
+            "@context":"https://schema.org",
+            "@type":"BreadcrumbList",
+            "@id":"https://calculatorhub.site/angle-converter#breadcrumbs",
+            "itemListElement":[
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+              {"@type":"ListItem","position":2,"name":"Unit Converters","item":"https://calculatorhub.site/category/unit-converters"},
+              {"@type":"ListItem","position":3,"name":"Angle Converter","item":"https://calculatorhub.site/angle-converter"}
+            ]
+          },
+          /* 3) FAQ */
+          {
+            "@context":"https://schema.org",
+            "@type":"FAQPage",
+            "@id":"https://calculatorhub.site/angle-converter#faq",
+            "mainEntity":[
+              {
+                "@type":"Question",
+                "name":"How do I convert degrees to radians?",
+                "acceptedAnswer":{"@type":"Answer","text":"Use rad = deg × π/180. Conversely, deg = rad × 180/π."}
+              },
+              {
+                "@type":"Question",
+                "name":"What is a turn and how many degrees or radians is it?",
+                "acceptedAnswer":{"@type":"Answer","text":"1 turn = 360° = 2π rad."}
+              },
+              {
+                "@type":"Question",
+                "name":"What is a NATO mil?",
+                "acceptedAnswer":{"@type":"Answer","text":"NATO mil is defined as 1/6400 of a turn, so 1 mil = 2π/6400 rad ≈ 0.05625°."}
+              },
+              {
+                "@type":"Question",
+                "name":"How do I handle arcminutes and arcseconds?",
+                "acceptedAnswer":{"@type":"Answer","text":"1° = 60′ and 1′ = 60″. In radians, 1′ = (π/180)/60, 1″ = (π/180)/3600."}
+              },
+              {
+                "@type":"Question",
+                "name":"Can I enter angles in DMS format (e.g., 12°34′56″)?",
+                "acceptedAnswer":{"@type":"Answer","text":"Yes, enter degrees-minutes-seconds as D°M′S″ to convert. (Use the DMS input helper on the page.)"}
+              }
+            ]
+          },
+          /* 4) WebApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebApplication",
+            "@id":"https://calculatorhub.site/angle-converter#webapp",
+            "name":"Angle Converter",
+            "url":"https://calculatorhub.site/angle-converter",
+            "applicationCategory":"UtilitiesApplication",
+            "operatingSystem":"Web",
+            "description":"Interactive angle converter with precision slider, format modes, favorites/history, copy and CSV export.",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "image":["https://calculatorhub.site/images/angle-converter-hero.webp"]
+          },
+          /* 5) SoftwareApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"SoftwareApplication",
+            "@id":"https://calculatorhub.site/angle-converter#software",
+            "name":"Advanced Angle Converter",
+            "applicationCategory":"UtilitiesApplication",
+            "operatingSystem":"All",
+            "url":"https://calculatorhub.site/angle-converter",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "description":"Convert standard and engineering angle units for math, surveying, ballistics, and UI design."
+          },
+          /* 6) WebSite + Organization (global) */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebSite",
+            "@id":"https://calculatorhub.site/#website",
+            "url":"https://calculatorhub.site",
+            "name":"CalculatorHub",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "potentialAction":{
+              "@type":"SearchAction",
+              "target":"https://calculatorhub.site/search?q={query}",
+              "query-input":"required name=query"
+            }
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"Organization",
+            "@id":"https://calculatorhub.site/#organization",
+            "name":"CalculatorHub",
+            "url":"https://calculatorhub.site",
+            "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
+          }
         ]}
       />
+      
+      {/* ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/angle-converter" />
+      
+      {/* Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/angle-converter" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/angle-converter" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/angle-converter" hreflang="x-default" />
+      
+      {/* Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Angle Converter — Degrees, Radians, Turns, Grads, Arcmin, Arcsec, mrad, Mils" />
+      <meta property="og:description" content="Engineer-ready angle conversions with precision controls, format modes, favorites/history, and CSV export." />
+      <meta property="og:url" content="https://calculatorhub.site/angle-converter" />
+      <meta property="og:image" content="https://calculatorhub.site/images/angle-converter-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Angle converter UI showing degree ↔ radian conversions" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/* Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Angle Converter — Degrees (°) ⇄ Radians (rad) ⇄ Turns (rev)" />
+      <meta name="twitter:description" content="Quick, precise conversions for deg, rad, turn, grad, arcmin, arcsec, mrad, and mil." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/angle-converter-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/* PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#26120a" />
+      
+      {/* Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/angle-converter-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/* Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto text-gray-200">
         <Breadcrumbs
