@@ -230,22 +230,213 @@ export default function ForceConverter() {
 
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title={seoData.forceConverter?.title ?? 'Force Converter'}
-        description={seoData.forceConverter?.description ?? 'Convert between N, kN, MN, dyne, lbf, ozf, kgf, kip, and ton-force.'}
+        title="Force Converter — N ⇄ kN ⇄ MN ⇄ lbf ⇄ ozf ⇄ kgf ⇄ kip ⇄ ton-force"
+        description="Convert force units instantly: newton (N), kilonewton (kN), meganewton (MN), dyne, pound-force (lbf), ounce-force (ozf), kilogram-force (kgf), kip, and ton-force. Includes precision control, Normal/Compact/Scientific formats, favorites, history, CSV export, and shareable URLs."
+        keywords={[
+          "force converter",
+          "N to lbf",
+          "lbf to N",
+          "kN to kip",
+          "kgf to N",
+          "N to kgf",
+          "dyne to N",
+          "ozf to N",
+          "ton force to kN",
+          "kip to kN",
+          "meganewton to kilonewton",
+          "ounce force to pound force",
+          "gram force to newton",
+          "stene to newton",
+          "us ton force",
+          "uk long ton force"
+        ]}
         canonical="https://calculatorhub.site/force-converter"
-        schemaData={generateCalculatorSchema(
-          'Force Converter',
-          seoData.forceConverter?.description ?? 'Convert between N, kN, MN, dyne, lbf, ozf, kgf, kip, and ton-force.',
-          '/force-converter',
-          seoData.forceConverter?.keywords ?? ['force converter','N to lbf','kN to kip','kgf to N','dyne to N','ozf to N','ton-force']
-        )}
-        breadcrumbs={[
-          { name: 'Unit Converters', url: '/category/unit-converters' },
-          { name: 'Force Converter', url: '/force-converter' },
+        schemaData={[
+          /* 1) WebPage + Article */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebPage",
+            "@id":"https://calculatorhub.site/force-converter#webpage",
+            "url":"https://calculatorhub.site/force-converter",
+            "name":"Force Converter — N, kN, MN, dyne, lbf, ozf, kgf, kip, ton-force",
+            "inLanguage":"en",
+            "isPartOf":{"@id":"https://calculatorhub.site/#website"},
+            "primaryImageOfPage":{
+              "@type":"ImageObject",
+              "@id":"https://calculatorhub.site/images/force-converter-hero.webp#primaryimg",
+              "url":"https://calculatorhub.site/images/force-converter-hero.webp",
+              "width":1200,"height":675
+            },
+            "mainEntity":{
+              "@type":"Article",
+              "@id":"https://calculatorhub.site/force-converter#article",
+              "headline":"Force Converter — Engineering & Scientific Units",
+              "description":"Convert between N, kN, MN, dyne, lbf, ozf, kgf, kip, and ton-force. Features precision/format controls, keyboard shortcuts, favorites, history, copy/CSV export, and shareable links.",
+              "image":["https://calculatorhub.site/images/force-converter-hero.webp"],
+              "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
+              "publisher":{"@id":"https://calculatorhub.site/#organization"},
+              "datePublished":"2025-11-09",
+              "dateModified":"2025-11-09",
+              "mainEntityOfPage":{"@id":"https://calculatorhub.site/force-converter#webpage"},
+              "articleSection":[
+                "Supported Units",
+                "Engineering vs CGS vs Avoirdupois",
+                "Precision & Number Formats",
+                "Keyboard Shortcuts",
+                "Copy & CSV Export",
+                "FAQ"
+              ]
+            }
+          },
+      
+          /* 2) Breadcrumbs */
+          {
+            "@context":"https://schema.org",
+            "@type":"BreadcrumbList",
+            "@id":"https://calculatorhub.site/force-converter#breadcrumbs",
+            "itemListElement":[
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+              {"@type":"ListItem","position":2,"name":"Unit Converters","item":"https://calculatorhub.site/category/unit-converters"},
+              {"@type":"ListItem","position":3,"name":"Force Converter","item":"https://calculatorhub.site/force-converter"}
+            ]
+          },
+      
+          /* 3) FAQ */
+          {
+            "@context":"https://schema.org",
+            "@type":"FAQPage",
+            "@id":"https://calculatorhub.site/force-converter#faq",
+            "mainEntity":[
+              {
+                "@type":"Question",
+                "name":"How do you convert newton (N) to pound-force (lbf)?",
+                "acceptedAnswer":{"@type":"Answer","text":"Use the exact definition 1 lbf = 4.4482216152605 N. Divide newtons by 4.4482216152605 to get lbf; multiply lbf by this value to get N."}
+              },
+              {
+                "@type":"Question",
+                "name":"What is kilogram-force (kgf) and gram-force (gf)?",
+                "acceptedAnswer":{"@type":"Answer","text":"They are gravitational units based on standard gravity g₀ = 9.80665 m/s². 1 kgf = 9.80665 N and 1 gf = 0.00980665 N."}
+              },
+              {
+                "@type":"Question",
+                "name":"What is a kip?",
+                "acceptedAnswer":{"@type":"Answer","text":"A kip is 1,000 lbf (≈ 4,448.221615 N). It’s common in structural engineering in the US."}
+              },
+              {
+                "@type":"Question",
+                "name":"What is a dyne?",
+                "acceptedAnswer":{"@type":"Answer","text":"A CGS unit of force: 1 dyne = 10⁻⁵ N."}
+              },
+              {
+                "@type":"Question",
+                "name":"Do you support CSV export and copy?",
+                "acceptedAnswer":{"@type":"Answer","text":"Yes. Use Copy All for clipboard output or save the entire results grid as a CSV."}
+              }
+            ]
+          },
+      
+          /* 4) WebApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebApplication",
+            "@id":"https://calculatorhub.site/force-converter#webapp",
+            "name":"Force Converter",
+            "url":"https://calculatorhub.site/force-converter",
+            "applicationCategory":"UtilitiesApplication",
+            "operatingSystem":"Web",
+            "description":"Instant conversion among engineering, CGS, and Avoirdupois force units with shareable links and CSV.",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "image":["https://calculatorhub.site/images/force-converter-hero.webp"]
+          },
+      
+          /* 5) SoftwareApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"SoftwareApplication",
+            "@id":"https://calculatorhub.site/force-converter#software",
+            "name":"Advanced Force Converter",
+            "applicationCategory":"UtilitiesApplication",
+            "operatingSystem":"All",
+            "url":"https://calculatorhub.site/force-converter",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "description":"Interactive converter for N, kN, MN, dyne, lbf, ozf, kgf, kip, and ton-force."
+          },
+      
+          /* 6) WebSite + Organization (global) */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebSite",
+            "@id":"https://calculatorhub.site/#website",
+            "url":"https://calculatorhub.site",
+            "name":"CalculatorHub",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "potentialAction":{
+              "@type":"SearchAction",
+              "target":"https://calculatorhub.site/search?q={query}",
+              "query-input":"required name=query"
+            }
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"Organization",
+            "@id":"https://calculatorhub.site/#organization",
+            "name":"CalculatorHub",
+            "url":"https://calculatorhub.site",
+            "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
+          }
         ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/force-converter" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/force-converter" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/force-converter" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/force-converter" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Force Converter — N, kN, MN, dyne, lbf, ozf, kgf, kip, ton-force" />
+      <meta property="og:description" content="Fast, precise force conversions with Normal/Compact/Scientific formats, favorites, history, and CSV export." />
+      <meta property="og:url" content="https://calculatorhub.site/force-converter" />
+      <meta property="og:image" content="https://calculatorhub.site/images/force-converter-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Force converter UI showing N ↔ lbf and kN ↔ kip conversions" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Force Converter — N↔lbf, kN↔kip, dyne, kgf, ton-force" />
+      <meta name="twitter:description" content="Engineer-ready force conversions with precision controls and CSV export." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/force-converter-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#00141a" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/force-converter-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto text-gray-200">
         <Breadcrumbs
