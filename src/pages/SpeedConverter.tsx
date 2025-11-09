@@ -665,6 +665,177 @@ export default function SpeedConverter() {
           </div>
         </div>
 
+        {/* ========== SEO CONTENT SECTION: Speed Converter (EN only) ============ */}
+          <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+            <header className="mb-10">
+              <h1 className="text-3xl font-bold text-cyan-300">Speed Converter — m/s, km/h, mph, knots, ft/s & more</h1>
+              <p className="mt-2 text-slate-300">
+                From dashboards to research labs, unit-accurate speed matters. This converter instantly translates between 
+                <strong> m/s</strong>, <strong>km/h</strong>, <strong>mph</strong>, <strong>knots</strong>, <strong>ft/s</strong>, 
+                <strong> in/s</strong>, <strong>km/s</strong>, and even fractions of <strong>c</strong>. Control precision and 
+                formatting, pin favorites, revisit recent conversions, export CSV, and share exact states via URL.
+              </p>
+            </header>
+          
+            {/* TOC */}
+            <nav className="mt-2 mb-10 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200">
+              <h2 className="text-lg font-semibold text-cyan-300 mb-3">📖 Table of Contents</h2>
+              <ol className="list-decimal list-inside space-y-2 text-sm">
+                <li><a href="#en-overview" className="text-cyan-400 hover:underline">Overview</a></li>
+                <li><a href="#en-how" className="text-cyan-400 hover:underline">How to Use</a></li>
+                <li><a href="#en-units" className="text-cyan-400 hover:underline">Supported Units</a></li>
+                <li><a href="#en-method" className="text-cyan-400 hover:underline">Method (m/s Base)</a></li>
+                <li><a href="#en-precision" className="text-cyan-400 hover:underline">Precision & Formats</a></li>
+                <li><a href="#en-shortcuts" className="text-cyan-400 hover:underline">Keyboard Shortcuts</a></li>
+                <li><a href="#en-examples" className="text-cyan-400 hover:underline">Worked Examples</a></li>
+                <li><a href="#en-usecases" className="text-cyan-400 hover:underline">Use Cases</a></li>
+                <li><a href="#en-pitfalls" className="text-cyan-400 hover:underline">Common Pitfalls</a></li>
+                <li><a href="#en-quick" className="text-cyan-400 hover:underline">Quick Reference</a></li>
+                <li><a href="#en-faq" className="text-cyan-400 hover:underline">FAQ</a></li>
+              </ol>
+            </nav>
+          
+            <h2 id="en-overview" className="text-2xl font-semibold text-cyan-300 mt-6 mb-3">Overview</h2>
+            <p>
+              The converter uses <em>meters per second (m/s)</em> as the base unit and applies exact factors for each supported unit. 
+              This keeps calculations transparent and audit-ready. With URL state sync, shared links reproduce your precise inputs, units, 
+              format, and precision.
+            </p>
+          
+            <h2 id="en-how" className="text-2xl font-semibold text-cyan-300 mt-6 mb-3">How to Use</h2>
+            <ol className="list-decimal list-inside space-y-1">
+              <li>Enter a <strong>Value</strong> (blank counts as 0; commas allowed).</li>
+              <li>Select <strong>From</strong> and <strong>To</strong> units; hit <strong>Swap</strong> if needed.</li>
+              <li>Adjust <strong>Precision</strong> (0–12) and choose a <strong>Format</strong> (Normal/Compact/Scientific).</li>
+              <li>Use <strong>Copy All</strong> or export <strong>CSV</strong>; pin frequent units and revisit <strong>Recent</strong>.</li>
+            </ol>
+          
+            <h2 id="en-units" className="text-2xl font-semibold text-cyan-300 mt-6 mb-3">Supported Units</h2>
+            <p className="mb-3">
+              <em>mm/s, cm/s, m/s, km/h, km/s, ft/s, in/s, mph, knot, c</em> — covering everyday to scientific speeds.
+            </p>
+          
+            <h2 id="en-method" className="text-2xl font-semibold text-cyan-300 mt-6 mb-3">Method (m/s Base)</h2>
+            <ol className="list-decimal list-inside space-y-1">
+              <li><strong>To base</strong>: <code>v_mps = v_from × factor(from→m/s)</code></li>
+              <li><strong>To target</strong>: <code>v_to = v_mps ÷ factor(to→m/s)</code></li>
+            </ol>
+            <p className="text-sm text-slate-400">Example: 1 mph = 0.44704 m/s; therefore m/s → mph = ÷0.44704.</p>
+          
+            <h2 id="en-precision" className="text-2xl font-semibold text-cyan-300 mt-6 mb-3">Precision & Formats</h2>
+            <ul className="list-disc list-inside space-y-1">
+              <li><strong>Normal</strong> — trimmed trailing zeros for tidy tables.</li>
+              <li><strong>Compact</strong> — 1.2K/3.4M style for badges/dashboards.</li>
+              <li><strong>Scientific</strong> — best for extremes (km/s, c-fractions).</li>
+            </ul>
+          
+            <h2 id="en-shortcuts" className="text-2xl font-semibold text-cyan-300 mt-6 mb-3">Keyboard Shortcuts</h2>
+            <ul className="list-disc list-inside">
+              <li><kbd>/</kbd> — focus Value</li>
+              <li><kbd>S</kbd> — focus From, <kbd>T</kbd> — focus To</li>
+              <li><kbd>X</kbd> — swap units</li>
+            </ul>
+          
+            <h2 id="en-examples" className="text-2xl font-semibold text-cyan-300 mt-6 mb-3">Worked Examples (rounded)</h2>
+            <ul className="space-y-2">
+              <li><strong>10 m/s → km/h</strong>: 10 × 3.6 = <strong>36 km/h</strong>.</li>
+              <li><strong>90 km/h → m/s</strong>: 90 ÷ 3.6 = <strong>25 m/s</strong>.</li>
+              <li><strong>60 mph → km/h</strong>: 60 × 1.609344 = <strong>96.56064 km/h</strong>.</li>
+              <li><strong>20 m/s → mph</strong>: 20 ÷ 0.44704 ≈ <strong>44.74 mph</strong>.</li>
+              <li><strong>15 m/s → knots</strong>: 15 ÷ 0.514444… ≈ <strong>29.16 kn</strong>.</li>
+              <li><strong>0.01 c → km/s</strong>: (0.01 × 299,792,458 m/s) ÷ 1000 ≈ <strong>2,997.92458 km/s</strong>.</li>
+            </ul>
+          
+            <h2 id="en-usecases" className="text-2xl font-semibold text-cyan-300 mt-6 mb-3">Use Cases</h2>
+            <ul className="list-disc list-inside space-y-2">
+              <li><strong>Automotive/Traffic</strong>: km/h ↔ mph for clusters, telematics, compliance.</li>
+              <li><strong>Aviation/Marine</strong>: knots ↔ km/h/mph for navigation and flight ops.</li>
+              <li><strong>Engineering/Research</strong>: m/s-centric calculations, simulation pipelines.</li>
+              <li><strong>Ops Dashboards</strong>: Compact formatting for dense KPI tiles.</li>
+            </ul>
+          
+            <h2 id="en-pitfalls" className="text-2xl font-semibold text-cyan-300 mt-6 mb-3">Common Pitfalls</h2>
+            <ul className="list-disc list-inside space-y-2">
+              <li>For <strong>km/h ↔ m/s</strong>, always use 3.6 (not “about 4”).</li>
+              <li>For <strong>mph ↔ km/h</strong>, use 1.609344 for accuracy-sensitive contexts.</li>
+              <li><strong>Knots</strong> are not mph: 1 kn = 1.852 km/h.</li>
+              <li>Round at the publishing step, not mid-calculation.</li>
+            </ul>
+          
+            <h2 id="en-quick" className="text-2xl font-semibold text-cyan-300 mt-6 mb-3">Quick Reference</h2>
+            <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <li>1 m/s = 3.6 km/h ≈ 2.23694 mph ≈ 1.94384 kn</li>
+                <li>1 km/h = 0.2777777778 m/s</li>
+                <li>1 mph = 1.609344 km/h = 0.44704 m/s</li>
+                <li>1 kn = 1.852 km/h ≈ 0.514444 m/s</li>
+                <li>c = 299,792,458 m/s (exact)</li>
+              </ul>
+            </div>
+          
+            <section id="en-faq" className="space-y-4 mt-10">
+              <h2 className="text-3xl font-bold text-center text-cyan-300">❓ FAQ</h2>
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+                <h3 className="font-semibold text-yellow-300">1) Which units are supported?</h3>
+                <p>mm/s, cm/s, m/s, km/h, km/s, ft/s, in/s, mph, knot, c.</p>
+              </div>
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+                <h3 className="font-semibold text-yellow-300">2) How are conversions computed?</h3>
+                <p>All values convert through m/s using exact factors, then to the target unit—transparent and easy to audit.</p>
+              </div>
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+                <h3 className="font-semibold text-yellow-300">3) Any formatting advice?</h3>
+                <p>Use Normal for print-ready tables, Compact for KPI tiles, and Scientific for extremes (km/s, c-fractions).</p>
+              </div>
+            </section>
+          
+            {/* Author / Backlink strip */}
+            <section className="mt-14 border-t border-gray-700 pt-6">
+              <div className="flex items-center gap-3">
+                <img
+                  src="/images/calculatorhub-author.webp"
+                  alt="CalculatorHub Tools Team"
+                  className="w-12 h-12 rounded-full border border-gray-600"
+                  loading="lazy"
+                />
+                <div>
+                  <p className="font-semibold text-white">Written by the CalculatorHub Tools Team</p>
+                  <p className="text-sm text-slate-400">
+                    Last updated: <time dateTime="2025-11-09">November 9, 2025</time>.
+                  </p>
+                </div>
+              </div>
+          
+              <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+                <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
+                  🚀 Explore more tools on CalculatorHub:
+                </p>
+                <div className="flex flex-wrap gap-3 text-sm">
+                  <a
+                    href="/area-converter"
+                    className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
+                  >
+                    <span className="text-emerald-400">🧩</span> Area Converter
+                  </a>
+                  <a
+                    href="/temperature-converter"
+                    className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
+                  >
+                    <span className="text-sky-400">🌡️</span> Temperature Converter
+                  </a>
+                  <a
+                    href="/length-converter"
+                    className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
+                  >
+                    <span className="text-indigo-400">📏</span> Length Converter
+                  </a>
+                </div>
+              </div>
+            </section>
+          </section>
+
+
+
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/speed-converter" category="unit-converters" />
       </div>
