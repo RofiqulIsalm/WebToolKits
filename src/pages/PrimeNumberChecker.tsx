@@ -341,27 +341,221 @@ const PrimeNumberChecker: React.FC = () => {
      ============================================================ */
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title="Prime Number Checker | Single or Multiple Integers"
-        description="Check if one or many integers are prime. Paste numbers separated by space, comma, or semicolon. Shows prime counts, lists, and details for single input."
+        title="Prime Number Checker — Single & Multiple Integers (2025–2026)"
+        description="Check if one or many integers are prime. Paste numbers separated by space, comma, or semicolon. See prime counts, lists, small factors, and for a single input: previous/next primes and a gap chart."
+        keywords={[
+          "prime number checker",
+          "is prime",
+          "prime test",
+          "miller rabin",
+          "deterministic miller rabin",
+          "small prime factors",
+          "previous prime",
+          "next prime",
+          "prime gap",
+          "math tools",
+          "integer primality"
+        ]}
         canonical="https://calculatorhub.site/prime-number-checker"
-        schemaData={generateCalculatorSchema(
-          "Prime Number Checker",
-          "Single and multi-input prime checker using small-factor detection and deterministic Miller–Rabin (n < 1e16).",
-          "/prime-number-checker",
-          ["prime checker", "is prime", "multi input", "miller rabin", "math tools"]
-        )}
+        schemaData={[
+          // 1) WebPage + Article
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://calculatorhub.site/prime-number-checker#webpage",
+            "url": "https://calculatorhub.site/prime-number-checker",
+            "name": "Prime Number Checker (2025–2026) — Single & Multiple Integers",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "@id": "https://calculatorhub.site/images/prime-checker-hero.webp#primaryimg",
+              "url": "https://calculatorhub.site/images/prime-checker-hero.webp",
+              "width": 1200,
+              "height": 675
+            },
+            "mainEntity": {
+              "@type": "Article",
+              "@id": "https://calculatorhub.site/prime-number-checker#article",
+              "headline": "Prime Number Checker — Fast multi-input primality test",
+              "description": "Paste one or many integers to check primality. Uses small-factor search and deterministic Miller–Rabin (accurate for n < 10^16). For a single input, shows previous/next primes and a distance chart.",
+              "image": ["https://calculatorhub.site/images/prime-checker-hero.webp"],
+              "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "datePublished": "2025-11-09",
+              "dateModified": "2025-11-09",
+              "mainEntityOfPage": { "@id": "https://calculatorhub.site/prime-number-checker#webpage" },
+              "articleSection": [
+                "How to Use",
+                "Multiple Inputs",
+                "Parsing & Validation",
+                "Small-factor Search",
+                "Miller–Rabin (n < 10^16)",
+                "Previous/Next Primes",
+                "Prime Gap Chart",
+                "FAQ"
+              ]
+            }
+          },
+      
+          // 2) Breadcrumbs
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id": "https://calculatorhub.site/prime-number-checker#breadcrumbs",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+              { "@type": "ListItem", "position": 2, "name": "Math Tools", "item": "https://calculatorhub.site/category/math-tools" },
+              { "@type": "ListItem", "position": 3, "name": "Prime Number Checker", "item": "https://calculatorhub.site/prime-number-checker" }
+            ]
+          },
+      
+          // 3) FAQ
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": "https://calculatorhub.site/prime-number-checker#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Can I check multiple numbers at once?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Paste integers separated by spaces, commas, or semicolons. Invalid tokens are ignored in counts."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How does the checker decide primality?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "It first searches for small factors using trial division with primes up to 100,000, then applies a deterministic Miller–Rabin test with bases 2,3,5,7,11,13,17 for n < 10^16."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What extra info appears for a single number?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "You’ll see the previous and next primes and a chart showing the distances (prime gap) from n to each neighbor."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does it support sharing results?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. The current input is encoded into the URL, so you can copy and share a link with your exact state."
+                }
+              }
+            ]
+          },
+      
+          // 4) WebApplication
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id": "https://calculatorhub.site/prime-number-checker#webapp",
+            "name": "Prime Number Checker",
+            "url": "https://calculatorhub.site/prime-number-checker",
+            "applicationCategory": "EducationalApplication",
+            "operatingSystem": "Web",
+            "description": "Multi-input primality checker with small-factor detection, deterministic Miller–Rabin (n < 10^16), previous/next primes, and a gap chart.",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "image": ["https://calculatorhub.site/images/prime-checker-hero.webp"]
+          },
+      
+          // 5) SoftwareApplication (optional)
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "@id": "https://calculatorhub.site/prime-number-checker#software",
+            "name": "Prime Number Checker",
+            "applicationCategory": "EducationalApplication",
+            "operatingSystem": "All",
+            "url": "https://calculatorhub.site/prime-number-checker",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "description": "Interactive prime testing tool for single or multiple integers with shareable links."
+          },
+      
+          // 6) WebSite + Organization (global)
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://calculatorhub.site/#website",
+            "url": "https://calculatorhub.site",
+            "name": "CalculatorHub",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://calculatorhub.site/#organization",
+            "name": "CalculatorHub",
+            "url": "https://calculatorhub.site",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://calculatorhub.site/images/logo.png"
+            }
+          }
+        ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-      {/* Minimal OG/Twitter */}
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/prime-number-checker" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/prime-number-checker" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/prime-number-checker" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/prime-number-checker" hreflang="x-default" />
+      
+      {/** Open Graph */}
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="CalculatorHub" />
-      <meta property="og:title" content="Prime Number Checker | Single or Multiple Integers" />
+      <meta property="og:title" content="Prime Number Checker — Single & Multiple Integers" />
+      <meta property="og:description" content="Check primality for one or many integers. See counts, lists, small factors, and for a single input: previous/next primes and a gap chart." />
       <meta property="og:url" content="https://calculatorhub.site/prime-number-checker" />
-      <meta property="og:description" content="Paste one or many integers (space/comma/semicolon). Count primes and see details." />
       <meta property="og:image" content="https://calculatorhub.site/images/prime-checker-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Prime number checker interface with multi-input and results summary" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Prime Number Checker — Single & Multiple Integers" />
+      <meta name="twitter:description" content="Paste integers separated by space/comma/semicolon to test primality and share results via URL." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/prime-checker-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#0ea5e9" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/prime-checker-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
