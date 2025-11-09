@@ -225,22 +225,227 @@ export default function MassWeightConverter() {
 
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title={seoData.massConverter?.title ?? 'Mass / Weight Converter'}
-        description={seoData.massConverter?.description ?? 'Convert between kg, g, t, lb, oz, stone, tons, and more.'}
+        title="Mass / Weight Converter — kg ⇄ lb, g ⇄ oz, stone, tons | 2025–2026"
+        description="Fast, accurate mass & weight conversions: kg, g, t, lb, oz, stone, US short ton, UK long ton, microgram, carat, grain, and slug. Precision controls, Normal/Compact/Scientific formats, favorites, history, CSV export, and shareable URLs."
+        keywords={[
+          "mass converter",
+          "weight converter",
+          "kg to lb",
+          "lb to kg",
+          "g to oz",
+          "oz to g",
+          "stone to kg",
+          "ton to kg",
+          "US short ton vs UK long ton",
+          "carat to gram",
+          "grain to gram",
+          "slug to kg",
+          "metric to imperial weight",
+          "unit converter mass"
+        ]}
         canonical="https://calculatorhub.site/mass-weight-converter"
-        schemaData={generateCalculatorSchema(
-          'Mass / Weight Converter',
-          seoData.massConverter?.description ?? 'Convert between kg, g, t, lb, oz, stone, tons, and more.',
-          '/mass-weight-converter',
-          seoData.massConverter?.keywords ?? ['mass converter','weight converter','kg to lb','oz to g','stone to kg','ton to kg']
-        )}
-        breadcrumbs={[
-          { name: 'Unit Converters', url: '/category/unit-converters' },
-          { name: 'Mass / Weight Converter', url: '/mass-weight-converter' },
+        schemaData={[
+          /* 1) WebPage + Article */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://calculatorhub.site/mass-weight-converter#webpage",
+            "url": "https://calculatorhub.site/mass-weight-converter",
+            "name": "Mass / Weight Converter — kg, g, lb, oz, stone, tons",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "@id": "https://calculatorhub.site/images/mass-weight-converter-hero.webp#primaryimg",
+              "url": "https://calculatorhub.site/images/mass-weight-converter-hero.webp",
+              "width": 1200,
+              "height": 675
+            },
+            "mainEntity": {
+              "@type": "Article",
+              "@id": "https://calculatorhub.site/mass-weight-converter#article",
+              "headline": "Mass / Weight Converter — Fast, Accurate, Shareable",
+              "description": "Convert between metric and imperial units (kg, g, t, lb, oz, stone, tons) with precision controls, favorites, history, keyboard shortcuts, and CSV export.",
+              "image": ["https://calculatorhub.site/images/mass-weight-converter-hero.webp"],
+              "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "datePublished": "2025-11-09",
+              "dateModified": "2025-11-09",
+              "mainEntityOfPage": { "@id": "https://calculatorhub.site/mass-weight-converter#webpage" },
+              "articleSection": [
+                "How to Use",
+                "Supported Units",
+                "Precision & Formats",
+                "Keyboard Shortcuts",
+                "Copy & CSV Export",
+                "FAQ"
+              ]
+            }
+          },
+      
+          /* 2) Breadcrumbs */
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id": "https://calculatorhub.site/mass-weight-converter#breadcrumbs",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+              { "@type": "ListItem", "position": 2, "name": "Unit Converters", "item": "https://calculatorhub.site/category/unit-converters" },
+              { "@type": "ListItem", "position": 3, "name": "Mass / Weight Converter", "item": "https://calculatorhub.site/mass-weight-converter" }
+            ]
+          },
+      
+          /* 3) FAQ */
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": "https://calculatorhub.site/mass-weight-converter#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What’s the difference between mass and weight?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Mass is the amount of matter (kg, g); weight is the force due to gravity (newtons). Everyday scales infer mass from weight assuming standard gravity."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How many pounds are in a kilogram?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "1 kilogram = 2.20462262185 pounds (exact via 0.45359237 kg per pound)."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Stone vs pounds vs kilograms?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "1 stone = 14 lb = 6.35029318 kg. Common in the UK/Ireland for body mass."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "US short ton vs UK long ton vs metric ton?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "US short ton = 2000 lb = 907.18474 kg; UK long ton = 2240 lb = 1016.0469088 kg; metric ton (tonne) = 1000 kg."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What are carat and grain used for?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Carat (ct) is used in gemstones: 1 ct = 0.2 g. Grain (gr) is 64.79891 mg, used in ballistics and precious metals."
+                }
+              }
+            ]
+          },
+      
+          /* 4) WebApplication */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id": "https://calculatorhub.site/mass-weight-converter#webapp",
+            "name": "Mass / Weight Converter",
+            "url": "https://calculatorhub.site/mass-weight-converter",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Web",
+            "description": "Convert mass and weight units with precision controls, favorites, history, keyboard shortcuts, and CSV export.",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "image": ["https://calculatorhub.site/images/mass-weight-converter-hero.webp"]
+          },
+      
+          /* 5) SoftwareApplication */
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "@id": "https://calculatorhub.site/mass-weight-converter#software",
+            "name": "Advanced Mass / Weight Converter",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "All",
+            "url": "https://calculatorhub.site/mass-weight-converter",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "description": "Interactive converter for metric and imperial mass units with shareable links and CSV export."
+          },
+      
+          /* 6) WebSite + Organization (global) */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://calculatorhub.site/#website",
+            "url": "https://calculatorhub.site",
+            "name": "CalculatorHub",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://calculatorhub.site/#organization",
+            "name": "CalculatorHub",
+            "url": "https://calculatorhub.site",
+            "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/logo.png" }
+          }
         ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/mass-weight-converter" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/mass-weight-converter" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/mass-weight-converter" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/mass-weight-converter" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Mass / Weight Converter — kg ⇄ lb, g ⇄ oz, stone, tons" />
+      <meta property="og:description" content="Convert kg, g, t, lb, oz, stone, tons with precision. Normal/Compact/Scientific formats, favorites, history, CSV." />
+      <meta property="og:url" content="https://calculatorhub.site/mass-weight-converter" />
+      <meta property="og:image" content="https://calculatorhub.site/images/mass-weight-converter-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Mass and weight converter UI showing kg ↔ lb and g ↔ oz" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Mass / Weight Converter — kg ⇄ lb, g ⇄ oz, stone, tons" />
+      <meta name="twitter:description" content="Metric ⇄ Imperial converter with precision controls, favorites, history, CSV." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/mass-weight-converter-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#06281e" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/mass-weight-converter-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto text-gray-200">
         <Breadcrumbs
