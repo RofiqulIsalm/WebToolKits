@@ -248,22 +248,225 @@ export default function DataTransferConverter() {
 
   return (
     <>
-      <SEOHead
-        title={seoData.dataTransferConverter?.title ?? 'Data Transfer Converter'}
-        description={seoData.dataTransferConverter?.description ?? 'Convert between bps, Kbps, Mbps, Gbps, Tbps and B/s, KB/s, MB/s, GB/s, TB/s plus binary KiB/s, MiB/s, etc.'}
-        canonical="https://calculatorhub.site/data-transfer-converter"
-        schemaData={generateCalculatorSchema(
-          'Data Transfer Converter',
-          seoData.dataTransferConverter?.description ?? 'Convert between SI/binary bit and byte rates.',
-          '/data-transfer-converter',
-          seoData.dataTransferConverter?.keywords ?? ['data transfer rate','Mbps to MB/s','Gbps to GiB/s','Kibps to Kbps']
-        )}
-        breadcrumbs={[
-          { name: 'Unit Converters', url: '/category/unit-converters' },
-          { name: 'Data Transfer Converter', url: '/data-transfer-converter' },
-        ]}
-      />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+     {/** ================= TECHNICAL SEO (FD-style) ================= */}
+    <SEOHead
+      title="Data Transfer Converter — bps/Kbps/Mbps/Gbps ↔ B/s/KB/s/MB/s & Binary (KiB/s, MiB/s) | 2025–2026"
+      description="Convert network and storage throughput instantly: bps, Kbps, Mbps, Gbps, Tbps ↔ B/s, KB/s, MB/s, GB/s, TB/s, plus binary KiB/s, MiB/s, GiB/s, TiB/s. Includes precision control, Normal/Compact/Scientific formats, keyboard shortcuts, favorites, history, CSV export, and shareable URLs."
+      keywords={[
+        "data transfer converter",
+        "Mbps to MB/s",
+        "Gbps to GiB/s",
+        "Kbps to KB/s",
+        "KiB/s to KB/s",
+        "network speed converter",
+        "throughput calculator",
+        "bits to bytes per second",
+        "binary vs decimal units",
+        "MiB/s to MB/s"
+      ]}
+      canonical="https://calculatorhub.site/data-transfer-converter"
+      schemaData={[
+        /* 1) WebPage + nested Article */
+        {
+          "@context":"https://schema.org",
+          "@type":"WebPage",
+          "@id":"https://calculatorhub.site/data-transfer-converter#webpage",
+          "url":"https://calculatorhub.site/data-transfer-converter",
+          "name":"Data Transfer Converter — bps ↔ B/s with SI & Binary",
+          "inLanguage":"en",
+          "isPartOf":{"@id":"https://calculatorhub.site/#website"},
+          "primaryImageOfPage":{
+            "@type":"ImageObject",
+            "@id":"https://calculatorhub.site/images/data-transfer-converter-hero.webp#primaryimg",
+            "url":"https://calculatorhub.site/images/data-transfer-converter-hero.webp",
+            "width":1200,
+            "height":675
+          },
+          "mainEntity":{
+            "@type":"Article",
+            "@id":"https://calculatorhub.site/data-transfer-converter#article",
+            "headline":"Data Transfer Converter — SI & Binary, Bits & Bytes",
+            "description":"Convert bps/Kbps/Mbps/Gbps/Tbps and B/s/KB/s/MB/s/GB/s/TB/s, plus binary KiB/s–TiB/s. Precision, formats, favorites, history, CSV.",
+            "image":["https://calculatorhub.site/images/data-transfer-converter-hero.webp"],
+            "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "datePublished":"2025-11-09",
+            "dateModified":"2025-11-09",
+            "mainEntityOfPage":{"@id":"https://calculatorhub.site/data-transfer-converter#webpage"},
+            "articleSection":[
+              "How to Use",
+              "Supported Units",
+              "Bits vs Bytes",
+              "SI vs Binary (IEC)",
+              "Precision & Formats",
+              "Keyboard Shortcuts",
+              "Copy & CSV Export",
+              "FAQ"
+            ]
+          }
+        },
+    
+        /* 2) Breadcrumbs */
+        {
+          "@context":"https://schema.org",
+          "@type":"BreadcrumbList",
+          "@id":"https://calculatorhub.site/data-transfer-converter#breadcrumbs",
+          "itemListElement":[
+            {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+            {"@type":"ListItem","position":2,"name":"Unit Converters","item":"https://calculatorhub.site/category/unit-converters"},
+            {"@type":"ListItem","position":3,"name":"Data Transfer Converter","item":"https://calculatorhub.site/data-transfer-converter"}
+          ]
+        },
+    
+        /* 3) FAQ */
+        {
+          "@context":"https://schema.org",
+          "@type":"FAQPage",
+          "@id":"https://calculatorhub.site/data-transfer-converter#faq",
+          "mainEntity":[
+            {
+              "@type":"Question",
+              "name":"How do I convert Mbps to MB/s?",
+              "acceptedAnswer":{
+                "@type":"Answer",
+                "text":"Divide by 8 (and note SI vs binary). Example: 100 Mbps ≈ 12.5 MB/s (SI)."
+              }
+            },
+            {
+              "@type":"Question",
+              "name":"What’s the difference between MB/s and MiB/s?",
+              "acceptedAnswer":{
+                "@type":"Answer",
+                "text":"MB/s uses decimal bytes (10^6), MiB/s uses binary bytes (2^20). 1 MiB/s ≈ 1.048576 MB/s."
+              }
+            },
+            {
+              "@type":"Question",
+              "name":"Why do storage and network speeds look different?",
+              "acceptedAnswer":{
+                "@type":"Answer",
+                "text":"Networking often uses bits per second (bps) and decimal prefixes, while storage tools may show bytes per second and binary prefixes."
+              }
+            },
+            {
+              "@type":"Question",
+              "name":"Does this tool support binary bit/byte rates (Kib, MiB)?",
+              "acceptedAnswer":{
+                "@type":"Answer",
+                "text":"Yes—Kibps, Mibps, Gibps, Tibps and KiB/s, MiB/s, GiB/s, TiB/s are included."
+              }
+            },
+            {
+              "@type":"Question",
+              "name":"Can I export the full conversion table?",
+              "acceptedAnswer":{
+                "@type":"Answer",
+                "text":"Yes—use the CSV export button to download all unit values based on your input."
+              }
+            }
+          ]
+        },
+    
+        /* 4) WebApplication */
+        {
+          "@context":"https://schema.org",
+          "@type":"WebApplication",
+          "@id":"https://calculatorhub.site/data-transfer-converter#webapp",
+          "name":"Data Transfer Converter",
+          "url":"https://calculatorhub.site/data-transfer-converter",
+          "applicationCategory":"UtilitiesApplication",
+          "operatingSystem":"Web",
+          "description":"Convert data rates across SI and binary, bits and bytes, with precision and CSV export.",
+          "publisher":{"@id":"https://calculatorhub.site/#organization"},
+          "image":["https://calculatorhub.site/images/data-transfer-converter-hero.webp"]
+        },
+    
+        /* 5) SoftwareApplication */
+        {
+          "@context":"https://schema.org",
+          "@type":"SoftwareApplication",
+          "@id":"https://calculatorhub.site/data-transfer-converter#software",
+          "name":"Advanced Data Transfer Converter",
+          "applicationCategory":"UtilitiesApplication",
+          "operatingSystem":"All",
+          "url":"https://calculatorhub.site/data-transfer-converter",
+          "publisher":{"@id":"https://calculatorhub.site/#organization"},
+          "description":"Interactive throughput converter for networking and storage."
+        },
+    
+        /* 6) WebSite + Organization (global) */
+        {
+          "@context":"https://schema.org",
+          "@type":"WebSite",
+          "@id":"https://calculatorhub.site/#website",
+          "url":"https://calculatorhub.site",
+          "name":"CalculatorHub",
+          "publisher":{"@id":"https://calculatorhub.site/#organization"},
+          "potentialAction":{
+            "@type":"SearchAction",
+            "target":"https://calculatorhub.site/search?q={query}",
+            "query-input":"required name=query"
+          }
+        },
+        {
+          "@context":"https://schema.org",
+          "@type":"Organization",
+          "@id":"https://calculatorhub.site/#organization",
+          "name":"CalculatorHub",
+          "url":"https://calculatorhub.site",
+          "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
+        }
+      ]}
+    />
+    
+    {/** ===== Outside meta/link tags ===== */}
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <link rel="canonical" href="https://calculatorhub.site/data-transfer-converter" />
+    
+    {/** Hreflang */}
+    <link rel="alternate" href="https://calculatorhub.site/data-transfer-converter" hreflang="en" />
+    <link rel="alternate" href="https://calculatorhub.site/bn/data-transfer-converter" hreflang="bn" />
+    <link rel="alternate" href="https://calculatorhub.site/data-transfer-converter" hreflang="x-default" />
+    
+    {/** Open Graph */}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="CalculatorHub" />
+    <meta property="og:title" content="Data Transfer Converter — bps ↔ B/s (SI & Binary)" />
+    <meta property="og:description" content="Fast, accurate conversion between network bits per second and storage bytes per second, including binary units. Precision, shortcuts, favorites, history, CSV." />
+    <meta property="og:url" content="https://calculatorhub.site/data-transfer-converter" />
+    <meta property="og:image" content="https://calculatorhub.site/images/data-transfer-converter-hero.webp" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Data transfer converter UI showing Mbps ↔ MB/s and binary units" />
+    <meta property="og:locale" content="en_US" />
+    
+    {/** Twitter */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Data Transfer Converter — bps/Kbps/Mbps/Gbps ↔ B/s/MB/s + Binary" />
+    <meta name="twitter:description" content="Convert throughput across SI & binary, bits & bytes, with precision controls and CSV export." />
+    <meta name="twitter:image" content="https://calculatorhub.site/images/data-transfer-converter-hero.webp" />
+    <meta name="twitter:creator" content="@CalculatorHub" />
+    <meta name="twitter:site" content="@CalculatorHub" />
+    
+    {/** PWA & theme */}
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <meta name="theme-color" content="#061A2E" />
+    
+    {/** Performance */}
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+    <link rel="preload" as="image" href="/images/data-transfer-converter-hero.webp" fetchpriority="high" />
+    <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+    
+    {/** Misc */}
+    <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto text-gray-200">
         <Breadcrumbs
