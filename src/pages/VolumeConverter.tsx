@@ -690,6 +690,166 @@ export default function VolumeConverter() {
             })}
           </div>
         </div>
+        {/* =========== SEO CONTENT SECTION: Volume Converter (EN only) ============ */}
+      <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+        <header className="mb-10">
+          <h1 className="text-3xl font-bold text-indigo-300">Volume Converter — L ⇄ gal (US/UK), m³, mL, fl oz, cups & more</h1>
+          <p className="mt-2">
+            Convert precisely between <strong>metric</strong> (mm³, cm³/mL, cL, dL, L, m³), <strong>US customary</strong>
+            (tsp, tbsp, fl oz, cup, pint, quart, gallon, in³/ft³/yd³), and <strong>Imperial (UK)</strong> measures
+            (fl oz, pint, quart, gallon). Adjust decimals, choose Normal/Compact/Scientific formats, pin favorites,
+            revisit recent conversions, export CSV, and share sharable stateful URLs.
+          </p>
+        </header>
+      
+        {/* TOC */}
+        <nav className="mt-2 mb-10 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200">
+          <h2 className="text-lg font-semibold text-indigo-300 mb-3">📖 Table of Contents</h2>
+          <ol className="list-decimal list-inside space-y-2 text-sm">
+            <li><a href="#vol-overview" className="text-indigo-400 hover:underline">Overview</a></li>
+            <li><a href="#vol-how" className="text-indigo-400 hover:underline">How to Use</a></li>
+            <li><a href="#vol-units" className="text-indigo-400 hover:underline">Supported Units</a></li>
+            <li><a href="#vol-method" className="text-indigo-400 hover:underline">Method (m³ Base)</a></li>
+            <li><a href="#vol-precision" className="text-indigo-400 hover:underline">Precision & Formats</a></li>
+            <li><a href="#vol-examples" className="text-indigo-400 hover:underline">Worked Examples</a></li>
+            <li><a href="#vol-pitfalls" className="text-indigo-400 hover:underline">Common Pitfalls</a></li>
+            <li><a href="#vol-quick" className="text-indigo-400 hover:underline">Quick Reference</a></li>
+            <li><a href="#vol-faq" className="text-indigo-400 hover:underline">FAQ</a></li>
+          </ol>
+        </nav>
+      
+        <h2 id="vol-overview" className="text-2xl font-semibold text-indigo-300 mt-6 mb-3">Overview</h2>
+        <p>
+          This converter uses <em>cubic meter (m³)</em> as the single source of truth. Every unit’s factor is defined
+          precisely in terms of m³ (e.g., 1 L = 0.001 m³; 1 US gal = 0.003785411784 m³; 1 Imp gal = 0.00454609 m³).
+          Conversions pass through m³, ensuring consistent, auditable results. URL state sync reproduces your exact
+          inputs, units, precision, and formatting when shared.
+        </p>
+      
+        <h2 id="vol-how" className="text-2xl font-semibold text-indigo-300 mt-6 mb-3">How to Use</h2>
+        <ol className="list-decimal list-inside space-y-1">
+          <li>Type a <strong>Value</strong> (blank counts as 0; commas allowed).</li>
+          <li>Choose <strong>From</strong> and <strong>To</strong> units; use <strong>Swap</strong> when needed.</li>
+          <li>Set <strong>Precision</strong> (0–12) and pick a <strong>Format</strong> (Normal/Compact/Scientific).</li>
+          <li><strong>Copy All</strong> or export <strong>CSV</strong>; pin unit favorites and revisit <strong>Recent</strong>.</li>
+        </ol>
+      
+        <h2 id="vol-units" className="text-2xl font-semibold text-indigo-300 mt-6 mb-3">Supported Units</h2>
+        <p className="mb-3">
+          <strong>Metric:</strong> mm³, cm³ (mL), cL, dL, L, m³. <br/>
+          <strong>US customary:</strong> in³, ft³, yd³, tsp, tbsp, fl oz, cup, pint, quart, gallon. <br/>
+          <strong>Imperial (UK):</strong> fl oz, pint, quart, gallon.
+        </p>
+      
+        <h2 id="vol-method" className="text-2xl font-semibold text-indigo-300 mt-6 mb-3">Method (m³ Base)</h2>
+        <ol className="list-decimal list-inside space-y-1">
+          <li><strong>To base:</strong> <code>v_m3 = v_from × factor(from → m³)</code></li>
+          <li><strong>To target:</strong> <code>v_to = v_m3 ÷ factor(to → m³)</code></li>
+        </ol>
+        <p className="text-sm text-slate-400">Example: 1 L → m³ = 1 × 0.001; m³ → US gal = ÷0.003785411784.</p>
+      
+        <h2 id="vol-precision" className="text-2xl font-semibold text-indigo-300 mt-6 mb-3">Precision & Formats</h2>
+        <ul className="list-disc list-inside space-y-1">
+          <li><strong>Normal</strong> — tidy, trims trailing zeros.</li>
+          <li><strong>Compact</strong> — 1.2K/3.4M style for dense dashboards.</li>
+          <li><strong>Scientific</strong> — best for very small/large volumes.</li>
+        </ul>
+      
+        <h2 id="vol-examples" className="text-2xl font-semibold text-indigo-300 mt-6 mb-3">Worked Examples (rounded)</h2>
+        <ul className="space-y-2">
+          <li><strong>2 L → US gal</strong>: 2 ÷ 3.785411784 ≈ <strong>0.52834 gal (US)</strong>.</li>
+          <li><strong>1 US gal → L</strong>: 1 × 3.785411784 = <strong>3.785411784 L</strong>.</li>
+          <li><strong>1 Imp gal → L</strong>: 1 × 4.54609 = <strong>4.54609 L</strong>.</li>
+          <li><strong>500 mL → cup (US)</strong>: 0.5 L ÷ 0.2365882365 ≈ <strong>2.11338 cups</strong>.</li>
+          <li><strong>1 ft³ → L</strong>: 0.028316846592 m³ × 1000 = <strong>28.316846592 L</strong>.</li>
+          <li><strong>250 mL → fl oz (US)</strong>: 0.25 L ÷ 0.0295735295625 ≈ <strong>8.4535 fl oz</strong>.</li>
+          <li><strong>1 in³ → mL</strong>: 0.000016387064 m³ × 1e6 = <strong>16.387064 mL</strong>.</li>
+        </ul>
+      
+        <h2 id="vol-pitfalls" className="text-2xl font-semibold text-indigo-300 mt-6 mb-3">Common Pitfalls</h2>
+        <ul className="list-disc list-inside space-y-2">
+          <li><strong>US vs Imperial gallons</strong> are not interchangeable (US: 3.785411784 L; UK: 4.54609 L).</li>
+          <li><strong>mL = cm³</strong> exactly (1:1); don’t mix them with “approximate” factors.</li>
+          <li><strong>Teaspoon/Tablespoon</strong> sizes differ by region; this tool uses <em>US definitions</em> for tsp/tbsp by default.</li>
+          <li>Round at the final display stage, not during intermediate steps.</li>
+        </ul>
+      
+        <h2 id="vol-quick" className="text-2xl font-semibold text-indigo-300 mt-6 mb-3">Quick Reference</h2>
+        <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <li>1 L = 0.001 m³</li>
+            <li>1 m³ = 1000 L</li>
+            <li>1 US gal = 3.785411784 L</li>
+            <li>1 Imp gal = 4.54609 L</li>
+            <li>1 US cup = 0.2365882365 L</li>
+            <li>1 US fl oz = 0.0295735295625 L</li>
+            <li>1 in³ = 16.387064 mL</li>
+            <li>1 ft³ = 28.316846592 L</li>
+          </ul>
+        </div>
+      
+        <section id="vol-faq" className="space-y-4 mt-10">
+          <h2 className="text-3xl font-bold text-center text-indigo-300">❓ FAQ</h2>
+      
+          <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+            <h3 className="font-semibold text-amber-300">1) What’s the difference between US and Imperial (UK) gallons?</h3>
+            <p>They’re different sizes. US gallon = 3.785411784 L; Imperial gallon = 4.54609 L. Choose the correct system for recipes/specs.</p>
+          </div>
+      
+          <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+            <h3 className="font-semibold text-amber-300">2) Is 1 mL the same as 1 cm³?</h3>
+            <p>Yes — they are exactly equal.</p>
+          </div>
+      
+          <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+            <h3 className="font-semibold text-amber-300">3) Which spoon sizes are used here?</h3>
+            <p>US definitions for teaspoon (tsp) and tablespoon (tbsp). Imperial values are provided for fl oz/pint/quart/gallon where applicable.</p>
+          </div>
+        </section>
+      
+        {/* Author / Backlink strip */}
+        <section className="mt-14 border-t border-gray-700 pt-6">
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/calculatorhub-author.webp"
+              alt="CalculatorHub Tools Team"
+              className="w-12 h-12 rounded-full border border-gray-600"
+              loading="lazy"
+            />
+            <div>
+              <p className="font-semibold text-white">Written by the CalculatorHub Tools Team</p>
+              <p className="text-sm text-slate-400">
+                Last updated: <time dateTime="2025-11-09">November 9, 2025</time>.
+              </p>
+            </div>
+          </div>
+      
+          <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">🚀 Explore more tools on CalculatorHub:</p>
+            <div className="flex flex-wrap gap-3 text-sm">
+              <a
+                href="/speed-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-cyan-600/20 text-cyan-300 hover:text-cyan-400 px-3 py-2 rounded-md border border-slate-700 hover:border-cyan-500 transition-all duration-200"
+              >
+                <span className="text-cyan-400">🚗</span> Speed Converter
+              </a>
+              <a
+                href="/area-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
+              >
+                <span className="text-emerald-400">🧩</span> Area Converter
+              </a>
+              <a
+                href="/length-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
+              >
+                <span className="text-indigo-400">📏</span> Length Converter
+              </a>
+            </div>
+          </div>
+        </section>
+      </section>
+
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/volume-converter" category="unit-converters" />
