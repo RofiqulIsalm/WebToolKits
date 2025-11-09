@@ -276,36 +276,159 @@ const QuadraticEquationSolver: React.FC = () => {
      ============================================================ */
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title="Quadratic Equation Solver | Roots, Vertex, Discriminant & Graph"
-        description="Solve ax²+bx+c=0: real or complex roots, discriminant, vertex, axis of symmetry, intercepts, factorization when possible, and an interactive parabola chart."
+        title="Quadratic Equation Solver — Roots, Vertex, Discriminant & Parabola Graph"
+        description="Solve ax²+bx+c=0 for real or complex roots. Get discriminant, vertex, axis, intercepts, optional factorization, and an interactive parabola graph. Share or copy results."
+        keywords={[
+          "quadratic equation solver",
+          "quadratic formula calculator",
+          "discriminant calculator",
+          "parabola graph",
+          "vertex calculator",
+          "complex roots",
+          "factorization",
+          "math tools",
+        ]}
         canonical="https://calculatorhub.site/quadratic-equation-solver"
-        schemaData={generateCalculatorSchema(
-          "Quadratic Equation Solver",
-          "Compute roots (including complex), discriminant, vertex, axis, intercepts, factorization, and see a live parabola chart.",
-          "/quadratic-equation-solver",
-          [
-            "quadratic equation solver",
-            "quadratic formula",
-            "discriminant vertex",
-            "parabola graph",
-            "math tools",
-          ]
-        )}
+        schemaData={[
+          /* WebPage + Article */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebPage",
+            "@id":"https://calculatorhub.site/quadratic-equation-solver#webpage",
+            "url":"https://calculatorhub.site/quadratic-equation-solver",
+            "name":"Quadratic Equation Solver — Roots, Vertex, Discriminant & Graph",
+            "inLanguage":"en",
+            "isPartOf":{"@id":"https://calculatorhub.site/#website"},
+            "primaryImageOfPage":{
+              "@type":"ImageObject",
+              "@id":"https://calculatorhub.site/images/quadratic-solver-hero.webp#primaryimg",
+              "url":"https://calculatorhub.site/images/quadratic-solver-hero.webp",
+              "width":1200,"height":675
+            },
+            "mainEntity":{
+              "@type":"Article",
+              "@id":"https://calculatorhub.site/quadratic-equation-solver#article",
+              "headline":"Quadratic Equation Solver — fast, precise, and shareable",
+              "description":"Compute roots (real/complex), discriminant, vertex, axis, intercepts, and factorization; includes a live parabola graph.",
+              "image":["https://calculatorhub.site/images/quadratic-solver-hero.webp"],
+              "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
+              "publisher":{"@id":"https://calculatorhub.site/#organization"},
+              "datePublished":"2025-11-09","dateModified":"2025-11-09",
+              "mainEntityOfPage":{"@id":"https://calculatorhub.site/quadratic-equation-solver#webpage"},
+              "articleSection":["Quadratic Formula","Discriminant","Vertex","Graph","Factorization"]
+            }
+          },
+          /* Breadcrumbs */
+          {
+            "@context":"https://schema.org",
+            "@type":"BreadcrumbList",
+            "@id":"https://calculatorhub.site/quadratic-equation-solver#breadcrumbs",
+            "itemListElement":[
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+              {"@type":"ListItem","position":2,"name":"Math Tools","item":"https://calculatorhub.site/category/math-tools"},
+              {"@type":"ListItem","position":3,"name":"Quadratic Equation Solver","item":"https://calculatorhub.site/quadratic-equation-solver"}
+            ]
+          },
+          /* FAQ */
+          {
+            "@context":"https://schema.org",
+            "@type":"FAQPage",
+            "@id":"https://calculatorhub.site/quadratic-equation-solver#faq",
+            "mainEntity":[
+              {"@type":"Question","name":"Does it handle complex roots?","acceptedAnswer":{"@type":"Answer","text":"Yes, when the discriminant is negative, roots are shown in a±bi form."}},
+              {"@type":"Question","name":"Will it show factorization?","acceptedAnswer":{"@type":"Answer","text":"If a, b, c are integers and the discriminant is a perfect square, it shows a factorized form."}},
+              {"@type":"Question","name":"Can I share my equation?","acceptedAnswer":{"@type":"Answer","text":"Yes, copy a URL that encodes your coefficients so others can open the same problem."}}
+            ]
+          },
+          /* WebApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebApplication",
+            "@id":"https://calculatorhub.site/quadratic-equation-solver#webapp",
+            "name":"Quadratic Equation Solver",
+            "url":"https://calculatorhub.site/quadratic-equation-solver",
+            "applicationCategory":"UtilitiesApplication",
+            "operatingSystem":"Web",
+            "description":"Solve ax²+bx+c=0 with roots, discriminant, vertex, intercepts, factorization, and a live graph.",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "image":["https://calculatorhub.site/images/quadratic-solver-hero.webp"]
+          },
+          /* SoftwareApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"SoftwareApplication",
+            "@id":"https://calculatorhub.site/quadratic-equation-solver#software",
+            "name":"Advanced Quadratic Solver",
+            "applicationCategory":"UtilitiesApplication",
+            "operatingSystem":"All",
+            "url":"https://calculatorhub.site/quadratic-equation-solver",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "description":"Compute roots (real/complex), discriminant, vertex, axis, and factorization with an interactive graph."
+          },
+          /* Site + Org (global) */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebSite",
+            "@id":"https://calculatorhub.site/#website",
+            "url":"https://calculatorhub.site",
+            "name":"CalculatorHub",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "potentialAction":{"@type":"SearchAction","target":"https://calculatorhub.site/search?q={query}","query-input":"required name=query"}
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"Organization",
+            "@id":"https://calculatorhub.site/#organization",
+            "name":"CalculatorHub",
+            "url":"https://calculatorhub.site",
+            "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
+          }
+        ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-      {/* Minimal OG/Twitter (SEOHead likely covers) */}
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/quadratic-equation-solver" />
+      
+      <link rel="alternate" href="https://calculatorhub.site/quadratic-equation-solver" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/quadratic-equation-solver" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/quadratic-equation-solver" hreflang="x-default" />
+      
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="CalculatorHub" />
-      <meta property="og:title" content="Quadratic Equation Solver | Roots, Vertex, Discriminant & Graph" />
+      <meta property="og:title" content="Quadratic Equation Solver — Roots, Vertex, Discriminant & Graph" />
+      <meta property="og:description" content="Solve ax²+bx+c=0 with roots (real/complex), discriminant, vertex, intercepts, factorization, and a live graph." />
       <meta property="og:url" content="https://calculatorhub.site/quadratic-equation-solver" />
-      <meta
-        property="og:description"
-        content="Solve ax²+bx+c=0 with roots (real/complex), vertex, discriminant, intercepts, factorization, and a live chart."
-      />
       <meta property="og:image" content="https://calculatorhub.site/images/quadratic-solver-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Quadratic solver UI with graph and results" />
+      <meta property="og:locale" content="en_US" />
+      
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Quadratic Equation Solver — Roots, Vertex, Discriminant & Graph" />
+      <meta name="twitter:description" content="Fast quadratic solver with complex roots, factorization, and an interactive parabola." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/quadratic-solver-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#6366f1" />
+      
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/quadratic-solver-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
