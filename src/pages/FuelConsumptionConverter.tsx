@@ -267,22 +267,212 @@ export default function FuelConsumptionConverter() {
 
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title={seoData.fuelConverter?.title ?? 'Fuel Consumption Converter'}
-        description={seoData.fuelConverter?.description ?? 'Convert between L/100 km, mpg (US/Imp), km/L, mi/L, km/gal, gal/100 mi and more.'}
+        title="Fuel Consumption Converter — L/100 km ⇄ mpg (US/Imp) ⇄ km/L ⇄ mi/L ⇄ km/gal"
+        description="Instantly convert fuel consumption and economy units: L/100 km, L/km, mL/km, mpg (US/Imp), km/L, mi/L, km/gal (US/Imp), gal/100 mi. Precision controls, multiple formats, favorites, history, CSV export, and shareable URLs."
+        keywords={[
+          "fuel consumption converter",
+          "L/100km to mpg",
+          "mpg to L/100km",
+          "km/L to mpg",
+          "mi/L to mpg",
+          "US mpg vs Imperial mpg",
+          "gal per 100 miles",
+          "km per gallon",
+          "fuel economy units"
+        ]}
         canonical="https://calculatorhub.site/fuel-consumption-converter"
-        schemaData={generateCalculatorSchema(
-          'Fuel Consumption Converter',
-          seoData.fuelConverter?.description ?? 'Convert between L/100 km, mpg (US/Imp), km/L, mi/L, km/gal, gal/100 mi and more.',
-          '/fuel-consumption-converter',
-          seoData.fuelConverter?.keywords ?? ['fuel converter','L/100km to mpg','mpg to L/100km','km/L to mpg','gal/100mi']
-        )}
-        breadcrumbs={[
-          { name: 'Unit Converters', url: '/category/unit-converters' },
-          { name: 'Fuel Consumption Converter', url: '/fuel-consumption-converter' },
+        schemaData={[
+          /* 1) WebPage + Article */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebPage",
+            "@id":"https://calculatorhub.site/fuel-consumption-converter#webpage",
+            "url":"https://calculatorhub.site/fuel-consumption-converter",
+            "name":"Fuel Consumption Converter — L/100 km, mpg (US/Imp), km/L, mi/L, km/gal",
+            "inLanguage":"en",
+            "isPartOf":{"@id":"https://calculatorhub.site/#website"},
+            "primaryImageOfPage":{
+              "@type":"ImageObject",
+              "@id":"https://calculatorhub.site/images/fuel-consumption-converter-hero.webp#primaryimg",
+              "url":"https://calculatorhub.site/images/fuel-consumption-converter-hero.webp",
+              "width":1200,"height":675
+            },
+            "mainEntity":{
+              "@type":"Article",
+              "@id":"https://calculatorhub.site/fuel-consumption-converter#article",
+              "headline":"Fuel Consumption & Economy Unit Converter",
+              "description":"Convert between L/100 km, L/km, mL/km, mpg (US/Imp), km/L, mi/L, km/gal (US/Imp), and gal/100 mi. Includes precision slider, Normal/Compact/Scientific formats, keyboard shortcuts, favorites, history, copy & CSV export.",
+              "image":["https://calculatorhub.site/images/fuel-consumption-converter-hero.webp"],
+              "author":{"@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site"},
+              "publisher":{"@id":"https://calculatorhub.site/#organization"},
+              "datePublished":"2025-11-09",
+              "dateModified":"2025-11-09",
+              "mainEntityOfPage":{"@id":"https://calculatorhub.site/fuel-consumption-converter#webpage"},
+              "articleSection":[
+                "Supported Units",
+                "US vs Imperial mpg",
+                "Formulas & Constants",
+                "Precision & Formats",
+                "Keyboard Shortcuts",
+                "Copy & CSV Export",
+                "FAQ"
+              ]
+            }
+          },
+      
+          /* 2) Breadcrumbs */
+          {
+            "@context":"https://schema.org",
+            "@type":"BreadcrumbList",
+            "@id":"https://calculatorhub.site/fuel-consumption-converter#breadcrumbs",
+            "itemListElement":[
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+              {"@type":"ListItem","position":2,"name":"Unit Converters","item":"https://calculatorhub.site/category/unit-converters"},
+              {"@type":"ListItem","position":3,"name":"Fuel Consumption Converter","item":"https://calculatorhub.site/fuel-consumption-converter"}
+            ]
+          },
+      
+          /* 3) FAQ */
+          {
+            "@context":"https://schema.org",
+            "@type":"FAQPage",
+            "@id":"https://calculatorhub.site/fuel-consumption-converter#faq",
+            "mainEntity":[
+              {
+                "@type":"Question",
+                "name":"How do you convert L/100 km to mpg (US)?",
+                "acceptedAnswer":{"@type":"Answer","text":"Use the reciprocal relation: L/100 km = 235.214583 ÷ mpg(US). Therefore mpg(US) = 235.214583 ÷ (L/100 km)."}
+              },
+              {
+                "@type":"Question",
+                "name":"How do you convert L/100 km to mpg (Imperial)?",
+                "acceptedAnswer":{"@type":"Answer","text":"L/100 km = 282.480936 ÷ mpg(Imp). Therefore mpg(Imp) = 282.480936 ÷ (L/100 km)."}
+              },
+              {
+                "@type":"Question",
+                "name":"What’s the difference between US and Imperial mpg?",
+                "acceptedAnswer":{"@type":"Answer","text":"They use different gallon sizes. 1 US gal = 3.785411784 L, while 1 Imperial gal = 4.54609 L. Imperial mpg will be higher for the same consumption."}
+              },
+              {
+                "@type":"Question",
+                "name":"How do I convert between km/L and L/100 km?",
+                "acceptedAnswer":{"@type":"Answer","text":"They are reciprocals over 100 km: km/L = 100 ÷ (L/100 km) and L/100 km = 100 ÷ (km/L)."}
+              },
+              {
+                "@type":"Question",
+                "name":"How do I convert mi/L to L/100 km?",
+                "acceptedAnswer":{"@type":"Answer","text":"Use miles–kilometers relation: 1 mile = 1.609344 km. L/100 km = (100 ÷ mi/L) × 0.621371192."}
+              },
+              {
+                "@type":"Question",
+                "name":"How is gal/100 mi converted to L/100 km?",
+                "acceptedAnswer":{"@type":"Answer","text":"Multiply by the gallon size to get L/100 mi, then divide by 62.1371192 (mi per 100 km). Example (US): L/100 km = (gal/100 mi × 3.785411784) ÷ 62.1371192."}
+              }
+            ]
+          },
+      
+          /* 4) WebApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebApplication",
+            "@id":"https://calculatorhub.site/fuel-consumption-converter#webapp",
+            "name":"Fuel Consumption Converter",
+            "url":"https://calculatorhub.site/fuel-consumption-converter",
+            "applicationCategory":"UtilitiesApplication",
+            "operatingSystem":"Web",
+            "description":"Interactive converter for L/100 km, mpg (US/Imp), km/L, mi/L, km/gal, and gal/100 mi with precision controls and CSV export.",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "image":["https://calculatorhub.site/images/fuel-consumption-converter-hero.webp"]
+          },
+      
+          /* 5) SoftwareApplication */
+          {
+            "@context":"https://schema.org",
+            "@type":"SoftwareApplication",
+            "@id":"https://calculatorhub.site/fuel-consumption-converter#software",
+            "name":"Advanced Fuel Consumption Converter",
+            "applicationCategory":"UtilitiesApplication",
+            "operatingSystem":"All",
+            "url":"https://calculatorhub.site/fuel-consumption-converter",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "description":"Convert common fuel consumption and economy units for vehicles and fleet comparisons."
+          },
+      
+          /* 6) WebSite + Organization (global) */
+          {
+            "@context":"https://schema.org",
+            "@type":"WebSite",
+            "@id":"https://calculatorhub.site/#website",
+            "url":"https://calculatorhub.site",
+            "name":"CalculatorHub",
+            "publisher":{"@id":"https://calculatorhub.site/#organization"},
+            "potentialAction":{
+              "@type":"SearchAction",
+              "target":"https://calculatorhub.site/search?q={query}",
+              "query-input":"required name=query"
+            }
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"Organization",
+            "@id":"https://calculatorhub.site/#organization",
+            "name":"CalculatorHub",
+            "url":"https://calculatorhub.site",
+            "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/logo.png"}
+          }
         ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/fuel-consumption-converter" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/fuel-consumption-converter" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/fuel-consumption-converter" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/fuel-consumption-converter" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Fuel Consumption Converter — L/100 km, mpg (US/Imp), km/L, mi/L, km/gal" />
+      <meta property="og:description" content="Fast, precise conversions across consumption and economy units with precision controls, formats, favorites, history, and CSV export." />
+      <meta property="og:url" content="https://calculatorhub.site/fuel-consumption-converter" />
+      <meta property="og:image" content="https://calculatorhub.site/images/fuel-consumption-converter-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Fuel consumption converter UI showing L/100 km ↔ mpg conversions" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Fuel Consumption Converter — L/100 km ⇄ mpg (US/Imp) ⇄ km/L" />
+      <meta name="twitter:description" content="Engineer-ready fuel consumption & economy conversions with precision controls and CSV export." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/fuel-consumption-converter-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#06201a" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/fuel-consumption-converter-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto text-gray-200">
         <Breadcrumbs
