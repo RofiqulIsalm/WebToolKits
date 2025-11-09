@@ -350,39 +350,228 @@ const StatisticsCalculator: React.FC = () => {
      ============================================================ */
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title="Statistics Calculator | Mean, Median, Mode, Variance, Std Dev, Quartiles"
-        description="Paste numbers (space/comma/semicolon) to compute mean, median, mode, variance, standard deviation, quartiles, IQR, custom percentiles, histogram & box plot."
+        title="Statistics Calculator — Mean, Median, Mode, Variance, Std Dev, Quartiles (2025–2026)"
+        description="Paste numbers separated by space/comma/semicolon to compute mean, median, mode, variance (sample/population), standard deviation, quartiles, IQR, custom percentiles, histogram, and a compact box plot. Share state via URL."
+        keywords={[
+          "statistics calculator",
+          "descriptive statistics",
+          "mean median mode",
+          "variance standard deviation",
+          "sample vs population",
+          "quartiles IQR",
+          "percentiles",
+          "histogram",
+          "box plot",
+          "math tools"
+        ]}
         canonical="https://calculatorhub.site/statistics-calculator"
-        schemaData={generateCalculatorSchema(
-          "Statistics Calculator",
-          "Compute descriptive statistics: mean, median, mode, variance (population/sample), std dev, quartiles, IQR, percentiles, histogram, and box plot.",
-          "/statistics-calculator",
-          [
-            "statistics calculator",
-            "mean median mode",
-            "variance standard deviation",
-            "quartiles IQR",
-            "percentiles histogram",
-          ]
-        )}
+        schemaData={[
+          // 1) WebPage + Article
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://calculatorhub.site/statistics-calculator#webpage",
+            "url": "https://calculatorhub.site/statistics-calculator",
+            "name": "Statistics Calculator (2025–2026) — Mean, Median, Mode, Variance, Std Dev, Quartiles",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "@id": "https://calculatorhub.site/images/statistics-calculator-hero.webp#primaryimg",
+              "url": "https://calculatorhub.site/images/statistics-calculator-hero.webp",
+              "width": 1200,
+              "height": 675
+            },
+            "mainEntity": {
+              "@type": "Article",
+              "@id": "https://calculatorhub.site/statistics-calculator#article",
+              "headline": "Statistics Calculator — Descriptive analytics with visuals",
+              "description": "Compute descriptive stats (mean, median, mode), variance and standard deviation (sample or population), quartiles, IQR, custom percentiles, histogram, and box plot. Paste numbers separated by spaces/commas/semicolons. Invalid tokens are ignored.",
+              "image": ["https://calculatorhub.site/images/statistics-calculator-hero.webp"],
+              "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "datePublished": "2025-11-09",
+              "dateModified": "2025-11-09",
+              "mainEntityOfPage": { "@id": "https://calculatorhub.site/statistics-calculator#webpage" },
+              "articleSection": [
+                "How to Use",
+                "Parsing & Validation",
+                "Descriptive Statistics",
+                "Sample vs Population",
+                "Percentiles",
+                "Histogram",
+                "Box Plot",
+                "FAQ"
+              ]
+            }
+          },
+      
+          // 2) Breadcrumbs
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id": "https://calculatorhub.site/statistics-calculator#breadcrumbs",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+              { "@type": "ListItem", "position": 2, "name": "Math Tools", "item": "https://calculatorhub.site/category/math-tools" },
+              { "@type": "ListItem", "position": 3, "name": "Statistics Calculator", "item": "https://calculatorhub.site/statistics-calculator" }
+            ]
+          },
+      
+          // 3) FAQ
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": "https://calculatorhub.site/statistics-calculator#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "How should I format the input numbers?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Paste numbers separated by spaces, commas, or semicolons. Invalid tokens are ignored."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What’s the difference between sample and population metrics?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Sample variance/SD use n−1 in the denominator. Population variance/SD use n. Toggle the option to switch."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How are quartiles, IQR, and outliers computed?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Quartiles use Tukey’s method (median of halves). IQR = Q3 − Q1. Outliers are values < Q1 − 1.5×IQR or > Q3 + 1.5×IQR."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How are percentiles calculated?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Percentiles use linear interpolation at rank r = p/100 × (n − 1)."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I share my exact settings and data?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. The tool encodes input, bins, sample/population mode, and percentiles into the URL so you can share a link."
+                }
+              }
+            ]
+          },
+      
+          // 4) WebApplication
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id": "https://calculatorhub.site/statistics-calculator#webapp",
+            "name": "Statistics Calculator",
+            "url": "https://calculatorhub.site/statistics-calculator",
+            "applicationCategory": "EducationalApplication",
+            "operatingSystem": "Web",
+            "description": "Compute descriptive statistics, percentiles, histogram, and box plot with shareable state.",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "image": ["https://calculatorhub.site/images/statistics-calculator-hero.webp"]
+          },
+      
+          // 5) SoftwareApplication (optional)
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "@id": "https://calculatorhub.site/statistics-calculator#software",
+            "name": "Statistics Calculator",
+            "applicationCategory": "EducationalApplication",
+            "operatingSystem": "All",
+            "url": "https://calculatorhub.site/statistics-calculator",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "description": "Interactive descriptive statistics tool with histogram and box plot."
+          },
+      
+          // 6) WebSite + Organization (global)
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://calculatorhub.site/#website",
+            "url": "https://calculatorhub.site",
+            "name": "CalculatorHub",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://calculatorhub.site/#organization",
+            "name": "CalculatorHub",
+            "url": "https://calculatorhub.site",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://calculatorhub.site/images/logo.png"
+            }
+          }
+        ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-      {/* Minimal OG/Twitter */}
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/statistics-calculator" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/statistics-calculator" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/statistics-calculator" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/statistics-calculator" hreflang="x-default" />
+      
+      {/** Open Graph */}
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="CalculatorHub" />
-      <meta property="og:title" content="Statistics Calculator" />
+      <meta property="og:title" content="Statistics Calculator — Mean, Median, Mode, Variance, Std Dev, Quartiles" />
+      <meta property="og:description" content="Compute descriptive statistics, percentiles, histogram, and a compact box plot. Paste numbers separated by space/comma/semicolon." />
       <meta property="og:url" content="https://calculatorhub.site/statistics-calculator" />
-      <meta
-        property="og:description"
-        content="Mean, median, mode, variance (population/sample), std dev, quartiles, IQR, percentiles, histogram & box plot."
-      />
-      <meta
-        property="og:image"
-        content="https://calculatorhub.site/images/statistics-calculator-hero.webp"
-      />
+      <meta property="og:image" content="https://calculatorhub.site/images/statistics-calculator-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Statistics calculator UI with tiles, histogram, and box plot" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Statistics Calculator — Descriptive Analytics with Visuals" />
+      <meta name="twitter:description" content="Mean, median, mode, variance (sample/population), std dev, quartiles, IQR, custom percentiles, histogram & box plot." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/statistics-calculator-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#0ea5e9" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/statistics-calculator-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+
 
       <div className="max-w-5xl mx-auto px-3 sm:px-4">
         <Breadcrumbs
