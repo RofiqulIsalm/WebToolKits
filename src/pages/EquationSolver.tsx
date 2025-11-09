@@ -359,19 +359,209 @@ const EquationSolver: React.FC = () => {
 
   return (
     <>
+      {/** ================= TECHNICAL SEO (FD-style) ================= */}
       <SEOHead
-        title="Equation Solver | Simpler UI for Linear & Quadratic + 2×2/3×3 Systems"
-        description="Enter coefficients, get roots or system solutions instantly. Clear result chips, examples, and step-by-step explanations."
+        title="Equation Solver — Linear & Quadratic Roots + 2×2/3×3 Systems (Gaussian Steps)"
+        description="Solve linear/quadratic equations and 2×2/3×3 linear systems fast. See discriminant, complex roots, Gaussian elimination steps, shareable state, and a clean graph."
+        keywords={[
+          "equation solver",
+          "quadratic formula",
+          "linear equations",
+          "gaussian elimination",
+          "2x2 system",
+          "3x3 system",
+          "determinant",
+          "rank",
+          "discriminant",
+          "complex roots",
+          "math tools"
+        ]}
         canonical="https://calculatorhub.site/equation-solver"
-        schemaData={generateCalculatorSchema(
-          "Equation Solver",
-          "Cleaner UI for linear/quadratic roots and 2x2/3x3 systems with Gaussian steps.",
-          "/equation-solver",
-          ["equation solver", "quadratic formula", "gaussian elimination", "math tools"]
-        )}
+        schemaData={[
+          /* 1) WebPage + nested Article */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id": "https://calculatorhub.site/equation-solver#webpage",
+            "url": "https://calculatorhub.site/equation-solver",
+            "name": "Equation Solver — Linear & Quadratic + 2×2/3×3 Systems",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "@id": "https://calculatorhub.site/images/equation-solver-hero.webp#primaryimg",
+              "url": "https://calculatorhub.site/images/equation-solver-hero.webp",
+              "width": 1200,
+              "height": 675
+            },
+            "mainEntity": {
+              "@type": "Article",
+              "@id": "https://calculatorhub.site/equation-solver#article",
+              "headline": "Equation Solver — Linear & Quadratic Roots, 2×2/3×3 Systems with Steps",
+              "description": "Enter coefficients for ax²+bx+c=0 or fill A and b for A·x=b. Get roots (including complex), system status (unique/infinite/none), determinant, rank hints, and step-by-step Gaussian elimination.",
+              "image": ["https://calculatorhub.site/images/equation-solver-hero.webp"],
+              "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+              "publisher": { "@id": "https://calculatorhub.site/#organization" },
+              "datePublished": "2025-11-09",
+              "dateModified": "2025-11-09",
+              "mainEntityOfPage": { "@id": "https://calculatorhub.site/equation-solver#webpage" },
+              "articleSection": ["1-Variable", "Linear System", "Graph", "Gaussian Steps", "Tips & FAQ"]
+            }
+          },
+      
+          /* 2) Breadcrumbs */
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id": "https://calculatorhub.site/equation-solver#breadcrumbs",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+              { "@type": "ListItem", "position": 2, "name": "Math Tools", "item": "https://calculatorhub.site/category/math-tools" },
+              { "@type": "ListItem", "position": 3, "name": "Equation Solver", "item": "https://calculatorhub.site/equation-solver" }
+            ]
+          },
+      
+          /* 3) FAQ */
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": "https://calculatorhub.site/equation-solver#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What kinds of equations can I solve?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Linear and quadratic equations in one variable, plus 2×2 and 3×3 linear systems using Gaussian elimination with partial pivoting."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Do you handle complex roots?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. When Δ < 0, the solver shows complex conjugate roots for quadratics."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How are system types classified?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "We compare ranks of A and [A|b]. Rank(A) = Rank([A|b]) = n → unique solution; Rank(A) = Rank([A|b]) < n → infinitely many; Rank(A) < Rank([A|b]) → no solution."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I share my current inputs?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. The state is encoded in the URL, so you can copy a shareable link."
+                }
+              }
+            ]
+          },
+      
+          /* 4) WebApplication */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id": "https://calculatorhub.site/equation-solver#webapp",
+            "name": "Equation Solver",
+            "url": "https://calculatorhub.site/equation-solver",
+            "applicationCategory": "EducationalApplication",
+            "operatingSystem": "Web",
+            "description": "Interactive solver for linear/quadratic equations and small linear systems with Gaussian steps and graph.",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "image": ["https://calculatorhub.site/images/equation-solver-hero.webp"]
+          },
+      
+          /* 5) SoftwareApplication */
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "@id": "https://calculatorhub.site/equation-solver#software",
+            "name": "Equation Solver",
+            "applicationCategory": "EducationalApplication",
+            "operatingSystem": "All",
+            "url": "https://calculatorhub.site/equation-solver",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "description": "Solve ax²+bx+c=0 and A·x=b with clear steps, determinant (for 2×2/3×3), and shareable state."
+          },
+      
+          /* 6) WebSite + Organization (global) */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://calculatorhub.site/#website",
+            "url": "https://calculatorhub.site",
+            "name": "CalculatorHub",
+            "publisher": { "@id": "https://calculatorhub.site/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://calculatorhub.site/#organization",
+            "name": "CalculatorHub",
+            "url": "https://calculatorhub.site",
+            "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/logo.png" }
+          }
+        ]}
       />
+      
+      {/** ===== Outside meta/link tags ===== */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/equation-solver" />
+      
+      {/** Hreflang */}
+      <link rel="alternate" href="https://calculatorhub.site/equation-solver" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/equation-solver" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/equation-solver" hreflang="x-default" />
+      
+      {/** Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Equation Solver — Linear & Quadratic + 2×2/3×3 Systems" />
+      <meta property="og:description" content="Get roots, system status, determinant, and Gaussian steps. Share state via URL and view a clean graph." />
+      <meta property="og:url" content="https://calculatorhub.site/equation-solver" />
       <meta property="og:image" content="https://calculatorhub.site/images/equation-solver-hero.webp" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Equation Solver UI showing inputs, results, and Gaussian steps table" />
+      <meta property="og:locale" content="en_US" />
+      
+      {/** Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Equation Solver — Roots & Linear Systems with Steps" />
+      <meta name="twitter:description" content="Solve ax²+bx+c=0 and A·x=b. See discriminant, complex roots, determinant, rank checks, and elimination steps." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/equation-solver-hero.webp" />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+      
+      {/** PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#0ea5e9" />
+      
+      {/** Performance */}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+      <link rel="preload" as="image" href="/images/equation-solver-hero.webp" fetchpriority="high" />
+      <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossOrigin="" />
+      
+      {/** Misc */}
+      <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
+      
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
