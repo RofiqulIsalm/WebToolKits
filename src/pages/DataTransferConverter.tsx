@@ -734,6 +734,208 @@ export default function DataTransferConverter() {
             })}
           </div>
         </div>
+        {/*====== SEO Content: Data Transfer Converter (English Only) =========== */}
+        <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+        
+          <header className="mb-10">
+            <h1 className="text-3xl font-bold text-sky-300">
+              Data Transfer Converter — bps, Kbps, Mbps, Gbps, Tbps ↔ B/s, KB/s, MB/s, GB/s, TB/s + Binary (KiB/s, MiB/s, GiB/s)
+            </h1>
+            <p className="mt-3">
+              Convert network and storage throughput instantly across <strong>bits per second</strong> and <strong>bytes per second</strong>, 
+              with both <strong>decimal (SI)</strong> and <strong>binary (IEC)</strong> prefixes. The tool supports bps/Kbps/Mbps/Gbps/Tbps, 
+              B/s to TB/s, and binary KiB/s to TiB/s. Choose precision (0–12 decimals), switch Normal/Compact/Scientific formats, 
+              save favorites, revisit the last ten conversions, copy the full table, or export CSV. Shareable URLs preserve all settings.
+            </p>
+          </header>
+        
+          {/* Contents */}
+          <nav className="mt-2 mb-10 bg-[#061A2E] border border-[#14324a] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-gray-100 mb-3">📖 Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#dtc-how" className="text-sky-300 hover:underline">How to Use</a></li>
+              <li><a href="#dtc-basics" className="text-sky-300 hover:underline">Bits vs Bytes &amp; SI vs Binary</a></li>
+              <li><a href="#dtc-formulas" className="text-sky-300 hover:underline">Core Formulas</a></li>
+              <li><a href="#dtc-examples" className="text-sky-300 hover:underline">Worked Examples</a></li>
+              <li><a href="#dtc-use" className="text-sky-300 hover:underline">Real-World Use Cases</a></li>
+              <li><a href="#dtc-quick" className="text-sky-300 hover:underline">Quick Reference Tables</a></li>
+              <li><a href="#dtc-faq" className="text-sky-300 hover:underline">FAQ</a></li>
+              <li><a href="#dtc-access" className="text-sky-300 hover:underline">Accessibility &amp; Shortcuts</a></li>
+              <li><a href="#dtc-trouble" className="text-sky-300 hover:underline">Troubleshooting &amp; Tips</a></li>
+              <li><a href="#dtc-glossary" className="text-sky-300 hover:underline">Glossary</a></li>
+            </ol>
+          </nav>
+        
+          {/* How to Use */}
+          <h2 id="dtc-how" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">💡 How to Use</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Enter a number in <strong>Value</strong>. Empty input counts as 0; <code>1,234.56</code> commas are allowed.</li>
+            <li>Select <strong>From</strong> and <strong>To</strong> units. Pin favorites for quick access.</li>
+            <li>Open <strong>More options</strong> to pick decimals (0–12) and Normal/Compact/Scientific display.</li>
+            <li>Use <strong>Copy All</strong> or <strong>CSV</strong> to export the grid for reports or documentation.</li>
+            <li>Return to previous states with <strong>Recent</strong> (stores up to 10 locally in your browser).</li>
+          </ol>
+          <p className="text-xs text-slate-400">Tip: The page URL encodes your exact state. Bookmark or share for reproducible conversions.</p>
+        
+          {/* Basics */}
+          <h2 id="dtc-basics" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">🔁 Bits vs Bytes &amp; SI vs Binary</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>1 byte = 8 bits</strong>. Networking specs commonly use bits per second; storage tools often use bytes per second.</li>
+            <li><strong>SI (Decimal):</strong> k = 10³, M = 10⁶, G = 10⁹, T = 10¹². Examples: 1 MB/s = 1,000,000 B/s; 1 Gbps = 1,000,000,000 bps.</li>
+            <li><strong>Binary (IEC):</strong> Ki = 2¹⁰, Mi = 2²⁰, Gi = 2³⁰, Ti = 2⁴⁰. Examples: 1 MiB/s = 1,048,576 B/s; 1 GiB/s = 1,073,741,824 B/s.</li>
+            <li>Because <em>8 bits = 1 byte</em>, a quick mental rule is <strong>MB/s ≈ Mbps ÷ 8</strong> (decimal). Binary values differ slightly.</li>
+          </ul>
+        
+          {/* Formulas */}
+          <h2 id="dtc-formulas" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">🧮 Core Formulas</h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm space-y-3">
+            <ul className="list-disc list-inside">
+              <li><strong>bps ↔ B/s:</strong> B/s = bps ÷ 8, bps = B/s × 8</li>
+              <li><strong>SI scaling:</strong> K = 10³, M = 10⁶, G = 10⁹, T = 10¹² (apply to either bits or bytes as labeled)</li>
+              <li><strong>Binary scaling:</strong> Ki = 2¹⁰, Mi = 2²⁰, Gi = 2³⁰, Ti = 2⁴⁰</li>
+              <li><strong>MB/s ↔ Mbps (SI):</strong> MB/s = Mbps ÷ 8, Mbps = MB/s × 8</li>
+              <li><strong>MiB/s ↔ Mbps (binary→decimal):</strong> 1 MiB/s = 1,048,576 B/s = 8,388,608 bps ≈ <strong>8.388608 Mbps</strong></li>
+            </ul>
+          </div>
+        
+          {/* Examples */}
+          <h2 id="dtc-examples" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">📊 Worked Examples (Rounded)</h2>
+          <ul className="space-y-2">
+            <li><strong>100 Mbps → MB/s (SI):</strong> 100 ÷ 8 = <strong>12.5 MB/s</strong></li>
+            <li><strong>1 Gbps → MB/s (SI):</strong> 1000 ÷ 8 = <strong>125 MB/s</strong></li>
+            <li><strong>1 MB/s → Mbps (SI):</strong> 1 × 8 = <strong>8 Mbps</strong></li>
+            <li><strong>1 GiB/s → Gibps (binary):</strong> 1 GiB/s × 8 = <strong>8 Gibps</strong></li>
+            <li><strong>50 MiB/s → MB/s:</strong> 50 × 1.048576 ≈ <strong>52.4288 MB/s</strong> (since 1 MiB ≈ 1.048576 MB)</li>
+            <li><strong>750 MB/s → Gbps:</strong> 750 × 8 ÷ 1000 ≈ <strong>6 Gbps</strong> (SI)</li>
+            <li><strong>300 MB/s → MiB/s:</strong> 300 ÷ 1.048576 ≈ <strong>286.10 MiB/s</strong></li>
+          </ul>
+          <p className="text-xs text-slate-400">Your UI returns exact values at your chosen precision; examples above are rounded for readability.</p>
+        
+          {/* Use Cases */}
+          <h2 id="dtc-use" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">🛠️ Real-World Use Cases</h2>
+          <h3 className="text-lg font-semibold text-gray-100 mt-4">Networking &amp; ISPs</h3>
+          <p>Compare advertised line rates (Mbps/Gbps) to actual file transfer speeds (MB/s). Estimate download times for patches or OS images.</p>
+          <h3 className="text-lg font-semibold text-gray-100 mt-4">Storage &amp; Backups</h3>
+          <p>Map NVMe or RAID throughput (MB/s, GiB/s) to network uplinks (Gbps) to avoid bottlenecks during replication or snapshots.</p>
+          <h3 className="text-lg font-semibold text-gray-100 mt-4">Cloud &amp; Data Pipelines</h3>
+          <p>Normalize mixed units from services and agents (MiB/s vs MB/s) for capacity planning, SLOs, and cost optimization.</p>
+          <h3 className="text-lg font-semibold text-gray-100 mt-4">Video &amp; Streaming</h3>
+          <p>Translate encoder bitrates (Mbps) to storage write rates (MB/s) and choose media that sustains the required throughput.</p>
+          <h3 className="text-lg font-semibold text-gray-100 mt-4">DevOps &amp; Benchmarking</h3>
+          <p>Align throughput metrics across tools that disagree on decimal vs binary prefixes; export the grid for runbooks.</p>
+        
+          {/* Quick Reference */}
+          <h2 id="dtc-quick" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">🗂️ Quick Reference Tables</h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm space-y-4">
+            <div>
+              <p className="font-semibold">SI (Decimal) Pairs</p>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <li>1 MB/s = <strong>8 Mbps</strong></li>
+                <li>1 GB/s = <strong>8 Gbps</strong></li>
+                <li>100 Mbps = <strong>12.5 MB/s</strong></li>
+                <li>1 Gbps = <strong>125 MB/s</strong></li>
+              </ul>
+            </div>
+            <div>
+              <p className="font-semibold">Binary Conversions</p>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <li>1 MiB/s ≈ <strong>1.048576 MB/s</strong></li>
+                <li>1 GiB/s ≈ <strong>1.073741824 GB/s</strong></li>
+                <li>1 MiB/s ≈ <strong>8.388608 Mbps</strong></li>
+                <li>1 MB/s ≈ <strong>0.953674 MiB/s</strong></li>
+              </ul>
+            </div>
+            <div>
+              <p className="font-semibold">Bits ↔ Bytes</p>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <li>bps ↔ B/s: ÷8 / ×8</li>
+                <li>Mb/s ↔ MB/s: ÷8 / ×8</li>
+                <li>Gb/s ↔ GB/s: ÷8 / ×8</li>
+              </ul>
+            </div>
+          </div>
+        
+          {/* FAQ */}
+          <h2 id="dtc-faq" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">❓ Frequently Asked Questions</h2>
+          <div className="space-y-4">
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-sky-300">Why do download managers show MB/s while ISPs sell Mbps?</h3>
+              <p>ISPs use <em>bits per second</em> (bps). Download tools often show <em>bytes per second</em> (B/s). Divide Mbps by 8 to estimate MB/s (SI).</p>
+            </div>
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-sky-300">What’s the difference between MB/s and MiB/s?</h3>
+              <p>MB/s uses decimal (10⁶); MiB/s uses binary (2²⁰). 1 MiB/s ≈ 1.048576 MB/s.</p>
+            </div>
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-sky-300">How do I quickly estimate transfer time?</h3>
+              <p>Time ≈ FileSize ÷ Throughput. Convert both to the same unit first (e.g., MB and MB/s).</p>
+            </div>
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-sky-300">Why don’t I get the full line rate?</h3>
+              <p>Protocol overheads, latency, CPU/storage limits, and duplex/cabling issues reduce effective throughput.</p>
+            </div>
+          </div>
+        
+          {/* Accessibility & Shortcuts */}
+          <h2 id="dtc-access" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">♿ Accessibility &amp; Shortcuts</h2>
+          <ul className="list-disc list-inside">
+            <li><kbd>/</kbd> — focus Value</li>
+            <li><kbd>S</kbd> — focus From</li>
+            <li><kbd>T</kbd> — focus To</li>
+            <li><kbd>X</kbd> — swap units</li>
+          </ul>
+          <p className="text-xs text-slate-400 mt-2">Clear labels, tooltips, and focus states support keyboard users and screen readers.</p>
+        
+          {/* Troubleshooting */}
+          <h2 id="dtc-trouble" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">🧩 Troubleshooting &amp; Tips</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li>If you see “—”, check for non-numeric input or invalid units.</li>
+            <li>Use <em>Scientific</em> format for very large G/T rates or precise binary outputs.</li>
+            <li>Confirm whether a spec sheet uses SI (MB/s) or Binary (MiB/s) to avoid under/over-estimations.</li>
+            <li>Share the URL to reproduce an identical conversion on other devices.</li>
+          </ul>
+        
+          {/* Glossary */}
+          <h2 id="dtc-glossary" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">📚 Glossary</h2>
+          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+            <div>
+              <dt className="font-semibold text-sky-300">bps (bit/s)</dt>
+              <dd>Bits per second — common in networking.</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-sky-300">B/s (byte/s)</dt>
+              <dd>Bytes per second — common in storage and download tools.</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-sky-300">SI (Decimal)</dt>
+              <dd>k=10³, M=10⁶, G=10⁹, T=10¹² — used by many networks and OS UIs.</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-sky-300">Binary (IEC)</dt>
+              <dd>Ki=2¹⁰, Mi=2²⁰, Gi=2³⁰, Ti=2⁴⁰ — used by filesystems and some tools.</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-sky-300">Throughput</dt>
+              <dd>Rate of data transfer over a link or device.</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-sky-300">Overhead</dt>
+              <dd>Protocol and system costs that reduce effective throughput vs raw line rate.</dd>
+            </div>
+          </dl>
+        
+          {/* Author / Timestamp */}
+          <section className="mt-12 border-t border-gray-700 pt-6">
+            <div className="flex items-center gap-3">
+              <img src="/images/calculatorhub-author.webp" alt="CalculatorHub Tools Team" className="w-12 h-12 rounded-full border border-gray-600" loading="lazy" />
+              <div>
+                <p className="font-semibold text-white">Author: CalculatorHub Tools Team</p>
+                <p className="text-sm text-slate-400">Last updated: <time dateTime="2025-11-10">November 10, 2025</time></p>
+              </div>
+            </div>
+          </section>
+        </section>
+
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/data-transfer-converter" category="unit-converters" />
