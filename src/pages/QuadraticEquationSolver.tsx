@@ -456,12 +456,12 @@ const QuadraticEquationSolver: React.FC = () => {
             <p className="font-semibold text-lg">Explore more math tools 🧮</p>
             <p className="text-sm text-indigo-100">Try Percentage, Average, or Standard Deviation next!</p>
           </div>
-          <a
-            href="/category/math-tools"
+          <Link
+            to="/category/math-tools"
             className="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-md hover:bg-indigo-50 transition"
           >
             Browse Math Tools
-          </a>
+          </Link>
         </div>
 
         {/* Grid */}
@@ -672,22 +672,205 @@ const QuadraticEquationSolver: React.FC = () => {
           )}
         </div>
 
-        {/* Short SEO content */}
+        {/* ==================== SEO CONTENT SECTION ==================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
-          <h1 className="text-3xl font-bold text-cyan-400 mb-6">
-            Quadratic Equation Solver – Roots, Vertex & Graph
+        
+          {/* ===== Table of Contents ===== */}
+          <nav className="mt-2 mb-10 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-cyan-300 mb-3">📖 Table of Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#overview" className="text-indigo-400 hover:underline">Overview: What This Quadratic Solver Does</a></li>
+              <li><a href="#how-to-use" className="text-indigo-400 hover:underline">How to Use the Tool</a></li>
+              <li><a href="#formula" className="text-indigo-400 hover:underline">Quadratic Formula &amp; Discriminant</a></li>
+              <li><a href="#vertex-axis" className="text-indigo-400 hover:underline">Vertex, Axis &amp; Intercepts</a></li>
+              <li><a href="#factorization" className="text-indigo-400 hover:underline">When Factorization Appears</a></li>
+              <li><a href="#graph" className="text-indigo-400 hover:underline">Reading the Parabola Graph</a></li>
+              <li><a href="#examples" className="text-indigo-400 hover:underline">Worked Examples</a></li>
+              <li><a href="#benefits" className="text-indigo-400 hover:underline">Benefits</a></li>
+              <li><a href="#tips" className="text-indigo-400 hover:underline">Tips &amp; Pitfalls</a></li>
+              <li><a href="#pros-cons" className="text-indigo-400 hover:underline">Pros &amp; Cons</a></li>
+              <li><a href="#faq" className="text-indigo-400 hover:underline">FAQ</a></li>
+            </ol>
+          </nav>
+        
+          {/* ===== Overview ===== */}
+          <h1 id="overview" className="text-3xl font-bold text-cyan-400 mb-6">
+            Quadratic Equation Solver – Roots, Vertex, Discriminant &amp; Live Graph (2025–2026)
           </h1>
           <p>
-            Enter coefficients <strong>a</strong>, <strong>b</strong>, and <strong>c</strong> to solve{" "}
-            <em>ax² + bx + c = 0</em>. See real/complex roots via the quadratic formula, the{" "}
-            <strong>discriminant</strong>, <strong>vertex</strong>, <strong>axis of symmetry</strong>,{" "}
-            and <strong>intercepts</strong>. When possible, the trinomial is also shown in{" "}
-            <strong>factored form</strong>. A live chart visualizes the parabola.
+            The <strong>Quadratic Equation Solver by CalculatorHub</strong> computes <strong>real or complex roots</strong> for 
+            <em> ax² + bx + c = 0</em>, shows the <strong>discriminant</strong>, <strong>vertex</strong>, <strong>axis of symmetry</strong>, and 
+            <strong> intercepts</strong>, and draws an interactive <strong>parabola</strong> so you can see the solution visually. 
+            When conditions are right, it also displays a clean <strong>factorization</strong>.
           </p>
+          <p>
+            Shareable URLs preserve coefficients (<code>a</code>, <code>b</code>, <code>c</code>), making it easy for classmates, teachers, or teammates to 
+            open the exact same problem.
+          </p>
+        
+          <figure className="my-8">
+            <img
+              src="/images/quadratic-solver-hero.webp"
+              alt="Quadratic equation solver visualizing the parabola and roots"
+              title="Quadratic Equation Solver — roots, vertex, discriminant & graph"
+              className="rounded-lg shadow-md border border-slate-700 mx-auto"
+              loading="lazy"
+            />
+            <figcaption className="text-center text-sm text-slate-400 mt-2">
+              Visual parabola with vertex &amp; axis markers; roots shown in real or a±bi form.
+            </figcaption>
+          </figure>
+        
+          {/* ===== How to use ===== */}
+          <h2 id="how-to-use" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">💡 How to Use the Tool</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Enter <strong>a</strong> (must be non-zero), <strong>b</strong>, and <strong>c</strong>.</li>
+            <li>Check <strong>Results</strong> for discriminant, roots, vertex, axis, and intercepts.</li>
+            <li>Review <strong>Graph</strong> to see the parabola and symmetry line.</li>
+            <li>Open <strong>Step-by-Step</strong> to view the working.</li>
+            <li>Use <strong>Copy Results</strong> or <strong>Copy Link</strong> to share.</li>
+          </ol>
+        
+          {/* ===== Formula & Discriminant ===== */}
+          <h2 id="formula" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🧮 Quadratic Formula &amp; Discriminant</h2>
+          <pre className="bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto">
+        {`x = [−b ± √(b² − 4ac)] / (2a)
+        Discriminant (D) = b² − 4ac
+        D > 0 → two distinct real roots
+        D = 0 → one real repeated root
+        D < 0 → two complex conjugate roots`}
+          </pre>
+          <p className="text-sm text-slate-400">
+            Sign of <strong>a</strong> controls opening: <em>a &gt; 0</em> opens upward, <em>a &lt; 0</em> downward.
+          </p>
+        
+          {/* ===== Vertex & Intercepts ===== */}
+          <h2 id="vertex-axis" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">📍 Vertex, Axis &amp; Intercepts</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Vertex</strong>: <code>xᵥ = −b/(2a)</code>, <code>yᵥ = f(xᵥ)</code>.</li>
+            <li><strong>Axis of symmetry</strong>: <code>x = −b/(2a)</code>.</li>
+            <li><strong>y-intercept</strong>: set x = 0 → <code>(0, c)</code>.</li>
+            <li><strong>x-intercepts</strong>: the real roots (if any).</li>
+          </ul>
+        
+          {/* ===== Factorization rules ===== */}
+          <h2 id="factorization" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🧱 When Factorization Appears</h2>
+          <p>
+            If <code>a</code>, <code>b</code>, <code>c</code> are integers and the discriminant is a <strong>perfect square</strong>, the trinomial 
+            factors neatly (e.g., <code>(x − r₁)(x − r₂)</code> or <code>(mx + p)(nx + q)</code>). Otherwise, the formula gives the exact result.
+          </p>
+        
+          {/* ===== Graph reading ===== */}
+          <h2 id="graph" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">📈 Reading the Parabola Graph</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li>The vertical line marks the <strong>axis of symmetry</strong>.</li>
+            <li>The horizontal line is the <strong>x-axis</strong> (<code>y = 0</code>) where real roots appear.</li>
+            <li>The curve’s minimum/maximum point is the <strong>vertex</strong> (<em>a&gt;0</em> → minimum, <em>a&lt;0</em> → maximum).</li>
+          </ul>
+        
+          {/* ===== Worked examples ===== */}
+          <h2 id="examples" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">📚 Worked Examples</h2>
+        
+          <h3 className="text-xl font-semibold text-indigo-300">A) Two Real Roots</h3>
+          <p>
+            Solve <em>x² − 5x + 6 = 0</em>. D = (−5)² − 4·1·6 = 25 − 24 = 1 &gt; 0 → two real roots. 
+            Roots: x = (5 ± 1)/2 → <strong>2</strong> and <strong>3</strong>. Factorization: (x − 2)(x − 3).
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">B) One Repeated Root</h3>
+          <p>
+            Solve <em>x² − 4x + 4 = 0</em>. D = 16 − 16 = 0 → one real repeated root. 
+            Root: x = 4/(2) = <strong>2</strong>. Factorization: (x − 2)².
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">C) Complex Roots</h3>
+          <p>
+            Solve <em>x² + x + 1 = 0</em>. D = 1 − 4 = −3 &lt; 0 → complex conjugates. 
+            Roots: <strong>−1/2 ± (√3/2)i</strong>.
+          </p>
+        
+          {/* ===== Benefits ===== */}
+          <h2 id="benefits" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">✅ Benefits</h2>
+          <ul className="space-y-2">
+            <li>✔️ Fast, precise roots (real/complex) with <strong>clear steps</strong>.</li>
+            <li>✔️ <strong>Graph view</strong> for intuition about vertex, symmetry, and intercepts.</li>
+            <li>✔️ <strong>Shareable URL</strong> to reproduce the same coefficients and outputs.</li>
+            <li>✔️ <strong>Optional factorization</strong> when conditions are met.</li>
+          </ul>
+        
+          {/* ===== Tips ===== */}
+          <h2 id="tips" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🧭 Tips &amp; Pitfalls</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Check that <strong>a ≠ 0</strong>; otherwise, it isn’t quadratic.</li>
+            <li>Large |b| or |c| can shift the vertex away from the origin—use the graph for context.</li>
+            <li>For integer factorization, a <strong>perfect-square discriminant</strong> is your friend.</li>
+            <li>Complex roots always come in <strong>conjugate pairs</strong> when coefficients are real.</li>
+          </ul>
+        
+          {/* ===== Pros / Cons ===== */}
+          <h2 id="pros-cons" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">⚖️ Pros &amp; Cons</h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
+              <h3 className="text-emerald-300 font-semibold mb-2">Pros</h3>
+              <ul className="list-disc list-inside space-y-1">
+                <li>Bank-grade precision and readable steps.</li>
+                <li>Visual graph boosts conceptual understanding.</li>
+                <li>Shareable and privacy-friendly.</li>
+              </ul>
+            </div>
+            <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
+              <h3 className="text-rose-300 font-semibold mb-2">Cons</h3>
+              <ul className="list-disc list-inside space-y-1">
+                <li>Factorization appears only in special integer/perfect-square cases.</li>
+                <li>Doesn’t cover higher-degree polynomials.</li>
+                <li>Graph is qualitative; not a full CAS.</li>
+              </ul>
+            </div>
+          </div>
+        
+          {/* ===== FAQ ===== */}
+          <section className="space-y-6 mt-16">
+            <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
+              ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
+            </h2>
+        
+            <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Does this handle complex roots?</h3>
+                <p>Yes. If D &lt; 0, roots are shown as <em>a ± bi</em> and the graph still displays the parabola.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">When do I see a factorized form?</h3>
+                <p>If a, b, c are integers and D is a perfect square, you’ll see a neat factorization.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Can I share my equation?</h3>
+                <p>Yes—use “Copy Link” to share a URL that preserves your coefficients.</p>
+              </div>
+            </div>
+          </section>
         </section>
-
-        {/* Footer links */}
-        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+        
+        {/* =================== AUTHOR & BACKLINK SECTION =================== */}
+        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300 max-w-4xl mx-auto">
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/calculatorhub-author.webp"
+              alt="CalculatorHub Math Tools Team"
+              className="w-12 h-12 rounded-full border border-gray-600"
+              loading="lazy"
+            />
+            <div>
+              <p className="font-semibold text-white">Written by the CalculatorHub Math Tools Team</p>
+              <p className="text-sm text-slate-400">
+                Specialists in algebra &amp; graphing. Last updated:{" "}
+                <time dateTime="2025-11-09">November 9, 2025</time>.
+              </p>
+            </div>
+          </div>
+        
           <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
             <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
               🚀 Explore more tools on CalculatorHub:
@@ -714,6 +897,7 @@ const QuadraticEquationSolver: React.FC = () => {
             </div>
           </div>
         </section>
+
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/quadratic-equation-solver" category="math-tools" />
