@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Link } from "react-router-dom";
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -807,24 +808,24 @@ export default function ForceConverter() {
             <div className="mt-8 bg-gradient-to-r from-sky-900/30 via-cyan-900/30 to-emerald-900/30 rounded-lg border border-slate-700 shadow-inner p-4">
               <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">🚀 Explore more tools on CalculatorHub:</p>
               <div className="flex flex-wrap gap-3 text-sm">
-                <a
-                  href="/power-converter"
+                <Link
+                  to="/power-converter"
                   className="flex items-center gap-2 bg-[#0f172a] hover:bg-amber-600/20 text-amber-300 hover:text-amber-200 px-3 py-2 rounded-md border border-slate-700 hover:border-amber-500 transition-all duration-200"
                 >
                   ⚡ Power Converter
-                </a>
-                <a
-                  href="/time-converter"
+                </Link>
+                <Link
+                  to="/time-converter"
                   className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-200 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
                 >
                   ⏱️ Time Converter
-                </a>
-                <a
-                  href="/mass-weight-converter"
+                </Link>
+                <Link
+                  to="/mass-weight-converter"
                   className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-200 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
                 >
                   ⚖️ Mass / Weight Converter
-                </a>
+                </Link>
               </div>
             </div>
           </section>
