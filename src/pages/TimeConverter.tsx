@@ -675,6 +675,271 @@ export default function TimeConverter() {
             })}
           </div>
         </div>
+        {/* ================ SEO Content Section (~1800–2000 words) ================== */}
+        <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+        
+          {/* ===== Table of Contents ===== */}
+          <nav className="mt-2 mb-10 bg-[#0e0a1d] border border-[#251f3f] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-gray-100 mb-3">📖 Table of Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#overview" className="text-indigo-300 hover:underline">Overview: Why this Time Converter?</a></li>
+              <li><a href="#how-to-use" className="text-indigo-300 hover:underline">How to Use</a></li>
+              <li><a href="#units" className="text-indigo-300 hover:underline">Supported Time Units</a></li>
+              <li><a href="#method" className="text-indigo-300 hover:underline">Accurate Conversion Method (seconds-based)</a></li>
+              <li><a href="#precision-format" className="text-indigo-300 hover:underline">Precision & Number Formats</a></li>
+              <li><a href="#keyboard" className="text-indigo-300 hover:underline">Keyboard Shortcuts & Workflow</a></li>
+              <li><a href="#examples" className="text-indigo-300 hover:underline">Worked Examples</a></li>
+              <li><a href="#use-cases" className="text-indigo-300 hover:underline">Use Cases</a></li>
+              <li><a href="#accuracy" className="text-indigo-300 hover:underline">Accuracy, Rounding & Best Practices</a></li>
+              <li><a href="#pitfalls" className="text-indigo-300 hover:underline">Common Pitfalls to Avoid</a></li>
+              <li><a href="#quick-ref" className="text-indigo-300 hover:underline">Quick Reference</a></li>
+              <li><a href="#glossary" className="text-indigo-300 hover:underline">Glossary</a></li>
+              <li><a href="#faq" className="text-indigo-300 hover:underline">FAQ</a></li>
+            </ol>
+          </nav>
+        
+          {/* ===== Overview ===== */}
+          <h1 id="overview" className="text-3xl font-bold text-indigo-300 mb-6">
+            Time Converter — ns, µs, ms, s, min, h, d, wk, month (avg), year (avg)
+          </h1>
+        
+          <p>
+            Timelines and schedules appear in every field—from software benchmarks and sensor sampling to project planning,
+            contracts, logistics, workouts, and content calendars. This Time Converter covers <strong>nanoseconds</strong> and
+            <strong>microseconds</strong> for technical work, all common <strong>human-scale</strong> units (seconds, minutes,
+            hours, days, weeks), and <strong>average civil</strong> months/years for deterministic calculations. You get
+            <strong>precision control</strong>, three <strong>display formats</strong> (Normal/Compact/Scientific),
+            <strong>Favorites</strong>, <strong>History</strong>, <strong>Copy/CSV export</strong>, and
+            <strong>shareable URLs</strong>.
+          </p>
+        
+          <p>
+            Internally, everything is normalized to <strong>seconds (s)</strong>, the SI base unit of time. That seconds bridge
+            ensures reliable, repeatable conversions across tiny and very large time spans.
+          </p>
+        
+          <figure className="my-8">
+            <img
+              src="/images/time-converter-hero.webp"
+              alt="Time Converter UI with seconds, minutes, hours, days, weeks, months and years"
+              title="Time Converter — ns ⇄ … ⇄ year (avg)"
+              className="rounded-lg shadow-md border border-slate-700 mx-auto"
+              loading="lazy"
+            />
+            <figcaption className="text-center text-sm text-slate-400 mt-2">
+              Convert instantly between engineering-scale and calendar-like durations with consistent, seconds-based math.
+            </figcaption>
+          </figure>
+        
+          {/* ===== How to Use ===== */}
+          <h2 id="how-to-use" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">💡 How to Use</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Enter a number in the <strong>Value</strong> field (empty = 0; commas like <code>1,234.56</code> are ok).</li>
+            <li>Select <strong>From</strong> and <strong>To</strong> units. Pin frequent ones using <strong>Favorites</strong>.</li>
+            <li>Open <strong>More options</strong> to set <strong>Precision</strong> (0–12) and <strong>Format</strong> (Normal/Compact/Scientific).</li>
+            <li>Use <strong>Copy All</strong> for the full grid, or export a <strong>CSV</strong> for spreadsheets and reports.</li>
+            <li>Revisit earlier tasks via <strong>Recent</strong> (stores your last 10 conversions locally).</li>
+          </ol>
+          <p className="text-sm text-slate-400">
+            The URL stores your current state—bookmark or share to reproduce the exact configuration.
+          </p>
+        
+          {/* ===== Units ===== */}
+          <h2 id="units" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">🌐 Supported Time Units</h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <li><strong>Sub-second</strong>: ns, µs, ms</li>
+              <li><strong>Core SI</strong>: s (seconds)</li>
+              <li><strong>Human-scale</strong>: min, h, d, wk</li>
+              <li><strong>Average civil</strong>: month (≈ 30.436875 d), year (≈ 365.2425 d)</li>
+            </ul>
+            <p className="mt-2 text-slate-400 text-xs">
+              Deterministic factors: 1 d = 86,400 s; 1 wk = 604,800 s.
+              Average civil year = 365.2425 d; average month = year/12.
+            </p>
+          </div>
+        
+          {/* ===== Method ===== */}
+          <h2 id="method" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">📐 Accurate Conversion Method (seconds-based)</h2>
+          <p>Each conversion uses a two-step seconds bridge:</p>
+          <ol className="list-decimal list-inside space-y-1">
+            <li><strong>Normalize to seconds</strong>: <code>value_s = value × factor(from → s)</code>.</li>
+            <li><strong>Convert to target</strong>: <code>value_target = value_s ÷ factor(to → s)</code>.</li>
+          </ol>
+          <p>This minimizes drift and keeps engineering and calendar-like values consistent across chains of conversions.</p>
+        
+          {/* ===== Precision & Formats ===== */}
+          <h2 id="precision-format" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">🎯 Precision & Number Formats</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Precision</strong>: 0–2 for schedules, 3–6 for general work, 6–12 for scientific timing.</li>
+            <li><strong>Normal</strong>: Clean decimals with trailing-zero trim.</li>
+            <li><strong>Compact</strong>: Friendly for very large/small values (e.g., 1.2K, 3.4M when applicable).</li>
+            <li><strong>Scientific</strong>: Perfect for ns/µs or multi-year totals.</li>
+          </ul>
+        
+          {/* ===== Keyboard Shortcuts ===== */}
+          <h2 id="keyboard" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">⌨️ Keyboard Shortcuts & Workflow</h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><kbd>/</kbd> — focus <strong>Value</strong></li>
+            <li><kbd>S</kbd> — focus <strong>From</strong>; <kbd>T</kbd> — focus <strong>To</strong></li>
+            <li><kbd>X</kbd> — <strong>Swap</strong> From/To instantly</li>
+          </ul>
+          <p>Pin common units (s, min, h, d) to Favorites for fast, repeatable flows.</p>
+        
+          {/* ===== Worked Examples ===== */}
+          <h2 id="examples" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">📈 Worked Examples (rounded for readability)</h2>
+          <ul className="space-y-2">
+            <li><strong>2.5 h → min</strong>: 2.5 × 60 = <strong>150 min</strong>.</li>
+            <li><strong>10,000 ms → s</strong>: 10,000 ÷ 1000 = <strong>10 s</strong>.</li>
+            <li><strong>3 d → h</strong>: 3 × 24 = <strong>72 h</strong>.</li>
+            <li><strong>1 wk → d</strong>: <strong>7 d</strong> (604,800 s).</li>
+            <li><strong>120 min → h</strong>: 120 ÷ 60 = <strong>2 h</strong>.</li>
+            <li><strong>1 year (avg) → s</strong>: 365.2425 × 86,400 ≈ <strong>31,556,952 s</strong>.</li>
+            <li><strong>1 month (avg) → s</strong>: (365.2425/12) × 86,400 ≈ <strong>2,629,746 s</strong>.</li>
+            <li><strong>500 µs → ms</strong>: 500 ÷ 1000 = <strong>0.5 ms</strong>.</li>
+            <li><strong>250 ns → µs</strong>: 250 ÷ 1000 = <strong>0.25 µs</strong>.</li>
+          </ul>
+        
+          {/* ===== Use Cases ===== */}
+          <h2 id="use-cases" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">🧰 Real-World Use Cases</h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Project & Ops</strong>: Convert estimates between hours, days, and weeks; export CSV for Gantt updates.</li>
+            <li><strong>Finance & SLAs</strong>: Translate billing windows (e.g., 15 min) into seconds for automation rules.</li>
+            <li><strong>Engineering</strong>: Compare sensor sampling (µs) with processing windows (ms/s).</li>
+            <li><strong>Research & Education</strong>: Teach time-scale differences from ns to years with concrete numbers.</li>
+            <li><strong>Health & Fitness</strong>: Turn weekly plans into daily schedules with precise minute totals.</li>
+            <li><strong>Content & Marketing</strong>: Align posting cadences across hours, days, and weeks.</li>
+          </ul>
+        
+          {/* ===== Accuracy & Best Practices ===== */}
+          <h2 id="accuracy" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">✅ Accuracy, Rounding & Best Practices</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Always convert <strong>via seconds</strong> to avoid cumulative drift.</li>
+            <li>Carry higher internal precision; round only for display or reporting.</li>
+            <li>Use <strong>average civil</strong> month/year for deterministic code; use true calendars when date boundaries matter.</li>
+            <li>Document which convention you used (average vs. exact calendar) in specs and reports.</li>
+          </ul>
+        
+          {/* ===== Common Pitfalls ===== */}
+          <h2 id="pitfalls" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">⚠️ Common Pitfalls to Avoid</h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Average vs Calendar</strong>: Average month/year are stable for math, but real months vary (28–31 days) and leap years exist.</li>
+            <li><strong>Time zones/DST</strong>: This tool converts durations, not wall-clock timestamps; DST shifts are separate concerns.</li>
+            <li><strong>Early rounding</strong>: Round at the end to prevent error inflation in chained conversions.</li>
+          </ul>
+        
+          {/* ===== Quick Reference ===== */}
+          <h2 id="quick-ref" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">🗂️ Quick Reference</h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <li>1 min = <strong>60 s</strong></li>
+              <li>1 h = <strong>3600 s</strong></li>
+              <li>1 d = <strong>86,400 s</strong></li>
+              <li>1 wk = <strong>604,800 s</strong></li>
+              <li>1 year (avg) ≈ <strong>31,556,952 s</strong></li>
+              <li>1 month (avg) ≈ <strong>2,629,746 s</strong></li>
+              <li>1 ms = <strong>10⁻³ s</strong></li>
+              <li>1 µs = <strong>10⁻⁶ s</strong></li>
+              <li>1 ns = <strong>10⁻⁹ s</strong></li>
+            </ul>
+          </div>
+        
+          {/* ===== Glossary ===== */}
+          <h2 id="glossary" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">📚 Glossary</h2>
+          <p className="space-y-2">
+            <strong>Seconds (s)</strong>: SI base unit of time.<br/>
+            <strong>Average month</strong>: 1/12 of average civil year (~30.436875 days).<br/>
+            <strong>Average year</strong>: 365.2425 days (accounts for leap-year cycle on average).<br/>
+            <strong>Duration vs Timestamp</strong>: Durations are lengths of time; timestamps are points on a calendar/clock.
+          </p>
+        
+          {/* ===== FAQ ===== */}
+          <section className="space-y-6 mt-16">
+            <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-indigo-200">
+              ❓ Frequently Asked Questions (FAQ)
+            </h2>
+        
+            <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q1: Why use average month/year instead of calendar months/years?</h3>
+                <p>Average values make math deterministic for code, specs, and docs. If calendar boundaries matter (billing cycles, due dates), use actual dates.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q2: How many seconds are in a day and a week?</h3>
+                <p>1 day = 86,400 s; 1 week = 604,800 s.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q3: Can I switch to compact or scientific notation?</h3>
+                <p>Yes—choose Normal, Compact, or Scientific and set decimals (0–12) in More options.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q4: Do you support keyboard shortcuts?</h3>
+                <p>Yes: “/” for Value, “S” for From, “T” for To, and “X” for Swap.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q5: Can I export all results?</h3>
+                <p>Use Copy All for clipboard or download a CSV for the full grid.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q6: Are the month/year factors configurable?</h3>
+                <p>Yes—swap to 30/365 style if your project needs simple approximations. Document the choice in your spec.</p>
+              </div>
+        
+            </div>
+          </section>
+        </section>
+        
+        {/* =================== Author / Cross-links =================== */}
+        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/calculatorhub-author.webp"
+              alt="CalculatorHub Tools Team"
+              className="w-12 h-12 rounded-full border border-gray-600"
+              loading="lazy"
+            />
+            <div>
+              <p className="font-semibold text-white">Author: CalculatorHub Tools Team</p>
+              <p className="text-sm text-slate-400">
+                Specialists in unit conversion and calculator UX. Last updated:{" "}
+                <time dateTime="2025-11-09">November 9, 2025</time>.
+              </p>
+            </div>
+          </div>
+        
+          <div className="mt-8 bg-gradient-to-r from-indigo-900/40 via-violet-900/40 to-fuchsia-900/40 rounded-lg border border-slate-700 shadow-inner p-4">
+            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
+              🚀 Explore more tools on CalculatorHub:
+            </p>
+            <div className="flex flex-wrap gap-3 text-sm">
+              <a
+                href="/energy-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-amber-600/20 text-amber-300 hover:text-amber-200 px-3 py-2 rounded-md border border-slate-700 hover:border-amber-500 transition-all duration-200"
+              >
+                <span className="text-amber-300">⚡</span> Energy Converter
+              </a>
+              <a
+                href="/data-storage-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-cyan-600/20 text-cyan-300 hover:text-cyan-200 px-3 py-2 rounded-md border border-slate-700 hover:border-cyan-500 transition-all duration-200"
+              >
+                <span className="text-cyan-300">💾</span> Data Storage Converter
+              </a>
+              <a
+                href="/mass-weight-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-200 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
+              >
+                <span className="text-emerald-300">⚖️</span> Mass / Weight Converter
+              </a>
+            </div>
+          </div>
+        </section>
+
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/time-converter" category="unit-converters" />
