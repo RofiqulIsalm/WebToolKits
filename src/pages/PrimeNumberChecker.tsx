@@ -582,12 +582,12 @@ const PrimeNumberChecker: React.FC = () => {
             <p className="font-semibold text-lg">Explore more math tools 🧮</p>
             <p className="text-sm text-indigo-100">Try Factorial, Average, or Quadratic Solver next!</p>
           </div>
-          <a
-            href="/category/math-tools"
+          <Link
+            to="/category/math-tools"
             className="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-md hover:bg-indigo-50 transition"
           >
             Browse Math Tools
-          </a>
+          </Link>
         </div>
 
         {/* Grid */}
@@ -831,18 +831,286 @@ const PrimeNumberChecker: React.FC = () => {
           )}
         </div>
 
-        {/* Short SEO content */}
+        {/* ===================== SEO Content (~1800–2000 words) ===================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
-          <h1 className="text-3xl font-bold text-cyan-400 mb-6">
-            Prime Number Checker – Single & Multi-Input
+        
+          {/* ===== Table of Contents ===== */}
+          <nav className="mt-2 mb-10 bg-[#0b1220] border border-[#1f2a44] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-gray-100 mb-3">📖 Table of Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#what-are-primes" className="text-indigo-300 hover:underline">What Is a Prime Number?</a></li>
+              <li><a href="#features" className="text-indigo-300 hover:underline">Key Features of This Checker</a></li>
+              <li><a href="#how-to-use" className="text-indigo-300 hover:underline">How to Use</a></li>
+              <li><a href="#methods" className="text-indigo-300 hover:underline">Methods & Math Under the Hood</a></li>
+              <li><a href="#worked-examples" className="text-indigo-300 hover:underline">Worked Examples</a></li>
+              <li><a href="#single-number" className="text-indigo-300 hover:underline">Single-Number Mode: Neighbors & Gap</a></li>
+              <li><a href="#performance" className="text-indigo-300 hover:underline">Performance, Precision & Limits</a></li>
+              <li><a href="#pitfalls" className="text-indigo-300 hover:underline">Common Pitfalls & How to Avoid Them</a></li>
+              <li><a href="#use-cases" className="text-indigo-300 hover:underline">Where Prime Checks Matter in Real Life</a></li>
+              <li><a href="#quick-ref" className="text-indigo-300 hover:underline">Quick Reference Table (small primes & facts)</a></li>
+              <li><a href="#glossary" className="text-indigo-300 hover:underline">Glossary</a></li>
+              <li><a href="#faq" className="text-indigo-300 hover:underline">FAQ</a></li>
+            </ol>
+          </nav>
+        
+          {/* ===== What is a Prime? ===== */}
+          <h1 id="what-are-primes" className="text-3xl font-bold text-indigo-300 mb-6">
+            Prime Numbers — definition, intuition, and why they matter
           </h1>
           <p>
-            Paste one or many integers separated by spaces, commas, or semicolons to check how many are prime. The tool reports counts, lists, and per-item details. For a single number, it also provides the previous and next primes and visualizes the prime gap.
+            A <strong>prime number</strong> is a positive integer greater than 1 that has exactly two distinct positive divisors:
+            <em>1</em> and the number itself. The first few primes are <code>2, 3, 5, 7, 11, 13, 17, 19…</code>. Every other integer
+            greater than 1 is <strong>composite</strong>, meaning it factors into smaller integers. Primes are the “atoms” of the integers:
+            by the <em>Fundamental Theorem of Arithmetic</em>, every integer factors uniquely into primes up to ordering.
           </p>
+          <p>
+            This checker lets you test whether one or many integers are prime. It handles <strong>multi-input parsing</strong> (space/comma/semicolon),
+            shows <strong>counts and lists</strong>, provides <strong>small factors</strong> when quickly found, and, for a single input, reveals the
+            <strong>previous</strong> and <strong>next</strong> prime alongside a simple <strong>prime-gap</strong> visualization. It’s designed for speed,
+            clarity, and shareability.
+          </p>
+        
+          {/* ===== Features ===== */}
+          <h2 id="features" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            ✨ Key features of this Prime Number Checker
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Single & multi-input</strong>: paste numbers separated by spaces, commas, or semicolons.</li>
+            <li><strong>Smart parsing</strong>: normalizes common formatting (spaces/underscores/commas) and filters invalid tokens.</li>
+            <li><strong>Small-factor detection</strong>: quick trial division by primes up to a configured bound to expose composite numbers early.</li>
+            <li><strong>Fast primality test</strong>: strong probable-prime checks (Miller–Rabin) with a careful base set for typical 64-bit inputs.</li>
+            <li><strong>Single-number extras</strong>: previous/next prime neighbors and a clean bar chart of the distances (prime gap).</li>
+            <li><strong>Shareable URL</strong>: your input is encoded into the link so colleagues see the same state instantly.</li>
+            <li><strong>Dark, compact UI</strong>: optimized for readability, keyboard use, and quick copy/share.</li>
+          </ul>
+        
+          {/* ===== How to Use ===== */}
+          <h2 id="how-to-use" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">🧭 How to use this checker</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Paste or type one or more integers in the input box.</li>
+            <li>Separate items with <strong>spaces</strong>, <strong>commas</strong>, or <strong>semicolons</strong>. Formatting commas inside numbers are stripped when possible.</li>
+            <li>Review the summary tiles (total tokens, valid integers, primes, composites) and quick lists for each category.</li>
+            <li>If you provided exactly one valid integer, check the <strong>previous</strong> and <strong>next</strong> primes and the <strong>gap chart</strong>.</li>
+            <li>Use <strong>Copy Summary</strong> to grab a text summary or <strong>Copy Link</strong> to share your current input via URL.</li>
+          </ol>
+          <p className="text-sm text-slate-400">
+            Tip: Invalid tokens (like stray letters) are ignored in counts and flagged in the per-item table.
+          </p>
+        
+          {/* ===== Methods ===== */}
+          <h2 id="methods" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🔧 Methods & math under the hood
+          </h2>
+        
+          <h3 className="text-xl font-semibold text-indigo-300">1) Input normalization & BigInt parsing</h3>
+          <p>
+            The checker splits on spaces, commas, and semicolons, trims each token, removes common formatting characters, and ensures
+            it’s an integer. Valid tokens are parsed to <code>BigInt</code> for exact arithmetic even with very large values (within practical limits).
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">2) Early exits via small-factor search</h3>
+          <p>
+            Before running probabilistic tests, we try to divide by small primes up to a preset bound. If a factor is found, the number is composite,
+            and we can report the <strong>small factor</strong> and its <strong>cofactor</strong> immediately. This step is very effective for catching
+            the majority of composites cheaply.
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">3) Miller–Rabin strong probable-prime test</h3>
+          <p>
+            For numbers that survive small-factor checks, we apply <em>Miller–Rabin</em> with a carefully chosen set of bases appropriate for typical
+            64-bit ranges. Miller–Rabin is extremely fast and, with suitable bases, effectively error-free at the sizes most users care about.
+          </p>
+          <p className="text-sm text-slate-400">
+            Note: If you need stricter guarantees, you can adopt extended base sets or the Baillie–PSW (BPSW) combination (strong PRP + strong Lucas PRP),
+            which is widely used in practice and has no known counterexamples for 64-bit integers.
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">4) Previous/next primes</h3>
+          <p>
+            In single-number mode, we search downward and upward for the nearest primes. For odd candidates, stepping by 2 is natural; wheel factorization
+            (mod 30 residues) offers a further speed boost if desired. Very large values may take longer as gaps can widen.
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">5) Result presentation</h3>
+          <p>
+            Results include summary counts, quick lists (primes/composites), a per-item table (token, parsed value, classification, small factor/cofactor),
+            and in single-number mode, previous/next primes plus a compact bar chart that visualizes the distances.
+          </p>
+        
+          {/* ===== Worked Examples ===== */}
+          <h2 id="worked-examples" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🧪 Worked examples (rounded where helpful)
+          </h2>
+          <ul className="space-y-2">
+            <li><strong>Input:</strong> <code>2 3 4 5 6</code> → primes: 2, 3, 5; composites: 4 (2×2), 6 (2×3).</li>
+            <li><strong>Input:</strong> <code>11, 12, 13; 14</code> → 11 and 13 are prime; 12 and 14 are composite (even).</li>
+            <li><strong>Input:</strong> <code>21</code> → composite; small factor 3; cofactor 7.</li>
+            <li><strong>Input:</strong> <code>1 0 −5</code> → none are prime (primes are integers ≥ 2).</li>
+            <li><strong>Single input:</strong> <code>101</code> → prime; previous prime 97; next prime 103; gap distances 4 and 2.</li>
+          </ul>
+        
+          {/* ===== Single-number Mode ===== */}
+          <h2 id="single-number" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🎯 Single-number mode: neighbors & the local prime gap
+          </h2>
+          <p>
+            When exactly one valid integer is present, you’ll see the nearest primes on either side. The distances to these primes form the
+            “local gap.” Prime gaps vary irregularly; as numbers increase, gaps can get larger on average, but small gaps still occur.
+            The bar chart makes this local picture obvious at a glance.
+          </p>
+        
+          {/* ===== Performance ===== */}
+          <h2 id="performance" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🚀 Performance, precision & limits
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Parsing:</strong> BigInt ensures exact integer math; extremely large values may be impractical to search for neighbors.</li>
+            <li><strong>Small-factor pass:</strong> catches many composites in O(#small primes) and is very cache-friendly.</li>
+            <li><strong>Miller–Rabin:</strong> sub-millisecond for typical 64-bit sizes; base choices balance speed and assurance.</li>
+            <li><strong>Neighbors:</strong> scanning for previous/next primes can cost more for large inputs due to widening gaps.</li>
+            <li><strong>Stability:</strong> deterministic arithmetic for divisions/modular exponentiation; no floating-point issues here.</li>
+          </ul>
+        
+          {/* ===== Pitfalls ===== */}
+          <h2 id="pitfalls" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            ⚠️ Common pitfalls & how to avoid them
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Formatting artifacts:</strong> stray commas/underscores in tokens can break parsing; the tool sanitizes, but plain digits are safest.</li>
+            <li><strong>Negative/non-integers:</strong> primes are defined for integers ≥ 2 only.</li>
+            <li><strong>Even numbers:</strong> any even number greater than 2 is composite.</li>
+            <li><strong>Huge single inputs:</strong> previous/next prime search may be slow; that’s expected for large prime gaps.</li>
+          </ul>
+        
+          {/* ===== Use Cases ===== */}
+          <h2 id="use-cases" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🧰 Where prime checks matter in real life
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Cryptography:</strong> key generation and primality testing for RSA-like schemes and modern protocols.</li>
+            <li><strong>Hashing & randomness:</strong> modular arithmetic over prime moduli ensures good algebraic properties.</li>
+            <li><strong>Algorithms & CS theory:</strong> primality testing, factorization heuristics, and randomized algorithms.</li>
+            <li><strong>Number theory:</strong> exploring conjectures, patterns, and distributions of primes and gaps.</li>
+            <li><strong>Education:</strong> quick, visual demonstrations of composite vs. prime behavior.</li>
+          </ul>
+        
+          {/* ===== Quick Reference ===== */}
+          <h2 id="quick-ref" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🗂️ Quick reference (small primes & handy facts)
+          </h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="text-slate-300">
+                  <th className="py-2 pr-4">Category</th>
+                  <th className="py-2">Values / Notes</th>
+                </tr>
+              </thead>
+              <tbody className="text-slate-200">
+                <tr>
+                  <td className="py-2 pr-4">First primes</td>
+                  <td className="py-2">2, 3, 5, 7, 11, 13, 17, 19, 23, 29</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">Composite examples</td>
+                  <td className="py-2">4=2×2, 6=2×3, 8=2×2×2, 9=3×3, 21=3×7</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">Always composite</td>
+                  <td className="py-2">Even numbers &gt; 2; any multiple of 3 &gt; 3; etc.</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">Unique factorization</td>
+                  <td className="py-2">Every integer &gt;1 factors into primes uniquely (order aside).</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">Prime gaps</td>
+                  <td className="py-2">Irregular; can be small or large; generally widen on average as numbers grow.</td>
+                </tr>
+              </tbody>
+            </table>
+            <p className="text-xs text-slate-400 mt-2">
+              For large inputs, neighbor search time reflects the local gap, not a slowdown in the test itself.
+            </p>
+          </div>
+        
+          {/* ===== Glossary ===== */}
+          <h2 id="glossary" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">📚 Glossary</h2>
+          <p className="space-y-2">
+            <strong>Prime:</strong> integer ≥ 2 with no divisors other than 1 and itself. <br/>
+            <strong>Composite:</strong> integer ≥ 2 that can be written as a product of smaller integers. <br/>
+            <strong>Miller–Rabin:</strong> a fast probabilistic primality test; with the right bases it’s effectively deterministic for common ranges. <br/>
+            <strong>BPSW:</strong> Baillie–PSW: a hybrid of tests (strong PRP + strong Lucas) with no known 64-bit counterexamples. <br/>
+            <strong>Prime gap:</strong> distance from a number to the nearest prime(s); varies irregularly with size.
+          </p>
+        
+          {/* ===== FAQ ===== */}
+          <section className="space-y-6 mt-16">
+            <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-indigo-200">
+              ❓ Frequently Asked Questions (FAQ)
+            </h2>
+        
+            <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q1: Can I check multiple numbers at once?</h3>
+                <p>
+                  Yes. Paste integers separated by spaces, commas, or semicolons. Invalid tokens are skipped and reported in the table.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q2: How accurate is the test?</h3>
+                <p>
+                  With small-factor division and Miller–Rabin bases tuned for typical 64-bit inputs, results are effectively
+                  deterministic for practical purposes. If you need stronger assurances, adopt extended base sets or BPSW.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q3: Why does neighbor search take longer sometimes?</h3>
+                <p>
+                  Large prime gaps are natural. The primality test is still fast; scanning outward to the nearest primes simply
+                  takes more steps when the local gap is wider.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q4: Do you factor large composites fully?</h3>
+                <p>
+                  The tool exposes small factors quickly but isn’t a full factorization engine. For large composites with no small factor,
+                  it reports “composite” without full factors.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q5: What about negative or fractional inputs?</h3>
+                <p>
+                  Primes are defined for integers ≥ 2. Negative or non-integer tokens are rejected during parsing and excluded from counts.
+                </p>
+              </div>
+        
+            </div>
+          </section>
         </section>
-
-        {/* Footer links */}
+        
+        {/* ========= Cross-links ========= */}
         <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/calculatorhub-author.webp"
+              alt="CalculatorHub Tools Team"
+              className="w-12 h-12 rounded-full border border-gray-600"
+              loading="lazy"
+            />
+            <div>
+              <p className="font-semibold text-white">Author: CalculatorHub Tools Team</p>
+              <p className="text-sm text-slate-400">
+                Specialists in math utilities & UX. Last updated: <time dateTime="2025-11-10">November 10, 2025</time>.
+              </p>
+            </div>
+          </div>
+        
           <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
             <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
               🚀 Explore more tools on CalculatorHub:
@@ -850,25 +1118,27 @@ const PrimeNumberChecker: React.FC = () => {
             <div className="flex flex-wrap gap-3 text-sm">
               <Link
                 to="/factorial-calculator"
-                className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-200 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
               >
                 n! Factorial Calculator
               </Link>
               <Link
                 to="/average-calculator"
-                className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-200 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
               >
                 📊 Average Calculator
               </Link>
               <Link
                 to="/quadratic-equation-solver"
-                className="flex items-center gap-2 bg-[#0f172a] hover:bg-pink-600/20 text-pink-300 hover:text-pink-400 px-3 py-2 rounded-md border border-slate-700 hover:border-pink-500 transition-all duration-200"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-pink-600/20 text-pink-300 hover:text-pink-200 px-3 py-2 rounded-md border border-slate-700 hover:border-pink-500 transition-all duration-200"
               >
                 𝑎x²+𝑏x+𝑐 Quadratic Solver
               </Link>
             </div>
           </div>
         </section>
+
+
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/prime-number-checker" category="math-tools" />
