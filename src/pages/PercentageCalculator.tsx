@@ -797,34 +797,306 @@ const PercentageCalculator: React.FC = () => {
           )}
         </div>
 
-        {/* ======== SEO CONTENT (short) ======== */}
+       {/* ==================== SEO CONTENT SECTION ==================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
-          <h1 className="text-3xl font-bold text-cyan-400 mb-6">
-            Percentage Calculator – Quick % Math with Steps
+        
+          {/* ===== Table of Contents ===== */}
+          <nav className="mt-2 mb-10 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-cyan-300 mb-3">📖 Table of Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#overview" className="text-indigo-400 hover:underline">Overview: What This Percentage Calculator Does</a></li>
+              <li><a href="#how-to-use" className="text-indigo-400 hover:underline">How to Use the Calculator</a></li>
+              <li><a href="#percent-of" className="text-indigo-400 hover:underline">Mode 1 — What is X% of Y?</a></li>
+              <li><a href="#what-percent" className="text-indigo-400 hover:underline">Mode 2 — X is What Percent of Y?</a></li>
+              <li><a href="#increase-decrease" className="text-indigo-400 hover:underline">Mode 3 &amp; 4 — Increase/Decrease by X%</a></li>
+              <li><a href="#percent-change" className="text-indigo-400 hover:underline">Mode 5 — Percent Change from A to B</a></li>
+              <li><a href="#formula" className="text-indigo-400 hover:underline">Formulas, Shortcuts &amp; Intuition</a></li>
+              <li><a href="#examples" className="text-indigo-400 hover:underline">Worked Examples (Business, Shopping, Study)</a></li>
+              <li><a href="#benefits" className="text-indigo-400 hover:underline">Benefits &amp; Use Cases</a></li>
+              <li><a href="#tips" className="text-indigo-400 hover:underline">Pro Tips to Avoid % Mistakes</a></li>
+              <li><a href="#pros-cons" className="text-indigo-400 hover:underline">Pros &amp; Cons of Percentage Methods</a></li>
+              <li><a href="#faq" className="text-indigo-400 hover:underline">FAQ</a></li>
+            </ol>
+          </nav>
+        
+          {/* ===== Overview ===== */}
+          <h1 id="overview" className="text-3xl font-bold text-cyan-400 mb-6">
+            Percentage Calculator – Quick % Math with Steps, Explanations & Visuals (2025–2026)
           </h1>
           <p>
-            This free <strong>Percentage Calculator</strong> helps you find{" "}
-            <em>X% of Y</em>, determine <em>what percent X is of Y</em>, calculate{" "}
-            <em>percentage increase/decrease</em>, and measure <em>percent change</em> between two values.
-            Results update instantly, with a clear, shareable link and visual breakdowns.
+            This free <strong>Percentage Calculator</strong> solves the five most common percent problems in seconds:
+            <em> X% of Y</em>, <em>X is what percent of Y</em>, <em>increase by X%</em>, <em>decrease by X%</em>, and
+            <em> percent change from A to B</em>. You’ll get instant results, step-by-step working, and a clean
+            <strong> pie-chart breakdown</strong> that makes every calculation easy to understand and share.
           </p>
-
-          {/* FAQ snippet */}
-          <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
-            Frequently Asked Questions
+          <p>
+            Whether you’re a student checking homework, a small business owner reviewing margins, or a shopper comparing
+            discounts, this tool provides <strong>clear math</strong>, <strong>visuals</strong>, and a <strong>shareable link</strong>
+            to reproduce the exact result. Your inputs can be saved to the URL, so you can copy it to teammates, clients,
+            or classmates with one click.
+          </p>
+        
+          <figure className="my-8">
+            <img
+              src="/images/percentage-calculator-hero.webp"
+              alt="Modern percentage calculator showing inputs, result card, steps and pie chart"
+              title="Free Percentage Calculator | % of, What Percent, Increase/Decrease, Percent Change"
+              className="rounded-lg shadow-md border border-slate-700 mx-auto"
+              loading="lazy"
+            />
+            <figcaption className="text-center text-sm text-slate-400 mt-2">
+              Live results, steps, and visual breakdown you can copy or share instantly.
+            </figcaption>
+          </figure>
+        
+          {/* ===== How to use ===== */}
+          <h2 id="how-to-use" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">💡 How to Use the Calculator</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Select a <strong>Problem Type</strong> (e.g., “What is X% of Y?”).</li>
+            <li>Enter the required values (X, Y, or A → B depending on the mode).</li>
+            <li>Read the <strong>Result card</strong> and scan the <strong>Quick facts</strong>.</li>
+            <li>Open <strong>Step-by-step Solution</strong> to see the exact working.</li>
+            <li>Use <em>Copy Results</em> or <em>Copy Link</em> to share with others.</li>
+          </ol>
+          <p className="text-sm text-slate-400">
+            Tip: The link encodes your inputs. Pasting it anywhere recreates the same calculation.
+          </p>
+        
+          {/* ===== Mode 1 ===== */}
+          <h2 id="percent-of" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">➊ What is X% of Y?</h2>
+          <p>
+            This mode answers discount and allocation questions such as <em>“What is 15% of 250?”</em> or
+            <em>“Allocate 7.5% of the budget to marketing.”</em> The formula is simple: <strong>(X ÷ 100) × Y</strong>.
+          </p>
+          <div className="overflow-x-auto rounded-xl border border-white/10 bg-white/5 mb-4">
+            <table className="min-w-full text-sm">
+              <thead>
+                <tr>
+                  <th className="px-4 py-3 text-left">Scenario</th>
+                  <th className="px-4 py-3 text-left">Inputs</th>
+                  <th className="px-4 py-3 text-left">Formula</th>
+                  <th className="px-4 py-3 text-left">Result</th>
+                </tr>
+              </thead>
+              <tbody className="[&>tr:nth-child(even)]:bg-white/5">
+                <tr>
+                  <td className="px-4 py-3">Discount on price</td>
+                  <td className="px-4 py-3">X = 20%, Y = 80</td>
+                  <td className="px-4 py-3">(20 ÷ 100) × 80</td>
+                  <td className="px-4 py-3">16</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3">Tax add-on</td>
+                  <td className="px-4 py-3">X = 7.5%, Y = 400</td>
+                  <td className="px-4 py-3">(7.5 ÷ 100) × 400</td>
+                  <td className="px-4 py-3">30</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        
+          {/* ===== Mode 2 ===== */}
+          <h2 id="what-percent" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">➋ X is What Percent of Y?</h2>
+          <p>
+            Use this when you know a <em>part</em> (X) and the <em>whole</em> (Y). The formula is
+            <strong> (X ÷ Y) × 100</strong>. Great for <em>tests scored</em>, <em>commission share</em>, or
+            <em>market penetration</em>.
+          </p>
+          <ul className="list-disc list-inside space-y-1">
+            <li>45 is what percent of 120? → (45 ÷ 120) × 100 = 37.5%</li>
+            <li>Clients retained: 92 out of 100 → 92%</li>
+          </ul>
+          <p className="text-sm text-slate-400">
+            Watch out: the <strong>denominator</strong> must be the whole/reference value (Y), not the change amount.
+          </p>
+        
+          {/* ===== Mode 3/4 ===== */}
+          <h2 id="increase-decrease" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            ➌➍ Percentage Increase / Decrease by X%
           </h2>
-          <h3 className="text-lg font-semibold text-yellow-300">How do I calculate X% of Y?</h3>
-          <p>Multiply Y by (X ÷ 100). Example: 15% of 200 = 200 × 0.15 = 30.</p>
-
-          <h3 className="text-lg font-semibold text-yellow-300">What is percent change?</h3>
-          <p>It’s the difference divided by the start value, times 100: ((B − A) ÷ A) × 100.</p>
+          <p>
+            These modes adjust a base value (Y) by X%. For an <strong>increase</strong>, compute
+            <em> Y × (X ÷ 100)</em> and add it to Y. For a <strong>decrease</strong>, subtract it. The calculator displays both
+            the <em>change amount</em> and the <em>new total</em>.
+          </p>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
+              <h3 className="text-emerald-300 font-semibold mb-2">Increase example</h3>
+              <p>Increase 900 by 12.5% → 900 × 0.125 = 112.5; New value = 900 + 112.5 = <strong>1012.5</strong></p>
+            </div>
+            <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
+              <h3 className="text-rose-300 font-semibold mb-2">Decrease example</h3>
+              <p>Decrease 1200 by 30% → 1200 × 0.3 = 360; New value = 1200 − 360 = <strong>840</strong></p>
+            </div>
+          </div>
+          <p className="text-sm text-slate-400 mt-2">
+            Common pitfall: A 20% decrease followed by a 20% increase does <em>not</em> return to the original value.
+          </p>
+        
+          {/* ===== Mode 5 ===== */}
+          <h2 id="percent-change" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">➎ Percent Change from A to B</h2>
+          <p>
+            Percent change compares a <em>start</em> value (A) with an <em>end</em> value (B).
+            The formula is <strong>((B − A) ÷ A) × 100</strong>. The sign tells you direction
+            (positive = increase, negative = decrease).
+          </p>
+          <ul className="list-disc list-inside space-y-1">
+            <li>From 80 to 100 → ((100 − 80) ÷ 80) × 100 = <strong>25%</strong> increase</li>
+            <li>From 200 to 150 → ((150 − 200) ÷ 200) × 100 = <strong>−25%</strong> decrease</li>
+          </ul>
+        
+          {/* ===== Formulas & intuition ===== */}
+          <h2 id="formula" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🧮 Formulas, Shortcuts &amp; Intuition</h2>
+          <p><strong>Core conversions:</strong></p>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Percent → decimal: <code>X%</code> = <code>X ÷ 100</code></li>
+            <li>Decimal → percent: <code>d</code> = <code>d × 100</code>%</li>
+            <li>Percent points vs percent change: from 10% to 12% is +2 <em>points</em>, which is a 20% <em>increase</em> relative to 10%.</li>
+          </ul>
+          <p><strong>Fast mental math:</strong></p>
+          <ul className="list-disc list-inside space-y-1">
+            <li>10% of a number = move the decimal one place left.</li>
+            <li>5% = half of 10%; 15% = 10% + 5%.</li>
+            <li>1% = divide by 100; 0.5% = divide by 200.</li>
+          </ul>
+          <pre className="bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto">
+        {`X% of Y           = (X ÷ 100) × Y
+        What % is X of Y?  = (X ÷ Y) × 100
+        Increase Y by X%   = Y + (Y × X ÷ 100)
+        Decrease Y by X%   = Y − (Y × X ÷ 100)
+        Percent change     = ((B − A) ÷ A) × 100`}
+          </pre>
+        
+          {/* ===== Worked examples ===== */}
+          <h2 id="examples" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+            📈 Worked Examples (Business, Shopping, Study)
+          </h2>
+        
+          <h3 className="text-xl font-semibold text-indigo-300">A) Business Margin</h3>
+          <p>
+            Cost price = 250; Markup = 30%. Selling price = 250 + 30% of 250 = 250 + 75 = <strong>325</strong>.
+            Profit margin (on selling price) = (75 ÷ 325) × 100 ≈ <strong>23.08%</strong>.
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">B) Sale Discount</h3>
+          <p>
+            List price = 1,999; Discount = 15%. Discount amount = 1,999 × 0.15 = 299.85.
+            Final price ≈ <strong>1,699.15</strong>.
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">C) Test Score</h3>
+          <p>
+            You answered 43 out of 50 correctly. Percentage = (43 ÷ 50) × 100 = <strong>86%</strong>.
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">D) Growth Rate</h3>
+          <p>
+            Users grew from 12,000 to 15,600. Percent change = ((15,600 − 12,000) ÷ 12,000) × 100 = <strong>30%</strong>.
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">E) Price Restore Trap</h3>
+          <p>
+            Price drops 25% then rises 25%. Start 100 → 75 after drop → 93.75 after rise.
+            Net = −6.25%. <em>Percent decreases and increases aren’t symmetric.</em>
+          </p>
+        
+          {/* ===== Benefits & use cases ===== */}
+          <h2 id="benefits" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">✅ Benefits &amp; Use Cases</h2>
+          <ul className="space-y-2">
+            <li>✔️ <strong>Instant results</strong> with clear steps and chart.</li>
+            <li>✔️ <strong>Shareable state</strong> in URL for collaboration or teaching.</li>
+            <li>✔️ Handles all common <strong>percentage tasks</strong> in one place.</li>
+            <li>✔️ Great for <strong>students</strong>, <strong>teachers</strong>, <strong>small businesses</strong>, and <strong>shoppers</strong>.</li>
+            <li>✔️ <strong>Mobile-friendly</strong> and privacy-respecting.</li>
+          </ul>
+        
+          {/* ===== Pro tips ===== */}
+          <h2 id="tips" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🧭 Pro Tips to Avoid % Mistakes</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Always identify the <strong>reference (whole)</strong> in “what percent?” problems.</li>
+            <li>Stacked changes compound: −30% then +30% ≠ 0%.</li>
+            <li>Convert percentages to decimals before multiplying.</li>
+            <li>Percent points (pp) differ from percent change (%).</li>
+            <li>For quick checks, use 10%, 5%, 1% mental anchors.</li>
+          </ul>
+        
+          {/* ===== Pros / Cons ===== */}
+          <h2 id="pros-cons" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">⚖️ Pros &amp; Cons of Percentage Methods</h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
+              <h3 className="text-emerald-300 font-semibold mb-2">Pros</h3>
+              <ul className="list-disc list-inside space-y-1">
+                <li>Universal language across finance, science, and education.</li>
+                <li>Easy to compute and compare.</li>
+                <li>Great for visual summaries and dashboards.</li>
+              </ul>
+            </div>
+            <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
+              <h3 className="text-rose-300 font-semibold mb-2">Cons</h3>
+              <ul className="list-disc list-inside space-y-1">
+                <li>Ambiguity if the reference value isn’t defined correctly.</li>
+                <li>Compounding misconceptions with multiple sequential changes.</li>
+                <li>Percent points vs percent change often confused.</li>
+              </ul>
+            </div>
+          </div>
+        
+          {/* ===== FAQ ===== */}
+          <section className="space-y-6 mt-16">
+            <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
+              ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
+            </h2>
+        
+            <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">How do I calculate X% of Y?</h3>
+                <p>Multiply Y by (X ÷ 100). Example: 15% of 200 = 200 × 0.15 = 30.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">What percent is X of Y?</h3>
+                <p>Use (X ÷ Y) × 100. Make sure Y is the whole you’re comparing against.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">What’s the difference between percent change and percentage points?</h3>
+                <p>Percent change is relative (e.g., +20%), while percentage points are absolute differences between rates (e.g., 10% → 12% = +2 pp).</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Why doesn’t −20% then +20% return to the original?</h3>
+                <p>Because the second change uses a new base. After −20%, the base is smaller, so +20% of that doesn’t fully restore it.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Can I share my exact calculation?</h3>
+                <p>Yes. Click <em>Copy Link</em> to share a URL that reproduces your inputs and result.</p>
+              </div>
+            </div>
+          </section>
         </section>
-
-        {/* Author/backlinks & related tools */}
-        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+        
+        {/* =================== AUTHOR & BACKLINK SECTION =================== */}
+        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300 max-w-4xl mx-auto">
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/calculatorhub-author.webp"
+              alt="CalculatorHub Math Tools Team"
+              className="w-12 h-12 rounded-full border border-gray-600"
+              loading="lazy"
+            />
+            <div>
+              <p className="font-semibold text-white">Written by the CalculatorHub Math Tools Team</p>
+              <p className="text-sm text-slate-400">
+                Specialists in everyday math tools with step-by-step explanations. Last updated:{" "}
+                <time dateTime="2025-11-09">November 9, 2025</time>.
+              </p>
+            </div>
+          </div>
+        
           <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
             <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
-              🚀 Explore more tools on CalculatorHub:
+              🚀 Explore more math tools on CalculatorHub:
             </p>
             <div className="flex flex-wrap gap-3 text-sm">
               <Link
@@ -848,6 +1120,7 @@ const PercentageCalculator: React.FC = () => {
             </div>
           </div>
         </section>
+
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/percentage-calculator" category="math-tools" />
