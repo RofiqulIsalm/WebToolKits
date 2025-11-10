@@ -730,6 +730,266 @@ export default function FrequencyConverter() {
           </div>
         </div>
 
+        {/* ============ SEO Content: Frequency Converter (English Only) ======*/}
+      <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+      
+        <header className="mb-10">
+          <h1 className="text-3xl font-bold text-indigo-300">
+            Frequency Converter — Hz, kHz, MHz, GHz, THz ↔ RPM, RPS, CPM, BPM ↔ Period (s, ms, μs, ns, min, h)
+          </h1>
+          <p className="mt-3">
+            Convert frequency, rotational speed, event rates, and time periods instantly. This tool supports
+            <strong> Hertz (Hz, kHz, MHz, GHz, THz, mHz, μHz)</strong>, rotational and per-minute units
+            (<strong>RPS, RPM, CPM, BPM</strong>), and <strong>period</strong> units (<strong>s, ms, μs, ns, min, h</strong>).
+            Use precision controls (0–12 decimals), choose Normal/Compact/Scientific formatting, save favorites, revisit your last
+            ten conversions, and export the full grid with Copy or CSV. Shareable URLs preserve every setting.
+          </p>
+        </header>
+      
+        {/* Contents */}
+        <nav className="mt-2 mb-10 bg-[#120A2A] border border-[#2b2460] rounded-xl p-5 text-slate-200">
+          <h2 className="text-lg font-semibold text-gray-100 mb-3">📖 Contents</h2>
+          <ol className="list-decimal list-inside space-y-2 text-sm">
+            <li><a href="#freq-how" className="text-indigo-300 hover:underline">How to Use</a></li>
+            <li><a href="#freq-basics" className="text-indigo-300 hover:underline">Frequency, Rate &amp; Period — The Basics</a></li>
+            <li><a href="#freq-formulas" className="text-indigo-300 hover:underline">Core Formulas &amp; Definitions</a></li>
+            <li><a href="#freq-examples" className="text-indigo-300 hover:underline">Worked Examples</a></li>
+            <li><a href="#freq-use" className="text-indigo-300 hover:underline">Real-World Use Cases</a></li>
+            <li><a href="#freq-precision" className="text-indigo-300 hover:underline">Precision, Rounding &amp; Display</a></li>
+            <li><a href="#freq-quick" className="text-indigo-300 hover:underline">Quick Reference Tables</a></li>
+            <li><a href="#freq-faq" className="text-indigo-300 hover:underline">FAQ</a></li>
+            <li><a href="#freq-access" className="text-indigo-300 hover:underline">Accessibility &amp; Shortcuts</a></li>
+            <li><a href="#freq-trouble" className="text-indigo-300 hover:underline">Troubleshooting &amp; Tips</a></li>
+            <li><a href="#freq-glossary" className="text-indigo-300 hover:underline">Glossary</a></li>
+          </ol>
+        </nav>
+      
+        {/* How to Use */}
+        <h2 id="freq-how" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">💡 How to Use</h2>
+        <ol className="list-decimal list-inside space-y-2">
+          <li>Type a number in <strong>Value</strong>. Empty input counts as 0; <code>1,234.56</code> style commas are allowed.</li>
+          <li>Choose the <strong>From</strong> unit and <strong>To</strong> unit. Pin favorites for fast access.</li>
+          <li>Open <strong>More options</strong> to set decimals (0–12) and choose <em>Normal</em>, <em>Compact</em>, or <em>Scientific</em> display.</li>
+          <li>Use <strong>Copy All</strong> or <strong>CSV</strong> to export the entire conversion grid.</li>
+          <li>Reopen prior states with <strong>Recent</strong>; the last ten conversions are saved locally.</li>
+        </ol>
+        <p className="text-xs text-slate-400">Pro tip: The URL encodes your exact state (value, units, format, precision). Bookmark or share for reproducible results.</p>
+      
+        {/* Basics */}
+        <h2 id="freq-basics" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">📈 Frequency, Rate &amp; Period — The Basics</h2>
+        <p>
+          <strong>Frequency</strong> measures how often an event repeats per second (in Hertz, Hz). <strong>Period</strong> is the time
+          per event (seconds, milliseconds, microseconds, etc.). They are reciprocals: higher frequency means shorter period.
+          Rotational or event-rate units like <strong>RPM</strong>, <strong>CPM</strong>, <strong>BPM</strong>, and <strong>RPS</strong>
+          are simply frequency expressed with different time bases (per minute vs per second) or different contexts (revolutions vs generic cycles vs beats).
+        </p>
+        <ul className="list-disc list-inside space-y-1">
+          <li><strong>Hz, kHz, MHz, GHz, THz:</strong> cycles per second (SI scale).</li>
+          <li><strong>RPS:</strong> revolutions per second; numerically equal to Hz for one revolution per cycle.</li>
+          <li><strong>RPM, CPM, BPM:</strong> per-minute rates; convert to Hz by dividing by 60.</li>
+          <li><strong>Period (s, ms, μs, ns, min, h):</strong> time for one cycle; invert to get Hz.</li>
+        </ul>
+      
+        {/* Formulas */}
+        <h2 id="freq-formulas" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">🧮 Core Formulas &amp; Definitions</h2>
+        <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm space-y-4">
+          <div>
+            <p className="font-semibold">Frequency ↔ Period</p>
+            <ul className="list-disc list-inside">
+              <li><strong>f (Hz) = 1 / T (s)</strong></li>
+              <li><strong>T (s) = 1 / f (Hz)</strong></li>
+              <li>For ms, μs, ns: convert seconds accordingly (ms = 10<sup>−3</sup> s, μs = 10<sup>−6</sup> s, ns = 10<sup>−9</sup> s).</li>
+            </ul>
+          </div>
+          <div>
+            <p className="font-semibold">Per-Minute Rates</p>
+            <ul className="list-disc list-inside">
+              <li><strong>Hz = RPM ÷ 60</strong> (also CPM/60, BPM/60)</li>
+              <li><strong>RPM = Hz × 60</strong> (likewise CPM = Hz × 60, BPM = Hz × 60)</li>
+              <li><strong>RPS = Hz</strong> (1 revolution per second = 1 cycle per second)</li>
+            </ul>
+          </div>
+          <div>
+            <p className="font-semibold">SI Scaling</p>
+            <ul className="list-disc list-inside">
+              <li>1 kHz = 10<sup>3</sup> Hz, 1 MHz = 10<sup>6</sup> Hz, 1 GHz = 10<sup>9</sup> Hz, 1 THz = 10<sup>12</sup> Hz</li>
+              <li>1 mHz = 10<sup>−3</sup> Hz, 1 μHz = 10<sup>−6</sup> Hz</li>
+            </ul>
+          </div>
+        </div>
+      
+        {/* Examples */}
+        <h2 id="freq-examples" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">📊 Worked Examples (Rounded)</h2>
+        <ul className="space-y-2">
+          <li><strong>60 Hz → RPM:</strong> 60 × 60 = <strong>3600 RPM</strong></li>
+          <li><strong>1200 RPM → Hz:</strong> 1200 ÷ 60 = <strong>20 Hz</strong></li>
+          <li><strong>1000 CPM → Hz:</strong> 1000 ÷ 60 ≈ <strong>16.6667 Hz</strong></li>
+          <li><strong>90 BPM → Hz:</strong> 90 ÷ 60 = <strong>1.5 Hz</strong>; period T = 1/1.5 ≈ <strong>0.6667 s</strong></li>
+          <li><strong>Period 5 ms → Hz:</strong> 5 ms = 0.005 s → 1/0.005 = <strong>200 Hz</strong></li>
+          <li><strong>2 μs → Hz:</strong> 2 × 10<sup>−6</sup> s → 1/(2e−6) = <strong>500 kHz</strong></li>
+          <li><strong>0.25 Hz → Period:</strong> T = 1/0.25 = <strong>4 s</strong></li>
+        </ul>
+        <p className="text-xs text-slate-400">
+          Your UI returns exact values at your chosen precision; examples above are rounded for readability.
+        </p>
+      
+        {/* Use Cases */}
+        <h2 id="freq-use" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">🛠️ Real-World Use Cases</h2>
+      
+        <h3 className="text-lg font-semibold text-gray-100 mt-4">Electronics &amp; Embedded Systems</h3>
+        <p>
+          Convert between clock frequency and timer periods when configuring microcontrollers, PWM outputs, and sampling rates.
+          For ADC/DAC pipelines, ensure the period meets latency and jitter budgets.
+        </p>
+      
+        <h3 className="text-lg font-semibold text-gray-100 mt-4">Signal Processing &amp; Communications</h3>
+        <p>
+          Translate carrier frequencies (kHz–GHz) to periods for time-domain simulations, or map BPM/CPM event streams to Hz for filtering
+          and spectral analysis. Use Scientific format for tiny μHz/μs regimes.
+        </p>
+      
+        <h3 className="text-lg font-semibold text-gray-100 mt-4">Rotating Machinery &amp; Vibration</h3>
+        <p>
+          Switch between RPM and Hz to evaluate resonance, bearing fault frequencies (CPM), and orders analysis. Period outputs help
+          estimate time between impacts and sensor sampling requirements.
+        </p>
+      
+        <h3 className="text-lg font-semibold text-gray-100 mt-4">Audio, Music &amp; Metronomes</h3>
+        <p>
+          Convert tempo in BPM to Hz/period for LFOs, envelope timing, and synchronization. Example: 120 BPM = 2 Hz → 0.5 s period per beat.
+        </p>
+      
+        <h3 className="text-lg font-semibold text-gray-100 mt-4">Medical &amp; Fitness</h3>
+        <p>
+          Heart rate (BPM) to Hz/period helps compute RR intervals, HRV windows, and algorithm sampling rates for wearables and
+          biosignal processing.
+        </p>
+      
+        {/* Precision */}
+        <h2 id="freq-precision" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">🎯 Precision, Rounding &amp; Display</h2>
+        <ul className="list-disc list-inside space-y-1">
+          <li><strong>Decimals (0–12):</strong> Choose enough precision for your application—DSP and RF often need more digits than UI readouts.</li>
+          <li><strong>Normal vs Compact vs Scientific:</strong> Use Compact for very large per-minute numbers; use Scientific for μHz, μs, ns.</li>
+          <li><strong>Unit scaling:</strong> Prefer kHz/MHz/GHz over large raw Hz values for readability; likewise ms/μs/ns for short periods.</li>
+          <li><strong>Edge cases:</strong> 0 period implies ∞ Hz; 0 Hz implies ∞ period. The UI displays <strong>∞</strong> accordingly.</li>
+        </ul>
+      
+        {/* Quick Reference */}
+        <h2 id="freq-quick" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">🗂️ Quick Reference Tables</h2>
+      
+        <h3 className="text-lg font-semibold text-gray-100 mt-4">Per-Minute Rates</h3>
+        <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <li>1 RPM = <strong>1/60 Hz</strong> ≈ 0.0166667 Hz</li>
+            <li>1 Hz = <strong>60 RPM</strong></li>
+            <li>1 CPM = <strong>1/60 Hz</strong></li>
+            <li>1 BPM = <strong>1/60 Hz</strong></li>
+            <li>1 RPS = <strong>1 Hz</strong></li>
+          </ul>
+        </div>
+      
+        <h3 className="text-lg font-semibold text-gray-100 mt-6">SI &amp; Time Scales</h3>
+        <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <li>1 kHz = 10<sup>3</sup> Hz</li>
+            <li>1 MHz = 10<sup>6</sup> Hz</li>
+            <li>1 GHz = 10<sup>9</sup> Hz</li>
+            <li>1 THz = 10<sup>12</sup> Hz</li>
+            <li>1 ms = 10<sup>−3</sup> s</li>
+            <li>1 μs = 10<sup>−6</sup> s</li>
+            <li>1 ns = 10<sup>−9</sup> s</li>
+            <li>1 min = 60 s; 1 h = 3600 s</li>
+          </ul>
+        </div>
+      
+        {/* FAQ */}
+        <h2 id="freq-faq" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">❓ Frequently Asked Questions</h2>
+        <div className="space-y-4">
+          <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+            <h3 className="font-semibold text-indigo-300">What’s the difference between Hz and RPM?</h3>
+            <p>Hz is events per second; RPM is events per minute. Convert by dividing or multiplying by 60. If one event equals one revolution, RPS = Hz.</p>
+          </div>
+          <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+            <h3 className="font-semibold text-indigo-300">How do I convert period (milliseconds) to Hz?</h3>
+            <p>Convert to seconds first (ms ÷ 1000) then take the reciprocal: Hz = 1/T. Example: 2 ms → 0.002 s → 1/0.002 = 500 Hz.</p>
+          </div>
+          <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+            <h3 className="font-semibold text-indigo-300">Does 1 BPM always equal 1/60 Hz?</h3>
+            <p>Yes—BPM and CPM are per-minute rates. Divide by 60 to get events per second (Hz).</p>
+          </div>
+          <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+            <h3 className="font-semibold text-indigo-300">Why do I see ∞ as a result?</h3>
+            <p>Zero period implies infinite frequency; zero frequency implies infinite period. The converter shows <strong>∞</strong> in those cases.</p>
+          </div>
+          <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+            <h3 className="font-semibold text-indigo-300">Are favorites and recents stored?</h3>
+            <p>Yes—locally in your browser. You can pin up to 10 favorites and view your last 10 conversions.</p>
+          </div>
+        </div>
+      
+        {/* Accessibility & Shortcuts */}
+        <h2 id="freq-access" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">♿ Accessibility &amp; Shortcuts</h2>
+        <ul className="list-disc list-inside">
+          <li><kbd>/</kbd> — focus Value</li>
+          <li><kbd>S</kbd> — focus From</li>
+          <li><kbd>T</kbd> — focus To</li>
+          <li><kbd>X</kbd> — swap units</li>
+        </ul>
+        <p className="text-xs text-slate-400 mt-2">
+          ARIA labels and helper text improve clarity; tooltips and visual focus states aid keyboard users.
+        </p>
+      
+        {/* Troubleshooting */}
+        <h2 id="freq-trouble" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">🧩 Troubleshooting &amp; Tips</h2>
+        <ul className="list-disc list-inside space-y-1">
+          <li>If you see “—”, ensure the input is numeric and the units are valid.</li>
+          <li>Switch to Scientific format for extremely small/large values (μHz, THz, μs, ns).</li>
+          <li>Prefer SI prefixes (kHz/MHz) for readability instead of long raw Hz numbers.</li>
+          <li>Share the auto-encoded URL to reproduce the exact state across devices.</li>
+        </ul>
+      
+        {/* Glossary */}
+        <h2 id="freq-glossary" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">📚 Glossary</h2>
+        <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+          <div>
+            <dt className="font-semibold text-indigo-300">Frequency (Hz)</dt>
+            <dd>Events per second. 1 Hz = 1 s⁻¹.</dd>
+          </div>
+          <div>
+            <dt className="font-semibold text-indigo-300">Period (T)</dt>
+            <dd>Time per event. T = 1/f.</dd>
+          </div>
+          <div>
+            <dt className="font-semibold text-indigo-300">RPS</dt>
+            <dd>Revolutions per second; equals Hz when 1 revolution = 1 cycle.</dd>
+          </div>
+          <div>
+            <dt className="font-semibold text-indigo-300">RPM / CPM / BPM</dt>
+            <dd>Per-minute rates (revolutions, cycles, beats). Divide by 60 to get Hz.</dd>
+          </div>
+          <div>
+            <dt className="font-semibold text-indigo-300">μ (micro)</dt>
+            <dd>10⁻⁶. Example: μs = 10⁻⁶ s; μHz = 10⁻⁶ Hz.</dd>
+          </div>
+          <div>
+            <dt className="font-semibold text-indigo-300">SI Prefixes</dt>
+            <dd>milli (10⁻³), micro (10⁻⁶), nano (10⁻⁹), kilo (10³), mega (10⁶), giga (10⁹), tera (10¹²).</dd>
+          </div>
+        </dl>
+      
+        {/* Author / Timestamp */}
+        <section className="mt-12 border-t border-gray-700 pt-6">
+          <div className="flex items-center gap-3">
+            <img src="/images/calculatorhub-author.webp" alt="CalculatorHub Tools Team" className="w-12 h-12 rounded-full border border-gray-600" loading="lazy" />
+            <div>
+              <p className="font-semibold text-white">Author: CalculatorHub Tools Team</p>
+              <p className="text-sm text-slate-400">Last updated: <time dateTime="2025-11-10">November 10, 2025</time></p>
+            </div>
+          </div>
+        </section>
+      </section>
+
+
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/frequency-converter" category="unit-converters" />
       </div>
