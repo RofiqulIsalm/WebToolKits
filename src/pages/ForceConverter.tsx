@@ -679,6 +679,158 @@ export default function ForceConverter() {
           </div>
         </div>
 
+        {/* ==================== SEO Content: Force Converter (EN) ==================== */}
+        <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+          <header className="mb-10">
+            <h1 className="text-3xl font-bold text-cyan-300">Force Converter — N, kN, MN, dyne, lbf, ozf, kgf, kip, ton-force</h1>
+            <p className="mt-2 text-slate-300">
+              Convert force units instantly for structural, mechanical, and lab workflows. This tool supports
+              <strong> SI</strong> (N, kN, MN), <strong>CGS</strong> (dyne), <strong>gravitational</strong> (kgf, gf, tf),
+              and <strong>Avoirdupois</strong> (lbf, ozf, kip, ton-force) systems. Tweak decimals, switch Normal/Compact/Scientific
+              formats, favorite units, review recent runs, and export the full grid via Copy or CSV. Shareable URLs preserve state.
+            </p>
+          </header>
+        
+          {/* TOC */}
+          <nav className="mt-2 mb-10 bg-[#071b1f] border border-[#12333b] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-gray-100 mb-3">📖 Table of Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#en-how" className="text-cyan-300 hover:underline">How to Use</a></li>
+              <li><a href="#en-units" className="text-cyan-300 hover:underline">Supported Units & Constants</a></li>
+              <li><a href="#en-notes" className="text-cyan-300 hover:underline">Engineering Notes (mass vs force)</a></li>
+              <li><a href="#en-examples" className="text-cyan-300 hover:underline">Worked Examples</a></li>
+              <li><a href="#en-quickref" className="text-cyan-300 hover:underline">Quick Reference</a></li>
+              <li><a href="#en-faq" className="text-cyan-300 hover:underline">FAQ</a></li>
+            </ol>
+          </nav>
+        
+          {/* How to use */}
+          <h2 id="en-how" className="text-2xl font-semibold text-cyan-200 mt-10 mb-4">💡 How to Use</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Enter a number in <strong>Value</strong> (empty = 0; commas like <code>1,234.56</code> allowed).</li>
+            <li>Select <strong>From</strong> and <strong>To</strong> units (pin frequent ones with <strong>Fav</strong>).</li>
+            <li>Open <strong>More options</strong> to adjust <strong>Precision</strong> (0–12) and <strong>Format</strong>.</li>
+            <li>Use <strong>Copy All</strong> or <strong>CSV</strong> to export the results grid.</li>
+            <li>Use <strong>Recent</strong> to recall your last 10 conversions (stored locally).</li>
+          </ol>
+          <p className="text-xs text-slate-400">The URL encodes your current selection—bookmark or share for exact reproduction.</p>
+        
+          {/* Units */}
+          <h2 id="en-units" className="text-2xl font-semibold text-cyan-200 mt-10 mb-4">🌐 Supported Units & Constants</h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <li><strong>SI:</strong> mN, N, kN, MN</li>
+              <li><strong>MKS historic:</strong> Sthène (sn) = 1000 N</li>
+              <li><strong>CGS:</strong> Dyne (dyn) = 10⁻⁵ N</li>
+              <li><strong>Gravitational:</strong> gf, kgf, tf (using g₀ = 9.80665 m/s²)</li>
+              <li><strong>Avoirdupois:</strong> ozf, lbf, kip (1000 lbf), US/UK ton-force</li>
+            </ul>
+            <p className="mt-3 text-slate-400 text-xs leading-relaxed">
+              Exact/standard factors used: 1 lbf = <strong>4.4482216152605 N</strong>; 1 ozf = lbf/16; 1 kip = 1000 lbf;
+              1 gf = <strong>0.00980665 N</strong>; 1 kgf = <strong>9.80665 N</strong>; 1 tf = <strong>9806.65 N</strong>;
+              1 US ton-force = <strong>8896.443230521 N</strong>; 1 UK ton-force = <strong>9964.016418183 N</strong>;
+              1 sn (sthène) = <strong>1000 N</strong>.
+            </p>
+          </div>
+        
+          {/* Engineering notes */}
+          <h2 id="en-notes" className="text-2xl font-semibold text-cyan-200 mt-10 mb-4">📐 Engineering Notes (mass vs force)</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Force ≠ mass:</strong> N and lbf are force; kg and lb are mass. kgf/gf are force units defined via standard gravity <code>g₀ = 9.80665 m/s²</code>.</li>
+            <li><strong>Audit trails:</strong> When reporting “tons,” specify type (metric tf vs US/UK ton-force) to avoid ambiguity.</li>
+            <li><strong>Structural loads:</strong> kN and kip are common in design tables; lock your precision to match code requirements.</li>
+          </ul>
+        
+          {/* Examples */}
+          <h2 id="en-examples" className="text-2xl font-semibold text-cyan-200 mt-10 mb-4">📈 Worked Examples (rounded)</h2>
+          <ul className="space-y-2">
+            <li><strong>1 kN → lbf</strong>: 1000 ÷ 4.4482216152605 ≈ <strong>224.809 lbf</strong></li>
+            <li><strong>500 lbf → kN</strong>: 500 × 4.4482216152605 ÷ 1000 ≈ <strong>2.22411 kN</strong></li>
+            <li><strong>1 tf → kN</strong>: 9806.65 ÷ 1000 = <strong>9.80665 kN</strong></li>
+            <li><strong>2500 N → kgf</strong>: 2500 ÷ 9.80665 ≈ <strong>254.94 kgf</strong></li>
+            <li><strong>1 kip → kN</strong>: (1000 × 4.4482216152605) ÷ 1000 ≈ <strong>4.44822 kN</strong></li>
+          </ul>
+        
+          {/* Quick Reference */}
+          <h2 id="en-quickref" className="text-2xl font-semibold text-cyan-200 mt-10 mb-4">🗂️ Quick Reference</h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <li>1 N = <strong>10⁵ dyn</strong></li>
+              <li>1 kN = <strong>1000 N</strong></li>
+              <li>1 MN = <strong>10⁶ N</strong></li>
+              <li>1 lbf = <strong>4.4482216152605 N</strong></li>
+              <li>1 ozf = <strong>lbf/16</strong></li>
+              <li>1 kip = <strong>1000 lbf</strong></li>
+              <li>1 kgf = <strong>9.80665 N</strong></li>
+              <li>1 tf = <strong>9806.65 N</strong></li>
+              <li>1 US ton-force = <strong>8896.443230521 N</strong></li>
+              <li>1 UK ton-force = <strong>9964.016418183 N</strong></li>
+              <li>1 sthène (sn) = <strong>1000 N</strong></li>
+            </ul>
+          </div>
+        
+          {/* FAQ */}
+          <h2 id="en-faq" className="text-2xl font-semibold text-cyan-200 mt-10 mb-4">❓ Frequently Asked Questions</h2>
+          <div className="space-y-4">
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-cyan-300">How do I convert N to lbf?</h3>
+              <p>Use the exact definition 1 lbf = 4.4482216152605 N. So lbf = N ÷ 4.4482216152605.</p>
+            </div>
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-cyan-300">What are kgf and gf?</h3>
+              <p>Gravitational force units defined via standard gravity g₀. 1 kgf = 9.80665 N; 1 gf = 0.00980665 N.</p>
+            </div>
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-cyan-300">What’s a kip?</h3>
+              <p>Structural unit equal to 1000 lbf (≈ 4.448 kN). Common in US design documents.</p>
+            </div>
+          </div>
+        
+          {/* Author & Cross-links */}
+          <section className="mt-12 border-t border-gray-700 pt-6">
+            <div className="flex items-center gap-3">
+              <img
+                src="/images/calculatorhub-author.webp"
+                alt="CalculatorHub Tools Team"
+                className="w-12 h-12 rounded-full border border-gray-600"
+                loading="lazy"
+              />
+              <div>
+                <p className="font-semibold text-white">Author: CalculatorHub Tools Team</p>
+                <p className="text-sm text-slate-400">
+                  Specialists in engineering conversions. Last updated:
+                  <time dateTime="2025-11-09"> November 9, 2025</time>.
+                </p>
+              </div>
+            </div>
+        
+            <div className="mt-8 bg-gradient-to-r from-sky-900/30 via-cyan-900/30 to-emerald-900/30 rounded-lg border border-slate-700 shadow-inner p-4">
+              <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">🚀 Explore more tools on CalculatorHub:</p>
+              <div className="flex flex-wrap gap-3 text-sm">
+                <a
+                  href="/power-converter"
+                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-amber-600/20 text-amber-300 hover:text-amber-200 px-3 py-2 rounded-md border border-slate-700 hover:border-amber-500 transition-all duration-200"
+                >
+                  ⚡ Power Converter
+                </a>
+                <a
+                  href="/time-converter"
+                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-200 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
+                >
+                  ⏱️ Time Converter
+                </a>
+                <a
+                  href="/mass-weight-converter"
+                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-200 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
+                >
+                  ⚖️ Mass / Weight Converter
+                </a>
+              </div>
+            </div>
+          </section>
+        </section>
+
+
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/force-converter" category="unit-converters" />
       </div>
