@@ -785,25 +785,388 @@ const EquationSolver: React.FC = () => {
           </div>
         )}
 
-        {/* Short SEO block + footer links */}
+       {/* ===================== SEO Content (~1800–2000 words) ===================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
-          <h2 className="text-2xl font-bold text-cyan-400 mb-3">Tips</h2>
-          <ul>
-            <li>Quadratic: Δ &lt; 0 → complex conjugate roots; Δ = 0 → repeated real root.</li>
-            <li>Systems: det(A) ≠ 0 → unique solution; Rank(A) &lt; Rank([A|b]) → no solution.</li>
+        
+          {/* ===== Table of Contents ===== */}
+          <nav className="mt-2 mb-10 bg-[#0b1220] border border-[#1f2a44] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-gray-100 mb-3">📖 Table of Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#what-it-does" className="text-indigo-300 hover:underline">What This Equation Solver Does</a></li>
+              <li><a href="#features" className="text-indigo-300 hover:underline">Key Features at a Glance</a></li>
+              <li><a href="#how-to-use" className="text-indigo-300 hover:underline">How to Use (Step-by-Step)</a></li>
+              <li><a href="#one-variable" className="text-indigo-300 hover:underline">1-Variable Math: Linear & Quadratic</a></li>
+              <li><a href="#discriminant" className="text-indigo-300 hover:underline">Discriminant, Root Types & Geometry</a></li>
+              <li><a href="#vieta" className="text-indigo-300 hover:underline">Vieta’s Formulas & Quick Checks</a></li>
+              <li><a href="#systems" className="text-indigo-300 hover:underline">Linear Systems: 2×2 & 3×3 (Gaussian Steps)</a></li>
+              <li><a href="#classification" className="text-indigo-300 hover:underline">Classifying Systems: Unique / Infinite / None</a></li>
+              <li><a href="#det-cramer" className="text-indigo-300 hover:underline">Determinant & Cramer’s Rule (When to Use)</a></li>
+              <li><a href="#stability" className="text-indigo-300 hover:underline">Numerical Stability, Pivoting & Conditioning</a></li>
+              <li><a href="#worked-examples" className="text-indigo-300 hover:underline">Worked Examples (With Rationale)</a></li>
+              <li><a href="#use-cases" className="text-indigo-300 hover:underline">Real-World Use Cases & Intuition</a></li>
+              <li><a href="#quick-ref" className="text-indigo-300 hover:underline">Quick Reference Cards</a></li>
+              <li><a href="#faq" className="text-indigo-300 hover:underline">FAQ</a></li>
+            </ol>
+          </nav>
+        
+          {/* ===== What it does ===== */}
+          <h1 id="what-it-does" className="text-3xl font-bold text-indigo-300 mb-6">
+            Solve linear & quadratic equations — and 2×2/3×3 systems — with clear steps
+          </h1>
+          <p>
+            This Equation Solver handles the two most common single-variable problems (<strong>linear</strong> and
+            <strong> quadratic</strong>) and small <strong>linear systems</strong> of size 2×2 or 3×3. You’ll see core
+            diagnostics such as the <strong>discriminant</strong> (Δ), <strong>complex roots</strong> when needed, the
+            <strong> determinant</strong> for small systems, and a <strong>step-by-step Gaussian elimination</strong> table
+            that shows exactly how the augmented matrix changes during elimination and back-substitution.
+          </p>
+          <p>
+            Beyond raw numbers, the tool emphasizes <em>why</em> a result looks the way it does: vertex insight for quadratics,
+            rank checks for systems, and friendly status badges for <em>unique solution</em>, <em>infinite solutions</em>, or
+            <em> no solution</em>. You can also <strong>copy results</strong> for notes or <strong>share your state</strong> via
+            URL so that classmates or teammates can load the exact inputs on their devices.
+          </p>
+        
+          {/* ===== Features ===== */}
+          <h2 id="features" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            ✨ Key features at a glance
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>1-Variable mode</strong>: solve <em>ax² + bx + c = 0</em> (quadratic) or <em>bx + c = 0</em> (linear when a=0).</li>
+            <li><strong>System mode</strong>: solve 2×2 or 3×3 linear systems <em>A·x = b</em> with <em>Gaussian elimination</em> steps.</li>
+            <li><strong>Clear classification</strong>: unique / infinite / none based on <em>rank</em> criteria.</li>
+            <li><strong>Discriminant & complex roots</strong>: see Δ and conjugate pair when Δ &lt; 0.</li>
+            <li><strong>Determinant for 2×2/3×3</strong>: a quick indicator of invertibility.</li>
+            <li><strong>Graph for quadratics</strong>: visualize the curve and vertex position.</li>
+            <li><strong>Copy & share</strong>: export result text or copy a permalink encoding the full state.</li>
+            <li><strong>Helpful presets</strong>: one-click examples to demonstrate typical cases.</li>
           </ul>
+        
+          {/* ===== How to Use ===== */}
+          <h2 id="how-to-use" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🧭 How to use (step-by-step)
+          </h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Select a mode: <strong>1-Variable</strong> or <strong>Linear System</strong> (tabs at the top).</li>
+            <li>Enter coefficients. For quadratics, fill <em>a, b, c</em>. For systems, fill <em>A</em> and <em>b</em>.</li>
+            <li>Review the <strong>Results</strong> cards for the key numbers and status.</li>
+            <li>Open <strong>Explain this result</strong> to see steps (quadratic formula or Gaussian elimination table).</li>
+            <li>(Optional) Use the <strong>Graph</strong> card to visualize the quadratic’s shape and vertex.</li>
+            <li>Click <strong>Copy</strong> for your notes or <strong>Share</strong> to generate a link to these inputs.</li>
+          </ol>
+        
+          {/* ===== One Variable ===== */}
+          <h2 id="one-variable" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            1-Variable Math: linear & quadratic equations
+          </h2>
+          <p>
+            When <strong>a = 0</strong>, your equation reduces to <em>bx + c = 0</em>. If <em>b ≠ 0</em>, the unique solution is
+            <strong> x = −c/b</strong>. If <em>b = 0</em>, then either <em>c = 0</em> (infinitely many solutions) or
+            <em> c ≠ 0</em> (no solution).
+          </p>
+          <p>
+            When <strong>a ≠ 0</strong>, the quadratic <em>ax² + bx + c = 0</em> has solutions given by the quadratic formula:
+          </p>
+          <pre className="bg-[#0f172a] border border-[#334155] rounded-lg p-3 overflow-x-auto text-sm">
+            x = (−b ± √(b² − 4ac)) / (2a)
+          </pre>
+          <p>
+            The value <strong>Δ = b² − 4ac</strong> (the discriminant) determines the root type:
+          </p>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Δ &gt; 0</strong>: two distinct real roots.</li>
+            <li><strong>Δ = 0</strong>: one repeated real root (a “double root”).</li>
+            <li><strong>Δ &lt; 0</strong>: two complex conjugate roots.</li>
+          </ul>
+          <p>
+            The solver displays Δ and the roots (real or complex). For complex cases, it shows
+            <em> re ± i·im</em> explicitly to aid interpretation.
+          </p>
+        
+          {/* ===== Discriminant & Geometry ===== */}
+          <h2 id="discriminant" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            Discriminant, root types & geometry
+          </h2>
+          <p>
+            Geometrically, a quadratic is a <strong>parabola</strong>. Its vertex lies at{" "}
+            <span className="font-mono">x<sub>v</sub> = −b / (2a)</span>. The sign of <em>a</em> sets the opening:
+            <em> a &gt; 0</em> opens upward, <em>a &lt; 0</em> opens downward. Real roots correspond to x-intercepts of the
+            parabola. When Δ &gt; 0 you cross the x-axis twice; when Δ = 0 you just touch at the vertex; when Δ &lt; 0 you
+            never cross, which is why solutions are complex.
+          </p>
+          <p>
+            The <strong>Graph</strong> card centers the plot around the vertex so you can see shape and intercepts without
+            hunting for a visible window.
+          </p>
+        
+          {/* ===== Vieta ===== */}
+          <h2 id="vieta" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            Vieta’s formulas & quick checks
+          </h2>
+          <p>
+            For <em>ax² + bx + c = 0</em> with roots r₁ and r₂ (possibly complex):
+          </p>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Sum</strong>: r₁ + r₂ = −b/a</li>
+            <li><strong>Product</strong>: r₁·r₂ = c/a</li>
+          </ul>
+          <p>
+            Vieta’s relations are perfect for quick sanity checks: after computing both roots, their sum and product should
+            match these ratios (within rounding tolerance).
+          </p>
+        
+          {/* ===== Systems (Gaussian) ===== */}
+          <h2 id="systems" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            Linear systems: 2×2 & 3×3 with Gaussian elimination
+          </h2>
+          <p>
+            To solve <em>A·x = b</em>, the tool performs <strong>Gaussian elimination with partial pivoting</strong>. You’ll see
+            the augmented matrix <em>[A|b]</em> evolve through row swaps and eliminations. Once in upper-triangular form,
+            we back-substitute to obtain each variable.
+          </p>
+          <p>
+            The algorithm also captures the system’s structure via <strong>ranks</strong>. It computes
+            <em> rank(A)</em> and <em>rank([A|b])</em>. These two values determine whether solutions exist and whether they’re
+            unique or infinite.
+          </p>
+        
+          {/* ===== Classification ===== */}
+          <h2 id="classification" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            Classifying systems: unique, infinite, or none
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Unique solution</strong>: rank(A) = rank([A|b]) = n (the number of unknowns). Here, A is invertible.</li>
+            <li><strong>Infinite solutions</strong>: rank(A) = rank([A|b]) &lt; n. There are free variables and a whole family of solutions.</li>
+            <li><strong>No solution</strong>: rank(A) &lt; rank([A|b]). The system is inconsistent (parallel/conflicting equations).</li>
+          </ul>
+          <p>
+            The UI shows a status badge matching one of these outcomes, and the steps table pinpoints where inconsistencies or
+            zero pivots appear.
+          </p>
+        
+          {/* ===== Determinant & Cramer's Rule ===== */}
+          <h2 id="det-cramer" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            Determinant & Cramer’s rule (when to use)
+          </h2>
+          <p>
+            For 2×2 and 3×3 systems we show <strong>det(A)</strong>. If det(A) ≠ 0, the system is invertible and has a unique
+            solution. For tiny systems, one can also use <strong>Cramer’s rule</strong> (replace a column of A with b, compute
+            determinants); it’s elegant but less efficient and more sensitive to rounding for larger matrices.
+          </p>
+        
+          {/* ===== Stability & Conditioning ===== */}
+          <h2 id="stability" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            Numerical stability, pivoting & conditioning
+          </h2>
+          <p>
+            Linear algebra on real machines uses floating-point numbers, so rounding is inevitable. To reduce error growth,
+            this solver uses <strong>partial pivoting</strong> (swapping the largest available pivot into position). Still,
+            some systems are <strong>ill-conditioned</strong>: small changes in inputs cause large changes in outputs.
+            Indicators include near-zero pivots or a tiny determinant. When this happens, consider scaling your equations or
+            using higher-precision arithmetic.
+          </p>
+        
+          {/* ===== Worked Examples ===== */}
+          <h2 id="worked-examples" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            Worked examples (with rationale)
+          </h2>
+          <ul className="space-y-3">
+            <li>
+              <strong>Quadratic with two real roots</strong> — <em>x² − 3x + 2 = 0</em>. Δ = (−3)² − 4·1·2 = 9 − 8 = 1 &gt; 0,
+              so two real roots: x = (3 ± 1)/2 → {`{1, 2}`}. Sum 1+2=3 matches −b/a=3. Product 1·2=2 matches c/a=2.
+            </li>
+            <li>
+              <strong>Quadratic with complex roots</strong> — <em>x² + 2x + 5 = 0</em>. Δ = 4 − 20 = −16 &lt; 0. Roots:
+              x = (−2 ± 4i)/2 = −1 ± 2i (a conjugate pair).
+            </li>
+            <li>
+              <strong>Linear</strong> — <em>5x − 10 = 0</em> → x = 2. If it were <em>0·x − 10 = 0</em> there’d be no solution; if
+              <em>0·x + 0 = 0</em> there’d be infinitely many.
+            </li>
+            <li>
+              <strong>2×2 unique</strong> — 
+              {` `}
+              <span className="font-mono">
+                2x + 1y = 4; 1x − 1y = 1
+              </span>
+              . det(A)=2·(−1) − 1·1 = −3 ≠ 0 → unique. Elimination yields x=5/3, y=2/3.
+            </li>
+            <li>
+              <strong>2×2 infinite</strong> — 
+              <span className="font-mono">x + 2y = 3; 2x + 4y = 6</span>.
+              Rows are multiples; rank(A)=rank([A|b])=1&lt;2 → infinite solutions (a line).
+            </li>
+            <li>
+              <strong>2×2 none</strong> — 
+              <span className="font-mono">x + 2y = 3; 2x + 4y = 5</span>.
+              Left sides are multiples, but right sides aren’t; rank(A)=1 &lt; rank([A|b])=2 → inconsistent.
+            </li>
+            <li>
+              <strong>3×3 unique</strong> — 
+              <span className="font-mono">
+                x + y + z = 6; 0·x + 1·y + 2·z = 4; 2x + y + z = 7
+              </span>
+              . det(A) ≠ 0, elimination yields a single solution (displayed in the Results grid).
+            </li>
+          </ul>
+        
+          {/* ===== Use cases ===== */}
+          <h2 id="use-cases" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            Real-world use cases & intuition
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>STEM coursework</strong>: algebra, precalculus, calculus, circuits, statics/dynamics.</li>
+            <li><strong>Engineering</strong>: small systems from nodal/mesh equations or force balances.</li>
+            <li><strong>Data & optimization</strong>: quick prototypes for tiny normal-equation systems.</li>
+            <li><strong>Finance</strong>: simple quadratic price/volume fits and linear constraint checks.</li>
+            <li><strong>Education</strong>: demonstrate elimination steps and rank logic in class or tutoring.</li>
+          </ul>
+        
+          {/* ===== Quick Reference ===== */}
+          <h2 id="quick-ref" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🗂️ Quick reference cards
+          </h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="text-slate-300">
+                  <th className="py-2 pr-4">Topic</th>
+                  <th className="py-2 pr-4">Formula / Rule</th>
+                  <th className="py-2">Notes</th>
+                </tr>
+              </thead>
+              <tbody className="text-slate-200">
+                <tr>
+                  <td className="py-2 pr-4">Quadratic roots</td>
+                  <td className="py-2 pr-4">x = (−b ± √(b²−4ac)) / (2a)</td>
+                  <td className="py-2">Δ &gt; 0 (two), Δ=0 (double), Δ &lt; 0 (complex)</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">Vertex</td>
+                  <td className="py-2 pr-4">x<sub>v</sub> = −b / (2a)</td>
+                  <td className="py-2">Use to center the plot</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">Vieta</td>
+                  <td className="py-2 pr-4">r₁+r₂ = −b/a; r₁r₂ = c/a</td>
+                  <td className="py-2">Sanity check</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">Rank test</td>
+                  <td className="py-2 pr-4">
+                    rank(A)=rank([A|b])=n → unique; same &lt; n → infinite; rank(A) &lt; rank([A|b]) → none
+                  </td>
+                  <td className="py-2">Fundamental criterion</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">2×2 det</td>
+                  <td className="py-2 pr-4">ad − bc</td>
+                  <td className="py-2">Non-zero → invertible</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">Cramer (2×2)</td>
+                  <td className="py-2 pr-4">x = det(A<sub>x</sub>)/det(A), y = det(A<sub>y</sub>)/det(A)</td>
+                  <td className="py-2">Use sparingly beyond 3×3</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        
+          {/* ===== FAQ ===== */}
+          <section className="space-y-6 mt-16">
+            <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-indigo-200">
+              ❓ Frequently Asked Questions (FAQ)
+            </h2>
+        
+            <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q1: How do I know if my quadratic has complex roots?</h3>
+                <p>Check the discriminant Δ = b² − 4ac. If Δ &lt; 0, the solver displays a complex conjugate pair.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q2: Why does the system say “infinite solutions”?</h3>
+                <p>
+                  Because rank(A) = rank([A|b]) &lt; n. At least one variable is free. You can parameterize the solution family
+                  if needed.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q3: Why “no solution”?</h3>
+                <p>
+                  rank(A) &lt; rank([A|b]) — the equations conflict. Geometrically, lines/planes don’t intersect at a single
+                  point or common set.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q4: Does the determinant alone decide solvability?</h3>
+                <p>
+                  For square systems, det(A) ≠ 0 guarantees a unique solution. But when det(A) = 0 you need rank checks to
+                  distinguish “infinite” from “none.”
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q5: Why are my numbers slightly different from a handheld?</h3>
+                <p>
+                  Rounding and floating-point differences. This app rounds for readability, but the internal math aligns with
+                  standard double-precision behavior.
+                </p>
+              </div>
+        
+            </div>
+          </section>
+        
+          {/* ===== Author / Update ===== */}
+          <div className="mt-10 flex items-center gap-3">
+            <img
+              src="/images/calculatorhub-author.webp"
+              alt="CalculatorHub Tools Team"
+              className="w-12 h-12 rounded-full border border-gray-600"
+              loading="lazy"
+            />
+            <div>
+              <p className="font-semibold text-white">Author: CalculatorHub Tools Team</p>
+              <p className="text-sm text-slate-400">
+                Specialists in math utilities & UX. Last updated: <time dateTime="2025-11-10">November 10, 2025</time>.
+              </p>
+            </div>
+          </div>
+        
         </section>
-
+        
+        {/* ========= Extra cross-links (optional, if not already present) ========= */}
         <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
-          <div className="mt-6 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
-            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">🚀 Explore more tools:</p>
+          <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
+              🚀 Explore more tools on CalculatorHub:
+            </p>
             <div className="flex flex-wrap gap-3 text-sm">
-              <Link to="/quadratic-equation-solver" className="btn-soft">𝑎x²+𝑏x+𝑐 Quadratic Solver</Link>
-              <Link to="/gcd-lcm-calculator" className="btn-soft">GCD & LCM</Link>
-              <Link to="/log-calculator" className="btn-soft">Log Calculator</Link>
+              <Link
+                to="/quadratic-equation-solver"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-200 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
+              >
+                𝑎x²+𝑏x+𝑐 Quadratic Solver
+              </Link>
+              <Link
+                to="/gcd-lcm-calculator"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-200 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
+              >
+                GCD & LCM
+              </Link>
+              <Link
+                to="/log-calculator"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-pink-600/20 text-pink-300 hover:text-pink-200 px-3 py-2 rounded-md border border-slate-700 hover:border-pink-500 transition-all duration-200"
+              >
+                Log Calculator
+              </Link>
             </div>
           </div>
         </section>
+
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/equation-solver" category="math-tools" />
