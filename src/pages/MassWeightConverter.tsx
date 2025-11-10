@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Link } from "react-router-dom";
 // Project components
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
@@ -937,24 +938,24 @@ export default function MassWeightConverter() {
               🚀 Explore more tools on CalculatorHub:
             </p>
             <div className="flex flex-wrap gap-3 text-sm">
-              <a
-                href="/data-storage-converter"
+              <Link
+                to="/data-storage-converter"
                 className="flex items-center gap-2 bg-[#0f172a] hover:bg-cyan-600/20 text-cyan-300 hover:text-cyan-200 px-3 py-2 rounded-md border border-slate-700 hover:border-cyan-500 transition-all duration-200"
               >
                 <span className="text-cyan-300">💾</span> Data Storage Converter
-              </a>
-              <a
-                href="/energy-converter"
+              </Link>
+              <Link
+                to="/energy-converter"
                 className="flex items-center gap-2 bg-[#0f172a] hover:bg-amber-600/20 text-amber-300 hover:text-amber-200 px-3 py-2 rounded-md border border-slate-700 hover:border-amber-500 transition-all duration-200"
               >
                 <span className="text-amber-300">⚡</span> Energy Converter
-              </a>
-              <a
-                href="/length-converter"
+              </Link>
+              <Link
+                to="/length-converter"
                 className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-200 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
               >
                 <span className="text-emerald-300">📏</span> Length Converter
-              </a>
+              </Link>
             </div>
           </div>
         </section>
