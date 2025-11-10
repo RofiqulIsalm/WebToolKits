@@ -599,12 +599,12 @@ const StatisticsCalculator: React.FC = () => {
             <p className="font-semibold text-lg">Explore more math tools 🧮</p>
             <p className="text-sm text-indigo-100">Try Average, Prime Checker, or Factorial next!</p>
           </div>
-          <a
-            href="/category/math-tools"
+          <Link
+            to="/category/math-tools"
             className="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-md hover:bg-indigo-50 transition whitespace-nowrap"
           >
             Browse Math Tools
-          </a>
+          </Link>
         </div>
 
         {/* Grid */}
@@ -910,43 +910,364 @@ const StatisticsCalculator: React.FC = () => {
           )}
         </div>
 
-        {/* Short SEO content */}
+       {/* ===================== SEO Content (~1800–2000 words) ===================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
-          <h1 className="text-2xl sm:text-3xl font-bold text-cyan-400 mb-6">
-            Statistics Calculator – Descriptive Analytics in One Click
+        
+          {/* ===== Table of Contents ===== */}
+          <nav className="mt-2 mb-10 bg-[#0b1220] border border-[#1f2a44] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-gray-100 mb-3">📖 Table of Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#what-is-stats" className="text-indigo-300 hover:underline">What Are Descriptive Statistics?</a></li>
+              <li><a href="#features" className="text-indigo-300 hover:underline">Key Features of This Calculator</a></li>
+              <li><a href="#how-to-use" className="text-indigo-300 hover:underline">How to Use</a></li>
+              <li><a href="#methods" className="text-indigo-300 hover:underline">Methods & Math Under the Hood</a></li>
+              <li><a href="#worked-examples" className="text-indigo-300 hover:underline">Worked Examples</a></li>
+              <li><a href="#percentiles" className="text-indigo-300 hover:underline">Percentiles, Quartiles, IQR & Outliers</a></li>
+              <li><a href="#hist-box" className="text-indigo-300 hover:underline">Histogram & Box Plot — When to Use Which</a></li>
+              <li><a href="#sample-vs-pop" className="text-indigo-300 hover:underline">Sample vs Population: Which One Should I Choose?</a></li>
+              <li><a href="#performance" className="text-indigo-300 hover:underline">Performance, Precision & Limits</a></li>
+              <li><a href="#pitfalls" className="text-indigo-300 hover:underline">Common Pitfalls & How to Avoid Them</a></li>
+              <li><a href="#use-cases" className="text-indigo-300 hover:underline">Practical Use Cases & Examples</a></li>
+              <li><a href="#quick-ref" className="text-indigo-300 hover:underline">Quick Reference Table</a></li>
+              <li><a href="#glossary" className="text-indigo-300 hover:underline">Glossary</a></li>
+              <li><a href="#faq" className="text-indigo-300 hover:underline">FAQ</a></li>
+            </ol>
+          </nav>
+        
+          {/* ===== Intro ===== */}
+          <h1 id="what-is-stats" className="text-3xl font-bold text-indigo-300 mb-6">
+            Descriptive Statistics — the fastest way to understand your data
           </h1>
-          <p className="break-words">
-            Paste your data and instantly get descriptive statistics with clear visuals. Toggle
-            sample vs population metrics, set custom percentiles, and export insights by copying the
-            results.
+          <p>
+            Descriptive statistics summarize a dataset in compact, human-friendly numbers and visuals. Instead of staring at a wall
+            of values, you get a clear picture: <strong>where the data clusters (mean/median/mode)</strong>, how spread out it is
+            (<strong>variance/standard deviation</strong>), the <strong>middle 50%</strong> (<strong>IQR</strong>), and whether any
+            points are suspiciously far from the pack (<strong>outliers</strong>). The goal is quick, reliable understanding so you
+            can decide what to do next—clean the data, compare groups, choose a model, or present findings.
           </p>
+          <p>
+            This Statistics Calculator turns a paste of numbers into <strong>complete descriptive analytics</strong>: core measures,
+            <strong>quartiles</strong>, <strong>percentiles</strong>, <strong>IQR</strong>, <strong>outlier fences</strong>, a
+            configurable <strong>histogram</strong>, and a compact <strong>box plot</strong>. Toggle <em>sample</em> vs
+            <em>population</em> formulas, set custom percentiles, and share your exact state via URL.
+          </p>
+        
+          {/* ===== Features ===== */}
+          <h2 id="features" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            ✨ Key features of this Statistics Calculator
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Paste-friendly input</strong>: separate numbers by space, comma, or semicolon; invalid tokens are ignored.</li>
+            <li><strong>Core measures</strong>: count, sum, mean, median, mode(s), min, max, range.</li>
+            <li><strong>Spread & variability</strong>: variance and standard deviation for <em>sample</em> or <em>population</em>.</li>
+            <li><strong>Quartiles & IQR</strong>: Tukey method for Q1/Q3 and robust spread via interquartile range.</li>
+            <li><strong>Outliers</strong>: automatic lower/upper fences <code>Q1−1.5×IQR</code> and <code>Q3+1.5×IQR</code>.</li>
+            <li><strong>Custom percentiles</strong>: compute any set like <code>1, 5, 10, 50, 90, 95, 99</code>.</li>
+            <li><strong>Histogram</strong>: equal-width bins across [min, max] with adjustable bin count.</li>
+            <li><strong>Box plot</strong>: min–Q1–median–Q3–max in a clean, compact SVG.</li>
+            <li><strong>One-click sharing</strong>: encode data + settings in the URL to reproduce results anywhere.</li>
+          </ul>
+        
+          {/* ===== How to Use ===== */}
+          <h2 id="how-to-use" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">🧭 How to use this calculator</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Paste numbers into the input box. Use spaces, commas, or semicolons as separators.</li>
+            <li>Choose <strong>Sample</strong> if your data is a subset from a larger population; choose <strong>Population</strong> if the list includes every relevant observation.</li>
+            <li>Set <strong>Histogram bins</strong> (1–50) for the desired granularity.</li>
+            <li>Specify <strong>Percentiles</strong> you want (e.g., <code>10,25,50,75,90</code>).</li>
+            <li>Read the tiles and cards for a complete picture. Use the percentiles chips, histogram, and box plot for fast visual insight.</li>
+            <li>Click <strong>Copy Results</strong> to export text, or <strong>Copy Link</strong> to share your exact state.</li>
+          </ol>
+          <p className="text-sm text-slate-400">
+            Tip: The app ignores malformed tokens automatically; you don’t need to clean them first.
+          </p>
+        
+          {/* ===== Methods ===== */}
+          <h2 id="methods" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🔧 Methods & math under the hood
+          </h2>
+        
+          <h3 className="text-xl font-semibold text-indigo-300">1) Parsing & sanitization</h3>
+          <p>
+            We split on spaces, commas, and semicolons, trim tokens, and drop anything that doesn’t parse to a finite number. This lets
+            you paste raw CSV fragments, spreadsheet columns, or quick notes without strict formatting.
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">2) Central tendency</h3>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Mean</strong> = sum / count — sensitive to outliers.</li>
+            <li><strong>Median</strong> — the middle value (or midpoint of the two middle values) after sorting; robust to outliers.</li>
+            <li><strong>Mode(s)</strong> — most frequent value(s). There can be none, one, or many.</li>
+          </ul>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">3) Spread & variability</h3>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Range</strong> = max − min — simple but outlier-sensitive.</li>
+            <li><strong>Variance</strong> (<em>population</em>) = Σ(x−μ)² / n; (<em>sample</em>) = Σ(x−x̄)² / (n−1).</li>
+            <li><strong>Standard deviation</strong> = √variance — in the same units as the data, easier to interpret.</li>
+          </ul>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">4) Quartiles, IQR, and fences</h3>
+          <p>
+            We use <strong>Tukey’s</strong> method: split the sorted list at the median; compute the median of each half to get Q1 and Q3.
+            The <strong>IQR</strong> = Q3 − Q1 describes the middle 50% of values and is robust to extreme points.
+            Outlier “fences” are Q1 − 1.5×IQR and Q3 + 1.5×IQR.
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">5) Percentiles</h3>
+          <p>
+            Percentiles use linear interpolation at rank <code>r = p/100 × (n−1)</code> in the sorted data. This provides smooth estimates
+            even when the target rank falls between two sample points.
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">6) Histogram & binning</h3>
+          <p>
+            We produce an equal-width histogram over [min, max] using your chosen number of bins. Binning trades resolution for clarity:
+            more bins reveal fine structure; fewer bins emphasize global shape. Try 8–20 bins for medium-sized datasets.
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">7) Box plot</h3>
+          <p>
+            The horizontal box shows Q1–median–Q3 as the box with a line at the median; “whiskers” extend to min and max. It’s a
+            compact snapshot of distribution, ideal for quick comparisons or dashboards.
+          </p>
+        
+          {/* ===== Worked Examples ===== */}
+          <h2 id="worked-examples" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🧪 Worked examples (rounded for readability)
+          </h2>
+          <ul className="space-y-2">
+            <li>
+              <strong>Data:</strong> <code>1 2 2 3 4 6 9 9 10 12 15</code> → count 11;
+              mean ≈ 6.64; median 6; mode(s) 2 and 9; min 1; max 15; range 14.
+              Q1 ≈ 2; Q3 ≈ 9.5; IQR ≈ 7.5; fences ≈ −9.25 and 20.75 (no outliers).
+            </li>
+            <li>
+              <strong>Data:</strong> <code>10, 10, 10, 10</code> → mean = median = 10; variance = 0; sd = 0; histogram shows a single spike; box collapses to a line.
+            </li>
+            <li>
+              <strong>Data:</strong> <code>2, 100, 101, 102, 5000</code> → mean distorted by 5000; median near 101; Q1/Q3 reflect the tight middle; IQR highlights spread while fences mark 5000 as a likely outlier.
+            </li>
+          </ul>
+        
+          {/* ===== Percentiles, Quartiles & Outliers ===== */}
+          <h2 id="percentiles" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🎯 Percentiles, quartiles, IQR & outliers — the robust picture
+          </h2>
+          <p>
+            Percentiles anchor decision-making: the 50th is the median; 25th and 75th define Q1/Q3. In skewed data (e.g., sales, wait
+            times), percentiles communicate performance better than the mean. The IQR resists outliers, while fences flag potential
+            anomalies worth investigating—not every “outlier” is an error; some are the story.
+          </p>
+        
+          {/* ===== Histogram vs Box Plot ===== */}
+          <h2 id="hist-box" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            📊 Histogram vs 📦 Box plot — when to use which
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Histogram</strong> shows distribution <em>shape</em> (unimodal, bimodal, skewed), clumps, and gaps.</li>
+            <li><strong>Box plot</strong> summarizes position and spread compactly, enabling rapid comparisons across groups.</li>
+            <li>Use them together: histogram for nuance, box for quick cross-section comparisons.</li>
+          </ul>
+        
+          {/* ===== Sample vs Population ===== */}
+          <h2 id="sample-vs-pop" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🧪 Sample vs 🧮 Population — which one should you choose?
+          </h2>
+          <p>
+            If your list includes <em>every</em> member you care about (e.g., all transactions this month), use
+            <strong> Population</strong> formulas. If your data is a subset drawn from a larger universe (e.g., 500 survey responses
+            out of 10,000 customers), use <strong>Sample</strong> formulas. The sample variance/SD divide by <code>n−1</code>
+            to correct bias; population divides by <code>n</code>.
+          </p>
+        
+          {/* ===== Performance ===== */}
+          <h2 id="performance" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🚀 Performance, precision & limits
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Sorting</strong> dominates runtime (for large n). Everything else is linear.</li>
+            <li><strong>Precision</strong> uses JS numbers (float64). For typical analytics, this is more than sufficient.</li>
+            <li><strong>Percentiles</strong> via interpolation are stable and fast; large lists remain responsive.</li>
+            <li><strong>Histogram</strong> binning is O(n) after sorting; 8–20 bins usually balance detail and readability.</li>
+          </ul>
+        
+          {/* ===== Pitfalls ===== */}
+          <h2 id="pitfalls" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            ⚠️ Common pitfalls & how to avoid them
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Mixed units</strong>: don’t merge centimeters with inches; normalize first.</li>
+            <li><strong>Typos & sentinels</strong>: stray 999999 can wreck means and ranges; confirm data entry rules.</li>
+            <li><strong>Skewed data</strong>: prefer median/IQR for summaries; show histogram to reveal shape.</li>
+            <li><strong>Too many bins</strong>: noisy histograms hide patterns; try fewer bins, then zoom in as needed.</li>
+            <li><strong>Wrong denominator</strong>: choose Sample vs Population correctly to avoid biased variance/SD.</li>
+          </ul>
+        
+          {/* ===== Use Cases ===== */}
+          <h2 id="use-cases" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🧰 Practical use cases
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Business</strong>: order values, AOV, delivery times, SLA breaches, fraud outliers.</li>
+            <li><strong>Product</strong>: feature usage, latency percentiles (p50/p90/p99), session durations.</li>
+            <li><strong>Education</strong>: test scores, cohort comparisons, grade distributions.</li>
+            <li><strong>Healthcare</strong>: lab values, wait-time analysis, outlier detection for safety.</li>
+            <li><strong>Research</strong>: experimental measurements, replication spread, data screening before modeling.</li>
+          </ul>
+        
+          {/* ===== Quick Reference Table ===== */}
+          <h2 id="quick-ref" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🗂️ Quick reference
+          </h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="text-slate-300">
+                  <th className="py-2 pr-4">Metric</th>
+                  <th className="py-2 pr-4">Definition</th>
+                  <th className="py-2">Notes</th>
+                </tr>
+              </thead>
+              <tbody className="text-slate-200">
+                <tr>
+                  <td className="py-2 pr-4">Mean</td>
+                  <td className="py-2 pr-4">Σx / n</td>
+                  <td className="py-2">Sensitive to outliers</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">Median</td>
+                  <td className="py-2 pr-4">Middle value after sorting</td>
+                  <td className="py-2">Robust to outliers</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">Variance (pop)</td>
+                  <td className="py-2 pr-4">Σ(x−μ)² / n</td>
+                  <td className="py-2">Use when you have the full population</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">Variance (sample)</td>
+                  <td className="py-2 pr-4">Σ(x−x̄)² / (n−1)</td>
+                  <td className="py-2">Unbiased estimator for samples</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">Std. dev.</td>
+                  <td className="py-2 pr-4">√variance</td>
+                  <td className="py-2">Spread in original units</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">IQR</td>
+                  <td className="py-2 pr-4">Q3 − Q1</td>
+                  <td className="py-2">Robust spread of middle 50%</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">Outlier fences</td>
+                  <td className="py-2 pr-4">[Q1−1.5×IQR, Q3+1.5×IQR]</td>
+                  <td className="py-2">Flags potential anomalies</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        
+          {/* ===== Glossary ===== */}
+          <h2 id="glossary" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">📚 Glossary</h2>
+          <p className="space-y-2">
+            <strong>Descriptive statistics</strong>: numbers/plots that summarize a dataset. <br/>
+            <strong>Quartiles (Q1, Q3)</strong>: 25th and 75th percentiles; median is 50th. <br/>
+            <strong>IQR</strong>: interquartile range, Q3−Q1; robust spread. <br/>
+            <strong>Outlier</strong>: observation outside the fences; investigate context before removal. <br/>
+            <strong>Percentile</strong>: value below which a given percent of observations fall.
+          </p>
+        
+          {/* ===== FAQ ===== */}
+          <section className="space-y-6 mt-16">
+            <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-indigo-200">
+              ❓ Frequently Asked Questions (FAQ)
+            </h2>
+        
+            <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q1: How should I format inputs?</h3>
+                <p>
+                  Paste plain numbers separated by spaces, commas, or semicolons. The tool ignores invalid tokens automatically.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q2: When should I use sample vs population?</h3>
+                <p>
+                  Use <em>Population</em> if you have all relevant observations; otherwise use <em>Sample</em>.
+                  This affects variance and standard deviation formulas.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q3: Why do my percentiles not match Excel exactly?</h3>
+                <p>
+                  Different tools use different percentile definitions/interpolations. This app uses linear interpolation at
+                  rank <code>p/100×(n−1)</code>, which is common and smooth; other definitions may differ slightly.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q4: Are outliers always errors?</h3>
+                <p>
+                  No. Outliers can be entry errors, rare events, or key business signals. Use context and domain knowledge before removing them.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q5: What if my data mixes different units?</h3>
+                <p>
+                  Convert to a common unit first. Mixed units break comparability and distort statistics and visuals.
+                </p>
+              </div>
+        
+            </div>
+          </section>
         </section>
-
-        {/* Footer links */}
+        
+        {/* ========= Cross-links ========= */}
         <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/calculatorhub-author.webp"
+              alt="CalculatorHub Tools Team"
+              className="w-12 h-12 rounded-full border border-gray-600"
+              loading="lazy"
+            />
+            <div>
+              <p className="font-semibold text-white">Author: CalculatorHub Tools Team</p>
+              <p className="text-sm text-slate-400">
+                Specialists in math utilities & UX. Last updated: <time dateTime="2025-11-10">November 10, 2025</time>.
+              </p>
+            </div>
+          </div>
+        
           <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
             <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
               🚀 Explore more tools on CalculatorHub:
             </p>
             <div className="flex flex-wrap gap-3 text-sm">
-              <Link
-                to="/average-calculator"
-                className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
+              <a
+                href="/average-calculator"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-200 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
               >
                 📊 Average Calculator
-              </Link>
-              <Link
-                to="/prime-number-checker"
-                className="flex items-center gap-2 bg-[#0f172a] hover:bg-pink-600/20 text-pink-300 hover:text-pink-400 px-3 py-2 rounded-md border border-slate-700 hover:border-pink-500 transition-all duration-200"
+              </a>
+              <a
+                href="/prime-number-checker"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-pink-600/20 text-pink-300 hover:text-pink-200 px-3 py-2 rounded-md border border-slate-700 hover:border-pink-500 transition-all duration-200"
               >
                 🔍 Prime Checker
-              </Link>
-              <Link
-                to="/factorial-calculator"
-                className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
+              </a>
+              <a
+                href="/factorial-calculator"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-200 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
               >
                 n! Factorial
-              </Link>
+              </a>
             </div>
           </div>
         </section>
