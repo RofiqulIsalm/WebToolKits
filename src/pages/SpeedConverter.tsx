@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Link } from "react-router-dom";
 // Project components
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
@@ -811,24 +812,24 @@ export default function SpeedConverter() {
                   🚀 Explore more tools on CalculatorHub:
                 </p>
                 <div className="flex flex-wrap gap-3 text-sm">
-                  <a
-                    href="/area-converter"
+                  <Link
+                    to="/area-converter"
                     className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
                   >
                     <span className="text-emerald-400">🧩</span> Area Converter
-                  </a>
-                  <a
-                    href="/temperature-converter"
+                  </Link>
+                  <Link
+                    to="/temperature-converter"
                     className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
                   >
                     <span className="text-sky-400">🌡️</span> Temperature Converter
-                  </a>
-                  <a
-                    href="/length-converter"
+                  </Link>
+                  <Link
+                    to="/length-converter"
                     className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
                   >
                     <span className="text-indigo-400">📏</span> Length Converter
-                  </a>
+                  </Link>
                 </div>
               </div>
             </section>
