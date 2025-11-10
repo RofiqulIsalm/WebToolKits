@@ -677,6 +677,157 @@ export default function DensityConverter() {
             })}
           </div>
         </div>
+        {/* ==================== SEO Content: Density Converter (EN) ==================== */}
+        <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+          <header className="mb-10">
+            <h1 className="text-3xl font-bold text-blue-300">Density Converter — kg/m³, g/cm³, g/mL, kg/L, lb/ft³, lb/in³, oz/in³, slug/ft³, lb/gal</h1>
+            <p className="mt-2 text-slate-300">
+              Convert density units instantly for lab work, process engineering, materials, and HVAC. Choose from
+              <strong> metric</strong> (kg/m³, g/cm³, g/mL, kg/L), <strong>US/Imperial</strong> (lb/ft³, lb/in³, oz/in³, slug/ft³, lb/gal US &amp; Imp),
+              and more. Adjust decimals, switch Normal/Compact/Scientific formats, favorite frequent units, review recent runs,
+              and export results with Copy or CSV. Shareable URLs preserve state.
+            </p>
+          </header>
+        
+          {/* TOC */}
+          <nav className="mt-2 mb-10 bg-[#0b1220] border border-[#1c2a4d] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-gray-100 mb-3">📖 Table of Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#den-how" className="text-blue-300 hover:underline">How to Use</a></li>
+              <li><a href="#den-units" className="text-blue-300 hover:underline">Supported Units & Constants</a></li>
+              <li><a href="#den-notes" className="text-blue-300 hover:underline">Engineering Notes (density vs SG)</a></li>
+              <li><a href="#den-examples" className="text-blue-300 hover:underline">Worked Examples</a></li>
+              <li><a href="#den-quickref" className="text-blue-300 hover:underline">Quick Reference</a></li>
+              <li><a href="#den-faq" className="text-blue-300 hover:underline">FAQ</a></li>
+            </ol>
+          </nav>
+        
+          {/* How to use */}
+          <h2 id="den-how" className="text-2xl font-semibold text-blue-200 mt-10 mb-4">💡 How to Use</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Enter a number in <strong>Value</strong> (empty = 0; commas like <code>1,234.56</code> allowed).</li>
+            <li>Select <strong>From</strong> and <strong>To</strong> units (pin frequent ones with <strong>Fav</strong>).</li>
+            <li>Open <strong>More options</strong> to set <strong>Precision</strong> (0–12) and <strong>Format</strong>.</li>
+            <li>Use <strong>Copy All</strong> or <strong>CSV</strong> to export the full grid.</li>
+            <li>Recent stores your last 10 conversions in local storage for quick recall.</li>
+          </ol>
+          <p className="text-xs text-slate-400">The URL encodes the current inputs—bookmark or share to reproduce exactly.</p>
+        
+          {/* Units */}
+          <h2 id="den-units" className="text-2xl font-semibold text-blue-200 mt-10 mb-4">🌐 Supported Units & Constants</h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <li><strong>SI / metric:</strong> kg/m³, g/cm³, g/m³, g/L, kg/L, g/mL, mg/mL, mg/cm³</li>
+              <li><strong>US/Imperial:</strong> lb/ft³, lb/in³, oz/in³, slug/ft³, lb/gal (US), lb/gal (Imp)</li>
+            </ul>
+            <p className="mt-3 text-slate-400 text-xs leading-relaxed">
+              Key factors to kg/m³: 1 g/cm³ = <strong>1000</strong>; 1 g/L = <strong>1</strong>; 1 g/m³ = <strong>0.001</strong>;
+              1 g/mL = <strong>1000</strong>; 1 kg/L = <strong>1000</strong>; 1 mg/mL = <strong>1</strong>; 1 mg/cm³ = <strong>1</strong>;
+              1 lb/ft³ ≈ <strong>16.01846337</strong>; 1 lb/in³ ≈ <strong>27679.90471</strong>; 1 oz/in³ ≈ <strong>1729.99404</strong>;
+              1 slug/ft³ ≈ <strong>515.378818</strong>; 1 lb/US gal ≈ <strong>119.8264273</strong>; 1 lb/Imp gal ≈ <strong>99.77637266</strong>.
+            </p>
+          </div>
+        
+          {/* Engineering notes */}
+          <h2 id="den-notes" className="text-2xl font-semibold text-blue-200 mt-10 mb-4">📐 Engineering Notes (density vs SG)</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Density</strong> depends on temperature and pressure. Always state conditions if results drive design.</li>
+            <li><strong>Specific gravity (SG)</strong> is dimensionless: SG ≈ ρ / (1000 kg/m³) for water near 4&nbsp;°C.
+              Thus ρ (kg/m³) ≈ SG × 1000 (approximate; temperature matters).</li>
+            <li><strong>Gallon caution:</strong> US gallon (≈3.785 L) ≠ Imperial gallon (≈4.546 L); density per lb/gal differs.</li>
+            <li><strong>Data hygiene:</strong> For very large/small values, switch to Scientific format and set decimals consistently.</li>
+          </ul>
+        
+          {/* Examples */}
+          <h2 id="den-examples" className="text-2xl font-semibold text-blue-200 mt-10 mb-4">📈 Worked Examples (rounded)</h2>
+          <ul className="space-y-2">
+            <li><strong>1 g/cm³ → kg/m³</strong>: 1 × 1000 = <strong>1000 kg/m³</strong></li>
+            <li><strong>62.4 lb/ft³ → kg/m³</strong>: 62.4 × 16.01846337 ≈ <strong>1000.35 kg/m³</strong> (fresh water ≈ 62.4 lb/ft³)</li>
+            <li><strong>0.85 g/mL → kg/m³</strong>: 0.85 × 1000 = <strong>850 kg/m³</strong></li>
+            <li><strong>1 lb/in³ → kg/m³</strong>: 1 × 27679.90471 ≈ <strong>27679.90 kg/m³</strong></li>
+            <li><strong>8.34 lb/US gal → kg/m³</strong>: 8.34 × 119.8264273 ≈ <strong>999.9 kg/m³</strong></li>
+          </ul>
+        
+          {/* Quick Reference */}
+          <h2 id="den-quickref" className="text-2xl font-semibold text-blue-200 mt-10 mb-4">🗂️ Quick Reference</h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <li>1 g/cm³ = <strong>1000 kg/m³</strong></li>
+              <li>1 g/mL = <strong>1000 kg/m³</strong></li>
+              <li>1 kg/L = <strong>1000 kg/m³</strong></li>
+              <li>1 g/L = <strong>1 kg/m³</strong></li>
+              <li>1 mg/mL = <strong>1 kg/m³</strong></li>
+              <li>1 mg/cm³ = <strong>1 kg/m³</strong></li>
+              <li>1 lb/ft³ ≈ <strong>16.01846337 kg/m³</strong></li>
+              <li>1 lb/in³ ≈ <strong>27679.90471 kg/m³</strong></li>
+              <li>1 oz/in³ ≈ <strong>1729.99404 kg/m³</strong></li>
+              <li>1 slug/ft³ ≈ <strong>515.378818 kg/m³</strong></li>
+              <li>1 lb/US gal ≈ <strong>119.8264273 kg/m³</strong></li>
+              <li>1 lb/Imp gal ≈ <strong>99.77637266 kg/m³</strong></li>
+            </ul>
+          </div>
+        
+          {/* FAQ */}
+          <h2 id="den-faq" className="text-2xl font-semibold text-blue-200 mt-10 mb-4">❓ Frequently Asked Questions</h2>
+          <div className="space-y-4">
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-blue-300">Is g/mL the same as g/cm³?</h3>
+              <p>Yes numerically: 1 g/mL = 1 g/cm³ = 1000 kg/m³ (assuming the same conditions).</p>
+            </div>
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-blue-300">What density should I use for water?</h3>
+              <p>Common approximations: 1000 kg/m³ (≈ 1 g/cm³) near 4 °C; ~998 kg/m³ at 20 °C; always specify temperature.</p>
+            </div>
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-blue-300">Why are lb/gal (US) and lb/gal (Imp) different?</h3>
+              <p>The gallon volumes differ (US ≈ 3.785 L, Imp ≈ 4.546 L), so mass-per-gallon densities differ accordingly.</p>
+            </div>
+          </div>
+        
+          {/* Author & Cross-links */}
+          <section className="mt-12 border-t border-gray-700 pt-6">
+            <div className="flex items-center gap-3">
+              <img
+                src="/images/calculatorhub-author.webp"
+                alt="CalculatorHub Tools Team"
+                className="w-12 h-12 rounded-full border border-gray-600"
+                loading="lazy"
+              />
+              <div>
+                <p className="font-semibold text-white">Author: CalculatorHub Tools Team</p>
+                <p className="text-sm text-slate-400">
+                  Specialists in scientific & engineering converters. Last updated:
+                  <time dateTime="2025-11-09"> November 9, 2025</time>.
+                </p>
+              </div>
+            </div>
+        
+            <div className="mt-8 bg-gradient-to-r from-slate-900/30 via-indigo-900/30 to-blue-900/30 rounded-lg border border-slate-700 shadow-inner p-4">
+              <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">🚀 Explore more tools on CalculatorHub:</p>
+              <div className="flex flex-wrap gap-3 text-sm">
+                <a
+                  href="/force-converter"
+                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-cyan-600/20 text-cyan-300 hover:text-cyan-200 px-3 py-2 rounded-md border border-slate-700 hover:border-cyan-500 transition-all duration-200"
+                >
+                  🧲 Force Converter
+                </a>
+                <a
+                  href="/power-converter"
+                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-amber-600/20 text-amber-300 hover:text-amber-200 px-3 py-2 rounded-md border border-slate-700 hover:border-amber-500 transition-all duration-200"
+                >
+                  ⚡ Power Converter
+                </a>
+                <a
+                  href="/time-converter"
+                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-200 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
+                >
+                  ⏱️ Time Converter
+                </a>
+              </div>
+            </div>
+          </section>
+        </section>
+
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/density-converter" category="unit-converters" />
