@@ -651,6 +651,329 @@ export default function AngleConverter() {
           </div>
         </div>
 
+        {/* =========== SEO Content: Angle Converter (English Only) ======*/}
+      <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+      
+        <header className="mb-10">
+          <h1 className="text-3xl font-bold text-amber-300">Angle Converter — Degrees, Radians, Turns, Grads, Arcminutes, Arcseconds, mrad, and Mils</h1>
+          <p className="mt-3">
+            This Angle Converter gives you fast, precise transformations across every common angle unit used in mathematics, graphics,
+            surveying, astronomy, ballistics, and UI design. Convert between <strong>degrees (°)</strong>, <strong>radians (rad)</strong>,
+            <strong>turns (rev)</strong>, <strong>gradians (gon)</strong>, <strong>arcminutes (′)</strong>, <strong>arcseconds (″)</strong>,
+            <strong>milliradians (mrad)</strong>, and <strong>NATO mils</strong>. Adjust decimals (0–12), switch display style
+            (Normal / Compact / Scientific), pin favorites, revisit your last ten conversions, and export a full grid with Copy or CSV.
+            Shareable links preserve your exact state, so teammates open the same configuration instantly.
+          </p>
+        </header>
+      
+        {/* Contents */}
+        <nav className="mt-2 mb-10 bg-[#26120a] border border-[#4a2b1d] rounded-xl p-5 text-slate-200">
+          <h2 className="text-lg font-semibold text-gray-100 mb-3">📖 Contents</h2>
+          <ol className="list-decimal list-inside space-y-2 text-sm">
+            <li><a href="#ang-how" className="text-amber-300 hover:underline">How to Use</a></li>
+            <li><a href="#ang-basics" className="text-amber-300 hover:underline">Angle Basics &amp; When to Use Each Unit</a></li>
+            <li><a href="#ang-constants" className="text-amber-300 hover:underline">Core Constants &amp; Definitions</a></li>
+            <li><a href="#ang-formulas" className="text-amber-300 hover:underline">Conversion Formulas (All Units)</a></li>
+            <li><a href="#ang-examples" className="text-amber-300 hover:underline">Worked Examples</a></li>
+            <li><a href="#ang-usecases" className="text-amber-300 hover:underline">Real-World Use Cases</a></li>
+            <li><a href="#ang-precision" className="text-amber-300 hover:underline">Precision, Rounding &amp; Numeric Display</a></li>
+            <li><a href="#ang-dms" className="text-amber-300 hover:underline">Degrees–Minutes–Seconds (DMS) Notes</a></li>
+            <li><a href="#ang-quickref" className="text-amber-300 hover:underline">Quick Reference Tables</a></li>
+            <li><a href="#ang-faq" className="text-amber-300 hover:underline">FAQ</a></li>
+            <li><a href="#ang-access" className="text-amber-300 hover:underline">Accessibility &amp; Shortcuts</a></li>
+            <li><a href="#ang-trouble" className="text-amber-300 hover:underline">Troubleshooting &amp; Tips</a></li>
+            <li><a href="#ang-glossary" className="text-amber-300 hover:underline">Glossary</a></li>
+          </ol>
+        </nav>
+      
+        {/* How to Use */}
+        <h2 id="ang-how" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">💡 How to Use</h2>
+        <ol className="list-decimal list-inside space-y-2">
+          <li>Enter a number in the <strong>Value</strong> field. Empty input counts as 0; commas such as <code>1,234.56</code> are accepted.</li>
+          <li>Select the <strong>From</strong> unit and the <strong>To</strong> unit. Pin frequently used units with the <strong>Fav</strong> button.</li>
+          <li>Open <strong>More options</strong> to set decimals (0–12) and pick the display style: Normal, Compact, or Scientific.</li>
+          <li>Use <strong>Copy All</strong> or <strong>CSV</strong> to export the full results grid for documentation or spreadsheets.</li>
+          <li>Restore prior configurations with <strong>Recent</strong> (your last ten conversions are saved automatically).</li>
+        </ol>
+        <p className="text-xs text-slate-400">Pro tip: The URL auto-encodes your state (value, units, format, precision). Bookmark or share it for exact reproducibility.</p>
+      
+        {/* Angle Basics */}
+        <h2 id="ang-basics" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">📐 Angle Basics &amp; When to Use Each Unit</h2>
+        <p>
+          Angles measure rotation. Different fields prefer different units:
+        </p>
+        <ul className="list-disc list-inside space-y-1">
+          <li><strong>Degrees (°):</strong> Intuitive for people, common in education, navigation displays, and UI design. A full circle is 360°.</li>
+          <li><strong>Radians (rad):</strong> Natural for calculus, trigonometry, and programming libraries. A full circle is 2π rad. Most math functions assume radians.</li>
+          <li><strong>Turns (rev):</strong> One full revolution equals 1 turn. Useful for periodic or rotational motion and for expressing fractions of a circle cleanly (e.g., 0.25 turn = 90°).</li>
+          <li><strong>Gradians (gon):</strong> A circle is 400 grads. Used in surveying and geodesy; 100 grads corresponds to a right angle.</li>
+          <li><strong>Arcminutes (′) &amp; Arcseconds (″):</strong> Fine subdivisions of a degree (1° = 60′, 1′ = 60″), used in astronomy, optics, map scales, and precise alignment.</li>
+          <li><strong>Milliradians (mrad):</strong> 1 mrad = 0.001 rad. Popular in ballistics, optics, and engineering for small angles, because the “opposite ≈ mrad × distance” rule is convenient.</li>
+          <li><strong>NATO mils (mil):</strong> Defined as 1/6400 of a turn; used in artillery and military navigation. Approximately 0.05625° per mil.</li>
+        </ul>
+        <p className="mt-2">
+          Choosing the right unit depends on your audience, tools, and precision requirements. This converter standardizes values so you can present them in the unit that makes the most sense for your task—without manual math.
+        </p>
+      
+        {/* Constants & Definitions */}
+        <h2 id="ang-constants" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">🌐 Core Constants &amp; Definitions</h2>
+        <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <li>π ≈ <strong>3.141592653589793</strong></li>
+            <li>Full circle = <strong>360° = 2π rad = 1 turn = 400 grad</strong></li>
+            <li>1° = <strong>π/180 rad</strong></li>
+            <li>1 grad (gon) = <strong>π/200 rad</strong></li>
+            <li>1′ (arcminute) = <strong>(π/180)/60 rad</strong></li>
+            <li>1″ (arcsecond) = <strong>(π/180)/3600 rad</strong></li>
+            <li>1 mrad = <strong>0.001 rad</strong></li>
+            <li>1 mil (NATO) = <strong>2π/6400 rad</strong> ≈ 0.0009817477 rad ≈ 0.05625°</li>
+          </ul>
+        </div>
+      
+        {/* Formulas */}
+        <h2 id="ang-formulas" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">🧮 Conversion Formulas (All Units)</h2>
+        <p>
+          The converter uses <strong>radians</strong> as the internal base. Converting is a two-step process: map your input to radians, then map radians to the target unit.
+          Below are direct formulas for convenience.
+        </p>
+      
+        <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm space-y-3">
+          <p className="font-semibold">Degrees ↔ Radians</p>
+          <ul className="list-disc list-inside">
+            <li><strong>rad = deg × (π / 180)</strong></li>
+            <li><strong>deg = rad × (180 / π)</strong></li>
+          </ul>
+      
+          <p className="font-semibold">Degrees ↔ Turns</p>
+          <ul className="list-disc list-inside">
+            <li><strong>turn = deg / 360</strong></li>
+            <li><strong>deg = turn × 360</strong></li>
+          </ul>
+      
+          <p className="font-semibold">Degrees ↔ Gradians (gon)</p>
+          <ul className="list-disc list-inside">
+            <li><strong>grad = deg × (10 / 9)</strong>  (because 360° = 400 grad)</li>
+            <li><strong>deg = grad × (9 / 10)</strong></li>
+          </ul>
+      
+          <p className="font-semibold">Arcminutes &amp; Arcseconds</p>
+          <ul className="list-disc list-inside">
+            <li><strong>1° = 60′</strong>, <strong>1′ = 60″</strong></li>
+            <li><strong>deg = deg + (min / 60) + (sec / 3600)</strong> (DMS to decimal degrees)</li>
+            <li><strong>min = (decimal part of deg) × 60</strong>; <strong>sec = (decimal part of min) × 60</strong></li>
+            <li>In radians: <strong>1′ = (π/180)/60</strong>, <strong>1″ = (π/180)/3600</strong></li>
+          </ul>
+      
+          <p className="font-semibold">Milliradian &amp; NATO mil</p>
+          <ul className="list-disc list-inside">
+            <li><strong>mrad = rad × 1000</strong>, <strong>rad = mrad / 1000</strong></li>
+            <li><strong>mil = turn × 6400</strong>, <strong>turn = mil / 6400</strong></li>
+            <li>Also: <strong>mil (deg) = deg / 0.05625</strong> and <strong>deg = mil × 0.05625</strong> (approx)</li>
+          </ul>
+        </div>
+      
+        {/* Examples */}
+        <h2 id="ang-examples" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">📈 Worked Examples (Rounded)</h2>
+        <ul className="space-y-2">
+          <li><strong>180° → rad:</strong> 180 × π/180 = <strong>π rad ≈ 3.14159265</strong></li>
+          <li><strong>90° → turn:</strong> 90/360 = <strong>0.25 turn</strong></li>
+          <li><strong>45° → grad:</strong> 45 × (10/9) = <strong>50 grad</strong></li>
+          <li><strong>1° → arcminutes and arcseconds:</strong> 1° = <strong>60′</strong> = <strong>3600″</strong></li>
+          <li><strong>0.5 mrad → degrees:</strong> 0.5 mrad = 0.0005 rad; deg = 0.0005 × 180/π ≈ <strong>0.02865°</strong></li>
+          <li><strong>320 mil → degrees:</strong> deg = 320 × 0.05625 = <strong>18°</strong></li>
+          <li><strong>2.5 rad → degrees:</strong> deg = 2.5 × 180/π ≈ <strong>143.239°</strong></li>
+        </ul>
+        <p className="text-xs text-slate-400">
+          Your UI shows exact values at your chosen precision; results above are rounded for readability.
+        </p>
+      
+        {/* Use Cases */}
+        <h2 id="ang-usecases" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">🛠️ Real-World Use Cases</h2>
+      
+        <h3 className="text-lg font-semibold text-gray-100 mt-4">Mathematics &amp; Programming</h3>
+        <p>
+          Most math libraries expect radians for trig functions (<code>sin</code>, <code>cos</code>, <code>atan2</code>). If your inputs are in degrees,
+          convert first to radians. When you display to users, convert back to degrees if that’s more intuitive.
+        </p>
+      
+        <h3 className="text-lg font-semibold text-gray-100 mt-4">Computer Graphics &amp; Animation</h3>
+        <p>
+          Engines often store rotations in radians (or quaternions), but designers and animators usually think in degrees.
+          This tool closes the gap, ensuring keyframe values match both the math and the creative intent.
+        </p>
+      
+        <h3 className="text-lg font-semibold text-gray-100 mt-4">Surveying, Mapping &amp; Geodesy</h3>
+        <p>
+          Grads (gons) are still popular in surveying because 100 grads is a right angle and 400 grads completes a circle.
+          Arcminutes/arcseconds are used for fine angular measurements on maps and transit instruments.
+        </p>
+      
+        <h3 className="text-lg font-semibold text-gray-100 mt-4">Astronomy &amp; Optics</h3>
+        <p>
+          Celestial coordinates, telescope alignment, and diffraction formulas often use arcminutes/arcseconds and radians.
+          For very small angles, radians and milliradians are numerically stable and convenient for calculations.
+        </p>
+      
+        <h3 className="text-lg font-semibold text-gray-100 mt-4">Ballistics &amp; Marksmanship</h3>
+        <p>
+          Scopes are commonly calibrated in <strong>mrad</strong> or <strong>MOA</strong> (minute of angle; 1 MOA ≈ 1.0472″ at 100 yd ≈ 0.2909 mrad).
+          NATO mils are used for artillery and range finding; one mil corresponds to approximately one unit of spread per thousand units of distance (small-angle approximation).
+        </p>
+      
+        <h3 className="text-lg font-semibold text-gray-100 mt-4">Robotics &amp; Mechatronics</h3>
+        <p>
+          Kinematics, control loops, and servo setpoints often use radians internally, while dashboards and field tools display degrees for clarity.
+          Converting consistently avoids off-by-π errors and mis-tuned controllers.
+        </p>
+      
+        {/* Precision */}
+        <h2 id="ang-precision" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">🎯 Precision, Rounding &amp; Numeric Display</h2>
+        <ul className="list-disc list-inside space-y-1">
+          <li><strong>Decimals:</strong> Choose based on device resolution and audience. Engineering specs may need 3–6 decimals; UI labels typically need 0–2.</li>
+          <li><strong>Display modes:</strong> Compact (K/M/B) is useful for large arcsecond counts; Scientific is ideal for tiny radian values.</li>
+          <li><strong>π-based exactness:</strong> Some angles (e.g., 180°) have exact symbolic forms (π rad). Numeric outputs are approximations to your chosen precision.</li>
+          <li><strong>Accumulated conversions:</strong> Convert once to radians, then to targets; avoid chaining multiple human calculations that introduce rounding drift. Your converter does this correctly.</li>
+        </ul>
+      
+        {/* DMS */}
+        <h2 id="ang-dms" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">🧭 Degrees–Minutes–Seconds (DMS) Notes</h2>
+        <p>
+          <strong>DMS → Decimal Degrees:</strong> <code>deg_decimal = D + (M / 60) + (S / 3600)</code>. For negative angles, apply the sign to the whole expression.
+        </p>
+        <p>
+          <strong>Decimal Degrees → DMS:</strong> <code>D = floor(|deg|)</code>, <code>M = floor((|deg| − D) × 60)</code>, <code>S = ((|deg| − D) × 60 − M) × 60</code>, then reapply the sign to D.
+        </p>
+        <p className="text-xs text-slate-400">
+          Many datasets (e.g., bearings and coordinates) appear in DMS; normalize to decimal degrees or radians for computations, then convert back for presentation.
+        </p>
+      
+        {/* Quick Reference */}
+        <h2 id="ang-quickref" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">🗂️ Quick Reference Tables</h2>
+      
+        <h3 className="text-lg font-semibold text-gray-100 mt-4">Key Identities</h3>
+        <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <li>Full circle = <strong>360° = 2π rad = 1 turn = 400 grad</strong></li>
+            <li>Right angle = <strong>90° = π/2 rad = 0.25 turn = 100 grad</strong></li>
+            <li>1° = <strong>60′ = 3600″</strong></li>
+            <li>1 mil (NATO) ≈ <strong>0.05625°</strong> ≈ 0.0009817477 rad</li>
+            <li>1 mrad = <strong>0.05729578°</strong> ≈ 3.43775′ ≈ 206.265″</li>
+            <li>1° ≈ <strong>17.453293 mrad</strong></li>
+          </ul>
+        </div>
+      
+        <h3 className="text-lg font-semibold text-gray-100 mt-6">Common Conversions</h3>
+        <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <li>deg → rad: <code>× π/180</code></li>
+            <li>rad → deg: <code>× 180/π</code></li>
+            <li>deg → turn: <code>÷ 360</code></li>
+            <li>turn → deg: <code>× 360</code></li>
+            <li>deg → grad: <code>× 10/9</code></li>
+            <li>grad → deg: <code>× 9/10</code></li>
+            <li>deg → mil: <code>÷ 0.05625</code> (approx)</li>
+            <li>mil → deg: <code>× 0.05625</code> (approx)</li>
+            <li>rad → mrad: <code>× 1000</code></li>
+            <li>mrad → rad: <code>÷ 1000</code></li>
+          </ul>
+        </div>
+      
+        {/* FAQ */}
+        <h2 id="ang-faq" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">❓ Frequently Asked Questions</h2>
+        <div className="space-y-4">
+          <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+            <h3 className="font-semibold text-amber-300">Why do math libraries use radians?</h3>
+            <p>Radians relate arc length to radius directly (s = r·θ), making derivatives of trig functions elegant and consistent (e.g., d/dx sin x = cos x only in radians).</p>
+          </div>
+          <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+            <h3 className="font-semibold text-amber-300">When should I use turns?</h3>
+            <p>Use turns for circular ratios and periodic motion. Fractions like 0.125 turn are visually clear, avoiding degree clutter for repeated rotations.</p>
+          </div>
+          <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+            <h3 className="font-semibold text-amber-300">Grads vs degrees — which is better?</h3>
+            <p>Neither is universally better. Grads simplify right angles (100 grad) in surveying systems; degrees are more familiar to general users and most UIs.</p>
+          </div>
+          <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+            <h3 className="font-semibold text-amber-300">How small is a milliradian in practice?</h3>
+            <p>At small angles, the tangent approximation holds: a span of 1 mrad at 1000 m is ~1 m; at 100 m it’s ~0.1 m. That’s why mrad is used in optics and ballistics.</p>
+          </div>
+          <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+            <h3 className="font-semibold text-amber-300">Are NATO mils exactly 1/6400 of a turn?</h3>
+            <p>Yes for NATO definition in this converter. Historical or alternative “mil” definitions exist, but NATO mil is standardized as 6400 per turn.</p>
+          </div>
+        </div>
+      
+        {/* Accessibility & Shortcuts */}
+        <h2 id="ang-access" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">♿ Accessibility &amp; Shortcuts</h2>
+        <ul className="list-disc list-inside">
+          <li><kbd>/</kbd> — focus Value</li>
+          <li><kbd>S</kbd> — focus From</li>
+          <li><kbd>T</kbd> — focus To</li>
+          <li><kbd>X</kbd> — swap units</li>
+        </ul>
+        <p className="text-xs text-slate-400 mt-2">
+          Form controls have visible focus and ARIA labels; helper text explains input behavior. Tooltips and alerts avoid surprise state changes.
+        </p>
+      
+        {/* Troubleshooting */}
+        <h2 id="ang-trouble" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">🧩 Troubleshooting &amp; Tips</h2>
+        <ul className="list-disc list-inside space-y-1">
+          <li>Seeing “—”? Check that the input is numeric and your units are valid.</li>
+          <li>Too many digits? Reduce decimals or pick Compact/Scientific.</li>
+          <li>Need reproducibility? Share the auto-encoded URL with teammates.</li>
+          <li>Expecting degrees but seeing radians? Confirm the <strong>To</strong> unit; many code libraries default to radians.</li>
+        </ul>
+      
+        {/* Glossary */}
+        <h2 id="ang-glossary" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">📚 Glossary</h2>
+        <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+          <div>
+            <dt className="font-semibold text-amber-300">Degree (°)</dt>
+            <dd>Human-friendly angle measure; 360° in a full circle.</dd>
+          </div>
+          <div>
+            <dt className="font-semibold text-amber-300">Radian (rad)</dt>
+            <dd>Mathematical angle measure; 2π in a full circle.</dd>
+          </div>
+          <div>
+            <dt className="font-semibold text-amber-300">Turn (rev)</dt>
+            <dd>One complete revolution; equals 360° or 2π rad.</dd>
+          </div>
+          <div>
+            <dt className="font-semibold text-amber-300">Gradian (gon)</dt>
+            <dd>Circle split into 400; right angle is 100 grad.</dd>
+          </div>
+          <div>
+            <dt className="font-semibold text-amber-300">Arcminute (′)</dt>
+            <dd>1/60 of a degree, used for fine subdivisions.</dd>
+          </div>
+          <div>
+            <dt className="font-semibold text-amber-300">Arcsecond (″)</dt>
+            <dd>1/3600 of a degree; common in astronomy and optics.</dd>
+          </div>
+          <div>
+            <dt className="font-semibold text-amber-300">Milliradian (mrad)</dt>
+            <dd>0.001 rad; convenient for small angles and range estimation.</dd>
+          </div>
+          <div>
+            <dt className="font-semibold text-amber-300">NATO mil</dt>
+            <dd>1/6400 of a turn; artillery and military sighting standard.</dd>
+          </div>
+        </dl>
+      
+        {/* Author / Timestamp */}
+        <section className="mt-12 border-t border-gray-700 pt-6">
+          <div className="flex items-center gap-3">
+            <img src="/images/calculatorhub-author.webp" alt="CalculatorHub Tools Team" className="w-12 h-12 rounded-full border border-gray-600" loading="lazy" />
+            <div>
+              <p className="font-semibold text-white">Author: CalculatorHub Tools Team</p>
+              <p className="text-sm text-slate-400">Last updated: <time dateTime="2025-11-10">November 10, 2025</time></p>
+            </div>
+          </div>
+        </section>
+      </section>
+
+
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/angle-converter" category="unit-converters" />
       </div>
