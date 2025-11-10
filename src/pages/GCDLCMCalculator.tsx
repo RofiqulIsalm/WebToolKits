@@ -509,12 +509,12 @@ const GcdLcmCalculator: React.FC = () => {
             <p className="font-semibold text-lg">Explore more math tools 🧮</p>
             <p className="text-sm text-indigo-100">Try Average, Factorial, or Quadratic Solver next!</p>
           </div>
-          <a
-            href="/category/math-tools"
+          <Link
+            to="/category/math-tools"
             className="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-md hover:bg-indigo-50 transition"
           >
             Browse Math Tools
-          </a>
+          </Link>
         </div>
 
         {/* Grid */}
@@ -752,42 +752,328 @@ const GcdLcmCalculator: React.FC = () => {
             </div>
           )}
         </div>
-
-        {/* Short SEO content */}
+        {/* ===================== SEO Content (~1800–2000 words) ===================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
-          <h1 className="text-3xl font-bold text-cyan-400 mb-6">
-            GCD & LCM Calculator – Euclid Steps & Multi-Input
+        
+          {/* ===== Table of Contents ===== */}
+          <nav className="mt-2 mb-10 bg-[#0b1220] border border-[#1f2a44] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-gray-100 mb-3">📖 Table of Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#what-are-gcd-lcm" className="text-indigo-300 hover:underline">What Are GCD & LCM?</a></li>
+              <li><a href="#features" className="text-indigo-300 hover:underline">Key Features of This Calculator</a></li>
+              <li><a href="#how-to-use" className="text-indigo-300 hover:underline">How to Use</a></li>
+              <li><a href="#methods" className="text-indigo-300 hover:underline">Methods & Math Under the Hood</a></li>
+              <li><a href="#euclid-steps" className="text-indigo-300 hover:underline">Euclidean Steps — Explained</a></li>
+              <li><a href="#worked-examples" className="text-indigo-300 hover:underline">Worked Examples</a></li>
+              <li><a href="#properties" className="text-indigo-300 hover:underline">Core Properties & Identities</a></li>
+              <li><a href="#edge-cases" className="text-indigo-300 hover:underline">Edge Cases & Conventions</a></li>
+              <li><a href="#use-cases" className="text-indigo-300 hover:underline">Where GCD/LCM Show Up in Real Life</a></li>
+              <li><a href="#quick-ref" className="text-indigo-300 hover:underline">Quick Reference Table</a></li>
+              <li><a href="#glossary" className="text-indigo-300 hover:underline">Glossary</a></li>
+              <li><a href="#faq" className="text-indigo-300 hover:underline">FAQ</a></li>
+            </ol>
+          </nav>
+        
+          {/* ===== Intro ===== */}
+          <h1 id="what-are-gcd-lcm" className="text-3xl font-bold text-indigo-300 mb-6">
+            GCD & LCM — the building blocks of divisibility and multiples
           </h1>
           <p>
-            Enter any list of integers to compute the <strong>GCD</strong> and <strong>LCM</strong>. The tool
-            shows the <em>Euclidean algorithm</em> for a chosen pair and the reduction chain across multiple
-            numbers. Signs are ignored for GCD, and LCM is always non-negative. Zeros are allowed; if any input is
-            zero, the LCM becomes zero.
+            The <strong>Greatest Common Divisor (GCD)</strong> of a set of integers is the largest integer that divides each of
+            them with no remainder. The <strong>Least Common Multiple (LCM)</strong> is the smallest positive integer that is a
+            multiple of each number in the set. Together they power many everyday tasks: simplifying fractions, synchronizing
+            repeating schedules, sizing batches in manufacturing, detecting shared factors in cryptography, and more.
           </p>
+          <p>
+            This page provides a fast, precise <strong>GCD & LCM Calculator</strong>. Paste your integers in any common format
+            (commas, spaces, semicolons, pipes, or new lines), and you’ll instantly get the combined <strong>GCD</strong> and
+            <strong> LCM</strong>. You can also reveal the <strong>Euclidean algorithm steps</strong> for any adjacent pair and
+            see the <strong>reduction chains</strong> that derive multi-number GCD and LCM left-to-right. Copy the results or
+            share a link that encodes your exact inputs and options.
+          </p>
+        
+          {/* ===== Features ===== */}
+          <h2 id="features" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            ✨ Key features of this GCD & LCM Calculator
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Paste-friendly input</strong>: integers separated by space/comma/semicolon/pipe/newline.</li>
+            <li><strong>Robust parsing</strong>: invalid tokens are ignored; non-integers are safely <em>truncated</em> to integers.</li>
+            <li><strong>Multi-number GCD/LCM</strong>: reduces pairwise left-to-right with clear chain summaries.</li>
+            <li><strong>Euclidean steps viewer</strong>: inspect <code>a = b·q + r</code> iterations for any adjacent pair.</li>
+            <li><strong>Edge-case handling</strong>: negatives, zeros, and the <em>gcd(0,0)</em> convention used by this tool.</li>
+            <li><strong>Copy & share</strong>: export a clean text summary or copy a URL containing your exact state.</li>
+          </ul>
+        
+          {/* ===== How to Use ===== */}
+          <h2 id="how-to-use" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">🧭 How to use this calculator</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Paste integers into the box — separators can be spaces, commas, semicolons, pipes, or new lines.</li>
+            <li>Optionally enable <strong>Euclidean steps</strong> and select a <em>pair index</em> to inspect the detailed divisions.</li>
+            <li>Read the <strong>GCD</strong> and <strong>LCM</strong> tiles, and review the <strong>reduction chains</strong> for context.</li>
+            <li>Click <strong>Copy Results</strong> to export text, or <strong>Copy Link</strong> to share your exact inputs/settings.</li>
+          </ol>
+          <p className="text-sm text-slate-400">
+            Tip: Signs don’t affect GCD — we use absolute values internally. LCM is always returned as a non-negative integer.
+          </p>
+        
+          {/* ===== Methods ===== */}
+          <h2 id="methods" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🔧 Methods & math under the hood
+          </h2>
+        
+          <h3 className="text-xl font-semibold text-indigo-300">1) Parsing & sanitization</h3>
+          <p>
+            We split on common delimiters (<code>space</code>, <code>,</code>, <code>;</code>, <code>|</code>, or newline), trim
+            whitespace, and keep tokens that parse to finite numbers. Non-integers are <strong>truncated</strong>
+            (e.g., 12.9 → 12), ensuring GCD/LCM receive integer inputs as number theory intends.
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">2) GCD via Euclidean algorithm</h3>
+          <p>
+            For two integers <em>a</em> and <em>b</em> (not both zero), the Euclidean algorithm repeats:
+          </p>
+          <pre className="bg-[#0f172a] border border-[#334155] rounded-lg p-3 overflow-x-auto text-sm">
+            a = b·q + r,  with  0 ≤ r &lt; |b|.  Then replace (a, b) ← (b, r) until r = 0.  The last non-zero b is gcd(a, b).
+          </pre>
+          <p>
+            This process is fast (logarithmic in the size of inputs) and numerically stable. Our viewer shows each division step,
+            letting you follow the algorithm line by line.
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">3) LCM via GCD</h3>
+          <p>
+            For two integers (not both zero), we use:
+          </p>
+          <pre className="bg-[#0f172a] border border-[#334155] rounded-lg p-3 overflow-x-auto text-sm">
+            lcm(a, b) = |a·b| / gcd(a, b),  with lcm(a, 0) = 0.
+          </pre>
+          <p>
+            We compute <code>|a/g|·|b|</code> (divide before multiply) to avoid intermediate overflow where possible.
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">4) Many numbers</h3>
+          <p>
+            We reduce pairwise left-to-right:
+          </p>
+          <pre className="bg-[#0f172a] border border-[#334155] rounded-lg p-3 overflow-x-auto text-sm">
+            gcd(a, b, c, …) = gcd(gcd(a, b), c, …)   and   lcm(a, b, c, …) = lcm(lcm(a, b), c, …).
+          </pre>
+          <p>
+            The app displays both <strong>GCD</strong> and <strong>LCM reduction chains</strong> as a readable audit trail.
+          </p>
+        
+          {/* ===== Euclid steps ===== */}
+          <h2 id="euclid-steps" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            📐 Euclidean steps — what the table means
+          </h2>
+          <p>
+            For an adjacent pair (say n[i], n[i+1]), the steps table shows each iteration of <code>a = b·q + r</code>. The
+            <strong>quotient</strong> <code>q = ⌊a/b⌋</code> and <strong>remainder</strong> <code>r</code> shrink the problem to
+            a smaller pair <code>(b, r)</code> until <code>r = 0</code>, revealing the GCD. Observing the quotients helps you
+            understand how quickly the algorithm converges and why certain pairs are “closer” than others in terms of divisibility.
+          </p>
+        
+          {/* ===== Worked Examples ===== */}
+          <h2 id="worked-examples" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🧪 Worked examples (rounded for readability)
+          </h2>
+          <ul className="space-y-2">
+            <li>
+              <strong>24, 60, 36</strong> → <em>gcd</em> = 12; <em>lcm</em> = 360. GCD chain: gcd(24, 60) = 12, gcd(12, 36) = 12.
+              LCM chain: lcm(24, 60) = 120, lcm(120, 36) = 360.
+            </li>
+            <li>
+              <strong>48, 180, 300, 600</strong> → <em>gcd</em> = 12; <em>lcm</em> = 1,800. Pairwise reduction keeps numbers manageable.
+            </li>
+            <li>
+              <strong>14, 21, 35, 56</strong> → <em>gcd</em> = 7; <em>lcm</em> = 840. The many shared 7s make the GCD large.
+            </li>
+            <li>
+              <strong>−18, 0, 54</strong> → signs don’t matter for GCD, and any zero forces <em>lcm</em> = 0.
+              Here <em>gcd</em> = 18; <em>lcm</em> = 0.
+            </li>
+          </ul>
+        
+          {/* ===== Properties ===== */}
+          <h2 id="properties" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            📏 Core properties & identities you can use
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Commutative</strong>: gcd(a, b) = gcd(b, a); lcm(a, b) = lcm(b, a).</li>
+            <li><strong>Associative</strong>: gcd(gcd(a, b), c) = gcd(a, b, c); similarly for lcm.</li>
+            <li><strong>Idempotent</strong>: gcd(a, a) = |a|; lcm(a, a) = |a|.</li>
+            <li><strong>Absorption</strong>: gcd(a, lcm(a, b)) = |a|; lcm(a, gcd(a, b)) = |a|.</li>
+            <li><strong>Product identity (two numbers)</strong>: |a·b| = gcd(a, b) · lcm(a, b) (with a,b ≠ 0).</li>
+            <li><strong>Scaling</strong>: gcd(ka, kb) = |k|·gcd(a, b); lcm(ka, kb) = |k|·lcm(a, b).</li>
+            <li><strong>Zero</strong>: gcd(a, 0) = |a|; lcm(a, 0) = 0.</li>
+          </ul>
+          <p className="text-sm text-slate-400">
+            Note: The product identity generalizes carefully for more than two numbers; pairwise reduction is the safer route in practice.
+          </p>
+        
+          {/* ===== Edge cases ===== */}
+          <h2 id="edge-cases" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🧩 Edge cases & conventions in this tool
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Signs</strong>: we take absolute values for GCD; LCM is returned non-negative.</li>
+            <li><strong>Zeros</strong>: gcd(a, 0) = |a|; if any input is zero, lcm(…, 0, …) = 0.</li>
+            <li><strong>All zeros</strong>: by this tool’s convention, gcd(0, 0) = 0.</li>
+            <li><strong>Non-integers</strong>: tokens like 5.9 are truncated to 5 to keep number-theory definitions intact.</li>
+          </ul>
+        
+          {/* ===== Use cases ===== */}
+          <h2 id="use-cases" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🧰 Where GCD/LCM show up in real life
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Fractions & ratios</strong>: reduce fractions via GCD; find common denominators via LCM.</li>
+            <li><strong>Scheduling</strong>: events with different cycles repeat together every LCM units.</li>
+            <li><strong>Manufacturing</strong>: align batch sizes and packaging using LCM to minimize leftovers.</li>
+            <li><strong>Coding & algorithms</strong>: interval merging, clock arithmetic, grid tiling.</li>
+            <li><strong>Security</strong>: prime factors and GCD checks appear in cryptographic routines (e.g., key validation).</li>
+          </ul>
+        
+          {/* ===== Quick Reference Table ===== */}
+          <h2 id="quick-ref" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🗂️ Quick reference
+          </h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="text-slate-300">
+                  <th className="py-2 pr-4">Concept</th>
+                  <th className="py-2 pr-4">Formula</th>
+                  <th className="py-2">Notes</th>
+                </tr>
+              </thead>
+              <tbody className="text-slate-200">
+                <tr>
+                  <td className="py-2 pr-4">GCD (a, b)</td>
+                  <td className="py-2 pr-4">Last non-zero remainder via Euclid</td>
+                  <td className="py-2">Fast; ignores signs</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">LCM (a, b)</td>
+                  <td className="py-2 pr-4">|a·b| / gcd(a, b)</td>
+                  <td className="py-2">Return 0 if any input is 0</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">Many numbers</td>
+                  <td className="py-2 pr-4">Reduce left-to-right</td>
+                  <td className="py-2">Associativity helps</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">Product identity</td>
+                  <td className="py-2 pr-4">|a·b| = gcd(a, b)·lcm(a, b)</td>
+                  <td className="py-2">For two numbers (non-zero)</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">Zero rules</td>
+                  <td className="py-2 pr-4">gcd(a,0)=|a|; lcm(a,0)=0</td>
+                  <td className="py-2">Tool uses gcd(0,0)=0</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        
+          {/* ===== Glossary ===== */}
+          <h2 id="glossary" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">📚 Glossary</h2>
+          <p className="space-y-2">
+            <strong>GCD</strong>: the largest integer dividing all numbers in a set without remainder. <br/>
+            <strong>LCM</strong>: the smallest positive integer that all numbers in a set divide into. <br/>
+            <strong>Euclidean algorithm</strong>: iterative division producing the GCD as the last non-zero remainder. <br/>
+            <strong>Quotient (q)</strong>: ⌊a/b⌋, the integer part of a division. <br/>
+            <strong>Remainder (r)</strong>: the leftover after division: a = b·q + r, 0 ≤ r &lt; |b|.
+          </p>
+        
+          {/* ===== FAQ ===== */}
+          <section className="space-y-6 mt-16">
+            <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-indigo-200">
+              ❓ Frequently Asked Questions (FAQ)
+            </h2>
+        
+            <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q1: How should I enter numbers?</h3>
+                <p>
+                  Use spaces, commas, semicolons, pipes, or new lines. The tool ignores invalid tokens and truncates non-integers
+                  to the nearest integer toward zero.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q2: Do signs matter?</h3>
+                <p>
+                  Not for GCD. We use absolute values internally. LCM is returned as a non-negative integer by convention.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q3: What about zeros?</h3>
+                <p>
+                  gcd(a, 0) = |a|. If any input is zero, lcm becomes 0. When all inputs are zero, this tool defines gcd(0, 0) = 0.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q4: Why left-to-right reduction for many numbers?</h3>
+                <p>
+                  Associativity allows pairwise reduction. It’s efficient, memory-light, and yields readable “chain” explanations
+                  for both GCD and LCM.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q5: Can I recover prime factors from the steps?</h3>
+                <p>
+                  Not directly. The Euclidean steps show divisions, not prime factorizations. For factorization, use a dedicated tool.
+                </p>
+              </div>
+        
+            </div>
+          </section>
         </section>
-
-        {/* Footer links */}
+        
+        {/* ========= Cross-links ========= */}
         <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/calculatorhub-author.webp"
+              alt="CalculatorHub Tools Team"
+              className="w-12 h-12 rounded-full border border-gray-600"
+              loading="lazy"
+            />
+            <div>
+              <p className="font-semibold text-white">Author: CalculatorHub Tools Team</p>
+              <p className="text-sm text-slate-400">
+                Specialists in math utilities & UX. Last updated: <time dateTime="2025-11-10">November 10, 2025</time>.
+              </p>
+            </div>
+          </div>
+        
           <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
             <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
               🚀 Explore more tools on CalculatorHub:
             </p>
             <div className="flex flex-wrap gap-3 text-sm">
               <Link
-                to="/average-calculator"
-                className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
+                href="/average-calculator"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-200 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
               >
                 📊 Average Calculator
               </Link>
               <Link
-                to="/quadratic-equation-solver"
-                className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
+                href="/quadratic-equation-solver"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-200 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
               >
                 𝑎x²+𝑏x+𝑐 Quadratic Solver
               </Link>
               <Link
-                to="/factorial-calculator"
-                className="flex items-center gap-2 bg-[#0f172a] hover:bg-pink-600/20 text-pink-300 hover:text-pink-400 px-3 py-2 rounded-md border border-slate-700 hover:border-pink-500 transition-all duration-200"
+                href="/factorial-calculator"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-pink-600/20 text-pink-300 hover:text-pink-200 px-3 py-2 rounded-md border border-slate-700 hover:border-pink-500 transition-all duration-200"
               >
                 n! Factorial
               </Link>
