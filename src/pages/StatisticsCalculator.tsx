@@ -1250,24 +1250,24 @@ const StatisticsCalculator: React.FC = () => {
               🚀 Explore more tools on CalculatorHub:
             </p>
             <div className="flex flex-wrap gap-3 text-sm">
-              <a
-                href="/average-calculator"
+              <Link
+                to="/average-calculator"
                 className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-200 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
               >
                 📊 Average Calculator
-              </a>
-              <a
-                href="/prime-number-checker"
+              </Link>
+              <Link
+                to="/prime-number-checker"
                 className="flex items-center gap-2 bg-[#0f172a] hover:bg-pink-600/20 text-pink-300 hover:text-pink-200 px-3 py-2 rounded-md border border-slate-700 hover:border-pink-500 transition-all duration-200"
               >
                 🔍 Prime Checker
-              </a>
-              <a
-                href="/factorial-calculator"
+              </Link>
+              <Link
+                to="/factorial-calculator"
                 className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-200 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
               >
                 n! Factorial
-              </a>
+              </Link>
             </div>
           </div>
         </section>
