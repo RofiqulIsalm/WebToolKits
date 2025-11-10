@@ -839,7 +839,7 @@ export default function VolumeConverter() {
                 className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
               >
                 <span className="text-emerald-400">🧩</span> Area Converter
-              </a>
+              </Link>
               <Link
                 to="/length-converter"
                 className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
