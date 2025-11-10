@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Link } from "react-router-dom";
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -958,24 +959,24 @@ export default function AccelerationConverter() {
               Continue your workflow with these related converters on CalculatorHub:
             </p>
             <div className="flex flex-wrap gap-3 text-sm">
-              <a
-                href="/force-converter"
+              <Link
+                to="/force-converter"
                 className="flex items-center gap-2 bg-[#0f172a] hover:bg-cyan-600/20 text-cyan-300 hover:text-cyan-200 px-3 py-2 rounded-md border border-slate-700 hover:border-cyan-500 transition-all duration-200"
               >
                 🧲 Force Converter
-              </a>
-              <a
-                href="/power-converter"
+              </Link>
+              <Link
+                to="/power-converter"
                 className="flex items-center gap-2 bg-[#0f172a] hover:bg-amber-600/20 text-amber-300 hover:text-amber-200 px-3 py-2 rounded-md border border-slate-700 hover:border-amber-500 transition-all duration-200"
               >
                 ⚡ Power Converter
-              </a>
-              <a
-                href="/density-converter"
+              </Link>
+              <Link
+                to="/density-converter"
                 className="flex items-center gap-2 bg-[#0f172a] hover:bg-blue-600/20 text-blue-300 hover:text-blue-200 px-3 py-2 rounded-md border border-slate-700 hover:border-blue-500 transition-all duration-200"
               >
                 🧊 Density Converter
-              </a>
+              </Link>
             </div>
           </div>
         
