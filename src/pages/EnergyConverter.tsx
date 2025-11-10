@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Link } from "react-router-dom";
 // Project components
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
@@ -942,24 +943,24 @@ export default function EnergyConverter() {
               🚀 Explore more tools on CalculatorHub:
             </p>
             <div className="flex flex-wrap gap-3 text-sm">
-              <a
-                href="/pressure-converter"
+              <Link
+                to="/pressure-converter"
                 className="flex items-center gap-2 bg-[#0f172a] hover:bg-amber-600/20 text-amber-300 hover:text-amber-200 px-3 py-2 rounded-md border border-slate-700 hover:border-amber-500 transition-all duration-200"
               >
                 <span className="text-amber-300">🟧</span> Pressure Converter
-              </a>
-              <a
-                href="/area-converter"
+              </Link>
+              <Link
+                to="/area-converter"
                 className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-200 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
               >
                 <span className="text-emerald-300">🟩</span> Area Converter
-              </a>
-              <a
-                href="/temperature-converter"
+              </Link>
+              <Link
+                to="/temperature-converter"
                 className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-200 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
               >
                 <span className="text-sky-300">🌡️</span> Temperature Converter
-              </a>
+              </Link>
             </div>
           </div>
         </section>
