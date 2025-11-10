@@ -687,6 +687,318 @@ export default function AccelerationConverter() {
           </div>
         </div>
 
+        {/* ============= SEO Content: Acceleration Converter (EN) ============== */}
+        <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+          <header className="mb-10">
+            <h1 className="text-3xl font-bold text-violet-300">Acceleration Converter — m/s², g, Gal (cm/s²), ft/s², in/s², km/h/s, km/h², mph/s, knot/s</h1>
+            <p className="mt-3">
+              This Acceleration Converter is built for engineers, students, researchers, and data analysts who need
+              fast and precise unit transformations across SI, US/Imperial, and mixed “speed-per-time” forms. Convert
+              between <strong>m/s²</strong>, <strong>g</strong> (standard gravity), <strong>Gal</strong> (cm/s²),
+              <strong>ft/s²</strong>, <strong>in/s²</strong>, <strong>km/h/s</strong>, <strong>km/h²</strong>,
+              <strong>mph/s</strong>, and <strong>knot/s</strong> with confidence. Tweak decimal places, choose
+              Normal/Compact/Scientific number formats, mark favorites, revisit recent conversions, and export the full
+              result grid with a single click. Shareable URLs preserve every setting you choose.
+            </p>
+          </header>
+        
+          {/* Table of Contents */}
+          <nav className="mt-2 mb-10 bg-[#150b27] border border-[#2a1d4d] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-gray-100 mb-3">📖 Table of Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#accel-how" className="text-violet-300 hover:underline">How to Use</a></li>
+              <li><a href="#accel-units" className="text-violet-300 hover:underline">Supported Units & Core Factors</a></li>
+              <li><a href="#accel-physics" className="text-violet-300 hover:underline">Physics Background (What Acceleration Means)</a></li>
+              <li><a href="#accel-gal" className="text-violet-300 hover:underline">About Gal (cm/s²) and Geophysics Use</a></li>
+              <li><a href="#accel-examples" className="text-violet-300 hover:underline">Worked Examples</a></li>
+              <li><a href="#accel-engineering" className="text-violet-300 hover:underline">Engineering & Real-World Applications</a></li>
+              <li><a href="#accel-precision" className="text-violet-300 hover:underline">Precision, Number Formats & Edge Cases</a></li>
+              <li><a href="#accel-quickref" className="text-violet-300 hover:underline">Quick Reference (Key Factors)</a></li>
+              <li><a href="#accel-faq" className="text-violet-300 hover:underline">FAQ</a></li>
+              <li><a href="#accel-accessibility" className="text-violet-300 hover:underline">Accessibility & Keyboard Shortcuts</a></li>
+              <li><a href="#accel-troubleshoot" className="text-violet-300 hover:underline">Troubleshooting & Tips</a></li>
+              <li><a href="#accel-more" className="text-violet-300 hover:underline">More Tools & Cross-Links</a></li>
+            </ol>
+          </nav>
+        
+          {/* How to Use */}
+          <h2 id="accel-how" className="text-2xl font-semibold text-violet-200 mt-10 mb-4">💡 How to Use</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Enter the numeric value under <strong>Value</strong>. Empty values count as <code>0</code>. The input supports commas like <code>1,234.56</code>.</li>
+            <li>Pick your <strong>From</strong> unit and <strong>To</strong> unit. You can pin common units to the top via the <strong>Fav</strong> button.</li>
+            <li>Use <strong>More options</strong> to set the number of decimals (0–12) and the output format (Normal, Compact, or Scientific).</li>
+            <li>Export with <strong>Copy All</strong> (clipboard) or save a <strong>CSV</strong> file of the entire result grid.</li>
+            <li>The tool stores your last 10 conversions locally so you can jump back to recent inputs with one click.</li>
+          </ol>
+          <p className="text-xs text-slate-400">Tip: The URL updates as you type. Bookmark or share it to reproduce the exact same state (value, units, format, and precision).</p>
+        
+          {/* Units & Factors */}
+          <h2 id="accel-units" className="text-2xl font-semibold text-violet-200 mt-10 mb-4">🌐 Supported Units & Core Factors</h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+            <p className="mb-3">
+              Internally, conversions are normalized to <strong>m/s²</strong>. Each unit is defined by a factor to m/s²:
+            </p>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <li><strong>m/s²</strong> — base SI acceleration (factor: <code>1</code>).</li>
+              <li><strong>g</strong> — standard gravity (factor: <code>9.80665 m/s²</code>).</li>
+              <li><strong>Gal (cm/s²)</strong> — 1 Gal = <code>0.01 m/s²</code>.</li>
+              <li><strong>ft/s²</strong> — 1 ft/s² = <code>0.3048 m/s²</code>.</li>
+              <li><strong>in/s²</strong> — 1 in/s² = <code>0.0254 m/s²</code>.</li>
+              <li><strong>km/h/s</strong> — 1 km/h/s = <code>1000/3600 ≈ 0.2777777778 m/s²</code>.</li>
+              <li><strong>km/h²</strong> — 1 km/h² = <code>1000 / (3600²) ≈ 0.0000771604938 m/s²</code>.</li>
+              <li><strong>mph/s</strong> — 1 mph/s = <code>0.44704 m/s²</code>.</li>
+              <li><strong>knot/s</strong> — 1 knot/s ≈ <code>0.5144444444 m/s²</code>.</li>
+            </ul>
+            <p className="mt-3 text-slate-400 text-xs leading-relaxed">
+              Note: These factors are constants for unit conversion only. Real-world acceleration values will depend on context (vehicle dynamics, vibration, gravity field, etc.).
+            </p>
+          </div>
+        
+          {/* Physics Background */}
+          <h2 id="accel-physics" className="text-2xl font-semibold text-violet-200 mt-10 mb-4">📐 Physics Background (What Acceleration Means)</h2>
+          <p>
+            Acceleration is the rate of change of velocity with respect to time. In calculus terms, it’s the derivative of
+            velocity and the second derivative of displacement: <code>a = dv/dt = d²x/dt²</code>. In everyday engineering,
+            you often estimate it from finite differences: <code>a ≈ Δv/Δt</code>. Because velocity carries both magnitude
+            and direction, acceleration is a vector as well. Positive and negative signs matter, as do axes when you move beyond 1-D.
+          </p>
+          <p className="mt-2">
+            Standard kinematics under constant acceleration uses well-known relations:
+          </p>
+          <ul className="list-disc list-inside space-y-1">
+            <li><code>v = v₀ + a t</code></li>
+            <li><code>x = x₀ + v₀ t + (1/2) a t²</code></li>
+            <li><code>v² = v₀² + 2 a (x − x₀)</code></li>
+          </ul>
+          <p className="mt-2">
+            In dynamics, Newton’s Second Law ties net force and acceleration via mass: <code>∑F = m a</code>.
+            That relationship is why you see acceleration limits in structural design (to bound inertial loads),
+            machine guarding (to reduce jerk), and human-centric standards (for comfort and safety).
+          </p>
+        
+          {/* Gal and geophysics */}
+          <h2 id="accel-gal" className="text-2xl font-semibold text-violet-200 mt-10 mb-4">🌎 About Gal (cm/s²) and Geophysics Use</h2>
+          <p>
+            The <strong>Gal</strong> (named after Galileo) is used extensively in geophysics and gravimetry to quantify small
+            variations in the local gravitational field. Since <code>1 Gal = 0.01 m/s²</code>, microGal and milliGal scales
+            are convenient for measuring subtle anomalies caused by density contrasts underground (e.g., ore bodies, voids,
+            groundwater). If you work with seismometers or gravity surveys, converting between Gal and m/s² keeps your
+            datasets consistent with mainstream engineering calculations.
+          </p>
+        
+          {/* Worked Examples */}
+          <h2 id="accel-examples" className="text-2xl font-semibold text-violet-200 mt-10 mb-4">📈 Worked Examples (rounded)</h2>
+          <ul className="space-y-2">
+            <li>
+              <strong>Convert 3 m/s² to g:</strong> Divide by standard gravity, 9.80665. So 3 / 9.80665 ≈ <strong>0.305 g</strong>.
+            </li>
+            <li>
+              <strong>Convert 0.5 g to m/s²:</strong> Multiply by 9.80665. So 0.5 × 9.80665 ≈ <strong>4.9033 m/s²</strong>.
+            </li>
+            <li>
+              <strong>Convert 250 cm/s² to m/s²:</strong> Multiply by 0.01. So 250 × 0.01 = <strong>2.5 m/s²</strong>.
+            </li>
+            <li>
+              <strong>Convert 1 mph/s to m/s²:</strong> Use 0.44704. So 1 × 0.44704 = <strong>0.44704 m/s²</strong>.
+            </li>
+            <li>
+              <strong>Convert 5 km/h/s to m/s²:</strong> Multiply by 1000/3600 ≈ 0.2777777778. So 5 × 0.2777777778 ≈ <strong>1.3889 m/s²</strong>.
+            </li>
+            <li>
+              <strong>Convert 1 km/h² to m/s²:</strong> Multiply by 1000/(3600²) ≈ 0.0000771604938. So ≈ <strong>7.716×10⁻⁵ m/s²</strong>.
+            </li>
+            <li>
+              <strong>Convert 0.7 knot/s to m/s²:</strong> 0.7 × 0.5144444444 ≈ <strong>0.3601 m/s²</strong>.
+            </li>
+            <li>
+              <strong>Convert 32.174 ft/s² to g:</strong> First to m/s²: 32.174 × 0.3048 ≈ 9.80665 m/s²; divide by 9.80665 → <strong>1 g</strong> (by design).
+            </li>
+          </ul>
+        
+          {/* Engineering & Real-World Applications */}
+          <h2 id="accel-engineering" className="text-2xl font-semibold text-violet-200 mt-10 mb-4">🛠️ Engineering & Real-World Applications</h2>
+          <h3 className="text-lg font-semibold text-gray-100 mt-4">Automotive & Transportation</h3>
+          <p>
+            Vehicle dynamics teams use <strong>m/s²</strong> and <strong>g</strong> to characterize acceleration, braking,
+            and lateral grip. <em>Launch control</em> tuning, <em>ABS/ESC</em> calibration, and <em>ride comfort</em> analyses
+            often exchange data in mixed units (e.g., mph/s in legacy test plans). This converter lets you unify those
+            measurements for simulation models and reports.
+          </p>
+          <h3 className="text-lg font-semibold text-gray-100 mt-4">Aerospace & Aviation</h3>
+          <p>
+            Flight loads, maneuver envelopes, and certification tests quote both <strong>g</strong> and <strong>m/s²</strong>.
+            Avionics teams might receive acceleration data in <strong>knot/s</strong> when analyzing speed changes during takeoff,
+            approach, or go-around. Having a reliable cross-unit map helps align telemetry, simulation outputs, and requirements.
+          </p>
+          <h3 className="text-lg font-semibold text-gray-100 mt-4">Civil & Structural Engineering</h3>
+          <p>
+            Structural designs must tolerate seismic and wind-induced accelerations. Peak ground acceleration (PGA) is
+            often reported in fractions of <strong>g</strong> or in <strong>cm/s²</strong> (Gal). Converting to
+            <strong>m/s²</strong> simplifies force calculations via <code>F = m a</code> for equipment anchorage and
+            nonstructural components.
+          </p>
+          <h3 className="text-lg font-semibold text-gray-100 mt-4">Manufacturing, Robotics & Mechatronics</h3>
+          <p>
+            High-speed automation balances cycle time and mechanical stress. Excessive acceleration increases jerk,
+            reduces tool life, and magnifies vibration. Engineers frequently toggle between <strong>in/s²</strong> for
+            legacy machines and <strong>m/s²</strong> in modern motion controllers; this converter removes guesswork.
+          </p>
+          <h3 className="text-lg font-semibold text-gray-100 mt-4">Biomechanics & Human Factors</h3>
+          <p>
+            Wearables and sports science report impacts and motion in <strong>g</strong>. Converting back to
+            <strong>m/s²</strong> offers a direct path into physics-based models (e.g., inverse dynamics), while
+            keeping data readable for clinicians and coaches accustomed to g-levels.
+          </p>
+        
+          {/* Precision, formats & edge cases */}
+          <h2 id="accel-precision" className="text-2xl font-semibold text-violet-200 mt-10 mb-4">🎯 Precision, Number Formats & Edge Cases</h2>
+          <p>
+            The converter lets you set decimals from <strong>0</strong> to <strong>12</strong>. Choose a level that matches the
+            quality and use of your data. For example, seismology and gravimetry often need small increments, so 6–8 decimals
+            might be reasonable. For field tests with sensor noise, fewer decimals can prevent false precision.
+          </p>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Normal</strong> format shows standard numbers with your chosen decimals.</li>
+            <li><strong>Compact</strong> uses <em>1.2K</em>, <em>3.4M</em>, etc., useful for dashboards.</li>
+            <li><strong>Scientific</strong> displays <em>mantissa × 10^exponent</em>; ideal for very large or tiny values.</li>
+          </ul>
+          <p className="mt-2">
+            For stability, the tool strips trailing zeros (except when Scientific is used) and handles extremely small/large
+            values gracefully with scientific notation. Empty input is treated as <code>0</code> for convenience. If you prefer
+            blanks to remain blank, set the value explicitly to <code>0</code> or provide a placeholder in your UI.
+          </p>
+        
+          {/* Quick Reference */}
+          <h2 id="accel-quickref" className="text-2xl font-semibold text-violet-200 mt-10 mb-4">🗂️ Quick Reference (Key Factors)</h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <li>1 g = <strong>9.80665 m/s²</strong></li>
+              <li>1 Gal (cm/s²) = <strong>0.01 m/s²</strong></li>
+              <li>1 ft/s² = <strong>0.3048 m/s²</strong></li>
+              <li>1 in/s² = <strong>0.0254 m/s²</strong></li>
+              <li>1 km/h/s = <strong>0.2777777778 m/s²</strong></li>
+              <li>1 km/h² ≈ <strong>7.71604938×10⁻⁵ m/s²</strong></li>
+              <li>1 mph/s = <strong>0.44704 m/s²</strong></li>
+              <li>1 knot/s ≈ <strong>0.5144444444 m/s²</strong></li>
+            </ul>
+          </div>
+        
+          {/* FAQ */}
+          <h2 id="accel-faq" className="text-2xl font-semibold text-violet-200 mt-10 mb-4">❓ Frequently Asked Questions</h2>
+          <div className="space-y-4">
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-violet-300">Is “g” a unit of acceleration or gravity?</h3>
+              <p>
+                In this converter, <strong>g</strong> means <em>standard gravity</em>, a fixed reference acceleration:
+                <code>g₀ = 9.80665 m/s²</code>. Real gravitational acceleration varies slightly by location and altitude,
+                but for unit conversions, g is treated as a constant factor.
+              </p>
+            </div>
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-violet-300">What’s the difference between km/h/s and km/h²?</h3>
+              <p>
+                Both represent acceleration, but <strong>km/h/s</strong> shows change in km/h per second (common in driving
+                contexts), while <strong>km/h²</strong> expresses change in km/h per hour. They differ by a factor of 3600 in
+                the time base, hence the very small conversion to m/s² for km/h².
+              </p>
+            </div>
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-violet-300">Why would I ever use Gal instead of m/s²?</h3>
+              <p>
+                Gal is convenient for geophysical scales and for expressing small differences in gravity. In that domain,
+                milliGal (mGal) and microGal (μGal) are natural and easier to read than very small decimal fractions of m/s².
+              </p>
+            </div>
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-violet-300">How many decimals should I use?</h3>
+              <p>
+                Match the precision of your source data and the sensitivity of your conclusions. For high-fidelity sensors,
+                4–6 decimals may be appropriate. For approximate calculations or noisy data, use fewer decimals to avoid false precision.
+              </p>
+            </div>
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-violet-300">Does the converter account for changing gravity by latitude?</h3>
+              <p>
+                No. For unit conversion, <strong>g</strong> is a constant reference. If your application depends on local gravity
+                variations, convert units here and adjust your models separately with location-specific values.
+              </p>
+            </div>
+          </div>
+        
+          {/* Accessibility & Shortcuts */}
+          <h2 id="accel-accessibility" className="text-2xl font-semibold text-violet-200 mt-10 mb-4">♿ Accessibility & Keyboard Shortcuts</h2>
+          <p>
+            The live result region uses polite updates so screen readers are not overwhelmed. Labels and focus outlines are clear.
+            Keyboard users can jump quickly with:
+          </p>
+          <ul className="list-disc list-inside">
+            <li><kbd>/</kbd> — focus the Value field</li>
+            <li><kbd>S</kbd> — focus the From selector</li>
+            <li><kbd>T</kbd> — focus the To selector</li>
+            <li><kbd>X</kbd> — swap From/To units</li>
+          </ul>
+          <p className="text-xs text-slate-400">
+            Suggestion: if you embed this module in a larger page, ensure the surrounding landmarks (main, nav, footer) are properly defined to keep navigation predictable.
+          </p>
+        
+          {/* Troubleshooting */}
+          <h2 id="accel-troubleshoot" className="text-2xl font-semibold text-violet-200 mt-10 mb-4">🧩 Troubleshooting & Tips</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Unexpected “—” output?</strong> That symbol indicates a non-finite result (e.g., NaN). Check that your input is a valid number.</li>
+            <li><strong>Too many digits?</strong> Reduce decimals, or switch to <em>Compact</em> or <em>Scientific</em> to keep values readable.</li>
+            <li><strong>Need to share exact state?</strong> Copy the page URL; it encodes value, units, format, and precision.</li>
+            <li><strong>Copy vs CSV?</strong> Use <em>Copy All</em> for quick pasting into chat or docs; use <em>CSV</em> for spreadsheets.</li>
+            <li><strong>Rounding differences?</strong> Display rounding does not change the underlying calculation order; if absolute rounding is critical, export CSV and round in your analysis tool.</li>
+          </ul>
+        
+          {/* Cross-Links & Author */}
+          <h2 id="accel-more" className="text-2xl font-semibold text-violet-200 mt-10 mb-4">🚀 Explore More Tools</h2>
+          <div className="mt-2 bg-gradient-to-r from-violet-900/30 via-indigo-900/30 to-fuchsia-900/30 rounded-lg border border-slate-700 shadow-inner p-4">
+            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
+              Continue your workflow with these related converters on CalculatorHub:
+            </p>
+            <div className="flex flex-wrap gap-3 text-sm">
+              <a
+                href="/force-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-cyan-600/20 text-cyan-300 hover:text-cyan-200 px-3 py-2 rounded-md border border-slate-700 hover:border-cyan-500 transition-all duration-200"
+              >
+                🧲 Force Converter
+              </a>
+              <a
+                href="/power-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-amber-600/20 text-amber-300 hover:text-amber-200 px-3 py-2 rounded-md border border-slate-700 hover:border-amber-500 transition-all duration-200"
+              >
+                ⚡ Power Converter
+              </a>
+              <a
+                href="/density-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-blue-600/20 text-blue-300 hover:text-blue-200 px-3 py-2 rounded-md border border-slate-700 hover:border-blue-500 transition-all duration-200"
+              >
+                🧊 Density Converter
+              </a>
+            </div>
+          </div>
+        
+          <section className="mt-12 border-t border-gray-700 pt-6">
+            <div className="flex items-center gap-3">
+              <img
+                src="/images/calculatorhub-author.webp"
+                alt="CalculatorHub Tools Team"
+                className="w-12 h-12 rounded-full border border-gray-600"
+                loading="lazy"
+              />
+              <div>
+                <p className="font-semibold text-white">Author: CalculatorHub Tools Team</p>
+                <p className="text-sm text-slate-400">
+                  Specialists in scientific & engineering converters. Last updated:
+                  <time dateTime="2025-11-09"> November 9, 2025</time>.
+                </p>
+              </div>
+            </div>
+          </section>
+        </section>
+
+
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/acceleration-converter" category="unit-converters" />
       </div>
