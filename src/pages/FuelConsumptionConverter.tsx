@@ -714,6 +714,309 @@ export default function FuelConsumptionConverter() {
             })}
           </div>
         </div>
+        {/* ============ SEO Content: Fuel Consumption Converter (English Only) =======*/}
+        <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+        
+          <header className="mb-10">
+            <h1 className="text-3xl font-bold text-emerald-300">Fuel Consumption Converter — Practical Guide & Engineer Notes</h1>
+            <p className="mt-3">
+              This Fuel Consumption Converter helps drivers, fleet managers, data analysts, and automotive engineers switch effortlessly
+              between <strong>L/100&nbsp;km</strong>, <strong>L/km</strong>, <strong>mL/km</strong>, <strong>mpg (US)</strong>, <strong>mpg (Imperial)</strong>,
+              <strong>km/L</strong>, <strong>mi/L</strong>, and <strong>km/gal (US/Imp)</strong>. It also supports consumption
+              expressed as <strong>gal/100&nbsp;mi</strong> for US and Imperial gallons. You can set decimals (0–12), pick Normal/Compact/Scientific
+              display formats, pin favorite units, revisit your last ten conversions, and export the entire grid using Copy or CSV.
+              Shareable URLs preserve the exact state (value, units, format, precision) so your collaborators open the same configuration instantly.
+            </p>
+          </header>
+        
+          {/* Contents */}
+          <nav className="mt-2 mb-10 bg-[#06201a] border border-[#0f362f] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-gray-100 mb-3">📖 Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#fc-how" className="text-emerald-300 hover:underline">How to Use</a></li>
+              <li><a href="#fc-basics" className="text-emerald-300 hover:underline">Basics: Consumption vs Economy</a></li>
+              <li><a href="#fc-units" className="text-emerald-300 hover:underline">Units, Constants &amp; Conventions</a></li>
+              <li><a href="#fc-formulas" className="text-emerald-300 hover:underline">Core Formulas (with Derivations)</a></li>
+              <li><a href="#fc-examples" className="text-emerald-300 hover:underline">Worked Examples</a></li>
+              <li><a href="#fc-usecases" className="text-emerald-300 hover:underline">Real-World Applications</a></li>
+              <li><a href="#fc-accuracy" className="text-emerald-300 hover:underline">Accuracy, Rounding &amp; Data Quality</a></li>
+              <li><a href="#fc-driving" className="text-emerald-300 hover:underline">What Affects Fuel Use?</a></li>
+              <li><a href="#fc-emissions" className="text-emerald-300 hover:underline">Optional: Quick CO₂ Estimations</a></li>
+              <li><a href="#fc-quickref" className="text-emerald-300 hover:underline">Quick Reference Table</a></li>
+              <li><a href="#fc-faq" className="text-emerald-300 hover:underline">FAQ</a></li>
+              <li><a href="#fc-access" className="text-emerald-300 hover:underline">Accessibility &amp; Shortcuts</a></li>
+              <li><a href="#fc-troubleshoot" className="text-emerald-300 hover:underline">Troubleshooting &amp; Tips</a></li>
+              <li><a href="#fc-glossary" className="text-emerald-300 hover:underline">Glossary</a></li>
+            </ol>
+          </nav>
+        
+          {/* How to Use */}
+          <h2 id="fc-how" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">💡 How to Use</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Type a number in the <strong>Value</strong> field. Empty input counts as 0. Commas such as <code>1,234.56</code> are okay.</li>
+            <li>Choose your <strong>From</strong> and <strong>To</strong> units. Pin frequent units with the <strong>Fav</strong> button.</li>
+            <li>Open <strong>More options</strong> to adjust decimals (0–12) and pick a display format: Normal, Compact, or Scientific.</li>
+            <li>Use <strong>Copy All</strong> or <strong>CSV</strong> to export the entire results grid for spreadsheets, emails, or reports.</li>
+            <li>Use <strong>Recent</strong> to restore any of your last ten conversions—including value and units—instantly.</li>
+          </ol>
+          <p className="text-xs text-slate-400">Pro tip: The URL auto-encodes your state. Bookmark or share it to re-open the same configuration later.</p>
+        
+          {/* Basics */}
+          <h2 id="fc-basics" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">📐 Basics: Consumption vs Economy</h2>
+          <p>
+            Fuel metrics are expressed two ways:
+          </p>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Consumption</strong> (lower is better): e.g., <strong>L/100&nbsp;km</strong>, <strong>L/km</strong>, <strong>mL/km</strong>, <strong>gal/100&nbsp;mi</strong>.</li>
+            <li><strong>Economy</strong> (higher is better): e.g., <strong>mpg (US/Imp)</strong>, <strong>km/L</strong>, <strong>mi/L</strong>, <strong>km/gal (US/Imp)</strong>.</li>
+          </ul>
+          <p className="mt-2">
+            These views are reciprocals of each other (after accounting for distance and gallon size). Europe, Canada, and many global standards favor
+            <strong> L/100&nbsp;km</strong>, while the US and UK often reference <strong>mpg</strong> (with different gallon sizes). Our converter uses
+            <strong> L/100&nbsp;km</strong> as a base internally to ensure exact, reversible transformations across all supported units.
+          </p>
+        
+          {/* Units, Constants & Conventions */}
+          <h2 id="fc-units" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">🌐 Units, Constants &amp; Conventions</h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <li>1 mile = <strong>1.609344&nbsp;km</strong></li>
+              <li>1 km = <strong>0.621371192&nbsp;mi</strong></li>
+              <li>1 US gallon = <strong>3.785411784&nbsp;L</strong></li>
+              <li>1 Imperial gallon = <strong>4.54609&nbsp;L</strong></li>
+              <li>“per 100&nbsp;km” means distance is normalized to 100&nbsp;km for clarity</li>
+              <li>“per 100&nbsp;mi” is likewise normalized to 100 miles</li>
+            </ul>
+            <p className="mt-3 text-slate-400 text-xs">
+              Note the gallon size difference: <em>mpg (Imperial)</em> will be higher than <em>mpg (US)</em> for the same consumption because the Imperial gallon is larger.
+            </p>
+          </div>
+        
+          {/* Core Formulas */}
+          <h2 id="fc-formulas" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">🧮 Core Formulas (with Derivations)</h2>
+          <p>
+            Our engine uses <strong>L/100&nbsp;km</strong> as the internal base. Conversions are exact given the constants above.
+          </p>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm space-y-2">
+            <p className="font-semibold">Between L/100&nbsp;km and mpg:</p>
+            <ul className="list-disc list-inside">
+              <li><strong>L/100&nbsp;km ↔ mpg (US):</strong> L/100&nbsp;km = <code>235.214583 ÷ mpg(US)</code> ⇒ mpg(US) = <code>235.214583 ÷ L/100&nbsp;km</code></li>
+              <li><strong>L/100&nbsp;km ↔ mpg (Imp):</strong> L/100&nbsp;km = <code>282.480936 ÷ mpg(Imp)</code> ⇒ mpg(Imp) = <code>282.480936 ÷ L/100&nbsp;km</code></li>
+            </ul>
+        
+            <p className="font-semibold mt-3">Between L/100&nbsp;km and km/L or mi/L:</p>
+            <ul className="list-disc list-inside">
+              <li><strong>km/L:</strong> km/L = <code>100 ÷ (L/100&nbsp;km)</code> and L/100&nbsp;km = <code>100 ÷ (km/L)</code></li>
+              <li><strong>mi/L:</strong> mi/L = <code>(km/L) × 0.621371192</code> ⇒ L/100&nbsp;km = <code>(100 ÷ mi/L) × 0.621371192</code></li>
+            </ul>
+        
+            <p className="font-semibold mt-3">Between L/100&nbsp;km and km/gal:</p>
+            <ul className="list-disc list-inside">
+              <li><strong>km/gal (US):</strong> km/gal(US) = <code>(100 ÷ L/100&nbsp;km) × 3.785411784</code></li>
+              <li><strong>km/gal (Imp):</strong> km/gal(Imp) = <code>(100 ÷ L/100&nbsp;km) × 4.54609</code></li>
+            </ul>
+        
+            <p className="font-semibold mt-3">Between L/100&nbsp;km and gal/100&nbsp;mi:</p>
+            <ul className="list-disc list-inside">
+              <li><strong>gal(US)/100&nbsp;mi:</strong> gal/100&nbsp;mi(US) = <code>(L/100&nbsp;km × 62.1371192) ÷ 3.785411784</code></li>
+              <li><strong>gal(Imp)/100&nbsp;mi:</strong> gal/100&nbsp;mi(Imp) = <code>(L/100&nbsp;km × 62.1371192) ÷ 4.54609</code></li>
+            </ul>
+          </div>
+          <p className="text-xs text-slate-400 mt-2">
+            Internally, your component converts the input into base L/100&nbsp;km and then maps that base to every other unit, ensuring consistency across the grid.
+          </p>
+        
+          {/* Worked Examples */}
+          <h2 id="fc-examples" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">📈 Worked Examples (Rounded)</h2>
+          <ul className="space-y-2">
+            <li><strong>6.5&nbsp;L/100&nbsp;km → mpg (US):</strong> 235.214583 ÷ 6.5 ≈ <strong>36.19&nbsp;mpg (US)</strong></li>
+            <li><strong>6.5&nbsp;L/100&nbsp;km → mpg (Imp):</strong> 282.480936 ÷ 6.5 ≈ <strong>43.46&nbsp;mpg (Imp)</strong></li>
+            <li><strong>8.0&nbsp;L/100&nbsp;km → km/L:</strong> 100 ÷ 8 = <strong>12.5&nbsp;km/L</strong></li>
+            <li><strong>30&nbsp;mpg (US) → L/100&nbsp;km:</strong> 235.214583 ÷ 30 ≈ <strong>7.84&nbsp;L/100&nbsp;km</strong></li>
+            <li><strong>50&nbsp;mpg (Imp) → L/100&nbsp;km:</strong> 282.480936 ÷ 50 ≈ <strong>5.65&nbsp;L/100&nbsp;km</strong></li>
+            <li><strong>10&nbsp;km/L → mpg (US):</strong> First to L/100&nbsp;km: 100 ÷ 10 = 10 → mpg(US) = 235.214583 ÷ 10 = <strong>23.52&nbsp;mpg</strong></li>
+            <li><strong>8&nbsp;L/100&nbsp;km → gal(US)/100&nbsp;mi:</strong> (8 × 62.1371192) ÷ 3.785411784 ≈ <strong>131.0 ÷ 3.7854 ≈ 34.6 gal/100&nbsp;mi</strong></li>
+          </ul>
+          <p className="text-xs text-slate-400">
+            Your UI will output exact values at the precision you choose; the above are rounded for readability.
+          </p>
+        
+          {/* Real-World Applications */}
+          <h2 id="fc-usecases" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">🛠️ Real-World Applications</h2>
+        
+          <h3 className="text-lg font-semibold text-gray-100 mt-4">Drivers &amp; Car Shoppers</h3>
+          <p>
+            When comparing brochures and reviews from different regions, you will encounter both <strong>L/100&nbsp;km</strong> and <strong>mpg</strong>.
+            Converting them consistently allows fair comparisons between trims, engines, tire sizes, and model years—especially when moving between US, UK/Canada, and EU sources.
+          </p>
+        
+          <h3 className="text-lg font-semibold text-gray-100 mt-4">Fleet &amp; Logistics</h3>
+          <p>
+            Fleet managers often track consumption in <strong>L/100&nbsp;km</strong> for international reporting but need <strong>mpg</strong> or <strong>mi/L</strong> for
+            vendor contracts, driver dashboards, or legacy systems. This converter standardizes the process, helping you spot anomalies, benchmark routes, and estimate fuel budgets.
+          </p>
+        
+          <h3 className="text-lg font-semibold text-gray-100 mt-4">Data, Apps &amp; Telematics</h3>
+          <p>
+            If your analytics app or telematics pipeline ingests mixed units from OBD devices, spreadsheets, or APIs, normalize to one base unit
+            (e.g., <strong>L/100&nbsp;km</strong>) at ingestion time. Present in the viewer’s preferred unit at query time using deterministic conversions like the ones here.
+          </p>
+        
+          <h3 className="text-lg font-semibold text-gray-100 mt-4">Policy, Forecasting &amp; Sustainability</h3>
+          <p>
+            City planners, NGOs, and corporate sustainability teams need reliable unit conversions to estimate energy use, fuel taxes, and carbon impact.
+            Converting accurately across countries ensures fair policy comparisons and cleaner cross-border datasets.
+          </p>
+        
+          {/* Accuracy */}
+          <h2 id="fc-accuracy" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">🎯 Accuracy, Rounding &amp; Data Quality</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Decimals:</strong> Choose 0–12 to match the precision of your instruments or reporting needs. Most real-world automotive data does not justify more than 2–3 decimals.</li>
+            <li><strong>Display formats:</strong> Compact (K/M/B) is handy for dashboards; Scientific is ideal for edge cases or micro-units.</li>
+            <li><strong>Measurement noise:</strong> Short trips, cold starts, refueling differences, and tire pressure variations can skew readings—aggregate over longer distances when possible.</li>
+            <li><strong>Apples to apples:</strong> Always confirm whether a source reports test-cycle values (e.g., WLTP, EPA, NEDC) or real-world averages; these can differ meaningfully.</li>
+          </ul>
+        
+          {/* What Affects Fuel Use */}
+          <h2 id="fc-driving" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">🚗 What Affects Fuel Use?</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Driving style:</strong> Smooth acceleration, anticipating traffic, and early upshifts reduce consumption.</li>
+            <li><strong>Speed:</strong> Aerodynamic drag rises with the square of speed; high-speed cruising increases fuel use sharply.</li>
+            <li><strong>Load &amp; cargo:</strong> Extra mass (passengers, roof racks, trailers) costs energy, especially in stop-and-go traffic.</li>
+            <li><strong>Tires &amp; alignment:</strong> Low pressure and poor alignment raise rolling resistance.</li>
+            <li><strong>Terrain &amp; weather:</strong> Hills, headwinds, cold temperatures, rain/snow all push consumption up.</li>
+            <li><strong>Fuel quality &amp; maintenance:</strong> Engine tune, spark plugs, filters, and lubricants make a noticeable difference.</li>
+            <li><strong>HVAC &amp; auxiliaries:</strong> A/C, heated seats, lights, and accessories add modest but real loads.</li>
+          </ul>
+        
+          {/* Emissions quick estimator */}
+          <h2 id="fc-emissions" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">🌍 Optional: Quick CO₂ Estimations</h2>
+          <p>
+            You can pair unit conversion with a rough emissions estimate. Typical tailpipe factors (well-known industry approximations) are:
+          </p>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Gasoline:</strong> ~2.31&nbsp;kg CO₂ per liter</li>
+            <li><strong>Diesel:</strong> ~2.68&nbsp;kg CO₂ per liter</li>
+          </ul>
+          <p>
+            Example: If your car averages <strong>7.0&nbsp;L/100&nbsp;km</strong> on gasoline, then per 100&nbsp;km you emit roughly <strong>7 × 2.31 = 16.17&nbsp;kg CO₂</strong>.
+            For diesel at the same consumption, it would be ~<strong>18.76&nbsp;kg CO₂</strong>. For comparison across fuels or hybrids, convert to the same consumption unit first.
+          </p>
+          <p className="text-xs text-slate-400">
+            These are simple tailpipe estimates. Full life-cycle assessments (LCA) require broader system boundaries and are out of scope here.
+          </p>
+        
+          {/* Quick Reference */}
+          <h2 id="fc-quickref" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">🗂️ Quick Reference Table</h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <li>L/100&nbsp;km = <code>235.214583 ÷ mpg (US)</code></li>
+              <li>L/100&nbsp;km = <code>282.480936 ÷ mpg (Imp)</code></li>
+              <li>km/L = <code>100 ÷ L/100&nbsp;km</code></li>
+              <li>mi/L = <code>(km/L) × 0.621371192</code></li>
+              <li>km/gal (US) = <code>(100 ÷ L/100&nbsp;km) × 3.785411784</code></li>
+              <li>km/gal (Imp) = <code>(100 ÷ L/100&nbsp;km) × 4.54609</code></li>
+              <li>gal(US)/100&nbsp;mi = <code>(L/100&nbsp;km × 62.1371192) ÷ 3.785411784</code></li>
+              <li>gal(Imp)/100&nbsp;mi = <code>(L/100&nbsp;km × 62.1371192) ÷ 4.54609</code></li>
+            </ul>
+          </div>
+        
+          {/* FAQ */}
+          <h2 id="fc-faq" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">❓ Frequently Asked Questions</h2>
+          <div className="space-y-4">
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-emerald-300">Is mpg (Imperial) the same as mpg (US)?</h3>
+              <p>No. The Imperial gallon is larger (4.54609&nbsp;L vs 3.785411784&nbsp;L), so for the same consumption, mpg (Imperial) will be higher.</p>
+            </div>
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-emerald-300">Why do some regions prefer L/100&nbsp;km?</h3>
+              <p>
+                L/100&nbsp;km scales linearly with fuel used—handy for cost and emissions tracking. It also avoids confusion between US and Imperial gallons.
+              </p>
+            </div>
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-emerald-300">Is km/L better than L/100&nbsp;km?</h3>
+              <p>
+                Neither is “better”; they’re reciprocals. Use the one your stakeholders expect. Our converter makes switching instant and lossless.
+              </p>
+            </div>
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-emerald-300">Does the “Compact” format change the value?</h3>
+              <p>
+                No, it only changes how numbers appear (e.g., 12,300 → 12.3K). Use CSV export for exact downstream calculations.
+              </p>
+            </div>
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-emerald-300">How do hybrids or PHEVs fit into this?</h3>
+              <p>
+                They still consume fuel when the engine runs; measure trip fuel and distance, compute L/100&nbsp;km, and convert as needed.
+                Electric-only segments are typically tracked separately in kWh/100&nbsp;km; this tool focuses on liquid-fuel metrics.
+              </p>
+            </div>
+          </div>
+        
+          {/* Accessibility */}
+          <h2 id="fc-access" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">♿ Accessibility &amp; Keyboard Shortcuts</h2>
+          <ul className="list-disc list-inside">
+            <li><kbd>/</kbd> — focus Value</li>
+            <li><kbd>S</kbd> — focus From</li>
+            <li><kbd>T</kbd> — focus To</li>
+            <li><kbd>X</kbd> — swap units</li>
+          </ul>
+          <p className="text-xs text-slate-400 mt-2">
+            Inputs and selects include visible focus, ARIA labels, and concise helper text. Tooltips clarify behavior for new users.
+          </p>
+        
+          {/* Troubleshooting */}
+          <h2 id="fc-troubleshoot" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">🧩 Troubleshooting &amp; Tips</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Seeing “—”? Ensure the input is numeric and the selected units are valid.</li>
+            <li>Too many digits? Reduce decimals or switch to Compact/Scientific for cleaner scanning.</li>
+            <li>Need reproducibility? Share the auto-encoded URL; teammates will open the exact same state.</li>
+            <li>Mismatched mpg? Verify whether your source was using US or Imperial gallons.</li>
+          </ul>
+        
+          {/* Glossary */}
+          <h2 id="fc-glossary" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">📚 Glossary</h2>
+          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+            <div>
+              <dt className="font-semibold text-emerald-300">Fuel Consumption</dt>
+              <dd>Fuel used per distance (e.g., L/100&nbsp;km). Lower is better.</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-emerald-300">Fuel Economy</dt>
+              <dd>Distance per fuel (e.g., mpg, km/L). Higher is better.</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-emerald-300">mpg (US/Imp)</dt>
+              <dd>Miles per gallon; US and Imperial gallons are different sizes.</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-emerald-300">km/L, mi/L</dt>
+              <dd>Distance per liter; useful in markets that sell fuel in liters.</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-emerald-300">gal/100&nbsp;mi</dt>
+              <dd>Gallons consumed over 100 miles; expresses consumption directly.</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-emerald-300">Precision</dt>
+              <dd>Number of decimals shown; pick to match sensor or reporting needs.</dd>
+            </div>
+          </dl>
+        
+          {/* Author / Timestamp */}
+          <section className="mt-12 border-t border-gray-700 pt-6">
+            <div className="flex items-center gap-3">
+              <img src="/images/calculatorhub-author.webp" alt="CalculatorHub Tools Team" className="w-12 h-12 rounded-full border border-gray-600" loading="lazy" />
+              <div>
+                <p className="font-semibold text-white">Author: CalculatorHub Tools Team</p>
+                <p className="text-sm text-slate-400">Last updated: <time dateTime="2025-11-10">November 10, 2025</time></p>
+              </div>
+            </div>
+          </section>
+        </section>
+
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/fuel-consumption-converter" category="unit-converters" />
