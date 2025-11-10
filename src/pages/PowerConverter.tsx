@@ -697,6 +697,177 @@ export default function PowerConverter() {
           </div>
         </div>
 
+      {/* ==================== SEO Content: Power Converter (EN) ==================== */}
+      <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+        <header className="mb-10">
+          <h1 className="text-3xl font-bold text-amber-300">Power Converter — W, kW, MW, hp, BTU/h, TR, dBm, dBW</h1>
+          <p className="mt-2 text-slate-300">
+            Whether you’re sizing HVAC systems, comparing motor drives, or working with RF power,
+            this tool converts both <strong>linear</strong> units (W, kW, MW, hp, BTU/h, kcal/h, TR)
+            and <strong>logarithmic</strong> units (dBm, dBW) with precision. Adjust decimals, pick Normal/Compact/Scientific
+            formats, pin favorites, review history, and export via Copy or CSV. Shareable URLs preserve your current state.
+          </p>
+        </header>
+      
+        {/* TOC */}
+        <nav className="mt-2 mb-10 bg-[#1a0e09] border border-[#3a271e] rounded-xl p-5 text-slate-200">
+          <h2 className="text-lg font-semibold text-gray-100 mb-3">📖 Table of Contents</h2>
+          <ol className="list-decimal list-inside space-y-2 text-sm">
+            <li><a href="#en-how" className="text-amber-300 hover:underline">How to Use</a></li>
+            <li><a href="#en-units" className="text-amber-300 hover:underline">Supported Units & Constants</a></li>
+            <li><a href="#en-linear-vs-log" className="text-amber-300 hover:underline">Linear vs Logarithmic</a></li>
+            <li><a href="#en-examples" className="text-amber-300 hover:underline">Worked Examples</a></li>
+            <li><a href="#en-accuracy" className="text-amber-300 hover:underline">Accuracy, Rounding & Tips</a></li>
+            <li><a href="#en-quickref" className="text-amber-300 hover:underline">Quick Reference</a></li>
+            <li><a href="#en-faq" className="text-amber-300 hover:underline">FAQ</a></li>
+          </ol>
+        </nav>
+      
+        {/* How to use */}
+        <h2 id="en-how" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">💡 How to Use</h2>
+        <ol className="list-decimal list-inside space-y-2">
+          <li>Enter a number in <strong>Value</strong> (empty = 0; commas like <code>1,234.56</code> allowed).</li>
+          <li>Select <strong>From</strong> and <strong>To</strong> units; pin frequent ones with <strong>Fav</strong>.</li>
+          <li>Open <strong>More options</strong> to set <strong>Precision</strong> (0–12) and <strong>Format</strong>.</li>
+          <li>Use <strong>Copy All</strong> or <strong>CSV</strong> export to capture the full grid.</li>
+          <li>Revisit your last 10 conversions in <strong>Recent</strong> (stored locally).</li>
+        </ol>
+        <p className="text-xs text-slate-400">The page URL encodes your current configuration—bookmark or share for exact reproduction.</p>
+      
+        {/* Units */}
+        <h2 id="en-units" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">🌐 Supported Units & Constants</h2>
+        <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <li><strong>SI (linear)</strong>: mW, W, kW, MW, GW</li>
+            <li><strong>Horsepower</strong>: hp (mechanical), hp(M) / PS (metric)</li>
+            <li><strong>Heat/HVAC</strong>: BTU/h, kcal/h, cal/s, TR (Ton of Refrigeration)</li>
+            <li><strong>Log units</strong>: dBm (ref: 1 mW), dBW (ref: 1 W)</li>
+          </ul>
+          <p className="mt-3 text-slate-400 text-xs leading-relaxed">
+            Constants used: 1 BTU/h = <strong>0.29307107 W</strong>;
+            1 kcal/h ≈ <strong>1.1622222222 W</strong>;
+            1 cal/s = <strong>4.1868 W</strong>;
+            1 TR = <strong>12,000 BTU/h ≈ 3.51685284 kW</strong>;
+            hp (mechanical) ≈ <strong>745.6998716 W</strong>;
+            hp(M)/PS ≈ <strong>735.49875 W</strong>.
+          </p>
+        </div>
+      
+        {/* Linear vs Log */}
+        <h2 id="en-linear-vs-log" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">📐 Linear vs Logarithmic</h2>
+        <p className="mb-2">Linear units convert by ratios (e.g., <code>kW = W / 1000</code>).</p>
+        <p className="mb-2">Logarithmic units measure level relative to a reference:</p>
+        <ul className="list-disc list-inside space-y-1">
+          <li><strong>dBm → W</strong>: <code>W = 10^(dBm/10) × 1e-3</code></li>
+          <li><strong>W → dBm</strong>: <code>dBm = 10·log10(W / 1e-3)</code></li>
+          <li><strong>dBW → W</strong>: <code>W = 10^(dBW/10)</code></li>
+          <li><strong>W → dBW</strong>: <code>dBW = 10·log10(W)</code></li>
+        </ul>
+        <p className="text-sm text-slate-400 mt-2">
+          Use dBm/dBW in RF/telecom contexts; W/kW/hp/BTU/h/TR dominate mechanical and HVAC use cases.
+        </p>
+      
+        {/* Examples */}
+        <h2 id="en-examples" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">📈 Worked Examples (rounded)</h2>
+        <ul className="space-y-2">
+          <li><strong>1 kW → hp</strong> (mechanical): 1000 ÷ 745.6998716 ≈ <strong>1.341 hp</strong></li>
+          <li><strong>10 hp → kW</strong> (mechanical): 10 × 745.6998716 ÷ 1000 ≈ <strong>7.456998716 kW</strong></li>
+          <li><strong>12,000 BTU/h → kW</strong>: 12,000 × 0.29307107 ÷ 1000 ≈ <strong>3.51685284 kW</strong> (= 1 TR)</li>
+          <li><strong>2 TR → kW</strong>: 2 × 3.51685284 ≈ <strong>7.03370568 kW</strong></li>
+          <li><strong>500 kcal/h → W</strong>: 500 × 1.1622222222 ≈ <strong>581.11 W</strong></li>
+          <li><strong>30 dBm → W</strong>: 10^(30/10) × 1e-3 = <strong>1 W</strong></li>
+          <li><strong>1 W → dBm</strong>: 10·log10(1/1e-3) = <strong>30 dBm</strong></li>
+        </ul>
+      
+        {/* Accuracy */}
+        <h2 id="en-accuracy" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">✅ Accuracy, Rounding & Tips</h2>
+        <ul className="list-disc list-inside space-y-1">
+          <li>Bridge conversions through <strong>watts (W)</strong> to minimize error.</li>
+          <li>Keep higher internal precision; round for display/reporting only.</li>
+          <li>Choose the correct horsepower: <strong>hp</strong> (mechanical) vs <strong>hp(M)</strong> (metric/PS).</li>
+          <li>Document HVAC factors (BTU/h, TR) in specs for repeatability and audits.</li>
+        </ul>
+      
+        {/* Quick Reference */}
+        <h2 id="en-quickref" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">🗂️ Quick Reference</h2>
+        <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <li>1 kW = <strong>1000 W</strong></li>
+            <li>1 MW = <strong>10⁶ W</strong></li>
+            <li>1 GW = <strong>10⁹ W</strong></li>
+            <li>1 hp (mechanical) ≈ <strong>745.6998716 W</strong></li>
+            <li>1 hp(M)/PS ≈ <strong>735.49875 W</strong></li>
+            <li>1 BTU/h = <strong>0.29307107 W</strong></li>
+            <li>1 TR = <strong>12,000 BTU/h ≈ 3.51685284 kW</strong></li>
+            <li>1 kcal/h ≈ <strong>1.1622222222 W</strong></li>
+            <li>1 cal/s = <strong>4.1868 W</strong></li>
+            <li>dBm ref = <strong>1 mW</strong>, dBW ref = <strong>1 W</strong></li>
+          </ul>
+        </div>
+      
+        {/* FAQ */}
+        <h2 id="en-faq" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">❓ Frequently Asked Questions</h2>
+        <div className="space-y-4">
+          <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+            <h3 className="font-semibold text-amber-300">What’s the difference between mechanical and metric horsepower?</h3>
+            <p>Mechanical hp ≈ 745.6998716 W; metric hp (PS) ≈ 735.49875 W. Choose based on your regional or project standard.</p>
+          </div>
+          <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+            <h3 className="font-semibold text-amber-300">How do I convert dBm and dBW?</h3>
+            <p>They’re logarithmic power levels relative to 1 mW (dBm) and 1 W (dBW). Use <code>W = 10^(dBm/10)×1e-3</code> and <code>W = 10^(dBW/10)</code>.</p>
+          </div>
+          <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+            <h3 className="font-semibold text-amber-300">What exactly is 1 TR?</h3>
+            <p>Ton of Refrigeration: 1 TR = 12,000 BTU/h ≈ 3.51685284 kW, a standard unit for cooling capacity in HVAC.</p>
+          </div>
+        </div>
+      
+        {/* Author & Cross-links */}
+        <section className="mt-12 border-t border-gray-700 pt-6">
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/calculatorhub-author.webp"
+              alt="CalculatorHub Tools Team"
+              className="w-12 h-12 rounded-full border border-gray-600"
+              loading="lazy"
+            />
+            <div>
+              <p className="font-semibold text-white">Author: CalculatorHub Tools Team</p>
+              <p className="text-sm text-slate-400">
+                Specialists in engineering & HVAC conversions. Last updated:
+                <time dateTime="2025-11-09"> November 9, 2025</time>.
+              </p>
+            </div>
+          </div>
+      
+          <div className="mt-8 bg-gradient-to-r from-amber-900/30 via-orange-900/30 to-rose-900/30 rounded-lg border border-slate-700 shadow-inner p-4">
+            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">🚀 Explore more tools on CalculatorHub:</p>
+            <div className="flex flex-wrap gap-3 text-sm">
+              <a
+                href="/time-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-200 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
+              >
+                ⏱️ Time Converter
+              </a>
+              <a
+                href="/data-storage-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-cyan-600/20 text-cyan-300 hover:text-cyan-200 px-3 py-2 rounded-md border border-slate-700 hover:border-cyan-500 transition-all duration-200"
+              >
+                💾 Data Storage Converter
+              </a>
+              <a
+                href="/mass-weight-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-200 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
+              >
+                ⚖️ Mass / Weight Converter
+              </a>
+            </div>
+          </div>
+        </section>
+      </section>
+
+
+
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/power-converter" category="unit-converters" />
       </div>
