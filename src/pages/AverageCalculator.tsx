@@ -514,12 +514,12 @@ const AverageCalculator: React.FC = () => {
             <p className="font-semibold text-lg">Explore more math tools 🧮</p>
             <p className="text-sm text-indigo-100">Try Percentage, Ratio, or Standard Deviation calculators next!</p>
           </div>
-          <a
-            href="/category/math-tools"
+          <Link
+            to="/category/math-tools"
             className="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-md hover:bg-indigo-50 transition"
           >
             Browse Math Tools
-          </a>
+          </Link>
         </div>
 
         {/* Grid */}
@@ -750,22 +750,224 @@ const AverageCalculator: React.FC = () => {
           )}
         </div>
 
-        {/* Short SEO content */}
+
+        {/* ==================== SEO CONTENT SECTION ==================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
-          <h1 className="text-3xl font-bold text-cyan-400 mb-6">
-            Average Calculator – Mean, Median, Mode & Spread
+        
+          {/* ===== Table of Contents ===== */}
+          <nav className="mt-2 mb-10 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-cyan-300 mb-3">📖 Table of Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#overview" className="text-indigo-400 hover:underline">Overview: What This Average Calculator Does</a></li>
+              <li><a href="#how-to-use" className="text-indigo-400 hover:underline">How to Use the Calculator</a></li>
+              <li><a href="#definitions" className="text-indigo-400 hover:underline">Mean, Median, Mode — Clear Definitions</a></li>
+              <li><a href="#spread" className="text-indigo-400 hover:underline">Range, Variance &amp; Standard Deviation</a></li>
+              <li><a href="#weighted" className="text-indigo-400 hover:underline">Weighted Mean (When &amp; How)</a></li>
+              <li><a href="#formulas" className="text-indigo-400 hover:underline">Formulas &amp; Quick Mental Math</a></li>
+              <li><a href="#examples" className="text-indigo-400 hover:underline">Worked Examples</a></li>
+              <li><a href="#benefits" className="text-indigo-400 hover:underline">Benefits &amp; Use Cases</a></li>
+              <li><a href="#tips" className="text-indigo-400 hover:underline">Pro Tips &amp; Common Pitfalls</a></li>
+              <li><a href="#pros-cons" className="text-indigo-400 hover:underline">Pros &amp; Cons</a></li>
+              <li><a href="#faq" className="text-indigo-400 hover:underline">FAQ</a></li>
+            </ol>
+          </nav>
+        
+          {/* ===== Overview ===== */}
+          <h1 id="overview" className="text-3xl font-bold text-cyan-400 mb-6">
+            Average Calculator – Mean, Median, Mode &amp; Dispersion (2025–2026)
           </h1>
           <p>
-            Paste or type numbers and instantly get <strong>mean</strong>, <strong>median</strong>,{" "}
-            <strong>mode</strong>, <strong>range</strong>, <strong>variance</strong>, and{" "}
-            <strong>standard deviation</strong>. Toggle between <em>population</em> and{" "}
-            <em>sample</em> formulas and optionally compute a <em>weighted mean</em>. Share a link to
-            reproduce the same dataset and results.
+            The <strong>Average Calculator by CalculatorHub</strong> instantly computes <strong>mean</strong>, <strong>median</strong>, <strong>mode</strong>,
+            <strong> range</strong>, <strong>variance</strong>, and <strong>standard deviation</strong> from any list of numbers. It supports a
+            <strong> weighted mean</strong> for scores, ratings, or grouped data and visualizes your dataset with a compact
+            frequency chart—so patterns and outliers stand out at a glance.
           </p>
+          <p>
+            Paste values, toggle <em>population</em> vs <em>sample</em> formulas, and share a link that preserves the exact inputs.
+            Perfect for students, teachers, analysts, accountants, and anyone who needs fast, transparent statistics.
+          </p>
+        
+          <figure className="my-8">
+            <img
+              src="/images/average-calculator-hero.webp"
+              alt="Average calculator showing descriptive statistics and frequency chart"
+              title="Average Calculator — Mean, Median, Mode, Range, Variance, Standard Deviation"
+              className="rounded-lg shadow-md border border-slate-700 mx-auto"
+              loading="lazy"
+            />
+            <figcaption className="text-center text-sm text-slate-400 mt-2">
+              Descriptive statistics with optional weighted mean and shareable, reproducible results.
+            </figcaption>
+          </figure>
+        
+          {/* ===== How to use ===== */}
+          <h2 id="how-to-use" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">💡 How to Use the Calculator</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Paste or type your numbers (spaces, commas, semicolons, or new lines are all OK).</li>
+            <li>Optionally enable <strong>Use weights</strong> to compute a <em>weighted mean</em>.</li>
+            <li>Choose <strong>Population</strong> or <strong>Sample</strong> for variance &amp; standard deviation.</li>
+            <li>Read the <strong>Results tiles</strong> and explore the <strong>Frequency Distribution</strong>.</li>
+            <li>Open <strong>Step-by-step</strong> to see the exact working; <em>Copy Results</em> or <em>Copy Link</em> to share.</li>
+          </ol>
+          <p className="text-sm text-slate-400">Tip: The share link encodes your inputs so collaborators can reproduce the same output.</p>
+        
+          {/* ===== Core definitions ===== */}
+          <h2 id="definitions" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">📚 Mean, Median, Mode — Clear Definitions</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Mean</strong> (average): add all values and divide by how many there are.</li>
+            <li><strong>Median</strong>: middle value after sorting (or the average of the two middle values if even count).</li>
+            <li><strong>Mode</strong>: the most frequent value(s). Data can be unimodal, bimodal, or multimodal.</li>
+          </ul>
+          <p className="text-sm text-slate-400">Rule of thumb: Use <em>median</em> when outliers might skew the mean.</p>
+        
+          {/* ===== Spread ===== */}
+          <h2 id="spread" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">📏 Range, Variance &amp; Standard Deviation</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Range</strong> = max − min (quick sense of spread).</li>
+            <li><strong>Variance</strong> measures average squared distance from the mean.</li>
+            <li><strong>Standard Deviation</strong> is the square root of variance (spread in original units).</li>
+          </ul>
+          <p className="text-sm text-slate-400">
+            Choose <em>Sample</em> (divide by n−1) when data represent a subset of a larger population; otherwise use <em>Population</em> (divide by n).
+          </p>
+        
+          {/* ===== Weighted mean ===== */}
+          <h2 id="weighted" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">⚖️ Weighted Mean (When &amp; How)</h2>
+          <p>
+            A <strong>weighted mean</strong> gives more influence to certain observations (e.g., credit hours, importance, frequency).
+            It’s computed as <code>Σ(x·w) ÷ Σw</code>. In this tool, extra weights are ignored and missing weights are treated as 0
+            to keep things robust.
+          </p>
+        
+          {/* ===== Formulas ===== */}
+          <h2 id="formulas" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🧮 Formulas &amp; Quick Mental Math</h2>
+          <pre className="bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto">
+        {`Mean (x̄)              = Σx ÷ n
+        Median                 = middle of sorted data (or avg of two middles)
+        Mode                   = most frequent value(s)
+        Range                  = max − min
+        Population variance    = Σ(x − μ)² ÷ n
+        Sample variance        = Σ(x − x̄)² ÷ (n − 1)
+        Standard deviation     = √variance
+        Weighted mean          = Σ(x·w) ÷ Σw`}
+          </pre>
+          <p><strong>Mental anchors:</strong> use 10s and 5s to estimate means; check symmetry to sanity-check medians.</p>
+        
+          {/* ===== Worked examples ===== */}
+          <h2 id="examples" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">📈 Worked Examples</h2>
+        
+          <h3 className="text-xl font-semibold text-indigo-300">A) Test Scores (Mean &amp; Median)</h3>
+          <p>
+            Scores: 65, 72, 72, 78, 91. Mean = (65+72+72+78+91)/5 = <strong>75.6</strong>.
+            Median = middle value after sorting = <strong>72</strong>.
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">B) Sales Spread (Range &amp; Std Dev)</h3>
+          <p>
+            Weekly sales ($k): 9, 11, 10, 22, 8. Range = 22 − 8 = <strong>14</strong>.
+            Sample std dev reflects the volatility; the outlier (22) increases spread.
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">C) Product Ratings (Weighted Mean)</h3>
+          <p>
+            Ratings 5★ with 40 votes, 4★ with 10 votes: weighted mean = (5·40 + 4·10) ÷ (40 + 10) =
+            <strong> 4.8</strong>.
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">D) Two Modes</h3>
+          <p>
+            Data: 2, 2, 4, 4, 7 → Modes are <strong>2</strong> and <strong>4</strong> (bimodal). Mean = 3.8; Median = 4.
+          </p>
+        
+          {/* ===== Benefits & use cases ===== */}
+          <h2 id="benefits" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">✅ Benefits &amp; Use Cases</h2>
+          <ul className="space-y-2">
+            <li>✔️ Instant descriptive stats with clean visual summary.</li>
+            <li>✔️ <strong>Weighted mean</strong> for courses, surveys, or grouped data.</li>
+            <li>✔️ <strong>Population/Sample</strong> switch for correct statistical treatment.</li>
+            <li>✔️ <strong>Copy/Share</strong> for reproducible analysis in teams or classrooms.</li>
+            <li>✔️ Privacy-friendly: inputs live in your browser and shareable URL.</li>
+          </ul>
+        
+          {/* ===== Tips & pitfalls ===== */}
+          <h2 id="tips" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">🧭 Pro Tips &amp; Common Pitfalls</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Outliers pull the <strong>mean</strong> but barely affect the <strong>median</strong>.</li>
+            <li>Always clarify if variance is <em>sample</em> (n−1) or <em>population</em> (n).</li>
+            <li>Multiple modes are possible; “no repeat” means “no mode”.</li>
+            <li>Check units and decimals—rounding too early skews results.</li>
+            <li>For grouped data, verify weights sum sensibly (Σw &gt; 0).</li>
+          </ul>
+        
+          {/* ===== Pros / Cons ===== */}
+          <h2 id="pros-cons" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">⚖️ Pros &amp; Cons</h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
+              <h3 className="text-emerald-300 font-semibold mb-2">Pros</h3>
+              <ul className="list-disc list-inside space-y-1">
+                <li>All core descriptive stats in one place.</li>
+                <li>Fast, accurate, and easy to share.</li>
+                <li>Weighted mean and chart for richer context.</li>
+              </ul>
+            </div>
+            <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
+              <h3 className="text-rose-300 font-semibold mb-2">Cons</h3>
+              <ul className="list-disc list-inside space-y-1">
+                <li>Garbage-in, garbage-out—clean data matters.</li>
+                <li>Doesn’t infer distributions beyond the shown frequency bins.</li>
+                <li>Not a substitute for formal statistical modeling.</li>
+              </ul>
+            </div>
+          </div>
+        
+          {/* ===== FAQ ===== */}
+          <section className="space-y-6 mt-16">
+            <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
+              ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
+            </h2>
+        
+            <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">What statistics does this compute?</h3>
+                <p>Mean, median, mode, range, variance, and standard deviation, plus an optional weighted mean.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">When do I use sample vs population variance?</h3>
+                <p>Use <em>sample</em> (n−1) when your data are a sample; use <em>population</em> (n) when you have all units.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">How does the weighted mean work?</h3>
+                <p>It uses Σ(x·w) ÷ Σw. Extra weights are ignored; missing weights count as 0 to avoid errors.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Can I share or export?</h3>
+                <p>Yes—copy the full results or a link that recreates your dataset.</p>
+              </div>
+            </div>
+          </section>
         </section>
-
-        {/* Author/backlinks & related tools */}
-        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+        
+        {/* =================== AUTHOR & BACKLINK SECTION =================== */}
+        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300 max-w-4xl mx-auto">
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/calculatorhub-author.webp"
+              alt="CalculatorHub Math Tools Team"
+              className="w-12 h-12 rounded-full border border-gray-600"
+              loading="lazy"
+            />
+            <div>
+              <p className="font-semibold text-white">Written by the CalculatorHub Math Tools Team</p>
+              <p className="text-sm text-slate-400">
+                Specialists in descriptive statistics &amp; data literacy. Last updated:{" "}
+                <time dateTime="2025-11-09">November 9, 2025</time>.
+              </p>
+            </div>
+          </div>
+        
           <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
             <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
               🚀 Explore more tools on CalculatorHub:
@@ -792,6 +994,8 @@ const AverageCalculator: React.FC = () => {
             </div>
           </div>
         </section>
+
+
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/average-calculator" category="math-tools" />
