@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Link } from "react-router-dom";
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -1064,26 +1065,26 @@ export default function WeightConverter() {
               🚀 Explore more unit & math tools on CalculatorHub:
             </p>
             <div className="flex flex-wrap gap-3 text-sm">
-              <a
-                href="/length-converter"
+              <Link
+                to="/length-converter"
                 className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
               >
                 <span className="text-indigo-400">📏</span> Length Converter
-              </a>
+              </Link>
         
-              <a
-                href="/area-converter"
+              <Link
+                to="/area-converter"
                 className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
               >
                 <span className="text-sky-400">📐</span> Area Converter
-              </a>
+              </Link>
         
-              <a
-                href="/volume-converter"
+              <Link
+                to="/volume-converter"
                 className="flex items-center gap-2 bg-[#0f172a] hover:bg-pink-600/20 text-pink-300 hover:text-pink-400 px-3 py-2 rounded-md border border-slate-700 hover:border-pink-500 transition-all duration-200"
               >
                 <span className="text-pink-400">🧪</span> Volume Converter
-              </a>
+              </Link>
             </div>
           </div>
         </section>
