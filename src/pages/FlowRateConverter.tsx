@@ -704,6 +704,273 @@ export default function FlowRateConverter() {
             })}
           </div>
         </div>
+ {/* ========= SEO Content: Flow Rate Converter (English Only) =========== */}
+        <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+        
+          <header className="mb-10">
+            <h1 className="text-3xl font-bold text-sky-300">Flow Rate Converter — Practical Guide & Engineer Notes</h1>
+            <p className="mt-3">
+              This Flow Rate Converter is built for engineers, students, and operators who work across HVAC, water and wastewater,
+              process industries, and oil &amp; gas. Convert between <strong>m³/s</strong>, <strong>m³/h</strong>, <strong>L/min</strong>,
+              <strong>L/s</strong>, <strong>CFM</strong>, <strong>GPM (US/Imperial)</strong>, <strong>ft³/s</strong>, <strong>in³/s</strong>,
+              and <strong>bbl/d</strong> instantly. You control decimals (0–12), switch between Normal/Compact/Scientific formats,
+              pin favorite units, reuse recent conversions, and export the entire grid using Copy/CSV. Shareable URLs preserve your
+              exact state (value, units, precision, and format) for dependable collaboration and documentation.
+            </p>
+          </header>
+        
+          {/* Contents */}
+          <nav className="mt-2 mb-10 bg-[#071a2b] border border-[#12314b] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-gray-100 mb-3">📖 Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#en-how" className="text-sky-300 hover:underline">How to Use</a></li>
+              <li><a href="#en-units" className="text-sky-300 hover:underline">Units &amp; Factors (to m³/s)</a></li>
+              <li><a href="#en-concepts" className="text-sky-300 hover:underline">Volumetric vs Mass Flow</a></li>
+              <li><a href="#en-density-temp" className="text-sky-300 hover:underline">Impact of Density, Pressure &amp; Temperature</a></li>
+              <li><a href="#en-us-imp" className="text-sky-300 hover:underline">US vs Imperial Gallon</a></li>
+              <li><a href="#en-examples" className="text-sky-300 hover:underline">Worked Examples</a></li>
+              <li><a href="#en-usecases" className="text-sky-300 hover:underline">Real-World Applications</a></li>
+              <li><a href="#en-precision" className="text-sky-300 hover:underline">Precision, Formats &amp; Edge Cases</a></li>
+              <li><a href="#en-quickref" className="text-sky-300 hover:underline">Quick Reference Factors</a></li>
+              <li><a href="#en-faq" className="text-sky-300 hover:underline">FAQ</a></li>
+              <li><a href="#en-access" className="text-sky-300 hover:underline">Accessibility &amp; Shortcuts</a></li>
+              <li><a href="#en-troubleshoot" className="text-sky-300 hover:underline">Troubleshooting &amp; Tips</a></li>
+              <li><a href="#en-glossary" className="text-sky-300 hover:underline">Glossary</a></li>
+            </ol>
+          </nav>
+        
+          {/* How to Use */}
+          <h2 id="en-how" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">💡 How to Use</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Enter a numeric value in the <strong>Value</strong> field. Empty input = 0. Commas such as <code>1,234.56</code> are supported.</li>
+            <li>Choose <strong>From</strong> and <strong>To</strong> units. Pin your frequent units with the <strong>Fav</strong> button for quick access.</li>
+            <li>Open <strong>More options</strong> to set decimals (0–12) and select a display format: Normal, Compact, or Scientific.</li>
+            <li>Copy the full result grid using <strong>Copy All</strong> or export a clean CSV with <strong>CSV</strong> for spreadsheets and reports.</li>
+            <li>Use <em>Recent</em> to revisit your last 10 conversions instantly; each entry restores the prior value and units.</li>
+          </ol>
+          <p className="text-xs text-slate-400">Pro tip: The URL auto-encodes your state. Bookmark or share it to open the same configuration later.</p>
+        
+          {/* Units & Factors */}
+          <h2 id="en-units" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">🌐 Units &amp; Factors (to m³/s)</h2>
+          <p>All conversions are anchored to <strong>m³/s</strong> as the base unit. The factors below convert each unit to m³/s.</p>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <li><strong>m³/s</strong> → <code>1</code></li>
+              <li><strong>m³/min</strong> → <code>1/60</code></li>
+              <li><strong>m³/h</strong> → <code>1/3600</code></li>
+              <li><strong>L/s</strong> → <code>0.001</code></li>
+              <li><strong>L/min</strong> → <code>0.001/60</code></li>
+              <li><strong>L/h</strong> → <code>0.001/3600</code></li>
+              <li><strong>mL/s</strong> → <code>1e-6</code></li>
+              <li><strong>mL/min</strong> → <code>1e-6/60</code></li>
+              <li><strong>ft³/s</strong> → <code>0.028316846592</code></li>
+              <li><strong>ft³/min (CFM)</strong> → <code>0.028316846592/60</code></li>
+              <li><strong>ft³/h</strong> → <code>0.028316846592/3600</code></li>
+              <li><strong>in³/s</strong> → <code>1.6387064e-5</code></li>
+              <li><strong>in³/min</strong> → <code>1.6387064e-5/60</code></li>
+              <li><strong>US gal/s</strong> → <code>0.003785411784</code></li>
+              <li><strong>US gal/min (US GPM)</strong> → <code>0.003785411784/60</code></li>
+              <li><strong>US gal/h</strong> → <code>0.003785411784/3600</code></li>
+              <li><strong>Imp gal/s</strong> → <code>0.00454609</code></li>
+              <li><strong>Imp gal/min (Imp GPM)</strong> → <code>0.00454609/60</code></li>
+              <li><strong>Imp gal/h</strong> → <code>0.00454609/3600</code></li>
+              <li><strong>bbl/s</strong> → <code>0.158987294928</code></li>
+              <li><strong>bbl/min</strong> → <code>0.158987294928/60</code></li>
+              <li><strong>bbl/d</strong> → <code>0.158987294928/86400</code></li>
+            </ul>
+            <p className="mt-3 text-slate-400 text-xs">
+              These are pure unit relationships. Real flow in practice also depends on fluid properties (density, viscosity) and operating conditions (temperature, pressure).
+            </p>
+          </div>
+        
+          {/* Concepts */}
+          <h2 id="en-concepts" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">📐 Volumetric vs Mass Flow</h2>
+          <p>
+            <strong>Volumetric flow</strong> (<code>Q</code>) measures volume per time (e.g., m³/s, L/min, CFM). <strong>Mass flow</strong> (<code>ṁ</code>) measures mass per time.
+            The link between them is <code>ṁ = ρ × Q</code>, where <code>ρ</code> (rho) is density. If density changes, mass flow changes even when <code>Q</code> stays constant.
+            For example, a blower delivering 1,000 CFM of air at sea level will deliver a different mass flow at high altitude or elevated temperature.
+          </p>
+          <p className="mt-2">
+            Choosing the correct measure matters: pumps and valves often care about volumetric flow for hydraulic sizing, while heat and mass balances in processes often
+            rely on mass flow. This converter focuses on volumetric units so you can move cleanly between common engineering specifications.
+          </p>
+        
+          {/* Density, Pressure, Temperature */}
+          <h2 id="en-density-temp" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">🌡️ Impact of Density, Pressure &amp; Temperature</h2>
+          <p>
+            Unit conversion alone doesn’t account for how fluids behave in the real world. Gases, in particular, are compressible; “CFM” sometimes refers to
+            standard conditions (SCFM) and sometimes to actual volumetric flow (ACFM). Confirm which convention your data uses. Liquids vary less with pressure,
+            but viscosity and temperature can still change pump performance and measured flow. Where mass or energy balances matter, consider converting your
+            volumetric result to mass flow using the appropriate density for your operating point.
+          </p>
+        
+          {/* US vs Imperial */}
+          <h2 id="en-us-imp" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">🇺🇸/🇬🇧 US vs Imperial Gallon</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li>1 <strong>US gallon</strong> = <strong>3.785411784 L</strong></li>
+            <li>1 <strong>Imperial gallon</strong> = <strong>4.54609 L</strong></li>
+          </ul>
+          <p className="mt-2">
+            Because these base volumes are different, US GPM and Imperial GPM are not interchangeable. Always confirm which gallon your datasheet, valve sizing table,
+            or vendor quote is using.
+          </p>
+        
+          {/* Worked Examples */}
+          <h2 id="en-examples" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">📈 Worked Examples (Rounded)</h2>
+          <ul className="space-y-2">
+            <li><strong>10 L/min → US GPM:</strong> 10 ÷ 3.785411784 ≈ <strong>2.6417</strong> US GPM</li>
+            <li><strong>1 CFM → L/s:</strong> 1 ft³/min = 0.028316846592 m³/min ≈ <strong>0.47194745 L/s</strong> (≈ 0.472 L/s)</li>
+            <li><strong>25 m³/h → L/min:</strong> 25,000 L/h ÷ 60 = <strong>416.667 L/min</strong></li>
+            <li><strong>1 bbl/d → m³/s:</strong> 0.158987294928 ÷ 86400 ≈ <strong>1.842×10⁻⁶ m³/s</strong></li>
+            <li><strong>5 ft³/s → m³/h:</strong> 5 × 0.028316846592 × 3600 ≈ <strong>509.70 m³/h</strong></li>
+          </ul>
+          <p className="text-xs text-slate-400">Note: Rounding is for readability; your UI will provide exact values with the precision you set.</p>
+        
+          {/* Real-world Applications */}
+          <h2 id="en-usecases" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">🛠️ Real-World Applications</h2>
+          <h3 className="text-lg font-semibold text-gray-100 mt-4">HVAC &amp; Building Services</h3>
+          <p>
+            Air handling is typically specified in CFM, while hydronic loops and chiller/boiler flows are often in L/s or m³/h. Switching cleanly between these
+            streams helps with fan curves, coil selection, balancing, and energy estimates.
+          </p>
+        
+          <h3 className="text-lg font-semibold text-gray-100 mt-4">Process, Water &amp; Wastewater</h3>
+          <p>
+            Pump curves, valve <em>Cv</em>, treatment train sizing, and plant reporting frequently juggle m³/h, L/min, and GPM. Consistent conversions reduce errors
+            across P&amp;IDs, control sheets, and commissioning logs.
+          </p>
+        
+          <h3 className="text-lg font-semibold text-gray-100 mt-4">Oil &amp; Gas</h3>
+          <p>
+            Production rates are often tracked in barrels per day (bbl/d). Converting to SI (m³/s or m³/h) makes simulation, reporting, and cross-discipline review
+            more straightforward, especially when integrating process, mechanical, and instrumentation data.
+          </p>
+        
+          <h3 className="text-lg font-semibold text-gray-100 mt-4">Laboratories &amp; Bioprocess</h3>
+          <p>
+            Small feeds and precise dosing (mL/s, L/h) benefit from higher decimal control. Use Scientific format for ultra-small flows and set precision to match
+            instrument resolution.
+          </p>
+        
+          {/* Precision & Formats */}
+          <h2 id="en-precision" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">🎯 Precision, Formats &amp; Edge Cases</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Decimals:</strong> Choose 0–12 to fit sensor accuracy, reporting standards, or plotting needs.</li>
+            <li><strong>Normal format:</strong> Classic fixed decimals for submittals and specs.</li>
+            <li><strong>Compact format:</strong> K/M/B suffixes for dashboards and quick reviews.</li>
+            <li><strong>Scientific format:</strong> Best for very large or very small results; easier to compare orders of magnitude.</li>
+            <li>Empty input resolves to 0. Extremely small/large values gracefully display in scientific notation for readability.</li>
+          </ul>
+        
+          {/* Quick Reference */}
+          <h2 id="en-quickref" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">🗂️ Quick Reference Factors</h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <li>1 US gallon = <strong>3.785411784 L</strong></li>
+              <li>1 Imperial gallon = <strong>4.54609 L</strong></li>
+              <li>1 ft³ = <strong>0.028316846592 m³</strong></li>
+              <li>1 in³ = <strong>1.6387064×10⁻⁵ m³</strong></li>
+              <li>1 bbl (oil) = <strong>0.158987294928 m³</strong></li>
+              <li>1 day = <strong>86400 s</strong></li>
+            </ul>
+          </div>
+        
+          {/* FAQ */}
+          <h2 id="en-faq" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">❓ Frequently Asked Questions</h2>
+          <div className="space-y-4">
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-sky-300">Is CFM the same as GPM?</h3>
+              <p>
+                No. CFM is cubic feet per minute (commonly for air/gas), while GPM is gallons per minute (commonly for liquids).
+                Because the base volumes differ, you must convert using the correct unit factors.
+              </p>
+            </div>
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-sky-300">How do I convert L/min to US GPM?</h3>
+              <p>Divide by <code>3.785411784</code>. For example, 10 L/min ≈ 2.6417 US GPM.</p>
+            </div>
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-sky-300">Why convert bbl/d to SI units?</h3>
+              <p>
+                SI units align with most simulations, standards, and cross-discipline reporting, making collaboration and auditing easier.
+              </p>
+            </div>
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-sky-300">What’s the difference between L/s and m³/h?</h3>
+              <p>
+                They’re both volumetric flow. 1 L/s = 0.001 m³/s, and 1 m³/h = 0.000277777... m³/s. Use whichever your vendor/sizing charts prefer.
+              </p>
+            </div>
+            <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
+              <h3 className="font-semibold text-sky-300">Does Compact format change the numeric value?</h3>
+              <p>
+                No. It only changes how the number is displayed (e.g., 12,300 → 12.3K). Use CSV export for exact figures in spreadsheets.
+              </p>
+            </div>
+          </div>
+        
+          {/* Accessibility */}
+          <h2 id="en-access" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">♿ Accessibility &amp; Keyboard Shortcuts</h2>
+          <ul className="list-disc list-inside">
+            <li><kbd>/</kbd> — focus Value</li>
+            <li><kbd>S</kbd> — focus From</li>
+            <li><kbd>T</kbd> — focus To</li>
+            <li><kbd>X</kbd> — swap units</li>
+          </ul>
+          <p className="text-xs text-slate-400 mt-2">
+            Inputs and selects provide visible focus and screen-reader labels. Tooltips and helper text clarify behavior for new users.
+          </p>
+        
+          {/* Troubleshooting */}
+          <h2 id="en-troubleshoot" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">🧩 Troubleshooting &amp; Tips</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Seeing “—”? Ensure the input is numeric and the units are valid.</li>
+            <li>Too many digits? Reduce decimals or switch to Compact/Scientific output.</li>
+            <li>Need reproducibility? Share the auto-encoded URL so teammates open the same state.</li>
+            <li>Comparing tiny flows? Scientific format improves readability at micro scales (e.g., bbl/d → m³/s).</li>
+          </ul>
+        
+          {/* Glossary */}
+          <h2 id="en-glossary" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">📚 Glossary</h2>
+          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+            <div>
+              <dt className="font-semibold text-sky-300">Volumetric Flow (Q)</dt>
+              <dd>Volume per unit time (e.g., m³/s, L/min, CFM) used for hydraulic sizing and capacity checks.</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-sky-300">Mass Flow (ṁ)</dt>
+              <dd>Mass per unit time; relates to Q by density: ṁ = ρ × Q. Central to energy and material balances.</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-sky-300">CFM</dt>
+              <dd>Cubic feet per minute; common for air/gas flows, ductwork, and fans. May be “actual” or “standard.”</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-sky-300">GPM</dt>
+              <dd>Gallons per minute; typical for liquid systems. Distinguish US vs Imperial gallons.</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-sky-300">bbl/d</dt>
+              <dd>Barrels per day; standard oil &amp; gas production unit. 1 bbl = 0.158987294928 m³.</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-sky-300">Compact Format</dt>
+              <dd>Human-friendly suffix display (K/M/B) without changing the underlying value.</dd>
+            </div>
+          </dl>
+        
+          <section className="mt-12 border-t border-gray-700 pt-6">
+            <div className="flex items-center gap-3">
+              <img src="/images/calculatorhub-author.webp" alt="CalculatorHub Tools Team" className="w-12 h-12 rounded-full border border-gray-600" loading="lazy" />
+              <div>
+                <p className="font-semibold text-white">Author: CalculatorHub Tools Team</p>
+                <p className="text-sm text-slate-400">Last updated: <time dateTime="2025-11-10">November 10, 2025</time></p>
+              </div>
+            </div>
+          </section>
+        </section>
+
+
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/flow-rate-converter" category="unit-converters" />
