@@ -941,6 +941,332 @@ const BMICalculator: React.FC = () => {
             </div>
           </div>
 
+          {/* ==================== SEO CONTENT SECTION ==================== */}
+          <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+          
+            {/* ===== Table of Contents ===== */}
+            <nav className="mt-2 mb-10 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200">
+              <h2 className="text-lg font-semibold text-cyan-300 mb-3">📖 Table of Contents</h2>
+              <ol className="list-decimal list-inside space-y-2 text-sm">
+                <li><a href="#overview" className="text-indigo-400 hover:underline">Overview: What This BMI Calculator Does</a></li>
+                <li><a href="#how-to-use" className="text-indigo-400 hover:underline">How to Use the Calculator</a></li>
+                <li><a href="#who-asian" className="text-indigo-400 hover:underline">WHO vs Asian BMI Categories</a></li>
+                <li><a href="#formula" className="text-indigo-400 hover:underline">BMI Formula (Metric &amp; Imperial)</a></li>
+                <li><a href="#healthy-range" className="text-indigo-400 hover:underline">Healthy Weight Range &amp; Target Weight</a></li>
+                <li><a href="#examples" className="text-indigo-400 hover:underline">Worked Examples</a></li>
+                <li><a href="#tips" className="text-indigo-400 hover:underline">Practical Tips to Improve Your Score</a></li>
+                <li><a href="#pros-cons" className="text-indigo-400 hover:underline">Pros &amp; Cons of Using BMI</a></li>
+                <li><a href="#limitations" className="text-indigo-400 hover:underline">Limitations &amp; When to Use Other Measures</a></li>
+                <li><a href="#faq" className="text-indigo-400 hover:underline">FAQ</a></li>
+              </ol>
+            </nav>
+          
+            <h1 id="overview" className="text-3xl font-bold text-cyan-400 mb-6">
+              BMI Calculator – Fast, Accurate & Easy (WHO & Asian Standards) 2025–2026
+            </h1>
+          
+            <p>
+              The <strong>BMI Calculator by CalculatorHub</strong> gives you an instant <strong>Body Mass Index</strong> score with
+              a clear category label and actionable insights. It supports <strong>metric</strong> (cm, kg) and <strong>imperial</strong>
+              (in, lb) inputs, compares <strong>WHO</strong> and <strong>Asian</strong> classifications, and displays a
+              <strong> healthy weight range</strong> and <strong>mid-range target</strong> tailored to your height. Whether you’re a
+              beginner exploring wellness or a coach tracking progress, this tool turns complex health math into plain language.
+            </p>
+          
+            <p>
+              Beyond a single number, the page includes a visual <em>result ring</em>, a colored <em>BMI scale</em> with a pointer,
+              and a <em>fixed-size share image</em> you can download for messages or progress logs. The calculator also offers
+              realistic <strong>roadmap tips</strong> (not medical advice) to help you move toward your goals sustainably.
+            </p>
+          
+            <figure className="my-8">
+              <img
+                src="/images/bmi-calculator-hero.webp"
+                alt="Modern BMI calculator showing result ring, category chips, and BMI scale"
+                title="Free BMI Calculator | WHO & Asian Standards"
+                className="rounded-lg shadow-md border border-slate-700 mx-auto"
+                loading="lazy"
+              />
+              <figcaption className="text-center text-sm text-slate-400 mt-2">
+                Real-time BMI score, category, healthy range, and a one-click shareable summary image.
+              </figcaption>
+            </figure>
+          
+            <h2 id="how-to-use" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              💡 How to Use the BMI Calculator
+            </h2>
+            <p>
+              Getting a reliable BMI takes less than a minute. Follow this quick guide:
+            </p>
+            <ol className="list-decimal list-inside space-y-2">
+              <li>Select your <strong>Unit system</strong>: Metric (cm, kg) or Imperial (in, lb).</li>
+              <li>Enter your <strong>Height</strong> and <strong>Weight</strong>. The tool validates ranges and decimal formats.</li>
+              <li>Choose the <strong>BMI standard</strong>: WHO or Asian. Your category updates instantly.</li>
+              <li>Review the <strong>Healthy range</strong>, <strong>Target weight</strong>, and suggested <strong>Gain/Loss</strong>.</li>
+              <li>Use <em>Copy Link</em> to share your exact inputs or <em>Download Image</em> for a clean, fixed-size summary.</li>
+            </ol>
+            <p className="text-sm text-slate-400">
+              Tip: You can switch units anytime—values are converted precisely behind the scenes.
+            </p>
+          
+            <h2 id="who-asian" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              🌏 WHO vs Asian BMI Categories
+            </h2>
+            <p>
+              Different populations develop metabolic risk at different BMI levels. The <strong>Asian</strong> classification
+              recognizes that certain cardiometabolic risks can appear at <em>lower</em> BMI compared to WHO’s global cutoffs.
+              That’s why the “normal” range is slightly narrower and the thresholds for “overweight” and “obese” are lower in
+              the Asian scale.
+            </p>
+          
+            <div className="overflow-x-auto rounded-xl border border-white/10 bg-white/5">
+              <table className="min-w-full text-sm">
+                <thead>
+                  <tr>
+                    <th className="px-4 py-3 text-left">Category</th>
+                    <th className="px-4 py-3 text-left">WHO BMI</th>
+                    <th className="px-4 py-3 text-left">Asian BMI</th>
+                    <th className="px-4 py-3 text-left">What it suggests</th>
+                  </tr>
+                </thead>
+                <tbody className="[&>tr:nth-child(even)]:bg-white/5">
+                  <tr>
+                    <td className="px-4 py-3 font-medium">Underweight</td>
+                    <td className="px-4 py-3">&lt; 18.5</td>
+                    <td className="px-4 py-3">&lt; 18.5</td>
+                    <td className="px-4 py-3">Consider energy intake, protein, and strength training focus.</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3 font-medium">Normal</td>
+                    <td className="px-4 py-3">18.5–24.9</td>
+                    <td className="px-4 py-3">18.5–22.9</td>
+                    <td className="px-4 py-3">Generally healthy range for most adults.</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3 font-medium">Overweight</td>
+                    <td className="px-4 py-3">25–29.9</td>
+                    <td className="px-4 py-3">23–24.9</td>
+                    <td className="px-4 py-3">Potential rise in risk; lifestyle adjustments help.</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3 font-medium">Obese</td>
+                    <td className="px-4 py-3">≥ 30</td>
+                    <td className="px-4 py-3">≥ 25</td>
+                    <td className="px-4 py-3">Seek clinician guidance for a structured plan.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          
+            <h2 id="formula" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              🧮 BMI Formula (Metric &amp; Imperial)
+            </h2>
+            <p>
+              BMI is a simple ratio of weight to height squared. It’s fast to compute and easy to compare across
+              individuals and time.
+            </p>
+            <ul>
+              <li><strong>Metric:</strong> BMI = weight (kg) ÷ [height (m)]²</li>
+              <li><strong>Imperial:</strong> The calculator converts in → m and lb → kg automatically for consistent results.</li>
+            </ul>
+            <pre className="bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto">
+              Example (metric): 68 kg ÷ (1.65 m × 1.65 m) ≈ 24.98
+            </pre>
+            <p className="text-sm text-slate-400">
+              Note: BMI is a screening tool, not a diagnosis. Interpretation depends on age, sex, muscle mass, and ethnicity.
+            </p>
+          
+            <h2 id="healthy-range" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              🎯 Healthy Weight Range &amp; Target Weight
+            </h2>
+            <p>
+              Your <strong>healthy weight range</strong> is computed by applying the selected “normal” BMI band (WHO or Asian) to
+              your height. The tool also shows a <strong>mid-range target</strong>, a practical waypoint for planning. Finally, we
+              estimate how much weight to <strong>gain</strong> or <strong>lose</strong> to reach that target using your chosen unit
+              system.
+            </p>
+            <p>
+              For instance, at 170&nbsp;cm under WHO, normal spans BMI 18.5–24.9. Since 1.70² ≈ 2.89, the healthy weight range
+              is roughly 53.5–72.0&nbsp;kg (≈118–159&nbsp;lb), with a midpoint target around 62.7&nbsp;kg (≈138&nbsp;lb).
+            </p>
+          
+            <h2 id="examples" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              📈 Worked Examples
+            </h2>
+          
+            <h3 className="text-xl font-semibold text-indigo-300">Example 1: Metric (cm, kg)</h3>
+            <ol className="list-decimal list-inside space-y-1">
+              <li>Height: <strong>165 cm</strong>, Weight: <strong>68 kg</strong>.</li>
+              <li>Height in meters: 1.65 m. BMI = 68 ÷ (1.65²) ≈ <strong>24.98</strong>.</li>
+              <li>WHO: upper end of “Normal”; Asian: near or beyond “Normal” depending on local guidance.</li>
+              <li>Healthy range (WHO): ≈ <strong>50.3–68.0 kg</strong>; mid-target ≈ <strong>59.1 kg</strong>.</li>
+            </ol>
+          
+            <h3 className="text-xl font-semibold text-indigo-300 mt-6">Example 2: Imperial (in, lb)</h3>
+            <ol className="list-decimal list-inside space-y-1">
+              <li>Height: <strong>66.0 in</strong>, Weight: <strong>180 lb</strong>.</li>
+              <li>Converted: 1.6764 m and 81.65 kg. BMI ≈ <strong>29.05</strong>.</li>
+              <li>WHO: <em>Overweight</em>. Asian: likely <em>Obese</em> threshold.</li>
+              <li>Healthy range (WHO): ≈ <strong>115–155 lb</strong>; mid-target ≈ <strong>135 lb</strong>.</li>
+            </ol>
+          
+            <h2 id="tips" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              🧭 Practical Tips to Improve or Maintain Your BMI
+            </h2>
+            <p>
+              Sustainable habits beat crash diets. Use these principles to nudge your BMI toward the healthy band:
+            </p>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
+                <h3 className="text-emerald-300 font-semibold mb-2">Nutrition</h3>
+                <ul className="list-disc list-inside space-y-1">
+                  <li>Prioritize <strong>protein</strong> (~1.2–1.6 g/kg/day) and <strong>fiber</strong> (25–35 g/day).</li>
+                  <li>Favor whole foods; limit sugar-sweetened drinks and ultra-processed snacks.</li>
+                  <li>For fat loss: modest deficit (~300–500 kcal/day) to preserve lean mass.</li>
+                  <li>For weight gain: surplus of ~300–500 kcal/day with progressive strength training.</li>
+                </ul>
+              </div>
+              <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
+                <h3 className="text-sky-300 font-semibold mb-2">Training &amp; Recovery</h3>
+                <ul className="list-disc list-inside space-y-1">
+                  <li>Strength train 2–3×/week; add 150–300 min/week of moderate cardio.</li>
+                  <li>Walk more: 7,000–10,000 steps/day is a practical baseline.</li>
+                  <li>Sleep 7–9 hours; align caffeine/screens with sleep hygiene.</li>
+                  <li>Manage stress with simple routines: walks, breathwork, journaling.</li>
+                </ul>
+              </div>
+            </div>
+            <p className="text-sm text-slate-400 mt-2">
+              Reminder: These are general guidelines, not medical advice. Personalize with a clinician or dietitian.
+            </p>
+          
+            <h2 id="pros-cons" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              ⚖️ Pros &amp; Cons of Using BMI
+            </h2>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
+                <h3 className="text-emerald-300 font-semibold mb-2">Pros</h3>
+                <ul className="list-disc list-inside space-y-1">
+                  <li>Fast, standardized, and easy to track over time.</li>
+                  <li>Useful for population screening and trend monitoring.</li>
+                  <li>Widely understood and research-backed thresholds.</li>
+                </ul>
+              </div>
+              <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
+                <h3 className="text-rose-300 font-semibold mb-2">Cons</h3>
+                <ul className="list-disc list-inside space-y-1">
+                  <li>Does not distinguish fat from muscle or visceral from subcutaneous fat.</li>
+                  <li>Interpretation varies with age, sex, ethnicity, and training status.</li>
+                  <li>Should be paired with other markers for decisions.</li>
+                </ul>
+              </div>
+            </div>
+          
+            <h2 id="limitations" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
+              🧪 Limitations &amp; When to Use Other Measures
+            </h2>
+            <p>
+              Consider adding <strong>waist circumference</strong>, <strong>waist-to-height ratio</strong>, or a
+              <strong> body-fat %</strong> estimate, plus <strong>metabolic labs</strong> (glucose, lipids, blood pressure).
+              Performance indicators—strength, endurance, mobility—also reveal meaningful health changes that BMI alone can’t.
+            </p>
+          
+            {/* ===================== FAQ SECTION ===================== */}
+            <section className="space-y-6 mt-16">
+              <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
+                ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
+              </h2>
+          
+              <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q1: What is BMI and how is it calculated?</h3>
+                  <p>
+                    BMI = weight(kg) ÷ [height(m)]². In imperial mode, the tool converts in and lb to metric automatically.
+                  </p>
+                </div>
+          
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q2: Which standard should I choose—WHO or Asian?</h3>
+                  <p>
+                    The Asian scale flags risk at lower BMI values. If you’re of Asian origin or your clinician prefers it, use Asian.
+                    Otherwise, WHO is a reasonable default. You can toggle both to compare.
+                  </p>
+                </div>
+          
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q3: Is BMI accurate for athletes?</h3>
+                  <p>
+                    Athletes often have higher lean mass, so BMI can overestimate risk. Pair BMI with body-fat %, waist metrics, and performance.
+                  </p>
+                </div>
+          
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q4: Can I share or save my result?</h3>
+                  <p>
+                    Yes—use <em>Copy Link</em> to share your inputs or <em>Download Image</em> for a clean, fixed-size summary card.
+                  </p>
+                </div>
+          
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q5: Is this medical advice?</h3>
+                  <p>
+                    No. This tool is for education and awareness. Consult a qualified clinician before making health decisions.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </section>
+          
+          {/* =================== AUTHOR & BACKLINK SECTION =================== */}
+          <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300 max-w-4xl mx-auto">
+            <div className="flex items-center gap-3">
+              <img
+                src="/images/calculatorhub-author.webp"
+                alt="CalculatorHub Health Tools Team"
+                className="w-12 h-12 rounded-full border border-gray-600"
+                loading="lazy"
+              />
+              <div>
+                <p className="font-semibold text-white">Written by the CalculatorHub Health Tools Team</p>
+                <p className="text-sm text-slate-400">
+                  Experts in evidence-based calculators and user-friendly interfaces. Last updated:{" "}
+                  <time dateTime="2025-11-09">November 9, 2025</time>.
+                </p>
+              </div>
+            </div>
+          
+            <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+              <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
+                🚀 Explore more health &amp; fitness tools on CalculatorHub:
+              </p>
+              <div className="flex flex-wrap gap-3 text-sm">
+                {/* If you use Link: import { Link } from "react-router-dom"; */}
+                <a
+                  href="/bmr-calculator"
+                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
+                >
+                  <span className="text-indigo-400">🔥</span> BMR &amp; TDEE Calculator
+                </a>
+          
+                <a
+                  href="/ideal-weight-calculator"
+                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
+                >
+                  <span className="text-sky-400">🎯</span> Ideal Weight Range
+                </a>
+          
+                <a
+                  href="/body-fat-calculator"
+                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-pink-600/20 text-pink-300 hover:text-pink-400 px-3 py-2 rounded-md border border-slate-700 hover:border-pink-500 transition-all duration-200"
+                >
+                  <span className="text-pink-400">💪</span> Body-Fat % Estimator
+                </a>
+              </div>
+            </div>
+          </section>
+
+
+
 
           <AdBanner type="bottom" />
           <RelatedCalculators currentPath="/bmi-calculator" category="math-tools" />
