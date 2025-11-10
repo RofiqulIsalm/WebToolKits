@@ -687,6 +687,283 @@ export default function EnergyConverter() {
             })}
           </div>
         </div>
+        {/* ==================== SEO Content Section (~2000 words) ==================== */}
+        <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+        
+          {/* ===== Table of Contents ===== */}
+          <nav className="mt-2 mb-10 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-gray-100 mb-3">📖 Table of Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#overview" className="text-amber-300 hover:underline">Overview: What this Energy Converter does</a></li>
+              <li><a href="#how-to-use" className="text-amber-300 hover:underline">How to Use</a></li>
+              <li><a href="#units" className="text-amber-300 hover:underline">Supported Units (SI, Electrical, Thermal, Particle, Imperial)</a></li>
+              <li><a href="#method" className="text-amber-300 hover:underline">Accurate Conversion Method (Joule-based)</a></li>
+              <li><a href="#precision-format" className="text-amber-300 hover:underline">Precision & Number Formats</a></li>
+              <li><a href="#keyboard" className="text-amber-300 hover:underline">Keyboard Shortcuts & Workflow</a></li>
+              <li><a href="#examples" className="text-amber-300 hover:underline">Worked Examples</a></li>
+              <li><a href="#use-cases" className="text-amber-300 hover:underline">Use Cases</a></li>
+              <li><a href="#accuracy" className="text-amber-300 hover:underline">Accuracy, Rounding & Best Practices</a></li>
+              <li><a href="#pitfalls" className="text-amber-300 hover:underline">Common Pitfalls to Avoid</a></li>
+              <li><a href="#quick-ref" className="text-amber-300 hover:underline">Quick Reference</a></li>
+              <li><a href="#glossary" className="text-amber-300 hover:underline">Glossary</a></li>
+              <li><a href="#faq" className="text-amber-300 hover:underline">FAQ</a></li>
+            </ol>
+          </nav>
+        
+          {/* ===== Overview ===== */}
+          <h1 id="overview" className="text-3xl font-bold text-amber-300 mb-6">
+            Energy Converter — J, kJ, MJ, GJ, Wh/kWh, eV, cal/kcal, BTU, therms, ft·lb, TNT — fast & accurate
+          </h1>
+        
+          <p>
+            Power bills, battery packs, gas heaters, lab measurements, turbines, even particle physics—everything reports
+            <em> energy</em> in different units. The <strong>CalculatorHub Energy Converter</strong> gives instant, accurate
+            results between the most common systems with <strong>precision control</strong>, three <strong>display formats</strong>
+            (Normal/Compact/Scientific), <strong>Favorites</strong>, <strong>History</strong>, <strong>Copy/CSV export</strong>,
+            and <strong>shareable URLs</strong>.
+          </p>
+        
+          <p>
+            Internally, every conversion is anchored to the SI base unit <strong>Joule (J)</strong>. By normalizing through Joules,
+            you get stable, traceable results across electric energy (Wh/kWh), thermal (cal/kcal/BTU/therm), mechanical (ft·lb),
+            explosive equivalence (TNT), and atomic scales (eV/keV/MeV/GeV).
+          </p>
+        
+          <figure className="my-8">
+            <img
+              src="/images/energy-converter-hero.webp"
+              alt="Energy Converter UI with unit swapping, precision and format controls"
+              title="Energy Converter — J ⇄ kJ ⇄ MJ ⇄ kWh ⇄ eV ⇄ cal/kcal ⇄ BTU ⇄ therm ⇄ ft·lb ⇄ TNT"
+              className="rounded-lg shadow-md border border-slate-700 mx-auto"
+              loading="lazy"
+            />
+            <figcaption className="text-center text-sm text-slate-400 mt-2">
+              One-click energy conversion with precise control, Favorites/History, Copy & CSV export, and shareable URLs.
+            </figcaption>
+          </figure>
+        
+          {/* ===== How to Use ===== */}
+          <h2 id="how-to-use" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">💡 How to Use</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Enter a number in the <strong>Value</strong> field (empty counts as 0; commas like <code>1,234.56</code> are OK).</li>
+            <li>Select your <strong>From</strong> and <strong>To</strong> units from the dropdowns (pin favorites for speed).</li>
+            <li>Open <strong>More options</strong> to set <strong>Precision</strong> (0–12) and choose <strong>Format</strong> (Normal/Compact/Scientific).</li>
+            <li>Use <strong>Copy All</strong> for the full grid, or <strong>CSV</strong> to export everything to a spreadsheet.</li>
+            <li>Revisit past values via the <strong>Recent</strong> list (last 10 conversions stored locally).</li>
+          </ol>
+          <p className="text-sm text-slate-400">
+            Your current state (value/units/format/precision) is preserved in the page URL—bookmark or share to reproduce the view.
+          </p>
+        
+          {/* ===== Units ===== */}
+          <h2 id="units" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">
+            🌍 Supported Units (SI, Electrical, Thermal, Particle, Imperial)
+          </h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <li><strong>SI/Metric</strong>: J, kJ, MJ, GJ.</li>
+              <li><strong>Electrical</strong>: Wh, kWh, MWh, GWh (1 Wh = 3600 J).</li>
+              <li><strong>Particle/Atomic</strong>: eV, keV, MeV, GeV (1 eV = 1.602176634×10⁻¹⁹ J, exact).</li>
+              <li><strong>Thermal/Food</strong>: cal (th) and kcal (1 cal = 4.184 J; “Calories” on food labels = kcal).</li>
+              <li><strong>Imperial/US</strong>: BTU (IT), ft·lb.</li>
+              <li><strong>Gas/Market</strong>: therm (US/UK) — note the slight definition differences.</li>
+              <li><strong>Explosive equivalence</strong>: ton of TNT (by convention 1 t TNT = 4.184×10⁹ J).</li>
+            </ul>
+          </div>
+        
+          {/* ===== Method ===== */}
+          <h2 id="method" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">📐 Accurate Conversion Method (Joule-based)</h2>
+          <p>
+            Conversions use a two-step path via <strong>Joules</strong>:
+          </p>
+          <ol className="list-decimal list-inside space-y-1">
+            <li><strong>Normalize to J</strong>: <code>value_J = value × factor(from→J)</code></li>
+            <li><strong>Convert to target</strong>: <code>value_target = value_J ÷ factor(to→J)</code></li>
+          </ol>
+          <p>
+            This prevents compounding errors and keeps results consistent across any pair of units.
+          </p>
+        
+          {/* ===== Precision & Formats ===== */}
+          <h2 id="precision-format" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">🎯 Precision & Number Formats</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Precision</strong>: For invoices/dashboards use 0–2; technical docs 3–6; research 6–12.</li>
+            <li><strong>Normal</strong>: Clean decimals (trims trailing zeros).</li>
+            <li><strong>Compact</strong>: Human-friendly large/small values (e.g., 1.2K, 3.4M).</li>
+            <li><strong>Scientific</strong>: Ideal for extremes (e.g., eV or GWh) and scientific reporting.</li>
+          </ul>
+          <p className="text-sm text-slate-400">
+            When magnitudes are extreme, Normal may auto-switch to scientific for readability.
+          </p>
+        
+          {/* ===== Keyboard Shortcuts ===== */}
+          <h2 id="keyboard" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">⌨️ Keyboard Shortcuts & Workflow</h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><kbd>/</kbd> — focus the <strong>Value</strong> input.</li>
+            <li><kbd>S</kbd> — focus <strong>From</strong>, <kbd>T</kbd> — focus <strong>To</strong>.</li>
+            <li><kbd>X</kbd> — <strong>Swap</strong> From/To units.</li>
+          </ul>
+          <p>Pin frequent units in <strong>Favorites</strong> for one-click access.</p>
+        
+          {/* ===== Worked Examples ===== */}
+          <h2 id="examples" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">📈 Worked Examples (rounded for readability)</h2>
+          <ul className="space-y-2">
+            <li><strong>1 kWh → MJ</strong>: 1 kWh = 3.6×10⁶ J = <strong>3.6 MJ</strong>.</li>
+            <li><strong>2500 J → cal</strong>: 2500 ÷ 4.184 ≈ <strong>597.6 cal</strong> (≈ 0.598 kcal food Calories).</li>
+            <li><strong>500 kcal → kJ</strong>: 500 × 4.184 = <strong>2092 kJ</strong>.</li>
+            <li><strong>10 MJ → kWh</strong>: (10×10⁶ J) ÷ 3.6×10⁶ ≈ <strong>2.777… kWh</strong>.</li>
+            <li><strong>1 BTU → J</strong>: ≈ <strong>1055.056 J</strong>; <strong>1000 BTU → kWh</strong>: 1000×1055.056 ÷ 3.6×10⁶ ≈ <strong>0.293 kWh</strong>.</li>
+            <li><strong>1 eV → J</strong>: 1.602176634×10⁻¹⁹ J (exact); <strong>5 GeV → J</strong>: 5×1.602176634×10⁻¹⁰ ≈ <strong>8.01×10⁻¹⁰ J</strong>.</li>
+            <li><strong>1 therm (US) → kWh</strong>: 1.054804×10⁸ J ÷ 3.6×10⁶ ≈ <strong>29.30 kWh</strong>.</li>
+            <li><strong>1 ft·lb → J</strong>: ≈ <strong>1.355818 J</strong>; <strong>1000 ft·lb → kJ</strong>: 1000×1.355818 ÷ 1000 ≈ <strong>1.356 kJ</strong>.</li>
+            <li><strong>1 ton TNT → MJ</strong>: 4.184×10⁹ J ÷ 10⁶ = <strong>4184 MJ</strong>.</li>
+          </ul>
+        
+          {/* ===== Use Cases ===== */}
+          <h2 id="use-cases" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">🧰 Real-World Use Cases</h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Utilities & Solar</strong>: Convert kWh ↔ MJ/GJ for billing, PV yields, and storage sizing.</li>
+            <li><strong>HVAC & Boilers</strong>: BTU/therm ↔ kWh for fuel cost comparisons and seasonal efficiency.</li>
+            <li><strong>Nutrition & Fitness</strong>: kcal ↔ kJ for food labels and meal-planning apps.</li>
+            <li><strong>Mechanical Systems</strong>: ft·lb ↔ J for flywheels, lifts, and small-scale mechanisms.</li>
+            <li><strong>Research & Labs</strong>: eV/keV/MeV ↔ J for spectroscopy, detectors, and particle interactions.</li>
+            <li><strong>Risk & Safety</strong>: TNT equivalent ↔ J/MJ for blast energy approximations.</li>
+          </ul>
+        
+          {/* ===== Accuracy & Best Practices ===== */}
+          <h2 id="accuracy" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">✅ Accuracy, Rounding & Best Practices</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Convert via <strong>Joules</strong> for consistent results across disparate unit systems.</li>
+            <li>Keep internal precision high; apply display rounding last for clean reports.</li>
+            <li>Choose <strong>Scientific</strong> notation for very large/small values (e.g., GeV or GWh).</li>
+            <li>Clarify definitions (e.g., <strong>kcal</strong> vs <strong>Calorie</strong> on labels, therm US vs UK).</li>
+          </ul>
+        
+          {/* ===== Common Pitfalls ===== */}
+          <h2 id="pitfalls" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">⚠️ Common Pitfalls to Avoid</h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Calorie confusion</strong>: Food “Calories” are actually <strong>kcal</strong> (1 Cal = 1 kcal = 4184 J).</li>
+            <li><strong>Therm (US vs UK)</strong>: Slightly different Joule values—use the correct locale for billing.</li>
+            <li><strong>Wh vs W</strong>: Watt-hour is energy; Watt is power. Don’t mix energy with power/rate.</li>
+            <li><strong>BTU varieties</strong>: This tool uses BTU (IT). Other historical definitions differ slightly.</li>
+            <li><strong>TNT equivalence</strong>: A convenient convention (4.184 GJ per ton), not a universal physical constant.</li>
+          </ul>
+        
+          {/* ===== Quick Reference ===== */}
+          <h2 id="quick-ref" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">🗂️ Quick Reference</h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <li>1 kWh = <strong>3.6 MJ</strong> = 3600 kJ = 3.6×10⁶ J</li>
+              <li>1 MJ = <strong>0.27778 kWh</strong> ≈ 239.006 kcal</li>
+              <li>1 kcal = <strong>4184 J</strong> = 4.184 kJ</li>
+              <li>1 BTU (IT) ≈ <strong>1055.056 J</strong> ≈ 0.000293 kWh</li>
+              <li>1 therm (US) ≈ <strong>1.054804×10⁸ J</strong> ≈ 29.30 kWh</li>
+              <li>1 ft·lb ≈ <strong>1.355818 J</strong></li>
+              <li>1 eV = <strong>1.602176634×10⁻¹⁹ J</strong> (exact)</li>
+              <li>1 ton TNT = <strong>4.184×10⁹ J</strong> = 4184 MJ</li>
+            </ul>
+          </div>
+        
+          {/* ===== Glossary ===== */}
+          <h2 id="glossary" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">📚 Glossary</h2>
+          <p className="space-y-2">
+            <strong>Joule (J)</strong>: SI base unit for energy. <br/>
+            <strong>Wh/kWh</strong>: Electrical energy; 1 Wh = 3600 J. <br/>
+            <strong>cal/kcal</strong>: Thermochemical definitions; 1 kcal (food Calorie) = 4184 J. <br/>
+            <strong>BTU</strong>: British thermal unit (IT). <br/>
+            <strong>therm</strong>: Large gas energy unit (US/UK variants). <br/>
+            <strong>ft·lb</strong>: Mechanical work unit in Imperial system. <br/>
+            <strong>eV</strong>: Particle energy unit; exactly defined via the elementary charge. <br/>
+            <strong>TNT (ton)</strong>: Conventional explosive energy equivalence (not fundamental).
+          </p>
+        
+          {/* ===== FAQ ===== */}
+          <section className="space-y-6 mt-16">
+            <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-amber-200">
+              ❓ Frequently Asked Questions (FAQ)
+            </h2>
+        
+            <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q1: Which energy units are supported?</h3>
+                <p>J, kJ, MJ, GJ, Wh, kWh, MWh, GWh, eV, keV, MeV, GeV, cal, kcal, BTU (IT), ft·lb, therm (US/UK), and ton of TNT.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q2: Is 1 kWh equal to 3.6 MJ?</h3>
+                <p>Yes—exactly. 1 kWh = 3.6×10⁶ J = 3.6 MJ.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q3: Which calorie definition is used?</h3>
+                <p>Thermochemical calorie: 1 cal = 4.184 J. Food labels report Calories as kcal (1 Cal = 1 kcal).</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q4: What’s the difference between therm (US) and therm (UK)?</h3>
+                <p>They are defined slightly differently. This converter exposes both to match utility/gas billing sources.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q5: Can I copy/export the whole grid?</h3>
+                <p>Yes—use <strong>Copy All</strong> for clipboard and <strong>CSV</strong> for spreadsheets. URL state is shareable.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-yellow-300">Q6: Are Favorites and Recent stored?</h3>
+                <p>Yes, locally in your browser (Recent keeps the last 10 conversions on your device).</p>
+              </div>
+        
+            </div>
+          </section>
+        </section>
+        
+        {/* =================== Author / Cross-links =================== */}
+        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/calculatorhub-author.webp"
+              alt="CalculatorHub Tools Team"
+              className="w-12 h-12 rounded-full border border-gray-600"
+              loading="lazy"
+            />
+            <div>
+              <p className="font-semibold text-white">Author: CalculatorHub Tools Team</p>
+              <p className="text-sm text-slate-400">
+                Specialists in unit conversion and calculator UX. Last updated:{" "}
+                <time dateTime="2025-11-09">November 9, 2025</time>.
+              </p>
+            </div>
+          </div>
+        
+          <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
+              🚀 Explore more tools on CalculatorHub:
+            </p>
+            <div className="flex flex-wrap gap-3 text-sm">
+              <a
+                href="/pressure-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-amber-600/20 text-amber-300 hover:text-amber-200 px-3 py-2 rounded-md border border-slate-700 hover:border-amber-500 transition-all duration-200"
+              >
+                <span className="text-amber-300">🟧</span> Pressure Converter
+              </a>
+              <a
+                href="/area-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-200 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
+              >
+                <span className="text-emerald-300">🟩</span> Area Converter
+              </a>
+              <a
+                href="/temperature-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-200 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
+              >
+                <span className="text-sky-300">🌡️</span> Temperature Converter
+              </a>
+            </div>
+          </div>
+        </section>
+
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/energy-converter" category="unit-converters" />
