@@ -3,11 +3,12 @@ import {
   BarChart3, Calendar, Clock, QrCode, Key, PiggyBank, TrendingUp, Receipt,
   Home, CreditCard, Target, Banknote, Building, Coins, Shuffle, Hash,
   Type, Coffee, Compass, Cpu, Car, Timer, Globe, Activity, Sigma,
-  Binary, Beaker, HardDrive, Gauge, Droplets, Flame, Ruler, Scale, Thermometer, Square, Zap,   Droplets, Gauge, Flame, HardDrive, Clock, Battery, Activity, Layers, TrendingUp, Wind,       Fuel, Compass, Radio, Network
+  Binary, Beaker, HardDrive, Gauge, Droplets, Flame, Ruler, Scale, Thermometer, Square, Zap,   Droplets, Gauge, Flame, HardDrive, Clock, Battery, Activity, Layers, TrendingUp, Wind,       Fuel, Compass, Radio, Network, Facebook, Link, LineChart, ShieldCheck, Smartphone,     
+  PieChart, BadgeDollarSign , LayoutDashboard, Timer, BarChart2, PlaySquare,
 } from 'lucide-react';
 
 export const toolsData = [
-  {
+  { 
     category: 'Currency & Finance',
     slug: 'currency-finance',
     tools: [
@@ -564,14 +565,126 @@ export const toolsData = [
         color: 'misc-card'
       },
       {
+        name: 'YouTube Revenue Calculator',
+        description: 'Estimate earnings from RPM, views, and geography mix',
+        icon: DollarSign,
+        path: '/youtube-revenue-calculator',
+        color: 'misc-card'
+      },
+      {
         name: 'Fuel Cost Calculator',
         description: 'Calculate fuel costs and mileage for trips',
         icon: Car,
         path: '/fuel-cost-calculator',
         color: 'misc-card'
-      }
+      },
+      {
+        name: 'Facebook In-Stream Ads Estimator',
+        description: 'Predict payouts for in-stream & overlay inventory',
+        icon: Facebook,
+        path: '/facebook-instream-revenue-estimator',
+        color: 'misc-card'
+      },
+      {
+        name: 'Website AdSense Revenue Calculator',
+        description: 'Project monthly AdSense income from sessions & RPM',
+        icon: Globe,
+        path: '/adsense-revenue-calculator',
+        color: 'misc-card'
+      },
+      {
+        name: 'CPM/CPC/CTR Planner',
+        description: 'Model ad performance and break-even targets',
+        icon: LineChart,
+        path: '/ad-metrics-planner',
+        color: 'misc-card'
+      },
+      {
+        name: 'Affiliate Revenue Forecaster',
+        description: 'Predict affiliate earnings from CTR & AOV',
+        icon: Link,
+        path: '/affiliate-revenue-forecaster',
+        color: 'misc-card'
+      },
+      {
+        name: 'AdSense RPM Optimizer',
+        description: 'Model RPM uplift from CTR, viewability & ad density tweaks',
+        icon: TrendingUp,
+        path: '/adsense-rpm-optimizer',
+        color: 'misc-card'
+      },
+      {
+        name: 'AdSense Policy & Page-Quality Checker',
+        description: 'Pre-screen titles, content and placements for ad-safety risks',
+        icon: ShieldCheck,
+        path: '/adsense-policy-checker',
+        color: 'misc-card'
+      },
+      {
+        name: 'AdMob eCPM & Fill-Rate Estimator',
+        description: 'Forecast revenue by country, format, and ad unit setup',
+        icon: Smartphone,
+        path: '/admob-ecpm-estimator',
+        color: 'misc-card'
+      },
+      {
+        name: 'Monetag Revenue Estimator',
+        description: 'Estimate income from push, in-page push, pop & interstitials',
+        icon: PieChart,
+        path: '/monetag-revenue-estimator',
+        color: 'misc-card'
+      },
+      {
+        name: 'Media.net Revenue Estimator',
+        description: 'Project contextual ad revenue from sessions & RPM',
+        icon: Globe,
+        path: '/medianet-revenue-estimator',
+        color: 'misc-card'
+      },
+      {
+        name: 'Meta Audience Network Estimator',
+        description: 'Predict in-stream/rewarded payouts for apps & instant articles',
+        icon: Network,
+        path: '/fan-revenue-estimator',
+        color: 'misc-card'
+      },
+      {
+        name: 'TikTok Creator Fund Estimator',
+        description: 'Estimate TikTok payouts based on views, engagement, and region.',
+        icon: PlaySquare,
+        path: '/tiktok-creator-fund-estimator',
+        color: 'misc-card'
+      },
+      {
+        name: 'RPM Comparison Tool',
+        description: 'Compare RPMs across YouTube, Facebook, AdSense, and TikTok to find the highest-paying platform.',
+        icon: BarChart2,
+        path: '/rpm-comparison-tool',
+        color: 'misc-card'
+      },
+      {
+        name: 'Ad Break Placement Planner',
+        description: 'Suggests the best ad break timing to maximize mid-roll engagement and revenue.',
+        icon: Timer,
+        path: '/ad-break-placement-planner',
+        color: 'misc-card'
+      },
+      {
+        name: 'Multi-Platform Earnings Dashboard',
+        description: 'Combine your earnings from YouTube, TikTok, and AdSense into a single unified view.',
+        icon: LayoutDashboard,
+        path: '/multi-platform-earnings-dashboard',
+        color: 'misc-card'
+      },
+      {
+        name: 'Sponsorship Rate Card Generator',
+        description: 'Estimate fair sponsorship deal rates based on views, engagement, and audience size.',
+        icon: BadgeDollarSign,
+        path: '/sponsorship-rate-card-generator',
+        color: 'misc-card'
+      } 
     ]
-  }
+  } 
 ];
 
 // Get top 6 most popular calculators across all categories
