@@ -682,6 +682,283 @@ export default function MassWeightConverter() {
             })}
           </div>
         </div>
+        {/* ================= SEO Content Section (~1800–2000 words) ==================== */}
+        <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+        
+          {/* ===== Table of Contents ===== */}
+          <nav className="mt-2 mb-10 bg-[#0b1a16] border border-[#1a2f28] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-gray-100 mb-3">📖 Table of Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#overview" className="text-emerald-300 hover:underline">Overview: Why this Mass / Weight Converter?</a></li>
+              <li><a href="#how-to-use" className="text-emerald-300 hover:underline">How to Use</a></li>
+              <li><a href="#units" className="text-emerald-300 hover:underline">Supported Units (Metric, Imperial & Specialty)</a></li>
+              <li><a href="#method" className="text-emerald-300 hover:underline">Accurate Conversion Method (kg-based)</a></li>
+              <li><a href="#precision-format" className="text-emerald-300 hover:underline">Precision & Number Formats</a></li>
+              <li><a href="#keyboard" className="text-emerald-300 hover:underline">Keyboard Shortcuts & Workflow</a></li>
+              <li><a href="#examples" className="text-emerald-300 hover:underline">Worked Examples</a></li>
+              <li><a href="#use-cases" className="text-emerald-300 hover:underline">Use Cases</a></li>
+              <li><a href="#accuracy" className="text-emerald-300 hover:underline">Accuracy, Rounding & Best Practices</a></li>
+              <li><a href="#pitfalls" className="text-emerald-300 hover:underline">Common Pitfalls to Avoid</a></li>
+              <li><a href="#quick-ref" className="text-emerald-300 hover:underline">Quick Reference</a></li>
+              <li><a href="#glossary" className="text-emerald-300 hover:underline">Glossary</a></li>
+              <li><a href="#faq" className="text-emerald-300 hover:underline">FAQ</a></li>
+            </ol>
+          </nav>
+        
+          {/* ===== Overview ===== */}
+          <h1 id="overview" className="text-3xl font-bold text-emerald-300 mb-6">
+            Mass / Weight Converter — kg, g, lb, oz, stone, tons — fast & precise
+          </h1>
+        
+          <p>
+            Whether you’re shipping goods, logging gym progress, scaling kitchen recipes, or reading engineering specs,
+            mass and weight units pop up everywhere. This converter handles <strong>metric</strong> (µg, mg, g, kg, t),
+            <strong>imperial/US customary</strong> (oz, lb, stone, short ton, long ton), plus specialty units like
+            <strong>carat</strong>, <strong>grain</strong>, and <strong>slug</strong>. You get <strong>precision control</strong>,
+            three <strong>display formats</strong> (Normal/Compact/Scientific), <strong>Favorites</strong>, <strong>History</strong>,
+            <strong>Copy/CSV export</strong>, and <strong>shareable URLs</strong> for seamless collaboration.
+          </p>
+        
+          <p>
+            Internally, everything is normalized to <strong>kilograms (kg)</strong>, the SI base unit of mass.
+            Conversions then fan out to your selected target unit with reliable, round-trip-safe math.
+          </p>
+        
+          <figure className="my-8">
+            <img
+              src="/images/mass-weight-converter-hero.webp"
+              alt="Mass & Weight Converter UI with metric and imperial units"
+              title="Mass / Weight Converter — kg ⇄ lb, g ⇄ oz, stone, tons"
+              className="rounded-lg shadow-md border border-slate-700 mx-auto"
+              loading="lazy"
+            />
+            <figcaption className="text-center text-sm text-slate-400 mt-2">
+              Convert between everyday units (kg, g, lb, oz) and professional units (stone, tons, carat, grain, slug) with one click.
+            </figcaption>
+          </figure>
+        
+          {/* ===== How to Use ===== */}
+          <h2 id="how-to-use" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">💡 How to Use</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Enter a number in the <strong>Value</strong> field (empty = 0; commas like <code>1,234.56</code> are fine).</li>
+            <li>Select <strong>From</strong> and <strong>To</strong> units. Pin frequent ones with <strong>Favorites</strong>.</li>
+            <li>Open <strong>More options</strong> to set <strong>Precision</strong> (0–12) and choose <strong>Format</strong> (Normal/Compact/Scientific).</li>
+            <li>Use <strong>Copy All</strong> for the full grid, or export a <strong>CSV</strong> for spreadsheets and reports.</li>
+            <li>Jump back to earlier tasks via <strong>Recent</strong> (stores your last 10 conversions locally).</li>
+          </ol>
+          <p className="text-sm text-slate-400">
+            The page URL encodes your current settings—bookmark or share to reproduce the exact view.
+          </p>
+        
+          {/* ===== Units ===== */}
+          <h2 id="units" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">
+            🌐 Supported Units (Metric, Imperial & Specialty)
+          </h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <li><strong>Metric (SI)</strong>: µg, mg, g, kg, tonne (t).</li>
+              <li><strong>Imperial/US</strong>: ounce (oz), pound (lb), stone (st), US short ton, UK long ton.</li>
+              <li><strong>Specialty</strong>: carat (ct) for gemstones, grain (gr) for ballistics/metals, slug (slug) in engineering.</li>
+            </ul>
+            <p className="mt-2 text-slate-400 text-xs">
+              Reference factors (exact by definition where applicable): 1 lb = 0.45359237 kg; 1 oz = 1/16 lb; 1 st = 14 lb;
+              1 short ton = 2000 lb; 1 long ton = 2240 lb; 1 ct = 0.2 g; 1 gr = 64.79891 mg; 1 slug ≈ 14.59390294 kg.
+            </p>
+          </div>
+        
+          {/* ===== Method ===== */}
+          <h2 id="method" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">📐 Accurate Conversion Method (kg-based)</h2>
+          <p>
+            To avoid cumulative rounding and cross-system errors, each conversion uses a two-step kg bridge:
+          </p>
+          <ol className="list-decimal list-inside space-y-1">
+            <li><strong>Normalize to kg</strong>: <code>value_kg = value × factor(from → kg)</code>.</li>
+            <li><strong>Convert to target</strong>: <code>value_target = value_kg ÷ factor(to → kg)</code>.</li>
+          </ol>
+          <p>
+            This pathway guarantees consistency across metric ⇄ imperial and among specialty units like carat, grain, and slug.
+          </p>
+        
+          {/* ===== Precision & Formats ===== */}
+          <h2 id="precision-format" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">🎯 Precision & Number Formats</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Precision</strong>: 0–2 for logistics/labels, 3–6 for fitness/culinary/retail, 6–12 for science/engineering.</li>
+            <li><strong>Normal</strong>: Clean decimal output (trims trailing zeros).</li>
+            <li><strong>Compact</strong>: Friendly for large/small values (e.g., 1.2K, 3.4M where relevant).</li>
+            <li><strong>Scientific</strong>: Ideal for micrograms, grains, or very large tonnages.</li>
+          </ul>
+        
+          {/* ===== Keyboard Shortcuts ===== */}
+          <h2 id="keyboard" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">⌨️ Keyboard Shortcuts & Workflow</h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><kbd>/</kbd> — focus the <strong>Value</strong> input.</li>
+            <li><kbd>S</kbd> — focus <strong>From</strong> unit; <kbd>T</kbd> — focus <strong>To</strong> unit.</li>
+            <li><kbd>X</kbd> — <strong>Swap</strong> From/To instantly.</li>
+          </ul>
+          <p>Pin everyday units (kg, g, lb, oz) with <strong>Favorites</strong> and fly through repeat workflows.</p>
+        
+          {/* ===== Worked Examples ===== */}
+          <h2 id="examples" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">📈 Worked Examples (rounded for readability)</h2>
+          <ul className="space-y-2">
+            <li><strong>1 kg → lb</strong>: 1 ÷ 0.45359237 ≈ <strong>2.20462262 lb</strong>.</li>
+            <li><strong>10 lb → kg</strong>: 10 × 0.45359237 = <strong>4.5359237 kg</strong>.</li>
+            <li><strong>500 g → oz</strong>: 0.5 kg ÷ (0.45359237/16) ≈ <strong>17.637 oz</strong>.</li>
+            <li><strong>32 oz → g</strong>: 32 oz = 2 lb = 0.90718474 kg = <strong>907.18474 g</strong>.</li>
+            <li><strong>70 kg → st</strong>: 70 ÷ 6.35029318 ≈ <strong>11.02 st</strong>.</li>
+            <li><strong>1 t (tonne) → short ton</strong>: 1000 kg ÷ 907.18474 ≈ <strong>1.1023 short tons</strong>.</li>
+            <li><strong>1 long ton → kg</strong>: <strong>1016.0469088 kg</strong> (exact).</li>
+            <li><strong>5 ct → g</strong>: 5 × 0.2 g = <strong>1 g</strong>.</li>
+            <li><strong>150 gr → g</strong>: 150 × 0.06479891 g ≈ <strong>9.7198 g</strong>.</li>
+            <li><strong>2 slug → kg</strong>: 2 × 14.59390294 ≈ <strong>29.1878059 kg</strong>.</li>
+          </ul>
+        
+          {/* ===== Use Cases ===== */}
+          <h2 id="use-cases" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">🧰 Real-World Use Cases</h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Logistics & Shipping</strong>: Harmonize kg-based invoices with lb/oz-based carrier limits.</li>
+            <li><strong>Fitness & Health</strong>: Track body mass in kg but share progress in lb or st where preferred.</li>
+            <li><strong>Culinary & Retail</strong>: Convert wholesale kg to shelf-friendly g/oz units instantly.</li>
+            <li><strong>Jewelry & Metals</strong>: Switch between carat, grain, gram without manual lookups.</li>
+            <li><strong>Engineering</strong>: Use slug for dynamic equations while communicating in SI (kg) for reports.</li>
+            <li><strong>Education</strong>: Demonstrate mass vs weight with numeric conversions and clear definitions.</li>
+          </ul>
+        
+          {/* ===== Accuracy & Best Practices ===== */}
+          <h2 id="accuracy" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">✅ Accuracy, Rounding & Best Practices</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Convert <strong>via kg</strong> (SI base) to avoid round-trip drift.</li>
+            <li>Carry extra precision internally; round only for display and labels.</li>
+            <li>For regulatory reporting, keep 3–6 decimals (or as specified by the standard).</li>
+            <li>For UX readability, prefer fewer decimals and <strong>Compact</strong> format where appropriate.</li>
+          </ul>
+        
+          {/* ===== Common Pitfalls ===== */}
+          <h2 id="pitfalls" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">⚠️ Common Pitfalls to Avoid</h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Mass vs Weight</strong>: Mass (kg) is matter; weight is the <em>force</em> due to gravity (newtons).
+              Everyday scales infer mass assuming standard gravity—results are shown in mass units like kg or lb.</li>
+            <li><strong>lb vs lbf</strong>: <em>lb</em> in this tool is a mass unit (pound-mass). Don’t confuse with <em>lbf</em> (pound-force).</li>
+            <li><strong>oz (mass) vs fl oz (volume)</strong>: Ounce here means mass; fluid ounce is a volume unit.</li>
+            <li><strong>Short vs Long ton</strong>: US short ton = 2000 lb; UK long ton = 2240 lb. Both differ from metric tonne (1000 kg).</li>
+            <li><strong>Rounding early</strong>: Round at the end, not between steps, to prevent drift on chained conversions.</li>
+          </ul>
+        
+          {/* ===== Quick Reference ===== */}
+          <h2 id="quick-ref" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">🗂️ Quick Reference</h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <li>1 kg = <strong>2.20462262 lb</strong></li>
+              <li>1 lb = <strong>0.45359237 kg</strong></li>
+              <li>1 oz = <strong>28.349523125 g</strong> (exact via lb)</li>
+              <li>1 st = <strong>14 lb</strong> = <strong>6.35029318 kg</strong></li>
+              <li>1 t (tonne) = <strong>1000 kg</strong></li>
+              <li>1 short ton = <strong>907.18474 kg</strong></li>
+              <li>1 long ton = <strong>1016.0469088 kg</strong></li>
+              <li>1 ct = <strong>0.2 g</strong></li>
+              <li>1 gr = <strong>64.79891 mg</strong></li>
+              <li>1 slug ≈ <strong>14.59390294 kg</strong></li>
+            </ul>
+          </div>
+        
+          {/* ===== Glossary ===== */}
+          <h2 id="glossary" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">📚 Glossary</h2>
+          <p className="space-y-2">
+            <strong>Mass</strong>: Amount of matter (kg, g, lb, oz, etc.).<br/>
+            <strong>Weight</strong>: Force due to gravity (newtons); everyday scales convert this to mass units.<br/>
+            <strong>Metric (SI)</strong>: µg, mg, g, kg, tonne (t).<br/>
+            <strong>Imperial/US customary</strong>: oz, lb, st, short ton, long ton.<br/>
+            <strong>Carat (ct)</strong>: Gemstone mass; 1 ct = 0.2 g.<br/>
+            <strong>Grain (gr)</strong>: 64.79891 mg; used in ballistics and precious metals.<br/>
+            <strong>Slug</strong>: US engineering mass unit; ≈ 14.5939 kg.
+          </p>
+        
+          {/* ===== FAQ ===== */}
+          <section className="space-y-6 mt-16">
+            <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-emerald-200">
+              ❓ Frequently Asked Questions (FAQ)
+            </h2>
+        
+            <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-emerald-300">Q1: What’s the difference between mass and weight?</h3>
+                <p>Mass measures matter (kg, g); weight is the gravitational force (newtons). Scales report mass by assuming standard gravity.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-emerald-300">Q2: How many pounds are in a kilogram?</h3>
+                <p>Exactly <strong>2.20462262185 lb</strong> per kilogram (since 1 lb = 0.45359237 kg).</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-emerald-300">Q3: Stone vs pounds vs kilograms?</h3>
+                <p>1 st = 14 lb = 6.35029318 kg. Commonly used in the UK and Ireland to express body mass.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-emerald-300">Q4: Short ton vs long ton vs metric tonne?</h3>
+                <p>Short ton (US) = 2000 lb = 907.18474 kg; Long ton (UK) = 2240 lb = 1016.0469088 kg; Tonne (metric) = 1000 kg.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-emerald-300">Q5: What are carat and grain used for?</h3>
+                <p>Carat (ct) is for gemstones: 1 ct = 0.2 g. Grain (gr) is 64.79891 mg, used in ballistics and precious metals.</p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-emerald-300">Q6: Does the tool save Favorites and Recent?</h3>
+                <p>Yes. Both are stored locally in your browser for privacy and quick recall.</p>
+              </div>
+        
+            </div>
+          </section>
+        </section>
+        
+        {/* =================== Author / Cross-links =================== */}
+        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/calculatorhub-author.webp"
+              alt="CalculatorHub Tools Team"
+              className="w-12 h-12 rounded-full border border-gray-600"
+              loading="lazy"
+            />
+            <div>
+              <p className="font-semibold text-white">Author: CalculatorHub Tools Team</p>
+              <p className="text-sm text-slate-400">
+                Specialists in unit conversion and calculator UX. Last updated:{" "}
+                <time dateTime="2025-11-09">November 9, 2025</time>.
+              </p>
+            </div>
+          </div>
+        
+          <div className="mt-8 bg-gradient-to-r from-emerald-900/40 via-teal-900/40 to-cyan-900/40 rounded-lg border border-slate-700 shadow-inner p-4">
+            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
+              🚀 Explore more tools on CalculatorHub:
+            </p>
+            <div className="flex flex-wrap gap-3 text-sm">
+              <a
+                href="/data-storage-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-cyan-600/20 text-cyan-300 hover:text-cyan-200 px-3 py-2 rounded-md border border-slate-700 hover:border-cyan-500 transition-all duration-200"
+              >
+                <span className="text-cyan-300">💾</span> Data Storage Converter
+              </a>
+              <a
+                href="/energy-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-amber-600/20 text-amber-300 hover:text-amber-200 px-3 py-2 rounded-md border border-slate-700 hover:border-amber-500 transition-all duration-200"
+              >
+                <span className="text-amber-300">⚡</span> Energy Converter
+              </a>
+              <a
+                href="/length-converter"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-200 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
+              >
+                <span className="text-emerald-300">📏</span> Length Converter
+              </a>
+            </div>
+          </div>
+        </section>
+
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/mass-weight-converter" category="unit-converters" />
