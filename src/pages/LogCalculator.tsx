@@ -421,12 +421,12 @@ const LogCalculator: React.FC = () => {
             <p className="font-semibold text-lg">Explore more math tools 🧮</p>
             <p className="text-sm text-indigo-100">Try Quadratic, Factorial, or GCD & LCM next!</p>
           </div>
-          <a
-            href="/category/math-tools"
+          <Link
+            to="/category/math-tools"
             className="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-md hover:bg-indigo-50 transition"
           >
             Browse Math Tools
-          </a>
+          </Link>
         </div>
 
         {/* Grid */}
@@ -647,21 +647,328 @@ const LogCalculator: React.FC = () => {
           )}
         </div>
 
-        {/* Short SEO content */}
+       {/* ===================== SEO Content (~1800–2000 words) ===================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
-          <h1 className="text-3xl font-bold text-cyan-400 mb-6">
-            Log Calculator – Change of Base & Graph
+        
+          {/* ===== Table of Contents ===== */}
+          <nav className="mt-2 mb-10 bg-[#0b1220] border border-[#1f2a44] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-gray-100 mb-3">📖 Table of Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#what-is-log" className="text-indigo-300 hover:underline">What Is a Logarithm?</a></li>
+              <li><a href="#features" className="text-indigo-300 hover:underline">Key Features of This Calculator</a></li>
+              <li><a href="#how-to-use" className="text-indigo-300 hover:underline">How to Use</a></li>
+              <li><a href="#change-of-base" className="text-indigo-300 hover:underline">Change of Base — The Core Trick</a></li>
+              <li><a href="#graph-intuition" className="text-indigo-300 hover:underline">Graph Intuition & Behavior</a></li>
+              <li><a href="#common-bases" className="text-indigo-300 hover:underline">Popular Bases: e, 10, and 2</a></li>
+              <li><a href="#properties" className="text-indigo-300 hover:underline">Essential Properties & Identities</a></li>
+              <li><a href="#domain-range" className="text-indigo-300 hover:underline">Domain, Range, and Constraints</a></li>
+              <li><a href="#worked-examples" className="text-indigo-300 hover:underline">Worked Examples</a></li>
+              <li><a href="#solve-equations" className="text-indigo-300 hover:underline">Solving Equations with Logs</a></li>
+              <li><a href="#precision" className="text-indigo-300 hover:underline">Precision, Rounding & Numerical Notes</a></li>
+              <li><a href="#pitfalls" className="text-indigo-300 hover:underline">Common Pitfalls & How to Avoid Them</a></li>
+              <li><a href="#use-cases" className="text-indigo-300 hover:underline">Real-World Use Cases</a></li>
+              <li><a href="#quick-ref" className="text-indigo-300 hover:underline">Quick Reference Table</a></li>
+              <li><a href="#glossary" className="text-indigo-300 hover:underline">Glossary</a></li>
+              <li><a href="#faq" className="text-indigo-300 hover:underline">FAQ</a></li>
+            </ol>
+          </nav>
+        
+          {/* ===== What is a Logarithm? ===== */}
+          <h1 id="what-is-log" className="text-3xl font-bold text-indigo-300 mb-6">
+            Logarithms — the inverse lens for exponential growth
           </h1>
           <p>
-            Enter a positive <strong>x</strong> and a valid base <strong>b</strong> (b&gt;0, b≠1) to compute{" "}
-            <strong>log₍b₎(x)</strong>. The calculator also provides <strong>ln(x)</strong>,{" "}
-            <strong>log₁₀(x)</strong>, and <strong>log₂(x)</strong>, shows the change-of-base steps, and plots the
-            curve for visual intuition.
+            A <strong>logarithm</strong> answers the question: “To what exponent must I raise a base <em>b</em> to obtain a
+            positive number <em>x</em>?” We write this as <strong>log<sub>b</sub>(x)</strong>. If <em>b<sup>y</sup> = x</em>,
+            then <em>y = log<sub>b</sub>(x)</em>. Because logs invert exponentials, they are the natural tool for taming
+            phenomena that scale multiplicatively: sound intensity (decibels), pH in chemistry, Richter magnitude, computer
+            complexity, and financial compounding.
           </p>
+          <p>
+            Mathematically, logs are defined for <strong>x &gt; 0</strong> and <strong>b &gt; 0 with b ≠ 1</strong>. The
+            calculator on this page computes <strong>log<sub>b</sub>(x)</strong> for any valid base, alongside the canonical
+            variants <strong>ln(x)</strong> (base <em>e</em>), <strong>log₁₀(x)</strong>, and <strong>log₂(x)</strong>, and
+            visualizes the curve <em>y = log<sub>b</sub>(x)</em> around your chosen point.
+          </p>
+        
+          {/* ===== Features ===== */}
+          <h2 id="features" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            ✨ Key features of this Log Calculator
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Flexible base</strong>: compute <em>log<sub>b</sub>(x)</em> for any real base <em>b&gt;0, b≠1</em>.</li>
+            <li><strong>Instant companions</strong>: auto-displays <em>ln(x)</em>, <em>log₁₀(x)</em>, and <em>log₂(x)</em>.</li>
+            <li><strong>Change-of-base steps</strong>: transparent derivation using <code>ln(x)/ln(b)</code>.</li>
+            <li><strong>Interactive graph</strong>: a smooth plot of <em>y = log<sub>b</sub>(x)</em> with your point highlighted.</li>
+            <li><strong>Share & copy</strong>: export results as text or copy a permalink that encodes your inputs.</li>
+            <li><strong>Input safety nets</strong>: gentle clamping for <em>x</em> and clear validation for the base.</li>
+          </ul>
+        
+          {/* ===== How to Use ===== */}
+          <h2 id="how-to-use" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">🧭 How to use this calculator</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Enter a positive <strong>x</strong> (e.g., 0.5, 2, 8, 100).</li>
+            <li>Choose a valid <strong>base b</strong> (<em>b &gt; 0</em> and <em>b ≠ 1</em>), or click a preset (<em>e</em>, 10, 2).</li>
+            <li>Read off <strong>log<sub>b</sub>(x)</strong>, plus <strong>ln(x), log₁₀(x), log₂(x)</strong>.</li>
+            <li>Open <em>Step-by-Step</em> to see the <strong>change-of-base</strong> computation with your inputs.</li>
+            <li>Use <strong>Copy Results</strong> or <strong>Copy Link</strong> to reuse or share the exact state.</li>
+          </ol>
+          <p className="text-sm text-slate-400">
+            Tip: When <em>b&gt;1</em>, the log curve rises slowly; when <em>0&lt;b&lt;1</em>, it falls. In all cases,
+            <em>log<sub>b</sub>(1)=0</em> and <em>log<sub>b</sub>(b)=1</em>.
+          </p>
+        
+          {/* ===== Change of Base ===== */}
+          <h2 id="change-of-base" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🧮 Change of base — the core trick
+          </h2>
+          <p>
+            Most calculators provide only <em>ln</em> and <em>log₁₀</em>. The universal identity
+            <strong> log<sub>b</sub>(x) = ln(x) / ln(b)</strong> (equivalently <strong>log₁₀(x)/log₁₀(b)</strong>) reduces any
+            base to the ones you have. This tool applies that identity directly, so you can use <em>b=1.5</em> just as easily as
+            <em>b=2</em> or <em>b=10</em>.
+          </p>
+          <pre className="bg-[#0f172a] border border-[#334155] rounded-lg p-3 overflow-x-auto text-sm">
+            log_b(x) = ln(x) / ln(b)   =   log₁₀(x) / log₁₀(b)
+          </pre>
+          <p>
+            Because both numerator and denominator are logs in the same base, the ratio remains invariant across bases. This is
+            why “change of base” works and why we can visualize the curve for arbitrary <em>b</em>.
+          </p>
+        
+          {/* ===== Graph Intuition ===== */}
+          <h2 id="graph-intuition" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            📈 Graph intuition & behavior
+          </h2>
+          <p>
+            The graph of <em>y = log<sub>b</sub>(x)</em> is defined for <em>x&gt;0</em> and crosses the x-axis at <em>x=1</em>.
+            It is the mirror image of <em>y = b<sup>x</sup></em> across the line <em>y=x</em>. For <em>b&gt;1</em>, the curve is
+            increasing and concave downward: it rises quickly near zero and flattens for large <em>x</em>. For <em>0&lt;b&lt;1</em>,
+            the curve is decreasing, reflecting that repeatedly multiplying by a fraction brings you closer to zero.
+          </p>
+          <ul className="list-disc list-inside space-y-1">
+            <li><strong>Vertical asymptote</strong> at <em>x=0⁺</em>: the log tends to <em>−∞</em> as <em>x</em> approaches zero from the right.</li>
+            <li><strong>Intercept</strong>: <em>(1, 0)</em>, since <em>log<sub>b</sub>(1) = 0</em> for any valid base.</li>
+            <li><strong>Unit step</strong>: <em>log<sub>b</sub>(b) = 1</em>; every base maps to 1 at its own value.</li>
+          </ul>
+        
+          {/* ===== Common Bases ===== */}
+          <h2 id="common-bases" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🔢 Popular bases: e, 10, and 2
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Natural log (ln)</strong>, base <em>e≈2.71828…</em>, arises naturally in calculus, growth/decay, and continuous compounding.</li>
+            <li><strong>Common log (log₁₀)</strong> is standard in scientific notation, orders of magnitude, and decibel/pH definitions.</li>
+            <li><strong>Binary log (log₂)</strong> counts powers of two, central to CS complexity, information (bits), and data structures.</li>
+          </ul>
+          <p className="text-sm text-slate-400">
+            This tool shows all three alongside your chosen base so you can translate easily between contexts.
+          </p>
+        
+          {/* ===== Properties ===== */}
+          <h2 id="properties" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🧩 Essential properties & identities
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Inverse</strong>: <em>b<sup>log<sub>b</sub>(x)</sup>=x</em> and <em>log<sub>b</sub>(b<sup>y</sup>)=y</em>.</li>
+            <li><strong>Product</strong>: <em>log<sub>b</sub>(xy)=log<sub>b</sub>(x)+log<sub>b</sub>(y)</em>.</li>
+            <li><strong>Quotient</strong>: <em>log<sub>b</sub>(x/y)=log<sub>b</sub>(x)−log<sub>b</sub>(y)</em>.</li>
+            <li><strong>Power</strong>: <em>log<sub>b</sub>(x^k)=k·log<sub>b</sub>(x)</em> (for real <em>x&gt;0</em>).</li>
+            <li><strong>Base switch</strong>: <em>log<sub>b</sub>(x)=log<sub>c</sub>(x)/log<sub>c</sub>(b)</em> for any valid <em>c</em>.</li>
+          </ul>
+        
+          {/* ===== Domain & Range ===== */}
+          <h2 id="domain-range" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🧭 Domain, range, and constraints
+          </h2>
+          <p>
+            The domain is <strong>x &gt; 0</strong>. Inputs at or below zero are undefined in the real numbers. The base must
+            satisfy <strong>b &gt; 0</strong> and <strong>b ≠ 1</strong>. The range is all real numbers, reflecting that
+            exponentials can grow or shrink to hit any positive target.
+          </p>
+          <p className="text-sm text-slate-400">
+            Note: Complex analysis extends logs to negative and complex inputs with branch cuts, but this calculator focuses on
+            the real-valued case used in algebra, calculus, and data work.
+          </p>
+        
+          {/* ===== Worked Examples ===== */}
+          <h2 id="worked-examples" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🧪 Worked examples (rounded for readability)
+          </h2>
+          <ul className="space-y-2">
+            <li><strong>log₂(8)</strong> = 3 because <em>2³ = 8</em>. Using change of base: <em>ln(8)/ln(2) ≈ 2.07944 / 0.69315 ≈ 3</em>.</li>
+            <li><strong>log₁₀(1000)</strong> = 3 because <em>10³ = 1000</em>.</li>
+            <li><strong>logₑ(e)</strong> = 1 by definition of <em>e</em>.</li>
+            <li><strong>log₅(0.2)</strong> = −1 since <em>5⁻¹ = 1/5 = 0.2</em>.</li>
+            <li><strong>log₁.₅(10)</strong> ≈ <em>ln(10)/ln(1.5)</em> ≈ 2.302585 / 0.405465 ≈ 5.68.</li>
+          </ul>
+        
+          {/* ===== Solve Equations ===== */}
+          <h2 id="solve-equations" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🧮 Solving equations with logarithms
+          </h2>
+          <p>
+            Logs turn multiplicative/exponential relationships into additive/linear ones. If <em>b<sup>kx</sup> = y</em>, taking
+            <em>log<sub>b</sub></em> gives <em>kx = log<sub>b</sub>(y)</em>, hence <em>x = log<sub>b</sub>(y)/k</em>. This is
+            the standard technique for pulling an exponent down where algebra can reach it.
+          </p>
+          <pre className="bg-[#0f172a] border border-[#334155] rounded-lg p-3 overflow-x-auto text-sm">
+            Example:  3·2^(0.4x) = 50  ⇒  2^(0.4x) = 50/3  ⇒  0.4x = log₂(50/3)  ⇒  x = log₂(50/3) / 0.4
+          </pre>
+        
+          {/* ===== Precision ===== */}
+          <h2 id="precision" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🎯 Precision, rounding & numerical notes
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Floating-point</strong>: results use IEEE-754 doubles; tiny rounding artifacts may appear at extreme scales.</li>
+            <li><strong>Clamping</strong>: very small/large <em>x</em> are gently clamped to keep plots stable and readable.</li>
+            <li><strong>Displayed digits</strong>: the UI rounds to a sensible number of decimals; copying results preserves clear precision.</li>
+          </ul>
+        
+          {/* ===== Pitfalls ===== */}
+          <h2 id="pitfalls" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            ⚠️ Common pitfalls & how to avoid them
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Invalid domain</strong>: <em>x ≤ 0</em> is undefined for real logs. Ensure <em>x&gt;0</em>.</li>
+            <li><strong>Illegal base</strong>: <em>b ≤ 0</em> or <em>b = 1</em> is not allowed. Choose <em>b&gt;0</em> with <em>b≠1</em>.</li>
+            <li><strong>Wrong base assumption</strong>: “log” can mean <em>log₁₀</em> in engineering or <em>ln</em> in math contexts—be explicit.</li>
+            <li><strong>Over-rounding</strong>: avoid premature rounding before applying identities; round only at the end.</li>
+          </ul>
+        
+          {/* ===== Use Cases ===== */}
+          <h2 id="use-cases" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🧰 Real-world use cases
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Data scales</strong>: log transforms stabilize variance and reveal multiplicative patterns in skewed data.</li>
+            <li><strong>Complexity</strong>: algorithmic analyses (e.g., <em>O(log n)</em> time) hinge on binary logs.</li>
+            <li><strong>Signals</strong>: decibels are logarithmic; small amplitude changes can be large in power ratios.</li>
+            <li><strong>Earth & life</strong>: Richter magnitudes, pH (hydrogen ion concentration), and bacterial growth all relate to logs.</li>
+            <li><strong>Finance</strong>: continuously compounded rates and growth half-lives use natural logs.</li>
+          </ul>
+        
+          {/* ===== Quick Reference Table ===== */}
+          <h2 id="quick-ref" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🗂️ Quick reference
+          </h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="text-slate-300">
+                  <th className="py-2 pr-4">Item</th>
+                  <th className="py-2 pr-4">Formula / Value</th>
+                  <th className="py-2">Notes</th>
+                </tr>
+              </thead>
+              <tbody className="text-slate-200">
+                <tr>
+                  <td className="py-2 pr-4">Change of base</td>
+                  <td className="py-2 pr-4">log<sub>b</sub>(x) = ln(x)/ln(b)</td>
+                  <td className="py-2">Also log₁₀ variant</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">Inverse</td>
+                  <td className="py-2 pr-4">b<sup>log<sub>b</sub>(x)</sup>=x</td>
+                  <td className="py-2">For x&gt;0, b&gt;0,b≠1</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">Product</td>
+                  <td className="py-2 pr-4">log<sub>b</sub>(xy)=log<sub>b</sub>(x)+log<sub>b</sub>(y)</td>
+                  <td className="py-2">x,y&gt;0</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">Power</td>
+                  <td className="py-2 pr-4">log<sub>b</sub>(x^k)=k·log<sub>b</sub>(x)</td>
+                  <td className="py-2">real k, x&gt;0</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4">Special values</td>
+                  <td className="py-2 pr-4">log<sub>b</sub>(1)=0, log<sub>b</sub>(b)=1</td>
+                  <td className="py-2">Any valid base</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        
+          {/* ===== Glossary ===== */}
+          <h2 id="glossary" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">📚 Glossary</h2>
+          <p className="space-y-2">
+            <strong>log<sub>b</sub>(x)</strong>: exponent required to raise base <em>b</em> to get <em>x</em>. <br/>
+            <strong>ln(x)</strong>: log base <em>e</em>; the natural logarithm. <br/>
+            <strong>log₁₀(x)</strong>: common log, base 10. <br/>
+            <strong>log₂(x)</strong>: binary log, base 2. <br/>
+            <strong>Change of base</strong>: identity expressing any base in terms of another base’s log.
+          </p>
+        
+          {/* ===== FAQ ===== */}
+          <section className="space-y-6 mt-16">
+            <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-indigo-200">
+              ❓ Frequently Asked Questions (FAQ)
+            </h2>
+        
+            <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q1: Why is x required to be positive?</h3>
+                <p>
+                  For real-valued logs, the exponential <em>b<sup>y</sup></em> only produces positive <em>x</em>. Extending to
+                  negative/complex inputs requires complex analysis and is outside this tool’s scope.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q2: What bases are allowed?</h3>
+                <p>
+                  Any <em>b&gt;0</em> with <em>b≠1</em>. Bases ≤0 or equal to 1 break the definitions or trivialize the log.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q3: Is log the same as ln?</h3>
+                <p>
+                  Not always. In pure math, “log” often means <em>ln</em>; in engineering, it often means <em>log₁₀</em>. This
+                  app labels bases explicitly to avoid ambiguity.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q4: Why do my results differ slightly from a hand calculator?</h3>
+                <p>
+                  Tiny differences arise from rounding and different internal constants. Use more displayed digits for tighter
+                  agreement; the underlying values are consistent.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q5: Can I plot multiple bases at once?</h3>
+                <p>
+                  This page focuses on one base at a time for clarity. Switch bases or save/share links for quick comparisons.
+                </p>
+              </div>
+        
+            </div>
+          </section>
         </section>
-
-        {/* Footer links */}
+        
+        {/* ========= Cross-links ========= */}
         <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/calculatorhub-author.webp"
+              alt="CalculatorHub Tools Team"
+              className="w-12 h-12 rounded-full border border-gray-600"
+              loading="lazy"
+            />
+            <div>
+              <p className="font-semibold text-white">Author: CalculatorHub Tools Team</p>
+              <p className="text-sm text-slate-400">
+                Specialists in math utilities & UX. Last updated: <time dateTime="2025-11-10">November 10, 2025</time>.
+              </p>
+            </div>
+          </div>
+        
           <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
             <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
               🚀 Explore more tools on CalculatorHub:
@@ -669,25 +976,26 @@ const LogCalculator: React.FC = () => {
             <div className="flex flex-wrap gap-3 text-sm">
               <Link
                 to="/quadratic-equation-solver"
-                className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-200 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
               >
                 𝑎x²+𝑏x+𝑐 Quadratic Solver
               </Link>
               <Link
                 to="/factorial-calculator"
-                className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-200 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
               >
                 n! Factorial
               </Link>
               <Link
                 to="/gcd-lcm-calculator"
-                className="flex items-center gap-2 bg-[#0f172a] hover:bg-pink-600/20 text-pink-300 hover:text-pink-400 px-3 py-2 rounded-md border border-slate-700 hover:border-pink-500 transition-all duration-200"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-pink-600/20 text-pink-300 hover:text-pink-200 px-3 py-2 rounded-md border border-slate-700 hover:border-pink-500 transition-all duration-200"
               >
                 GCD & LCM
               </Link>
             </div>
           </div>
         </section>
+
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/log-calculator" category="math-tools" />
