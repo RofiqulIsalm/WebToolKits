@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Link } from "react-router-dom";
 import AdBanner from '../components/AdBanner';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -805,24 +806,24 @@ export default function DensityConverter() {
             <div className="mt-8 bg-gradient-to-r from-slate-900/30 via-indigo-900/30 to-blue-900/30 rounded-lg border border-slate-700 shadow-inner p-4">
               <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">🚀 Explore more tools on CalculatorHub:</p>
               <div className="flex flex-wrap gap-3 text-sm">
-                <a
-                  href="/force-converter"
+                <Link
+                  to="/force-converter"
                   className="flex items-center gap-2 bg-[#0f172a] hover:bg-cyan-600/20 text-cyan-300 hover:text-cyan-200 px-3 py-2 rounded-md border border-slate-700 hover:border-cyan-500 transition-all duration-200"
                 >
                   🧲 Force Converter
-                </a>
-                <a
-                  href="/power-converter"
+                </Link>
+                <Link
+                  to="/power-converter"
                   className="flex items-center gap-2 bg-[#0f172a] hover:bg-amber-600/20 text-amber-300 hover:text-amber-200 px-3 py-2 rounded-md border border-slate-700 hover:border-amber-500 transition-all duration-200"
                 >
                   ⚡ Power Converter
-                </a>
-                <a
-                  href="/time-converter"
+                </Link
+                <Link
+                  to="/time-converter"
                   className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-200 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
                 >
                   ⏱️ Time Converter
-                </a>
+                </Link>
               </div>
             </div>
           </section>
