@@ -223,17 +223,195 @@ const WeekNumberFinder: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="Week Number Finder | ISO-8601 & US Week of Year"
-        description="Find the week of year for any date. Supports ISO-8601 (Mon-start, first Thursday rule) and US (Sun-start) modes, with week start/end dates and shareable state."
-        canonical="https://calculatorhub.site/week-number-finder"
-        schemaData={generateCalculatorSchema(
-          "Week Number Finder",
-          "Find which week of the year a given date falls in—ISO-8601 or US mode. Get week number, week year, and the exact start/end dates.",
-          "/week-number-finder",
-          ["week number", "week of year", "ISO week", "US week", "date tools"]
-        )}
-      />
+          title="Week Number Finder | ISO-8601 & US Week of Year"
+          description="Find the week of year for any date. ISO-8601 (Mon-start, first Thursday rule) and US (Sun-start) modes with week start/end dates, week year, and shareable state."
+          keywords={[
+            "week number","week of year","ISO week","US week","iso-8601 week",
+            "week code","2025 W46","week year","date tools","calendar week"
+          ]}
+          canonical="https://calculatorhub.site/week-number-finder"
+          schemaData={[
+            // 1) Core calculator schema
+            generateCalculatorSchema(
+              "Week Number Finder",
+              "Find which week of the year a given date falls in—ISO-8601 or US mode. Get week number, week year, and exact start/end dates.",
+              "/week-number-finder",
+              ["week number","week of year","ISO week","US week","date tools"]
+            ),
+        
+            // 2) WebApplication (the app entity)
+            {
+              "@context":"https://schema.org",
+              "@type":"WebApplication",
+              "name":"Week Number Finder – CalculatorHub",
+              "url":"https://calculatorhub.site/week-number-finder",
+              "applicationCategory":"UtilitiesApplication",
+              "operatingSystem":"Web",
+              "inLanguage":"en",
+              "description":"Week of year for any date with ISO-8601 and US modes, start/end dates, and shareable state.",
+              "image":[
+                "https://calculatorhub.site/images/week-number-finder-preview.webp",
+                "https://calculatorhub.site/images/week-number-finder-hero.webp"
+              ],
+              "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+              "publisher":{
+                "@type":"Organization",
+                "name":"CalculatorHub",
+                "url":"https://calculatorhub.site",
+                "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/calculatorhub-logo.webp"}
+              },
+              "datePublished":"2025-11-13",
+              "dateModified":"2025-11-13",
+              "keywords":["week number","iso week","us week","week code","week year"]
+            },
+        
+            // 3) WebPage → Article (page content)
+            {
+              "@context":"https://schema.org",
+              "@type":"WebPage",
+              "url":"https://calculatorhub.site/week-number-finder",
+              "mainEntity":{
+                "@type":"Article",
+                "headline":"Week Number Finder — ISO-8601 & US Week of Year",
+                "description":"Compute week number (week of year), week year, and week start/end dates in ISO-8601 or US mode.",
+                "author":{"@type":"Organization","name":"CalculatorHub Tools Team"},
+                "publisher":{
+                  "@type":"Organization",
+                  "name":"CalculatorHub",
+                  "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/calculatorhub-logo.webp"}
+                },
+                "image":[
+                  "https://calculatorhub.site/images/week-number-finder-preview.webp",
+                  "https://calculatorhub.site/images/week-number-finder-hero.webp"
+                ],
+                "datePublished":"2025-11-13",
+                "dateModified":"2025-11-13",
+                "articleSection":[
+                  "What Is Week Number?",
+                  "ISO-8601 vs US",
+                  "How to Use",
+                  "Methods & Rules",
+                  "Worked Examples",
+                  "Use Cases",
+                  "FAQ"
+                ],
+                "inLanguage":"en",
+                "keywords":["week number","week of year","iso week","us week","calendar week"]
+              }
+            },
+        
+            // 4) FAQPage
+            {
+              "@context":"https://schema.org",
+              "@type":"FAQPage",
+              "mainEntity":[
+                {
+                  "@type":"Question",
+                  "name":"What’s the difference between ISO-8601 and US week numbering?",
+                  "acceptedAnswer":{"@type":"Answer","text":"ISO weeks start Monday and Week 1 is the week with the year’s first Thursday; US weeks start Sunday and Week 1 is the week containing Jan 1."}
+                },
+                {
+                  "@type":"Question",
+                  "name":"What do you return besides the week number?",
+                  "acceptedAnswer":{"@type":"Answer","text":"We provide the week number, week year, ISO/US week code, and the exact start/end dates of that week."}
+                }
+              ]
+            },
+        
+            // 5) Breadcrumbs
+            {
+              "@context":"https://schema.org",
+              "@type":"BreadcrumbList",
+              "itemListElement":[
+                {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+                {"@type":"ListItem","position":2,"name":"Date & Time Tools","item":"https://calculatorhub.site/category/date-time-tools"},
+                {"@type":"ListItem","position":3,"name":"Week Number Finder","item":"https://calculatorhub.site/week-number-finder"}
+              ]
+            },
+        
+            // 6) WebSite + SearchAction
+            {
+              "@context":"https://schema.org",
+              "@type":"WebSite",
+              "name":"CalculatorHub",
+              "url":"https://calculatorhub.site",
+              "potentialAction":{
+                "@type":"SearchAction",
+                "target":"https://calculatorhub.site/search?q={query}",
+                "query-input":"required name=query"
+              }
+            },
+        
+            // 7) Organization (brand)
+            {
+              "@context":"https://schema.org",
+              "@type":"Organization",
+              "name":"CalculatorHub",
+              "url":"https://calculatorhub.site",
+              "logo":"https://calculatorhub.site/images/calculatorhub-logo.webp"
+            },
+        
+            // 8) Speakable (voice assistants)
+            {
+              "@context":"https://schema.org",
+              "@type":"SpeakableSpecification",
+              "cssSelector":[
+                ".prose h1",
+                ".prose #iso-vs-us",
+                ".prose #how-to-use"
+              ]
+            }
+          ]}
+          breadcrumbs={[
+            { name: "Date & Time Tools", url: "/category/date-time-tools" },
+            { name: "Week Number Finder", url: "/week-number-finder" }
+          ]}
+        />
+
+
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/week-number-finder" />
+      
+
+      <link rel="alternate" href="https://calculatorhub.site/week-number-finder" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/week-number-finder" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/week-number-finder" hreflang="x-default" />
+      
+   
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Week Number Finder | ISO-8601 & US Week of Year" />
+      <meta property="og:description" content="Find the week of year (ISO or US) with week start/end dates, week year, and shareable link." />
+      <meta property="og:url" content="https://calculatorhub.site/week-number-finder" />
+      <meta property="og:image" content="https://calculatorhub.site/images/week-number-finder-preview.webp" />
+      <meta property="og:image:alt" content="Week Number Finder preview" />
+      
+
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Week Number Finder | ISO-8601 & US Week of Year" />
+      <meta name="twitter:description" content="Compute week number and week year with precise week start/end dates." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/week-number-finder-preview.webp" />
+      
+
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <link rel="manifest" href="/site.webmanifest" />
+      <meta name="theme-color" content="#4f46e5" />
+      
+  
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+      
+
+      <link rel="preload" as="image" href="/images/week-number-finder-hero.webp" />
+      <link rel="preload" as="image" href="/images/week-number-finder-preview.webp" />
+      
+
+      <meta name="referrer" content="no-referrer-when-downgrade" />
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
