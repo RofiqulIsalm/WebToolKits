@@ -893,17 +893,163 @@ const CalendarGenerator: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="Calendar Generator & Designer | Printable, PNG/PDF/SVG"
-        description="Create monthly or yearly calendars fast — or design poster-grade calendars with your own images, sizes, and styles. Export PNG/PDF/SVG/ICS."
-        canonical="https://calculatorhub.site/calendar-generator"
-        schemaData={generateCalculatorSchema(
-          "Calendar Generator & Designer",
-          "Quick calendar builder and advanced design studio with templates, images, exact-size exports, and ICS events.",
-          "/calendar-generator",
-          ["calendar generator","calendar designer","printable calendar","png export","pdf export","svg export","ics"]
-        )}
-      />
+            title="Calendar Generator & Designer | Printable, PNG/PDF/SVG"
+            description="Create monthly or yearly calendars fast — or design poster-grade calendars with your own images, sizes, and styles. Export PNG/PDF/SVG/ICS."
+            keywords={[
+              "calendar generator","calendar designer","printable calendar",
+              "monthly calendar","yearly calendar","png export","pdf export",
+              "svg export","ics export","holiday calendar","photo calendar"
+            ]}
+            canonical="https://calculatorhub.site/calendar-generator"
+            schemaData={[
+              // 0) Your base calculator schema (kept)
+              generateCalculatorSchema(
+                "Calendar Generator & Designer",
+                "Quick calendar builder and advanced design studio with templates, images, exact-size exports, and ICS events.",
+                "/calendar-generator",
+                ["calendar generator","calendar designer","printable calendar","png export","pdf export","svg export","ics"]
+              ),
+          
+              // 1) WebApplication (app details)
+              {
+                "@context":"https://schema.org","@type":"WebApplication",
+                "name":"Calendar Generator & Designer — CalculatorHub",
+                "url":"https://calculatorhub.site/calendar-generator",
+                "applicationCategory":"UtilitiesApplication","operatingSystem":"Web",
+                "description":"Create monthly/yearly calendars, import holidays, and export PNG/PDF/SVG/ICS. Designer mode for exact-size, high-DPI prints.",
+                "inLanguage":"en",
+                "image":[
+                  "https://calculatorhub.site/images/calendar-generator-hero.webp",
+                  "https://calculatorhub.site/images/calendar-generator-preview.webp"
+                ],
+                "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+                "publisher":{
+                  "@type":"Organization","name":"CalculatorHub","url":"https://calculatorhub.site",
+                  "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/calculatorhub-logo.webp"}
+                },
+                "datePublished":"2025-11-12","dateModified":"2025-11-12",
+                "keywords":[
+                  "calendar generator","calendar designer","printable calendar",
+                  "png export","pdf export","svg export","ics","holiday calendar"
+                ]
+              },
+          
+              // 2) WebPage + Article (long-form content)
+              {
+                "@context":"https://schema.org","@type":"WebPage","url":"https://calculatorhub.site/calendar-generator",
+                "name":"Calendar Generator & Designer",
+                "mainEntity":{
+                  "@type":"Article",
+                  "headline":"Calendar Generator & Designer — Create, Customize, and Export",
+                  "description":"Build beautiful monthly/yearly calendars, import events/holidays, and export PNG/PDF/SVG/ICS with high-DPI designer mode.",
+                  "author":{"@type":"Organization","name":"CalculatorHub Tools Team"},
+                  "publisher":{"@type":"Organization","name":"CalculatorHub",
+                    "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/calculatorhub-logo.webp"}},
+                  "image":[
+                    "https://calculatorhub.site/images/calendar-generator-hero.webp",
+                    "https://calculatorhub.site/images/calendar-generator-preview.webp"
+                  ],
+                  "datePublished":"2025-11-12","dateModified":"2025-11-12",
+                  "articleSection":[
+                    "What Makes It Different","How to Use","Designer Mode",
+                    "Export Options","Practical Uses","Performance & Privacy","FAQ"
+                  ],
+                  "inLanguage":"en","keywords":[
+                    "calendar generator","photo calendar","holiday import","ics export",
+                    "png pdf svg calendar","printable calendar designer"
+                  ]
+                }
+              },
+          
+              // 3) FAQPage (match on-page FAQ)
+              {
+                "@context":"https://schema.org","@type":"FAQPage",
+                "mainEntity":[
+                  {
+                    "@type":"Question","name":"Is this tool free to use?",
+                    "acceptedAnswer":{"@type":"Answer","text":"Yes. Completely free—no watermarks, no login, no hidden costs."}
+                  },
+                  {
+                    "@type":"Question","name":"Can I print the calendar?",
+                    "acceptedAnswer":{"@type":"Answer","text":"Export high-resolution PDF or PNG and print at home or with a print shop. DPI control ensures sharpness."}
+                  },
+                  {
+                    "@type":"Question","name":"Can I add holidays automatically?",
+                    "acceptedAnswer":{"@type":"Answer","text":"Paste or import CSV/TXT of holidays/events; the app maps dates and marks them on the calendar."}
+                  },
+                  {
+                    "@type":"Question","name":"What file formats can I export?",
+                    "acceptedAnswer":{"@type":"Answer","text":"PNG for sharing, PDF for print, SVG for vector editing, and ICS for calendar apps."}
+                  }
+                ]
+              },
+          
+              // 4) BreadcrumbList (match UI trail)
+              {
+                "@context":"https://schema.org","@type":"BreadcrumbList",
+                "itemListElement":[
+                  {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+                  {"@type":"ListItem","position":2,"name":"Date & Time Tools","item":"https://calculatorhub.site/category/date-time-tools"},
+                  {"@type":"ListItem","position":3,"name":"Calendar Generator","item":"https://calculatorhub.site/calendar-generator"}
+                ]
+              },
+          
+              // 5) WebSite + Organization (sitelinks search)
+              {
+                "@context":"https://schema.org","@type":"WebSite",
+                "name":"CalculatorHub","url":"https://calculatorhub.site",
+                "potentialAction":{"@type":"SearchAction","target":"https://calculatorhub.site/search?q={query}","query-input":"required name=query"}
+              }
+            ]}
+            breadcrumbs={[
+              { name: "Date & Time Tools", url: "/category/date-time-tools" },
+              { name: "Calendar Generator", url: "/calendar-generator" }
+            ]}
+          />
+
+
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/calendar-generator" />
+      
+
+      <link rel="alternate" href="https://calculatorhub.site/calendar-generator" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/calendar-generator" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/calendar-generator" hreflang="x-default" />
+      
+  
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Calendar Generator & Designer | Printable, PNG/PDF/SVG" />
+      <meta property="og:description" content="Build calendars fast or design poster-grade versions with images, sizes, and branding. Export PNG/PDF/SVG/ICS." />
+      <meta property="og:url" content="https://calculatorhub.site/calendar-generator" />
+      <meta property="og:image" content="https://calculatorhub.site/images/calendar-generator-preview.webp" />
+      <meta property="og:image:alt" content="Calendar Generator & Designer preview" />
+      
+ 
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Calendar Generator & Designer | Printable, PNG/PDF/SVG" />
+      <meta name="twitter:description" content="Quick builder + Designer mode with templates, holiday import and ICS export." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/calendar-generator-preview.webp" />
+      
+
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <link rel="manifest" href="/site.webmanifest" />
+      <meta name="theme-color" content="#0ea5e9" />
+      
+
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+      <link rel="preload" as="image" href="/images/calendar-generator-hero.webp" />
+      <link rel="preload" as="image" href="/images/calendar-generator-preview.webp" />
+      
+
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
