@@ -568,17 +568,206 @@ const TimezoneConverter: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="Timezone Converter | Meeting Planner with Working Hours & Duration"
-        description="Convert times across timezones with DST, meeting duration, working-hours highlights, presets, sort-by-local, and shareable link."
-        canonical="https://calculatorhub.site/timezone-converter"
-        schemaData={generateCalculatorSchema(
-          "Timezone Converter",
-          "Plan meetings across cities with duration, work-hour highlighting, and DST-safe conversions.",
-          "/timezone-converter",
-          ["timezone converter", "meeting planner", "world clock", "UTC offset", "DST"]
-        )}
-      />
+          title="Timezone Converter | Meeting Planner with Working Hours & Duration"
+          description="Convert times across timezones with DST, meeting duration, working-hours highlights, presets, sorting, and a shareable link."
+          keywords={[
+            "timezone converter","world clock","meeting planner","time zone meeting",
+            "utc offset","dst time","convert time zones","schedule across time zones",
+            "asia/dhaka time","europe/london time","america/new_york time"
+          ]}
+          canonical="https://calculatorhub.site/timezone-converter"
+          schemaData={[
+            // 1) Core calculator schema (your existing helper)
+            generateCalculatorSchema(
+              "Timezone Converter",
+              "Plan meetings across cities with duration, work-hour highlighting, and DST-safe conversions.",
+              "/timezone-converter",
+              ["timezone converter","meeting planner","world clock","UTC offset","DST"]
+            ),
+        
+            // 2) WebApplication (the tool itself)
+            {
+              "@context":"https://schema.org",
+              "@type":"WebApplication",
+              "name":"Timezone Converter – CalculatorHub",
+              "url":"https://calculatorhub.site/timezone-converter",
+              "applicationCategory":"UtilitiesApplication",
+              "operatingSystem":"Web",
+              "inLanguage":"en",
+              "description":"Convert times across time zones with DST, duration and working-hours highlighting.",
+              "image":[
+                "https://calculatorhub.site/images/timezone-converter-hero.webp",
+                "https://calculatorhub.site/images/timezone-converter-preview.webp"
+              ],
+              "publisher":{
+                "@type":"Organization",
+                "name":"CalculatorHub",
+                "url":"https://calculatorhub.site",
+                "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/calculatorhub-logo.webp"}
+              },
+              "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+              "datePublished":"2025-11-13",
+              "dateModified":"2025-11-13",
+              "keywords":[
+                "timezone converter","meeting across time zones","dst safe",
+                "utc difference","schedule international meeting"
+              ]
+            },
+        
+            // 3) WebPage → Article (your long SEO section)
+            {
+              "@context":"https://schema.org",
+              "@type":"WebPage",
+              "mainEntity":{
+                "@type":"Article",
+                "headline":"Timezone Converter — schedule smarter across cities and teams",
+                "description":"Translate a base time into local times worldwide, with duration, working hours and DST awareness.",
+                "image":[
+                  "https://calculatorhub.site/images/timezone-converter-hero.webp",
+                  "https://calculatorhub.site/images/timezone-converter-preview.webp"
+                ],
+                "author":{"@type":"Organization","name":"CalculatorHub Tools Team"},
+                "publisher":{
+                  "@type":"Organization",
+                  "name":"CalculatorHub",
+                  "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/calculatorhub-logo.webp"}
+                },
+                "datePublished":"2025-11-13",
+                "dateModified":"2025-11-13",
+                "articleSection":[
+                  "What Is a Time Zone Converter?",
+                  "Key Features",
+                  "How to Use",
+                  "Methods & Logic",
+                  "Worked Examples",
+                  "Working Hours",
+                  "DST & Offsets",
+                  "FAQ"
+                ],
+                "inLanguage":"en",
+                "url":"https://calculatorhub.site/timezone-converter",
+                "keywords":["world clock","time difference","convert time zones","dst rules"]
+              }
+            },
+        
+            // 4) FAQPage (matches your on-page FAQ)
+            {
+              "@context":"https://schema.org",
+              "@type":"FAQPage",
+              "mainEntity":[
+                {
+                  "@type":"Question",
+                  "name":"Why use IANA zones instead of PST/IST?",
+                  "acceptedAnswer":{"@type":"Answer","text":"Abbreviations are ambiguous and change with DST. IANA IDs are precise."}
+                },
+                {
+                  "@type":"Question",
+                  "name":"How are invalid zone names handled?",
+                  "acceptedAnswer":{"@type":"Answer","text":"We preserve your input for editing but safely fall back to UTC, so the app never crashes."}
+                },
+                {
+                  "@type":"Question",
+                  "name":"Why do some rows show Today/Tomorrow/Yesterday?",
+                  "acceptedAnswer":{"@type":"Answer","text":"They indicate cross-date-line differences relative to your base zone at that instant."}
+                },
+                {
+                  "@type":"Question",
+                  "name":"Does DST affect conversions?",
+                  "acceptedAnswer":{"@type":"Answer","text":"Yes, and the converter accounts for it based on each zone’s rules at the chosen instant."}
+                }
+              ]
+            },
+        
+            // 5) Breadcrumbs
+            {
+              "@context":"https://schema.org",
+              "@type":"BreadcrumbList",
+              "itemListElement":[
+                {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+                {"@type":"ListItem","position":2,"name":"Date & Time Tools","item":"https://calculatorhub.site/category/date-time-tools"},
+                {"@type":"ListItem","position":3,"name":"Timezone Converter","item":"https://calculatorhub.site/timezone-converter"}
+              ]
+            },
+        
+            // 6) WebSite + SearchAction
+            {
+              "@context":"https://schema.org",
+              "@type":"WebSite",
+              "name":"CalculatorHub",
+              "url":"https://calculatorhub.site",
+              "potentialAction":{
+                "@type":"SearchAction",
+                "target":"https://calculatorhub.site/search?q={query}",
+                "query-input":"required name=query"
+              }
+            },
+        
+            // 7) Organization (site-wide)
+            {
+              "@context":"https://schema.org",
+              "@type":"Organization",
+              "name":"CalculatorHub",
+              "url":"https://calculatorhub.site",
+              "logo":"https://calculatorhub.site/images/calculatorhub-logo.webp"
+            },
+        
+            // 8) Speakable (optional voice)
+            {
+              "@context":"https://schema.org",
+              "@type":"SpeakableSpecification",
+              "cssSelector":[".prose h1",".result-summary"]
+            }
+          ]}
+          breadcrumbs={[
+            { name: "Date & Time Tools", url: "/category/date-time-tools" },
+            { name: "Timezone Converter", url: "/timezone-converter" }
+          ]}
+        />
+
+
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/timezone-converter" />
+      
+      <link rel="alternate" href="https://calculatorhub.site/timezone-converter" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/timezone-converter" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/timezone-converter" hreflang="x-default" />
+      
+      
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Timezone Converter | Meeting Planner with Working Hours & Duration" />
+      <meta property="og:description" content="Convert times across timezones with DST, duration, working-hours highlights, sorting and shareable link." />
+      <meta property="og:url" content="https://calculatorhub.site/timezone-converter" />
+      <meta property="og:image" content="https://calculatorhub.site/images/timezone-converter-preview.webp" />
+      <meta property="og:image:alt" content="Timezone Converter preview" />
+      
+      
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Timezone Converter | Meeting Planner with Working Hours & Duration" />
+      <meta name="twitter:description" content="Plan meetings across cities with DST-safe conversion and business-hours highlighting." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/timezone-converter-preview.webp" />
+      
+      
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <link rel="manifest" href="/site.webmanifest" />
+      <meta name="theme-color" content="#6366f1" />
+      
+      
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+      
+      
+      <link rel="preload" as="image" href="/images/timezone-converter-hero.webp" />
+      <link rel="preload" as="image" href="/images/timezone-converter-preview.webp" />
+      
+      
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+
 
       <div className="max-w-5xl mx-auto">
         <Breadcrumbs
