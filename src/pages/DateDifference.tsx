@@ -248,58 +248,208 @@ const DateDifferenceCalculator: React.FC = () => {
     setEndDate(startDate);
   }, [startDate, endDate]);
 
-  /* ================= SEO / Schema ================= */
-  const faqSchema = useMemo(() => ({
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How do I find the exact difference between two dates?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Pick a start and end date. The calculator returns the exact difference in years, months, days, and totals (weeks, days, hours, minutes, seconds)."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Can I count business days only?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. In Advanced Mode, toggle business-day logic (exclude weekends) and optionally add custom holidays."
-        }
-      }
-    ]
-  }), []);
-
-  const schemaArray = useMemo(
-    () => [
-      generateCalculatorSchema(
-        "Date Difference Calculator",
-        seoData.dateDifference?.description || "Find exact time between two dates with years/months/days and total days, hours, minutes.",
-        "/date-difference-calculator",
-        seoData.dateDifference?.keywords || ["date difference", "days between dates", "business days calculator"]
-      ),
-      faqSchema,
-    ],
-    [faqSchema]
-  );
-
+ 
   /* ================= Render ================= */
   return (
     <>
-      <SEOHead
-        title={seoData.dateDifference?.title || "Date Difference Calculator – Days Between Dates"}
-        description={seoData.dateDifference?.description || "Calculate the exact difference between two dates in years, months, days and totals. Advanced options for business days and holidays."}
-        canonical="https://calculatorhub.site/date-difference-calculator"
-        schemaData={schemaArray}
-        breadcrumbs={[
-          { name: "Date & Time Tools", url: "/category/date-time-tools" },
-          { name: "Date Difference Calculator", url: "/date-difference-calculator" }
-        ]}
-      />
+     <SEOHead
+           title={seoData.dateDifference?.title || "Date Difference Calculator – Days Between Dates"}
+           description={seoData.dateDifference?.description || "Calculate the exact difference between two dates in years, months, days and totals. Advanced options for business days and holidays."}
+           keywords={seoData.dateDifference?.keywords || ["date difference","days between dates","business days calculator","date duration","working days calculator","exclude weekends","holiday calculator","interval between dates"]}
+           canonical="https://calculatorhub.site/date-difference-calculator"
+           schemaData={[
+             // 1) Core Calculator schema (kept)
+             generateCalculatorSchema(
+               "Date Difference Calculator",
+               seoData.dateDifference?.description || "Find exact time between two dates with Y/M/D and total days, hours, minutes.",
+               "/date-difference-calculator",
+               seoData.dateDifference?.keywords || ["date difference","days between dates","business days calculator"]
+             ),
+         
+             // 2) WebApplication (rich app entity)
+             {
+               "@context": "https://schema.org",
+               "@type": "WebApplication",
+               "name": "Date Difference Calculator – CalculatorHub",
+               "url": "https://calculatorhub.site/date-difference-calculator",
+               "applicationCategory": "UtilitiesApplication",
+               "operatingSystem": "Web",
+               "description": seoData.dateDifference?.description || "Exact years/months/days between dates, totals, and business-day mode.",
+               "inLanguage": "en",
+               "image": [
+                 "https://calculatorhub.site/images/date-difference-preview.webp",
+                 "https://calculatorhub.site/images/date-difference-hero.webp"
+               ],
+               "publisher": {
+                 "@type": "Organization",
+                 "name": "CalculatorHub",
+                 "url": "https://calculatorhub.site",
+                 "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/calculatorhub-logo.webp" }
+               },
+               "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+               "datePublished": "2025-11-12",
+               "dateModified": "2025-11-12",
+               "keywords": seoData.dateDifference?.keywords || ["date difference","days between dates","business days"]
+             },
+         
+             // 3) WebPage → Article (longform explainer)
+             {
+               "@context": "https://schema.org",
+               "@type": "WebPage",
+               "mainEntity": {
+                 "@type": "Article",
+                 "headline": "Date Difference Calculator — exact years, months, days (plus totals)",
+                 "description": seoData.dateDifference?.description || "Measure the interval between two dates, with business-day mode, holidays, and inclusive options.",
+                 "image": [
+                   "https://calculatorhub.site/images/date-difference-preview.webp",
+                   "https://calculatorhub.site/images/date-difference-hero.webp"
+                 ],
+                 "author": { "@type": "Organization", "name": "CalculatorHub Tools Team" },
+                 "publisher": {
+                   "@type": "Organization",
+                   "name": "CalculatorHub",
+                   "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/calculatorhub-logo.webp" }
+                 },
+                 "datePublished": "2025-11-12",
+                 "dateModified": "2025-11-12",
+                 "articleSection": [
+                   "What Is a Date Difference Calculator?",
+                   "Key Features",
+                   "How to Use",
+                   "Methods & Math",
+                   "Worked Examples",
+                   "Business Days & Holidays",
+                   "FAQ"
+                 ],
+                 "keywords": seoData.dateDifference?.keywords || ["date difference","business days","weekend exclusion","holiday list"],
+                 "inLanguage": "en",
+                 "url": "https://calculatorhub.site/date-difference-calculator",
+                 "about": { "@type": "Thing", "name": "Date Interval" }
+               }
+             },
+         
+             // 4) FAQPage (focused, matches on-page FAQ)
+             {
+               "@context": "https://schema.org",
+               "@type": "FAQPage",
+               "mainEntity": [
+                 {
+                   "@type": "Question",
+                   "name": "How do I find the exact difference between two dates?",
+                   "acceptedAnswer": {
+                     "@type": "Answer",
+                     "text": "Pick a start and end date. The calculator returns the exact Y/M/D difference and totals like weeks, days, hours, minutes and seconds."
+                   }
+                 },
+                 {
+                   "@type": "Question",
+                   "name": "Can I count business days only?",
+                   "acceptedAnswer": {
+                     "@type": "Answer",
+                     "text": "Yes. Enable Advanced Mode to exclude weekends and add custom holidays in YYYY-MM-DD format."
+                   }
+                 },
+                 {
+                   "@type": "Question",
+                   "name": "Do you handle leap years and month ends?",
+                   "acceptedAnswer": {
+                     "@type": "Answer",
+                     "text": "Yes. The algorithm adjusts for variable month lengths and leap years; February 29 is treated correctly when applicable."
+                   }
+                 },
+                 {
+                   "@type": "Question",
+                   "name": "Why do totals differ by a day sometimes?",
+                   "acceptedAnswer": {
+                     "@type": "Answer",
+                     "text": "Inclusive settings (whether you count the start/end day) and local time zones can shift totals by one day."
+                   }
+                 }
+               ]
+             },
+         
+             // 5) Breadcrumbs (align with UI)
+             {
+               "@context": "https://schema.org",
+               "@type": "BreadcrumbList",
+               "itemListElement": [
+                 { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+                 { "@type": "ListItem", "position": 2, "name": "Date & Time Tools", "item": "https://calculatorhub.site/category/date-time-tools" },
+                 { "@type": "ListItem", "position": 3, "name": "Date Difference Calculator", "item": "https://calculatorhub.site/date-difference-calculator" }
+               ]
+             },
+         
+             // 6) WebSite + SiteLinks Search
+             {
+               "@context": "https://schema.org",
+               "@type": "WebSite",
+               "name": "CalculatorHub",
+               "url": "https://calculatorhub.site",
+               "potentialAction": {
+                 "@type": "SearchAction",
+                 "target": "https://calculatorhub.site/search?q={query}",
+                 "query-input": "required name=query"
+               }
+             },
+         
+             // 7) Speakable (voice surfaces)
+             {
+               "@context": "https://schema.org",
+               "@type": "SpeakableSpecification",
+               "cssSelector": [".prose h1", ".result-summary"]
+             }
+           ]}
+           breadcrumbs={[
+             { name: "Date & Time Tools", url: "/category/date-time-tools" },
+             { name: "Date Difference Calculator", url: "/date-difference-calculator" }
+           ]}
+         />
+
+
 
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/date-difference-calculator" />
+      
+
+      <link rel="alternate" href="https://calculatorhub.site/date-difference-calculator" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/date-difference-calculator" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/date-difference-calculator" hreflang="x-default" />
+      
+
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Date Difference Calculator – Days Between Dates | CalculatorHub" />
+      <meta property="og:description" content="Find exact years, months, days between two dates. Totals for weeks, days, hours, minutes, seconds. Business-day mode with weekends/holidays." />
+      <meta property="og:url" content="https://calculatorhub.site/date-difference-calculator" />
+      <meta property="og:image" content="https://calculatorhub.site/images/date-difference-preview.webp" />
+      <meta property="og:image:alt" content="Date Difference Calculator UI preview" />
+      
+
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Date Difference Calculator – Days Between Dates | CalculatorHub" />
+      <meta name="twitter:description" content="Exact Y/M/D breakdown plus totals. Advanced Mode for business days & holidays." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/date-difference-preview.webp" />
+      
+      
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <link rel="manifest" href="/site.webmanifest" />
+      <meta name="theme-color" content="#0ea5e9" />
+      
+      
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+      
+      
+      <link rel="preload" as="image" href="/images/date-difference-hero.webp" />
+      <link rel="preload" as="image" href="/images/date-difference-preview.webp" />
+      
+      
+      <meta name="referrer" content="no-referrer-when-downgrade" />
 
       <div className="min-h-screen w-full py-10">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
