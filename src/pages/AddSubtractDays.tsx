@@ -133,39 +133,194 @@ const AddSubtractDaysCalculator: React.FC = () => {
     try { await navigator.clipboard.writeText(msg); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch {}
   }, [baseDate, days, mode, resultISO, resultDay]);
 
-  /* ================= SEO / Schema ================= */
-  const faqSchema = useMemo(() => ({
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      { "@type": "Question", "name": "How do I add or subtract days from a date?", "acceptedAnswer": { "@type": "Answer", "text": "Choose a base date, enter the number of days, and pick add or subtract. The result updates instantly with the weekday." } },
-      { "@type": "Question", "name": "Can I skip weekends or holidays?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Turn on Advanced Mode to count business days only and add custom holidays (YYYY-MM-DD)." } }
-    ]
-  }), []);
-
-  const schemaArray = useMemo(() => ([
-    generateCalculatorSchema(
-      "Add/Subtract Days Calculator",
-      seoData.addSubtractDays?.description || "Add or subtract days from a date. Optionally skip weekends and holidays.",
-      "/add-subtract-days-calculator",
-      seoData.addSubtractDays?.keywords || ["add days to date", "subtract days", "business days adder"]
-    ),
-    faqSchema,
-  ]), [faqSchema]);
-
+  
   /* ================= Render ================= */
   return (
     <>
       <SEOHead
-        title={seoData.addSubtractDays?.title || "Add/Subtract Days Calculator – Business Day Option"}
-        description={seoData.addSubtractDays?.description || "Add or subtract days from any date. Colorful UI, weekday output, and business-day/holiday controls."}
-        canonical="https://calculatorhub.site/add-subtract-days-calculator"
-        schemaData={schemaArray}
-        breadcrumbs={[
-          { name: "Date & Time Tools", url: "/category/date-time-tools" },
-          { name: "Add/Subtract Days Calculator", url: "/add-subtract-days-calculator" }
-        ]}
-      />
+          title={seoData.addSubtractDays?.title || "Add/Subtract Days Calculator – Business Day Option"}
+          description={seoData.addSubtractDays?.description || "Add or subtract days from any date. Weekday output, business-day & holiday controls, and colorful UI."}
+          keywords={seoData.addSubtractDays?.keywords || [
+            "add days to date","subtract days from date","date adder","business days adder",
+            "skip weekends","holiday calendar","working days calculator","date calculator"
+          ]}
+          canonical="https://calculatorhub.site/add-subtract-days-calculator"
+          schemaData={[
+            // 1) Core calculator schema
+            generateCalculatorSchema(
+              "Add/Subtract Days Calculator",
+              seoData.addSubtractDays?.description || "Shift a date by N days; optionally skip weekends and holidays.",
+              "/add-subtract-days-calculator",
+              seoData.addSubtractDays?.keywords || ["add days to date","subtract days","business days adder"]
+            ),
+        
+            // 2) WebApplication (the app entity)
+            {
+              "@context":"https://schema.org",
+              "@type":"WebApplication",
+              "name":"Add/Subtract Days Calculator – CalculatorHub",
+              "url":"https://calculatorhub.site/add-subtract-days-calculator",
+              "applicationCategory":"UtilitiesApplication",
+              "operatingSystem":"Web",
+              "description":seoData.addSubtractDays?.description || "Add or subtract days; business-day mode and holidays.",
+              "inLanguage":"en",
+              "image":[
+                "https://calculatorhub.site/images/add-subtract-days-preview.webp",
+                "https://calculatorhub.site/images/add-subtract-days-hero.webp"
+              ],
+              "publisher":{
+                "@type":"Organization",
+                "name":"CalculatorHub",
+                "url":"https://calculatorhub.site",
+                "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/calculatorhub-logo.webp"}
+              },
+              "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+              "datePublished":"2025-11-13",
+              "dateModified":"2025-11-13",
+              "keywords":seoData.addSubtractDays?.keywords || ["add days","subtract days","business days"]
+            },
+        
+            // 3) WebPage → Article (longform explainer on the page)
+            {
+              "@context":"https://schema.org",
+              "@type":"WebPage",
+              "mainEntity":{
+                "@type":"Article",
+                "headline":"Add/Subtract Days Calculator — skip weekends & holidays",
+                "description":seoData.addSubtractDays?.description || "Shift dates forward/backward with optional business-day logic.",
+                "image":[
+                  "https://calculatorhub.site/images/add-subtract-days-preview.webp",
+                  "https://calculatorhub.site/images/add-subtract-days-hero.webp"
+                ],
+                "author":{"@type":"Organization","name":"CalculatorHub Tools Team"},
+                "publisher":{
+                  "@type":"Organization",
+                  "name":"CalculatorHub",
+                  "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/calculatorhub-logo.webp"}
+                },
+                "datePublished":"2025-11-13",
+                "dateModified":"2025-11-13",
+                "articleSection":[
+                  "What is an Add/Subtract Days Calculator?",
+                  "How to Use",
+                  "Business Days & Holidays",
+                  "FAQ"
+                ],
+                "keywords":seoData.addSubtractDays?.keywords || ["date adder","working days","holiday list"],
+                "inLanguage":"en",
+                "url":"https://calculatorhub.site/add-subtract-days-calculator"
+              }
+            },
+        
+            // 4) FAQPage (aligns with your brief FAQ)
+            {
+              "@context":"https://schema.org",
+              "@type":"FAQPage",
+              "mainEntity":[
+                {
+                  "@type":"Question",
+                  "name":"How do I add or subtract days from a date?",
+                  "acceptedAnswer":{"@type":"Answer","text":"Pick a base date, enter the number of days, and choose add or subtract. The result shows instantly with weekday."}
+                },
+                {
+                  "@type":"Question",
+                  "name":"Can I skip weekends or holidays?",
+                  "acceptedAnswer":{"@type":"Answer","text":"Yes. Enable Advanced Mode to count business days only and add custom holidays in YYYY-MM-DD."}
+                }
+              ]
+            },
+        
+            // 5) Breadcrumbs
+            {
+              "@context":"https://schema.org",
+              "@type":"BreadcrumbList",
+              "itemListElement":[
+                {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+                {"@type":"ListItem","position":2,"name":"Date & Time Tools","item":"https://calculatorhub.site/category/date-time-tools"},
+                {"@type":"ListItem","position":3,"name":"Add/Subtract Days Calculator","item":"https://calculatorhub.site/add-subtract-days-calculator"}
+              ]
+            },
+        
+            // 6) WebSite + Site Search
+            {
+              "@context":"https://schema.org",
+              "@type":"WebSite",
+              "name":"CalculatorHub",
+              "url":"https://calculatorhub.site",
+              "potentialAction":{
+                "@type":"SearchAction",
+                "target":"https://calculatorhub.site/search?q={query}",
+                "query-input":"required name=query"
+              }
+            },
+        
+            // 7) Organization (sitewide brand)
+            {
+              "@context":"https://schema.org",
+              "@type":"Organization",
+              "name":"CalculatorHub",
+              "url":"https://calculatorhub.site",
+              "logo":"https://calculatorhub.site/images/calculatorhub-logo.webp"
+            },
+        
+            // 8) Speakable (voice assistants)
+            {
+              "@context":"https://schema.org",
+              "@type":"SpeakableSpecification",
+              "cssSelector":[".prose h1",".result-summary"]
+            }
+          ]}
+          breadcrumbs={[
+            { name: "Date & Time Tools", url: "/category/date-time-tools" },
+            { name: "Add/Subtract Days Calculator", url: "/add-subtract-days-calculator" }
+          ]}
+        />
+
+
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/add-subtract-days-calculator" />
+      
+
+      <link rel="alternate" href="https://calculatorhub.site/add-subtract-days-calculator" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/add-subtract-days-calculator" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/add-subtract-days-calculator" hreflang="x-default" />
+      
+
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Add/Subtract Days Calculator – Business Day Option | CalculatorHub" />
+      <meta property="og:description" content="Add or subtract days from any date. Weekday output, business-day & holiday controls." />
+      <meta property="og:url" content="https://calculatorhub.site/add-subtract-days-calculator" />
+      <meta property="og:image" content="https://calculatorhub.site/images/add-subtract-days-preview.webp" />
+      <meta property="og:image:alt" content="Add/Subtract Days Calculator preview" />
+      
+  
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Add/Subtract Days Calculator – Business Day Option | CalculatorHub" />
+      <meta name="twitter:description" content="Shift dates forward/backward with optional business-day logic." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/add-subtract-days-preview.webp" />
+      
+
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <link rel="manifest" href="/site.webmanifest" />
+      <meta name="theme-color" content="#14b8a6" />
+      
+
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+      
+
+      <link rel="preload" as="image" href="/images/add-subtract-days-hero.webp" />
+      <link rel="preload" as="image" href="/images/add-subtract-days-preview.webp" />
+      
+
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+
 
       <div className="min-h-screen w-full py-10">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
