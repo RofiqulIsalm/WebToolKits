@@ -462,17 +462,17 @@ const AgeCalculator: React.FC = () => {
             ]}
           />
 
-           <!-- Core -->
+
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
           <link rel="canonical" href="https://calculatorhub.site/age-calculator" />
           
-          <!-- Hreflang -->
+
           <link rel="alternate" href="https://calculatorhub.site/age-calculator" hreflang="en" />
           <link rel="alternate" href="https://calculatorhub.site/bn/age-calculator" hreflang="bn" />
           <link rel="alternate" href="https://calculatorhub.site/age-calculator" hreflang="x-default" />
           
-          <!-- Open Graph -->
+
           <meta property="og:type" content="website" />
           <meta property="og:site_name" content="CalculatorHub" />
           <meta property="og:title" content="Age Calculator – Calculate Your Exact Age | CalculatorHub" />
@@ -481,30 +481,30 @@ const AgeCalculator: React.FC = () => {
           <meta property="og:image" content="https://calculatorhub.site/images/age-calculator-preview.webp" />
           <meta property="og:image:alt" content="Age Calculator UI preview" />
           
-          <!-- Twitter -->
+
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Age Calculator – Calculate Your Exact Age | CalculatorHub" />
           <meta name="twitter:description" content="Precise age in years, months, days — plus live life countdown in Advanced Mode." />
           <meta name="twitter:image" content="https://calculatorhub.site/images/age-calculator-preview.webp" />
           
-          <!-- Icons / PWA -->
+
           <link rel="icon" href="/favicon.ico" />
           <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
           <link rel="manifest" href="/site.webmanifest" />
           <meta name="theme-color" content="#0ea5e9" />
           
-          <!-- Performance: fonts/CDN -->
+
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
           <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
           <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
           <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
           
-          <!-- Preload above-the-fold media (adjust if filenames differ) -->
+
           <link rel="preload" as="image" href="/images/age-calculator-hero.webp" />
           <link rel="preload" as="image" href="/images/age-calculator-preview.webp" />
           
-          <!-- Privacy/Security (optional) -->
+
           <meta name="referrer" content="no-referrer-when-downgrade" />
 
 
