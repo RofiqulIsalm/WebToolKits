@@ -36,6 +36,22 @@ type WeekStart = "sun" | "mon";
 const two = (n: number) => String(n).padStart(2, "0");
 const iso = (d: Date) => `${d.getFullYear()}-${two(d.getMonth() + 1)}-${two(d.getDate())}`;
 
+// UTF-8 safe base64 helpers for URL state
+const b64e = (str: string) => {
+  const bytes = new TextEncoder().encode(str);
+  let bin = "";
+  bytes.forEach((b) => (bin += String.fromCharCode(b)));
+  return btoa(bin);
+};
+const b64d = (b64: string) => {
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+};
+// Safe random UID (older Safari fallback)
+const safeUUID = () => (crypto && "randomUUID" in crypto ? crypto.randomUUID() : `uid-${Math.random().toString(36).slice(2)}-${Date.now()}`);
+
 const LOCALES = [
   "en-US","en-GB","bn-BD","hi-IN","ar-SA","de-DE","fr-FR","es-ES","it-IT","nl-NL",
   "sv-SE","nb-NO","da-DK","fi-FI","pt-BR","ru-RU","zh-CN","ja-JP","ko-KR",
@@ -48,6 +64,7 @@ function monthName(year: number, monthIdx: number, locale: string) {
 }
 function weekdayLabels(locale: string, weekStart: WeekStart): string[] {
   const base: string[] = [];
+  // Jan 5, 2025 is a Sunday → yields Sun..Sat regardless of locale week start
   for (let i = 0; i < 7; i++) base.push(new Intl.DateTimeFormat(locale, { weekday: "short" }).format(new Date(2025, 0, 5 + i)));
   return weekStart === "mon" ? [...base.slice(1), base[0]] : base;
 }
@@ -63,8 +80,9 @@ function weeksInMonth(year: number, monthIdx: number, weekStart: WeekStart) {
     const row: Date[] = [];
     for (let i = 0; i < 7; i++) { row.push(new Date(cursor)); cursor.setDate(cursor.getDate() + 1); }
     weeks.push(row);
-    const done = row.some((d) => d.getFullYear() === year && d.getMonth() === monthIdx && d.getDate() === endDate)
-      && cursor.getMonth() !== monthIdx;
+    const done =
+      row.some((d) => d.getFullYear() === year && d.getMonth() === monthIdx && d.getDate() === endDate) &&
+      cursor.getMonth() !== monthIdx;
     if (done) break;
   }
   return weeks;
@@ -81,7 +99,7 @@ function isSameDate(a: Date, b: Date) {
 }
 
 /* ============================================================
-   QUICK TAB — your generator (with events+exports)
+   QUICK TAB — generator (with events+exports)
    ============================================================ */
 const LS_KEY_Q = "calendar_generator_state_v2";
 const URL_KEY_Q = "calgen";
@@ -128,7 +146,7 @@ function QuickMonthGrid({
         {weeks.map((row, ri) => {
           const weekNo = weekNumberISO(row[0]);
           return (
-            <React.Fragment key={ri}>
+            <React.Fragment key={`row-${y}-${m}-${ri}`}>
               {showWeekNums && (
                 <div className="bg-[#0b1220] text-slate-500 text-xs p-2 text-center">{weekNo}</div>
               )}
@@ -140,7 +158,7 @@ function QuickMonthGrid({
                 const isToday = highlightToday && isSameDate(d, new Date());
                 return (
                   <div
-                    key={ci + "-" + d.toISOString()}
+                    key={`cell-${y}-${m}-${ri}-${ci}-${d.getTime()}`}
                     title={titles?.join(", ")}
                     className={[
                       "min-h-[64px] p-2 text-sm",
@@ -196,20 +214,20 @@ function QuickTab() {
 
   // Load/Save/URL
   const applyState = (s: any) => {
-    setYear(Number.isFinite(s.year) ? s.year : thisYear);
-    setMode(s.mode === "yearly" ? "yearly" : "monthly");
-    setMonth(Number.isFinite(s.month) ? s.month : today.getMonth());
-    setLocale(typeof s.locale === "string" ? s.locale : locale);
-    setWeekStart(s.weekStart === "mon" ? "mon" : "sun");
-    setShowWeekNums(!!s.showWeekNums);
-    setHighlightToday(s.highlightToday ?? true);
-    setEventsInput(typeof s.eventsInput === "string" ? s.eventsInput : (s.holidaysInput ?? ""));
+    setYear(Number.isFinite(s?.year) ? s.year : thisYear);
+    setMode(s?.mode === "yearly" ? "yearly" : "monthly");
+    setMonth(Number.isFinite(s?.month) ? s.month : today.getMonth());
+    setLocale(typeof s?.locale === "string" ? s.locale : locale);
+    setWeekStart(s?.weekStart === "mon" ? "mon" : "sun");
+    setShowWeekNums(!!s?.showWeekNums);
+    setHighlightToday(s?.highlightToday ?? true);
+    setEventsInput(typeof s?.eventsInput === "string" ? s.eventsInput : (s?.holidaysInput ?? ""));
   };
   useEffect(() => {
     try {
       const params = new URLSearchParams(window.location.search);
       const enc = params.get(URL_KEY_Q);
-      if (enc) { applyState(JSON.parse(atob(enc))); setHydrated(true); return; }
+      if (enc) { applyState(JSON.parse(b64d(enc))); setHydrated(true); return; }
       const raw = localStorage.getItem(LS_KEY_Q);
       if (raw) applyState(JSON.parse(raw));
     } catch {}
@@ -229,7 +247,7 @@ function QuickTab() {
       if (isDefault) url.searchParams.delete(URL_KEY_Q);
       else {
         const state = { year, mode, month, locale, weekStart, showWeekNums, highlightToday, eventsInput };
-        url.searchParams.set(URL_KEY_Q, btoa(JSON.stringify(state)));
+        url.searchParams.set(URL_KEY_Q, b64e(JSON.stringify(state)));
       }
       window.history.replaceState({}, "", url);
     } catch {}
@@ -248,7 +266,7 @@ function QuickTab() {
   const copyShareLink = async () => {
     const url = new URL(window.location.href);
     const state = { year, mode, month, locale, weekStart, showWeekNums, highlightToday, eventsInput };
-    url.searchParams.set(URL_KEY_Q, btoa(JSON.stringify(state)));
+    url.searchParams.set(URL_KEY_Q, b64e(JSON.stringify(state)));
     await navigator.clipboard.writeText(url.toString());
     setCopied("link"); setTimeout(()=>setCopied("none"), 1500);
   };
@@ -272,38 +290,65 @@ function QuickTab() {
     reader.readAsText(file);
   };
   const exportPNG = async () => {
-    if (!previewRef.current) return;
-    const dataUrl = await htmlToImage.toPng(previewRef.current, { pixelRatio: 2 });
-    const a = document.createElement("a");
-    a.href = dataUrl; a.download = `calendar_${mode === "monthly" ? `${year}_${two(month + 1)}` : year}.png`; a.click();
+    try {
+      if (!previewRef.current) return;
+      const dataUrl = await htmlToImage.toPng(previewRef.current, { pixelRatio: 2 });
+      const a = document.createElement("a");
+      a.href = dataUrl; a.download = `calendar_${mode === "monthly" ? `${year}_${two(month + 1)}` : year}.png`; a.click();
+    } catch (e) {
+      alert("PNG export failed (browser blocked canvas). Try removing external images or use the Designer tab exports.");
+    }
   };
   const exportPDF = async () => {
-    if (!previewRef.current) return;
-    const node = previewRef.current;
-    const dataUrl = await htmlToImage.toPng(node, { pixelRatio: 2 });
-    const img = new Image(); img.src = dataUrl; await new Promise((res)=> (img.onload=()=>res(null)));
-    const pdf = new jsPDF({ unit: "pt", format: "a4", orientation: "portrait" });
-    const pageW = pdf.internal.pageSize.getWidth(), pageH = pdf.internal.pageSize.getHeight();
-    const ratio = Math.min(pageW / img.width, pageH / img.height);
-    const w = img.width * ratio, h = img.height * ratio;
-    pdf.addImage(img, "PNG", (pageW-w)/2, 24, w, h);
-    pdf.save(`calendar_${mode === "monthly" ? `${year}_${two(month + 1)}` : year}.pdf`);
+    try {
+      if (!previewRef.current) return;
+      const node = previewRef.current;
+      const dataUrl = await htmlToImage.toPng(node, { pixelRatio: 2 });
+      const img = new Image(); img.crossOrigin = "anonymous"; img.src = dataUrl;
+      await new Promise((res)=> (img.onload=()=>res(null)));
+      const pdf = new jsPDF({ unit: "pt", format: "a4", orientation: "portrait" });
+      const pageW = pdf.internal.pageSize.getWidth(), pageH = pdf.internal.pageSize.getHeight();
+      const ratio = Math.min(pageW / img.width, pageH / img.height);
+      const w = img.width * ratio, h = img.height * ratio;
+      pdf.addImage(img, "PNG", (pageW-w)/2, 24, w, h);
+      pdf.save(`calendar_${mode === "monthly" ? `${year}_${two(month + 1)}` : year}.pdf`);
+    } catch {
+      alert("PDF export failed. Try PNG, or export from Designer at exact size.");
+    }
   };
   const copySVG = async () => {
-    if (!previewRef.current) return;
-    const svgStr = await htmlToImage.toSvg(previewRef.current);
-    await navigator.clipboard.writeText(svgStr);
-    alert("SVG copied to clipboard");
+    try {
+      if (!previewRef.current) return;
+      const svgStr = await htmlToImage.toSvg(previewRef.current);
+      await navigator.clipboard.writeText(svgStr);
+      alert("SVG copied to clipboard");
+    } catch {
+      alert("SVG copy failed.");
+    }
   };
+
+  // ICS builder with proper escaping
+  const icsEscape = (s: string) => s.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
   const buildICS = (map: Map<string, string[]>, calName = "Calendar") => {
     const pad = (n:number)=> String(n).padStart(2,"0");
     const dtstamp = new Date();
     const dt = `${dtstamp.getUTCFullYear()}${pad(dtstamp.getUTCMonth()+1)}${pad(dtstamp.getUTCDate())}T${pad(dtstamp.getUTCHours())}${pad(dtstamp.getUTCMinutes())}${pad(dtstamp.getUTCSeconds())}Z`;
     const nextDay = (key: string) => { const d = new Date(key + "T00:00:00"); d.setDate(d.getDate()+1); return iso(d).replaceAll("-",""); };
-    const lines = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//CalculatorHub//Calendar//EN",`X-WR-CALNAME:${calName}`];
+    const lines = [
+      "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//CalculatorHub//Calendar//EN",
+      `X-WR-CALNAME:${icsEscape(calName)}`
+    ];
     for (const [k,titles] of map.entries()) {
-      lines.push("BEGIN:VEVENT",`UID:${crypto.randomUUID()}@calculatorhub`, `DTSTAMP:${dt}`, `SUMMARY:${titles.join(" • ").replace(/[,\\n]/g," ")||"Holiday"}`,
-        `DTSTART;VALUE=DATE:${k.replaceAll("-","")}`, `DTEND;VALUE=DATE:${nextDay(k)}`, "END:VEVENT");
+      const summary = icsEscape((titles && titles.length ? titles.join(" • ") : "Holiday") || "Holiday");
+      lines.push(
+        "BEGIN:VEVENT",
+        `UID:${safeUUID()}@calculatorhub`,
+        `DTSTAMP:${dt}`,
+        `SUMMARY:${summary}`,
+        `DTSTART;VALUE=DATE:${k.replaceAll("-","")}`,
+        `DTEND;VALUE=DATE:${nextDay(k)}`,
+        "END:VEVENT"
+      );
     }
     lines.push("END:VCALENDAR");
     return lines.join("\r\n");
@@ -455,7 +500,7 @@ function QuickTab() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {Array.from({ length: 12 }).map((_, i) => (
-              <QuickMonthGrid key={i} y={year} m={i} locale={locale} weekStart={weekStart} showWeekNums={showWeekNums} highlightToday={highlightToday} eventMap={eventMap}/>
+              <QuickMonthGrid key={`ym-${year}-${i}`} y={year} m={i} locale={locale} weekStart={weekStart} showWeekNums={showWeekNums} highlightToday={highlightToday} eventMap={eventMap}/>
             ))}
           </div>
         )}
@@ -571,12 +616,12 @@ function DesignerTab() {
             const d0 = row[0];
             const weekNo = (()=>{ const t = new Date(Date.UTC(d0.getFullYear(), d0.getMonth(), d0.getDate())); const day = (t.getUTCDay()+6)%7; t.setUTCDate(t.getUTCDate()-day+3); const t0 = new Date(Date.UTC(t.getUTCFullYear(),0,4)); return 1+Math.round((t.valueOf()-t0.valueOf())/604800000); })();
             return (
-              <React.Fragment key={i}>
+              <React.Fragment key={`drow-${y}-${m}-${i}`}>
                 {d.showWeekNums && (<div className="text-center text-[10px] sm:text-xs py-2 opacity-70">{weekNo}</div>)}
                 {row.map((dd, j)=>{
                   const inMonth = dd.getMonth()===m; const weekend = dd.getDay()===0 || dd.getDay()===6;
                   return (
-                    <div key={j}
+                    <div key={`dcell-${y}-${m}-${i}-${j}-${dd.getTime()}`}
                       style={{ borderRadius: d.tokens.cellRadius, border: `${d.tokens.cellBorder}px solid ${d.tokens.border}`, background: weekend? d.tokens.weekend : "transparent" }}
                       className={`h-12 sm:h-20 text-[10px] sm:text-sm p-1 sm:p-2 flex items-start justify-end ${inMonth? "opacity-100":"opacity-40"}`}
                     >
@@ -593,33 +638,45 @@ function DesignerTab() {
   };
   const YGrid = ({ y }:{y:number}) => (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
-      {Array.from({length:12}).map((_,i)=> <MGrid key={i} y={y} m={i}/>)}
+      {Array.from({length:12}).map((_,i)=> <MGrid key={`ygrid-${y}-${i}`} y={y} m={i}/>)}
     </div>
   );
 
   // Exports (exact size)
   const exportPNG = async () => {
-    if (!renderRef.current) return;
-    const node = renderRef.current;
-    const dataUrl = await htmlToImage.toPng(node, { pixelRatio: 1, width: pxW, height: pxH, style: { transform: "none" } }).catch(()=>null);
-    if (!dataUrl) return alert("PNG export failed");
-    const a = document.createElement("a"); a.href = dataUrl; a.download = `calendar_${year}${!yearly?`_${two(month+1)}`:""}_${pxW}x${pxH}.png`; a.click();
+    try {
+      if (!renderRef.current) return;
+      const node = renderRef.current;
+      const dataUrl = await htmlToImage.toPng(node, { pixelRatio: 1, width: pxW, height: pxH, style: { transform: "none" } }).catch(()=>null);
+      if (!dataUrl) return alert("PNG export failed");
+      const a = document.createElement("a"); a.href = dataUrl; a.download = `calendar_${year}${!yearly?`_${two(month+1)}`:""}_${pxW}x${pxH}.png`; a.click();
+    } catch {
+      alert("PNG export failed.");
+    }
   };
   const exportPDF = async () => {
-    if (!renderRef.current) return;
-    const node = renderRef.current;
-    const dataUrl = await htmlToImage.toPng(node, { pixelRatio: 1, width: pxW, height: pxH }).catch(()=>null);
-    if (!dataUrl) return alert("PDF export failed");
-    const img = new Image(); img.src = dataUrl; await new Promise(res=> img.onload = ()=> res(null));
-    const pdf = new jsPDF({ unit: "pt", format: [pxW, pxH], orientation: pxW>pxH ? "landscape" : "portrait" });
-    pdf.addImage(img, "PNG", 0, 0, pxW, pxH); pdf.save(`calendar_${year}${!yearly?`_${two(month+1)}`:""}.pdf`);
+    try {
+      if (!renderRef.current) return;
+      const node = renderRef.current;
+      const dataUrl = await htmlToImage.toPng(node, { pixelRatio: 1, width: pxW, height: pxH }).catch(()=>null);
+      if (!dataUrl) return alert("PDF export failed");
+      const img = new Image(); img.src = dataUrl; await new Promise(res=> img.onload = ()=> res(null));
+      const pdf = new jsPDF({ unit: "pt", format: [pxW, pxH], orientation: pxW>pxH ? "landscape" : "portrait" });
+      pdf.addImage(img, "PNG", 0, 0, pxW, pxH); pdf.save(`calendar_${year}${!yearly?`_${two(month+1)}`:""}.pdf`);
+    } catch {
+      alert("PDF export failed.");
+    }
   };
   const copySVG = async () => {
-    if (!renderRef.current) return;
-    const node = renderRef.current;
-    const svg = await htmlToImage.toSvg(node, { width: pxW, height: pxH }).catch(()=>null);
-    if (!svg) return alert("SVG export failed");
-    await navigator.clipboard.writeText(svg); alert("SVG copied to clipboard");
+    try {
+      if (!renderRef.current) return;
+      const node = renderRef.current;
+      const svg = await htmlToImage.toSvg(node, { width: pxW, height: pxH }).catch(()=>null);
+      if (!svg) return alert("SVG export failed");
+      await navigator.clipboard.writeText(svg); alert("SVG copied to clipboard");
+    } catch {
+      alert("SVG copy failed.");
+    }
   };
 
   // Images
@@ -747,7 +804,7 @@ function DesignerTab() {
                     {Array.from({length:12}).map((_,i)=> (
                       <label key={i} className="group block relative rounded-md overflow-hidden border border-[#334155] bg-[#0f172a] cursor-pointer">
                         {d.perMonthImages[i] ? (
-                          <img src={d.perMonthImages[i]!} className="h-16 w-full object-cover group-hover:opacity-90"/>
+                          <img src={d.perMonthImages[i]!} className="h-16 w-full object-cover group-hover:opacity-90" alt="month slot"/>
                         ) : (
                           <div className="h-16 w-full grid place-items-center text-[10px] opacity-70">{new Date(2000,i,1).toLocaleString("en",{month:"short"})}</div>
                         )}
@@ -801,11 +858,11 @@ function DesignerTab() {
           style={{ width: pxW+"px", height: pxH+"px", background: d.tokens.bg, fontFamily: d.fontFamily, position: "relative", overflow:"hidden", display:"flex", flexDirection:"column" }}
           className="rounded-lg border border-[#334155] shadow-md mx-auto"
         >
-          {d.bgImage && (<img src={d.bgImage} style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit: d.bgFit, opacity:d.bgOpacity, filter:`blur(${d.bgBlur}px)` }}/>)}
+          {d.bgImage && (<img src={d.bgImage} style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit: d.bgFit, opacity:d.bgOpacity, filter:`blur(${d.bgBlur}px)` }} alt="background"/>)}
           {d.headerText && (<div style={{ padding:pxM, textAlign:d.headerAlign, color:d.tokens.text, fontWeight:700, fontSize:Math.max(18, Math.round(pxW*0.04)) }}>{d.headerText}</div>)}
           <div style={{ flex:1, padding:pxM }}>{yearly ? <YGrid y={year}/> : <MGrid y={year} m={month}/>}</div>
           {d.footerText && (<div style={{ padding:pxM, textAlign:d.footerAlign, color:d.tokens.text, fontSize:12 }}>{d.footerText}</div>)}
-          {d.logo && (<img src={d.logo} style={{ position:"absolute", opacity:d.logoOpacity, width:d.logoSize, height:"auto", ...(d.logoPos==="tl"&&{left:pxM,top:pxM}), ...(d.logoPos==="tr"&&{right:pxM,top:pxM}), ...(d.logoPos==="bl"&&{left:pxM,bottom:pxM}), ...(d.logoPos==="br"&&{right:pxM,bottom:pxM}) }}/>)}
+          {d.logo && (<img src={d.logo} style={{ position:"absolute", opacity:d.logoOpacity, width:d.logoSize, height:"auto", ...(d.logoPos==="tl"&&{left:pxM,top:pxM}), ...(d.logoPos==="tr"&&{right:pxM,top:pxM}), ...(d.logoPos==="bl"&&{left:pxM,bottom:pxM}), ...(d.logoPos==="br"&&{right:pxM,bottom:pxM}) }} alt="logo"/>)}
         </div>
 
         {/* Mobile sticky */}
@@ -828,7 +885,7 @@ function DesignerTab() {
 }
 
 /* ============================================================
-   PAGE — Tabs wrapper + your SEO/crumbs/etc.
+   PAGE — Tabs wrapper + SEO/crumbs/etc.
    ============================================================ */
 const CalendarGenerator: React.FC = () => {
   const [tab, setTab] = useState<"quick"|"designer">("quick");
@@ -881,25 +938,275 @@ const CalendarGenerator: React.FC = () => {
           </div>
         </div>
 
-        {/* Short SEO */}
-        <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
-          <h2 className="text-2xl font-bold text-cyan-400 mb-6">Make calendars your way—simple or fully custom</h2>
+       <section className="prose prose-invert max-w-5xl mx-auto mt-16 leading-relaxed text-slate-300">
+          <h1 className="text-3xl font-bold text-cyan-300 mb-6">
+            Calendar Generator & Designer — Create, Customize, and Export Professional Calendars Online
+          </h1>
+        
           <p>
-            The Quick tab generates clean monthly or yearly calendars with locale, week numbers, and events. The Designer tab lets you choose exact sizes (px/mm/in + DPI), add backgrounds, logos, per-month photos, and export crisp PNG/PDF/SVG.
+            The <strong>Calendar Generator & Designer</strong> by CalculatorHub is your all-in-one tool for
+            building personalized, printable calendars in just a few clicks. Whether you want a simple
+            monthly view for productivity, a yearly overview for team planning, or a designer-grade
+            calendar for posters, social media, or branding — this generator brings professional design
+            control to your browser. No complex software or graphic-design experience required.
           </p>
+        
+          <p>
+            With advanced features like <strong>custom size (mm, inches, or pixels)</strong>,
+            <strong> DPI control</strong>, <strong>event and holiday import</strong>,
+            <strong>ICS export</strong>, <strong>theme templates</strong>, and one-click downloads in
+            <strong> PNG, PDF, or SVG</strong>, this free online calendar creator gives you everything you
+            need to plan, print, or share beautiful calendars — perfectly tailored to your needs.
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            What Makes This Calendar Generator Different
+          </h2>
+        
+          <p>
+            Unlike basic date tools that only show months, this generator blends functionality and design.
+            It combines the precision of a <em>professional calendar engine</em> with the freedom of a
+            <em>poster designer</em>. You can instantly switch between “Quick” and “Designer” modes —
+            whether you want a minimal calendar for personal tracking or a full creative layout for
+            branding, marketing, or print projects.
+          </p>
+        
+          <ul className="list-disc list-inside space-y-2">
+            <li>
+              <strong>Quick Mode:</strong> Instantly generate monthly or yearly calendars with locale,
+              week numbers, holidays, and events.
+            </li>
+            <li>
+              <strong>Designer Mode:</strong> Customize layouts, colors, fonts, backgrounds, and export
+              high-resolution files ready for printing or digital sharing.
+            </li>
+            <li>
+              <strong>Smart Storage:</strong> All settings are saved in your browser’s local storage, so
+              your preferences stay intact.
+            </li>
+            <li>
+              <strong>Cross-platform Design:</strong> Works perfectly on desktops, tablets, and phones with
+              an adaptive, mobile-friendly interface.
+            </li>
+            <li>
+              <strong>Free Forever:</strong> 100% free to use — no sign-ups, no watermarks, no hidden fees.
+            </li>
+          </ul>
+        
+          <h2 className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            How to Use the Calendar Generator
+          </h2>
+        
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Open the Calendar Generator and choose your mode: Quick or Designer.</li>
+            <li>Select the year and month (or yearly view).</li>
+            <li>Adjust settings — locale, week start (Sunday/Monday), and week numbers.</li>
+            <li>
+              (Optional) Add events or holidays manually, or import from a <code>.csv</code> or
+              <code>.txt</code> file.
+            </li>
+            <li>
+              Click <strong>Download</strong> to export your calendar as <strong>PNG</strong>,
+              <strong> PDF</strong>, <strong> SVG</strong>, or <strong>ICS</strong>.
+            </li>
+          </ol>
+        
+          <p>
+            It’s that simple — no technical knowledge required. Everything happens instantly inside your
+            browser, with no uploads to external servers, ensuring your data stays private and secure.
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            Advanced Customization in Designer Mode
+          </h2>
+        
+          <p>
+            The <strong>Designer Mode</strong> is where this tool shines. It lets you take full control over
+            your layout, colors, text, and export resolution. Every pixel is customizable — perfect for
+            print shops, teachers, offices, or creators designing branded content for digital marketing.
+          </p>
+        
+          <ul className="list-disc list-inside space-y-2">
+            <li>
+              <strong>Custom Sizes:</strong> Choose from presets like A4, Letter, Tabloid, or social media
+              formats such as Instagram 1080×1350 and 4K desktop posters.
+            </li>
+            <li>
+              <strong>High DPI Exports:</strong> Set your own DPI for crisp, print-ready results — ideal for
+              professional posters or brochures.
+            </li>
+            <li>
+              <strong>Theme Templates:</strong> Pick from multiple templates (Glass, Minimal Light, Classic
+              Print, Bold Poster, Photo Grid) to match your design vibe.
+            </li>
+            <li>
+              <strong>Color Palette Control:</strong> Adjust accent colors, border tones, and weekend cell
+              colors with intuitive color pickers.
+            </li>
+            <li>
+              <strong>Fonts & Alignment:</strong> Customize header and footer text, alignment, and font
+              family — use any web-safe font or custom CSS font stack.
+            </li>
+            <li>
+              <strong>Backgrounds and Logos:</strong> Add your brand’s logo, set custom background images,
+              and adjust opacity and blur for a perfect look.
+            </li>
+            <li>
+              <strong>Per-Month Photos:</strong> Upload 12 different images — one for each month — and turn
+              your calendar into a photo collage or brand showcase.
+            </li>
+            <li>
+              <strong>Presets & JSON Save:</strong> Save your designs as JSON files and restore them anytime
+              to continue working or share with your team.
+            </li>
+          </ul>
+        
+          <h2 className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            Export Options: PNG, PDF, SVG, and ICS
+          </h2>
+        
+          <p>
+            Exporting is instant and precise. With one click, your design is converted into
+            <strong> PNG</strong> for quick sharing, <strong> PDF</strong> for printing, or
+            <strong> SVG</strong> for scalable vector editing. The integrated <strong>ICS (iCalendar)</strong>
+            export also allows you to sync your events with Google Calendar, Outlook, or Apple Calendar.
+          </p>
+        
+          <ul className="list-disc list-inside space-y-2">
+            <li>
+              <strong>PNG:</strong> Perfect for sharing on social media, websites, or email newsletters.
+            </li>
+            <li>
+              <strong>PDF:</strong> Optimized for print with true page dimensions and high resolution.
+            </li>
+            <li>
+              <strong>SVG:</strong> Scalable and editable for designers using Figma, Illustrator, or Canva.
+            </li>
+            <li>
+              <strong>ICS:</strong> Export your holidays and events directly to your digital calendars.
+            </li>
+          </ul>
+        
+          <h2 className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            Practical Uses of the Calendar Generator
+          </h2>
+        
+          <p>
+            This free online calendar generator is ideal for professionals, students, teachers, designers,
+            and small business owners. Here are just a few practical ways people use it:
+          </p>
+        
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Teachers:</strong> Create academic calendars with term dates, exams, and holidays.</li>
+            <li><strong>Businesses:</strong> Make branded wall calendars for clients or teams.</li>
+            <li><strong>Freelancers:</strong> Build planning calendars to track project deadlines.</li>
+            <li><strong>Content Creators:</strong> Design monthly social media planners or editorial calendars.</li>
+            <li><strong>Families:</strong> Generate personalized photo calendars for home or gifts.</li>
+            <li><strong>Event Planners:</strong> Add events and export ICS files for scheduling tools.</li>
+          </ul>
+        
+          <p>
+            Whatever your goal — from time management to creative promotion — this tool adapts easily.
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            Why Creators and Marketers Love the Designer Mode
+          </h2>
+        
+          <p>
+            For designers and social media managers, this calendar maker acts like a mini design studio.
+            The <strong>Photo Grid</strong> and <strong>Bold Poster</strong> templates let you create modern,
+            on-brand content that works across Instagram, Facebook, Pinterest, or print campaigns.
+          </p>
+        
+          <p>
+            Pair your logo and brand colors with lifestyle images or product photos, export in high
+            resolution, and you’ve got a ready-to-share campaign asset — no Photoshop needed.
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            Performance and Privacy
+          </h2>
+        
+          <p>
+            Every operation runs locally in your browser. The app uses optimized algorithms for generating
+            week grids, calculating ISO week numbers, and rendering layouts efficiently — so even complex
+            yearly calendars render instantly without lag. Nothing you type or upload ever leaves your
+            device. Your data (images, events, settings) is stored locally, ensuring full privacy.
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            SEO and Accessibility Notes
+          </h2>
+        
+          <p>
+            The Calendar Generator & Designer follows modern accessibility and SEO principles:
+          </p>
+        
+          <ul className="list-disc list-inside space-y-2">
+            <li>Responsive HTML5 structure and semantic headings.</li>
+            <li>ARIA labels for key buttons and navigation elements.</li>
+            <li>Optimized meta tags, canonical links, and schema markup for search ranking.</li>
+            <li>Readable typography and high contrast for low-light environments.</li>
+          </ul>
+        
+          <p>
+            That means your calendar generator page is both <strong>user-friendly</strong> and
+            <strong>search-engine-friendly</strong>, helping CalculatorHub maintain top rankings on Google
+            for related keywords like “calendar generator,” “printable calendar maker,” and “calendar
+            designer online.”
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            Frequently Asked Questions (FAQ)
+          </h2>
+        
+          <h3 className="text-lg font-semibold text-emerald-300 mt-4">1. Is this tool free to use?</h3>
+          <p>Yes — completely free. No watermarks, no login, and no hidden costs.</p>
+        
+          <h3 className="text-lg font-semibold text-emerald-300 mt-4">2. Can I print the calendar?</h3>
+          <p>
+            Absolutely. Export it as a high-resolution PDF or PNG file, and print it at home or with a
+            professional printer. DPI control ensures perfect sharpness.
+          </p>
+        
+          <h3 className="text-lg font-semibold text-emerald-300 mt-4">3. Can I add holidays automatically?</h3>
+          <p>
+            You can paste or import a list of holidays or events in CSV or text format. The app maps each
+            date automatically and marks it on your calendar.
+          </p>
+        
+          <h3 className="text-lg font-semibold text-emerald-300 mt-4">4. Can I save my template?</h3>
+          <p>
+            Yes. Save your design as a JSON file or local preset. You can restore or share it with your
+            team anytime.
+          </p>
+        
+          <h3 className="text-lg font-semibold text-emerald-300 mt-4">5. What file formats can I export?</h3>
+          <p>
+            You can download in PNG, PDF, SVG, or ICS (for digital calendars). Each format is optimized for
+            different use cases — digital, print, or scheduling.
+          </p>
+        
+          <h2 className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            Start Creating Your Calendar Today
+          </h2>
+        
+          <p>
+            Whether you’re planning your year, organizing projects, designing gifts, or publishing content,
+            the <strong>Calendar Generator & Designer</strong> helps you do it faster, smarter, and more
+            beautifully. From minimalist monthly planners to full-color branded calendars, you’re in
+            control.
+          </p>
+        
+          <p>
+            Try the tool now — experiment with styles, upload your own photos, and export your perfect
+            calendar in seconds. Your creativity deserves a calendar that matches your vision.
+          </p>
+        
+          <div className="mt-10 h-2 w-full rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-emerald-400 opacity-60 blur-[2px]" />
         </section>
 
-        {/* Backlinks */}
-        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
-          <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
-            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">🚀 Explore more tools on CalculatorHub:</p>
-            <div className="flex flex-wrap gap-3 text-sm">
-              <Link to="/timezone-converter" className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200">🌍 Timezone Converter</Link>
-              <Link to="/time-duration-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200">⏱️ Time Duration Calculator</Link>
-              <Link to="/age-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-pink-600/20 text-pink-300 hover:text-pink-400 px-3 py-2 rounded-md border border-slate-700 hover:border-pink-500 transition-all duration-200">🎂 Age Calculator</Link>
-            </div>
-          </div>
-        </section>
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/calendar-generator" category="utilities" />
