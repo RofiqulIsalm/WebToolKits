@@ -307,95 +307,206 @@ const AgeCalculator: React.FC = () => {
     }
   }, [resultString]);
 
-  // Structured data
-  const faqSchema = useMemo(() => ({
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How do I calculate my age accurately?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Enter your date of birth and a reference date. The calculator returns your exact age in years, months and days, along with totals (weeks, days, hours, minutes, seconds)."
-        }
-      },
-      
-      {
-        "@type": "Question",
-        "name": "What is Advanced Mode in the Age Calculator?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Advanced Mode adds a live life countdown based on average life expectancy. You can choose a region and gender or set a custom life expectancy, and the tool displays time left and an estimated date."
-        }
-      }
-    ]
-  }), []);
-
-  const appSchema = useMemo(() => ({
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Age Calculator – CalculatorHub",
-    "url": "https://calculatorhub.site/age-calculator",
-    "applicationCategory": "UtilitiesApplication",
-    "operatingSystem": "Any",
-    "offers": { "@type": "Offer", "price": "0" }
-  }), []);
-  
-  const articleSchema = useMemo(() => ({
-      "@context": "https://schema.org",
-      "@type": "Article",
-      "headline": "Age Calculator – Calculate Exact Age and Life Countdown",
-      "author": {
-        "@type": "Organization",
-        "name": "CalculatorHub Security Tools Team"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "CalculatorHub",
-        "logo": { "@type": "ImageObject", "url":       "https://calculatorhub.site/images/calculatorhub-logo.webp" }
-      },
-      "datePublished": "2025-10-10",
-      "dateModified": "2025-10-20"
-  }), []);
-
-  const schemaArray = useMemo(() => ([
-    generateCalculatorSchema(
-      "Age Calculator",
-      seoData.ageCalculator.description,
-      "/age-calculator",
-      seoData.ageCalculator.keywords
-    ),
-    appSchema,
-    faqSchema
-  ]), [appSchema, faqSchema]);
+ 
 
   return (
     <>
       <SEOHead
-        title={seoData.ageCalculator.title}
-        description={seoData.ageCalculator.description}
-        canonical="https://calculatorhub.site/age-calculator"
-        schemaData={schemaArray}
-        breadcrumbs={[
-          { name: 'Date & Time Tools', url: '/category/date-time-tools' },
-          { name: 'Age Calculator', url: '/age-calculator' }
+            title={seoData.ageCalculator.title}
+            description={seoData.ageCalculator.description}
+            keywords={seoData.ageCalculator.keywords}
+            canonical="https://calculatorhub.site/age-calculator"
+            schemaData={[
+              // 1) Your base calculator schema (kept)
+              generateCalculatorSchema(
+                "Age Calculator",
+                seoData.ageCalculator.description,
+                "/age-calculator",
+                seoData.ageCalculator.keywords
+              ),
+          
+              // 2) WebApplication (enriched)
+              {
+                "@context": "https://schema.org",
+                "@type": "WebApplication",
+                "name": "Age Calculator – CalculatorHub",
+                "url": "https://calculatorhub.site/age-calculator",
+                "applicationCategory": "UtilitiesApplication",
+                "operatingSystem": "Web",
+                "description": seoData.ageCalculator.description,
+                "inLanguage": "en",
+                "image": [
+                  "https://calculatorhub.site/images/age-calculator-preview.webp",
+                  "https://calculatorhub.site/images/age-calculator-hero.webp"
+                ],
+                "publisher": {
+                  "@type": "Organization",
+                  "name": "CalculatorHub",
+                  "url": "https://calculatorhub.site",
+                  "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/calculatorhub-logo.webp" }
+                },
+                "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+                "datePublished": "2025-11-12",
+                "dateModified": "2025-11-12",
+                "keywords": seoData.ageCalculator.keywords
+              },
+          
+              // 3) WebPage -> Article (explainer)
+              {
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "mainEntity": {
+                  "@type": "Article",
+                  "headline": "Age Calculator – Calculate Exact Age and Live Life Countdown",
+                  "description": seoData.ageCalculator.description,
+                  "image": [
+                    "https://calculatorhub.site/images/age-calculator-preview.webp",
+                    "https://calculatorhub.site/images/age-calculator-hero.webp"
+                  ],
+                  "author": { "@type": "Organization", "name": "CalculatorHub Tools Team" },
+                  "publisher": {
+                    "@type": "Organization",
+                    "name": "CalculatorHub",
+                    "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/calculatorhub-logo.webp" }
+                  },
+                  "datePublished": "2025-11-12",
+                  "dateModified": "2025-11-12",
+                  "articleSection": [
+                    "What Is an Age Calculator?",
+                    "How It Works",
+                    "Logic & Formula",
+                    "Advanced Mode – Life Countdown",
+                    "FAQ"
+                  ],
+                  "keywords": seoData.ageCalculator.keywords,
+                  "inLanguage": "en",
+                  "url": "https://calculatorhub.site/age-calculator",
+                  "about": { "@type": "Thing", "name": "Age Calculation" }
+                }
+              },
+          
+              // 4) FAQPage (focused Q&A)
+              {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": [
+                  {
+                    "@type": "Question",
+                    "name": "How do I calculate my exact age?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Enter your birth date and a reference date. The calculator returns your age in years, months, days, plus totals like weeks, hours, minutes, and seconds."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Does it handle leap years and month lengths?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Yes. The algorithm adjusts for variable month lengths and leap years to keep results precise."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "What does Advanced Mode do?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Advanced Mode adds a live life countdown based on life expectancy (region/gender/custom), showing progress and an estimated final date."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Is my data stored?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "No personal data is collected. Only local preferences may be saved in your browser for convenience."
+                    }
+                  }
+                ]
+              },
+          
+              // 5) Breadcrumbs (aligns with UI crumbs)
+              {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+                  { "@type": "ListItem", "position": 2, "name": "Date & Time Tools", "item": "https://calculatorhub.site/category/date-time-tools" },
+                  { "@type": "ListItem", "position": 3, "name": "Age Calculator", "item": "https://calculatorhub.site/age-calculator" }
+                ]
+              },
+          
+              // 6) WebSite + SiteLinks Search
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "name": "CalculatorHub",
+                "url": "https://calculatorhub.site",
+                "potentialAction": {
+                  "@type": "SearchAction",
+                  "target": "https://calculatorhub.site/search?q={query}",
+                  "query-input": "required name=query"
+                }
+              },
+          
+              // 7) Speakable (voice surfaces)
+              {
+                "@context": "https://schema.org",
+                "@type": "SpeakableSpecification",
+                "cssSelector": [".main-title", ".result-summary"]
+              }
+            ]}
+            breadcrumbs={[
+              { name: 'Date & Time Tools', url: '/category/date-time-tools' },
+              { name: 'Age Calculator', url: '/age-calculator' }
+            ]}
+          />
 
-        
-        ]}
-        
-      />
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+           <!-- Core -->
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+          <link rel="canonical" href="https://calculatorhub.site/age-calculator" />
+          
+          <!-- Hreflang -->
+          <link rel="alternate" href="https://calculatorhub.site/age-calculator" hreflang="en" />
+          <link rel="alternate" href="https://calculatorhub.site/bn/age-calculator" hreflang="bn" />
+          <link rel="alternate" href="https://calculatorhub.site/age-calculator" hreflang="x-default" />
+          
+          <!-- Open Graph -->
+          <meta property="og:type" content="website" />
+          <meta property="og:site_name" content="CalculatorHub" />
+          <meta property="og:title" content="Age Calculator – Calculate Your Exact Age | CalculatorHub" />
+          <meta property="og:description" content="Find your exact age in years, months, days, hours, and seconds. Includes Advanced Mode with life expectancy countdown." />
+          <meta property="og:url" content="https://calculatorhub.site/age-calculator" />
+          <meta property="og:image" content="https://calculatorhub.site/images/age-calculator-preview.webp" />
+          <meta property="og:image:alt" content="Age Calculator UI preview" />
+          
+          <!-- Twitter -->
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="Age Calculator – Calculate Your Exact Age | CalculatorHub" />
+          <meta name="twitter:description" content="Precise age in years, months, days — plus live life countdown in Advanced Mode." />
+          <meta name="twitter:image" content="https://calculatorhub.site/images/age-calculator-preview.webp" />
+          
+          <!-- Icons / PWA -->
+          <link rel="icon" href="/favicon.ico" />
+          <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+          <link rel="manifest" href="/site.webmanifest" />
+          <meta name="theme-color" content="#0ea5e9" />
+          
+          <!-- Performance: fonts/CDN -->
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+          <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+          <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+          <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+          
+          <!-- Preload above-the-fold media (adjust if filenames differ) -->
+          <link rel="preload" as="image" href="/images/age-calculator-hero.webp" />
+          <link rel="preload" as="image" href="/images/age-calculator-preview.webp" />
+          
+          <!-- Privacy/Security (optional) -->
+          <meta name="referrer" content="no-referrer-when-downgrade" />
 
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-      <meta property="og:title" content="Age Calculator – Calculate Your Exact Age | CalculatorHub" />
-      <meta property="og:description" content="Find your exact age in years, months, days, hours, and seconds with CalculatorHub’s free Age Calculator. Includes life expectancy countdown and more!" />
-      <meta property="og:image" content="https://calculatorhub.site/images/age-calculator-preview.webp" />
-      <meta property="og:type" content="website" />
-      <meta name="twitter:card" content="summary_large_image" />
 
 
       {/* Static gradient background wrapper */}
