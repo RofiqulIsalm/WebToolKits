@@ -674,216 +674,342 @@ const AgeCalculator: React.FC = () => {
             <div className="my-8">
               <AdBanner type="bottom" />
             </div>
-            <RelatedCalculators currentPath="/age-calculator" category="date-time-tools" />
           </Suspense>
 
-          {/* SEO Content Section */}
-            <section className=" mt-5">
-              <h2 className="text-3xl md:text-4xl text-white ">
-               <strong>What Is an Age Calculator..?</strong>
-              </h2>
-              <p className="text-slate-300 py-3 leading-relaxed">
-                An <strong>Age Calculator</strong> is a smart online tool that helps you determine your exact age in years, months,
-                days, and even seconds. Instead of manually counting days or using spreadsheets, this calculator instantly
-                computes your age based on the date of birth and a chosen reference date. It’s accurate, fast, and designed
-                to handle leap years, time zones, and date differences automatically.
-              </p>
+          {/* ===================== SEO Content Section (refined) ===================== */}
+          <section className="mt-5 prose prose-invert max-w-4xl text-slate-300">
+          
+            {/* Intro */}
+            <h2 id="what-is-age-calculator" className="text-3xl md:text-4xl text-white">
+              <strong>What Is an Age Calculator?</strong>
+            </h2>
+            <p className="py-3 leading-relaxed">
+              An <strong>Age Calculator</strong> is a precise online tool that determines your exact age in years, months, days, and even seconds. Instead of manually counting days or juggling spreadsheets, it instantly computes your age from your date of birth and a chosen reference date. It’s fast, handles leap years and month lengths, and manages time-zone differences automatically.
+            </p>
+          
+            {/* How it works */}
+            <h2 id="how-it-works" className="text-3xl md:text-4xl text-white">
+              <strong>How Does Our Age Calculator Work?</strong>
+            </h2>
+            <p className="py-3 leading-relaxed">
+              Enter your birth date and the date you want to measure against. Our algorithm finds the exact time difference between those two dates, then displays your age in <strong>years, months, days, hours, minutes, and seconds</strong>. For example, if you were born on January 1, 2000 and today is October 10, 2025, you’ll instantly see your full age and total time lived.
+            </p>
+          
+            {/* Pro tips */}
+            <h2 id="pro-tips" className="text-3xl md:text-4xl text-white">
+              <strong>Pro Tips for Better Time Insights</strong>
+            </h2>
+            <ul className="list-disc pl-6 py-3 space-y-2">
+              <li>
+                Compare events with the{" "}
+                <a href="/date-difference-calculator" className="text-teal-400 hover:underline">
+                  Date Difference Calculator
+                </a>.
+              </li>
+              <li>Bookmark your result — it’s kept locally with <code>localStorage</code>.</li>
+              <li>Use <em>Advanced Mode</em> weekly to track progress toward goals.</li>
+            </ul>
+          
+            {/* Logic & formula */}
+            {/* ================= Logic & Formula (Math Style, No Code) ================ */}
+            <h2 id="logic-formula" className="text-3xl md:text-4xl text-white">
+              <strong>How the Age Calculator Works (Logic &amp; Formula)</strong>
+            </h2>
             
-              <h2 className="text-3xl md:text-4xl text-white ">
-                <strong>How Does Our Age Calculator Work..?</strong>
-              </h2>
-              <p className="text-slate-300 py-3 leading-relaxed">
-                You simply enter your date of birth and the date you want to calculate your age for. The algorithm calculates
-                the exact time difference between those two dates. It then displays your age in <strong>years, months, days,
-                hours, minutes, and seconds</strong>. For example, if you were born on January 1, 2000, and today is October 10,
-                2025, you’ll instantly see your full age and total time lived.
-              </p>
-
-              <h2 className="text-3xl md:text-4xl text-white"><strong>Pro Tips for Better Time Insights</strong></h2>
-                <ul className="list-disc pl-6 py-3 text-slate-300 space-y-2">
-                  <li>Try our <a href="/date-difference-calculator" className="text-teal-400 hover:underline">Date Difference Calculator</a> to measure time spans between events.</li>
-                  <li>Bookmark your result — it stays saved with localStorage.</li>
-                  <li>Use Advanced Mode weekly to track your progress toward personal goals.</li>
-                </ul>
-
-
-
-              {/* Logic & Formula Section */}
-                <h2 className="text-3xl md:text-4xl text-white">
-                  <strong> How the Age Calculator Works (Logic & Formula)</strong>
-                </h2>
-              
-                <p className="text-slate-300 leading-relaxed mb-4">
-                  Our <strong>Age Calculator</strong> uses precise date-time algorithms to find the difference between your birth date and
-                  the current or selected date. It accounts for leap years, months with different day counts, and even time zone differences
-                  to ensure 100% accuracy. Below is a simplified look at the logic:
-                </p>
-              
-                <div className="bg-slate-800/60 rounded-xl p-4 border border-slate-700 overflow-x-auto">
-                  <pre className="text-sm text-blue-300 font-mono">
-              {`const calculateAge = (birthDate, currentDate) => {
-                const birth = new Date(birthDate);
-                const today = new Date(currentDate);
-              
-                let years = today.getFullYear() - birth.getFullYear();
-                let months = today.getMonth() - birth.getMonth();
-                let days = today.getDate() - birth.getDate();
-              
-                if (days < 0) {
-                  months--;
-                  const lastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
-                  days += lastMonth.getDate();
-                }
-                if (months < 0) {
-                  years--;
-                  months += 12;
-                }
-              
-                const totalDays = Math.floor((today - birth) / (1000 * 60 * 60 * 24));
-                return { years, months, days, totalDays };
-              };`}
-                  </pre>
-                </div>
-              
-                <p className="text-slate-300 mt-4 leading-relaxed">
-                  This logic ensures that your age is always accurate, even across leap years or month-end transitions.
-                  Every time you update a date, the algorithm recalculates and updates the results instantly.
-                </p>
-              
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-                  <div className="p-4 bg-blue-500/10 border border-blue-400/20 rounded-xl text-center">
-                    <h3 className="text-xl font-semibold text-blue-300 mb-1">📅 Year Logic</h3>
-                    <p className="text-slate-300 text-sm">Subtracts full calendar years between two dates.</p>
+            <p className="leading-relaxed mb-4 text-slate-300">
+              Let the birth date be <span className="font-semibold">B = (Y<sub>b</sub>, M<sub>b</sub>, D<sub>b</sub>)</span> and the
+              reference (today/selected) date be <span className="font-semibold">R = (Y<sub>r</sub>, M<sub>r</sub>, D<sub>r</sub>)</span>.
+              The age is returned as full years, months, and days after adjusting for month/day borrow. Leap years and unequal month
+              lengths are handled by borrowing the correct number of days from the previous month.
+            </p>
+            
+            <div className="bg-slate-800/60 rounded-xl p-5 border border-slate-700">
+              <ol className="list-decimal list-inside space-y-3 text-slate-100">
+                <li>
+                  <span className="font-semibold">Initial differences</span>
+                  <div className="mt-1 text-slate-300">
+                    ΔY<sup>0</sup> = Y<sub>r</sub> − Y<sub>b</sub>, &nbsp;
+                    ΔM<sup>0</sup> = M<sub>r</sub> − M<sub>b</sub>, &nbsp;
+                    ΔD<sup>0</sup> = D<sub>r</sub> − D<sub>b</sub>.
                   </div>
-                  <div className="p-4 bg-teal-500/10 border border-teal-400/20 rounded-xl text-center">
-                    <h3 className="text-xl font-semibold text-teal-300 mb-1">🗓️ Month Logic</h3>
-                    <p className="text-slate-300 text-sm">Adjusts months when the current day is earlier than the birth day.</p>
-                  </div>
-                  <div className="p-4 bg-amber-500/10 border border-amber-400/20 rounded-xl text-center">
-                    <h3 className="text-xl font-semibold text-amber-300 mb-1">📆 Day Logic</h3>
-                    <p className="text-slate-300 text-sm">Calculates remaining days by adding the previous month’s total days.</p>
-                  </div>
-                </div>
-              
-                <p className="text-slate-300 mt-6 leading-relaxed">
-                  The final output includes <span className="text-teal-400 font-semibold">total days, weeks, months, hours, minutes</span>,
-                  and even <span className="text-blue-400 font-semibold">seconds lived</span>. These values are calculated by converting
-                  the total millisecond difference using the standard formulas:
-                </p>
-              
-                <ul className="list-disc pl-6 mt-3 text-slate-300 space-y-2">
-                  <li><code className="text-teal-400">Total Days = (currentDate − birthDate) / (1000 × 60 × 60 × 24)</code></li>
-                  <li><code className="text-blue-400">Total Weeks = Total Days / 7</code></li>
-                  <li><code className="text-amber-400">Total Months = Years × 12 + Months</code></li>
-                </ul>
-              
-                <p className="mt-4 text-slate-400 text-sm">
-                  🧠 <em>Did you know?</em> Our calculator even supports a real-time countdown mode for your life expectancy
-                  in the <strong>Advanced Mode</strong> section.
-                </p>
-
+                </li>
             
-              <h2 className="text-3xl md:text-4xl text-white">
-                <strong>Why Use CalculatorHub’s Age Calculator..?</strong>
-              </h2>
-              <ul className="list-disc py-3 pl-6 text-slate-300 space-y-2">
-                <li>⚡ Instantly calculate your age without complex formulas or errors.</li>
-                <li>📆 Check your age for visa applications, legal forms, or health purposes.</li>
-                <li>🎂 Know exactly how many days, weeks, or months you’ve lived.</li>
-                <li>🧠 Explore unique insights like your total hours or seconds of life.</li>
-                <li>💡 Compare ages with our <a href="/age-difference-calculator" className="text-teal-400 hover:underline">Age Difference Calculator</a>.</li>
-              </ul>
-            
-              <h2 className="text-3xl md:text-4xl text-white ">
-               <strong>Features and Benefits</strong>
-              </h2>
-              <ul className="list-disc py-3 pl-6 text-slate-300 space-y-2">
-                <li>🎯 Accurate down to the second — no manual calculation required.</li>
-                <li>🌐 Works in all modern browsers, mobile, and desktop devices.</li>
-                <li>💾 Uses <strong>localStorage</strong> to remember your last settings automatically.</li>
-                <li>🧭 Features a sleek dark UI with readable contrast and responsive design.</li>
-                <li>🔒 100% secure — no data leaves your browser.</li>
-                <li>🧮 Integrates with other tools like the <a href="/date-calculator" className="text-teal-400 hover:underline">Date Calculator</a> and <a href="/bmi-calculator" className="text-teal-400 hover:underline">BMI Calculator</a>.</li>
-              </ul>
-            
-              <h2 className="text-3xl md:text-4xl text-white ">
-               <strong> Advanced Mode: Live Life Countdown</strong>
-              </h2>
-              <p className=" py-3 text-slate-300 leading-relaxed">
-                What sets CalculatorHub apart is our <strong>Advanced Mode</strong>. Based on the <a href="https://en.wikipedia.org/wiki/Life_expectancy" target="_blank" rel="noopener noreferrer nofollow" className="text-teal-400 hover:underline">average life expectancy</a> of your region, gender, and preferences, the calculator estimates how much time you may have left — and visualizes it in a <strong>live countdown</strong> and a dynamic progress bar.
-              </p>
-              <p className="text-slate-300 py-3 leading-relaxed">
-                For example, if your regional life expectancy is 80 years, the tool shows you how many <strong>years, months, days, hours, and seconds</strong> are remaining, updating in real time. It’s both enlightening and motivational — helping you make the most of every moment.
-              </p>
-            
-              
-            
-              <h2 className="text-3xl md:text-4xl text-white">
-                <strong>Reliable Data Sources</strong>
-              </h2>
-              <p className="text-slate-300 p-3 leading-relaxed">
-                Our life expectancy estimates are based on trusted global health data from the{" "}
-                <a href="https://www.who.int/data/gho/data/themes/topics/topic-details/GHO/life-expectancy" target="_blank" rel="noopener noreferrer nofollow" className="text-teal-400 hover:underline">World Health Organization</a>,{" "}
-                <a href="https://www.worldometers.info/demographics/life-expectancy/" target="_blank" rel="noopener noreferrer nofollow" className="text-teal-400 hover:underline">Worldometer</a>, and{" "}
-                <a href="https://worldpopulationreview.com/country-rankings/life-expectancy-by-country" target="_blank" rel="noopener noreferrer nofollow" className="text-teal-400 hover:underline">World Population Review</a>.
-              </p>
-            
-              <section className="space-y-4">
-                  <h2 className="text-3xl md:text-4xl text-white mb-4"><strong>❓ Frequently Asked Questions (<span className="text-yellow-300"> FAQ </span>)</strong></h2>
-                  <div className="space-y-4 text-lg text-slate-100 leading-relaxed">
-                    <div>
-                      <div className="bg-slate-800/60 p-4 mt-3 rounded-lg">
-                          <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q1</span>: Is this Age Calculator accurate?</h3>
-                          <p>
-      			Yes, it uses real-time date difference calculations with millisecond precision to ensure the results are exact.
-                          </p>
-                      </div>
-                      <div className="bg-slate-800/60 p-4 mt-3 rounded-lg">
-                          <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q2</span>: Can I use it for official forms or visas?</h3>
-                          <p>
-      		Absolutely. The calculator provides verified date outputs ideal for forms, applications, and documentation.
-                          </p>
-                      </div>
-                      <div className="bg-slate-800/60 p-4 mt-3 rounded-lg">
-                          <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q3</span>: Does it save my personal data?</h3>
-                          <p>
-      			No personal data is collected or stored. Only your preferred settings are cached locally for convenience.
-                          </p>
-                      </div>
-                      <div className="bg-slate-800/60 p-4mt-3 rounded-lg">
-                          <h3 className="font-semibold text-xl"><span className="text-yellow-300">Q4</span>: Can I compare ages between two people?</h3>
-                          <p>
-      			 Yes, try our <a href="/age-difference-calculator" className="text-teal-400 hover:underline">Age Difference Calculator</a> to compare two birthdates instantly.
-                          </p>
-                      </div>
-                   </div>
-                 </div>
-                </section>
-
-              <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
-                  <div className="flex items-center gap-3">
-                    <img
-                      decoding="async"
-                      fetchpriority="low"
-                      src="/images/calculatorhub-author.webp"
-                      alt="CalculatorHub Security Tools Team"
-                      className="w-12 h-12 rounded-full border border-gray-600"
-                      loading="lazy"
-                    />
-                    <div>
-                      <p className="font-semibold text-white">Written by the CalculatorHub Security Tools Team</p>
-                      <p className="text-sm text-slate-400">
-                        Experts in web security and online calculator development. Last updated: <time dateTime="2025-10-10">October 10, 2025</time>.
-                      </p>
+                <li>
+                  <span className="font-semibold">Day adjustment (borrow days if needed)</span>
+                  <div className="mt-1 text-slate-300">
+                    If ΔD<sup>0</sup> &lt; 0, then borrow one month:
+                    <div className="mt-1 pl-4">
+                      ΔM′ = ΔM<sup>0</sup> − 1,&nbsp;
+                      ΔD = ΔD<sup>0</sup> + daysInMonth(Y<sub>r</sub>, M<sub>r</sub> − 1)
                     </div>
+                    Otherwise, ΔM′ = ΔM<sup>0</sup> and ΔD = ΔD<sup>0</sup>.
                   </div>
-                </section>
+                </li>
             
-              <p className="text-slate-400 text-sm mt-8">
-                © {new Date().getFullYear()} CalculatorHub. Discover more powerful tools in our{" "}
-                <a href="/category/date-time-tools" className="text-teal-400 hover:underline">Date & Time Tools</a> collection.
+                <li>
+                  <span className="font-semibold">Month adjustment (borrow years if needed)</span>
+                  <div className="mt-1 text-slate-300">
+                    If ΔM′ &lt; 0, then borrow one year:
+                    <div className="mt-1 pl-4">
+                      ΔY = ΔY<sup>0</sup> − 1,&nbsp; ΔM = ΔM′ + 12
+                    </div>
+                    Otherwise, ΔY = ΔY<sup>0</sup> and ΔM = ΔM′.
+                  </div>
+                </li>
+            
+                <li>
+                  <span className="font-semibold">Final calendar age</span>
+                  <div className="mt-1 text-slate-300">
+                    <span className="font-mono">Age = (ΔY years, ΔM months, ΔD days)</span>
+                  </div>
+                </li>
+            
+                <li>
+                  <span className="font-semibold">Total quantities from an absolute day difference</span>
+                  <div className="mt-1 text-slate-300">
+                    Let <span className="font-mono">Δdays = ⌊ R − B ⌋</span> measured in days
+                    (e.g., via an absolute day count such as Julian Day or Unix-time/86,400 s). Then:
+                    <ul className="list-disc list-inside mt-2 space-y-1">
+                      <li>Total weeks = ⌊Δdays / 7⌋</li>
+                      <li>Total hours = 24 · Δdays</li>
+                      <li>Total minutes = 1,440 · Δdays</li>
+                      <li>Total seconds = 86,400 · Δdays</li>
+                      <li>Total months (approx.) = 12·ΔY + ΔM</li>
+                    </ul>
+                  </div>
+                </li>
+              </ol>
+            </div>
+            
+            {/* ================= Worked Example ================= */}
+            <div className="mt-6 bg-slate-800/60 rounded-xl p-5 border border-slate-700">
+              <h3 className="text-xl font-semibold text-white">Worked Example</h3>
+              <p className="mt-2 text-slate-300">
+                B = (2000, 1, 1), &nbsp; R = (2025, 10, 10)
               </p>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2 text-slate-100">
+                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+                  <p className="font-semibold">Calendar age</p>
+                  <p className="mt-1 text-slate-300">
+                    ΔY<sup>0</sup> = 2025 − 2000 = 25, &nbsp;
+                    ΔM<sup>0</sup> = 10 − 1 = 9, &nbsp;
+                    ΔD<sup>0</sup> = 10 − 1 = 9.
+                  </p>
+                  <p className="mt-1 text-slate-300">
+                    No borrowing needed (ΔD<sup>0</sup> ≥ 0 and ΔM<sup>0</sup> ≥ 0).
+                  </p>
+                  <p className="mt-1">
+                    <span className="font-mono">Age = (25 years, 9 months, 9 days)</span>
+                  </p>
+                </div>
+                <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+                  <p className="font-semibold">Totals</p>
+                  <p className="mt-1 text-slate-300">
+                    Absolute day difference Δdays = 9,414.
+                  </p>
+                  <ul className="mt-1 text-slate-300 list-disc list-inside space-y-1">
+                    <li>Weeks ≈ 9,414 / 7 = 1,344 (⌊ ⌋)</li>
+                    <li>Hours = 9,414 × 24 = 225,936</li>
+                    <li>Minutes = 225,936 × 60 = 13,556,160</li>
+                    <li>Seconds = 13,556,160 × 60 = 813,369,600</li>
+                  </ul>
+                </div>
+              </div>
+            
+              <p className="mt-3 text-xs text-slate-400">
+                <span className="font-semibold">Note:</span> When days must be borrowed, the calculator uses the exact day count of the previous
+                month (28–31 as applicable, including leap years). This keeps the calendar age canonical and consistent worldwide.
+              </p>
+            </div>
+            
+            {/* ================= Logic Tiles (kept) ================= */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+              <div className="p-4 bg-blue-500/10 border border-blue-400/20 rounded-xl text-center">
+                <h3 className="text-xl font-semibold text-blue-300 mb-1">📅 Year Logic</h3>
+                <p className="text-slate-300 text-sm">Subtract full calendar years; borrow only if months go negative.</p>
+              </div>
+              <div className="p-4 bg-teal-500/10 border border-teal-400/20 rounded-xl text-center">
+                <h3 className="text-xl font-semibold text-teal-300 mb-1">🗓️ Month Logic</h3>
+                <p className="text-slate-300 text-sm">Borrow one year when months become negative; add 12 months.</p>
+              </div>
+              <div className="p-4 bg-amber-500/10 border border-amber-400/20 rounded-xl text-center">
+                <h3 className="text-xl font-semibold text-amber-300 mb-1">📆 Day Logic</h3>
+                <p className="text-slate-300 text-sm">Borrow from the previous month using its actual day count (28–31).</p>
+              </div>
+            </div>
+
+          
+            <p className="mt-6 leading-relaxed">
+              The final output also includes <span className="text-teal-400 font-semibold">total days, weeks, months, hours, and minutes</span> — even <span className="text-blue-400 font-semibold">seconds lived</span>. These values come from converting the total millisecond difference:
+            </p>
+            <ul className="list-disc pl-6 mt-3 space-y-2">
+              <li><code className="text-teal-400">Total Days = (currentDate − birthDate) ÷ (1000 × 60 × 60 × 24)</code></li>
+              <li><code className="text-blue-400">Total Weeks = Total Days ÷ 7</code></li>
+              <li><code className="text-amber-400">Total Months ≈ Years × 12 + Months</code></li>
+            </ul>
+          
+            <p className="mt-4 text-slate-400 text-sm">
+              🧠 <em>Tip:</em> Try the <strong>Advanced Mode</strong> for a real-time life countdown and progress bar.
+            </p>
+          
+            {/* Why use */}
+            <h2 id="why-use" className="text-3xl md:text-4xl text-white">
+              <strong>Why Use CalculatorHub’s Age Calculator?</strong>
+            </h2>
+            <ul className="list-disc py-3 pl-6 space-y-2">
+              <li>⚡ Instant, error-free results — no manual math.</li>
+              <li>📆 Great for visas, legal forms, school, or health records.</li>
+              <li>🎂 See exactly how many days, weeks, or months you’ve lived.</li>
+              <li>🧠 Explore unique insights like total hours and seconds of life.</li>
+              <li>
+                💡 Compare ages with the{" "}
+                <a href="/age-difference-calculator" className="text-teal-400 hover:underline">
+                  Age Difference Calculator
+                </a>.
+              </li>
+            </ul>
+          
+            {/* Features */}
+            <h2 id="features-benefits" className="text-3xl md:text-4xl text-white">
+              <strong>Features & Benefits</strong>
+            </h2>
+            <ul className="list-disc py-3 pl-6 space-y-2">
+              <li>🎯 Accurate down to the second (using system time and robust date math).</li>
+              <li>🌐 Works on modern browsers across mobile and desktop.</li>
+              <li>💾 Remembers your last settings via <strong>localStorage</strong>.</li>
+              <li>🧭 Clean, accessible dark UI with responsive layout.</li>
+              <li>🔒 Private by design — calculations run in your browser.</li>
+              <li>
+                🧮 Pairs with{" "}
+                <a href="/date-calculator" className="text-teal-400 hover:underline">Date Calculator</a> and{" "}
+                <a href="/bmi-calculator" className="text-teal-400 hover:underline">BMI Calculator</a>.
+              </li>
+            </ul>
+          
+            {/* Advanced mode */}
+            <h2 id="advanced-mode" className="text-3xl md:text-4xl text-white">
+              <strong>Advanced Mode: Live Life Countdown</strong>
+            </h2>
+            <p className="py-3 leading-relaxed">
+              Our <strong>Advanced Mode</strong> estimates remaining time based on regional and demographic life expectancy and visualizes it as a <strong>live countdown</strong> with a progress bar.
+              For background, see{" "}
+              <a
+                href="https://en.wikipedia.org/wiki/Life_expectancy"
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                className="text-teal-400 hover:underline"
+              >
+                Life expectancy
+              </a>.
+            </p>
+            <p className="py-3 leading-relaxed">
+              For example, if the life expectancy you select is 80 years, the tool shows remaining <strong>years, months, days, hours,</strong> and <strong>seconds</strong>, updating in real time — a motivating way to make the most of every moment.
+            </p>
+          
+            {/* Sources */}
+            <h2 id="reliable-sources" className="text-3xl md:text-4xl text-white">
+              <strong>Reliable Data Sources</strong>
+            </h2>
+            <p className="p-3 leading-relaxed">
+              Life-expectancy presets draw on commonly cited references such as the{" "}
+              <a
+                href="https://www.who.int/data/gho/data/themes/topics/topic-details/GHO/life-expectancy"
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                className="text-teal-400 hover:underline"
+              >
+                World Health Organization
+              </a>,{" "}
+              <a
+                href="https://www.worldometers.info/demographics/life-expectancy/"
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                className="text-teal-400 hover:underline"
+              >
+                Worldometer
+              </a>, and{" "}
+              <a
+                href="https://worldpopulationreview.com/country-rankings/life-expectancy-by-country"
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                className="text-teal-400 hover:underline"
+              >
+                World Population Review
+              </a>.
+            </p>
+          
+            {/* FAQ */}
+            <section id="faq" className="space-y-4">
+              <h2 className="text-3xl md:text-4xl text-white mb-4">
+                <strong>❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)</strong>
+              </h2>
+              <div className="space-y-4 text-lg text-slate-100 leading-relaxed">
+                <div className="bg-slate-800/60 p-4 mt-3 rounded-lg border border-slate-700">
+                  <h3 className="font-semibold text-xl">
+                    <span className="text-yellow-300">Q1</span>: Is this Age Calculator accurate?
+                  </h3>
+                  <p>Yes. It uses millisecond-level date differences and handles leap years and month lengths for precise results.</p>
+                </div>
+          
+                <div className="bg-slate-800/60 p-4 mt-3 rounded-lg border border-slate-700">
+                  <h3 className="font-semibold text-xl">
+                    <span className="text-yellow-300">Q2</span>: Can I use it for official forms or visas?
+                  </h3>
+                  <p>Absolutely. It provides clear, unambiguous date outputs suitable for forms and documentation.</p>
+                </div>
+          
+                <div className="bg-slate-800/60 p-4 mt-3 rounded-lg border border-slate-700">
+                  <h3 className="font-semibold text-xl">
+                    <span className="text-yellow-300">Q3</span>: Does it save my personal data?
+                  </h3>
+                  <p>No personal data is collected. Only preferences (like last used dates) may be cached locally for convenience.</p>
+                </div>
+          
+                <div className="bg-slate-800/60 p-4 mt-3 rounded-lg border border-slate-700">
+                  <h3 className="font-semibold text-xl">
+                    <span className="text-yellow-300">Q4</span>: Can I compare ages between two people?
+                  </h3>
+                  <p>
+                    Yes. Use the{" "}
+                    <a href="/age-difference-calculator" className="text-teal-400 hover:underline">
+                      Age Difference Calculator
+                    </a>{" "}
+                    to compare two birthdates instantly.
+                  </p>
+                </div>
+              </div>
             </section>
+          
+            {/* Author */}
+            <section className="mt-10 border-t border-gray-700 pt-6">
+              <div className="flex items-center gap-3">
+                <img
+                  decoding="async"
+                  fetchpriority="low"
+                  src="/images/calculatorhub-author.webp"
+                  alt="CalculatorHub Tools Team"
+                  className="w-12 h-12 rounded-full border border-gray-600"
+                  loading="lazy"
+                />
+                <div>
+                  <p className="font-semibold text-white">Written by the CalculatorHub Tools Team</p>
+                  <p className="text-sm text-slate-400">
+                    Experts in web calculators & UX. Last updated:{" "}
+                    <time dateTime="2025-10-10">October 10, 2025</time>.
+                  </p>
+                </div>
+              </div>
+            </section>
+          
+            {/* Footer note */}
+            <p className="text-slate-400 text-sm mt-8">
+              © {new Date().getFullYear()} CalculatorHub. Explore more in{" "}
+              <a href="/category/date-time-tools" className="text-teal-400 hover:underline">
+                Date &amp; Time Tools
+              </a>.
+            </p>
+          </section>
+
 
         </div>
       </div>
