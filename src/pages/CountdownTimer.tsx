@@ -752,18 +752,208 @@ const CountdownTimer: React.FC = () => {
   return (
     <>
       <SEOHead
-        title={seoData.countdownTimer?.title || "Countdown Timer — HH:MM:SS"}
-        description={
-          seoData.countdownTimer?.description ||
-          "Set hours, minutes, and seconds. Presets, shareable links, keyboard shortcuts, PiP floating window, and a clean glass UI."
-        }
-        canonical="https://calculatorhub.site/countdown-timer"
-        schemaData={schemaArray}
-        breadcrumbs={[
-          { name: "Date & Time Tools", url: "/category/date-time-tools" },
-          { name: "Countdown Timer", url: "/countdown-timer" },
-        ]}
-      />
+              title={seoData.countdownTimer?.title || "Countdown Timer — HH:MM:SS"}
+              description={
+                seoData.countdownTimer?.description ||
+                "Set hours, minutes, and seconds. Presets, shareable links, keyboard shortcuts, PiP floating window, and a clean glass UI."
+              }
+              keywords={
+                seoData.countdownTimer?.keywords || [
+                  "countdown timer",
+                  "hh:mm:ss timer",
+                  "pomodoro timer",
+                  "document picture in picture timer",
+                  "pip timer",
+                  "start pause resume timer",
+                  "shareable timer link",
+                  "keyboard shortcuts timer",
+                  "web countdown"
+                ]
+              }
+              canonical="https://calculatorhub.site/countdown-timer"
+              schemaData={[
+                // Existing calculator schema
+                generateCalculatorSchema(
+                  "Countdown Timer",
+                  "HH:MM:SS countdown with state restore, chime, toast, share links, PiP floating mini-window, presets, and shortcuts.",
+                  "/countdown-timer",
+                  ["countdown timer","hh:mm:ss","pip","share link","keyboard shortcuts"]
+                ),
+            
+                // WebApplication (the tool)
+                {
+                  "@context": "https://schema.org",
+                  "@type": "WebApplication",
+                  "name": "Countdown Timer – CalculatorHub",
+                  "url": "https://calculatorhub.site/countdown-timer",
+                  "applicationCategory": "UtilitiesApplication",
+                  "operatingSystem": "Web",
+                  "description": "Modern HH:MM:SS countdown with deep links, presets, PiP floating window, and keyboard shortcuts.",
+                  "inLanguage": "en",
+                  "image": [
+                    "https://calculatorhub.site/images/countdown-preview.webp",
+                    "https://calculatorhub.site/images/countdown-hero.webp"
+                  ],
+                  "publisher": {
+                    "@type": "Organization",
+                    "name": "CalculatorHub",
+                    "url": "https://calculatorhub.site",
+                    "logo": {
+                      "@type": "ImageObject",
+                      "url": "https://calculatorhub.site/images/calculatorhub-logo.webp"
+                    }
+                  },
+                  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+                  "datePublished": "2025-11-13",
+                  "dateModified": "2025-11-13",
+                  "keywords": [
+                    "countdown timer","web timer","pip window","share link","pomodoro"
+                  ]
+                },
+            
+                // WebPage + Article (longform content section)
+                {
+                  "@context": "https://schema.org",
+                  "@type": "WebPage",
+                  "mainEntity": {
+                    "@type": "Article",
+                    "headline": "Countdown Timer — HH:MM:SS with deep links, shortcuts, and a floating mini-window",
+                    "description": "Set hours, minutes, seconds; use presets, deep links, PiP, and keyboard shortcuts for a modern countdown workflow.",
+                    "image": [
+                      "https://calculatorhub.site/images/countdown-preview.webp",
+                      "https://calculatorhub.site/images/countdown-hero.webp"
+                    ],
+                    "author": { "@type": "Organization", "name": "CalculatorHub Tools Team" },
+                    "publisher": {
+                      "@type": "Organization",
+                      "name": "CalculatorHub",
+                      "logo": {
+                        "@type": "ImageObject",
+                        "url": "https://calculatorhub.site/images/calculatorhub-logo.webp"
+                      }
+                    },
+                    "datePublished": "2025-11-13",
+                    "dateModified": "2025-11-13",
+                    "articleSection": [
+                      "What is a Countdown Timer?",
+                      "URL Presets",
+                      "Keyboard Shortcuts",
+                      "Picture-in-Picture",
+                      "Progress & Auto-Restart",
+                      "Accessibility",
+                      "FAQ"
+                    ],
+                    "inLanguage": "en",
+                    "url": "https://calculatorhub.site/countdown-timer"
+                  }
+                },
+            
+                // FAQPage (page-এর FAQ অংশ)
+                {
+                  "@context": "https://schema.org",
+                  "@type": "FAQPage",
+                  "mainEntity": [
+                    {
+                      "@type": "Question",
+                      "name": "Can I share a timer preset with a link?",
+                      "acceptedAnswer": { "@type": "Answer", "text": "Yes—use Copy share link to generate a deep link with the same HH:MM:SS and options." }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "Does it support Picture-in-Picture?",
+                      "acceptedAnswer": { "@type": "Answer", "text": "On Chrome/Edge 115+ you can open a floating mini-window that stays on top across tabs." }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "Will it auto-restart when finished?",
+                      "acceptedAnswer": { "@type": "Answer", "text": "Enable Auto-restart to automatically start the same duration again on completion." }
+                    }
+                  ]
+                },
+            
+                // BreadcrumbList
+                {
+                  "@context": "https://schema.org",
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+                    { "@type": "ListItem", "position": 2, "name": "Date & Time Tools", "item": "https://calculatorhub.site/category/date-time-tools" },
+                    { "@type": "ListItem", "position": 3, "name": "Countdown Timer", "item": "https://calculatorhub.site/countdown-timer" }
+                  ]
+                },
+            
+                // WebSite + SearchAction
+                {
+                  "@context": "https://schema.org",
+                  "@type": "WebSite",
+                  "name": "CalculatorHub",
+                  "url": "https://calculatorhub.site",
+                  "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": "https://calculatorhub.site/search?q={query}",
+                    "query-input": "required name=query"
+                  }
+                },
+            
+                // Organization
+                {
+                  "@context": "https://schema.org",
+                  "@type": "Organization",
+                  "name": "CalculatorHub",
+                  "url": "https://calculatorhub.site",
+                  "logo": "https://calculatorhub.site/images/calculatorhub-logo.webp"
+                },
+            
+                // Speakable (voice assistants)
+                {
+                  "@context": "https://schema.org",
+                  "@type": "SpeakableSpecification",
+                  "cssSelector": [".prose h1", ".result-summary"]
+                }
+              ]}
+              breadcrumbs={[
+                { name: "Date & Time Tools", url: "/category/date-time-tools" },
+                { name: "Countdown Timer", url: "/countdown-timer" }
+              ]}
+            />
+
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/countdown-timer" />
+      
+      <link rel="alternate" href="https://calculatorhub.site/countdown-timer" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/countdown-timer" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/countdown-timer" hreflang="x-default" />
+      
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Countdown Timer — HH:MM:SS | CalculatorHub" />
+      <meta property="og:description" content="Modern HH:MM:SS countdown with presets, deep links, keyboard shortcuts, and PiP floating window." />
+      <meta property="og:url" content="https://calculatorhub.site/countdown-timer" />
+      <meta property="og:image" content="https://calculatorhub.site/images/countdown-preview.webp" />
+      <meta property="og:image:alt" content="Countdown Timer preview" />
+      
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Countdown Timer — HH:MM:SS | CalculatorHub" />
+      <meta name="twitter:description" content="Set hours, minutes, seconds. Shareable links, presets, PiP, and keyboard shortcuts." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/countdown-preview.webp" />
+      
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <link rel="manifest" href="/site.webmanifest" />
+      <meta name="theme-color" content="#38bdf8" />
+      
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+      
+      <link rel="preload" as="image" href="/images/countdown-hero.webp" />
+      <link rel="preload" as="image" href="/images/countdown-preview.webp" />
+      
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+
 
       <div className="min-h-screen py-8">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
