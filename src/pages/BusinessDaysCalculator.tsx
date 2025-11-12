@@ -234,39 +234,255 @@ const BusinessDaysCalculator: React.FC = () => {
     try { await navigator.clipboard.writeText(msg); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch {}
   }, [mode, betweenResult, startISO, endISO, includeStart, includeEnd, baseISO, includeBaseIfBusiness, offsetDirection, offset, targetDate]);
 
-  /* ================= SEO ================= */
-  const faqSchema = useMemo(() => ({
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      { "@type": "Question", "name": "How do I count business days between two dates?", "acceptedAnswer": { "@type": "Answer", "text": "Select start and end dates, choose inclusivity, and set your weekend pattern and holidays in Advanced Mode." } },
-      { "@type": "Question", "name": "How do I add business days to a date?", "acceptedAnswer": { "@type": "Answer", "text": "Switch to the Add/Subtract tab, enter an offset, and the tool skips weekends/holidays to give the target date." } }
-    ]
-  }), []);
-
-  const schemaArray = useMemo(() => ([
-    generateCalculatorSchema(
-      "Business Days Calculator",
-      seoData.businessDays?.description || "Count business days between dates or add/subtract business days, skipping weekends and custom holidays.",
-      "/business-days-calculator",
-      seoData.businessDays?.keywords || ["business days calculator", "work days between dates", "add business days", "skip weekends"]
-    ),
-    faqSchema,
-  ]), [faqSchema]);
-
+  
   /* ================= Render ================= */
   return (
     <>
       <SEOHead
-        title={seoData.businessDays?.title || "Business Days Calculator – Count & Add/Subtract"}
-        description={seoData.businessDays?.description || "Count business days between two dates or add/subtract business days. Configure weekend patterns and holidays."}
-        canonical="https://calculatorhub.site/business-days-calculator"
-        schemaData={schemaArray}
-        breadcrumbs={[
-          { name: "Date & Time Tools", url: "/category/date-time-tools" },
-          { name: "Business Days Calculator", url: "/business-days-calculator" }
-        ]}
-      />
+          title={seoData.businessDays?.title || "Business Days Calculator – Count & Add/Subtract"}
+          description={
+            seoData.businessDays?.description ||
+            "Count business days between two dates or add/subtract business days. Configure weekend patterns and holidays."
+          }
+          keywords={
+            seoData.businessDays?.keywords || [
+              "business days calculator",
+              "work days between dates",
+              "add business days",
+              "skip weekends",
+              "working days calculator",
+              "date business day adder",
+              "holiday calendar exclusion",
+              "weekend pattern Sun-Thu Fri off"
+            ]
+          }
+          canonical="https://calculatorhub.site/business-days-calculator"
+          schemaData={[
+            // 1) Core calculator schema (your util)
+            generateCalculatorSchema(
+              "Business Days Calculator",
+              seoData.businessDays?.description ||
+                "Count business days between dates or add/subtract business days, skipping weekends and custom holidays.",
+              "/business-days-calculator",
+              seoData.businessDays?.keywords || [
+                "business days calculator",
+                "work days between dates",
+                "add business days",
+                "skip weekends"
+              ]
+            ),
+        
+            // 2) WebApplication (the tool entity)
+            {
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              "name": "Business Days Calculator – CalculatorHub",
+              "url": "https://calculatorhub.site/business-days-calculator",
+              "applicationCategory": "UtilitiesApplication",
+              "operatingSystem": "Web",
+              "description":
+                seoData.businessDays?.description ||
+                "Count workdays or add/subtract business days with weekend/holiday rules.",
+              "inLanguage": "en",
+              "image": [
+                "https://calculatorhub.site/images/business-days-preview.webp",
+                "https://calculatorhub.site/images/business-days-hero.webp"
+              ],
+              "publisher": {
+                "@type": "Organization",
+                "name": "CalculatorHub",
+                "url": "https://calculatorhub.site",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://calculatorhub.site/images/calculatorhub-logo.webp"
+                }
+              },
+              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+              "datePublished": "2025-11-13",
+              "dateModified": "2025-11-13",
+              "keywords":
+                seoData.businessDays?.keywords || [
+                  "business days",
+                  "workdays",
+                  "weekend mask",
+                  "holiday exclusion"
+                ]
+            },
+        
+            // 3) WebPage → Article (the longform content on page)
+            {
+              "@context": "https://schema.org",
+              "@type": "WebPage",
+              "mainEntity": {
+                "@type": "Article",
+                "headline": "Business Days Calculator — count workdays or add/subtract business days",
+                "description":
+                  seoData.businessDays?.description ||
+                  "Two modes: count between dates or add/subtract business days with configurable weekend patterns and holidays.",
+                "image": [
+                  "https://calculatorhub.site/images/business-days-preview.webp",
+                  "https://calculatorhub.site/images/business-days-hero.webp"
+                ],
+                "author": { "@type": "Organization", "name": "CalculatorHub Tools Team" },
+                "publisher": {
+                  "@type": "Organization",
+                  "name": "CalculatorHub",
+                  "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://calculatorhub.site/images/calculatorhub-logo.webp"
+                  }
+                },
+                "datePublished": "2025-11-13",
+                "dateModified": "2025-11-13",
+                "articleSection": [
+                  "What Is a Business Days Calculator?",
+                  "How to Use",
+                  "Weekend Patterns",
+                  "Holidays",
+                  "Inclusivity",
+                  "FAQ"
+                ],
+                "keywords":
+                  seoData.businessDays?.keywords || [
+                    "workdays",
+                    "business day counter",
+                    "add business days"
+                  ],
+                "inLanguage": "en",
+                "url": "https://calculatorhub.site/business-days-calculator"
+              }
+            },
+        
+            // 4) FAQPage (matches your on-page FAQ)
+            {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "How do I count business days between two dates?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text":
+                      "Select start and end dates, choose inclusivity, and set your weekend pattern and holidays in Advanced Mode."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How do I add business days to a date?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text":
+                      "Switch to the Add/Subtract tab, enter an offset, and the tool skips weekends/holidays to give the target date."
+                  }
+                }
+              ]
+            },
+        
+            // 5) BreadcrumbList
+            {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Date & Time Tools",
+                  "item": "https://calculatorhub.site/category/date-time-tools"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": "Business Days Calculator",
+                  "item": "https://calculatorhub.site/business-days-calculator"
+                }
+              ]
+            },
+        
+            // 6) WebSite + SearchAction
+            {
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "CalculatorHub",
+              "url": "https://calculatorhub.site",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://calculatorhub.site/search?q={query}",
+                "query-input": "required name=query"
+              }
+            },
+        
+            // 7) Organization (sitewide)
+            {
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "CalculatorHub",
+              "url": "https://calculatorhub.site",
+              "logo": "https://calculatorhub.site/images/calculatorhub-logo.webp"
+            },
+        
+            // 8) Speakable (voice assistants)
+            {
+              "@context": "https://schema.org",
+              "@type": "SpeakableSpecification",
+              "cssSelector": [".prose h1", ".result-summary"]
+            }
+          ]}
+          breadcrumbs={[
+            { name: "Date & Time Tools", url: "/category/date-time-tools" },
+            { name: "Business Days Calculator", url: "/business-days-calculator" }
+          ]}
+        />
+
+
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots"
+        content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/business-days-calculator" />
+      
+
+      <link rel="alternate" href="https://calculatorhub.site/business-days-calculator" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/business-days-calculator" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/business-days-calculator" hreflang="x-default" />
+      
+   
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:title" content="Business Days Calculator – Count & Add/Subtract | CalculatorHub" />
+      <meta property="og:description"
+        content="Count business days or add/subtract business days. Configure weekend patterns (Mon–Fri, Sun–Thu, custom) and holidays." />
+      <meta property="og:url" content="https://calculatorhub.site/business-days-calculator" />
+      <meta property="og:image" content="https://calculatorhub.site/images/business-days-preview.webp" />
+      <meta property="og:image:alt" content="Business Days Calculator preview" />
+      
+
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Business Days Calculator – Count & Add/Subtract | CalculatorHub" />
+      <meta name="twitter:description"
+        content="Two modes: between dates or add/subtract business days. Weekend patterns + holiday exclusions." />
+      <meta name="twitter:image" content="https://calculatorhub.site/images/business-days-preview.webp" />
+      
+
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <link rel="manifest" href="/site.webmanifest" />
+      <meta name="theme-color" content="#10b981" />
+      
+
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+      
+
+      <link rel="preload" as="image" href="/images/business-days-hero.webp" />
+      <link rel="preload" as="image" href="/images/business-days-preview.webp" />
+      
+
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+
 
       <div className="min-h-screen w-full py-10">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
