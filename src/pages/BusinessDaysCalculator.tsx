@@ -458,14 +458,346 @@ const BusinessDaysCalculator: React.FC = () => {
             <div className="my-8">
               <AdBanner type="bottom" />
             </div>
-            <RelatedCalculators currentPath="/business-days-calculator" category="date-time-tools" />
           </Suspense>
 
-          {/* SEO snippet */}
-          <section className="mt-6">
-            <h2 className="text-3xl md:text-4xl text-white"><strong>What is a Business Days Calculator?</strong></h2>
-            <p className="text-slate-300 py-3 leading-relaxed">A tool to compute working days between dates or to shift a date by N business days, skipping weekends and your listed holidays. Configure regional workweeks and custom closures in Advanced Mode.</p>
+
+          {/* ===================== SEO Content (~1800–2000 words) ===================== */}
+          <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+          
+            {/* ===== Table of Contents ===== */}
+            <nav className="mt-2 mb-10 bg-[#0b1220] border border-[#1f2a44] rounded-xl p-5 text-slate-200">
+              <h2 className="text-lg font-semibold text-gray-100 mb-3">📖 Table of Contents</h2>
+              <ol className="list-decimal list-inside space-y-2 text-sm">
+                <li><a href="#what-is-bdc" className="text-indigo-300 hover:underline">What Is a Business Days Calculator?</a></li>
+                <li><a href="#features" className="text-indigo-300 hover:underline">Key Features</a></li>
+                <li><a href="#how-to-use" className="text-indigo-300 hover:underline">How to Use This Tool</a></li>
+                <li><a href="#methods" className="text-indigo-300 hover:underline">Methods & Logic Under the Hood</a></li>
+                <li><a href="#worked-examples" className="text-indigo-300 hover:underline">Worked Examples</a></li>
+                <li><a href="#weekend-patterns" className="text-indigo-300 hover:underline">Weekend Patterns & Regional Workweeks</a></li>
+                <li><a href="#holidays" className="text-indigo-300 hover:underline">Holiday Lists: Format, Scope & Tips</a></li>
+                <li><a href="#inclusivity" className="text-indigo-300 hover:underline">Inclusivity (Include Start/End Day)</a></li>
+                <li><a href="#performance" className="text-indigo-300 hover:underline">Performance, Precision & Limits</a></li>
+                <li><a href="#pitfalls" className="text-indigo-300 hover:underline">Common Pitfalls & How to Avoid Them</a></li>
+                <li><a href="#use-cases" className="text-indigo-300 hover:underline">Popular Use Cases</a></li>
+                <li><a href="#quick-ref" className="text-indigo-300 hover:underline">Quick Reference Table</a></li>
+                <li><a href="#glossary" className="text-indigo-300 hover:underline">Glossary</a></li>
+                <li><a href="#faq" className="text-indigo-300 hover:underline">FAQ</a></li>
+              </ol>
+            </nav>
+          
+            {/* ===== What is it? ===== */}
+            <h1 id="what-is-bdc" className="text-3xl font-bold text-indigo-300 mb-6">
+              Business Days Calculator — count workdays or add/subtract business days with precision
+            </h1>
+            <p>
+              The <strong>Business Days Calculator</strong> is a practical utility for scheduling, operations, compliance, and project management.
+              It answers two essential questions: <em>How many working days fall between two dates?</em> and <em>What date is N business days from a given base date?</em> 
+              The tool automatically <strong>skips weekends</strong> and any <strong>custom holidays</strong> you provide, while letting you define a
+              region-specific <strong>workweek pattern</strong> (Mon–Fri, Sun–Thu, Fri off, or fully custom).
+            </p>
+            <p>
+              Whether you’re planning a sprint, quoting lead times, computing SLAs, or aligning international schedules, this calculator gives a clear, auditable result with configurable inclusivity and advanced controls—without spreadsheets or guesswork.
+            </p>
+          
+            {/* ===== Features ===== */}
+            <h2 id="features" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+              ✨ Key Features
+            </h2>
+            <ul className="list-disc list-inside space-y-2">
+              <li><strong>Two modes:</strong> <em>Count Between Dates</em> and <em>Add/Subtract Business Days</em>.</li>
+              <li><strong>Weekend presets:</strong> Mon–Fri (Sat+Sun off), Sun–Thu (Fri+Sat off), Sat–Thu (Fri off), plus <em>Custom</em>.</li>
+              <li><strong>Holiday list:</strong> paste YYYY-MM-DD dates (comma or line separated) to exclude them from counts.</li>
+              <li><strong>Inclusivity toggles:</strong> include/exclude start and end days; include base day in forward offsets.</li>
+              <li><strong>Skipped breakdown:</strong> see how many days were excluded due to weekends vs. holidays, with a detailed list.</li>
+              <li><strong>Copy summary:</strong> one click to copy a clean text summary for tickets, emails, and audit trails.</li>
+              <li><strong>Persistent settings:</strong> Advanced options persist locally for a smooth return experience.</li>
+            </ul>
+          
+            {/* ===== How to Use ===== */}
+            <h2 id="how-to-use" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">🧭 How to Use This Tool</h2>
+            <ol className="list-decimal list-inside space-y-2">
+              <li>Choose a mode: <strong>Count Between Dates</strong> or <strong>Add/Subtract Days</strong>.</li>
+              <li>Enter your date(s):
+                <ul className="list-disc list-inside ml-5 mt-1">
+                  <li><em>Between</em>: set <strong>Start</strong> and <strong>End</strong>; toggle <em>Include</em> for start/end as needed.</li>
+                  <li><em>Offset</em>: set a <strong>Base Date</strong>, an integer <strong>Days</strong> value, and a <strong>Direction</strong> (Add/Subtract). Optionally include the base day if it’s a business day.</li>
+                </ul>
+              </li>
+              <li>Open <strong>Advanced Mode</strong> to set your <strong>Weekend Pattern</strong> and paste <strong>Holiday</strong> dates.</li>
+              <li>Read the <strong>Results</strong> panel for the business-day count or target date, plus a breakdown of skipped days.</li>
+              <li>Click <strong>Copy</strong> to export a concise, shareable summary.</li>
+            </ol>
+            <p className="text-sm text-slate-400">
+              Tip: Use ISO format (<code>YYYY-MM-DD</code>) to avoid regional ambiguity (MM/DD vs DD/MM).
+            </p>
+          
+            {/* ===== Methods & Logic ===== */}
+            <h2 id="methods" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+              🔧 Methods & logic under the hood
+            </h2>
+            <h3 className="text-xl font-semibold text-indigo-300">1) Counting business days between two dates</h3>
+            <p>
+              We enumerate calendar days between the start and end (respecting <em>Include Start</em>/<em>Include End</em>), and for each date check:
+              <em>Is it a weekend per your pattern?</em> and <em>Is it a listed holiday?</em> If either is true, the date is <strong>skipped</strong>; otherwise it’s a <strong>business day</strong>.
+              We also tally how many days were skipped for each reason.
+            </p>
+          
+            <h3 className="text-xl font-semibold text-indigo-300 mt-6">2) Adding/subtracting business days from a base date</h3>
+            <p>
+              Starting from the base date, we move forward (or backward) one calendar day at a time, counting only dates that are not weekends or holidays. 
+              If you enable <em>Include base if business</em> and you’re adding days, the base day can count as day 1 when it qualifies as a business day.
+            </p>
+          
+            <h3 className="text-xl font-semibold text-indigo-300 mt-6">3) Custom weekend masks</h3>
+            <p>
+              A weekend mask is a set of weekday indices (0=Sun…6=Sat) that should be treated as <em>non-working</em>. Presets configure common masks instantly.
+              You can also enter a custom mask such as <code>5,6</code> (Fri+Sat off) or <code>0 6</code> (Sun+Sat off).
+            </p>
+          
+            {/* ===== Worked Examples ===== */}
+            <h2 id="worked-examples" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+              🧪 Worked examples
+            </h2>
+            <ul className="space-y-2">
+              <li><strong>Count Between:</strong> Start = 2025-01-06 (Mon), End = 2025-01-10 (Fri), Mon–Fri workweek, no holidays, include both → <strong>5 business days</strong>.</li>
+              <li><strong>Count Between with holiday:</strong> Same as above but 2025-01-08 is a holiday → <strong>4 business days</strong>, skipped: 1 holiday.</li>
+              <li><strong>Offset forward:</strong> Base = 2025-03-10 (Mon), +10 business days, Mon–Fri, include base if business → <strong>2025-03-21 (Fri)</strong>.</li>
+              <li><strong>Offset backward:</strong> Base = 2025-03-10 (Mon), −3 business days, Mon–Fri → <strong>2025-03-05 (Wed)</strong>.</li>
+              <li><strong>Sun–Thu workweek:</strong> Count 2025-05-01 (Thu) to 2025-05-05 (Mon), Fri+Sat off. With both included, business days = Thu + Sun + Mon → <strong>3</strong>.</li>
+            </ul>
+          
+            {/* ===== Weekend Patterns ===== */}
+            <h2 id="weekend-patterns" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+              🗓️ Weekend patterns & regional workweeks
+            </h2>
+            <p>
+              Not every region observes Saturday and Sunday as the weekend. Some Middle-Eastern calendars are <em>Sun–Thu</em> workweeks (Fri+Sat off); others give only <em>Friday off</em>. 
+              Using a configurable weekend mask ensures your calculation reflects real staffing and service availability.
+            </p>
+            <ul className="list-disc list-inside space-y-2">
+              <li><strong>Mon–Fri:</strong> Saturday and Sunday are excluded.</li>
+              <li><strong>Sun–Thu:</strong> Friday and Saturday are excluded.</li>
+              <li><strong>Sat–Thu (Fri off):</strong> only Friday is excluded.</li>
+              <li><strong>Custom:</strong> enter any combination of 0–6 to match local policy.</li>
+            </ul>
+          
+            {/* ===== Holidays ===== */}
+            <h2 id="holidays" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+              🎉 Holiday lists: format, scope & tips
+            </h2>
+            <p>
+              Holidays are matched by exact <code>YYYY-MM-DD</code> strings. You can paste dates separated by commas or new lines.
+              Consider maintaining separate lists for national holidays, religious observances, maintenance shutdowns, or company-wide off days.
+            </p>
+            <ul className="list-disc list-inside space-y-2">
+              <li><strong>Format strictly:</strong> e.g., <code>2025-01-01</code>, <code>2025-02-21</code>, <code>2025-12-25</code>.</li>
+              <li><strong>No partial ranges:</strong> list every off-day explicitly if a closure spans multiple dates.</li>
+              <li><strong>Overlap behavior:</strong> if a date is both weekend <em>and</em> holiday, it’s counted once as <em>skipped</em>, and not a business day.</li>
+            </ul>
+          
+            {/* ===== Inclusivity ===== */}
+            <h2 id="inclusivity" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+              ➕/➖ Inclusivity (Include Start/End Day)
+            </h2>
+            <p>
+              Inclusivity defines whether the boundary days can be counted as business days if they qualify. 
+              For <em>Between</em> mode, toggling <strong>Include Start</strong> and <strong>Include End</strong> lets you mirror contract language like “within 10 business days, inclusive.”
+              For <em>Offset</em>, <strong>Include base if business</strong> allows the base day to count as day 1 when adding days forward.
+            </p>
+          
+            {/* ===== Performance ===== */}
+            <h2 id="performance" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+              🚀 Performance, precision & limits
+            </h2>
+            <ul className="list-disc list-inside space-y-2">
+              <li><strong>Browser-friendly:</strong> Date iteration is lightweight and instantaneous for typical ranges.</li>
+              <li><strong>Time zones:</strong> Calculations use your system’s local time. For cross-border agreements, standardize inputs to a single time zone and use ISO dates.</li>
+              <li><strong>Large spans:</strong> Very long ranges remain fast, but keep holiday lists tidy for clarity and maintainability.</li>
+            </ul>
+          
+            {/* ===== Pitfalls ===== */}
+            <h2 id="pitfalls" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+              ⚠️ Common pitfalls & how to avoid them
+            </h2>
+            <ul className="list-disc list-inside space-y-2">
+              <li><strong>Ambiguous date formats:</strong> always use ISO (<code>YYYY-MM-DD</code>).</li>
+              <li><strong>Wrong weekend pattern:</strong> confirm local/contractual definitions (e.g., Fri+Sat off).</li>
+              <li><strong>Missing holidays:</strong> ensure your list includes floating holidays and one-off closures.</li>
+              <li><strong>Inclusivity mismatch:</strong> align toggles with wording in SLAs, RFQs, or legal clauses.</li>
+              <li><strong>Backwards offsets:</strong> remember that including the base day applies only when moving forward.</li>
+            </ul>
+          
+            {/* ===== Use Cases ===== */}
+            <h2 id="use-cases" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+              🧰 Popular use cases
+            </h2>
+            <ul className="list-disc list-inside space-y-2">
+              <li><strong>Lead time promises:</strong> shipping, manufacturing, or onboarding in “X business days.”</li>
+              <li><strong>Sprint planning:</strong> compute effective working time between ceremonies and release dates.</li>
+              <li><strong>Compliance & SLAs:</strong> verify due dates that exclude weekends and recognized holidays.</li>
+              <li><strong>HR & payroll:</strong> count payable workdays in a range with custom closures.</li>
+              <li><strong>Education & events:</strong> ensure sessions land on working days for facilities and staff.</li>
+            </ul>
+          
+            {/* ===== Quick Reference ===== */}
+            <h2 id="quick-ref" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+              🗂️ Quick reference table (sample scenarios)
+            </h2>
+            <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm overflow-x-auto">
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="text-slate-300">
+                    <th className="py-2 pr-4">Mode</th>
+                    <th className="py-2 pr-4">Inputs</th>
+                    <th className="py-2 pr-4">Weekend</th>
+                    <th className="py-2 pr-4">Holidays</th>
+                    <th className="py-2">Result</th>
+                  </tr>
+                </thead>
+                <tbody className="text-slate-200">
+                  <tr>
+                    <td className="py-2 pr-4">Between</td>
+                    <td className="py-2 pr-4">2025-01-06 → 2025-01-10 (incl)</td>
+                    <td className="py-2 pr-4">Mon–Fri</td>
+                    <td className="py-2 pr-4">—</td>
+                    <td className="py-2">5 business days</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 pr-4">Between</td>
+                    <td className="py-2 pr-4">2025-01-06 → 2025-01-10 (incl)</td>
+                    <td className="py-2 pr-4">Mon–Fri</td>
+                    <td className="py-2 pr-4">2025-01-08</td>
+                    <td className="py-2">4 business days</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 pr-4">Offset +</td>
+                    <td className="py-2 pr-4">Base 2025-03-10, +10 (include base)</td>
+                    <td className="py-2 pr-4">Mon–Fri</td>
+                    <td className="py-2 pr-4">—</td>
+                    <td className="py-2">2025-03-21</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 pr-4">Offset −</td>
+                    <td className="py-2 pr-4">Base 2025-03-10, −3</td>
+                    <td className="py-2 pr-4">Mon–Fri</td>
+                    <td className="py-2 pr-4">—</td>
+                    <td className="py-2">2025-03-05</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 pr-4">Between</td>
+                    <td className="py-2 pr-4">2025-05-01 → 2025-05-05 (incl)</td>
+                    <td className="py-2 pr-4">Sun–Thu</td>
+                    <td className="py-2 pr-4">—</td>
+                    <td className="py-2">3 business days</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p className="text-xs text-slate-400 mt-2">
+                “Incl” = include that boundary day if it’s a business day. Holidays list uses exact YYYY-MM-DD matches.
+              </p>
+            </div>
+          
+            {/* ===== Glossary ===== */}
+            <h2 id="glossary" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">📚 Glossary</h2>
+            <p className="space-y-2">
+              <strong>Business day:</strong> A calendar date that is not a weekend and not a listed holiday. <br/>
+              <strong>Weekend mask:</strong> The set of weekday indices (0=Sun…6=Sat) considered non-working. <br/>
+              <strong>Inclusivity:</strong> Whether to count the start/end (or base) day when it qualifies as a business day. <br/>
+              <strong>Offset:</strong> Adding/subtracting N business days from a base date to get a target date. <br/>
+              <strong>Skipped list:</strong> The specific dates excluded due to weekend/holiday rules.
+            </p>
+          
+            {/* ===== FAQ ===== */}
+            <section className="space-y-6 mt-16">
+              <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-indigo-200">
+                ❓ Frequently Asked Questions (FAQ)
+              </h2>
+          
+              <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+          
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q1: How do “include start” and “include end” change the count?</h3>
+                  <p>
+                    If enabled, the boundary is counted when it qualifies as a business day. This mirrors contractual wording like “within N business days, inclusive.”
+                  </p>
+                </div>
+          
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q2: Can I use only Friday as the weekend?</h3>
+                  <p>
+                    Yes. Choose <em>Sat–Thu (Fri off)</em> or set a custom weekend mask to <code>5</code> (Friday) for Friday-only closures.
+                  </p>
+                </div>
+          
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q3: What happens if a date is both a weekend and a holiday?</h3>
+                  <p>
+                    It’s still excluded just once. The skipped list will note both labels, and it won’t count toward business days.
+                  </p>
+                </div>
+          
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q4: Are observed holidays supported?</h3>
+                  <p>
+                    Supply the observed date(s) explicitly in your holiday list (e.g., if a fixed-date holiday falls on a weekend and your policy observes Monday).
+                  </p>
+                </div>
+          
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q5: Do time zones affect the calculation?</h3>
+                  <p>
+                    Calculations use your local system time. For cross-border teams, standardize inputs to a single time zone and use ISO dates to avoid confusion.
+                  </p>
+                </div>
+          
+              </div>
+            </section>
           </section>
+          
+          {/* ========= Cross-links ========= */}
+          <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+            <div className="flex items-center gap-3">
+              <img
+                src="/images/calculatorhub-author.webp"
+                alt="CalculatorHub Tools Team"
+                className="w-12 h-12 rounded-full border border-gray-600"
+                loading="lazy"
+              />
+              <div>
+                <p className="font-semibold text-white">Author: CalculatorHub Tools Team</p>
+                <p className="text-sm text-slate-400">
+                  Specialists in date & time utilities. Last updated: <time dateTime="2025-11-12">November 12, 2025</time>.
+                </p>
+              </div>
+            </div>
+          
+            <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+              <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
+                🚀 Explore more tools on CalculatorHub:
+              </p>
+              <div className="flex flex-wrap gap-3 text-sm">
+                <Link
+                  to="/date-difference-calculator"
+                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-200 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
+                >
+                  ⏳ Date Difference Calculator
+                </Link>
+                <Link
+                  to="/weekday-finder"
+                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-200 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
+                >
+                  📅 Weekday Finder
+                </Link>
+                <Link
+                  to="/age-calculator"
+                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-amber-600/20 text-amber-300 hover:text-amber-200 px-3 py-2 rounded-md border border-slate-700 hover:border-amber-500 transition-all duration-200"
+                >
+                  👶 Age Calculator
+                </Link>
+              </div>
+            </div>
+          </section>
+
         </div>
       </div>
     </>
