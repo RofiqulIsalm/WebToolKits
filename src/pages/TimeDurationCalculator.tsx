@@ -355,18 +355,128 @@ const TimeDurationCalculator: React.FC = () => {
         title="Time Duration Calculator | Add, Subtract & Compare Durations"
         description="Calculate the exact time between two datetimes with timezone/DST support. Add or subtract extra durations, copy/share results."
         canonical="https://calculatorhub.site/time-duration-calculator"
-        schemaData={generateCalculatorSchema(
-          "Time Duration Calculator",
-          "Compute duration between two times with timezone support and extra add/sub durations.",
-          "/time-duration-calculator",
-          [
-            "time duration calculator",
-            "time between dates",
-            "add subtract time",
-            "DST safe time calc",
-            "date and time",
-          ]
-        )}
+        schemaData={[
+          generateCalculatorSchema(
+            "Time Duration Calculator",
+            "Compute duration between two times with timezone support and extra add/sub durations.",
+            "/time-duration-calculator",
+            [
+              "time duration calculator",
+              "time between dates",
+              "add subtract time",
+              "DST safe time calc",
+              "date and time",
+            ]
+          ),
+          {
+            "@context":"https://schema.org",
+            "@type":"WebApplication",
+            "name":"Time Duration Calculator – CalculatorHub",
+            "url":"https://calculatorhub.site/time-duration-calculator",
+            "applicationCategory":"UtilitiesApplication",
+            "operatingSystem":"Web",
+            "inLanguage":"en",
+            "description":"Compute duration between Start and End with timezone/DST support and extras (breaks/buffers).",
+            "image":[
+              "https://calculatorhub.site/images/time-duration-hero.webp",
+              "https://calculatorhub.site/images/time-duration-preview.webp"
+            ],
+            "publisher":{
+              "@type":"Organization",
+              "name":"CalculatorHub",
+              "url":"https://calculatorhub.site",
+              "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/calculatorhub-logo.webp"}
+            },
+            "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+            "datePublished":"2025-11-13",
+            "dateModified":"2025-11-13",
+            "keywords":[
+              "duration calculator","elapsed time","time math","time difference","timezone"
+            ]
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"WebPage",
+            "mainEntity":{
+              "@type":"Article",
+              "headline":"Time Duration Calculator — precise elapsed time with extras, zones & DST",
+              "description":"Measure exact elapsed time between two date-times with IANA timezone and DST awareness, plus add/subtract extras.",
+              "image":[
+                "https://calculatorhub.site/images/time-duration-hero.webp",
+                "https://calculatorhub.site/images/time-duration-preview.webp"
+              ],
+              "author":{"@type":"Organization","name":"CalculatorHub Tools Team"},
+              "publisher":{
+                "@type":"Organization",
+                "name":"CalculatorHub",
+                "logo":{"@type":"ImageObject","url":"https://calculatorhub.site/images/calculatorhub-logo.webp"}
+              },
+              "datePublished":"2025-11-13",
+              "dateModified":"2025-11-13",
+              "articleSection":[
+                "What Is a Time Duration Calculator?",
+                "Key Features",
+                "How to Use",
+                "Methods & Math",
+                "Worked Examples",
+                "Extras",
+                "Timezones & DST",
+                "FAQ"
+              ],
+              "inLanguage":"en",
+              "url":"https://calculatorhub.site/time-duration-calculator",
+              "keywords":["time duration","elapsed time","DST","timezone"]
+            }
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"FAQPage",
+            "mainEntity":[
+              {
+                "@type":"Question",
+                "name":"Do you handle DST correctly?",
+                "acceptedAnswer":{"@type":"Answer","text":"Yes. Start/End are interpreted in the chosen zone, converted to UTC instants, then subtracted."}
+              },
+              {
+                "@type":"Question",
+                "name":"Can totals be negative?",
+                "acceptedAnswer":{"@type":"Answer","text":"If breaks/penalties exceed base time, totals can be negative; review your extras list."}
+              },
+              {
+                "@type":"Question",
+                "name":"How do I share my setup?",
+                "acceptedAnswer":{"@type":"Answer","text":"Use Copy Link — the URL encodes timezone, Start/End, Now toggle, and extras."}
+              }
+            ]
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"BreadcrumbList",
+            "itemListElement":[
+              {"@type":"ListItem","position":1,"name":"Home","item":"https://calculatorhub.site/"},
+              {"@type":"ListItem","position":2,"name":"Date & Time Tools","item":"https://calculatorhub.site/category/date-time-tools"},
+              {"@type":"ListItem","position":3,"name":"Time Duration Calculator","item":"https://calculatorhub.site/time-duration-calculator"}
+            ]
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"WebSite",
+            "name":"CalculatorHub",
+            "url":"https://calculatorhub.site",
+            "potentialAction":{
+              "@type":"SearchAction",
+              "target":"https://calculatorhub.site/search?q={query}",
+              "query-input":"required name=query"
+            }
+          },
+          {
+            "@context":"https://schema.org",
+            "@type":"Organization",
+            "name":"CalculatorHub",
+            "url":"https://calculatorhub.site",
+            "logo":"https://calculatorhub.site/images/calculatorhub-logo.webp"
+          }
+        ]}
       />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
 
