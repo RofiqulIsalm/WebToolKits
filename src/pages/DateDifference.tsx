@@ -563,31 +563,313 @@ const DateDifferenceCalculator: React.FC = () => {
             <div className="my-8">
               <AdBanner type="bottom" />
             </div>
-            <RelatedCalculators currentPath="/date-difference-calculator" category="date-time-tools" />
           </Suspense>
 
-          {/* SEO Content Section (brief) */}
-          <section className="mt-5">
-            <h2 className="text-3xl md:text-4xl text-white"><strong>What is a Date Difference Calculator?</strong></h2>
-            <p className="text-slate-300 py-3 leading-relaxed">
-              It measures the exact time between two dates in calendar units and totals. Use Advanced Mode for business-day counts and custom holidays.
-            </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
-              <div className="p-4 bg-blue-500/10 border border-blue-400/20 rounded-xl text-center">
-                <h3 className="text-lg font-semibold text-blue-300 mb-1">📅 Calendar Diff</h3>
-                <p className="text-slate-300 text-sm">Accurate Y/M/D difference with leap-year handling.</p>
+          {/* ===================== SEO Content (~1800–2000 words) ===================== */}
+          <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
+          
+            {/* ===== Table of Contents ===== */}
+            <nav className="mt-2 mb-10 bg-[#0b1220] border border-[#1f2a44] rounded-xl p-5 text-slate-200">
+              <h2 className="text-lg font-semibold text-gray-100 mb-3">📖 Table of Contents</h2>
+              <ol className="list-decimal list-inside space-y-2 text-sm">
+                <li><a href="#what-is-date-diff" className="text-indigo-300 hover:underline">What Is a Date Difference Calculator?</a></li>
+                <li><a href="#features" className="text-indigo-300 hover:underline">Key Features</a></li>
+                <li><a href="#how-to-use" className="text-indigo-300 hover:underline">How to Use</a></li>
+                <li><a href="#methods" className="text-indigo-300 hover:underline">Methods & Math Under the Hood</a></li>
+                <li><a href="#worked-examples" className="text-indigo-300 hover:underline">Worked Examples</a></li>
+                <li><a href="#business-days" className="text-indigo-300 hover:underline">Business Days, Weekends & Holidays</a></li>
+                <li><a href="#performance" className="text-indigo-300 hover:underline">Performance, Precision & Limits</a></li>
+                <li><a href="#pitfalls" className="text-indigo-300 hover:underline">Common Pitfalls & How to Avoid Them</a></li>
+                <li><a href="#use-cases" className="text-indigo-300 hover:underline">Popular Use Cases</a></li>
+                <li><a href="#quick-ref" className="text-indigo-300 hover:underline">Quick Reference Table (examples)</a></li>
+                <li><a href="#glossary" className="text-indigo-300 hover:underline">Glossary</a></li>
+                <li><a href="#faq" className="text-indigo-300 hover:underline">FAQ</a></li>
+              </ol>
+            </nav>
+          
+            {/* ===== What is it? ===== */}
+            <h1 id="what-is-date-diff" className="text-3xl font-bold text-indigo-300 mb-6">
+              Date Difference Calculator — exact years, months, days (plus totals)
+            </h1>
+            <p>
+              A <strong>Date Difference Calculator</strong> measures the precise time between two calendar dates. Beyond a raw day count,
+              this tool expresses the interval as <em>years</em>, <em>months</em>, and <em>days</em> (Y/M/D), plus convenient totals such as
+              <strong>weeks</strong>, <strong>days</strong>, <strong>hours</strong>, <strong>minutes</strong>, and <strong>seconds</strong>. 
+              It also supports an <strong>Advanced Mode</strong> for <em>business-day</em> counting where you can exclude weekends and mark custom holidays.
+            </p>
+            <p>
+              Under the hood, it handles month-end boundaries, leap years, and inclusive/exclusive rules. Whether you are planning projects,
+              estimating timelines, preparing HR/payroll schedules, or simply calculating milestones (weddings, visas, study terms, birthdays),
+              this page provides a clear, shareable breakdown you can copy for reports and documentation.
+            </p>
+          
+            {/* ===== Features ===== */}
+            <h2 id="features" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+              ✨ Key Features
+            </h2>
+            <ul className="list-disc list-inside space-y-2">
+              <li><strong>Y/M/D breakdown:</strong> precise calendar difference with month-end and leap-year handling.</li>
+              <li><strong>Totals at a glance:</strong> weeks, days, hours, minutes, seconds for quick reporting.</li>
+              <li><strong>Advanced Mode:</strong> business-day counting (exclude weekends) and <em>custom holidays</em>.</li>
+              <li><strong>Inclusive options:</strong> toggle whether to count the start and/or end day.</li>
+              <li><strong>Live countdown & progress:</strong> when the end date is in the future, watch the interval progress update in real time.</li>
+              <li><strong>Copy-friendly summary:</strong> one-click copy to share results with teams or clients.</li>
+              <li><strong>Glassmorphism UI:</strong> clean, focused layout that mirrors the Age Calculator pattern for consistency.</li>
+            </ul>
+          
+            {/* ===== How to Use ===== */}
+            <h2 id="how-to-use" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">🧭 How to Use</h2>
+            <ol className="list-decimal list-inside space-y-2">
+              <li>Select a <strong>Start Date</strong> and an <strong>End Date</strong>. The tool validates that the start is not after the end.</li>
+              <li>Review the top result card for the <strong>Y/M/D</strong> breakdown, then scan the <strong>Totals</strong> tiles for weeks/days/hours/minutes/seconds.</li>
+              <li>Open <strong>Advanced Mode</strong> to:
+                <ul className="list-disc list-inside ml-5 mt-1">
+                  <li>Include/exclude the start day or end day.</li>
+                  <li>Count <strong>Business Days</strong> by excluding weekends.</li>
+                  <li>Paste <strong>Custom Holidays</strong> in <code>YYYY-MM-DD</code> format (comma or line separated).</li>
+                </ul>
+              </li>
+              <li>If your end date is in the future, watch the <strong>Live Countdown</strong> and <strong>Interval Progress</strong> bar.</li>
+              <li>Click <strong>Copy</strong> to export a neat text summary into your clipboard.</li>
+            </ol>
+            <p className="text-sm text-slate-400">
+              Tip: Use the “Swap” button to quickly reverse start/end dates if you picked them in the wrong order.
+            </p>
+          
+            {/* ===== Methods ===== */}
+            <h2 id="methods" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+              🔧 Methods & math under the hood
+            </h2>
+          
+            <h3 className="text-xl font-semibold text-indigo-300">1) Calendar-safe Y/M/D decomposition</h3>
+            <p>
+              We compute the calendar difference as <strong>years</strong>, <strong>months</strong>, and <strong>days</strong> by subtracting whole years,
+              then months, then days, adjusting for negative carry at month boundaries. When the day difference would go negative, we borrow a month
+              and add the number of days in the previous month (which automatically accounts for 28–31 day months and leap years).
+            </p>
+          
+            <h3 className="text-xl font-semibold text-indigo-300 mt-6">2) Totals with inclusive logic</h3>
+            <p>
+              The raw millisecond difference determines total <em>days</em> (then weeks/hours/minutes/seconds) with optional
+              <strong>inclusion</strong> of start and/or end days. This lets you mirror common HR/payroll or project rules about whether the
+              first and last day of an interval “count.”
+            </p>
+          
+            <h3 className="text-xl font-semibold text-indigo-300 mt-6">3) Business day counting</h3>
+            <p>
+              When Advanced Mode is enabled, the tool iterates calendar days and increments a counter for each working day that is not a weekend
+              (if weekend exclusion is on) and not present in your custom holiday set. Exact matching uses ISO strings (YYYY-MM-DD), so input
+              must be precise. This makes the business-day total transparent and auditable.
+            </p>
+          
+            <h3 className="text-xl font-semibold text-indigo-300 mt-6">4) Leap years and month lengths</h3>
+            <p>
+              Leap-year effects and differing month lengths are handled by the native date arithmetic combined with the Y/M/D decomposition logic.
+              February 29 is treated correctly, and month rollovers behave as expected across boundaries like Jan→Feb, Feb→Mar, etc.
+            </p>
+          
+            {/* ===== Worked Examples ===== */}
+            <h2 id="worked-examples" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+              🧪 Worked examples (rounded for readability)
+            </h2>
+            <ul className="space-y-2">
+              <li><strong>2025-01-01 → 2025-01-01</strong> (include both): Y/M/D = 0/0/0; totals = 1 day. (Same-day inclusive count yields 1.)</li>
+              <li><strong>2025-01-01 → 2025-01-31</strong> (include both): Y/M/D ≈ 0/0/30; totals ≈ 31 days.</li>
+              <li><strong>2024-02-01 → 2024-03-01</strong> (leap year): Y/M/D ≈ 0/1/0; totals ≈ 30 days (Feb 2024 has 29 days; inclusive options may add +1).</li>
+              <li><strong>2023-12-15 → 2025-03-10</strong>: Y/M/D ≈ 1 year, 2 months, 23 days; totals shown for weeks/days/hours/minutes/seconds.</li>
+              <li><strong>Business days</strong> (exclude weekends), <strong>2025-01-01 → 2025-01-10</strong>: counts only Mon–Fri, minus any listed holidays.</li>
+            </ul>
+          
+            {/* ===== Business Days ===== */}
+            <h2 id="business-days" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+              🏢 Business days, weekends & custom holidays
+            </h2>
+            <p>
+              Business calendars vary by region and industry. This tool lets you <strong>exclude weekends</strong> (Saturday, Sunday) and 
+              optionally mark specific <strong>holidays</strong>. Enter holidays in <code>YYYY-MM-DD</code> format, separated by commas or line breaks.
+              We do an exact date match; partial or alternate formats won’t be recognized.
+            </p>
+            <p className="text-sm text-slate-400">
+              Note: If your organization observes alternative weekends (e.g., Fri–Sat) or possesses half-days/early-closings, treat those as holidays or include them in your policy notes alongside the result.
+            </p>
+          
+            {/* ===== Performance ===== */}
+            <h2 id="performance" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+              🚀 Performance, precision & limits
+            </h2>
+            <ul className="list-disc list-inside space-y-2">
+              <li><strong>Calendar math:</strong> lightweight and fast in the browser, even for long spans (years/decades).</li>
+              <li><strong>Business-day pass:</strong> iterates days in the range; very long ranges (multi-decade daily loops) can be slower—use only when needed.</li>
+              <li><strong>Countdown & progress:</strong> updates once per second when the end date is in the future.</li>
+              <li><strong>Browser locale/time zone:</strong> Date inputs/outputs assume your system’s local time zone; stick to <code>YYYY-MM-DD</code> to avoid ambiguity.</li>
+            </ul>
+          
+            {/* ===== Pitfalls ===== */}
+            <h2 id="pitfalls" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+              ⚠️ Common pitfalls & how to avoid them
+            </h2>
+            <ul className="list-disc list-inside space-y-2">
+              <li><strong>Start after end:</strong> ensure the start date is not later than the end date (the tool validates this).</li>
+              <li><strong>Inclusive confusion:</strong> clarify whether your policy counts the start and/or end day; toggle the options accordingly.</li>
+              <li><strong>Holiday format:</strong> holidays must be <code>YYYY-MM-DD</code> (e.g., <code>2025-12-25</code>). Anything else is ignored.</li>
+              <li><strong>Cross-time-zone expectations:</strong> the tool treats dates in local time. For international projects, store dates in UTC or agree on a single zone to prevent off-by-one issues.</li>
+              <li><strong>Very long business spans:</strong> daily iteration can be heavy for decades-long ranges; prefer pure calendar totals when you don’t need working-day precision.</li>
+            </ul>
+          
+            {/* ===== Use Cases ===== */}
+            <h2 id="use-cases" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+              🧰 Popular use cases
+            </h2>
+            <ul className="list-disc list-inside space-y-2">
+              <li><strong>Project planning:</strong> sprint lengths, Gantt milestones, and delivery windows.</li>
+              <li><strong>HR & payroll:</strong> service length, leave entitlement, notice periods, and benefits eligibility.</li>
+              <li><strong>Education:</strong> term lengths, assignment windows, exam countdowns.</li>
+              <li><strong>Compliance & legal:</strong> statutory deadlines, filing periods, cooling-off intervals.</li>
+              <li><strong>Events & personal milestones:</strong> wedding planning, travel windows, age and anniversaries.</li>
+            </ul>
+          
+            {/* ===== Quick Reference ===== */}
+            <h2 id="quick-ref" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+              🗂️ Quick reference (examples & notes)
+            </h2>
+            <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm overflow-x-auto">
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="text-slate-300">
+                    <th className="py-2 pr-4">Start → End</th>
+                    <th className="py-2 pr-4">Y/M/D</th>
+                    <th className="py-2 pr-4">Totals (approx.)</th>
+                    <th className="py-2">Notes</th>
+                  </tr>
+                </thead>
+                <tbody className="text-slate-200">
+                  <tr>
+                    <td className="py-2 pr-4">2025-01-01 → 2025-01-31</td>
+                    <td className="py-2 pr-4">0/0/30</td>
+                    <td className="py-2 pr-4">~31 days</td>
+                    <td className="py-2">Inclusive choices can add or remove a day from totals.</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 pr-4">2024-02-01 → 2024-03-01</td>
+                    <td className="py-2 pr-4">0/1/0</td>
+                    <td className="py-2 pr-4">~30 days</td>
+                    <td className="py-2">Leap year February (29 days).</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 pr-4">2023-12-15 → 2025-03-10</td>
+                    <td className="py-2 pr-4">1/2/23</td>
+                    <td className="py-2 pr-4">~451 days</td>
+                    <td className="py-2">Large span; use business mode only if needed.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p className="text-xs text-slate-400 mt-2">
+                Totals are influenced by inclusive settings and local time zone. For audited processes, document your policy (e.g., “include start, exclude end”).
+              </p>
+            </div>
+          
+            {/* ===== Glossary ===== */}
+            <h2 id="glossary" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">📚 Glossary</h2>
+            <p className="space-y-2">
+              <strong>Y/M/D difference:</strong> calendar-safe decomposition into years, months, and days. <br/>
+              <strong>Inclusive counting:</strong> whether to count the start and/or end day in totals. <br/>
+              <strong>Business day:</strong> a working day per policy (usually Mon–Fri) excluding holidays. <br/>
+              <strong>Leap year:</strong> a year with Feb 29 (divisible by 4, with century exceptions like 1900/2000). <br/>
+              <strong>ISO date:</strong> an unambiguous date string formatted as YYYY-MM-DD.
+            </p>
+          
+            {/* ===== FAQ ===== */}
+            <section className="space-y-6 mt-16">
+              <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-indigo-200">
+                ❓ Frequently Asked Questions (FAQ)
+              </h2>
+          
+              <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+          
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q1: Do you handle leap years correctly?</h3>
+                  <p>
+                    Yes. Month lengths and leap days are accounted for in the Y/M/D logic, so February 29 is treated correctly when applicable.
+                  </p>
+                </div>
+          
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q2: What’s the difference between Y/M/D and totals?</h3>
+                  <p>
+                    Y/M/D is a calendar decomposition. Totals (weeks/days/hours/minutes/seconds) come from elapsed time plus inclusive rules—useful for planning and reporting.
+                  </p>
+                </div>
+          
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q3: Can I count only business days?</h3>
+                  <p>
+                    Enable Advanced Mode, exclude weekends, and enter holidays. The tool tallies working days exactly within your range and policy.
+                  </p>
+                </div>
+          
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q4: Why do I see off-by-one differences?</h3>
+                  <p>
+                    Inclusive settings and local time zones can shift totals by a day. Set clear rules (include/exclude start/end) and stick to ISO dates to avoid ambiguity.
+                  </p>
+                </div>
+          
+                <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                  <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q5: How do I share results?</h3>
+                  <p>
+                    Use the Copy button to grab a concise summary, then paste into email, chat, or your project tracker.
+                  </p>
+                </div>
+          
               </div>
-              <div className="p-4 bg-teal-500/10 border border-teal-400/20 rounded-xl text-center">
-                <h3 className="text-lg font-semibold text-teal-300 mb-1">🏢 Business Days</h3>
-                <p className="text-slate-300 text-sm">Exclude weekends and your custom holidays.</p>
+            </section>
+          </section>
+          
+          {/* ========= Cross-links ========= */}
+          <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+            <div className="flex items-center gap-3">
+              <img
+                src="/images/calculatorhub-author.webp"
+                alt="CalculatorHub Tools Team"
+                className="w-12 h-12 rounded-full border border-gray-600"
+                loading="lazy"
+              />
+              <div>
+                <p className="font-semibold text-white">Author: CalculatorHub Tools Team</p>
+                <p className="text-sm text-slate-400">
+                  Specialists in date & time utilities. Last updated: <time dateTime="2025-11-12">November 12, 2025</time>.
+                </p>
               </div>
-              <div className="p-4 bg-amber-500/10 border border-amber-400/20 rounded-xl text-center">
-                <h3 className="text-lg font-semibold text-amber-300 mb-1">⏱️ Totals</h3>
-                <p className="text-slate-300 text-sm">Days, weeks, months, hours, minutes, seconds.</p>
+            </div>
+          
+            <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+              <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
+                🚀 Explore more tools on CalculatorHub:
+              </p>
+              <div className="flex flex-wrap gap-3 text-sm">
+                <Link
+                  to="/age-calculator"
+                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-200 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
+                >
+                  👶 Age Calculator
+                </Link>
+                <Link
+                  to="/time-duration-calculator"
+                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-200 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
+                >
+                  ⏱️ Time Duration Calculator
+                </Link>
+                <Link
+                  to="/business-days-calculator"
+                  className="flex items-center gap-2 bg-[#0f172a] hover:bg-amber-600/20 text-amber-300 hover:text-amber-200 px-3 py-2 rounded-md border border-slate-700 hover:border-amber-500 transition-all duration-200"
+                >
+                  🏢 Business Days Calculator
+                </Link>
               </div>
             </div>
           </section>
+
         </div>
       </div>
     </>
