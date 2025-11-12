@@ -364,7 +364,7 @@ const TimeDurationCalculator: React.FC = () => {
             "time between dates",
             "add subtract time",
             "DST safe time calc",
-            "utilities",
+            "date and time",
           ]
         )}
       />
@@ -393,12 +393,12 @@ const TimeDurationCalculator: React.FC = () => {
             <p className="font-semibold text-lg">Plan precisely, communicate clearly</p>
             <p className="text-sm text-indigo-100">Try our Timezone Converter and Age Calculator next!</p>
           </div>
-          <a
-            href="/category/utilities"
+          <Link
+            href="/category/date-time-tools"
             className="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-md hover:bg-indigo-50 transition"
           >
-            Explore Utilities
-          </a>
+            Explore More
+          </Link>
         </div>
 
         {/* Grid */}
@@ -481,34 +481,7 @@ const TimeDurationCalculator: React.FC = () => {
                 </p>
               </div>
 
-              {/* Quick end presets */}
-              <div className="flex flex-wrap gap-2">
-                {[
-                  { label: "Now", deltaMs: 0 },
-                  { label: "+1h", deltaMs: 60 * 60 * 1000 },
-                  { label: "+1d", deltaMs: 24 * 60 * 60 * 1000 },
-                  { label: "+1w", deltaMs: 7 * 24 * 60 * 60 * 1000 },
-                ].map((p) => (
-                  <button
-                    key={p.label}
-                    onClick={() => {
-                      const s = interpretAsZonedUTC(startLocal, zone);
-                      const newEndUTC = new Date((p.label === "Now" ? Date.now() : s.getTime() + p.deltaMs));
-                      // format back to local "zone" wall time
-                      const zOff = getOffsetMinutes(zone, newEndUTC) ?? 0;
-                      const wall = new Date(newEndUTC.getTime() + zOff * 60_000);
-                      const wallStr = `${wall.getUTCFullYear()}-${two(wall.getUTCMonth() + 1)}-${two(
-                        wall.getUTCDate()
-                      )}T${two(wall.getUTCHours())}:${two(wall.getUTCMinutes())}`;
-                      setEndLocal(wallStr);
-                      setUseNowEnd(false);
-                    }}
-                    className="text-xs bg-[#0f172a] border border-[#334155] rounded px-2 py-1 hover:border-indigo-500"
-                  >
-                    {p.label}
-                  </button>
-                ))}
-              </div>
+             
             </div>
 
             {/* Extras */}
@@ -686,41 +659,324 @@ const TimeDurationCalculator: React.FC = () => {
           )}
         </div>
 
-        {/* Short SEO */}
+        {/* ===================== SEO Content (~1800–2000 words) ===================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
-          <h1 className="text-3xl font-bold text-cyan-400 mb-6">Time Duration Calculator – Clear, Fast, DST-Safe</h1>
+        
+          {/* ===== Table of Contents ===== */}
+          <nav className="mt-2 mb-10 bg-[#0b1220] border border-[#1f2a44] rounded-xl p-5 text-slate-200">
+            <h2 className="text-lg font-semibold text-gray-100 mb-3">📖 Table of Contents</h2>
+            <ol className="list-decimal list-inside space-y-2 text-sm">
+              <li><a href="#what-is-tdc" className="text-indigo-300 hover:underline">What Is a Time Duration Calculator?</a></li>
+              <li><a href="#features" className="text-indigo-300 hover:underline">Key Features</a></li>
+              <li><a href="#how-to-use" className="text-indigo-300 hover:underline">How to Use</a></li>
+              <li><a href="#methods" className="text-indigo-300 hover:underline">Methods & Math Under the Hood</a></li>
+              <li><a href="#worked-examples" className="text-indigo-300 hover:underline">Worked Examples</a></li>
+              <li><a href="#extras" className="text-indigo-300 hover:underline">Adding & Subtracting Extras (Breaks/Buffers)</a></li>
+              <li><a href="#timezone" className="text-indigo-300 hover:underline">Time Zones, DST & Wall-Clock Intent</a></li>
+              <li><a href="#performance" className="text-indigo-300 hover:underline">Performance, Precision & Limits</a></li>
+              <li><a href="#pitfalls" className="text-indigo-300 hover:underline">Common Pitfalls & How to Avoid Them</a></li>
+              <li><a href="#use-cases" className="text-indigo-300 hover:underline">Where Duration Math Matters in Real Life</a></li>
+              <li><a href="#quick-ref" className="text-indigo-300 hover:underline">Quick Reference (Formulas & Conversions)</a></li>
+              <li><a href="#glossary" className="text-indigo-300 hover:underline">Glossary</a></li>
+              <li><a href="#faq" className="text-indigo-300 hover:underline">FAQ</a></li>
+            </ol>
+          </nav>
+        
+          {/* ===== What is it? ===== */}
+          <h1 id="what-is-tdc" className="text-3xl font-bold text-indigo-300 mb-6">
+            Time Duration Calculator — precise elapsed time with extras, zones & DST
+          </h1>
           <p>
-            Compute precise durations between any two datetimes in a chosen timezone. Add or subtract breaks, buffers,
-            or penalties as HH:MM:SS rows and share a link to reproduce the exact setup.
+            The <strong>Time Duration Calculator</strong> measures the exact time between two date-time values, respecting
+            the <strong>timezone</strong> you choose (including <strong>Daylight Saving Time</strong> effects). Beyond a simple
+            difference, this tool lets you <strong>add or subtract extra durations</strong>—for example, breaks, buffers,
+            penalties, or grace periods—in clean <code>HH:MM:SS</code> rows. The result is shown as a human-friendly
+            breakdown: <em>days</em> plus <em>hours:minutes:seconds</em>.
           </p>
+          <p>
+            Whether you are preparing a <em>worklog</em>, auditing <em>service-level agreements</em>, calculating billable
+            hours, timing <em>maintenance windows</em>, or summarizing <em>event uptime</em>, this calculator keeps the math
+            clear and consistent—so your reports stay trustworthy and easy to communicate.
+          </p>
+        
+          {/* ===== Features ===== */}
+          <h2 id="features" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            ✨ Key features
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>DST-aware timezone logic:</strong> Start/End are interpreted in your chosen IANA zone (e.g., <code>Asia/Dhaka</code>, <code>Europe/London</code>), then converted to an exact UTC instant for accurate subtraction.</li>
+            <li><strong>Extras stack:</strong> add unlimited <code>HH:MM:SS</code> rows as <em>positive</em> buffers or <em>negative</em> breaks; totals are combined with the base duration.</li>
+            <li><strong>Flexible End time:</strong> lock to a specific datetime or use <em>current time</em> for live, running calculations.</li>
+            <li><strong>Readable output:</strong> see the total as <em>Days • HH:MM:SS</em>, plus tiles for base duration and extras.</li>
+            <li><strong>State sharing:</strong> copy a shareable URL that encodes your exact scenario (inputs + extras) for teammates.</li>
+            <li><strong>Clipboard-ready summary:</strong> copy a neat text block for emails, tickets, or incident reports.</li>
+            <li><strong>Local persistence:</strong> the last scenario is remembered on your device for fast continuation.</li>
+          </ul>
+        
+          {/* ===== How to Use ===== */}
+          <h2 id="how-to-use" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">🧭 How to use</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li><strong>Choose Timezone:</strong> select a valid IANA zone. This locks the wall-clock interpretation for Start/End.</li>
+            <li><strong>Set Start:</strong> pick a date and time. The preview shows how it renders in your chosen zone.</li>
+            <li><strong>Set End:</strong> either pick a datetime or check <em>Use current time</em> for live elapsed time.</li>
+            <li><strong>Add Extras:</strong> click <em>Add Buffer</em> (+) or <em>Add Break</em> (−), label it, and enter <code>HH</code>, <code>MM</code>, <code>SS</code>.</li>
+            <li><strong>Read Results:</strong> the top card shows the total; tiles show base duration, extras sum, and a clean H:M:S split.</li>
+            <li><strong>Share or Copy:</strong> use <em>Copy Link</em> to share the scenario or <em>Copy Results</em> for a one-shot text summary.</li>
+          </ol>
+          <p className="text-sm text-slate-400">Tip: For long spans, set the timezone to where the work actually happened to preserve wall-clock intent.</p>
+        
+          {/* ===== Methods & Math ===== */}
+          <h2 id="methods" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🔧 Methods & math under the hood
+          </h2>
+          <h3 className="text-xl font-semibold text-indigo-300">1) Wall-clock → UTC → subtraction</h3>
+          <p>
+            Start and End are interpreted as <strong>local wall-clock timestamps</strong> in your chosen zone. Each is
+            converted to an exact <strong>UTC instant</strong>. We subtract <code>End(UTC) − Start(UTC)</code> to obtain the
+            <strong>base duration</strong>. This approach keeps the calculation correct during DST changes, leap minutes, or
+            offset irregularities, because the subtraction is always done in absolute time.
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">2) Extras as signed seconds</h3>
+          <p>
+            Each extra row (<code>HH:MM:SS</code>) is parsed into seconds. A <em>Buffer</em> contributes positive seconds;
+            a <em>Break</em> contributes negative seconds. We sum them to get <strong>extras total</strong> and then add that to
+            the base duration for the <strong>final total</strong>.
+          </p>
+        
+          <h3 className="text-xl font-semibold text-indigo-300 mt-6">3) Presentation (Days • HH:MM:SS)</h3>
+          <p>
+            The final number of seconds is decomposed into whole days plus a 24-hour clock remainder, formatted as
+            <code>DDd HH:MM:SS</code>. A leading minus sign appears if the total is negative (possible if breaks exceed base).
+          </p>
+        
+          {/* ===== Worked Examples ===== */}
+          <h2 id="worked-examples" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🧪 Worked examples (rounded for readability)
+          </h2>
+          <ul className="space-y-2">
+            <li><strong>Shift tracking:</strong> 09:00 → 17:30 with a 30-minute break = <em>8h 0m</em> total.</li>
+            <li><strong>Overnight ops:</strong> 22:00 → 06:00 next day = <em>8h 0m</em> (handles day boundary correctly).</li>
+            <li><strong>Buffer + penalty:</strong> Base 2h 15m; add buffer +00:10:00; subtract penalty −00:05:00 → <em>2h 20m</em>.</li>
+            <li><strong>DST forward jump:</strong> 01:30 → 03:30 on spring transition day (1h lost) → <em>1h 0m</em> (not 2h).</li>
+            <li><strong>DST backward fall:</strong> 01:30 → 03:30 on fall-back day (1h repeated) → <em>3h 0m</em> (not 2h).</li>
+          </ul>
+        
+          {/* ===== Extras ===== */}
+          <h2 id="extras" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            ➕➖ Adding & subtracting extras
+          </h2>
+          <p>
+            Extras let you align math with real-world policies: subtract unpaid breaks, add pre-/post-task buffers, or include
+            incident penalties and grace periods. Use clear labels (e.g., <em>Lunch</em>, <em>Setup</em>, <em>QA buffer</em>)
+            so the copied summary is self-explanatory in emails and tickets.
+          </p>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Breaks (−):</strong> unpaid lunch, commute, off-duty gaps.</li>
+            <li><strong>Buffers (+):</strong> setup time, cool-down, review window, wrap-up notes.</li>
+            <li><strong>Penalties/credits:</strong> SLAs, overtime policies, or adjustments decided after review.</li>
+          </ul>
+        
+          {/* ===== Timezone & DST ===== */}
+          <h2 id="timezone" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🌍 Time zones, DST & preserving wall-clock intent
+          </h2>
+          <p>
+            If you worked “9 to 5” locally, that’s a <em>wall-clock</em> fact—even if the offset changed that day.
+            By interpreting Start/End in the selected zone first and only then converting to UTC, the calculator preserves the
+            real-world meaning of your entry. This is crucial on DST days, for overnight shifts, or when comparing regional sites.
+          </p>
+          <p className="text-sm text-slate-400">
+            Tip: Use the same zone where the activity occurred—don’t mix zones unless you intend to.
+          </p>
+        
+          {/* ===== Performance ===== */}
+          <h2 id="performance" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🚀 Performance, precision & limits
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Instant feedback:</strong> calculations are lightweight and run entirely in the browser.</li>
+            <li><strong>IANA validation:</strong> non-existent zones are gracefully handled; previews still render without crashing.</li>
+            <li><strong>Local persistence + sharable URLs:</strong> continue later or send scenarios to teammates for review.</li>
+          </ul>
+        
+          {/* ===== Pitfalls ===== */}
+          <h2 id="pitfalls" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            ⚠️ Common pitfalls & how to avoid them
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Ambiguous zones:</strong> don’t type “IST” or “PST”; use IANA IDs like <code>Asia/Kolkata</code> or <code>America/Los_Angeles</code>.</li>
+            <li><strong>Cross-zone inputs:</strong> if Start happened in one city and End in another, decide which zone expresses your intent; otherwise, results can be misleading.</li>
+            <li><strong>Negative totals:</strong> too many breaks can produce a negative duration—valid but uncommon; review your extras list.</li>
+            <li><strong>Rounding expectations:</strong> outputs are exact to the second; if you must round to the nearest 15 minutes, apply policy after copying the result.</li>
+          </ul>
+        
+          {/* ===== Use Cases ===== */}
+          <h2 id="use-cases" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🧰 Where duration math matters in real life
+          </h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Worklogs & payroll:</strong> compute net paid time (base minus unpaid breaks) across weeks.</li>
+            <li><strong>IT operations:</strong> maintenance windows, incident timelines, MTTR, and SLA penalties.</li>
+            <li><strong>Broadcast & events:</strong> session lengths, intermissions, overruns, and buffer planning.</li>
+            <li><strong>Travel & logistics:</strong> layovers, ground time, duty periods, handoff windows across hubs.</li>
+            <li><strong>Research & lab work:</strong> experiment durations, instrument warm-up/cool-down phases.</li>
+            <li><strong>Sports & fitness:</strong> net training time, rest intervals, periodization blocks.</li>
+          </ul>
+        
+          {/* ===== Quick Reference ===== */}
+          <h2 id="quick-ref" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
+            🗂️ Quick reference (formulas & conversions)
+          </h2>
+          <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="text-slate-300">
+                  <th className="py-2 pr-4">Topic</th>
+                  <th className="py-2 pr-4">Formula / Notes</th>
+                  <th className="py-2">Example</th>
+                </tr>
+              </thead>
+              <tbody className="text-slate-200">
+                <tr>
+                  <td>Base duration</td>
+                  <td><code>End(UTC) − Start(UTC)</code></td>
+                  <td>2025-11-10 09:00 → 2025-11-10 17:30 = 8h 30m</td>
+                </tr>
+                <tr>
+                  <td>Extras sum</td>
+                  <td>Σ(<em>sign</em> × <code>HH:MM:SS</code>)</td>
+                  <td>Break −00:30:00; Buffer +00:10:00 → −00:20:00</td>
+                </tr>
+                <tr>
+                  <td>Total duration</td>
+                  <td>Base + Extras</td>
+                  <td>8:30:00 + (−00:20:00) = 8:10:00</td>
+                </tr>
+                <tr>
+                  <td>Days • HH:MM:SS</td>
+                  <td><em>days</em> = ⌊seconds/86400⌋; remainder → HH:MM:SS</td>
+                  <td>100000s = 1d 03:46:40</td>
+                </tr>
+                <tr>
+                  <td>DST jump (spring)</td>
+                  <td>Clock skips 1 hour → base duration decreases by 1h</td>
+                  <td>01:30 → 03:30 on DST start = 1h</td>
+                </tr>
+                <tr>
+                  <td>DST fall-back (autumn)</td>
+                  <td>Clock repeats 1 hour → base duration increases by 1h</td>
+                  <td>01:30 → 03:30 on DST end = 3h</td>
+                </tr>
+              </tbody>
+            </table>
+            <p className="text-xs text-slate-400 mt-2">
+              The calculator uses IANA time zone data via the browser’s internationalization APIs for offset/DST correctness.
+            </p>
+          </div>
+        
+          {/* ===== Glossary ===== */}
+          <h2 id="glossary" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">📚 Glossary</h2>
+          <p className="space-y-2">
+            <strong>IANA time zone:</strong> canonical zone IDs (e.g., <code>Europe/Paris</code>) with rules for offset & DST. <br/>
+            <strong>UTC:</strong> Coordinated Universal Time—neutral global time used for exact subtraction. <br/>
+            <strong>DST:</strong> Daylight Saving Time—regional clock shifts that affect local offsets seasonally. <br/>
+            <strong>Wall-clock time:</strong> the human-observed local time (e.g., “start at 9 AM in London”). <br/>
+            <strong>Buffer/Break:</strong> positive/negative duration rows added to base elapsed time. <br/>
+            <strong>MTTR:</strong> Mean Time To Recovery—common reliability metric derived from durations.
+          </p>
+        
+          {/* ===== FAQ ===== */}
+          <section className="space-y-6 mt-16">
+            <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-indigo-200">
+              ❓ Frequently Asked Questions (FAQ)
+            </h2>
+        
+            <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q1: Why choose an IANA time zone?</h3>
+                <p>
+                  Abbreviations like “PST/IST” are ambiguous and shift with DST. IANA zones (e.g., <code>America/Los_Angeles</code>) are precise and consistent.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q2: Do you handle DST changes correctly?</h3>
+                <p>
+                  Yes. The calculator interprets Start/End in the selected zone, converts to UTC instants, and subtracts—so spring forward/fall back days are handled accurately.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q3: Can the total be negative?</h3>
+                <p>
+                  It can if breaks and negative adjustments exceed the base duration. This is valid math; review your extras to confirm policy.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q4: How do I share the exact setup with my team?</h3>
+                <p>
+                  Click <em>Copy Link</em>. The URL encodes timezone, Start/End, the live/now toggle, and every extra row.
+                </p>
+              </div>
+        
+              <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
+                <h3 className="font-semibold text-xl mb-2 text-indigo-300">Q5: What if I entered Start in one city and End in another?</h3>
+                <p>
+                  Decide which zone best represents your intent—usually where the work occurred—and keep both in that zone for clarity.
+                </p>
+              </div>
+        
+            </div>
+          </section>
         </section>
-
-        {/* Backlinks */}
+        
+        {/* ========= Cross-links ========= */}
         <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+          <div className="flex items-center gap-3">
+            <img
+              src="/images/calculatorhub-author.webp"
+              alt="CalculatorHub Tools Team"
+              className="w-12 h-12 rounded-full border border-gray-600"
+              loading="lazy"
+            />
+            <div>
+              <p className="font-semibold text-white">Author: CalculatorHub Tools Team</p>
+              <p className="text-sm text-slate-400">
+                Specialists in time math & UX. Last updated: <time dateTime="2025-11-10">November 10, 2025</time>.
+              </p>
+            </div>
+          </div>
+        
           <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
-            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">🚀 Explore more tools on CalculatorHub:</p>
+            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
+              🚀 Explore more tools on CalculatorHub:
+            </p>
             <div className="flex flex-wrap gap-3 text-sm">
               <Link
                 to="/timezone-converter"
-                className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-200 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
               >
                 🌍 Timezone Converter
               </Link>
               <Link
                 to="/average-calculator"
-                className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-200 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
               >
                 📊 Average Calculator
               </Link>
               <Link
                 to="/age-calculator"
-                className="flex items-center gap-2 bg-[#0f172a] hover:bg-pink-600/20 text-pink-300 hover:text-pink-400 px-3 py-2 rounded-md border border-slate-700 hover:border-pink-500 transition-all duration-200"
+                className="flex items-center gap-2 bg-[#0f172a] hover:bg-pink-600/20 text-pink-300 hover:text-pink-200 px-3 py-2 rounded-md border border-slate-700 hover:border-pink-500 transition-all duration-200"
               >
                 🎂 Age Calculator
               </Link>
             </div>
           </div>
         </section>
+
 
         <AdBanner type="bottom" />
         <RelatedCalculators currentPath="/time-duration-calculator" category="utilities" />
