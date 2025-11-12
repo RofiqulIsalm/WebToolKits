@@ -957,6 +957,227 @@ const CountdownTimer: React.FC = () => {
         </div>
       </div>
 
+      {/* ===================== SEO Content (Mobile-first, responsive) ===================== */}
+      <section
+        className="prose prose-invert max-w-4xl mx-auto mt-12 sm:mt-16 leading-relaxed text-[15px] sm:text-base text-slate-300 px-4 sm:px-0 break-words hyphens-auto"
+      >
+
+      
+        {/* ===== What is it? ===== */}
+        <h1
+          id="what-is-countdown"
+          className="scroll-mt-24 text-2xl sm:text-3xl lg:text-3xl font-bold text-indigo-300 mb-4 sm:mb-6"
+        >
+          Countdown Timer — HH:MM:SS with deep links, shortcuts, and a floating mini-window
+        </h1>
+        <p>
+          This Countdown Timer focuses on the essentials: <strong>set hours, minutes, seconds</strong>, hit start, and stay on task.
+          Beyond the basics, it adds modern conveniences for real-world workflows—<strong>shareable links</strong>, a 
+          <strong> draggable mini pop-out</strong>, a <strong>Picture-in-Picture floating window</strong> that stays visible above other tabs,
+          <strong> keyboard shortcuts</strong>, <strong>copy helpers</strong>, and an <strong>ARIA live</strong> readout for accessibility.
+        </p>
+        <p>
+          It runs entirely in your browser—no accounts, no trackers, no background servers. Settings like mute, presets, and mini-window
+          preferences <strong>persist locally</strong> so the timer feels personal every time you return.
+        </p>
+      
+        {/* ===== Features ===== */}
+        <h2 id="features" className="scroll-mt-24 text-xl sm:text-2xl font-semibold text-indigo-200 mt-8 sm:mt-10 mb-3 sm:mb-4">
+          ✨ Key Features (What’s New)
+        </h2>
+        <ul className="list-disc list-inside space-y-2">
+          <li><strong>Deep-link presets:</strong> add <code>?h=0&amp;m=25&amp;s=0&amp;autostart=1&amp;pop=1&amp;mute=0</code> to share a ready-to-run timer.</li>
+          <li><strong>Copy helpers:</strong> one-click copy for <em>time remaining</em> or a <em>share link</em> with your current settings.</li>
+          <li><strong>Keyboard shortcuts:</strong> Space (start/pause/resume), <strong>R</strong> (reset), <strong>1..9</strong> for quick presets, <strong>S</strong> to snooze when finished.</li>
+          <li><strong>Picture-in-Picture (PiP):</strong> open a floating mini-window (Chrome/Edge 115+) that stays visible across tabs.</li>
+          <li><strong>Auto-restart:</strong> once time’s up, the timer can automatically start again with the same duration.</li>
+          <li><strong>Smart progress bar:</strong> percentage is based on your initial duration for intuitive tracking.</li>
+          <li><strong>Mute toggle:</strong> silence the chime—your choice persists across sessions.</li>
+          <li><strong>Mini pop-out:</strong> a draggable glassmorphism card you can pin/collapse and position anywhere.</li>
+        </ul>
+      
+        {/* ===== How to Use ===== */}
+        <h2 id="how-to-use" className="scroll-mt-24 text-xl sm:text-2xl font-semibold text-indigo-200 mt-8 sm:mt-10 mb-3 sm:mb-4">
+          🧭 How to Use
+        </h2>
+        <ol className="list-decimal list-inside space-y-2">
+          <li><strong>Set Duration:</strong> type hours, minutes, seconds—or click a quick preset (1m, 5m, 10m, etc.).</li>
+          <li><strong>Start:</strong> press the green Start button or hit <span className="font-mono">Space</span>.</li>
+          <li><strong>Pause/Resume:</strong> use the same button or <span className="font-mono">Space</span> again.</li>
+          <li><strong>Reset:</strong> click reset or press <span className="font-mono">R</span> to return to 0:00:00.</li>
+          <li><strong>Share:</strong> use the “Copy Link” action to share a URL that restores this configuration.</li>
+          <li><strong>Float:</strong> open the mini pop-out or use <em>Picture-in-Picture</em> to keep the timer visible.</li>
+        </ol>
+        <p className="text-xs sm:text-sm text-slate-400">Tip: Use deep links for team stand-ups, Pomodoro sprints, or class periods so everyone starts the same timer with one click.</p>
+      
+        {/* ===== URL Presets ===== */}
+        <h2 id="url-presets" className="scroll-mt-24 text-xl sm:text-2xl font-semibold text-indigo-200 mt-8 sm:mt-10 mb-3 sm:mb-4">
+          🔗 URL Presets & Deep Links
+        </h2>
+        <p>You can build links that pre-fill the timer and even auto-start it. Parameters include:</p>
+      
+        {/* Responsive table wrapper */}
+        <div
+          className="rounded-lg border border-slate-700 bg-slate-800/60 p-0 sm:p-4 overflow-hidden"
+          role="region"
+          aria-label="Countdown URL parameters"
+        >
+          <div className="overflow-x-auto">
+            <table className="w-[640px] sm:w-full text-left text-sm">
+              <thead className="bg-slate-800 sticky top-0">
+                <tr className="text-slate-300">
+                  <th className="py-2 pr-4 pl-4 sm:pl-2">Param</th>
+                  <th className="py-2 pr-4">Type</th>
+                  <th className="py-2 pr-4">Meaning</th>
+                  <th className="py-2 pr-4">Example</th>
+                </tr>
+              </thead>
+              <tbody className="text-slate-200">
+                <tr><td className="py-2 pr-4 pl-4 sm:pl-2">h</td><td className="py-2 pr-4">number</td><td className="py-2 pr-4">Hours</td><td className="py-2 pr-4"><code>h=0</code></td></tr>
+                <tr><td className="py-2 pr-4 pl-4 sm:pl-2">m</td><td className="py-2 pr-4">number</td><td className="py-2 pr-4">Minutes</td><td className="py-2 pr-4"><code>m=25</code></td></tr>
+                <tr><td className="py-2 pr-4 pl-4 sm:pl-2">s</td><td className="py-2 pr-4">number</td><td className="py-2 pr-4">Seconds (0–59)</td><td className="py-2 pr-4"><code>s=0</code></td></tr>
+                <tr><td className="py-2 pr-4 pl-4 sm:pl-2">autostart</td><td className="py-2 pr-4">0/1 or true/false</td><td className="py-2 pr-4">Start automatically</td><td className="py-2 pr-4"><code>autostart=1</code></td></tr>
+                <tr><td className="py-2 pr-4 pl-4 sm:pl-2">pop</td><td className="py-2 pr-4">0/1</td><td className="py-2 pr-4">Open the mini pop-out</td><td className="py-2 pr-4"><code>pop=1</code></td></tr>
+                <tr><td className="py-2 pr-4 pl-4 sm:pl-2">pinned</td><td className="py-2 pr-4">0/1</td><td className="py-2 pr-4">Pin the mini pop-out</td><td className="py-2 pr-4"><code>pinned=1</code></td></tr>
+                <tr><td className="py-2 pr-4 pl-4 sm:pl-2">collapsed</td><td className="py-2 pr-4">0/1</td><td className="py-2 pr-4">Collapse the mini pop-out body</td><td className="py-2 pr-4"><code>collapsed=0</code></td></tr>
+                <tr><td className="py-2 pr-4 pl-4 sm:pl-2">x, y</td><td className="py-2 pr-4">number</td><td className="py-2 pr-4">Mini pop-out position</td><td className="py-2 pr-4"><code>x=32&amp;y=48</code></td></tr>
+                <tr><td className="py-2 pr-4 pl-4 sm:pl-2">mute</td><td className="py-2 pr-4">0/1 or true/false</td><td className="py-2 pr-4">Mute chime</td><td className="py-2 pr-4"><code>mute=0</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="text-xs text-slate-400 mt-3 px-4 sm:px-0">
+            Example: <code>?h=0&amp;m=25&amp;s=0&amp;autostart=1&amp;pop=1&amp;mute=0</code> starts a 25-minute Pomodoro with the mini window on.
+          </p>
+        </div>
+      
+        {/* ===== Shortcuts ===== */}
+        <h2 id="shortcuts" className="scroll-mt-24 text-xl sm:text-2xl font-semibold text-indigo-200 mt-8 sm:mt-10 mb-3 sm:mb-4">
+          ⌨️ Keyboard Shortcuts
+        </h2>
+        <ul className="list-disc list-inside space-y-2">
+          <li><span className="font-mono">Space</span> — start / pause / resume</li>
+          <li><span className="font-mono">R</span> — reset to 0:00:00</li>
+          <li><span className="font-mono">1..9</span> — quick presets (e.g., 1=1m, 5=15m, 9=45m)</li>
+          <li><span className="font-mono">S</span> — when the “Time’s up” toast appears, snooze 1 minute</li>
+        </ul>
+        <p className="text-xs sm:text-sm text-slate-400">Note: Shortcuts are disabled inside form fields to avoid hijacking typing.</p>
+      
+        {/* ===== PiP ===== */}
+        <h2 id="pip" className="scroll-mt-24 text-xl sm:text-2xl font-semibold text-indigo-200 mt-8 sm:mt-10 mb-3 sm:mb-4">
+          🪟 Picture-in-Picture Floating Window
+        </h2>
+        <p>
+          On supported browsers (Chrome/Edge 115+), you can pop the timer into a <strong>floating window</strong> that stays on top—even across tabs or when the main tab is hidden.
+          It mirrors your timer state and uses the same glassmorphism mini card for a compact view that is easy to place.
+        </p>
+        <p className="text-xs sm:text-sm text-slate-400">If PiP isn’t available, you can still use the built-in draggable mini pop-out within the page.</p>
+      
+        {/* ===== Progress / Restart / Snooze ===== */}
+        <h2 id="progress" className="scroll-mt-24 text-xl sm:text-2xl font-semibold text-indigo-200 mt-8 sm:mt-10 mb-3 sm:mb-4">
+          📈 Progress %, Auto-Restart & Snooze
+        </h2>
+        <p>
+          The progress bar tracks elapsed percent relative to the <strong>initial duration</strong> you set (so it reads sensibly even after pausing or resuming).
+          When time’s up, you’ll see a <em>Time’s up</em> toast with options to <strong>Restart</strong> the same duration or <strong>Snooze</strong> for one minute.
+          If you enable <strong>Auto-Restart</strong>, the same duration begins again automatically at completion.
+        </p>
+      
+        {/* ===== Accessibility ===== */}
+        <h2 id="accessibility" className="scroll-mt-24 text-xl sm:text-2xl font-semibold text-indigo-200 mt-8 sm:mt-10 mb-3 sm:mb-4">
+          🦾 Accessibility Details
+        </h2>
+        <ul className="list-disc list-inside space-y-2">
+          <li><strong>ARIA live region:</strong> the main countdown readout uses <code>aria-live="polite"</code> for screen readers.</li>
+          <li><strong>Keyboard-only support:</strong> all primary actions are accessible via shortcuts and focusable buttons.</li>
+          <li><strong>Color contrast:</strong> UI colors are tuned for legibility on dark backgrounds.</li>
+        </ul>
+      
+        {/* ===== Under the Hood ===== */}
+        <h2 id="methods" className="scroll-mt-24 text-xl sm:text-2xl font-semibold text-indigo-200 mt-8 sm:mt-10 mb-3 sm:mb-4">
+          🔧 Under the Hood (Logic & State)
+        </h2>
+        <p>
+          The timer stores the absolute <em>end time</em> when running and updates remaining milliseconds on a light 200ms interval.
+          Pausing clears the end time and freezes the remaining value; resuming recomputes a fresh end time.
+          The <strong>initial duration</strong> is cached for progress math and auto-restart. State (including mute and mini-window prefs) persists in <code>localStorage</code>.
+        </p>
+        <ul className="list-disc list-inside space-y-2">
+          <li><strong>Chime:</strong> a lightweight Web Audio beep sequence that respects your mute toggle.</li>
+          <li><strong>Share link:</strong> generated from the current HH:MM:SS + options so teams can synchronize timers.</li>
+          <li><strong>Mini pop-out:</strong> positions (x,y), pinned/collapsed flags, and open state are saved and restorable.</li>
+        </ul>
+      
+        {/* ===== Worked Examples ===== */}
+        <h2 id="worked-examples" className="scroll-mt-24 text-xl sm:text-2xl font-semibold text-indigo-200 mt-8 sm:mt-10 mb-3 sm:mb-4">
+          🧪 Worked Examples
+        </h2>
+        <ul className="space-y-2">
+          <li><strong>Pomodoro:</strong> 25:00 with <code>autostart=1</code> and <code>pop=1</code> for focus sprints.</li>
+          <li><strong>Class demo:</strong> share a 10:00 link to ensure every student starts the same timer on opening.</li>
+          <li><strong>Stand-up timer:</strong> 2:00 per person; use <span className="font-mono">S</span> to snooze between turns.</li>
+          <li><strong>Workout rounds:</strong> 1:00 intervals with Auto-Restart for repeat sets.</li>
+        </ul>
+      
+        {/* ===== Use Cases ===== */}
+        <h2 id="use-cases" className="scroll-mt-24 text-xl sm:text-2xl font-semibold text-indigo-200 mt-8 sm:mt-10 mb-3 sm:mb-4">
+          🧰 Popular Use Cases
+        </h2>
+        <ul className="list-disc list-inside space-y-2">
+          <li><strong>Focus & productivity:</strong> Pomodoro, deep work, meeting time-boxes.</li>
+          <li><strong>Education:</strong> timed quizzes, presentations, lab intervals, debate rounds.</li>
+          <li><strong>Fitness & coaching:</strong> AMRAP/EMOM rounds, rest timers, circuits.</li>
+          <li><strong>Events & production:</strong> stage cues, talk slots, booth demos.</li>
+        </ul>
+      
+        {/* ===== Pitfalls ===== */}
+        <h2 id="pitfalls" className="scroll-mt-24 text-xl sm:text-2xl font-semibold text-indigo-200 mt-8 sm:mt-10 mb-3 sm:mb-4">
+          ⚠️ Common Pitfalls & Tips
+        </h2>
+        <ul className="list-disc list-inside space-y-2">
+          <li><strong>Tab throttling:</strong> modern browsers throttle inactive tabs; PiP or the mini pop-out helps keep timing visible.</li>
+          <li><strong>Audio policies:</strong> some browsers block auto-play; if you don’t hear the chime, unmute and interact once.</li>
+          <li><strong>Sharing accuracy:</strong> deep links share duration/settings, not the <em>current remaining</em> time; coordinate a start signal.</li>
+          <li><strong>Seconds input:</strong> capped to 0–59; higher values should be added via minutes.</li>
+        </ul>
+      
+        {/* ===== FAQ ===== */}
+        <section className="space-y-6 mt-12 sm:mt-16">
+          <h2 id="faq" className="scroll-mt-24 text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-center text-indigo-200">
+            ❓ Frequently Asked Questions
+          </h2>
+          <div className="space-y-5 text-base sm:text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
+      
+            <div className="bg-slate-800/60 p-4 sm:p-5 rounded-lg border border-slate-700 shadow-sm">
+              <h3 className="font-semibold text-lg sm:text-xl mb-2 text-indigo-300">Q1: Can I share the timer with my team?</h3>
+              <p>Yes—use the Copy Link action to share a URL with hours, minutes, seconds, and options baked in. Anyone opening it gets the same preset, and it can auto-start.</p>
+            </div>
+      
+            <div className="bg-slate-800/60 p-4 sm:p-5 rounded-lg border border-slate-700 shadow-sm">
+              <h3 className="font-semibold text-lg sm:text-xl mb-2 text-indigo-300">Q2: Why does the timer keep its state after reload?</h3>
+              <p>Key settings and the timer state persist in your browser’s localStorage, so you can pick up where you left off.</p>
+            </div>
+      
+            <div className="bg-slate-800/60 p-4 sm:p-5 rounded-lg border border-slate-700 shadow-sm">
+              <h3 className="font-semibold text-lg sm:text-xl mb-2 text-indigo-300">Q3: What if I need the timer always visible?</h3>
+              <p>Use the mini pop-out for a draggable card within the page, or enable Picture-in-Picture to float a compact window above other tabs.</p>
+            </div>
+      
+            <div className="bg-slate-800/60 p-4 sm:p-5 rounded-lg border border-slate-700 shadow-sm">
+              <h3 className="font-semibold text-lg sm:text-xl mb-2 text-indigo-300">Q4: Does Auto-Restart keep repeating forever?</h3>
+              <p>Yes—until you pause or reset. It’s handy for interval training, rounds, or repeating work blocks.</p>
+            </div>
+      
+            <div className="bg-slate-800/60 p-4 sm:p-5 rounded-lg border border-slate-700 shadow-sm">
+              <h3 className="font-semibold text-lg sm:text-xl mb-2 text-indigo-300">Q5: Will the chime always play?</h3>
+              <p>The chime respects your mute setting and browser audio policies. If you don’t hear it, unmute and interact with the page once.</p>
+            </div>
+      
+          </div>
+        </section>
+      </section>
+
+
+
       {/* Mini Pop-out in main document */}
       <PopOut
         open={popOpen}
