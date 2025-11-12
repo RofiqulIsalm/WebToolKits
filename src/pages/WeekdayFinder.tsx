@@ -125,39 +125,202 @@ const WeekdayFinder: React.FC = () => {
     try { await navigator.clipboard.writeText(summary); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch {}
   }, [summary]);
 
-  /* ================= SEO / Schema ================= */
-  const faqSchema = useMemo(() => ({
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      { "@type": "Question", "name": "How do I find the weekday of a date?", "acceptedAnswer": { "@type": "Answer", "text": "Enter or pick any date. The tool shows the weekday name, weekend status, ISO week number, day of year and more." } },
-      { "@type": "Question", "name": "Can I change language of weekday names?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. In Advanced Mode, choose a locale (e.g., Bangla, English UK/US, Arabic) and the weekday names update instantly." } }
-    ]
-  }), []);
 
-  const schemaArray = useMemo(() => ([
-    generateCalculatorSchema(
-      "Weekday Finder",
-      seoData.weekdayFinder?.description || "Find the weekday for any date with ISO week number, day of year, and locale options.",
-      "/weekday-finder",
-      seoData.weekdayFinder?.keywords || ["weekday finder", "day of week", "what day was it", "weekday in bangla"]
-    ),
-    faqSchema,
-  ]), [faqSchema]);
+
 
   /* ================= Render ================= */
   return (
     <>
       <SEOHead
-        title={seoData.weekdayFinder?.title || "Weekday Finder – What Day Is It?"}
-        description={seoData.weekdayFinder?.description || "Enter a date to instantly see the weekday name, weekend status, ISO week number, and day-of-year. Advanced options for locale and week start."}
-        canonical="https://calculatorhub.site/weekday-finder"
-        schemaData={schemaArray}
-        breadcrumbs={[
-          { name: "Date & Time Tools", url: "/category/date-time-tools" },
-          { name: "Weekday Finder", url: "/weekday-finder" }
-        ]}
-      />
+            title={seoData.weekdayFinder?.title || "Weekday Finder – What Day Is It?"}
+            description={seoData.weekdayFinder?.description || "Enter a date to instantly see the weekday name, weekend status, ISO week number, and day-of-year. Advanced options for locale and week start."}
+            keywords={seoData.weekdayFinder?.keywords || ["weekday finder","day of week","what day was it","iso week number","day of year","weekday in bangla"]}
+            canonical="https://calculatorhub.site/weekday-finder"
+            schemaData={[
+              // 1) Base calculator schema (kept pattern)
+              generateCalculatorSchema(
+                "Weekday Finder",
+                seoData.weekdayFinder?.description || "Find the weekday for any date with ISO week number, day of year, and locale options.",
+                "/weekday-finder",
+                seoData.weekdayFinder?.keywords || ["weekday finder","day of week","what day was it","iso week number","day of year","weekday in bangla"]
+              ),
+          
+              // 2) WebApplication (rich app details)
+              {
+                "@context": "https://schema.org",
+                "@type": "WebApplication",
+                "name": "Weekday Finder – CalculatorHub",
+                "url": "https://calculatorhub.site/weekday-finder",
+                "applicationCategory": "UtilitiesApplication",
+                "operatingSystem": "Web",
+                "description": seoData.weekdayFinder?.description || "Enter a date to see weekday, weekend status, ISO/custom week number, day-of-year, and quarter.",
+                "inLanguage": "en",
+                "image": [
+                  "https://calculatorhub.site/images/weekday-finder-preview.webp",
+                  "https://calculatorhub.site/images/weekday-finder-hero.webp"
+                ],
+                "publisher": {
+                  "@type": "Organization",
+                  "name": "CalculatorHub",
+                  "url": "https://calculatorhub.site",
+                  "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/calculatorhub-logo.webp" }
+                },
+                "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+                "datePublished": "2025-11-12",
+                "dateModified": "2025-11-12",
+                "keywords": seoData.weekdayFinder?.keywords || ["weekday finder","day of week","what day was it","iso week number","day of year","weekday in bangla"]
+              },
+          
+              // 3) WebPage -> Article (explainer)
+              {
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "mainEntity": {
+                  "@type": "Article",
+                  "headline": "Weekday Finder — Determine Day of Week, ISO Week and More",
+                  "description": seoData.weekdayFinder?.description || "See weekday name, weekend flag, ISO/custom week number, day-of-year and quarter for any date.",
+                  "image": [
+                    "https://calculatorhub.site/images/weekday-finder-preview.webp",
+                    "https://calculatorhub.site/images/weekday-finder-hero.webp"
+                  ],
+                  "author": { "@type": "Organization", "name": "CalculatorHub Tools Team" },
+                  "publisher": {
+                    "@type": "Organization",
+                    "name": "CalculatorHub",
+                    "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/calculatorhub-logo.webp" }
+                  },
+                  "datePublished": "2025-11-12",
+                  "dateModified": "2025-11-12",
+                  "articleSection": [
+                    "What Is a Weekday Finder?",
+                    "Key Features",
+                    "How to Use",
+                    "Methods & Concepts",
+                    "ISO vs Custom Week",
+                    "Localization",
+                    "FAQ"
+                  ],
+                  "inLanguage": "en",
+                  "url": "https://calculatorhub.site/weekday-finder",
+                  "about": { "@type": "Thing", "name": "Weekday & Week Number" },
+                  "keywords": seoData.weekdayFinder?.keywords || ["weekday finder","day of week","iso week number","custom week number","day of year","quarter"]
+                }
+              },
+          
+              // 4) FAQPage (focused Q&A)
+              {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": [
+                  {
+                    "@type": "Question",
+                    "name": "How do I find the weekday of a date?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Enter or pick any date. The tool shows the weekday name, weekend status, ISO week number, day of year and more."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Can I change language of weekday names?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Yes. In Advanced Mode, choose a locale (e.g., Bangla, English UK/US, Arabic) and the weekday names update instantly."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "What is the difference between ISO week and custom week?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "ISO weeks start Monday and week 1 contains Jan 4. Custom week lets you pick Sunday or Monday start to match regional practice."
+                    }
+                  }
+                ]
+              },
+          
+              // 5) Breadcrumbs (match your UI)
+              {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+                  { "@type": "ListItem", "position": 2, "name": "Date & Time Tools", "item": "https://calculatorhub.site/category/date-time-tools" },
+                  { "@type": "ListItem", "position": 3, "name": "Weekday Finder", "item": "https://calculatorhub.site/weekday-finder" }
+                ]
+              },
+          
+              // 6) WebSite + SiteLinks Search
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "name": "CalculatorHub",
+                "url": "https://calculatorhub.site",
+                "potentialAction": {
+                  "@type": "SearchAction",
+                  "target": "https://calculatorhub.site/search?q={query}",
+                  "query-input": "required name=query"
+                }
+              },
+          
+              // 7) Speakable (voice surfaces; optional)
+              {
+                "@context": "https://schema.org",
+                "@type": "SpeakableSpecification",
+                "cssSelector": [".main-title", ".result-summary"]
+              }
+            ]}
+            breadcrumbs={[
+              { name: "Date & Time Tools", url: "/category/date-time-tools" },
+              { name: "Weekday Finder", url: "/weekday-finder" }
+            ]}
+          />
+
+
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <link rel="canonical" href="https://calculatorhub.site/weekday-finder" />
+
+        <link rel="alternate" href="https://calculatorhub.site/weekday-finder" hreflang="en" />
+        <link rel="alternate" href="https://calculatorhub.site/bn/weekday-finder" hreflang="bn" />
+        <link rel="alternate" href="https://calculatorhub.site/weekday-finder" hreflang="x-default" />
+        
+
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="CalculatorHub" />
+        <meta property="og:title" content="Weekday Finder — What Day Is It?" />
+        <meta property="og:description" content="See weekday name, weekend flag, ISO/custom week number, day-of-year and quarter for any date. Locale support & Advanced Mode." />
+        <meta property="og:url" content="https://calculatorhub.site/weekday-finder" />
+        <meta property="og:image" content="https://calculatorhub.site/images/weekday-finder-preview.webp" />
+        <meta property="og:image:alt" content="Weekday Finder UI preview" />
+        
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Weekday Finder — What Day Is It?" />
+        <meta name="twitter:description" content="Instant weekday + ISO/custom week number, day-of-year & quarter. Advanced locale options." />
+        <meta name="twitter:image" content="https://calculatorhub.site/images/weekday-finder-preview.webp" />
+        
+
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta name="theme-color" content="#0ea5e9" />
+        
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+        
+
+        <link rel="preload" as="image" href="/images/weekday-finder-hero.webp" />
+        <link rel="preload" as="image" href="/images/weekday-finder-preview.webp" />
+        
+     
+        <meta name="referrer" content="no-referrer-when-downgrade" />
+
+
 
       <div className="min-h-screen w-full py-10">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
