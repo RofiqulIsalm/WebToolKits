@@ -82,55 +82,90 @@ const TextToolsPage: React.FC = () => {
   const convertCaseDropdownRef = useRef<HTMLDivElement>(null);
   const loremDropdownRef = useRef<HTMLDivElement>(null);
 
+
   // ----------------- Advanced Tools toggle (inside Text Counter) -----------------
   const [showAdvanced, setShowAdvanced] = useState(false);
 
-  // Text to Speech
-  const [speaking, setSpeaking] = useState(false);
-  const speakText = () => {
-    if (!text) {
-      alert('Enter text to speak');
-      return;
-    }
+// Text to Speech
+const [speaking, setSpeaking] = useState(false);
 
-    // extra safety for older/non-browser environments
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
-      alert('Speech synthesis is not supported in this browser.');
-      return;
-    }
+const speakText = () => {
+  if (!text) {
+    alert("Enter text");
+    return;
+  }
 
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.rate = 1;
-    utter.pitch = 1;
-    setSpeaking(true);
-    utter.onend = () => setSpeaking(false);
-    window.speechSynthesis.speak(utter);
-  };
-  const stopSpeech = () => {
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+  if (typeof window === "undefined" || !window.speechSynthesis) {
+    alert("Speech not supported");
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.rate = 1.0;
+  utter.pitch = 1.0;
+
+  utter.onstart = () => setSpeaking(true);
+  utter.onend = () => setSpeaking(false);
+
+  window.speechSynthesis.speak(utter);
+};
+
+const stopSpeech = () => {
+  if (typeof window !== "undefined" && window.speechSynthesis) {
     window.speechSynthesis.cancel();
     setSpeaking(false);
-  };
+  }
+};
+const [shift, setShift] = useState(3);
+const [cryptoOutput, setCryptoOutput] = useState('');
+// Caesar Encrypt: main text → cryptoOutput
+const encryptText = () => {
+  if (!text) {
+    alert('Enter text to encrypt');
+    return;
+  }
+  setCryptoOutput(caesarCipher(text, shift));
+};
 
-  // Encrypt/Decrypt
-  const [shift, setShift] = useState(3);
-  const [cryptoOutput, setCryptoOutput] = useState('');
-  const encryptText = () => setCryptoOutput(caesarCipher(text, shift));
-  const decryptText = () => setCryptoOutput(caesarCipher(text, -shift));
-  const encodeBase64 = () => {
-    try {
-      setCryptoOutput(btoa(unescape(encodeURIComponent(text))));
-    } catch {
-      alert('Invalid input for Base64 encoding');
-    }
-  };
-  const decodeBase64 = () => {
-    try {
-      setCryptoOutput(decodeURIComponent(escape(atob(text))));
-    } catch {
-      alert('Invalid Base64 string');
-    }
-  };
+// Caesar Decrypt: cryptoOutput → decrypted text
+const decryptText = () => {
+  if (!cryptoOutput) {
+    alert('Nothing to decrypt. First encrypt or paste encrypted text.');
+    return;
+  }
+  setCryptoOutput(caesarCipher(cryptoOutput, -shift));
+};
+
+// Base64 Encode: main text → cryptoOutput
+const encodeBase64 = () => {
+  if (!text) {
+    alert('Enter text to encode');
+    return;
+  }
+  try {
+    const encoded = btoa(unescape(encodeURIComponent(text)));
+    setCryptoOutput(encoded);
+  } catch {
+    alert('Invalid input for Base64 encoding');
+  }
+};
+
+// Base64 Decode: cryptoOutput → decoded text
+const decodeBase64 = () => {
+  if (!cryptoOutput) {
+    alert('Nothing to decode. Paste Base64 string or encode first.');
+    return;
+  }
+  try {
+    const decoded = decodeURIComponent(escape(atob(cryptoOutput)));
+    setCryptoOutput(decoded);
+  } catch {
+    alert('Invalid Base64 string');
+  }
+};
+
 
   // Text Analysis (duplicates & frequency)
   const [duplicates, setDuplicates] = useState<string[]>([]);
@@ -737,7 +772,7 @@ const TextToolsPage: React.FC = () => {
               }`}
               aria-hidden={!showAdvanced}
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="flex flex-col gap-6 w-full">
                 {/* TTS */}
                 <div className="rounded-xl border border-blue-500/30 bg-blue-950/20 p-4">
                   <div className="flex items-center gap-2 mb-3">
@@ -748,7 +783,7 @@ const TextToolsPage: React.FC = () => {
                     <button
                       onClick={speakText}
                       disabled={speaking}
-                      className="px-3 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-60"
+                      className="px-3 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       {speaking ? 'Speaking...' : 'Speak'}
                     </button>
@@ -783,7 +818,7 @@ const TextToolsPage: React.FC = () => {
                     />
                     <button
                       onClick={encryptText}
-                      className="px-3 py-1 rounded bg-yellow-600 hover:bg-yellow-500 text-white"
+                      className="px-3 py-1 rounded bg-yellow-600 hover:bg-yellow-500 text-white" 
                     >
                       Caesar Encrypt
                     </button>
