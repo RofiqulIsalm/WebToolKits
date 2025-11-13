@@ -100,6 +100,7 @@ import UUIDGenerator from './pages/UUIDGenerator';
 import BaseConverter from './pages/BaseConverter';
 import FuelCostCalculator from './pages/FuelCostCalculator';
 import YouTubeRevenueCalculator from './pages/YouTubeRevenueCalculator';
+import FacebookInstreamAdsCalculator from './pages/FacebookInstreamAdsCalculator';
 
 
 
@@ -307,6 +308,7 @@ function App() {
               <Route path="/uuid-generator" element={<UUIDGenerator />} />
               <Route path="/base-converter" element={<BaseConverter />} />
               <Route path="/fuel-cost-calculator" element={<FuelCostCalculator />} />
+              <Route path="/facebook-instream-revenue-estimator" element={<FacebookInstreamAdsCalculator />} />
               <Route path="/youtube-revenue-calculator" element={<YouTubeRevenueCalculator />} />
             
 
