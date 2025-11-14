@@ -1,169 +1,87 @@
-// src/pages/FacebookInstreamAdsCalculator.tsx
-import React, { useEffect, useMemo, useState } from "react";
+// src/pages/FacebookRevenueCalculator.tsx
+import React, { useEffect, useMemo, useState, Suspense } from "react";
+import { Link } from "react-router-dom";
 import {
-  Video,
-  Globe2,
+  TrendingUp,
   Settings2,
-  Users,
-  BarChart3,
-  DollarSign,
   Info,
+  DollarSign,
   Copy,
   Check,
   RefreshCw,
 } from "lucide-react";
 
-import AdBanner from "../components/AdBanner";
 import SEOHead from "../components/SEOHead";
 import Breadcrumbs from "../components/Breadcrumbs";
-import RelatedCalculators from "../components/RelatedCalculators";
 import { generateCalculatorSchema } from "../utils/seoData";
 
-type CountryCpm = {
-  code: string;
-  name: string;
-  minCpm: number;
-  maxCpm: number;
-};
+// ✨ Lazy-load non-critical components
+const AdBanner = React.lazy(() => import("../components/AdBanner"));
+const RelatedCalculators = React.lazy(
+  () => import("../components/RelatedCalculators")
+);
 
-type AudienceRow = {
-  id: string;
-  countryCode: string;
-  percent: number;
-};
+/* ================== Utils ================== */
 
-const ADVANCED_LS_KEY = "fb-instream-advanced-simple";
+// clamp to zero; also guards NaN
+const clamp0 = (n: number) => (isNaN(n) || n < 0 ? 0 : n);
 
-/**
- * Approximate default CPM ranges (USD) per country for Facebook In-Stream Ads.
- */
-const COUNTRY_CPM: CountryCpm[] = [
-  // Tier 1
-  { code: "US", name: "United States", minCpm: 5, maxCpm: 10 },
-  { code: "CA", name: "Canada", minCpm: 4.5, maxCpm: 9 },
-  { code: "GB", name: "United Kingdom", minCpm: 4.5, maxCpm: 9.5 },
-  { code: "AU", name: "Australia", minCpm: 4, maxCpm: 8.5 },
-  { code: "NZ", name: "New Zealand", minCpm: 3.5, maxCpm: 8 },
-  { code: "DE", name: "Germany", minCpm: 3.5, maxCpm: 7.5 },
-  { code: "FR", name: "France", minCpm: 3, maxCpm: 7 },
-  { code: "NL", name: "Netherlands", minCpm: 3, maxCpm: 7 },
-  { code: "SE", name: "Sweden", minCpm: 3, maxCpm: 7 },
-  { code: "NO", name: "Norway", minCpm: 3.5, maxCpm: 7.5 },
-  { code: "DK", name: "Denmark", minCpm: 3, maxCpm: 7 },
-  { code: "CH", name: "Switzerland", minCpm: 4, maxCpm: 8.5 },
+// Compact money formatter
+function moneyFmt(value: number, withSymbol: boolean = true): string {
+  if (!isFinite(value)) return withSymbol ? "$0" : "0";
 
-  // Europe mid-tier
-  { code: "IE", name: "Ireland", minCpm: 2.5, maxCpm: 5.5 },
-  { code: "IT", name: "Italy", minCpm: 2, maxCpm: 4.5 },
-  { code: "ES", name: "Spain", minCpm: 2, maxCpm: 4.5 },
-  { code: "PT", name: "Portugal", minCpm: 2, maxCpm: 4.5 },
-  { code: "BE", name: "Belgium", minCpm: 2.2, maxCpm: 4.8 },
-  { code: "AT", name: "Austria", minCpm: 2.2, maxCpm: 4.8 },
-  { code: "FI", name: "Finland", minCpm: 2.2, maxCpm: 4.8 },
-  { code: "PL", name: "Poland", minCpm: 1.8, maxCpm: 3.8 },
-  { code: "CZ", name: "Czech Republic", minCpm: 1.8, maxCpm: 3.8 },
-  { code: "GR", name: "Greece", minCpm: 1.8, maxCpm: 3.8 },
-  { code: "RO", name: "Romania", minCpm: 1.5, maxCpm: 3.5 },
-  { code: "HU", name: "Hungary", minCpm: 1.5, maxCpm: 3.5 },
-  { code: "BG", name: "Bulgaria", minCpm: 1.3, maxCpm: 3.2 },
+  const abs = Math.abs(value);
+  const sign = value < 0 ? "-" : "";
+  const sym = withSymbol ? "$" : "";
 
-  // North Africa / Middle East
-  { code: "AE", name: "United Arab Emirates", minCpm: 2.5, maxCpm: 6.5 },
-  { code: "SA", name: "Saudi Arabia", minCpm: 2.5, maxCpm: 6.5 },
-  { code: "QA", name: "Qatar", minCpm: 2.5, maxCpm: 6.5 },
-  { code: "KW", name: "Kuwait", minCpm: 2.5, maxCpm: 6.5 },
-  { code: "OM", name: "Oman", minCpm: 2.2, maxCpm: 5.5 },
-  { code: "BH", name: "Bahrain", minCpm: 2.2, maxCpm: 5.5 },
-  { code: "EG", name: "Egypt", minCpm: 1.3, maxCpm: 3 },
-  { code: "MA", name: "Morocco", minCpm: 1.3, maxCpm: 3 },
-  { code: "DZ", name: "Algeria", minCpm: 1.3, maxCpm: 3 },
+  if (abs < 9_999_999)
+    return `${sign}${sym}${abs.toLocaleString(undefined, {
+      maximumFractionDigits: 2,
+    })}`;
 
-  // Latin America
-  { code: "BR", name: "Brazil", minCpm: 1.3, maxCpm: 3.2 },
-  { code: "MX", name: "Mexico", minCpm: 1.3, maxCpm: 3.2 },
-  { code: "AR", name: "Argentina", minCpm: 1.2, maxCpm: 2.8 },
-  { code: "CL", name: "Chile", minCpm: 1.3, maxCpm: 3 },
-  { code: "CO", name: "Colombia", minCpm: 1.2, maxCpm: 2.8 },
-  { code: "PE", name: "Peru", minCpm: 1.2, maxCpm: 2.8 },
+  const suffixes = ["", "K", "M", "B", "T"];
+  let tier = Math.floor(Math.log10(abs) / 3);
+  if (tier >= suffixes.length) tier = suffixes.length - 1;
 
-  // South Asia
-  { code: "IN", name: "India", minCpm: 0.7, maxCpm: 2.2 },
-  { code: "PK", name: "Pakistan", minCpm: 0.6, maxCpm: 1.8 },
-  { code: "BD", name: "Bangladesh", minCpm: 0.5, maxCpm: 1.6 },
-  { code: "LK", name: "Sri Lanka", minCpm: 0.6, maxCpm: 1.8 },
-  { code: "NP", name: "Nepal", minCpm: 0.5, maxCpm: 1.6 },
+  const scale = Math.pow(10, tier * 3);
+  const scaled = abs / scale;
+  const suffix = suffixes[tier];
 
-  // East & Southeast Asia
-  { code: "SG", name: "Singapore", minCpm: 2.5, maxCpm: 6 },
-  { code: "MY", name: "Malaysia", minCpm: 1.6, maxCpm: 3.8 },
-  { code: "TH", name: "Thailand", minCpm: 1.5, maxCpm: 3.5 },
-  { code: "ID", name: "Indonesia", minCpm: 1.1, maxCpm: 2.7 },
-  { code: "PH", name: "Philippines", minCpm: 1.1, maxCpm: 2.7 },
-  { code: "VN", name: "Vietnam", minCpm: 1.1, maxCpm: 2.7 },
-  { code: "JP", name: "Japan", minCpm: 3, maxCpm: 7 },
-  { code: "KR", name: "South Korea", minCpm: 2.8, maxCpm: 6.5 },
-  { code: "HK", name: "Hong Kong", minCpm: 2.8, maxCpm: 6.5 },
-  { code: "TW", name: "Taiwan", minCpm: 2.2, maxCpm: 5.5 },
+  return `${sign}${sym}${scaled.toFixed(2)}${suffix}`;
+}
 
-  // Africa
-  { code: "ZA", name: "South Africa", minCpm: 1.3, maxCpm: 3.2 },
-  { code: "NG", name: "Nigeria", minCpm: 0.7, maxCpm: 2 },
-  { code: "KE", name: "Kenya", minCpm: 0.8, maxCpm: 2.1 },
-  { code: "GH", name: "Ghana", minCpm: 0.8, maxCpm: 2.1 },
-  { code: "TZ", name: "Tanzania", minCpm: 0.7, maxCpm: 2 },
+// prevent typing minus/exp/plus in number inputs
+function blockBadKeys(e: React.KeyboardEvent<HTMLInputElement>) {
+  if (e.key === "-" || e.key === "e" || e.key === "E" || e.key === "+")
+    e.preventDefault();
+}
 
-  // Generic / fallback
-  { code: "OTHER_HIGH", name: "Other (High-income country)", minCpm: 2.5, maxCpm: 6 },
-  { code: "OTHER_MID", name: "Other (Middle-income country)", minCpm: 1.3, maxCpm: 3.5 },
-  { code: "OTHER_LOW", name: "Other (Low-income country)", minCpm: 0.4, maxCpm: 1.8 },
-];
+const ADVANCED_LS_KEY = "fb-revenue-advanced-mode";
 
-const findCountry = (code: string): CountryCpm => {
-  return (
-    COUNTRY_CPM.find((c) => c.code === code) || {
-      code: "GLOBAL",
-      name: "Global Average",
-      minCpm: 1.5,
-      maxCpm: 3.5,
-    }
-  );
-};
+/* ================== Component ================== */
 
-const formatMoney = (value: number | null | undefined) => {
-  if (value === null || value === undefined || isNaN(value)) return "$0";
-  if (!isFinite(value)) return "$0";
-  if (Math.abs(value) < 0.01) return "$0";
-  const rounded = Math.round(value * 100) / 100;
-  return `$${rounded.toLocaleString(undefined, {
-    minimumFractionDigits: rounded < 100 ? 2 : 0,
-    maximumFractionDigits: 2,
-  })}`;
-};
-
-const FacebookInstreamAdsCalculator: React.FC = () => {
-  // Basic inputs
+const FacebookRevenueCalculator: React.FC = () => {
+  // -------- Basic inputs --------
   const [monthlyViews, setMonthlyViews] = useState<number>(100000);
-  const [countryCode, setCountryCode] = useState<string>("US");
-  const [monetizedPercent, setMonetizedPercent] = useState<number>(60);
-  const [creatorShare, setCreatorShare] = useState<number>(55);
+  const [fillRate, setFillRate] = useState<number>(70); // % of views that show an ad
+  const [creatorShare, setCreatorShare] = useState<number>(55); // % after Meta's cut
 
-  // Advanced
+  // Effective eCPM range (USD per 1000 ad impressions)
+  const [ecpmLow, setEcpmLow] = useState<number>(4);
+  const [ecpmHigh, setEcpmHigh] = useState<number>(8);
+
+  // -------- Advanced mode --------
   const [advancedEnabled, setAdvancedEnabled] = useState<boolean>(false);
   const [advLoading, setAdvLoading] = useState<boolean>(false);
 
-  const [audienceRows, setAudienceRows] = useState<AudienceRow[]>([
-    { id: "row-1", countryCode: "US", percent: 50 },
-    { id: "row-2", countryCode: "IN", percent: 30 },
-    { id: "row-3", countryCode: "BD", percent: 20 },
-  ]);
-
-  const [otherPlacementsMonthly, setOtherPlacementsMonthly] =
+  const [brandedDealsMonthly, setBrandedDealsMonthly] = useState<number>(0);
+  const [fanSubscriptionsMonthly, setFanSubscriptionsMonthly] =
     useState<number>(0);
-  const [brandDealsMonthly, setBrandDealsMonthly] = useState<number>(0);
+  const [otherRevenueMonthly, setOtherRevenueMonthly] = useState<number>(0);
 
   const [copied, setCopied] = useState<"basic" | "advanced" | null>(null);
 
-  // Persist Advanced toggle
+  // Load advanced toggle from localStorage
   useEffect(() => {
     const saved = localStorage.getItem(ADVANCED_LS_KEY);
     if (saved === "1") setAdvancedEnabled(true);
@@ -173,150 +91,114 @@ const FacebookInstreamAdsCalculator: React.FC = () => {
     localStorage.setItem(ADVANCED_LS_KEY, advancedEnabled ? "1" : "0");
   }, [advancedEnabled]);
 
-  const currentCountry = findCountry(countryCode);
-
-  // Basic calculation (single country, in-stream only)
-  const basicResult = useMemo(() => {
-    if (!monthlyViews || monthlyViews <= 0) return null;
-
-    const monetizedViews = (monthlyViews * monetizedPercent) / 100;
-    const share = creatorShare / 100;
-
-    const grossMin = (monetizedViews / 1000) * currentCountry.minCpm;
-    const grossMax = (monetizedViews / 1000) * currentCountry.maxCpm;
-
-    const creatorMin = grossMin * share;
-    const creatorMax = grossMax * share;
-
-    return {
-      monetizedViews,
-      monthlyMin: creatorMin,
-      monthlyMax: creatorMax,
-      yearlyMin: creatorMin * 12,
-      yearlyMax: creatorMax * 12,
-      rpmMin:
-        monetizedViews > 0 ? (creatorMin / monetizedViews) * 1000 : null,
-      rpmMax:
-        monetizedViews > 0 ? (creatorMax / monetizedViews) * 1000 : null,
-    };
-  }, [monthlyViews, monetizedPercent, creatorShare, currentCountry]);
-
-  // Advanced calculation (audience split + extra income)
-  const advancedResult = useMemo(() => {
-    if (!advancedEnabled || !monthlyViews || monthlyViews <= 0) return null;
-
-    const share = creatorShare / 100;
-    const monetizedFactor = monetizedPercent / 100;
-
-    let adsMin = 0;
-    let adsMax = 0;
-
-    audienceRows.forEach((row) => {
-      if (row.percent <= 0) return;
-      const c = findCountry(row.countryCode);
-      const viewsForRow = (monthlyViews * row.percent) / 100;
-      const monetizedViews = viewsForRow * monetizedFactor;
-
-      const grossMin = (monetizedViews / 1000) * c.minCpm;
-      const grossMax = (monetizedViews / 1000) * c.maxCpm;
-
-      adsMin += grossMin * share;
-      adsMax += grossMax * share;
-    });
-
-    const extras = (otherPlacementsMonthly || 0) + (brandDealsMonthly || 0);
-
-    return {
-      adsMonthlyMin: adsMin,
-      adsMonthlyMax: adsMax,
-      extrasMonthly: extras,
-      totalMonthlyMin: adsMin + extras,
-      totalMonthlyMax: adsMax + extras,
-      totalYearlyMin: (adsMin + extras) * 12,
-      totalYearlyMax: (adsMax + extras) * 12,
-    };
-  }, [
-    advancedEnabled,
-    audienceRows,
-    monthlyViews,
-    monetizedPercent,
-    creatorShare,
-    otherPlacementsMonthly,
-    brandDealsMonthly,
-  ]);
-
   const handleToggleAdvanced = () => {
     if (!advancedEnabled) {
       setAdvLoading(true);
       setTimeout(() => {
         setAdvancedEnabled(true);
         setAdvLoading(false);
-      }, 600);
+      }, 500);
     } else {
       setAdvancedEnabled(false);
       setAdvLoading(false);
     }
   };
 
-  const handleAddRow = () => {
-    if (audienceRows.length >= 6) return;
-    setAudienceRows((prev) => [
-      ...prev,
-      {
-        id: `row-${Date.now()}`,
-        countryCode: countryCode || "US",
-        percent: 10,
-      },
-    ]);
+  const handleReset = () => {
+    setMonthlyViews(100000);
+    setFillRate(70);
+    setCreatorShare(55);
+    setEcpmLow(4);
+    setEcpmHigh(8);
+    setBrandedDealsMonthly(0);
+    setFanSubscriptionsMonthly(0);
+    setOtherRevenueMonthly(0);
   };
 
-  const handleRowChange = (
-    id: string,
-    field: "countryCode" | "percent",
-    value: string
-  ) => {
-    setAudienceRows((prev) =>
-      prev.map((row) =>
-        row.id === id
-          ? {
-              ...row,
-              [field]:
-                field === "percent"
-                  ? Math.max(0, Math.min(100, Number(value)))
-                  : value,
-            }
-          : row
-      )
-    );
-  };
+  // -------- Calculations --------
 
-  const handleRemoveRow = (id: string) => {
-    setAudienceRows((prev) => prev.filter((row) => row.id !== id));
-  };
+  const basicResult = useMemo(() => {
+    if (!monthlyViews || monthlyViews <= 0) return null;
+
+    const views = monthlyViews;
+    const servedViews = (views * fillRate) / 100; // views that get an ad
+    const impressions = servedViews; // assume 1 impression per monetized view
+
+    const creatorCut = creatorShare / 100;
+
+    const grossMin = (impressions / 1000) * ecpmLow;
+    const grossMax = (impressions / 1000) * ecpmHigh;
+
+    const creatorMin = grossMin * creatorCut;
+    const creatorMax = grossMax * creatorCut;
+
+    const rpmMin = views > 0 ? (creatorMin / views) * 1000 : 0;
+    const rpmMax = views > 0 ? (creatorMax / views) * 1000 : 0;
+
+    return {
+      impressions,
+      monthlyMin: creatorMin,
+      monthlyMax: creatorMax,
+      yearlyMin: creatorMin * 12,
+      yearlyMax: creatorMax * 12,
+      rpmMin,
+      rpmMax,
+    };
+  }, [monthlyViews, fillRate, ecpmLow, ecpmHigh, creatorShare]);
+
+  const advancedResult = useMemo(() => {
+    if (!advancedEnabled || !basicResult) return null;
+
+    const extras =
+      (brandedDealsMonthly || 0) +
+      (fanSubscriptionsMonthly || 0) +
+      (otherRevenueMonthly || 0);
+
+    const totalMonthlyMin = basicResult.monthlyMin + extras;
+    const totalMonthlyMax = basicResult.monthlyMax + extras;
+
+    return {
+      adsMonthlyMin: basicResult.monthlyMin,
+      adsMonthlyMax: basicResult.monthlyMax,
+      extrasMonthly: extras,
+      totalMonthlyMin,
+      totalMonthlyMax,
+      totalYearlyMin: totalMonthlyMin * 12,
+      totalYearlyMax: totalMonthlyMax * 12,
+    };
+  }, [
+    advancedEnabled,
+    basicResult,
+    brandedDealsMonthly,
+    fanSubscriptionsMonthly,
+    otherRevenueMonthly,
+  ]);
 
   const handleCopy = async (type: "basic" | "advanced") => {
     try {
       let text = "";
 
       if (type === "basic" && basicResult) {
-        text += `Facebook In-Stream Ads (basic estimate):\n`;
-        text += `Monthly: ${formatMoney(
+        text += `Facebook Revenue (In-stream ads only)\n`;
+        text += `Monthly: ${moneyFmt(
           basicResult.monthlyMin
-        )} – ${formatMoney(basicResult.monthlyMax)}\n`;
-        text += `Yearly: ${formatMoney(
+        )} – ${moneyFmt(basicResult.monthlyMax)}\n`;
+        text += `Yearly: ${moneyFmt(
           basicResult.yearlyMin
-        )} – ${formatMoney(basicResult.yearlyMax)}\n`;
+        )} – ${moneyFmt(basicResult.yearlyMax)}\n`;
       }
 
       if (type === "advanced" && advancedResult) {
-        text += `Facebook In-Stream Ads (advanced estimate):\n`;
-        text += `Monthly: ${formatMoney(
+        text += `Facebook Revenue (Advanced – ads + extras)\n`;
+        text += `Monthly: ${moneyFmt(
           advancedResult.totalMonthlyMin
-        )} – ${formatMoney(advancedResult.totalMonthlyMax)}\n`;
-        text += `Yearly: ${formatMoney(
+        )} – ${moneyFmt(advancedResult.totalMonthlyMax)}\n`;
+        text += `Yearly: ${moneyFmt(
           advancedResult.totalYearlyMin
-        )} – ${formatMoney(advancedResult.totalYearlyMax)}\n`;
+        )} – ${moneyFmt(advancedResult.totalYearlyMax)}\n`;
       }
+
+      if (!text.trim()) return;
 
       await navigator.clipboard.writeText(text.trim());
       setCopied(type);
@@ -326,196 +208,411 @@ const FacebookInstreamAdsCalculator: React.FC = () => {
     }
   };
 
-  const handleReset = () => {
-    setMonthlyViews(100000);
-    setCountryCode("US");
-    setMonetizedPercent(60);
-    setCreatorShare(55);
-    setAudienceRows([
-      { id: "row-1", countryCode: "US", percent: 50 },
-      { id: "row-2", countryCode: "IN", percent: 30 },
-      { id: "row-3", countryCode: "BD", percent: 20 },
-    ]);
-    setOtherPlacementsMonthly(0);
-    setBrandDealsMonthly(0);
-  };
+  /* ================== Render ================== */
 
   return (
     <>
       <SEOHead
-        title="Facebook In-Stream Ads Revenue Calculator – Simple Estimator"
-        description="A simple Facebook In-Stream Ads revenue calculator to estimate your monthly and yearly earnings. Enter views, select country, and get a quick earnings range with optional advanced mode."
-        canonical="https://calculatorhub.site/facebook-instream-ads-calculator"
-        schemaData={generateCalculatorSchema(
-          "Facebook In-Stream Ads Revenue Calculator",
-          "Estimate earnings from Facebook In-Stream Ads with an easy calculator. Choose your country, monetized views and audience split in Normal or Advanced Mode.",
-          "/facebook-instream-ads-calculator",
-          [
-            "facebook instream ads revenue calculator",
-            "facebook video ads earnings estimator",
-            "facebook cpm rpm calculator",
-            "facebook creator earnings tool",
-          ]
-        )}
-        breadcrumbs={[
-          { name: "Misc Tools", url: "/category/misc-tools" },
-          {
-            name: "Facebook In-Stream Ads Calculator",
-            url: "/facebook-instream-ads-calculator",
-          },
-        ]}
-      />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+            title="Facebook Revenue Calculator – In-Stream Ads Earnings Estimator"
+            description="Estimate how much you can earn from Facebook in-stream video ads. Enter monthly views, fill rate and eCPM to see your monthly and yearly revenue range. Turn on Advanced Mode to add branded deals & fan subscriptions."
+            canonical="https://calculatorhub.site/facebook-instream-revenue-estimator"
+            openGraph={{
+              title: "Facebook Revenue Calculator — In-Stream Ads Earnings Estimator",
+              description:
+                "Estimate Facebook in-stream ads earnings using views, fill rate, and eCPM. Advanced Mode adds branded deals & subscriptions.",
+              url: "https://calculatorhub.site/facebook-instream-revenue-estimator",
+              type: "website",
+              site_name: "CalculatorHub",
+              locale: "en_US",
+              images: [
+                {
+                  url: "https://calculatorhub.site/images/facebook_revenue_calculator.webp",
+                  width: 1200,
+                  height: 630,
+                  alt: "Facebook Revenue Calculator interface showing inputs and results",
+                },
+              ],
+            }}
+            twitter={{
+              card: "summary_large_image",
+              site: "@calculatorhub",
+              title: "Facebook Revenue Calculator — In-Stream Ads Earnings Estimator",
+              description:
+                "Free estimator with Advanced Mode for extra income sources.",
+              image:
+                "https://calculatorhub.site/images/facebook_revenue_calculator.webp",
+            }}
+            breadcrumbs={[
+              { name: "Misc Tools", url: "/category/misc-tools" },
+              {
+                name: "Facebook Revenue Calculator",
+                url: "/facebook-instream-revenue-estimator",
+              },
+            ]}
+            schemaData={{
+              "@graph": [
+                {
+                  "@type": "Organization",
+                  "@id": "https://calculatorhub.site/#organization",
+                  "name": "CalculatorHub",
+                  "url": "https://calculatorhub.site",
+                  "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://calculatorhub.site/images/calculatorhub-logo.webp"
+                  }
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://calculatorhub.site/#website",
+                  "url": "https://calculatorhub.site",
+                  "name": "CalculatorHub",
+                  "publisher": { "@id": "https://calculatorhub.site/#organization" },
+                  "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": "https://calculatorhub.site/search?q={query}",
+                    "query-input": "required name=query"
+                  }
+                },
+                {
+                  "@type": "BreadcrumbList",
+                  "@id": "https://calculatorhub.site/facebook-instream-revenue-estimator#breadcrumbs",
+                  "itemListElement": [
+                    {
+                      "@type": "ListItem",
+                      "position": 1,
+                      "name": "Misc Tools",
+                      "item": "https://calculatorhub.site/category/misc-tools"
+                    },
+                    {
+                      "@type": "ListItem",
+                      "position": 2,
+                      "name": "Facebook Revenue Calculator",
+                      "item": "https://calculatorhub.site/facebook-instream-revenue-estimator"
+                    }
+                  ]
+                },
+                {
+                  "@type": "WebPage",
+                  "@id": "https://calculatorhub.site/facebook-instream-revenue-estimator#webpage",
+                  "url": "https://calculatorhub.site/facebook-instream-revenue-estimator",
+                  "name": "Facebook Revenue Calculator — In-Stream Ads Earnings Estimator",
+                  "description": "Estimate Facebook in-stream ads earnings from monthly views, fill rate, and eCPM. Use Advanced Mode to include branded deals, fan subscriptions, and other income.",
+                  "inLanguage": "en",
+                  "isPartOf": { "@id": "https://calculatorhub.site/#website" },
+                  "breadcrumb": { "@id": "https://calculatorhub.site/facebook-instream-revenue-estimator#breadcrumbs" },
+                  "primaryImageOfPage": {
+                    "@type": "ImageObject",
+                    "url": "https://calculatorhub.site/images/facebook_revenue_calculator.webp",
+                    "width": 1200,
+                    "height": 630
+                  },
+                  "datePublished": "2025-10-10",
+                  "dateModified": "2025-11-14"
+                },
+                {
+                  "@type": "SoftwareApplication",
+                  "@id": "https://calculatorhub.site/facebook-instream-revenue-estimator#app",
+                  "name": "Facebook Revenue Calculator",
+                  "applicationCategory": "WebApplication",
+                  "operatingSystem": "All",
+                  "url": "https://calculatorhub.site/facebook-instream-revenue-estimator",
+                  "description": "Free Facebook in-stream ads revenue estimator with Advanced Mode for additional income sources.",
+                  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+                  "featureList": [
+                    "Monthly views × fill rate × eCPM model",
+                    "Creator share adjustment",
+                    "RPM & yearly projections",
+                    "Advanced Mode: branded deals, subscriptions, other income",
+                    "Copy results summary"
+                  ],
+                  "publisher": { "@id": "https://calculatorhub.site/#organization" }
+                },
+                {
+                  "@type": "FAQPage",
+                  "@id": "https://calculatorhub.site/facebook-instream-revenue-estimator#faq",
+                  "mainEntity": [
+                    {
+                      "@type": "Question",
+                      "name": "How is revenue estimated?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "We multiply monetized views (views × fill rate) by your eCPM range and apply creator share to provide monthly and yearly bands."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "What eCPM should I use?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Try a conservative–optimistic range (e.g., $4–$8). Actual eCPM varies by country, niche, and season."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "Does this include branded deals or subscriptions?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes—turn on Advanced Mode to add branded content, fan subscriptions/Stars, and other monthly income."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "Is this an official Facebook payout tool?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "No. It is an independent estimator for planning only. Real payouts depend on policy compliance and advertiser demand."
+                      }
+                    },
+                    {
+                      "@type": "Question",
+                      "name": "Will RPM be shown?",
+                      "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes, the calculator shows an effective RPM based on your inputs."
+                      }
+                    }
+                  ]
+                }
+              ]
+            }}
+          />
 
-      <div className="max-w-5xl mx-auto px-3 sm:px-4 md:px-6">
+
+      {/* Core meta (pattern from your other pages) */}
+      <>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        
+
+        <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+        <meta name="googlebot" content="index,follow" />
+ 
+
+        <meta name="description" content="Estimate how much you can earn from Facebook in-stream video ads. Input monthly views, fill rate & eCPM to see monthly/yearly revenue ranges. Add branded deals & fan subscriptions in Advanced Mode." />
+        <meta name="keywords" content="Facebook revenue calculator, Facebook in-stream ads earnings, Facebook monetization estimator, Facebook RPM, Facebook eCPM, ad break revenue calculator, creator earnings tool" />
+        <link rel="canonical" href="https://calculatorhub.site/facebook-instream-revenue-estimator" />
+        
+
+        <link rel="alternate" href="https://calculatorhub.site/facebook-instream-revenue-estimator" hreflang="en" />
+        <link rel="alternate" href="https://calculatorhub.site/facebook-instream-revenue-estimator" hreflang="x-default" />
+        
+
+        <meta property="og:title" content="Facebook Revenue Calculator — In-Stream Ads Earnings Estimator" />
+        <meta property="og:description" content="Estimate Facebook in-stream ads earnings from views, fill rate, and eCPM. Toggle Advanced Mode to include branded deals & subscriptions." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://calculatorhub.site/facebook-instream-revenue-estimator" />
+        <meta property="og:site_name" content="CalculatorHub" />
+        <meta property="og:image" content="https://calculatorhub.site/images/facebook_revenue_calculator.webp" />
+        <meta property="og:image:alt" content="Facebook Revenue Calculator interface showing inputs and estimated earnings." />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:updated_time" content="2025-11-14T00:00:00Z" />
+        
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Facebook Revenue Calculator — In-Stream Ads Earnings Estimator" />
+        <meta name="twitter:description" content="Free Facebook in-stream ads revenue estimator with Advanced Mode for extra income sources." />
+        <meta name="twitter:image" content="https://calculatorhub.site/images/facebook_revenue_calculator.webp" />
+        <meta name="twitter:site" content="@calculatorhub" />
+        
+ 
+        <meta name="theme-color" content="#0ea5e9" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16.png" />
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+        <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#0ea5e9" />
+        <meta name="msapplication-TileColor" content="#0ea5e9" />
+        
+
+        <meta name="referrer" content="strict-origin-when-cross-origin" />
+        <meta name="format-detection" content="telephone=no,address=no,email=no" />
+        
+
+        <link rel="sitemap" type="application/xml" href="https://calculatorhub.site/sitemap.xml" />
+        
+
+        <link rel="preconnect" href="https://calculatorhub.site" crossorigin />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
+      </>
+
+      <div className="max-w-4xl mx-auto p-4 sm:p-6">
         <Breadcrumbs
           items={[
             { name: "Misc Tools", url: "/category/misc-tools" },
             {
-              name: "Facebook In-Stream Ads Calculator",
-              url: "/facebook-instream-ads-calculator",
+              name: "Facebook Revenue Calculator",
+              url: "/facebook-instream-revenue-estimator",
             },
           ]}
         />
 
-        {/* MAIN CARD */}
-        <div className="rounded-2xl p-4 sm:p-5 md:p-8 mb-8 bg-slate-900/80 border border-slate-700 shadow-lg">
-          {/* Header - mobile friendly */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 mb-6">
-            <div className="flex items-start sm:items-center gap-3 min-w-0">
-              <div className="p-2 bg-blue-600/20 border border-blue-500/40 rounded-xl shrink-0">
-                <Video className="text-blue-400 h-6 w-6" />
-              </div>
-              <div className="space-y-1">
-                <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white tracking-tight">
-                  Facebook In-Stream Ads Revenue Calculator
-                </h1>
-                <p className="text-[11px] sm:text-xs md:text-sm text-slate-300/80">
-                  Enter your video views and audience to see a simple estimate of
-                  your Facebook In-Stream Ads earnings.
-                </p>
-              </div>
-            </div>
+        {/* Title */}
+        <div className="mb-8 text-left">
+          <h1 className="text-white text-2xl sm:text-3xl font-bold mb-2">
+            Facebook Revenue Calculator
+          </h1>
+          <p className="text-slate-200 text-sm sm:text-base">
+            Quickly estimate how much you could earn from Facebook in-stream
+            video ads each month.
+          </p>
+        </div>
 
-            <button
-              onClick={handleToggleAdvanced}
-              className={`inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-lg border text-xs sm:text-sm font-medium transition-all w-full sm:w-auto
-                ${
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* ================= Inputs ================= */}
+          <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-5 sm:p-6">
+            <div className="flex items-center justify-between mb-4 gap-3">
+              <h2 className="text-lg sm:text-xl font-semibold text-slate-100">
+                Earnings Inputs
+              </h2>
+
+              <button
+                onClick={handleToggleAdvanced}
+                className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs sm:text-sm font-medium transition ${
                   advancedEnabled
-                    ? "bg-slate-700 border-slate-500 text-white"
+                    ? "bg-indigo-600/80 border-indigo-500 text-white"
                     : "bg-slate-800 border-slate-600 text-slate-100"
                 }`}
-            >
-              <Settings2 className="w-4 h-4 shrink-0" />
-              <span className="truncate">
+              >
+                <Settings2 className="w-4 h-4" />
                 {advancedEnabled ? "Advanced: ON" : "Advanced Mode"}
-              </span>
-            </button>
-          </div>
+              </button>
+            </div>
 
-          {/* Two-column layout: on mobile -> single */}
-          <div className="grid gap-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
-            {/* LEFT: INPUTS */}
-            <div className="space-y-5">
-              {/* Basic inputs */}
-              <div className="space-y-4">
-                <h2 className="text-sm font-semibold text-slate-200 flex items-center gap-2">
-                  <BarChart3 className="w-4 h-4 text-slate-300" />
-                  Basic Inputs
-                </h2>
+            <div className="space-y-4">
+              {/* Monthly views */}
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-slate-300 mb-1">
+                  Monthly In-Stream Video Views
+                </label>
+                <input
+                  type="number"
+                  min={0}
+                  inputMode="decimal"
+                  onKeyDown={blockBadKeys}
+                  value={monthlyViews}
+                  onChange={(e) =>
+                    setMonthlyViews(clamp0(Number(e.target.value)))
+                  }
+                  className="text-white placeholder-slate-400 w-full px-3 sm:px-4 py-2 text-sm bg-slate-800 border border-slate-700 rounded-lg focus:ring-2 focus:ring-indigo-400"
+                  placeholder="e.g. 100000"
+                />
+                <p className="text-[11px] sm:text-xs text-slate-400 mt-1">
+                  Total views on eligible, monetized videos in the last 30 days.
+                </p>
+              </div>
 
-                <div className="space-y-1.5">
-                  <label className="block text-xs sm:text-sm font-medium text-slate-200">
-                    Monthly Video Views (eligible for In-Stream)
-                  </label>
+              {/* Fill rate */}
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-slate-300 mb-1">
+                  Fill Rate (views that show an ad)
+                </label>
+                <div className="flex items-center gap-3">
                   <input
-                    type="number"
-                    min={0}
-                    value={monthlyViews}
-                    onChange={(e) =>
-                      setMonthlyViews(Math.max(0, Number(e.target.value)))
-                    }
-                    className="w-full px-3 sm:px-4 py-2 sm:py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                  <p className="text-[11px] sm:text-xs text-slate-400">
-                    Views on videos where In-Stream Ads can run (3+ minute
-                    videos, content-eligible).
-                  </p>
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="block text-xs sm:text-sm font-medium text-slate-200 flex items-center gap-1">
-                    <Globe2 className="w-4 h-4 text-slate-300" />
-                    Main Audience Country
-                  </label>
-                  <select
-                    value={countryCode}
-                    onChange={(e) => setCountryCode(e.target.value)}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    {COUNTRY_CPM.map((c) => (
-                      <option key={c.code} value={c.code}>
-                        {c.name}
-                      </option>
-                    ))}
-                  </select>
-                  <p className="text-[11px] sm:text-xs text-slate-400">
-                    Used to estimate your In-Stream Ads CPM range.
-                  </p>
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="block text-xs sm:text-sm font-medium text-slate-200 flex items-center gap-1">
-                    Monetized Views %
-                  </label>
-                  <div className="flex flex-col xs:flex-row items-center gap-2 sm:gap-3">
-                    <input
-                      type="range"
-                      min={10}
-                      max={100}
-                      step={1}
-                      value={monetizedPercent}
-                      onChange={(e) =>
-                        setMonetizedPercent(Number(e.target.value))
-                      }
-                      className="w-full accent-blue-500"
-                    />
-                    <div className="w-full xs:w-16 text-right text-sm text-slate-100">
-                      {monetizedPercent}%
-                    </div>
-                  </div>
-                  <p className="text-[11px] sm:text-xs text-slate-400">
-                    Not every view shows an ad. Many creators see around 40–80%.
-                  </p>
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="block text-xs sm:text-sm font-medium text-slate-200 flex items-center gap-1">
-                    <DollarSign className="w-4 h-4 text-slate-300" />
-                    Creator Share %
-                  </label>
-                  <input
-                    type="number"
-                    min={1}
+                    type="range"
+                    min={10}
                     max={100}
-                    value={creatorShare}
+                    step={1}
+                    value={fillRate}
                     onChange={(e) =>
-                      setCreatorShare(
-                        Math.max(1, Math.min(100, Number(e.target.value)))
-                      )
+                      setFillRate(clamp0(Number(e.target.value)))
                     }
-                    className="w-full sm:w-32 px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="flex-1 accent-indigo-500"
                   />
-                  <p className="text-[11px] sm:text-xs text-slate-400">
-                    Your share of ad revenue after Facebook&apos;s cut (often
-                    around 55%).
-                  </p>
+                  <div className="w-12 text-right text-sm text-slate-100">
+                    {fillRate}%
+                  </div>
                 </div>
+                <p className="text-[11px] sm:text-xs text-slate-400 mt-1">
+                  Not every view gets an ad. Many pages see 40–80% fill rate.
+                </p>
+              </div>
+
+              {/* eCPM range */}
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-slate-300 mb-1 flex items-center gap-1">
+                  <DollarSign className="w-3.5 h-3.5 text-slate-300" />
+                  Estimated eCPM (USD per 1000 ad impressions)
+                </label>
+                <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
+                  <div className="flex-1">
+                    <span className="block text-[11px] text-slate-400 mb-0.5">
+                      Low (conservative)
+                    </span>
+                    <input
+                      type="number"
+                      min={0}
+                      step="0.01"
+                      inputMode="decimal"
+                      onKeyDown={blockBadKeys}
+                      value={ecpmLow}
+                      onChange={(e) =>
+                        setEcpmLow(clamp0(Number(e.target.value)))
+                      }
+                      className="text-white w-full px-3 py-2 text-sm bg-slate-800 border border-slate-700 rounded-lg focus:ring-2 focus:ring-indigo-400"
+                      placeholder="e.g. 4"
+                    />
+                  </div>
+                  <div className="hidden sm:block text-slate-400">–</div>
+                  <div className="flex-1">
+                    <span className="block text-[11px] text-slate-400 mb-0.5">
+                      High (optimistic)
+                    </span>
+                    <input
+                      type="number"
+                      min={0}
+                      step="0.01"
+                      inputMode="decimal"
+                      onKeyDown={blockBadKeys}
+                      value={ecpmHigh}
+                      onChange={(e) =>
+                        setEcpmHigh(clamp0(Number(e.target.value)))
+                      }
+                      className="text-white w-full px-3 py-2 text-sm bg-slate-800 border border-slate-700 rounded-lg focus:ring-2 focus:ring-indigo-400"
+                      placeholder="e.g. 8"
+                    />
+                  </div>
+                </div>
+                <p className="text-[11px] sm:text-xs text-slate-400 mt-1">
+                  Try a range (e.g. $4–$8). Real eCPMs depend on country, niche,
+                  and season.
+                </p>
+              </div>
+
+              {/* Creator share */}
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-slate-300 mb-1">
+                  Creator Share (% after Meta&apos;s cut)
+                </label>
+                <input
+                  type="number"
+                  min={1}
+                  max={100}
+                  inputMode="decimal"
+                  onKeyDown={blockBadKeys}
+                  value={creatorShare}
+                  onChange={(e) =>
+                    setCreatorShare(
+                      Math.max(1, Math.min(100, Number(e.target.value)))
+                    )
+                  }
+                  className="w-24 px-3 py-2 text-sm bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-2 focus:ring-indigo-400"
+                />
+                <p className="text-[11px] sm:text-xs text-slate-400 mt-1">
+                  Facebook commonly keeps a portion of ad revenue; the rest goes
+                  to the creator.
+                </p>
               </div>
 
               {/* Advanced panel */}
               {advLoading && (
-                <div className="flex items-center gap-2 text-slate-200 text-[11px] sm:text-xs">
+                <div className="flex items-center gap-2 text-slate-200 text-xs mt-2">
                   <div className="h-4 w-4 rounded-full border-2 border-slate-500 border-t-white animate-spin" />
                   <span>Loading advanced options…</span>
                 </div>
@@ -523,156 +620,105 @@ const FacebookInstreamAdsCalculator: React.FC = () => {
 
               <div
                 className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                  advancedEnabled ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
+                  advancedEnabled ? "max-h-[700px] opacity-100" : "max-h-0 opacity-0"
                 }`}
               >
-                <div className="mt-4 border-t border-slate-700 pt-4 space-y-4">
-                  <h2 className="text-sm font-semibold text-slate-200 flex items-center gap-2">
+                <div className="mt-4 border-t border-slate-700 pt-4 space-y-3">
+                  <h3 className="text-xs sm:text-sm font-semibold text-slate-200 flex items-center gap-2">
                     <Settings2 className="w-4 h-4 text-slate-300" />
                     Advanced Mode (optional)
-                  </h2>
+                  </h3>
+                  <p className="text-[11px] sm:text-xs text-slate-400">
+                    Add other monthly income sources linked to your Facebook
+                    page.
+                  </p>
 
-                  {/* Audience split */}
-                  <div className="space-y-2">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                      <p className="text-[11px] sm:text-xs text-slate-300 flex items-center gap-1">
-                        <Users className="w-3.5 h-3.5 text-slate-400" />
-                        Audience split by country
-                      </p>
-                      <button
-                        onClick={handleAddRow}
-                        className="text-[11px] sm:text-xs px-2 py-1 rounded-md bg-slate-800 border border-slate-600 text-slate-100 hover:bg-slate-700 w-full sm:w-auto text-center"
-                      >
-                        + Add country
-                      </button>
+                  <div className="grid grid-cols-1 gap-3 text-xs sm:text-sm">
+                    <div>
+                      <label className="block text-slate-300 mb-1">
+                        Branded / Sponsored deals ($/month)
+                      </label>
+                      <input
+                        type="number"
+                        min={0}
+                        step="0.01"
+                        inputMode="decimal"
+                        onKeyDown={blockBadKeys}
+                        value={brandedDealsMonthly}
+                        onChange={(e) =>
+                          setBrandedDealsMonthly(
+                            clamp0(Number(e.target.value))
+                          )
+                        }
+                        className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-2 focus:ring-indigo-400"
+                      />
                     </div>
-
-                    <div className="space-y-2">
-                      {audienceRows.map((row) => (
-                        <div
-                          key={row.id}
-                          className="flex flex-col xs:flex-row items-stretch xs:items-center gap-2 text-[11px] sm:text-xs"
-                        >
-                          <select
-                            value={row.countryCode}
-                            onChange={(e) =>
-                              handleRowChange(
-                                row.id,
-                                "countryCode",
-                                e.target.value
-                              )
-                            }
-                            className="flex-1 px-2 py-1.5 bg-slate-800 border border-slate-700 rounded-md text-white focus:outline-none focus:ring-1 focus:ring-blue-500"
-                          >
-                            {COUNTRY_CPM.map((c) => (
-                              <option key={c.code} value={c.code}>
-                                {c.name}
-                              </option>
-                            ))}
-                          </select>
-                          <div className="flex items-center gap-1">
-                            <input
-                              type="number"
-                              min={0}
-                              max={100}
-                              value={row.percent}
-                              onChange={(e) =>
-                                handleRowChange(
-                                  row.id,
-                                  "percent",
-                                  e.target.value
-                                )
-                              }
-                              className="w-20 px-2 py-1.5 bg-slate-800 border border-slate-700 rounded-md text-white text-right"
-                            />
-                            <span className="text-slate-400">%</span>
-                          </div>
-                          {audienceRows.length > 1 && (
-                            <button
-                              onClick={() => handleRemoveRow(row.id)}
-                              className="px-2 py-1 rounded-md bg-slate-800 text-slate-200 hover:bg-slate-700 self-start xs:self-auto"
-                            >
-                              ✕
-                            </button>
-                          )}
-                        </div>
-                      ))}
+                    <div>
+                      <label className="block text-slate-300 mb-1">
+                        Fan subscriptions / Stars ($/month)
+                      </label>
+                      <input
+                        type="number"
+                        min={0}
+                        step="0.01"
+                        inputMode="decimal"
+                        onKeyDown={blockBadKeys}
+                        value={fanSubscriptionsMonthly}
+                        onChange={(e) =>
+                          setFanSubscriptionsMonthly(
+                            clamp0(Number(e.target.value))
+                          )
+                        }
+                        className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-2 focus:ring-indigo-400"
+                      />
                     </div>
-
-                    <p className="text-[11px] sm:text-xs text-slate-400">
-                      These percentages don&apos;t have to be perfect. We use
-                      them as a rough split of your total monthly views.
-                    </p>
-                  </div>
-
-                  {/* Extra income fields */}
-                  <div className="space-y-3">
-                    <p className="text-[11px] sm:text-xs text-slate-300">
-                      Other monthly income related to your Facebook videos
-                      (optional)
-                    </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px] sm:text-xs">
-                      <div className="space-y-1">
-                        <label className="block text-slate-400">
-                          Other placements / formats ($/month)
-                        </label>
-                        <input
-                          type="number"
-                          min={0}
-                          step="0.01"
-                          value={otherPlacementsMonthly}
-                          onChange={(e) =>
-                            setOtherPlacementsMonthly(
-                              Math.max(0, Number(e.target.value))
-                            )
-                          }
-                          className="w-full px-2 py-1.5 bg-slate-800 border border-slate-700 rounded-md text-white"
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <label className="block text-slate-400">
-                          Brand deals / sponsorships ($/month)
-                        </label>
-                        <input
-                          type="number"
-                          min={0}
-                          step="0.01"
-                          value={brandDealsMonthly}
-                          onChange={(e) =>
-                            setBrandDealsMonthly(
-                              Math.max(0, Number(e.target.value))
-                            )
-                          }
-                          className="w-full px-2 py-1.5 bg-slate-800 border border-slate-700 rounded-md text-white"
-                        />
-                      </div>
+                    <div>
+                      <label className="block text-slate-300 mb-1">
+                        Other related income ($/month)
+                      </label>
+                      <input
+                        type="number"
+                        min={0}
+                        step="0.01"
+                        inputMode="decimal"
+                        onKeyDown={blockBadKeys}
+                        value={otherRevenueMonthly}
+                        onChange={(e) =>
+                          setOtherRevenueMonthly(
+                            clamp0(Number(e.target.value))
+                          )
+                        }
+                        className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-2 focus:ring-indigo-400"
+                      />
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Reset button */}
+              {/* Reset */}
               <button
                 onClick={handleReset}
-                className="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-[11px] sm:text-xs text-slate-200 hover:bg-slate-700 w-full sm:w-auto"
+                className="mt-3 inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-[11px] sm:text-xs text-slate-200 hover:bg-slate-700"
               >
                 <RefreshCw className="w-4 h-4" />
                 Reset to default values
               </button>
             </div>
+          </div>
 
-            {/* RIGHT: RESULTS */}
+          {/* ================= Results ================= */}
+          <div className="rounded-2xl border border-slate-700 bg-slate-900/70 p-5 sm:p-6 flex flex-col justify-between">
             <div className="space-y-5">
-              {/* Basic result card */}
-              <div className="bg-slate-950/70 border border-slate-700 rounded-2xl p-4 sm:p-5">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-                  <h2 className="text-sm font-semibold text-slate-100 flex items-center gap-2">
-                    <DollarSign className="w-4 h-4 text-green-400" />
-                    Estimated In-Stream Ads Earnings
+              {/* Basic result */}
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <h2 className="text-lg font-semibold text-slate-100 flex items-center gap-2">
+                    <DollarSign className="h-5 w-5 text-emerald-400" />
+                    Estimated Earnings (Ads only)
                   </h2>
                   <button
                     onClick={() => handleCopy("basic")}
-                    className="inline-flex items-center justify-center gap-1 px-2 py-1 rounded-md bg-slate-800 text-[11px] sm:text-xs text-slate-100 hover:bg-slate-700 w-full sm:w-auto"
+                    className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-slate-800 text-[11px] sm:text-xs text-slate-100 hover:bg-slate-700"
                   >
                     {copied === "basic" ? (
                       <>
@@ -688,79 +734,88 @@ const FacebookInstreamAdsCalculator: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="space-y-3">
-                  <div>
-                    <p className="text-[11px] sm:text-xs text-slate-400 mb-1">
-                      Monthly earnings (approx.)
-                    </p>
-                    <p className="text-lg sm:text-xl font-semibold text-slate-50">
+                <div className="space-y-4">
+                  <div className="text-center p-4 bg-emerald-900/20 border border-emerald-800/40 rounded-lg">
+                    <TrendingUp className="h-8 w-8 text-emerald-400 mx-auto mb-2" />
+                    <div className="text-xl sm:text-2xl font-bold text-slate-100">
                       {basicResult
-                        ? `${formatMoney(
+                        ? `${moneyFmt(
                             basicResult.monthlyMin
-                          )} – ${formatMoney(basicResult.monthlyMax)}`
+                          )} – ${moneyFmt(basicResult.monthlyMax)}`
                         : "$0 – $0"}
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="text-[11px] sm:text-xs text-slate-400 mb-1">
-                      Yearly earnings (approx.)
-                    </p>
-                    <p className="text-base sm:text-lg font-semibold text-slate-100">
-                      {basicResult
-                        ? `${formatMoney(
-                            basicResult.yearlyMin
-                          )} – ${formatMoney(basicResult.yearlyMax)}`
-                        : "$0 – $0"}
-                    </p>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px] sm:text-xs">
-                    <div>
-                      <p className="text-slate-400 mb-1">
-                        Effective RPM (per 1000 views)
-                      </p>
-                      <p className="text-slate-100">
-                        {basicResult && basicResult.rpmMin !== null
-                          ? `${formatMoney(
-                              basicResult.rpmMin
-                            )} – ${formatMoney(basicResult.rpmMax ?? 0)}`
-                          : "$0 – $0"}
-                      </p>
                     </div>
-                    <div>
-                      <p className="text-slate-400 mb-1">Monetized views</p>
-                      <p className="text-slate-100">
+                    <div className="text-xs sm:text-sm text-slate-400">
+                      Estimated monthly revenue
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3 text-xs sm:text-sm">
+                    <div className="p-3 bg-slate-800/60 border border-slate-700 rounded-lg text-center">
+                      <div className="text-slate-400 mb-1">
+                        Yearly (approx.)
+                      </div>
+                      <div className="font-semibold text-slate-100">
                         {basicResult
-                          ? basicResult.monetizedViews.toLocaleString()
-                          : 0}
-                      </p>
+                          ? `${moneyFmt(
+                              basicResult.yearlyMin
+                            )} – ${moneyFmt(basicResult.yearlyMax)}`
+                          : "$0 – $0"}
+                      </div>
+                    </div>
+                    <div className="p-3 bg-slate-800/60 border border-slate-700 rounded-lg text-center">
+                      <div className="text-slate-400 mb-1">
+                        Effective RPM (per 1k views)
+                      </div>
+                      <div className="font-semibold text-slate-100">
+                        {basicResult
+                          ? `${moneyFmt(
+                              basicResult.rpmMin
+                            )} – ${moneyFmt(basicResult.rpmMax)}`
+                          : "$0 – $0"}
+                      </div>
                     </div>
                   </div>
 
-                  <p className="text-[10px] sm:text-[11px] text-slate-500 flex items-start gap-1">
+                  <div className="grid grid-cols-2 gap-3 text-xs sm:text-sm">
+                    <div className="p-3 bg-slate-900/80 border border-slate-700 rounded-lg text-center">
+                      <div className="text-slate-400 mb-1">
+                        Monetized impressions
+                      </div>
+                      <div className="font-semibold text-slate-100">
+                        {basicResult
+                          ? basicResult.impressions.toLocaleString()
+                          : 0}
+                      </div>
+                    </div>
+                    <div className="p-3 bg-slate-900/80 border border-slate-700 rounded-lg text-center">
+                      <div className="text-slate-400 mb-1">
+                        Creator share used
+                      </div>
+                      <div className="font-semibold text-slate-100">
+                        {creatorShare}%
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="text-[11px] sm:text-xs text-slate-500 flex items-start gap-1">
                     <Info className="w-3.5 h-3.5 mt-0.5 text-slate-400" />
-                    This is an estimate based on typical Facebook In-Stream Ads
-                    CPM values for{" "}
-                    <span className="font-medium ml-1">
-                      {currentCountry.name}
-                    </span>{" "}
-                    and your inputs. Real payouts depend on eligibility, content
-                    quality, advertiser demand and policy compliance.
+                    This is an estimate based on your inputs. Actual payouts can
+                    vary depending on audience country, content category, ad
+                    demand and policy compliance.
                   </p>
                 </div>
               </div>
 
-              {/* Advanced result card */}
-              <div className="bg-slate-950/70 border border-slate-700 rounded-2xl p-4 sm:p-5">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-                  <h2 className="text-sm font-semibold text-slate-100 flex items-center gap-2">
+              {/* Advanced result */}
+              <div className="mt-4 border-t border-slate-700 pt-4">
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <h2 className="text-sm sm:text-base font-semibold text-slate-100 flex items-center gap-2">
                     <Settings2 className="w-4 h-4 text-blue-400" />
-                    Advanced Result (split + extras)
+                    Advanced Result (ads + extra income)
                   </h2>
                   <button
                     onClick={() => handleCopy("advanced")}
-                    className="inline-flex items-center justify-center gap-1 px-2 py-1 rounded-md bg-slate-800 text-[11px] sm:text-xs text-slate-100 hover:bg-slate-700 w-full sm:w-auto"
+                    className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-slate-800 text-[11px] sm:text-xs text-slate-100 hover:bg-slate-700"
                   >
                     {copied === "advanced" ? (
                       <>
@@ -777,66 +832,50 @@ const FacebookInstreamAdsCalculator: React.FC = () => {
                 </div>
 
                 {advancedEnabled && advancedResult ? (
-                  <div className="space-y-3 text-[12px] sm:text-sm">
+                  <div className="space-y-3 text-xs sm:text-sm">
                     <div>
-                      <p className="text-[11px] sm:text-xs text-slate-400 mb-1">
-                        Monthly earnings (all sources)
+                      <p className="text-slate-400 mb-1">
+                        Total monthly (ads + extras)
                       </p>
                       <p className="text-base sm:text-lg font-semibold text-slate-50">
-                        {formatMoney(
-                          advancedResult.totalMonthlyMin
-                        )}{" "}
-                        –{" "}
-                        {formatMoney(advancedResult.totalMonthlyMax)}
+                        {moneyFmt(advancedResult.totalMonthlyMin)} –{" "}
+                        {moneyFmt(advancedResult.totalMonthlyMax)}
                       </p>
                     </div>
 
                     <div>
-                      <p className="text-[11px] sm:text-xs text-slate-400 mb-1">
-                        Yearly earnings (all sources)
+                      <p className="text-slate-400 mb-1">
+                        Total yearly (ads + extras)
                       </p>
                       <p className="text-sm sm:text-base font-semibold text-slate-100">
-                        {formatMoney(
-                          advancedResult.totalYearlyMin
-                        )}{" "}
-                        –{" "}
-                        {formatMoney(advancedResult.totalYearlyMax)}
+                        {moneyFmt(advancedResult.totalYearlyMin)} –{" "}
+                        {moneyFmt(advancedResult.totalYearlyMax)}
                       </p>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px] sm:text-xs">
+                    <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <p className="text-slate-400 mb-1">
-                          In-Stream Ads only
-                        </p>
+                        <p className="text-slate-400 mb-1">Ads only</p>
                         <p className="text-slate-100">
-                          {formatMoney(
-                            advancedResult.adsMonthlyMin
-                          )}{" "}
-                          –{" "}
-                          {formatMoney(
-                            advancedResult.adsMonthlyMax
-                          )}{" "}
-                          / month
+                          {moneyFmt(advancedResult.adsMonthlyMin)} –{" "}
+                          {moneyFmt(advancedResult.adsMonthlyMax)} / month
                         </p>
                       </div>
                       <div>
                         <p className="text-slate-400 mb-1">
-                          Other video-related income
+                          Extra income (branded + subs + other)
                         </p>
                         <p className="text-slate-100">
-                          {formatMoney(
-                            advancedResult.extrasMonthly
-                          )}{" "}
-                          / month
+                          {moneyFmt(advancedResult.extrasMonthly)} / month
                         </p>
                       </div>
                     </div>
                   </div>
                 ) : (
                   <p className="text-[11px] sm:text-xs text-slate-400">
-                    Turn on Advanced Mode to see a combined estimate using
-                    multi-country audience split and extra video-related income.
+                    Turn on Advanced Mode on the left to add branded deals, fan
+                    subscriptions, and other income on top of your in-stream
+                    ad revenue.
                   </p>
                 )}
               </div>
@@ -844,33 +883,41 @@ const FacebookInstreamAdsCalculator: React.FC = () => {
           </div>
         </div>
 
-        <AdBanner />
-
-        {/* Simple SEO text */}
-        <div className="mb-10 space-y-2 sm:space-y-3">
-          <h2 className="text-xl sm:text-2xl font-bold text-white">
-            How this Facebook In-Stream Ads Revenue Calculator works
+        {/* Short SEO text */}
+        <section className="mt-10 mb-10 text-slate-300 text-sm sm:text-base leading-relaxed">
+          <h2 className="text-2xl font-bold text-cyan-400 mb-3">
+            How this Facebook Revenue Calculator works
           </h2>
-          <p className="text-[13px] sm:text-sm text-slate-300 leading-relaxed">
-            This calculator gives you a simple estimate of how much you might
-            earn from Facebook In-Stream Ads. You enter your monthly video
-            views, pick your main audience country, choose how many of those
-            views are monetized, and the tool uses typical CPM ranges to show a
-            monthly and yearly earnings range.
+          <p className="mb-3">
+            This tool gives you a quick estimate of how much you could earn from{" "}
+            <strong>Facebook in-stream video ads</strong>. Enter your monthly
+            video views, choose a realistic fill rate, and set a low–high eCPM
+            range to see an estimated monthly and yearly revenue band.
           </p>
-          <p className="text-[13px] sm:text-sm text-slate-300 leading-relaxed">
-            Use Normal Mode if most of your viewers are from one country and you
-            just want a quick estimate. If your audience is spread across
-            multiple countries or you also earn from other formats and brand
-            deals, turn on Advanced Mode to get a more detailed picture of your
-            potential revenue.
+          <p className="mb-3">
+            In <strong>Normal Mode</strong>, the calculator only focuses on ad
+            revenue. If you also earn from branded content deals, fan
+            subscriptions, Stars, or other sources, switch on{" "}
+            <strong>Advanced Mode</strong> to add those amounts and see your
+            combined earnings.
           </p>
-        </div>
+          <p>
+            All values are estimates and for planning only. Actual earnings
+            depend on audience country, watch time, content niche, advertiser
+            demand, and Facebook policy compliance.
+          </p>
+        </section>
 
-        <RelatedCalculators currentPath="/facebook-instream-ads-calculator" />
+        <Suspense fallback={null}>
+          <AdBanner type="bottom" />
+          <RelatedCalculators
+            currentPath="/facebook-instream-revenue-estimator"
+            category="ads-creator-tools"
+          />
+        </Suspense>
       </div>
     </>
   );
 };
 
-export default FacebookInstreamAdsCalculator;
+export default FacebookRevenueCalculator;
