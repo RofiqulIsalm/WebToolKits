@@ -101,6 +101,10 @@ import BaseConverter from './pages/BaseConverter';
 import FuelCostCalculator from './pages/FuelCostCalculator';
 import YouTubeRevenueCalculator from './pages/YouTubeRevenueCalculator';
 import FacebookInstreamAdsCalculator from './pages/FacebookInstreamAdsCalculator';
+import AppRevenueCalculator from './pages/AppRevenueCalculator';
+import TikTokRevenueCalculator from './pages/TikTokRevenueCalculator';
+import WebsiteRevenueCalculator from './pages/WebsiteRevenueCalculator';
+
 
 
 
@@ -310,6 +314,9 @@ function App() {
               <Route path="/fuel-cost-calculator" element={<FuelCostCalculator />} />
               <Route path="/facebook-instream-revenue-estimator" element={<FacebookInstreamAdsCalculator />} />
               <Route path="/youtube-revenue-calculator" element={<YouTubeRevenueCalculator />} />
+              <Route path="/admob-ecpm-estimator" element={<AppRevenueCalculator/>} />
+              <Route path="/adsense-revenue-calculator" element={<WebsiteRevenueCalculator/>} />
+              <Route path="/tiktok-creator-fund-estimator" element={<TikTokRevenueCalculator/>} />
             
 
             
