@@ -241,7 +241,7 @@ function App() {
     <HelmetProvider>
       <Router>
         <ScrollToTop />
-
+        <SiteConfigProvider>
         <Layout>
           <Suspense fallback={<LoadingFallback />}>
             <Routes>
@@ -433,6 +433,7 @@ function App() {
             </Routes>
           </Suspense>
         </Layout>
+          <SiteConfigProvider>
           
       </Router>
     </HelmetProvider>
