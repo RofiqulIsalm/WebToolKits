@@ -1551,7 +1551,7 @@ useEffect(() => {
                       <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
                       <p className="text-sm text-slate-400">
                         Experts in mortgages and online financial tools. Last updated:{" "}
-                        <time dateTime="2025-10-17">October 17, 2025</time>.
+                        <time dateTime="2025-10-17">November 15, 2025</time>.
                       </p>
                     </div>
                   </div>
