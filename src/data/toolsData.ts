@@ -589,7 +589,7 @@ export const toolsData = [
         name: 'App Revenue Calculator',
         description: 'Forecast app ad revenue using AdMob eCPM and fill rate by country.',
         icon: Smartphone,
-        path: '/admob-ecpm-estimator',
+        path: '/app-revenue-calculator',
         color: 'misc-card',
       },
       {
