@@ -391,7 +391,7 @@ function App() {
                 element={<YouTubeRevenueCalculator />}
               />
               <Route
-                path="/admob-ecpm-estimator"
+                path="/app-revenue-calculator"
                 element={<AppRevenueCalculator />}
               />
               <Route
