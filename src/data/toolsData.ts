@@ -471,7 +471,7 @@ export const toolsData = [
         name: 'Time Zone Converter',
         description: 'Convert time between different time zones',
         icon: Globe,
-        path: '/time-zone-converter',
+        path: '/timezone-converter',
         color: 'datetime-card'
       },
       {
