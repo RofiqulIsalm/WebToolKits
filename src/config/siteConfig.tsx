@@ -17,7 +17,7 @@ export interface SiteConfigState {
   footerPopular: NavLink[];      // Footer "Popular Calculators"
   footerDescription: string;     // Footer description text
   socialLinks: FooterLink[];     // Footer social links
-  disabledCalculators: string[];  
+  disabledCalculators: string[]; // Slugs/paths of calculators that are OFF
 }
 
 const STORAGE_KEY = "calculatorhub_site_config_v1";
@@ -65,6 +65,7 @@ const defaultConfig: SiteConfigState = {
     { label: "Facebook", url: "https://facebook.com" },
     { label: "LinkedIn", url: "https://linkedin.com" },
   ],
+  disabledCalculators: [], // none off by default
 };
 
 function safeLoadConfig(): SiteConfigState {
@@ -72,7 +73,7 @@ function safeLoadConfig(): SiteConfigState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return defaultConfig;
-    const parsed = JSON.parse(raw);
+    const parsed = JSON.parse(raw) as Partial<SiteConfigState>;
 
     return {
       ...defaultConfig,
@@ -83,6 +84,8 @@ function safeLoadConfig(): SiteConfigState {
       footerDescription:
         parsed.footerDescription ?? defaultConfig.footerDescription,
       socialLinks: parsed.socialLinks ?? defaultConfig.socialLinks,
+      disabledCalculators:
+        parsed.disabledCalculators ?? defaultConfig.disabledCalculators,
     };
   } catch {
     return defaultConfig;
