@@ -15,7 +15,7 @@ import {
 
 import SEOHead from "../components/SEOHead";
 import Breadcrumbs from "../components/Breadcrumbs";
-import { generateCalculatorSchema } from "../utils/seoData";
+
 
 const AdBanner = React.lazy(() => import("../components/AdBanner"));
 const RelatedCalculators = React.lazy(
