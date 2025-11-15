@@ -1,162 +1,177 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Homepage -->
+
+  <!-- ===================== -->
+  <!--       HOMEPAGE        -->
+  <!-- ===================== -->
   <url>
-    <loc>https://calculatorhub.com/</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://calculatorhub.site/</loc>
+    <lastmod>2025-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- Category Pages -->
+  <!-- ===================== -->
+  <!--     CATEGORY PAGES    -->
+  <!-- ===================== -->
   <url>
-    <loc>https://calculatorhub.com/category/currency-finance</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://calculatorhub.site/category/currency-finance</loc>
+    <lastmod>2025-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calculatorhub.com/category/unit-converters</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://calculatorhub.site/category/unit-converters</loc>
+    <lastmod>2025-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calculatorhub.com/category/math-tools</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://calculatorhub.site/category/math-tools</loc>
+    <lastmod>2025-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calculatorhub.com/category/date-time-tools</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://calculatorhub.site/category/date-time-tools</loc>
+    <lastmod>2025-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://calculatorhub.com/category/misc-tools</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://calculatorhub.site/category/misc-tools</loc>
+    <lastmod>2025-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Popular Calculators -->
-  <url>
-    <loc>https://calculatorhub.com/currency-converter</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://calculatorhub.com/loan-emi-calculator</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://calculatorhub.com/bmi-calculator</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://calculatorhub.com/temperature-converter</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://calculatorhub.com/percentage-calculator</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
+  <!-- ===================== -->
+  <!--   CURRENCY & FINANCE  -->
+  <!-- ===================== -->
+  <url><loc>https://calculatorhub.site/currency-converter</loc></url>
+  <url><loc>https://calculatorhub.site/loan-emi-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/tax-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/mortgage-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/sip-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/fd-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/rd-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/retirement-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/inflation-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/credit-card-payoff-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/roi-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/savings-goal-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/car-loan-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/home-loan-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/personal-loan-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/loan-affordability-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/debt-to-income-ratio-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/cagr-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/lump-sum-investment-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/pay-raise-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/break-even-point-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/loan-comparison-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/simple-interest-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/compound-interest-calculator</loc></url>
 
-  <!-- Other Calculators -->
-  <url>
-    <loc>https://calculatorhub.com/compound-interest-calculator</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://calculatorhub.com/tax-calculator</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://calculatorhub.com/length-converter</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://calculatorhub.com/weight-converter</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://calculatorhub.com/area-converter</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://calculatorhub.com/speed-converter</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://calculatorhub.com/average-calculator</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://calculatorhub.com/age-calculator</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://calculatorhub.com/date-difference</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://calculatorhub.com/qr-code-generator</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://calculatorhub.com/password-generator</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
+  <!-- ===================== -->
+  <!--    UNIT CONVERTERS    -->
+  <!-- ===================== -->
+  <url><loc>https://calculatorhub.site/length-converter</loc></url>
+  <url><loc>https://calculatorhub.site/weight-converter</loc></url>
+  <url><loc>https://calculatorhub.site/temperature-converter</loc></url>
+  <url><loc>https://calculatorhub.site/area-converter</loc></url>
+  <url><loc>https://calculatorhub.site/speed-converter</loc></url>
+  <url><loc>https://calculatorhub.site/volume-converter</loc></url>
+  <url><loc>https://calculatorhub.site/pressure-converter</loc></url>
+  <url><loc>https://calculatorhub.site/energy-converter</loc></url>
+  <url><loc>https://calculatorhub.site/data-storage-converter</loc></url>
+  <url><loc>https://calculatorhub.site/mass-weight-converter</loc></url>
+  <url><loc>https://calculatorhub.site/time-converter</loc></url>
+  <url><loc>https://calculatorhub.site/power-converter</loc></url>
+  <url><loc>https://calculatorhub.site/force-converter</loc></url>
+  <url><loc>https://calculatorhub.site/density-converter</loc></url>
+  <url><loc>https://calculatorhub.site/acceleration-converter</loc></url>
+  <url><loc>https://calculatorhub.site/flow-rate-converter</loc></url>
+  <url><loc>https://calculatorhub.site/fuel-consumption-converter</loc></url>
+  <url><loc>https://calculatorhub.site/angle-converter</loc></url>
+  <url><loc>https://calculatorhub.site/frequency-converter</loc></url>
+  <url><loc>https://calculatorhub.site/data-transfer-converter</loc></url>
 
-  <!-- Legal Pages -->
+  <!-- ===================== -->
+  <!--       MATH TOOLS      -->
+  <!-- ===================== -->
+  <url><loc>https://calculatorhub.site/percentage-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/average-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/quadratic-equation-solver</loc></url>
+  <url><loc>https://calculatorhub.site/factorial-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/prime-number-checker</loc></url>
+  <url><loc>https://calculatorhub.site/statistics-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/gcd-lcm-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/log-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/equation-solver</loc></url>
+
+  <!-- ===================== -->
+  <!--   DATE & TIME TOOLS   -->
+  <!-- ===================== -->
+  <url><loc>https://calculatorhub.site/age-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/date-difference</loc></url>
+  <url><loc>https://calculatorhub.site/add-subtract-days</loc></url>
+  <url><loc>https://calculatorhub.site/weekday-finder</loc></url>
+  <url><loc>https://calculatorhub.site/business-days-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/countdown-timer</loc></url>
+  <url><loc>https://calculatorhub.site/timezone-converter</loc></url>
+  <url><loc>https://calculatorhub.site/time-duration-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/week-number-finder</loc></url>
+  <url><loc>https://calculatorhub.site/calendar-generator</loc></url>
+
+  <!-- ===================== -->
+  <!--      MISC TOOLS       -->
+  <!-- ===================== -->
+  <url><loc>https://calculatorhub.site/qr-code-generator</loc></url>
+  <url><loc>https://calculatorhub.site/password-generator</loc></url>
+  <url><loc>https://calculatorhub.site/random-number-generator</loc></url>
+  <url><loc>https://calculatorhub.site/color-converter</loc></url>
+  <url><loc>https://calculatorhub.site/text-counter</loc></url>
+  <url><loc>https://calculatorhub.site/tip-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/roman-numeral-converter</loc></url>
+  <url><loc>https://calculatorhub.site/uuid-generator</loc></url>
+  <url><loc>https://calculatorhub.site/base-converter</loc></url>
+  <url><loc>https://calculatorhub.site/fuel-cost-calculator</loc></url>
+
+  <!-- ===================== -->
+  <!--   REVENUE TOOLS       -->
+  <!-- ===================== -->
+  <url><loc>https://calculatorhub.site/facebook-instream-revenue-estimator</loc></url>
+  <url><loc>https://calculatorhub.site/youtube-revenue-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/app-revenue-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/website-revenue-calculator</loc></url>
+  <url><loc>https://calculatorhub.site/tiktok-revenue-calculator</loc></url>
+
+  <!-- ===================== -->
+  <!--     HEALTH TOOLS      -->
+  <!-- ===================== -->
+  <url><loc>https://calculatorhub.site/bmi-calculator</loc></url>
+
+  <!-- ===================== -->
+  <!--   LEGAL & CONTACT     -->
+  <!-- ===================== -->
   <url>
-    <loc>https://calculatorhub.com/privacy-policy</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://calculatorhub.site/privacy-policy</loc>
+    <lastmod>2025-11-15</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://calculatorhub.com/terms-of-service</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://calculatorhub.site/terms-of-service</loc>
+    <lastmod>2025-11-15</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://calculatorhub.com/contact-us</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://calculatorhub.site/contact-us</loc>
+    <lastmod>2025-11-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
+
 </urlset>
