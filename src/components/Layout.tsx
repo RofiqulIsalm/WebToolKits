@@ -4,61 +4,18 @@ import { Link } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import AdBanner from "./AdBanner";
+import { useSiteConfig } from "../config/siteConfig";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
-type SimpleTool = {
-  name: string;
-  path: string;
-};
-
-// ⬇️ These defaults match what you already like to show
-const defaultPopular: SimpleTool[] = [
-  { name: "Percentage Calculator", path: "/percentage-calculator" },
-  { name: "Compound Interest Calculator", path: "/compound-interest-calculator" },
-  { name: "SIP Calculator", path: "/sip-calculator" },
-  { name: "BMI Calculator", path: "/bmi-calculator" },
-];
-
-const defaultQuick: SimpleTool[] = [
-  { name: "Currency Converter", path: "/currency-converter" },
-  { name: "Loan EMI Calculator", path: "/loan-emi-calculator" },
-  { name: "Tax Calculator", path: "/tax-calculator" },
-  { name: "Age Calculator", path: "/age-calculator" },
-];
-
-// 🔑 Keys shared with AdminDashboard
-const LS_KEY_QUICK = "ch_admin_quick_access";
-const LS_KEY_POPULAR = "ch_admin_popular_list";
-
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const [quickAccess, setQuickAccess] = React.useState<SimpleTool[]>(defaultQuick);
-  const [popularCalculators, setPopularCalculators] =
-    React.useState<SimpleTool[]>(defaultPopular);
+  // 🔗 Read live config from context (set by AdminDashboard)
+  const { config } = useSiteConfig();
 
-  // Load admin-configured lists from localStorage (if they exist)
-  React.useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    try {
-      const q = localStorage.getItem(LS_KEY_QUICK);
-      const p = localStorage.getItem(LS_KEY_POPULAR);
-
-      if (q) {
-        const parsedQ = JSON.parse(q);
-        if (Array.isArray(parsedQ)) setQuickAccess(parsedQ);
-      }
-
-      if (p) {
-        const parsedP = JSON.parse(p);
-        if (Array.isArray(parsedP)) setPopularCalculators(parsedP);
-      }
-    } catch {
-      // If anything is broken in localStorage, just fall back to defaults
-    }
-  }, []);
+  const quickAccess = config.quickAccess;
+  const popularCalculators = config.popularSidebar;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-slate-200">
@@ -93,9 +50,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               </h2>
               <ul className="space-y-1.5 text-sm">
                 {quickAccess.map((tool) => (
-                  <li key={tool.path}>
+                  <li key={tool.slug}>
                     <Link
-                      to={tool.path}
+                      to={tool.slug}
                       className="flex items-center justify-between px-2 py-1.5 rounded-lg text-slate-200 hover:text-amber-300 hover:bg-slate-800/70 transition-colors"
                     >
                       <span>{tool.name}</span>
@@ -115,9 +72,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               </h2>
               <ul className="space-y-1.5 text-sm">
                 {popularCalculators.map((calc) => (
-                  <li key={calc.path}>
+                  <li key={calc.slug}>
                     <Link
-                      to={calc.path}
+                      to={calc.slug}
                       className="flex items-center justify-between px-2 py-1.5 rounded-lg text-slate-200 hover:text-emerald-300 hover:bg-slate-800/70 transition-colors"
                     >
                       <span>{calc.name}</span>
@@ -148,4 +105,3 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 };
 
 export default Layout;
- 
