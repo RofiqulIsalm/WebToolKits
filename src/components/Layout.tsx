@@ -4,15 +4,61 @@ import { Link } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import AdBanner from "./AdBanner";
-import { useSiteConfig } from "../config/siteConfig";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
+type SimpleTool = {
+  name: string;
+  path: string;
+};
+
+// ⬇️ These defaults match what you already like to show
+const defaultPopular: SimpleTool[] = [
+  { name: "Percentage Calculator", path: "/percentage-calculator" },
+  { name: "Compound Interest Calculator", path: "/compound-interest-calculator" },
+  { name: "SIP Calculator", path: "/sip-calculator" },
+  { name: "BMI Calculator", path: "/bmi-calculator" },
+];
+
+const defaultQuick: SimpleTool[] = [
+  { name: "Currency Converter", path: "/currency-converter" },
+  { name: "Loan EMI Calculator", path: "/loan-emi-calculator" },
+  { name: "Tax Calculator", path: "/tax-calculator" },
+  { name: "Age Calculator", path: "/age-calculator" },
+];
+
+// 🔑 Keys shared with AdminDashboard
+const LS_KEY_QUICK = "ch_admin_quick_access";
+const LS_KEY_POPULAR = "ch_admin_popular_list";
+
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const { config } = useSiteConfig();
-  const { quickAccess, popularSidebar } = config;
+  const [quickAccess, setQuickAccess] = React.useState<SimpleTool[]>(defaultQuick);
+  const [popularCalculators, setPopularCalculators] =
+    React.useState<SimpleTool[]>(defaultPopular);
+
+  // Load admin-configured lists from localStorage (if they exist)
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    try {
+      const q = localStorage.getItem(LS_KEY_QUICK);
+      const p = localStorage.getItem(LS_KEY_POPULAR);
+
+      if (q) {
+        const parsedQ = JSON.parse(q);
+        if (Array.isArray(parsedQ)) setQuickAccess(parsedQ);
+      }
+
+      if (p) {
+        const parsedP = JSON.parse(p);
+        if (Array.isArray(parsedP)) setPopularCalculators(parsedP);
+      }
+    } catch {
+      // If anything is broken in localStorage, just fall back to defaults
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-slate-200">
@@ -31,7 +77,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
         <div className="flex flex-col lg:flex-row gap-8 pt-4">
           {/* ========== MAIN PAGE CONTENT ========== */}
-          <section className="flex-1 relative">{children}</section>
+          <section className="flex-1 relative">
+            {children}
+          </section>
 
           {/* ========== SIDEBAR (Desktop only) ========== */}
           <aside className="hidden lg:block w-80 space-y-6">
@@ -45,9 +93,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               </h2>
               <ul className="space-y-1.5 text-sm">
                 {quickAccess.map((tool) => (
-                  <li key={tool.slug}>
+                  <li key={tool.path}>
                     <Link
-                      to={tool.slug}
+                      to={tool.path}
                       className="flex items-center justify-between px-2 py-1.5 rounded-lg text-slate-200 hover:text-amber-300 hover:bg-slate-800/70 transition-colors"
                     >
                       <span>{tool.name}</span>
@@ -66,10 +114,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 Popular Calculators
               </h2>
               <ul className="space-y-1.5 text-sm">
-                {popularSidebar.map((calc) => (
-                  <li key={calc.slug}>
+                {popularCalculators.map((calc) => (
+                  <li key={calc.path}>
                     <Link
-                      to={calc.slug}
+                      to={calc.path}
                       className="flex items-center justify-between px-2 py-1.5 rounded-lg text-slate-200 hover:text-emerald-300 hover:bg-slate-800/70 transition-colors"
                     >
                       <span>{calc.name}</span>
@@ -100,3 +148,4 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 };
 
 export default Layout;
+ 
