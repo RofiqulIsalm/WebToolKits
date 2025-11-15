@@ -1,44 +1,81 @@
-import React, { useState } from 'react';
-import { Mail, MessageSquare, Send, MapPin, Clock } from 'lucide-react';
-import { Link } from 'react-router-dom';
+// src/pages/ContactUs.tsx
+import React, { useState } from "react";
+import {
+  Mail,
+  MessageSquare,
+  Send,
+  MapPin,
+  Clock,
+  Phone,
+  Shield,
+  HelpCircle,
+  CheckCircle2,
+  ArrowRight,
+  Globe2,
+} from "lucide-react";
+import { Link } from "react-router-dom";
 
-import AdBanner from '../components/AdBanner';
-import SEOHead from '../components/SEOHead';
-import Breadcrumbs from '../components/Breadcrumbs';
-import { seoData } from '../utils/seoData';
+import AdBanner from "../components/AdBanner";
+import SEOHead from "../components/SEOHead";
+import Breadcrumbs from "../components/Breadcrumbs";
+import { seoData } from "../utils/seoData";
 
 const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+    toolUrl: "",
+    priority: "normal",
   });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitStatus, setSubmitStatus] =
+    useState<"idle" | "success" | "error">("idle");
+  const [subscribeUpdates, setSubscribeUpdates] = useState(false);
+  const [consent, setConsent] = useState(false);
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Optional: require consent for real backend
+    // if (!consent) {
+    //   setSubmitStatus("error");
+    //   return;
+    // }
+
     setIsSubmitting(true);
 
     // Simulate form submission
     setTimeout(() => {
       setIsSubmitting(false);
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setSubmitStatus("success");
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+        toolUrl: "",
+        priority: "normal",
+      });
+      setSubscribeUpdates(false);
+      setConsent(false);
 
-      // Reset success message after 5 seconds
-      setTimeout(() => setSubmitStatus('idle'), 5000);
+      setTimeout(() => setSubmitStatus("idle"), 5000);
     }, 1000);
   };
 
@@ -48,67 +85,160 @@ const ContactUs: React.FC = () => {
         title={seoData.contactUs.title}
         description={seoData.contactUs.description}
         canonical="https://calculatorhub.site/contact-us"
-        breadcrumbs={[{ name: 'Contact Us', url: '/contact-us' }]}
+        breadcrumbs={[{ name: "Contact Us", url: "/contact-us" }]}
       />
 
-      <div className="max-w-6xl mx-auto">
-        <Breadcrumbs
-          items={[
-            { name: 'Contact Us', url: '/contact-us' }
-          ]}
-        />
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-16">
+        <Breadcrumbs items={[{ name: "Contact Us", url: "/contact-us" }]} />
 
-        <div className="mb-8">
-          <div className="flex items-center space-x-3 mb-4">
-            <Mail className="h-8 w-8 text-blue-400 drop-shadow-lg" />
-            <h1 className="text-3xl font-bold text-white drop-shadow-lg">Contact Us</h1>
+        {/* ================= HERO / INTRO ================= */}
+        <section className="mb-10 rounded-2xl bg-gradient-to-r from-sky-900/70 via-slate-950 to-fuchsia-900/60 border border-sky-500/30 shadow-xl shadow-slate-900/60 px-5 sm:px-8 py-7 sm:py-9">
+          <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 items-start lg:items-center">
+            <div className="flex-1 space-y-3">
+              <div className="inline-flex items-center gap-2 rounded-full bg-slate-900/60 border border-cyan-400/40 px-3 py-1 text-[11px] sm:text-xs text-cyan-100 mb-1">
+                <Globe2 className="w-3.5 h-3.5 text-cyan-300" />
+                Global calculator support • Free tools • Fast replies
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-2xl bg-sky-500/20 border border-sky-400/60 flex items-center justify-center shadow-lg shadow-sky-900/70">
+                  <Mail className="h-5 w-5 text-sky-200" />
+                </div>
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight">
+                  Contact CalculatorHub Support
+                </h1>
+              </div>
+
+              <p className="text-sm sm:text-base text-slate-200/90 max-w-2xl">
+                Need help with a calculator, found a bug, or want a new tool
+                added? Send us a message and our small, focused team will review
+                it and respond as soon as possible.
+              </p>
+
+              <ul className="flex flex-wrap gap-2 text-[11px] sm:text-xs text-slate-100/90">
+                <li className="px-2.5 py-1 rounded-full bg-slate-900/70 border border-emerald-400/40 flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-300" />
+                  Typical reply: within 24 hours
+                </li>
+                <li className="px-2.5 py-1 rounded-full bg-slate-900/70 border border-sky-400/40 flex items-center gap-1.5">
+                  <Shield className="w-3.5 h-3.5 text-sky-300" />
+                  No spam or login required
+                </li>
+                <li className="px-2.5 py-1 rounded-full bg-slate-900/70 border border-purple-400/40 flex items-center gap-1.5">
+                  <HelpCircle className="w-3.5 h-3.5 text-purple-300" />
+                  Product, tech & business questions welcome
+                </li>
+              </ul>
+            </div>
+
+            {/* Small stats panel */}
+            <div className="w-full lg:w-64 bg-slate-950/80 border border-slate-700/80 rounded-2xl p-4 text-xs sm:text-sm text-slate-100 space-y-3 shadow-lg shadow-black/60">
+              <p className="font-semibold text-slate-50">
+                Why users contact us:
+              </p>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-300">Calculator issues</span>
+                  <span className="text-emerald-300 font-semibold">48%</span>
+                </div>
+                <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                  <div className="h-full bg-emerald-400/90 w-[48%]" />
+                </div>
+
+                <div className="flex items-center justify-between mt-2">
+                  <span className="text-slate-300">Feature requests</span>
+                  <span className="text-sky-300 font-semibold">32%</span>
+                </div>
+                <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                  <div className="h-full bg-sky-400/90 w-[32%]" />
+                </div>
+
+                <div className="flex items-center justify-between mt-2">
+                  <span className="text-slate-300">Business / API</span>
+                  <span className="text-fuchsia-300 font-semibold">20%</span>
+                </div>
+                <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                  <div className="h-full bg-fuchsia-400/90 w-[20%]" />
+                </div>
+              </div>
+
+              <p className="text-[11px] text-slate-400">
+                These are approximate internal stats to give you a sense of
+                what kind of messages we handle every day.
+              </p>
+            </div>
           </div>
-          <p className="text-slate-300">Get in touch with us - we'd love to hear from you!</p>
-        </div>
+        </section>
 
-        {/* Team Profiles */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div className="glow-card rounded-lg p-6">
+        {/* ================= TEAM PROFILES ================= */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+          <div className="glow-card rounded-2xl p-6 bg-slate-950/80 border border-slate-800/80">
             <h3 className="text-xl font-semibold text-white mb-2">
               Rofiqul Islam – Senior Partner
             </h3>
             <p className="text-slate-300 text-sm">
-              Rofiqul Islam is the Senior Partner and founder of CalculatorHub. With expertise
-              in creating user-friendly calculators and tools, he ensures high-quality solutions
-              and a smooth experience for all users.
+              Rofiqul Islam is the Senior Partner and founder of CalculatorHub.
+              With deep experience in designing user-friendly calculators and
+              financial tools, he ensures the platform stays accurate, fast and
+              accessible for everyday users, students and professionals.
             </p>
           </div>
 
-          <div className="glow-card rounded-lg p-6">
+          <div className="glow-card rounded-2xl p-6 bg-slate-950/80 border border-slate-800/80">
             <h3 className="text-xl font-semibold text-white mb-2">
               Siraj Shah – Associate Partner
             </h3>
             <p className="text-slate-300 text-sm">
-              Siraj Shah is the Associate Partner at CalculatorHub. Bringing strong operational
-              and technical skills, he supports development, user experience, and contributes to
-              the growth and innovation of the platform.
+              Siraj Shah is the Associate Partner at CalculatorHub. He supports
+              product development, performance optimization and user experience,
+              helping the platform grow with reliable tools, cleaner interfaces
+              and smooth interactions across devices.
             </p>
           </div>
-        </div>
+        </section>
 
+        {/* ================= MAIN GRID: FORM + INFO ================= */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Contact Form */}
+          {/* ========== LEFT: FORM ========== */}
           <div className="lg:col-span-2">
-            <div className="glow-card rounded-lg p-8">
-              <h2 className="text-2xl font-semibold text-white mb-6 flex items-center">
-                <MessageSquare className="h-6 w-6 text-blue-400 mr-2" />
-                Send us a Message
-              </h2>
+            <div className="glow-card rounded-2xl p-6 sm:p-8 bg-slate-950/90 border border-slate-800/80 shadow-xl shadow-black/50">
+              <div className="flex items-center justify-between gap-3 mb-6">
+                <div>
+                  <h2 className="text-2xl font-semibold text-white flex items-center gap-2">
+                    <MessageSquare className="h-6 w-6 text-sky-400" />
+                    Send us a message
+                  </h2>
+                  <p className="text-xs sm:text-sm text-slate-400 mt-1">
+                    Share as much detail as you can — it helps us respond
+                    faster and more accurately.
+                  </p>
+                </div>
+                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-emerald-500/50 text-[11px] text-emerald-200">
+                  <Clock className="w-3.5 h-3.5" />
+                  Typically responds in &lt; 24 hours
+                </div>
+              </div>
 
-              {submitStatus === 'success' && (
-                <div className="mb-6 p-4 result-green rounded-lg">
-                  <p className="text-white font-medium">
-                    Thank you for your message! We'll get back to you soon.
+              {submitStatus === "success" && (
+                <div className="mb-6 p-4 rounded-lg bg-emerald-500/15 border border-emerald-400/60">
+                  <p className="text-emerald-50 font-medium text-sm">
+                    Thank you for your message! Our team has received it and
+                    will get back to you by email as soon as possible.
+                  </p>
+                </div>
+              )}
+
+              {submitStatus === "error" && (
+                <div className="mb-6 p-4 rounded-lg bg-rose-500/15 border border-rose-400/60">
+                  <p className="text-rose-50 font-medium text-sm">
+                    Please confirm the required fields and your consent before
+                    submitting.
                   </p>
                 </div>
               )}
 
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Row: name + email */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label
@@ -124,7 +254,7 @@ const ContactUs: React.FC = () => {
                       value={formData.name}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 glow-input rounded-lg bg-slate-900 border border-slate-700 text-slate-50 placeholder-slate-500 focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                       placeholder="Enter your full name"
                     />
                   </div>
@@ -143,38 +273,86 @@ const ContactUs: React.FC = () => {
                       value={formData.email}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Enter your email address"
+                      className="w-full px-4 py-3 glow-input rounded-lg bg-slate-900 border border-slate-700 text-slate-50 placeholder-slate-500 focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                      placeholder="name@example.com"
                     />
                   </div>
                 </div>
 
-                <div>
-                  <label
-                    htmlFor="subject"
-                    className="block text-sm font-medium text-slate-300 mb-2"
-                  >
-                    Subject *
-                  </label>
-                  <select
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  >
-                    <option value="">Select a subject</option>
-                    <option value="general">General Inquiry</option>
-                    <option value="bug-report">Bug Report</option>
-                    <option value="feature-request">Feature Request</option>
-                    <option value="calculator-issue">Calculator Issue</option>
-                    <option value="business">Business Inquiry</option>
-                    <option value="feedback">Feedback</option>
-                    <option value="other">Other</option>
-                  </select>
+                {/* Subject + priority */}
+                <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-6">
+                  <div>
+                    <label
+                      htmlFor="subject"
+                      className="block text-sm font-medium text-slate-300 mb-2"
+                    >
+                      Subject *
+                    </label>
+                    <select
+                      id="subject"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-4 py-3 glow-input rounded-lg bg-slate-900 border border-slate-700 text-slate-50 focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm"
+                    >
+                      <option value="">Select a subject</option>
+                      <option value="general">General Inquiry</option>
+                      <option value="bug-report">Bug Report</option>
+                      <option value="feature-request">Feature Request</option>
+                      <option value="calculator-issue">Calculator Issue</option>
+                      <option value="business">Business / Partnership</option>
+                      <option value="api">API / Integration</option>
+                      <option value="feedback">Feedback</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="priority"
+                      className="block text-sm font-medium text-slate-300 mb-2"
+                    >
+                      Priority
+                    </label>
+                    <select
+                      id="priority"
+                      name="priority"
+                      value={formData.priority}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-3 glow-input rounded-lg bg-slate-900 border border-slate-700 text-slate-50 focus:ring-2 focus:ring-amber-500 focus:border-transparent text-sm"
+                    >
+                      <option value="low">Low</option>
+                      <option value="normal">Normal</option>
+                      <option value="high">High</option>
+                    </select>
+                  </div>
                 </div>
 
+                {/* Optional calculator / URL field */}
+                <div>
+                  <label
+                    htmlFor="toolUrl"
+                    className="block text-sm font-medium text-slate-300 mb-2"
+                  >
+                    Calculator or page link (optional)
+                  </label>
+                  <input
+                    type="url"
+                    id="toolUrl"
+                    name="toolUrl"
+                    value={formData.toolUrl}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 glow-input rounded-lg bg-slate-900 border border-slate-700 text-slate-50 placeholder-slate-500 focus:ring-2 focus:ring-sky-500 focus:border-transparent text-sm"
+                    placeholder="Paste the URL of the calculator or page you’re asking about"
+                  />
+                  <p className="text-[11px] text-slate-500 mt-1">
+                    This helps us reproduce issues or understand your request
+                    faster.
+                  </p>
+                </div>
+
+                {/* Message */}
                 <div>
                   <label
                     htmlFor="message"
@@ -189,15 +367,46 @@ const ContactUs: React.FC = () => {
                     onChange={handleInputChange}
                     required
                     rows={6}
-                    className="w-full px-4 py-3 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical"
-                    placeholder="Tell us how we can help you..."
+                    className="w-full px-4 py-3 glow-input rounded-lg bg-slate-900 border border-slate-700 text-slate-50 placeholder-slate-500 focus:ring-2 focus:ring-sky-500 focus:border-transparent resize-vertical text-sm"
+                    placeholder="Tell us how we can help you — include steps to reproduce any issue, what you expected, and what actually happened."
                   />
                 </div>
 
+                {/* Consent / options */}
+                <div className="space-y-2 text-xs sm:text-sm text-slate-300">
+                  <label className="flex items-start gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={consent}
+                      onChange={(e) => setConsent(e.target.checked)}
+                      className="mt-0.5 h-4 w-4 rounded border-slate-600 bg-slate-900 text-sky-500 focus:ring-sky-500"
+                    />
+                    <span>
+                      I understand that this form is for support and feedback
+                      only. I agree not to include passwords or highly sensitive
+                      financial information.
+                    </span>
+                  </label>
+
+                  <label className="flex items-start gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={subscribeUpdates}
+                      onChange={(e) => setSubscribeUpdates(e.target.checked)}
+                      className="mt-0.5 h-4 w-4 rounded border-slate-600 bg-slate-900 text-emerald-500 focus:ring-emerald-500"
+                    />
+                    <span>
+                      Send me occasional updates about new calculators and major
+                      product improvements (no spam, unsubscribe anytime).
+                    </span>
+                  </label>
+                </div>
+
+                {/* Button */}
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full flex items-center justify-center space-x-2 px-6 py-3 glow-button text-white rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-3 glow-button text-white rounded-lg bg-gradient-to-r from-sky-500 via-cyan-500 to-fuchsia-500 hover:brightness-110 transition-all shadow-lg shadow-cyan-900/60 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <>
@@ -208,6 +417,7 @@ const ContactUs: React.FC = () => {
                     <>
                       <Send className="h-5 w-5" />
                       <span>Send Message</span>
+                      <ArrowRight className="h-4 w-4" />
                     </>
                   )}
                 </button>
@@ -215,106 +425,144 @@ const ContactUs: React.FC = () => {
             </div>
           </div>
 
-          {/* Contact Information */}
+          {/* ========== RIGHT: INFO + FAQ + LINKS ========== */}
           <div className="space-y-6">
-            <div className="glow-card rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-white mb-4">Get in Touch</h3>
-              <div className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <Mail className="h-5 w-5 text-blue-400 mt-1 flex-shrink-0" />
+            {/* Contact details */}
+            <div className="glow-card rounded-2xl p-6 bg-slate-950/90 border border-slate-800/80">
+              <h3 className="text-xl font-semibold text-white mb-4">
+                Get in touch
+              </h3>
+              <div className="space-y-4 text-sm">
+                <div className="flex items-start gap-3">
+                  <Mail className="h-5 w-5 text-sky-400 mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="text-slate-300 text-sm">Email</p>
+                    <p className="text-slate-300">Email</p>
                     <p className="text-white font-medium">
                       support@calculatorhub.site
+                    </p>
+                    <p className="text-[11px] text-slate-500">
+                      For all calculator questions, bug reports and feature
+                      ideas.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-3">
-                  <Clock className="h-5 w-5 text-green-400 mt-1 flex-shrink-0" />
+                <div className="flex items-start gap-3">
+                  <Clock className="h-5 w-5 text-emerald-400 mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="text-slate-300 text-sm">Response Time</p>
+                    <p className="text-slate-300">Response time</p>
                     <p className="text-white font-medium">Within 24 hours</p>
+                    <p className="text-[11px] text-slate-500">
+                      Complex technical questions may take slightly longer if we
+                      need to reproduce or verify results.
+                    </p>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-3">
-                  <MapPin className="h-5 w-5 text-purple-400 mt-1 flex-shrink-0" />
+                <div className="flex items-start gap-3">
+                  <MapPin className="h-5 w-5 text-purple-400 mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="text-slate-300 text-sm">Location</p>
+                    <p className="text-slate-300">Location</p>
                     <p className="text-white font-medium">Global Service</p>
+                    <p className="text-[11px] text-slate-500">
+                      CalculatorHub is built for users worldwide — desktop,
+                      tablet and mobile.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <Phone className="h-5 w-5 text-amber-400 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-slate-300">Phone support</p>
+                    <p className="text-white font-medium">Email-first support</p>
+                    <p className="text-[11px] text-slate-500">
+                      We currently prioritise email to keep responses detailed,
+                      accurate and documented for you.
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="glow-card rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-white mb-4">Frequently Asked</h3>
-              <div className="space-y-4">
+            {/* FAQ */}
+            <div className="glow-card rounded-2xl p-6 bg-slate-950/90 border border-slate-800/80">
+              <h3 className="text-xl font-semibold text-white mb-4">
+                Frequently asked
+              </h3>
+              <div className="space-y-4 text-sm">
                 <div>
-                  <h4 className="text-white font-medium mb-2">
+                  <h4 className="text-white font-medium mb-1">
                     Are the calculators free?
                   </h4>
-                  <p className="text-slate-300 text-sm">
-                    Yes, all our calculators and converters are completely free to use.
+                  <p className="text-slate-300">
+                    Yes. Every calculator and converter on CalculatorHub is
+                    completely free to use with no hidden paywall.
                   </p>
                 </div>
 
                 <div>
-                  <h4 className="text-white font-medium mb-2">
+                  <h4 className="text-white font-medium mb-1">
                     Do I need to create an account?
                   </h4>
-                  <p className="text-slate-300 text-sm">
-                    No account required! All tools work instantly without signup.
+                  <p className="text-slate-300">
+                    No account is required. You can use all tools instantly
+                    without signing up.
                   </p>
                 </div>
 
                 <div>
-                  <h4 className="text-white font-medium mb-2">
+                  <h4 className="text-white font-medium mb-1">
                     Can I suggest new calculators?
                   </h4>
-                  <p className="text-slate-300 text-sm">
-                    Absolutely! Use the contact form to suggest new tools or features.
+                  <p className="text-slate-300">
+                    Absolutely. Use the contact form to send feature ideas,
+                    specific formulas or workflows you want us to support.
                   </p>
                 </div>
 
                 <div>
-                  <h4 className="text-white font-medium mb-2">
-                    Are calculations accurate?
+                  <h4 className="text-white font-medium mb-1">
+                    Are calculations guaranteed to be accurate?
                   </h4>
-                  <p className="text-slate-300 text-sm">
-                    We strive for accuracy, but always verify important calculations
-                    independently.
+                  <p className="text-slate-300">
+                    We work hard to keep formulas correct and test our tools
+                    regularly, but you should always double-check critical
+                    results with a professional or a second source.
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="glow-card rounded-lg p-6">
-              <h3 className="font-semibold text-white mb-8">Quick Access</h3>
+            {/* Quick links */}
+            <div className="glow-card rounded-2xl p-6 bg-slate-950/90 border border-slate-800/80">
+              <h3 className="font-semibold text-white mb-4">Quick access</h3>
               <ul className="space-y-2 text-sm">
                 <li>
                   <Link
-                    to="/privacy-policy"
-                    className="text-slate-300 hover:text-blue-400 transition-colors"
+                    to="/"
+                    className="flex items-center justify-between text-slate-300 hover:text-sky-300 transition-colors"
                   >
-                    Privacy Policy
+                    <span>All Calculators</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/privacy-policy"
+                    className="flex items-center justify-between text-slate-300 hover:text-sky-300 transition-colors"
+                  >
+                    <span>Privacy Policy</span>
+                    <ArrowRight className="w-4 h-4" />
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/terms-of-service"
-                    className="text-slate-300 hover:text-blue-400 transition-colors"
+                    className="flex items-center justify-between text-slate-300 hover:text-sky-300 transition-colors"
                   >
-                    Terms of Service
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/"
-                    className="text-slate-300 hover:text-blue-400 transition-colors"
-                  >
-                    All Calculators
+                    <span>Terms of Service</span>
+                    <ArrowRight className="w-4 h-4" />
                   </Link>
                 </li>
               </ul>
@@ -322,6 +570,7 @@ const ContactUs: React.FC = () => {
           </div>
         </div>
 
+        {/* Optional bottom Ad + cross-links */}
         <AdBanner type="bottom" />
       </div>
     </>
