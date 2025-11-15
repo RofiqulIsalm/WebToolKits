@@ -13,8 +13,22 @@ import {
   ArrowUp,
   ArrowDown,
   GripVertical,
+  BarChart3,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import SEOHead from "../components/SEOHead";
+import { toolsData } from "../data/toolsData";
+
+type ViewCountMap = Record<string, number>;
+
+type FlatCalculator = {
+  name: string;
+  path: string;
+  category: string;
+};
+
+const VIEW_COUNT_KEY = "ch_calc_view_counts";
 
 function moveItem<T>(list: T[], from: number, to: number): T[] {
   if (to < 0 || to >= list.length || from === to) return list;
@@ -27,6 +41,48 @@ function moveItem<T>(list: T[], from: number, to: number): T[] {
 const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
   const { config, setConfig } = useSiteConfig();
+
+  // Flatten all calculators from toolsData so we can show stats for each
+  const allCalculators: FlatCalculator[] = React.useMemo(
+    () =>
+      toolsData.flatMap((cat) =>
+        cat.tools.map((t) => ({
+          name: t.name,
+          path: t.path,
+          category: cat.name,
+        }))
+      ),
+    []
+  );
+
+  const [viewCounts, setViewCounts] = React.useState<ViewCountMap>({});
+
+  // Load view counts once (per browser) – CalculatorGuard should be writing here
+  React.useEffect(() => {
+    try {
+      const raw = localStorage.getItem(VIEW_COUNT_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === "object") {
+        setViewCounts(parsed as ViewCountMap);
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const totalCalculators = allCalculators.length;
+  const disabledSet = new Set(config.disabledCalculators);
+  const disabledCount = disabledSet.size;
+  const activeCount = totalCalculators - disabledCount;
+
+  // Sort calculators by views (high → low)
+  const sortedByViews: FlatCalculator[] = React.useMemo(() => {
+    return [...allCalculators].sort(
+      (a, b) =>
+        (viewCounts[b.path] ?? 0) - (viewCounts[a.path] ?? 0)
+    );
+  }, [allCalculators, viewCounts]);
 
   React.useEffect(() => {
     if (!isAdminAuthenticated()) {
@@ -63,11 +119,23 @@ const AdminDashboard: React.FC = () => {
     setConfig((prev) => ({ ...prev, footerDescription: value }));
   };
 
+  const toggleCalculator = (path: string) => {
+    setConfig((prev) => {
+      const disabled = new Set(prev.disabledCalculators);
+      if (disabled.has(path)) {
+        disabled.delete(path);
+      } else {
+        disabled.add(path);
+      }
+      return { ...prev, disabledCalculators: Array.from(disabled) };
+    });
+  };
+
   return (
     <>
       <SEOHead
         title="Admin Dashboard – CalculatorHub"
-        description="Internal admin dashboard for managing CalculatorHub sidebar and footer configuration."
+        description="Internal admin dashboard for managing CalculatorHub sidebar, footer content, and calculator visibility."
         canonical="https://calculatorhub.site/admin/dashboard"
         breadcrumbs={[
           { name: "Admin", url: "/admin/login" },
@@ -90,8 +158,8 @@ const AdminDashboard: React.FC = () => {
                 </span>
               </h1>
               <p className="text-xs text-slate-400">
-                Manage sidebar quick access, popular calculators, and footer
-                content. Use the up/down arrows to reorder items.
+                Manage sidebar quick access, popular calculators, footer
+                content, and calculator visibility.
               </p>
             </div>
           </div>
@@ -103,6 +171,26 @@ const AdminDashboard: React.FC = () => {
             <LogOut className="w-4 h-4" />
             Logout
           </button>
+        </div>
+
+        {/* Small KPI cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+          <div className="glow-card bg-slate-950/90 border border-slate-800/80 rounded-2xl p-4">
+            <p className="text-xs text-slate-400 mb-1">Total calculators</p>
+            <p className="text-2xl font-semibold text-white">{totalCalculators}</p>
+          </div>
+          <div className="glow-card bg-slate-950/90 border border-emerald-500/40 rounded-2xl p-4">
+            <p className="text-xs text-slate-400 mb-1">Active calculators</p>
+            <p className="text-2xl font-semibold text-emerald-300">
+              {activeCount}
+            </p>
+          </div>
+          <div className="glow-card bg-slate-950/90 border border-rose-500/40 rounded-2xl p-4">
+            <p className="text-xs text-slate-400 mb-1">Disabled calculators</p>
+            <p className="text-2xl font-semibold text-rose-300">
+              {disabledCount}
+            </p>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -541,6 +629,88 @@ const AdminDashboard: React.FC = () => {
             </div>
           </section>
         </div>
+
+        {/* Calculator usage + ON/OFF control */}
+        <section className="mt-10 glow-card bg-slate-950/90 border border-slate-800/80 rounded-2xl p-5">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-semibold text-cyan-300 flex items-center gap-2">
+              <BarChart3 className="w-4 h-4" />
+              Calculator usage & status
+            </h2>
+            <p className="text-[11px] text-slate-500">
+              Data is per-browser (from localStorage). Use the eye icon to
+              temporarily disable any calculator.
+            </p>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs md:text-sm border-collapse">
+              <thead>
+                <tr className="border-b border-slate-700 text-slate-400">
+                  <th className="text-left py-2 pr-2">Calculator</th>
+                  <th className="text-left py-2 px-2 hidden md:table-cell">
+                    Category
+                  </th>
+                  <th className="text-right py-2 px-2">Views</th>
+                  <th className="text-center py-2 pl-2">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedByViews.map((calc) => {
+                  const views = viewCounts[calc.path] ?? 0;
+                  const disabled = disabledSet.has(calc.path);
+                  return (
+                    <tr
+                      key={calc.path}
+                      className="border-b border-slate-800/70 last:border-b-0"
+                    >
+                      <td className="py-2 pr-2">
+                        <Link
+                          to={calc.path}
+                          className="text-slate-100 hover:text-cyan-300"
+                        >
+                          {calc.name}
+                        </Link>
+                        <div className="text-[10px] text-slate-500">
+                          {calc.path}
+                        </div>
+                      </td>
+                      <td className="py-2 px-2 hidden md:table-cell text-slate-400">
+                        {calc.category}
+                      </td>
+                      <td className="py-2 px-2 text-right text-slate-200">
+                        {views}
+                      </td>
+                      <td className="py-2 pl-2">
+                        <button
+                          type="button"
+                          onClick={() => toggleCalculator(calc.path)}
+                          className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-[11px] ${
+                            disabled
+                              ? "bg-rose-500/15 border border-rose-500/60 text-rose-200"
+                              : "bg-emerald-500/15 border border-emerald-500/60 text-emerald-200"
+                          }`}
+                        >
+                          {disabled ? (
+                            <>
+                              <EyeOff className="w-3 h-3" />
+                              Off
+                            </>
+                          ) : (
+                            <>
+                              <Eye className="w-3 h-3" />
+                              On
+                            </>
+                          )}
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </section>
 
         {/* Small preview link */}
         <div className="mt-6 text-xs text-slate-500">
