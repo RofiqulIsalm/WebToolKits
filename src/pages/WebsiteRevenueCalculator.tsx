@@ -109,12 +109,15 @@ const WebsiteRevenueCalculator: React.FC = () => {
 
   // -------- Effects --------
   useEffect(() => {
-    const saved = localStorage.getItem(ADVANCED_LS_KEY);
+    // Guard for any future SSR usage
+    if (typeof window === "undefined") return;
+    const saved = window.localStorage.getItem(ADVANCED_LS_KEY);
     if (saved === "1") setAdvancedEnabled(true);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(ADVANCED_LS_KEY, advancedEnabled ? "1" : "0");
+    if (typeof window === "undefined") return;
+    window.localStorage.setItem(ADVANCED_LS_KEY, advancedEnabled ? "1" : "0");
   }, [advancedEnabled]);
 
   useEffect(() => {
@@ -235,16 +238,13 @@ const WebsiteRevenueCalculator: React.FC = () => {
     // Network mix revenue
     const netRev: Record<NetworkKey, number> = {
       adsense:
-        (impressions * (networkShare.adsense / 100)) /
-        1000 *
+        ((impressions * (networkShare.adsense / 100)) / 1000) *
         networkEcpm.adsense,
       adsterra:
-        (impressions * (networkShare.adsterra / 100)) /
-        1000 *
+        ((impressions * (networkShare.adsterra / 100)) / 1000) *
         networkEcpm.adsterra,
       monetag:
-        (impressions * (networkShare.monetag / 100)) /
-        1000 *
+        ((impressions * (networkShare.monetag / 100)) / 1000) *
         networkEcpm.monetag,
     };
 
@@ -351,326 +351,356 @@ const WebsiteRevenueCalculator: React.FC = () => {
 
   return (
     <>
-         <SEOHead
-              title="Website Revenue Calculator (2025–2026) – AdSense, adsterra & Monetag RPM Estimator"
-              description="Estimate your website earnings from AdSense, adsterra, Monetag or a blend of ad networks. Model sessions, pageviews, ad layout, viewability, fill rate, network mix and extras in Normal or Advanced Mode."
-              keywords={[
-                "website revenue calculator",
-                "adsense revenue estimator",
-                "adsense rpm calculator",
-                "adsterra monetag rpm calculator",
-                "website ads income calculator",
-                "epmv calculator",
-                "page rpm calculator",
-                "display ads revenue calculator",
-                "blog adsense earnings estimator",
-                "website monetization calculator"
-              ]}
-              canonical="https://calculatorhub.site/adsense-revenue-calculator"
-              schemaData={[
-                /* 1) WebPage + embedded Article */
-                {
-                  "@context": "https://schema.org",
-                  "@type": "WebPage",
-                  "@id": "https://calculatorhub.site/adsense-revenue-calculator#webpage",
-                  "url": "https://calculatorhub.site/adsense-revenue-calculator",
-                  "name": "Website Revenue Calculator – AdSense, adsterra & Monetag RPM Estimator",
-                  "headline": "Website Revenue Calculator – AdSense, adsterra & Monetag RPM Estimator",
-                  "description": "Premium website revenue calculator for AdSense, adsterra and Monetag. Estimate revenue using sessions, pageviews, ad layout, viewability, fill rate, network mix and extra income streams.",
-                  "inLanguage": "en",
-                  "isPartOf": { "@id": "https://calculatorhub.site/#website" },
-                  "primaryImageOfPage": {
-                    "@type": "ImageObject",
-                    "@id": "https://calculatorhub.site/images/website_revenue_calculator.webp#primaryimg",
-                    "url": "https://calculatorhub.site/images/website_revenue_calculator.webp",
-                    "width": 1200,
-                    "height": 675
-                  },
-                  "mainEntity": {
-                    "@type": "Article",
-                    "@id": "https://calculatorhub.site/adsense-revenue-calculator#article",
-                    "headline": "Website Revenue Calculator — Model AdSense, adsterra & Monetag Income",
-                    "description": "Interactive website revenue calculator that converts traffic and layout data into estimated monthly and yearly earnings, including RPM, EPMV and network-mix breakdowns.",
-                    "image": [
-                      "https://calculatorhub.site/images/website_revenue_calculator.webp"
-                    ],
-                    "author": {
-                      "@type": "Organization",
-                      "name": "CalculatorHub",
-                      "url": "https://calculatorhub.site"
-                    },
-                    "publisher": { "@id": "https://calculatorhub.site/#organization" },
-                    "datePublished": "2025-11-15",
-                    "dateModified": "2025-11-15",
-                    "mainEntityOfPage": {
-                      "@id": "https://calculatorhub.site/adsense-revenue-calculator#webpage"
-                    },
-                    "articleSection": [
-                      "How the calculator works",
-                      "Sessions, pageviews & impressions",
-                      "RPM, EPMV and eCPM",
-                      "Advanced Mode and network mix",
-                      "Device split & extra revenue",
-                      "FAQ"
-                    ]
-                  }
-                },
-            
-                /* 2) Breadcrumbs */
-                {
-                  "@context": "https://schema.org",
-                  "@type": "BreadcrumbList",
-                  "@id": "https://calculatorhub.site/adsense-revenue-calculator#breadcrumbs",
-                  "itemListElement": [
-                    {
-                      "@type": "ListItem",
-                      "position": 1,
-                      "name": "Home",
-                      "item": "https://calculatorhub.site/"
-                    },
-                    {
-                      "@type": "ListItem",
-                      "position": 2,
-                      "name": "Misc Tools",
-                      "item": "https://calculatorhub.site/category/misc-tools"
-                    },
-                    {
-                      "@type": "ListItem",
-                      "position": 3,
-                      "name": "Website Revenue Calculator",
-                      "item": "https://calculatorhub.site/adsense-revenue-calculator"
-                    }
-                  ]
-                },
-            
-                /* 3) FAQ */
-                {
-                  "@context": "https://schema.org",
-                  "@type": "FAQPage",
-                  "@id": "https://calculatorhub.site/adsense-revenue-calculator#faq",
-                  "mainEntity": [
-                    {
-                      "@type": "Question",
-                      "name": "What does this website revenue calculator estimate?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "The calculator estimates your monthly and yearly website earnings based on sessions, pageviews, ad units per page, viewability, fill rate and an RPM or eCPM value. In Advanced Mode, it also models a network mix (AdSense, adsterra, Monetag), device split and extra income such as direct deals and affiliate revenue."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "What is the difference between RPM and EPMV?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "RPM usually refers to revenue per 1,000 pageviews, while EPMV (earnings per thousand visitors) measures revenue per 1,000 sessions. The calculator shows both metrics so you can evaluate layout changes and network performance more accurately."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Can I use this calculator for adsterra and Monetag as well as AdSense?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Yes. In Advanced Mode you can split traffic between AdSense, adsterra and Monetag, assign a separate eCPM to each network and see how much revenue each contributes to your total monthly earnings."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Does device mix (mobile vs desktop) affect the estimate?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Yes. Different devices often have different eCPMs. The calculator lets you define desktop, mobile and tablet shares plus a mobile eCPM factor, which adjusts the final estimate to better reflect your real-world performance."
-                      }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Is the Website Revenue Calculator free to use?",
-                      "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Yes. The Website Revenue Calculator on CalculatorHub is completely free, works in any modern browser and can be used as often as you like for planning and optimization."
-                      }
-                    }
-                  ]
-                },
-            
-                /* 4) WebApplication */
-                {
-                  "@context": "https://schema.org",
-                  "@type": "WebApplication",
-                  "@id": "https://calculatorhub.site/adsense-revenue-calculator#webapp",
-                  "name": "Website Revenue Calculator",
-                  "url": "https://calculatorhub.site/adsense-revenue-calculator",
-                  "applicationCategory": "FinanceApplication",
-                  "operatingSystem": "Web",
-                  "description": "Interactive website revenue calculator that models AdSense, adsterra and Monetag RPM with traffic inputs, layout controls, network mix and device split.",
-                  "publisher": { "@id": "https://calculatorhub.site/#organization" },
-                  "image": ["https://calculatorhub.site/images/website_revenue_calculator.webp"],
-                  "offers": {
-                    "@type": "Offer",
-                    "price": "0",
-                    "priceCurrency": "USD"
-                  }
-                },
-            
-                /* 5) SoftwareApplication */
-                {
-                  "@context": "https://schema.org",
-                  "@type": "SoftwareApplication",
-                  "@id": "https://calculatorhub.site/adsense-revenue-calculator#software",
-                  "name": "Website RPM & EPMV Estimator",
-                  "applicationCategory": "BusinessApplication",
-                  "operatingSystem": "All",
-                  "url": "https://calculatorhub.site/adsense-revenue-calculator",
-                  "publisher": { "@id": "https://calculatorhub.site/#organization" },
-                  "description": "Advanced website RPM, EPMV and eCPM estimator for publishers using AdSense, adsterra, Monetag and other ad networks."
-                },
-            
-                /* 6) WebSite */
-                {
-                  "@context": "https://schema.org",
-                  "@type": "WebSite",
-                  "@id": "https://calculatorhub.site/#website",
-                  "url": "https://calculatorhub.site",
-                  "name": "CalculatorHub",
-                  "publisher": { "@id": "https://calculatorhub.site/#organization" },
-                  "potentialAction": {
-                    "@type": "SearchAction",
-                    "target": "https://calculatorhub.site/search?q={query}",
-                    "query-input": "required name=query"
-                  }
-                },
-            
-                /* 7) Organization */
-                {
-                  "@context": "https://schema.org",
-                  "@type": "Organization",
-                  "@id": "https://calculatorhub.site/#organization",
-                  "name": "CalculatorHub",
-                  "url": "https://calculatorhub.site",
-                  "logo": {
-                    "@type": "ImageObject",
-                    "url": "https://calculatorhub.site/images/logo.png"
-                  }
-                }
-              ]}
-              breadcrumbs={[
-                { name: "Misc Tools", url: "/category/misc-tools" },
-                {
-                  name: "Website Revenue Calculator",
-                  url: "/adsense-revenue-calculator"
-                }
-              ]}
-            />
-            
-            {/** ===== Outside meta/link tags for Website Revenue page ===== */}
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <meta
-              name="robots"
-              content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
-            />
-            <link
-              rel="canonical"
-              href="https://calculatorhub.site/adsense-revenue-calculator"
-            />
-            
-            {/** Hreflang */}
-            <link
-              rel="alternate"
-              href="https://calculatorhub.site/adsense-revenue-calculator"
-              hreflang="en"
-            />
-            <link
-              rel="alternate"
-              href="https://calculatorhub.site/bn/adsense-revenue-calculator"
-              hreflang="bn"
-            />
-            <link
-              rel="alternate"
-              href="https://calculatorhub.site/adsense-revenue-calculator"
-              hreflang="x-default"
-            />
-            
-            {/** Open Graph */}
-            <meta property="og:type" content="website" />
-            <meta property="og:site_name" content="CalculatorHub" />
-            <meta
-              property="og:title"
-              content="Website Revenue Calculator (2025–2026) — AdSense, adsterra & Monetag RPM Estimator"
-            />
-            <meta
-              property="og:description"
-              content="Estimate website revenue from AdSense, adsterra and Monetag using traffic, layout, viewability, fill rate and network mix. Includes Advanced Mode with device split and extra income."
-            />
-            <meta
-              property="og:url"
-              content="https://calculatorhub.site/adsense-revenue-calculator"
-            />
-            <meta
-              property="og:image"
-              content="https://calculatorhub.site/images/website_revenue_calculator.webp"
-            />
-            <meta property="og:image:width" content="1200" />
-            <meta property="og:image:height" content="630" />
-            <meta
-              property="og:image:alt"
-              content="Website revenue calculator UI showing sessions, RPM and ad network mix cards"
-            />
-            <meta property="og:locale" content="en_US" />
-            
-            {/** Twitter */}
-            <meta name="twitter:card" content="summary_large_image" />
-            <meta
-              name="twitter:title"
-              content="Website Revenue Calculator — AdSense, adsterra & Monetag RPM Estimator"
-            />
-            <meta
-              name="twitter:description"
-              content="Free website RPM & EPMV calculator with network mix, device split and extra income inputs for AdSense, adsterra and Monetag publishers."
-            />
-            <meta
-              name="twitter:image"
-              content="https://calculatorhub.site/images/website_revenue_calculator.webp"
-            />
-            <meta name="twitter:creator" content="@CalculatorHub" />
-            <meta name="twitter:site" content="@CalculatorHub" />
-            
-            {/** PWA & theme */}
-            <link rel="manifest" href="/site.webmanifest" />
-            <link rel="icon" href="/favicon.ico" />
-            <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
-            <meta name="theme-color" content="#0ea5e9" />
-            
-            {/** Performance */}
-            <link
-              rel="preconnect"
-              href="https://fonts.gstatic.com"
-              crossOrigin=""
-            />
-            <link rel="preconnect" href="https://fonts.googleapis.com" />
-            <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
-            <link
-              rel="preload"
-              as="image"
-              href="/images/website_revenue_calculator.webp"
-              fetchpriority="high"
-            />
-            <link
-              rel="preload"
-              href="/fonts/Inter-Variable.woff2"
-              as="font"
-              type="font/woff2"
-              crossOrigin=""
-            />
-            
-            {/** Misc */}
-            <link
-              rel="sitemap"
-              type="application/xml"
-              href="https://calculatorhub.site/sitemap.xml"
-            />
-            <meta name="referrer" content="no-referrer-when-downgrade" />
-            <meta name="format-detection" content="telephone=no" />
+      <SEOHead
+        title="Website Revenue Calculator (2025–2026) – AdSense, adsterra & Monetag RPM Estimator"
+        description="Estimate your website earnings from AdSense, adsterra, Monetag or a blend of ad networks. Model sessions, pageviews, ad layout, viewability, fill rate, network mix and extras in Normal or Advanced Mode."
+        keywords={[
+          "website revenue calculator",
+          "adsense revenue estimator",
+          "adsense rpm calculator",
+          "adsterra monetag rpm calculator",
+          "website ads income calculator",
+          "epmv calculator",
+          "page rpm calculator",
+          "display ads revenue calculator",
+          "blog adsense earnings estimator",
+          "website monetization calculator",
+        ]}
+        canonical="https://calculatorhub.site/adsense-revenue-calculator"
+        schemaData={[
+          /* 1) WebPage + embedded Article */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id":
+              "https://calculatorhub.site/adsense-revenue-calculator#webpage",
+            url: "https://calculatorhub.site/adsense-revenue-calculator",
+            name: "Website Revenue Calculator – AdSense, adsterra & Monetag RPM Estimator",
+            headline:
+              "Website Revenue Calculator – AdSense, adsterra & Monetag RPM Estimator",
+            description:
+              "Premium website revenue calculator for AdSense, adsterra and Monetag. Estimate revenue using sessions, pageviews, ad layout, viewability, fill rate, network mix and extra income streams.",
+            inLanguage: "en",
+            isPartOf: { "@id": "https://calculatorhub.site/#website" },
+            primaryImageOfPage: {
+              "@type": "ImageObject",
+              "@id":
+                "https://calculatorhub.site/images/website_revenue_calculator.webp#primaryimg",
+              url:
+                "https://calculatorhub.site/images/website_revenue_calculator.webp",
+              width: 1200,
+              height: 675,
+            },
+            mainEntity: {
+              "@type": "Article",
+              "@id":
+                "https://calculatorhub.site/adsense-revenue-calculator#article",
+              headline:
+                "Website Revenue Calculator — Model AdSense, adsterra & Monetag Income",
+              description:
+                "Interactive website revenue calculator that converts traffic and layout data into estimated monthly and yearly earnings, including RPM, EPMV and network-mix breakdowns.",
+              image: [
+                "https://calculatorhub.site/images/website_revenue_calculator.webp",
+              ],
+              author: {
+                "@type": "Organization",
+                name: "CalculatorHub",
+                url: "https://calculatorhub.site",
+              },
+              publisher: {
+                "@id": "https://calculatorhub.site/#organization",
+              },
+              datePublished: "2025-11-15",
+              dateModified: "2025-11-15",
+              mainEntityOfPage: {
+                "@id":
+                  "https://calculatorhub.site/adsense-revenue-calculator#webpage",
+              },
+              articleSection: [
+                "How the calculator works",
+                "Sessions, pageviews & impressions",
+                "RPM, EPMV and eCPM",
+                "Advanced Mode and network mix",
+                "Device split & extra revenue",
+                "FAQ",
+              ],
+            },
+          },
 
+          /* 2) Breadcrumbs */
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id":
+              "https://calculatorhub.site/adsense-revenue-calculator#breadcrumbs",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://calculatorhub.site/",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Misc Tools",
+                item:
+                  "https://calculatorhub.site/category/misc-tools",
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: "Website Revenue Calculator",
+                item:
+                  "https://calculatorhub.site/adsense-revenue-calculator",
+              },
+            ],
+          },
 
+          /* 3) FAQ */
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id":
+              "https://calculatorhub.site/adsense-revenue-calculator#faq",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "What does this website revenue calculator estimate?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text:
+                    "The calculator estimates your monthly and yearly website earnings based on sessions, pageviews, ad units per page, viewability, fill rate and an RPM or eCPM value. In Advanced Mode, it also models a network mix (AdSense, adsterra, Monetag), device split and extra income such as direct deals and affiliate revenue.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "What is the difference between RPM and EPMV?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text:
+                    "RPM usually refers to revenue per 1,000 pageviews, while EPMV (earnings per thousand visitors) measures revenue per 1,000 sessions. The calculator shows both metrics so you can evaluate layout changes and network performance more accurately.",
+                },
+              },
+              {
+                "@type": "Question",
+                name:
+                  "Can I use this calculator for adsterra and Monetag as well as AdSense?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text:
+                    "Yes. In Advanced Mode you can split traffic between AdSense, adsterra and Monetag, assign a separate eCPM to each network and see how much revenue each contributes to your total monthly earnings.",
+                },
+              },
+              {
+                "@type": "Question",
+                name:
+                  "Does device mix (mobile vs desktop) affect the estimate?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text:
+                    "Yes. Different devices often have different eCPMs. The calculator lets you define desktop, mobile and tablet shares plus a mobile eCPM factor, which adjusts the final estimate to better reflect your real-world performance.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Is the Website Revenue Calculator free to use?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text:
+                    "Yes. The Website Revenue Calculator on CalculatorHub is completely free, works in any modern browser and can be used as often as you like for planning and optimization.",
+                },
+              },
+            ],
+          },
+
+          /* 4) WebApplication */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id":
+              "https://calculatorhub.site/adsense-revenue-calculator#webapp",
+            name: "Website Revenue Calculator",
+            url: "https://calculatorhub.site/adsense-revenue-calculator",
+            applicationCategory: "FinanceApplication",
+            operatingSystem: "Web",
+            description:
+              "Interactive website revenue calculator that models AdSense, adsterra and Monetag RPM with traffic inputs, layout controls, network mix and device split.",
+            publisher: { "@id": "https://calculatorhub.site/#organization" },
+            image: [
+              "https://calculatorhub.site/images/website_revenue_calculator.webp",
+            ],
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "USD",
+            },
+          },
+
+          /* 5) SoftwareApplication */
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "@id":
+              "https://calculatorhub.site/adsense-revenue-calculator#software",
+            name: "Website RPM & EPMV Estimator",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "All",
+            url: "https://calculatorhub.site/adsense-revenue-calculator",
+            publisher: { "@id": "https://calculatorhub.site/#organization" },
+            description:
+              "Advanced website RPM, EPMV and eCPM estimator for publishers using AdSense, adsterra, Monetag and other ad networks.",
+          },
+
+          /* 6) WebSite */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://calculatorhub.site/#website",
+            url: "https://calculatorhub.site",
+            name: "CalculatorHub",
+            publisher: { "@id": "https://calculatorhub.site/#organization" },
+            potentialAction: {
+              "@type": "SearchAction",
+              target: "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query",
+            },
+          },
+
+          /* 7) Organization */
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://calculatorhub.site/#organization",
+            name: "CalculatorHub",
+            url: "https://calculatorhub.site",
+            logo: {
+              "@type": "ImageObject",
+              url: "https://calculatorhub.site/images/logo.png",
+            },
+          },
+        ]}
+        breadcrumbs={[
+          { name: "Misc Tools", url: "/category/misc-tools" },
+          {
+            name: "Website Revenue Calculator",
+            url: "/adsense-revenue-calculator",
+          },
+        ]}
+      />
+
+      {/* ===== Outside meta/link tags for Website Revenue page ===== */}
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta
+        name="robots"
+        content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+      />
+      <link
+        rel="canonical"
+        href="https://calculatorhub.site/adsense-revenue-calculator"
+      />
+
+      {/* Hreflang */}
+      <link
+        rel="alternate"
+        href="https://calculatorhub.site/adsense-revenue-calculator"
+        hreflang="en"
+      />
+      <link
+        rel="alternate"
+        href="https://calculatorhub.site/bn/adsense-revenue-calculator"
+        hreflang="bn"
+      />
+      <link
+        rel="alternate"
+        href="https://calculatorhub.site/adsense-revenue-calculator"
+        hreflang="x-default"
+      />
+
+      {/* Open Graph */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="CalculatorHub" />
+      <meta
+        property="og:title"
+        content="Website Revenue Calculator (2025–2026) — AdSense, adsterra & Monetag RPM Estimator"
+      />
+      <meta
+        property="og:description"
+        content="Estimate website revenue from AdSense, adsterra and Monetag using traffic, layout, viewability, fill rate and network mix. Includes Advanced Mode with device split and extra income."
+      />
+      <meta
+        property="og:url"
+        content="https://calculatorhub.site/adsense-revenue-calculator"
+      />
+      <meta
+        property="og:image"
+        content="https://calculatorhub.site/images/website_revenue_calculator.webp"
+      />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta
+        property="og:image:alt"
+        content="Website revenue calculator UI showing sessions, RPM and ad network mix cards"
+      />
+      <meta property="og:locale" content="en_US" />
+
+      {/* Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta
+        name="twitter:title"
+        content="Website Revenue Calculator — AdSense, adsterra & Monetag RPM Estimator"
+      />
+      <meta
+        name="twitter:description"
+        content="Free website RPM & EPMV calculator with network mix, device split and extra income inputs for AdSense, adsterra and Monetag publishers."
+      />
+      <meta
+        name="twitter:image"
+        content="https://calculatorhub.site/images/website_revenue_calculator.webp"
+      />
+      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:site" content="@CalculatorHub" />
+
+      {/* PWA & theme */}
+      <link rel="manifest" href="/site.webmanifest" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <meta name="theme-color" content="#0ea5e9" />
+
+      {/* Performance */}
+      <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossOrigin=""
+      />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link
+        rel="preconnect"
+        href="https://cdn.jsdelivr.net"
+        crossOrigin=""
+      />
+      <link
+        rel="preload"
+        as="image"
+        href="/images/website_revenue_calculator.webp"
+        fetchpriority="high"
+      />
+      <link
+        rel="preload"
+        href="/fonts/Inter-Variable.woff2"
+        as="font"
+        type="font/woff2"
+        crossOrigin=""
+      />
+
+      {/* Misc */}
+      <link
+        rel="sitemap"
+        type="application/xml"
+        href="https://calculatorhub.site/sitemap.xml"
+      />
+      <meta name="referrer" content="no-referrer-when-downgrade" />
+      <meta name="format-detection" content="telephone=no" />
 
       <div className="max-w-4xl mx-auto p-4 sm:p-6">
         <Breadcrumbs
@@ -1412,8 +1442,7 @@ const WebsiteRevenueCalculator: React.FC = () => {
           </div>
         </div>
 
-       
-       {/* ==================== SEO CONTENT SECTION ==================== */}
+        {/* ==================== SEO CONTENT SECTION ==================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-12 mb-12 leading-relaxed text-slate-300">
         
           {/* ===== Table of Contents ===== */}
@@ -2156,7 +2185,7 @@ const WebsiteRevenueCalculator: React.FC = () => {
             </div>
           </section>
         </section>
-        
+
         {/* =================== AUTHOR & CROSS-LINKS SECTION =================== */}
         <section className="mt-6 border-t border-gray-800 pt-6 text-slate-300 max-w-4xl mx-auto mb-16">
           <div className="flex items-center gap-3">
@@ -2177,7 +2206,7 @@ const WebsiteRevenueCalculator: React.FC = () => {
               </p>
             </div>
           </div>
-        
+
           <div className="mt-8 bg-gradient-to-r from-slate-900/80 via-slate-950/80 to-slate-900/80 rounded-xl border border-slate-700 shadow-inner p-4">
             <p className="text-slate-200 text-sm mb-2 font-medium tracking-wide">
               🔗 Explore more creator &amp; ad revenue tools on CalculatorHub:
@@ -2189,16 +2218,18 @@ const WebsiteRevenueCalculator: React.FC = () => {
               >
                 <span className="text-red-400">▶️</span> YouTube Revenue Calculator
               </Link>
-        
+
+              {/* ✅ FIXED: match App.tsx route */}
               <Link
-                to="/tiktok-revenue-calculator"
+                to="/tiktok-creator-fund-estimator"
                 className="flex items-center gap-2 bg-[#020617] hover:bg-pink-600/15 text-pink-300 hover:text-pink-400 px-3 py-2 rounded-md border border-slate-700 hover:border-pink-500 transition-all duration-200"
               >
                 <span className="text-pink-400">🎵</span> TikTok Revenue Calculator
               </Link>
-        
+
+              {/* ✅ FIXED: match App.tsx route */}
               <Link
-                to="/app-revenue-calculator"
+                to="/admob-ecpm-estimator"
                 className="flex items-center gap-2 bg-[#020617] hover:bg-emerald-600/15 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
               >
                 <span className="text-emerald-400">📱</span> App Revenue Calculator
@@ -2206,7 +2237,6 @@ const WebsiteRevenueCalculator: React.FC = () => {
             </div>
           </div>
         </section>
-
 
         <Suspense fallback={null}>
           <AdBanner type="bottom" />
