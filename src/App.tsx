@@ -259,9 +259,9 @@ function App() {
               <Route path="/category/:categorySlug" element={<CategoryPage />} />
 
               {/* Unit Converters */}
-              <Route path="/length-converter" element={<LengthConverter />} />
-              <Route path="/weight-converter" element={<WeightConverter />} />
-              <Route path="/temperature-converter" element={<TemperatureConverter />} />
+              <Route path="/length-converter" element={withGuard<LengthConverter />} />
+              <Route path="/weight-converter" element={withGuard<WeightConverter />} />
+              <Route path="/temperature-converter" element={withGuard<TemperatureConverter />} />
               <Route path="/area-converter" element={<AreaConverter />} />
               <Route path="/speed-converter" element={<SpeedConverter />} />
               <Route path="/volume-converter" element={<VolumeConverter />} />
