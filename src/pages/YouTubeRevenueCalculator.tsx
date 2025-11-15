@@ -14,11 +14,15 @@ import {
   RefreshCw,
 } from "lucide-react";
 
-import AdBanner from "../components/AdBanner";
 import SEOHead from "../components/SEOHead";
 import Breadcrumbs from "../components/Breadcrumbs";
-import RelatedCalculators from "../components/RelatedCalculators";
 import { generateCalculatorSchema } from "../utils/seoData";
+
+
+const AdBanner = React.lazy(() => import("../components/AdBanner"));
+const RelatedCalculators = React.lazy(
+  () => import("../components/RelatedCalculators")
+);
 
 type CountryCpm = {
   code: string;
@@ -1149,8 +1153,9 @@ const YouTubeRevenueCalculator: React.FC = () => {
             </div>
           </div>
         </div>
-
-        <AdBanner />
+        <Suspense fallback={null}>
+          <AdBanner />
+        </Suspense>
           {/* ==================== SEO CONTENT SECTION ==================== */}
           <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
           
@@ -1670,25 +1675,27 @@ const YouTubeRevenueCalculator: React.FC = () => {
                 </Link>
           
                 <Link
-                  to="/admob-ecpm-estimator"
+                  to="/home-loan-calculator"
                   className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
                 >
-                  <span className="text-indigo-400">📱</span> App Revenue Calculator
+                  <span className="text-indigo-400">🏡</span> Mortgage &amp; Home Loan Calculator
                 </Link>
           
                 <Link
-                  to="/facebook-instream-revenue-estimator"
+                  to="/loan-affordability-calculator"
                   className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
                 >
-                  <span className="text-sky-400">📊</span> Facebook Revenue Calculator
+                  <span className="text-sky-400">📊</span> Loan Affordability Calculator
                 </Link>
               </div>
             </div>
           </section>
 
         
-
-        <RelatedCalculators currentPath="/youtube-revenue-calculator" />
+        <Suspense fallback={null}>
+          <AdBanner />  
+          <RelatedCalculators currentPath="/youtube-revenue-calculator" />
+        </Suspense>
       </div>
     </>
   );
