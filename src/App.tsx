@@ -415,6 +415,8 @@ function App() {
                 path="/admin/upload-image"
                 element={<AdminImageUpload />}
               />
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin/dashboard" element={<AdminDashboard />} />
 
               {/* Legal Pages */}
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
