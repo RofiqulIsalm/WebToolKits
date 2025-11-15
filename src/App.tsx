@@ -7,6 +7,8 @@ import Layout from "./components/Layout";
 import ScrollToTop from "./components/ScrollToTop";
 import { SiteConfigProvider } from "./config/siteConfig"; 
 import PageViewTracker from "./components/PageViewTracker";
+import CalculatorGuard from "./components/CalculatorGuard";
+
 
 
 // ========== Lazy-loaded Pages (Code Splitting) ==========
