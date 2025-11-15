@@ -17,6 +17,7 @@ export interface SiteConfigState {
   footerPopular: NavLink[];      // Footer "Popular Calculators"
   footerDescription: string;     // Footer description text
   socialLinks: FooterLink[];     // Footer social links
+  disabledCalculators: string[];  
 }
 
 const STORAGE_KEY = "calculatorhub_site_config_v1";
