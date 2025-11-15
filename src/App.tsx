@@ -6,6 +6,8 @@ import { HelmetProvider } from "react-helmet-async";
 import Layout from "./components/Layout";
 import ScrollToTop from "./components/ScrollToTop";
 import { SiteConfigProvider } from "./config/siteConfig"; 
+import PageViewTracker from "./components/PageViewTracker";
+
 
 // ========== Lazy-loaded Pages (Code Splitting) ==========
 
