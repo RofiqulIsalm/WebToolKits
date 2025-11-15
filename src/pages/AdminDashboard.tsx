@@ -25,6 +25,9 @@ type SimpleTool = {
   path: string;
 };
 
+
+const { config, setConfig } = useSiteConfig();
+
 const defaultQuickAccess: SimpleTool[] = [
   { name: "Currency Converter", path: "/currency-converter" },
   { name: "Loan EMI Calculator", path: "/loan-emi-calculator" },
