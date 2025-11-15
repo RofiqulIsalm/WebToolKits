@@ -90,7 +90,8 @@ const AppRevenueCalculator: React.FC = () => {
 
   // Extra revenue sources
   const [iapMonthly, setIapMonthly] = useState<number>(0); // in-app purchases
-  const [subscriptionsMonthly, setSubscriptionsMonthly] = useState<number>(0);
+  const [subscriptionsMonthly, setSubscriptionsMonthly] =
+    useState<number>(0);
   const [otherMonthly, setOtherMonthly] = useState<number>(0);
 
   // ---------- Effects ----------
@@ -274,20 +275,231 @@ const AppRevenueCalculator: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="App Revenue Calculator – AdMob / In-App Ads Earnings Estimator"
-        description="Estimate mobile app revenue from AdMob and in-app ads. Enter DAU, sessions, ads per session, fill rate and eCPM to see projected monthly and yearly earnings. Use Advanced Mode to split by ad format and add IAP/subscription income."
+        title="App Revenue Calculator (2025–2026) – AdMob & In-App Ads Earnings Estimator"
+        description="Estimate mobile app revenue from AdMob and in-app ads using a simple DAU-based model. Enter DAU, sessions, ad impressions, fill rate and eCPM to project monthly and yearly earnings. Advanced Mode lets you split by ad format and add IAP/subscription income."
+        keywords={[
+          "app revenue calculator",
+          "admob revenue calculator",
+          "admob revenue estimator",
+          "mobile app ads income",
+          "app monetization calculator",
+          "app revenue estimator",
+          "ARPDAU calculator",
+          "in-app purchase revenue calculator",
+          "subscription app revenue estimator",
+          "mobile game monetization calculator",
+        ]}
         canonical="https://calculatorhub.site/app-revenue-calculator"
-        schemaData={generateCalculatorSchema(
-          "App Revenue Calculator",
-          "Estimate app revenue from ads with a simple DAU-based model. Add Advanced Mode to split impressions by banner, interstitial and rewarded ads, plus in-app purchase and subscription revenue.",
-          "/app-revenue-calculator",
-          [
-            "app revenue calculator",
-            "admob revenue estimator",
-            "mobile app ads income",
-            "app monetization calculator",
-          ]
-        )}
+        schemaData={[
+          /* 1) WebPage + embedded Article */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "@id":
+              "https://calculatorhub.site/app-revenue-calculator#webpage",
+            url: "https://calculatorhub.site/app-revenue-calculator",
+            name: "App Revenue Calculator – AdMob & Mobile App Monetization Earnings Estimator",
+            headline:
+              "App Revenue Calculator – AdMob & Mobile App Monetization Earnings Estimator",
+            description:
+              "Free DAU-based app revenue calculator for estimating AdMob and in-app ads earnings. Model monthly and yearly revenue with DAU, sessions, impressions, fill rate and eCPM. Advanced Mode supports banner, interstitial and rewarded ads plus in-app purchases and subscriptions.",
+            inLanguage: "en",
+            isPartOf: { "@id": "https://calculatorhub.site/#website" },
+            primaryImageOfPage: {
+              "@type": "ImageObject",
+              "@id":
+                "https://calculatorhub.site/images/app_revenue_calculator.webp#primaryimg",
+              url:
+                "https://calculatorhub.site/images/app_revenue_calculator.webp",
+              width: 1200,
+              height: 675,
+            },
+            mainEntity: {
+              "@type": "Article",
+              "@id":
+                "https://calculatorhub.site/app-revenue-calculator#article",
+              headline:
+                "App Revenue Calculator — Estimate AdMob & In-App Earnings from DAU & eCPM",
+              description:
+                "Interactive app revenue estimator that uses DAU, sessions, ad impressions, fill rate and eCPM to calculate ad revenue, ARPDAU and total monthly/yearly earnings. Advanced Mode adds format-level control and non-ad revenue such as IAP and subscriptions.",
+              image: [
+                "https://calculatorhub.site/images/app_revenue_calculator.webp",
+              ],
+              author: {
+                "@type": "Organization",
+                name: "CalculatorHub",
+                url: "https://calculatorhub.site",
+              },
+              publisher: { "@id": "https://calculatorhub.site/#organization" },
+              datePublished: "2025-11-15",
+              dateModified: "2025-11-15",
+              mainEntityOfPage: {
+                "@id":
+                  "https://calculatorhub.site/app-revenue-calculator#webpage",
+              },
+              articleSection: [
+                "Overview: What this App Revenue Calculator does",
+                "How to use the App Revenue Calculator",
+                "Revenue logic: DAU, impressions, eCPM and ARPDAU",
+                "Advanced Mode: ad formats and non-ad revenue",
+                "Worked example for AdMob-style revenue",
+                "Benefits for developers, studios and growth teams",
+                "Monetization tips for eCPM, fill rate and mix",
+                "Pros and cons of using an app revenue calculator",
+                "FAQ",
+              ],
+            },
+          },
+
+          /* 2) Breadcrumbs */
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "@id":
+              "https://calculatorhub.site/app-revenue-calculator#breadcrumbs",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://calculatorhub.site/",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Misc Tools",
+                item: "https://calculatorhub.site/category/misc-tools",
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: "App Revenue Calculator",
+                item:
+                  "https://calculatorhub.site/app-revenue-calculator",
+              },
+            ],
+          },
+
+          /* 3) FAQ (aligned with on-page FAQ section) */
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": "https://calculatorhub.site/app-revenue-calculator#faq",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "Is this an official AdMob revenue calculator?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text:
+                    "No. This is an independent AdMob revenue estimator built for planning and educational use. It applies standard eCPM-based calculations to forecast revenue, but it does not connect to any ad network account and cannot guarantee exact payouts.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "What eCPM range should I use for my app?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text:
+                    "The best eCPM range depends on your app genre, audience geography and ad strategy. Many teams start with a conservative lower bound and a more optimistic upper bound, then refine those values over time using real AdMob and mediation reports for their app.",
+                },
+              },
+              {
+                "@type": "Question",
+                name:
+                  "Can this app revenue calculator work for both iOS and Android apps?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text:
+                    "Yes. The calculator is platform-agnostic. You can use it for Android, iOS or cross-platform apps by entering your own DAU, eCPM and fill rate assumptions, regardless of the ad network or mediation platform you use.",
+                },
+              },
+              {
+                "@type": "Question",
+                name:
+                  "Does this calculator support apps that only use IAP or subscriptions?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text:
+                    "Yes. In Advanced Mode you can set ad revenue inputs to zero and only fill the in-app purchase, subscription and other monetization fields. In that case, the page behaves like an in-app purchase or subscription revenue calculator for your mobile app.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "What is ARPDAU and why is it important for app monetization?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text:
+                    "ARPDAU stands for Average Revenue Per Daily Active User. It measures how much revenue your app generates from each active user in a single day. This app revenue calculator includes ARPDAU to help you benchmark monetization performance and compare different apps, markets and strategies using a single standardized metric.",
+                },
+              },
+            ],
+          },
+
+          /* 4) WebApplication */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "@id": "https://calculatorhub.site/app-revenue-calculator#webapp",
+            name: "App Revenue Calculator",
+            url: "https://calculatorhub.site/app-revenue-calculator",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "Web",
+            description:
+              "Interactive DAU-based app revenue calculator that estimates AdMob-style ad earnings and ARPDAU, with optional Advanced Mode for ad formats plus in-app purchases and subscription revenue.",
+            publisher: { "@id": "https://calculatorhub.site/#organization" },
+            image: [
+              "https://calculatorhub.site/images/app_revenue_calculator.webp",
+            ],
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "USD",
+            },
+          },
+
+          /* 5) SoftwareApplication */
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "@id": "https://calculatorhub.site/app-revenue-calculator#software",
+            name: "Mobile App Revenue & ARPDAU Estimator",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "All",
+            url: "https://calculatorhub.site/app-revenue-calculator",
+            publisher: { "@id": "https://calculatorhub.site/#organization" },
+            description:
+              "Simple yet powerful app monetization calculator for developers and studios. Estimate AdMob revenue, ARPDAU and total app income from ads, in-app purchases and subscriptions.",
+          },
+
+          /* 6) WebSite */
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://calculatorhub.site/#website",
+            url: "https://calculatorhub.site",
+            name: "CalculatorHub",
+            publisher: { "@id": "https://calculatorhub.site/#organization" },
+            potentialAction: {
+              "@type": "SearchAction",
+              target: "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query",
+            },
+          },
+
+          /* 7) Organization */
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://calculatorhub.site/#organization",
+            name: "CalculatorHub",
+            url: "https://calculatorhub.site",
+            logo: {
+              "@type": "ImageObject",
+              url: "https://calculatorhub.site/images/logo.png",
+            },
+          },
+        ]}
         breadcrumbs={[
           { name: "Misc Tools", url: "/category/misc-tools" },
           { name: "App Revenue Calculator", url: "/app-revenue-calculator" },
@@ -295,6 +507,7 @@ const AppRevenueCalculator: React.FC = () => {
       />
 
       <>
+        {/* Core meta */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="robots"
@@ -305,6 +518,7 @@ const AppRevenueCalculator: React.FC = () => {
           href="https://calculatorhub.site/app-revenue-calculator"
         />
 
+        {/* Hreflang */}
         <link
           rel="alternate"
           href="https://calculatorhub.site/app-revenue-calculator"
@@ -312,20 +526,25 @@ const AppRevenueCalculator: React.FC = () => {
         />
         <link
           rel="alternate"
+          href="https://calculatorhub.site/bn/app-revenue-calculator"
+          hreflang="bn"
+        />
+        <link
+          rel="alternate"
           href="https://calculatorhub.site/app-revenue-calculator"
           hreflang="x-default"
         />
 
-        {/* OG */}
+        {/* Open Graph */}
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="CalculatorHub" />
         <meta
           property="og:title"
-          content="App Revenue Calculator — AdMob / In-App Ads Estimator"
+          content="App Revenue Calculator (2025–2026) — AdMob & In-App Ads Earnings Estimator"
         />
         <meta
           property="og:description"
-          content="Project mobile app ad revenue using DAU, sessions and eCPM. Optional Advanced Mode for ad formats and IAP income."
+          content="Project mobile app ad revenue using DAU, sessions, ad impressions, fill rate and eCPM. Advanced Mode splits formats and adds in-app purchases and subscription income."
         />
         <meta
           property="og:url"
@@ -337,22 +556,28 @@ const AppRevenueCalculator: React.FC = () => {
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
+        <meta
+          property="og:image:alt"
+          content="App revenue calculator UI showing DAU, eCPM and estimated earnings cards"
+        />
         <meta property="og:locale" content="en_US" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="App Revenue Calculator — AdMob / In-App Ads Estimator"
+          content="App Revenue Calculator — AdMob & In-App Monetization Estimator"
         />
         <meta
           name="twitter:description"
-          content="Free DAU-based app revenue calculator with simple and advanced modes."
+          content="Free DAU-based app revenue calculator with Normal & Advanced modes for ad formats, ARPDAU and IAP/subscription income."
         />
         <meta
           name="twitter:image"
           content="https://calculatorhub.site/images/app_revenue_calculator.webp"
         />
+        <meta name="twitter:creator" content="@CalculatorHub" />
+        <meta name="twitter:site" content="@CalculatorHub" />
 
         {/* Icons / PWA */}
         <link rel="icon" href="/favicon.ico" />
@@ -360,7 +585,7 @@ const AppRevenueCalculator: React.FC = () => {
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#0ea5e9" />
 
-        {/* Perf */}
+        {/* Performance */}
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"
@@ -368,7 +593,21 @@ const AppRevenueCalculator: React.FC = () => {
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+        <link
+          rel="preload"
+          as="image"
+          href="/images/app_revenue_calculator.webp"
+          fetchpriority="high"
+        />
+        <link
+          rel="preload"
+          href="/fonts/Inter-Variable.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin=""
+        />
 
+        {/* Misc */}
         <link
           rel="sitemap"
           type="application/xml"
@@ -515,7 +754,9 @@ const AppRevenueCalculator: React.FC = () => {
                     max={100}
                     step={1}
                     value={fillRate}
-                    onChange={(e) => setFillRate(clamp0(Number(e.target.value)))}
+                    onChange={(e) =>
+                      setFillRate(clamp0(Number(e.target.value)))
+                    }
                     className="flex-1 accent-cyan-500"
                   />
                   <div className="w-12 text-right text-sm text-slate-100">
@@ -588,7 +829,9 @@ const AppRevenueCalculator: React.FC = () => {
 
               <div
                 className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                  advancedEnabled ? "max-h-[900px] opacity-100" : "max-h-0 opacity-0"
+                  advancedEnabled
+                    ? "max-h-[900px] opacity-100"
+                    : "max-h-0 opacity-0"
                 }`}
               >
                 <div className="mt-4 border-t border-slate-700 pt-4 space-y-4">
@@ -656,7 +899,9 @@ const AppRevenueCalculator: React.FC = () => {
                           onKeyDown={blockBadKeys}
                           value={interstitialShare}
                           onChange={(e) =>
-                            setInterstitialShare(clamp0(Number(e.target.value)))
+                            setInterstitialShare(
+                              clamp0(Number(e.target.value))
+                            )
                           }
                           className="w-full px-2 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-right text-white"
                         />
@@ -668,7 +913,9 @@ const AppRevenueCalculator: React.FC = () => {
                           onKeyDown={blockBadKeys}
                           value={interstitialEcpm}
                           onChange={(e) =>
-                            setInterstitialEcpm(clamp0(Number(e.target.value)))
+                            setInterstitialEcpm(
+                              clamp0(Number(e.target.value))
+                            )
                           }
                           className="w-full px-2 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-right text-white"
                         />
@@ -884,7 +1131,7 @@ const AppRevenueCalculator: React.FC = () => {
                     <Settings2 className="w-4 h-4 text-sky-400" />
                     Advanced Result (formats + extra income)
                   </h2>
-                  <button
+                <button
                     onClick={() => handleCopy("advanced")}
                     className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-slate-900 border border-slate-700 text-[11px] sm:text-xs text-slate-100 hover:bg-slate-800"
                   >
@@ -994,48 +1241,73 @@ const AppRevenueCalculator: React.FC = () => {
 
         {/* ==================== SEO CONTENT SECTION ==================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
-        
           {/* ===== Table of Contents ===== */}
           <nav className="mt-2 mb-10 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200">
-            <h2 className="text-lg font-semibold text-cyan-300 mb-3">📖 Table of Contents</h2>
+            <h2 className="text-lg font-semibold text-cyan-300 mb-3">
+              📖 Table of Contents
+            </h2>
             <ol className="list-decimal list-inside space-y-2 text-sm">
               <li>
-                <a href="#overview" className="text-indigo-400 hover:underline">
+                <a
+                  href="#overview"
+                  className="text-indigo-400 hover:underline"
+                >
                   Overview: What This App Revenue Calculator Does
                 </a>
               </li>
               <li>
-                <a href="#how-to-use" className="text-indigo-400 hover:underline">
+                <a
+                  href="#how-to-use"
+                  className="text-indigo-400 hover:underline"
+                >
                   How to Use the App Revenue Calculator (Step-by-Step)
                 </a>
               </li>
               <li>
-                <a href="#how-calculated" className="text-indigo-400 hover:underline">
+                <a
+                  href="#how-calculated"
+                  className="text-indigo-400 hover:underline"
+                >
                   Revenue Logic: DAU, Impressions, eCPM &amp; ARPDAU
                 </a>
               </li>
               <li>
-                <a href="#advanced-mode" className="text-indigo-400 hover:underline">
+                <a
+                  href="#advanced-mode"
+                  className="text-indigo-400 hover:underline"
+                >
                   Advanced Mode: Ad Formats + IAP &amp; Subscription Revenue
                 </a>
               </li>
               <li>
-                <a href="#example" className="text-indigo-400 hover:underline">
+                <a
+                  href="#example"
+                  className="text-indigo-400 hover:underline"
+                >
                   Worked Example: AdMob Revenue &amp; ARPDAU Scenario
                 </a>
               </li>
               <li>
-                <a href="#benefits" className="text-indigo-400 hover:underline">
+                <a
+                  href="#benefits"
+                  className="text-indigo-400 hover:underline"
+                >
                   Benefits for Developers, Studios &amp; Growth Teams
                 </a>
               </li>
               <li>
-                <a href="#tips" className="text-indigo-400 hover:underline">
+                <a
+                  href="#tips"
+                  className="text-indigo-400 hover:underline"
+                >
                   Optimization Tips: eCPM, Fill Rate &amp; Monetization Mix
                 </a>
               </li>
               <li>
-                <a href="#pros-cons" className="text-indigo-400 hover:underline">
+                <a
+                  href="#pros-cons"
+                  className="text-indigo-400 hover:underline"
+                >
                   Pros &amp; Cons of Using an App Revenue Calculator
                 </a>
               </li>
@@ -1046,35 +1318,42 @@ const AppRevenueCalculator: React.FC = () => {
               </li>
             </ol>
           </nav>
-        
+
           <h1
             id="overview"
             className="text-3xl font-bold text-cyan-400 mb-6"
           >
-            App Revenue Calculator – AdMob &amp; Mobile App Monetization Earnings Estimator
+            App Revenue Calculator – AdMob &amp; Mobile App Monetization
+            Earnings Estimator
           </h1>
-        
+
           <p>
-            The <strong>App Revenue Calculator</strong> on CalculatorHub is a practical
-            <strong> mobile app revenue calculator</strong> designed for developers,
-            indie studios, and growth teams who need a realistic way to model how much
-            money their apps can generate. Using a clean <strong>DAU-based model</strong>,
-            this tool estimates earnings from <strong>AdMob</strong>, in-app ads,
-            <strong> in-app purchases (IAP)</strong> and <strong>subscriptions</strong>.
+            The <strong>App Revenue Calculator</strong> on CalculatorHub is a
+            practical <strong>mobile app revenue calculator</strong> designed for
+            developers, indie studios, and growth teams who need a realistic way
+            to model how much money their apps can generate. Using a clean{" "}
+            <strong>DAU-based model</strong>, this tool estimates earnings from{" "}
+            <strong>AdMob</strong>, in-app ads,
+            <strong> in-app purchases (IAP)</strong> and{" "}
+            <strong>subscriptions</strong>.
           </p>
-        
+
           <p>
-            Instead of guessing in spreadsheets, this page behaves like a modern
-            <strong> AdMob revenue calculator</strong>, <strong>app monetization calculator</strong>,
-            and <strong>ARPDAU calculator</strong> in one place. By entering
-            <strong> daily active users (DAU)</strong>, <strong> sessions per user</strong>,
-            <strong> ad impressions per session</strong>, <strong> fill rate</strong> and
+            Instead of guessing in spreadsheets, this page behaves like a modern{" "}
+            <strong>AdMob revenue calculator</strong>,{" "}
+            <strong>app monetization calculator</strong>, and{" "}
+            <strong>ARPDAU calculator</strong> in one place. By entering
+            <strong> daily active users (DAU)</strong>,{" "}
+            <strong> sessions per user</strong>,
+            <strong> ad impressions per session</strong>,{" "}
+            <strong> fill rate</strong> and
             <strong> blended eCPM</strong>, you get an instant forecast of
-            <strong> monthly and yearly app revenue</strong>. Advanced Mode adds support for
-            separate ad formats (banner, interstitial, rewarded) and non-ad revenue streams,
-            making this a complete <strong>app revenue estimator</strong> for Android and iOS apps.
+            <strong> monthly and yearly app revenue</strong>. Advanced Mode adds
+            support for separate ad formats (banner, interstitial, rewarded) and
+            non-ad revenue streams, making this a complete{" "}
+            <strong>app revenue estimator</strong> for Android and iOS apps.
           </p>
-        
+
           <figure className="my-8">
             <img
               src="/images/app_revenue_calculator.webp"
@@ -1084,316 +1363,369 @@ const AppRevenueCalculator: React.FC = () => {
               loading="lazy"
             />
             <figcaption className="text-center text-sm text-slate-400 mt-2">
-              DAU-based app revenue and ARPDAU estimation with AdMob-style eCPM modelling.
+              DAU-based app revenue and ARPDAU estimation with AdMob-style eCPM
+              modelling.
             </figcaption>
           </figure>
-        
+
           <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
             📱 What Is an App Revenue Calculator?
           </h2>
-        
+
           <p>
-            An <strong>app revenue calculator</strong> is a forecasting tool that estimates how much
-            money a mobile app can generate from advertising and other monetization channels.
-            This includes <strong>AdMob revenue</strong>, other ad network earnings, in-app purchases,
-            subscriptions, and hybrid models used by games, utility apps and productivity tools.
+            An <strong>app revenue calculator</strong> is a forecasting tool
+            that estimates how much money a mobile app can generate from
+            advertising and other monetization channels. This includes{" "}
+            <strong>AdMob revenue</strong>, other ad network earnings, in-app
+            purchases, subscriptions, and hybrid models used by games, utility
+            apps and productivity tools.
           </p>
-        
-          <p>
-            This specific page works as:
-          </p>
-        
+
+          <p>This specific page works as:</p>
+
           <ul className="list-disc list-inside space-y-1">
             <li>
-              A <strong>DAU-based AdMob revenue estimator</strong> for banner, interstitial and rewarded ads.
+              A <strong>DAU-based AdMob revenue estimator</strong> for banner,
+              interstitial and rewarded ads.
             </li>
             <li>
-              A <strong>mobile app ads revenue calculator</strong> that converts impressions and eCPM into
-              monthly and yearly income.
+              A <strong>mobile app ads revenue calculator</strong> that converts
+              impressions and eCPM into monthly and yearly income.
             </li>
             <li>
-              An <strong>ARPDAU calculator</strong> (Average Revenue Per Daily Active User) to benchmark performance.
+              An <strong>ARPDAU calculator</strong> (Average Revenue Per Daily
+              Active User) to benchmark performance.
             </li>
             <li>
-              A simple <strong>in-app purchase revenue calculator</strong> and subscription add-on through Advanced Mode.
+              A simple <strong>in-app purchase revenue calculator</strong> and
+              subscription add-on through Advanced Mode.
             </li>
           </ul>
-        
+
           <p>
-            For founders, product managers and UA teams, this <strong>app monetization calculator</strong>
-            is a quick way to test “what if?” scenarios – for example, how much extra revenue comes from
-            increasing DAU, improving retention, adding rewarded ads or introducing subscriptions.
+            For founders, product managers and UA teams, this{" "}
+            <strong>app monetization calculator</strong> is a quick way to test
+            “what if?” scenarios – for example, how much extra revenue comes
+            from increasing DAU, improving retention, adding rewarded ads or
+            introducing subscriptions.
           </p>
-        
+
           <h2
             id="how-to-use"
             className="text-2xl font-semibold text-cyan-300 mt-10 mb-4"
           >
             💡 How to Use the App Revenue Calculator (Step-by-Step)
           </h2>
-        
+
           <p>
-            The interface follows a clear pattern: <strong>inputs on the left</strong>,
-            <strong> results on the right</strong>, with everything recalculated live.
-            You don&apos;t need to be a data scientist to use this
-            <strong> mobile app revenue calculator</strong> — just follow these steps:
+            The interface follows a clear pattern:{" "}
+            <strong>inputs on the left</strong>,
+            <strong> results on the right</strong>, with everything
+            recalculated live. You don&apos;t need to be a data scientist to
+            use this <strong>mobile app revenue calculator</strong> — just
+            follow these steps:
           </p>
-        
+
           <ol className="list-decimal list-inside space-y-2">
             <li>
-              Enter your approximate <strong>Daily Active Users (DAU)</strong>.
+              Enter your approximate{" "}
+              <strong>Daily Active Users (DAU)</strong>.
             </li>
             <li>
-              Add the average <strong>sessions per user per day</strong> (how often people open the app).
+              Add the average <strong>sessions per user per day</strong> (how
+              often people open the app).
             </li>
             <li>
-              Set the total <strong>ad impressions per session</strong> (banner + interstitial + rewarded).
+              Set the total <strong>ad impressions per session</strong> (banner
+              + interstitial + rewarded).
             </li>
             <li>
-              Adjust the <strong>fill rate</strong> – what percentage of ad requests actually serve an ad.
+              Adjust the <strong>fill rate</strong> – what percentage of ad
+              requests actually serve an ad.
             </li>
             <li>
-              Choose a <strong>low eCPM</strong> and <strong>high eCPM</strong> range to model best/worst cases.
+              Choose a <strong>low eCPM</strong> and <strong>high eCPM</strong>{" "}
+              range to model best/worst cases.
             </li>
             <li>
-              Optional: turn on <strong>Advanced Mode</strong> to break down ad formats and add IAP + subscription revenue.
+              Optional: turn on <strong>Advanced Mode</strong> to break down ad
+              formats and add IAP + subscription revenue.
             </li>
           </ol>
-        
+
           <p>
-            As soon as these values are entered, the tool behaves like a live
-            <strong> AdMob revenue calculator</strong>: it projects
-            <strong> monthly ad income</strong>, <strong> yearly ad revenue</strong>,
-            <strong> monthly impressions</strong>, and <strong>ARPDAU</strong>. Because every input is
-            editable, it&apos;s easy to compare different monetization strategies within seconds.
+            As soon as these values are entered, the tool behaves like a live{" "}
+            <strong>AdMob revenue calculator</strong>: it projects
+            <strong> monthly ad income</strong>,{" "}
+            <strong> yearly ad revenue</strong>,
+            <strong> monthly impressions</strong>, and{" "}
+            <strong>ARPDAU</strong>. Because every input is editable, it&apos;s
+            easy to compare different monetization strategies within seconds.
           </p>
-        
+
           <h2
             id="how-calculated"
             className="text-2xl font-semibold text-cyan-300 mt-10 mb-4"
           >
             🧮 Revenue Logic: DAU, Impressions, eCPM &amp; ARPDAU
           </h2>
-        
+
           <p>
-            Under the hood, this page uses simple but robust logic that many mobile studios apply in
-            their internal spreadsheets. It acts as a clean <strong>app ads revenue estimator</strong>
-            without exposing any proprietary network algorithms.
+            Under the hood, this page uses simple but robust logic that many
+            mobile studios apply in their internal spreadsheets. It acts as a
+            clean <strong>app ads revenue estimator</strong> without exposing
+            any proprietary network algorithms.
           </p>
-        
+
           <p>The simplified calculation flow looks like this:</p>
-        
+
           <pre className="bg-slate-800 text-slate-200 p-3 rounded-lg overflow-x-auto text-sm">
             <code>
-        {`1) Total ad requests per day  = DAU × Sessions per user × Ads per session
-        2) Impressions per day         = Ad requests × (Fill rate % ÷ 100)
-        3) Impressions per month       = Impressions per day × 30
-        4) Monthly revenue (low)       = (Impressions per month ÷ 1000) × eCPM_low
-        5) Monthly revenue (high)      = (Impressions per month ÷ 1000) × eCPM_high
-        6) Yearly revenue (low/high)   = Monthly revenue × 12
-        7) ARPDAU (low/high)           = Monthly revenue ÷ (DAU × 30 days)`}
+              {`1) Total ad requests per day  = DAU × Sessions per user × Ads per session
+2) Impressions per day         = Ad requests × (Fill rate % ÷ 100)
+3) Impressions per month       = Impressions per day × 30
+4) Monthly revenue (low)       = (Impressions per month ÷ 1000) × eCPM_low
+5) Monthly revenue (high)      = (Impressions per month ÷ 1000) × eCPM_high
+6) Yearly revenue (low/high)   = Monthly revenue × 12
+7) ARPDAU (low/high)           = Monthly revenue ÷ (DAU × 30 days)`}
             </code>
           </pre>
-        
+
           <p>
-            Because the calculator uses an <strong>eCPM range</strong> instead of a single number, it
-            returns <strong>minimum and maximum app revenue estimates</strong>. This better reflects how
-            real <strong>AdMob eCPM</strong> and app ads eCPM can vary by country, device type, user
-            quality, genre and seasonality.
+            Because the calculator uses an <strong>eCPM range</strong> instead
+            of a single number, it returns{" "}
+            <strong>minimum and maximum app revenue estimates</strong>. This
+            better reflects how real <strong>AdMob eCPM</strong> and app ads
+            eCPM can vary by country, device type, user quality, genre and
+            seasonality.
           </p>
-        
+
           <p>
-            The ARPDAU metric makes this tool especially valuable. It converts your
-            <strong> app monetization strategy</strong> into revenue per active user, allowing you to
-            compare performance with other apps or industry benchmarks using a standard
+            The ARPDAU metric makes this tool especially valuable. It converts
+            your <strong> app monetization strategy</strong> into revenue per
+            active user, allowing you to compare performance with other apps or
+            industry benchmarks using a standard{" "}
             <strong> ARPDAU calculator</strong> style view.
           </p>
-        
+
           <h2
             id="advanced-mode"
             className="text-2xl font-semibold text-cyan-300 mt-10 mb-4"
           >
             ⚙️ Advanced Mode: Ad Formats + IAP &amp; Subscription Revenue
           </h2>
-        
+
           <p>
-            In <strong>Normal Mode</strong>, the tool behaves as a blended
-            <strong> AdMob revenue estimator</strong>, assuming one combined eCPM for all ad impressions.
-            That is perfect for quick, high-level forecasts.
+            In <strong>Normal Mode</strong>, the tool behaves as a blended{" "}
+            <strong>AdMob revenue estimator</strong>, assuming one combined eCPM
+            for all ad impressions. That is perfect for quick, high-level
+            forecasts.
           </p>
-        
+
           <p>
-            When <strong>Advanced Mode</strong> is enabled, the calculator becomes a complete
-            <strong> app monetization calculator</strong>:
+            When <strong>Advanced Mode</strong> is enabled, the calculator
+            becomes a complete <strong> app monetization calculator</strong>:
           </p>
-        
+
           <ul className="list-disc list-inside space-y-2">
             <li>
               You can specify the <strong>percentage share</strong> for
               <strong> banner ads, interstitial ads and rewarded ads</strong>.
             </li>
             <li>
-              Each format can have its own <strong>eCPM value</strong>, reflecting real-world pricing.
+              Each format can have its own <strong>eCPM value</strong>,
+              reflecting real-world pricing.
             </li>
             <li>
-              The calculator multiplies format-level impressions by format-level eCPM to show
+              The calculator multiplies format-level impressions by
+              format-level eCPM to show
               <strong> revenue per format</strong>.
             </li>
             <li>
-              You can add monthly income from <strong>in-app purchases (IAP)</strong>,
-              <strong> subscriptions</strong>, or any <strong>other monetization</strong> stream.
+              You can add monthly income from{" "}
+              <strong>in-app purchases (IAP)</strong>,
+              <strong> subscriptions</strong>, or any{" "}
+              <strong>other monetization</strong> stream.
             </li>
           </ul>
-        
+
           <p>
             The result is a blended <strong>total monthly revenue</strong> and
-            <strong> total yearly revenue</strong> number, broken into two major buckets:
-            <strong> ads only</strong> vs <strong> IAP + subscriptions + other</strong>.
-            For many studios, this &quot;Advanced&quot; view is far closer to reality than a simple ad-only
-            <strong> AdMob revenue calculator</strong>.
+            <strong> total yearly revenue</strong> number, broken into two major
+            buckets:
+            <strong> ads only</strong> vs{" "}
+            <strong> IAP + subscriptions + other</strong>. For many studios,
+            this &quot;Advanced&quot; view is far closer to reality than a
+            simple ad-only <strong> AdMob revenue calculator</strong>.
           </p>
-        
+
           <h2
             id="example"
             className="text-2xl font-semibold text-cyan-300 mt-10 mb-4"
           >
             📊 Worked Example: AdMob-Style Revenue &amp; ARPDAU Scenario
           </h2>
-        
+
           <p>
-            Suppose a mobile game has <strong>10,000 DAU</strong>. On average, each user opens the app
+            Suppose a mobile game has <strong>10,000 DAU</strong>. On average,
+            each user opens the app
             <strong> 2 times per day</strong>, and each session has about
-            <strong> 3 ad impressions</strong>. The team assumes an <strong>80% fill rate</strong> and a
-            blended <strong>eCPM range</strong> of <strong>$3.50–$9.00</strong>.
+            <strong> 3 ad impressions</strong>. The team assumes an{" "}
+            <strong>80% fill rate</strong> and a blended{" "}
+            <strong>eCPM range</strong> of <strong>$3.50–$9.00</strong>.
           </p>
-        
+
           <ul className="list-disc list-inside space-y-1">
             <li>
-              The calculator estimates total monthly impressions based on DAU, sessions, ads and fill rate.
+              The calculator estimates total monthly impressions based on DAU,
+              sessions, ads and fill rate.
             </li>
             <li>
-              It applies the <strong>$3.50–$9.00 eCPM</strong> range to get a low and high
+              It applies the <strong>$3.50–$9.00 eCPM</strong> range to get a
+              low and high
               <strong> monthly ad revenue</strong> band.
             </li>
             <li>
               It multiplies by 12 to display <strong>yearly ad revenue</strong>.
             </li>
             <li>
-              It divides monthly revenue by <strong>DAU × 30 days</strong> to show
+              It divides monthly revenue by <strong>DAU × 30 days</strong> to
+              show
               <strong> ARPDAU (low and high)</strong>.
             </li>
           </ul>
-        
+
           <p>
-            If the studio also earns <strong>$2,000 per month</strong> from IAP and
-            <strong>$1,000 per month</strong> from subscriptions, they can add those values in Advanced
-            Mode. The tool then shows a total <strong>app revenue estimate</strong> – merging
-            <strong> AdMob-style ad revenue</strong> with <strong>in-app purchase revenue</strong> and
-            subscription income.
+            If the studio also earns{" "}
+            <strong>$2,000 per month</strong> from IAP and
+            <strong>$1,000 per month</strong> from subscriptions, they can add
+            those values in Advanced Mode. The tool then shows a total{" "}
+            <strong>app revenue estimate</strong> – merging
+            <strong> AdMob-style ad revenue</strong> with{" "}
+            <strong>in-app purchase revenue</strong> and subscription income.
           </p>
-        
+
           <h2
             id="benefits"
             className="text-2xl font-semibold text-cyan-300 mt-10 mb-4"
           >
             ✅ Benefits of This App Revenue Calculator
           </h2>
-        
+
           <p>
-            This page is designed to be a practical, developer-friendly
+            This page is designed to be a practical, developer-friendly{" "}
             <strong> app revenue calculator</strong> with clear benefits:
           </p>
-        
+
           <ul className="space-y-2">
             <li>
-              ✔️ Works as an <strong>AdMob revenue estimator</strong> without any complicated setup.
+              ✔️ Works as an <strong>AdMob revenue estimator</strong> without
+              any complicated setup.
             </li>
             <li>
-              ✔️ Provides <strong>monthly and yearly revenue ranges</strong> instead of a single static number.
+              ✔️ Provides <strong>monthly and yearly revenue ranges</strong>{" "}
+              instead of a single static number.
             </li>
             <li>
-              ✔️ Acts as a fast <strong>ARPDAU calculator</strong> for benchmarking monetization performance.
+              ✔️ Acts as a fast <strong>ARPDAU calculator</strong> for
+              benchmarking monetization performance.
             </li>
             <li>
-              ✔️ Supports <strong>multi-format ad revenue</strong> plus <strong>IAP</strong> and
+              ✔️ Supports <strong>multi-format ad revenue</strong> plus{" "}
+              <strong>IAP</strong> and
               <strong> subscription</strong> income.
             </li>
             <li>
-              ✔️ Ideal for pitch decks, investor conversations and UA budget planning.
+              ✔️ Ideal for pitch decks, investor conversations and UA budget
+              planning.
             </li>
           </ul>
-        
+
           <p>
-            Because all calculations are done in the browser, this <strong>app revenue estimator</strong>
-            is also privacy-friendly. No login is required and no revenue data is stored – making it easy
-            to test aggressive or conservative scenarios without exposing internal numbers.
+            Because all calculations are done in the browser, this{" "}
+            <strong>app revenue estimator</strong> is also privacy-friendly. No
+            login is required and no revenue data is stored – making it easy to
+            test aggressive or conservative scenarios without exposing internal
+            numbers.
           </p>
-        
+
           <h2
             id="tips"
             className="text-2xl font-semibold text-cyan-300 mt-10 mb-4"
           >
             🧭 Monetization Tips: eCPM, Fill Rate &amp; Mix Optimization
           </h2>
-        
+
           <p>
-            Once you see your estimated earnings in this <strong>mobile app monetization calculator</strong>,
-            you can experiment with small changes to understand what actually moves revenue. Some practical
-            ideas include:
+            Once you see your estimated earnings in this{" "}
+            <strong>mobile app monetization calculator</strong>, you can
+            experiment with small changes to understand what actually moves
+            revenue. Some practical ideas include:
           </p>
-        
+
           <ul className="list-disc list-inside space-y-2">
             <li>
-              💡 <strong>Improve retention</strong> – more sessions per user directly increase ad requests and impressions.
+              💡 <strong>Improve retention</strong> – more sessions per user
+              directly increase ad requests and impressions.
             </li>
             <li>
-              💡 <strong>Optimize ad placements</strong> – better placements can boost fill rate and eCPM without hurting UX.
+              💡 <strong>Optimize ad placements</strong> – better placements can
+              boost fill rate and eCPM without hurting UX.
             </li>
             <li>
-              💡 <strong>Test rewarded ads</strong> – many apps see higher eCPM on rewarded placements than banners.
+              💡 <strong>Test rewarded ads</strong> – many apps see higher eCPM
+              on rewarded placements than banners.
             </li>
             <li>
-              💡 <strong>Localize the app</strong> – entering higher-value markets can lift average
+              💡 <strong>Localize the app</strong> – entering higher-value
+              markets can lift average
               <strong> AdMob eCPM</strong>.
             </li>
             <li>
-              💡 <strong>Add a hybrid model</strong> – combine ads with IAP and subscriptions, then plug those values into Advanced Mode.
+              💡 <strong>Add a hybrid model</strong> – combine ads with IAP and
+              subscriptions, then plug those values into Advanced Mode.
             </li>
           </ul>
-        
+
           <p>
-            Combining these optimization strategies with the insights from this
-            <strong> app revenue calculator</strong> gives teams a simple, data-driven way to plan growth,
-            scale ad spend and set realistic targets.
+            Combining these optimization strategies with the insights from this{" "}
+            <strong> app revenue calculator</strong> gives teams a simple,
+            data-driven way to plan growth, scale ad spend and set realistic
+            targets.
           </p>
-        
+
           <h2
             id="pros-cons"
             className="text-2xl font-semibold text-cyan-300 mt-10 mb-4"
           >
             ⚖️ Pros &amp; Cons of Using an App Monetization Calculator
           </h2>
-        
+
           <p>
-            Like any modelling tool, a <strong>mobile app revenue calculator</strong> has strengths and
+            Like any modelling tool, a{" "}
+            <strong>mobile app revenue calculator</strong> has strengths and
             limitations. Understanding both helps set realistic expectations.
           </p>
-        
+
           <div className="grid md:grid-cols-2 gap-4">
             <div className="bg-slate-800/60 border border-slate-700 rounded-lg p-4">
               <h3 className="text-emerald-300 font-semibold mb-2">Pros</h3>
               <ul className="list-disc list-inside space-y-1 text-sm">
                 <li>
-                  Fast estimates based on <strong>DAU, sessions and eCPM</strong>.
+                  Fast estimates based on{" "}
+                  <strong>DAU, sessions and eCPM</strong>.
                 </li>
                 <li>
-                  Clear <strong>monthly, yearly and ARPDAU</strong> views for planning.
+                  Clear <strong>monthly, yearly and ARPDAU</strong> views for
+                  planning.
                 </li>
                 <li>
-                  Multi-format support in Advanced Mode mirrors real <strong>AdMob setups</strong>.
+                  Multi-format support in Advanced Mode mirrors real{" "}
+                  <strong>AdMob setups</strong>.
                 </li>
                 <li>
-                  Great for scenario testing, growth forecasts and investor decks.
+                  Great for scenario testing, growth forecasts and investor
+                  decks.
                 </li>
               </ul>
             </div>
@@ -1401,90 +1733,106 @@ const AppRevenueCalculator: React.FC = () => {
               <h3 className="text-rose-300 font-semibold mb-2">Cons</h3>
               <ul className="list-disc list-inside space-y-1 text-sm">
                 <li>
-                  Real revenue depends on live auctions, policy, and user behavior.
+                  Real revenue depends on live auctions, policy, and user
+                  behavior.
                 </li>
                 <li>
-                  Results are only as accurate as the <strong>eCPM and fill rate</strong> values entered.
+                  Results are only as accurate as the{" "}
+                  <strong>eCPM and fill rate</strong> values entered.
                 </li>
                 <li>
-                  It does not replace detailed cohort analysis or MMP/analytics dashboards.
+                  It does not replace detailed cohort analysis or
+                  MMP/analytics dashboards.
                 </li>
               </ul>
             </div>
           </div>
-        
+
           {/* ===================== FAQ SECTION ===================== */}
           <section className="space-y-6 mt-16">
             <h2
               id="faq"
               className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300"
             >
-              ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
+              ❓ Frequently Asked Questions (
+              <span className="text-yellow-300">FAQ</span>)
             </h2>
-        
+
             <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
               <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
                 <h3 className="font-semibold text-xl mb-2 text-yellow-300">
                   Q1: Is this an official AdMob revenue calculator?
                 </h3>
                 <p>
-                  No. This is an independent <strong>AdMob revenue estimator</strong> created for planning
-                  and educational purposes. It uses standard eCPM-based math to forecast revenue but does
-                  not connect to any ad network account or guarantee actual payouts.
+                  No. This is an independent{" "}
+                  <strong>AdMob revenue estimator</strong> created for planning
+                  and educational purposes. It uses standard eCPM-based math to
+                  forecast revenue but does not connect to any ad network
+                  account or guarantee actual payouts.
                 </p>
               </div>
-        
+
               <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
                 <h3 className="font-semibold text-xl mb-2 text-yellow-300">
                   Q2: What eCPM range should I use for my app?
                 </h3>
                 <p>
-                  It depends on your genre, audience location and ad strategy. Many teams start with a
-                  conservative lower bound and a more optimistic upper bound (for example,
-                  <strong> $2–$5</strong> for a utility app or <strong>$3–$10</strong> for a game with
-                  rewarded ads). Over time, you can refine the range based on real AdMob and mediation
-                  reports.
+                  It depends on your genre, audience location and ad strategy.
+                  Many teams start with a conservative lower bound and a more
+                  optimistic upper bound (for example,
+                  <strong> $2–$5</strong> for a utility app or{" "}
+                  <strong>$3–$10</strong> for a game with rewarded ads). Over
+                  time, you can refine the range based on real AdMob and
+                  mediation reports.
                 </p>
               </div>
-        
+
               <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
                 <h3 className="font-semibold text-xl mb-2 text-yellow-300">
                   Q3: Can this app revenue calculator work for iOS and Android?
                 </h3>
                 <p>
-                  Yes. The calculator is platform-agnostic. Whether you use AdMob, AppLovin, Unity Ads,
-                  ironSource or another network, you can plug in your own <strong>DAU, eCPM and fill rate</strong> numbers to model revenue for Android, iOS or cross-platform apps.
+                  Yes. The calculator is platform-agnostic. Whether you use
+                  AdMob, AppLovin, Unity Ads, ironSource or another network, you
+                  can plug in your own{" "}
+                  <strong>DAU, eCPM and fill rate</strong> numbers to model
+                  revenue for Android, iOS or cross-platform apps.
                 </p>
               </div>
-        
+
               <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
                 <h3 className="font-semibold text-xl mb-2 text-yellow-300">
                   Q4: Does this support purely IAP or subscription apps?
                 </h3>
                 <p>
-                  Yes. In Advanced Mode, you can set ad revenue to zero and only fill in
-                  <strong> IAP</strong>, <strong>subscription</strong> and <strong>other monetization</strong>
-                  fields. The page will then behave like an <strong>in-app purchase revenue calculator</strong>
-                  or subscription revenue estimator for your mobile app.
+                  Yes. In Advanced Mode, you can set ad revenue to zero and only
+                  fill in
+                  <strong> IAP</strong>, <strong>subscription</strong> and{" "}
+                  <strong>other monetization</strong>
+                  fields. The page will then behave like an{" "}
+                  <strong>in-app purchase revenue calculator</strong> or
+                  subscription revenue estimator for your mobile app.
                 </p>
               </div>
-        
+
               <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
                 <h3 className="font-semibold text-xl mb-2 text-yellow-300">
                   Q5: What is ARPDAU and why is it important?
                 </h3>
                 <p>
-                  <strong>ARPDAU</strong> stands for Average Revenue Per Daily Active User. It shows how
-                  much income your app generates for each active user in a day. This
-                  <strong> app revenue calculator</strong> displays ARPDAU as part of the result, making it
-                  easier to compare different apps, markets and monetization strategies using a single,
+                  <strong>ARPDAU</strong> stands for Average Revenue Per Daily
+                  Active User. It shows how much income your app generates for
+                  each active user in a day. This
+                  <strong> app revenue calculator</strong> displays ARPDAU as
+                  part of the result, making it easier to compare different
+                  apps, markets and monetization strategies using a single,
                   standard performance metric.
                 </p>
               </div>
             </div>
           </section>
         </section>
-        
+
         {/* =================== AUTHOR & BACKLINK SECTION =================== */}
         <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
           <div className="flex items-center gap-3">
@@ -1499,13 +1847,13 @@ const AppRevenueCalculator: React.FC = () => {
                 Written by the CalculatorHub App Monetization Tools Team
               </p>
               <p className="text-sm text-slate-400">
-                Specialists in AdMob, app monetization strategy and revenue analytics.
-                Last updated:{" "}
+                Specialists in AdMob, app monetization strategy and revenue
+                analytics. Last updated:{" "}
                 <time dateTime="2025-11-15">November 15, 2025</time>.
               </p>
             </div>
           </div>
-        
+
           <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
             <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">
               🚀 Explore more creator &amp; revenue calculators on CalculatorHub:
@@ -1515,28 +1863,28 @@ const AppRevenueCalculator: React.FC = () => {
                 to="/facebook-instream-revenue-estimator"
                 className="flex items-center gap-2 bg-[#0f172a] hover:bg-blue-600/20 text-blue-300 hover:text-blue-400 px-3 py-2 rounded-md border border-slate-700 hover:border-blue-500 transition-all duration-200"
               >
-                <span className="text-blue-400">📺</span> Facebook Revenue Calculator
+                <span className="text-blue-400">📺</span> Facebook Revenue
+                Calculator
               </Link>
-        
+
               <Link
                 to="/youtube-revenue-calculator"
                 className="flex items-center gap-2 bg-[#0f172a] hover:bg-red-600/20 text-red-300 hover:text-red-400 px-3 py-2 rounded-md border border-slate-700 hover:border-red-500 transition-all duration-200"
               >
-                <span className="text-red-400">▶️</span> YouTube Revenue Calculator
+                <span className="text-red-400">▶️</span> YouTube Revenue
+                Calculator
               </Link>
-        
+
               <Link
                 to="/adsense-revenue-calculator"
                 className="flex items-center gap-2 bg-[#0f172a] hover:bg-emerald-600/20 text-emerald-300 hover:text-emerald-400 px-3 py-2 rounded-md border border-slate-700 hover:border-emerald-500 transition-all duration-200"
               >
-                <span className="text-emerald-400">💻</span> Website &amp; AdSense Revenue Calculator
+                <span className="text-emerald-400">💻</span> Website &amp;
+                AdSense Revenue Calculator
               </Link>
             </div>
           </div>
         </section>
-
-
-
 
         <Suspense fallback={null}>
           <AdBanner type="bottom" />
@@ -1551,4 +1899,3 @@ const AppRevenueCalculator: React.FC = () => {
 };
 
 export default AppRevenueCalculator;
-
