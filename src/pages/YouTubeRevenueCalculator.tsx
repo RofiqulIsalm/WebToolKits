@@ -1670,17 +1670,17 @@ const YouTubeRevenueCalculator: React.FC = () => {
                 </Link>
           
                 <Link
-                  to="/home-loan-calculator"
+                  to="/admob-ecpm-estimator"
                   className="flex items-center gap-2 bg-[#0f172a] hover:bg-indigo-600/20 text-indigo-300 hover:text-indigo-400 px-3 py-2 rounded-md border border-slate-700 hover:border-indigo-500 transition-all duration-200"
                 >
-                  <span className="text-indigo-400">🏡</span> Mortgage &amp; Home Loan Calculator
+                  <span className="text-indigo-400">📱</span> App Revenue Calculator
                 </Link>
           
                 <Link
-                  to="/loan-affordability-calculator"
+                  to="/facebook-instream-revenue-estimator"
                   className="flex items-center gap-2 bg-[#0f172a] hover:bg-sky-600/20 text-sky-300 hover:text-sky-400 px-3 py-2 rounded-md border border-slate-700 hover:border-sky-500 transition-all duration-200"
                 >
-                  <span className="text-sky-400">📊</span> Loan Affordability Calculator
+                  <span className="text-sky-400">📊</span> Facebook Revenue Calculator
                 </Link>
               </div>
             </div>
