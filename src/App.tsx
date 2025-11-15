@@ -243,6 +243,7 @@ function App() {
     <HelmetProvider>
       <Router>
         <ScrollToTop />
+        <PageViewTracker />
         <SiteConfigProvider>
         <Layout>
           <Suspense fallback={<LoadingFallback />}>
