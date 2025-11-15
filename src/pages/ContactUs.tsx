@@ -20,6 +20,9 @@ import SEOHead from "../components/SEOHead";
 import Breadcrumbs from "../components/Breadcrumbs";
 import { seoData } from "../utils/seoData";
 
+// 🔑 Web3Forms access key (your API code)
+const WEB3FORMS_ACCESS_KEY = "e6d8ce47-a384-456b-ba94-748112766523";
+
 const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -49,34 +52,77 @@ const ContactUs: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Optional: require consent for real backend
-    // if (!consent) {
-    //   setSubmitStatus("error");
-    //   return;
-    // }
+    // If you want to force consent, uncomment this block:
+    if (!consent) {
+      setSubmitStatus("error");
+      return;
+    }
 
     setIsSubmitting(true);
+    setSubmitStatus("idle");
 
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitStatus("success");
-      setFormData({
-        name: "",
-        email: "",
-        subject: "",
-        message: "",
-        toolUrl: "",
-        priority: "normal",
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          from_name: "CalculatorHub Contact Form",
+          to_email: "support@calculatorhub.site",
+
+          // User fields
+          name: formData.name,
+          email: formData.email,
+          subject:
+            formData.subject && formData.subject !== ""
+              ? formData.subject
+              : "Contact form submission",
+          message: formData.message,
+
+          // Extra meta for your inbox
+          priority: formData.priority,
+          tool_url: formData.toolUrl,
+          subscribe_updates: subscribeUpdates ? "Yes" : "No",
+          page_url:
+            typeof window !== "undefined"
+              ? window.location.href
+              : "https://calculatorhub.site/contact-us",
+        }),
       });
-      setSubscribeUpdates(false);
-      setConsent(false);
 
-      setTimeout(() => setSubmitStatus("idle"), 5000);
-    }, 1000);
+      const data = await response.json();
+
+      if (data.success) {
+        setSubmitStatus("success");
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+          toolUrl: "",
+          priority: "normal",
+        });
+        setSubscribeUpdates(false);
+        setConsent(false);
+
+        // Reset status after 5s
+        setTimeout(() => setSubmitStatus("idle"), 5000);
+      } else {
+        console.error("Web3Forms error:", data);
+        setSubmitStatus("error");
+      }
+    } catch (error) {
+      console.error("Form submit error:", error);
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -223,7 +269,7 @@ const ContactUs: React.FC = () => {
                 <div className="mb-6 p-4 rounded-lg bg-emerald-500/15 border border-emerald-400/60">
                   <p className="text-emerald-50 font-medium text-sm">
                     Thank you for your message! Our team has received it and
-                    will get back to you by email as soon as possible.
+                    will reply to you at your email address as soon as possible.
                   </p>
                 </div>
               )}
@@ -231,8 +277,13 @@ const ContactUs: React.FC = () => {
               {submitStatus === "error" && (
                 <div className="mb-6 p-4 rounded-lg bg-rose-500/15 border border-rose-400/60">
                   <p className="text-rose-50 font-medium text-sm">
-                    Please confirm the required fields and your consent before
-                    submitting.
+                    Something went wrong. Please check the required fields and
+                    your consent, then try again. You can also email us
+                    directly at{" "}
+                    <span className="underline">
+                      support@calculatorhub.site
+                    </span>
+                    .
                   </p>
                 </div>
               )}
