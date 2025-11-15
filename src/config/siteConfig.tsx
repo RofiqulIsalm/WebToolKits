@@ -1,4 +1,4 @@
-// src/config/siteConfig.ts
+// src/config/siteConfig.tsx
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 export type NavLink = {
@@ -6,16 +6,22 @@ export type NavLink = {
   slug: string;
 };
 
+export type FooterLink = {
+  label: string;
+  url: string;
+};
+
 export interface SiteConfigState {
   quickAccess: NavLink[];        // Sidebar "Quick Access"
-  popularSidebar: NavLink[];     // Sidebar "Popular Calculators"
+  popularSidebar: NavLink[];     // Sidebar "Popular Calculators" (sidebar)
   footerPopular: NavLink[];      // Footer "Popular Calculators"
-  footerDescription: string;     // Footer top text
+  footerDescription: string;     // Footer description text
+  socialLinks: FooterLink[];     // Footer social links
 }
 
 const STORAGE_KEY = "calculatorhub_site_config_v1";
 
-// ✅ Default values (what you currently have)
+// ✅ Default values (your current setup)
 const defaultConfig: SiteConfigState = {
   quickAccess: [
     { name: "Currency Converter", slug: "/currency-converter" },
@@ -53,6 +59,11 @@ const defaultConfig: SiteConfigState = {
   ],
   footerDescription:
     "Discover 100% free online calculators and converters for finance, health, math, and daily life. CalculatorHub helps you solve problems instantly—fast, accurate, and privacy-friendly with no signup required.",
+  socialLinks: [
+    { label: "Twitter / X", url: "https://x.com" },
+    { label: "Facebook", url: "https://facebook.com" },
+    { label: "LinkedIn", url: "https://linkedin.com" },
+  ],
 };
 
 function safeLoadConfig(): SiteConfigState {
@@ -61,6 +72,7 @@ function safeLoadConfig(): SiteConfigState {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return defaultConfig;
     const parsed = JSON.parse(raw);
+
     return {
       ...defaultConfig,
       ...parsed,
@@ -69,6 +81,7 @@ function safeLoadConfig(): SiteConfigState {
       footerPopular: parsed.footerPopular ?? defaultConfig.footerPopular,
       footerDescription:
         parsed.footerDescription ?? defaultConfig.footerDescription,
+      socialLinks: parsed.socialLinks ?? defaultConfig.socialLinks,
     };
   } catch {
     return defaultConfig;
@@ -80,7 +93,7 @@ function saveConfig(config: SiteConfigState) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
   } catch {
-    // ignore
+    // ignore storage errors
   }
 }
 
