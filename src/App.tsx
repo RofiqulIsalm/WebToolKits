@@ -274,7 +274,7 @@ function App() {
               <Route path="/mass-weight-converter" element={withGuard(<MassWeightConverter />)} />
               <Route path="/time-converter" element={withGuard(<TimeConverter />)} />
               <Route path="/power-converter" element={withGuard(<PowerConverter />)} />
-              <Route path="/force-converter" element={withGuard(ForceConverter />)} />
+              <Route path="/force-converter" element={withGuard(<ForceConverter />)} />
               <Route path="/density-converter" element={withGuard(<DensityConverter />)} />
               <Route path="/acceleration-converter" element={withGuard(<AccelerationConverter />)} />
               <Route path="/flow-rate-converter" element={withGuard(<FlowRateConverter />)} />
