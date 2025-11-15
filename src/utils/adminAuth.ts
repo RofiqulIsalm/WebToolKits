@@ -1,27 +1,29 @@
 // src/utils/adminAuth.ts
 
-// ❗ TEMP FRONTEND-ONLY AUTH ❗
-// Replace this with a real backend-auth later.
-// For now, password is read from VITE_ADMIN_PASSWORD (or fallback).
-const ADMIN_KEY = "calculatorhub_admin_token";
+// This is the ONLY place where the admin password is stored
+// You can change it anytime
+const ADMIN_PASSWORD = "$@#P4a2r6k8y$@#";
 
-const FRONTEND_ADMIN_PASSWORD =
-  import.meta.env.VITE_ADMIN_PASSWORD || "CHANGE_ME_NOW_987";
+// Storage key
+const ADMIN_TOKEN_KEY = "calculatorhub_admin_token";
 
-export function isAdminAuthenticated(): boolean {
-  if (typeof window === "undefined") return false;
-  return localStorage.getItem(ADMIN_KEY) === "true";
-}
-
+// Login function
 export function loginAdmin(password: string): boolean {
-  if (password === FRONTEND_ADMIN_PASSWORD) {
-    localStorage.setItem(ADMIN_KEY, "true");
+  if (password === ADMIN_PASSWORD) {
+    // Create login session (until tab or browser is closed)
+    localStorage.setItem(ADMIN_TOKEN_KEY, "LOGGED_IN");
     return true;
   }
   return false;
 }
 
-export function logoutAdmin() {
-  if (typeof window === "undefined") return;
-  localStorage.removeItem(ADMIN_KEY);
+// Check if admin is authenticated
+export function isAdminAuthenticated(): boolean {
+  if (typeof window === "undefined") return false;
+  return localStorage.getItem(ADMIN_TOKEN_KEY) === "LOGGED_IN";
+}
+
+// Logout function
+export function logoutAdmin(): void {
+  localStorage.removeItem(ADMIN_TOKEN_KEY);
 }
