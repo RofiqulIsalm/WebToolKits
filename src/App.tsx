@@ -201,6 +201,10 @@ const BMICalculator = React.lazy(() => import("./pages/BMICalculator"));
 const AdminImageUpload = React.lazy(
   () => import("./pages/AdminImageUpload")
 );
+const AdminLogin = React.lazy(() => import("./pages/AdminLogin"));
+const AdminDashboard = React.lazy(
+  () => import("./pages/AdminDashboard")
+);
 const PrivacyPolicy = React.lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = React.lazy(
   () => import("./pages/TermsOfService")
