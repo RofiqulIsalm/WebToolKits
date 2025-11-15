@@ -596,14 +596,14 @@ export const toolsData = [
         name: 'TikTok Revenue Calculator',
         description: 'Estimate TikTok payouts based on views, region, and engagement.',
         icon: PlaySquare,
-        path: '/tiktok-creator-fund-estimator',
+        path: '/tiktok-revenue-calculator',
         color: 'misc-card',
       },
       {
         name: 'Website Revenue Calculator',
         description: 'Project website AdSense income from sessions, pageviews, and RPM.',
         icon: Globe,
-        path: '/adsense-revenue-calculator',
+        path: '/website-revenue-calculator',
         color: 'misc-card',
       }
 
