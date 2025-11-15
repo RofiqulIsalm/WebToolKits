@@ -17,6 +17,8 @@ import {
 import SEOHead from "../components/SEOHead";
 import { toolsData } from "../data/toolsData";
 import { isAdminAuthenticated, logoutAdmin } from "../utils/adminAuth";
+import { useSiteConfig } from "../config/siteConfig";
+
 
 type SimpleTool = {
   name: string;
