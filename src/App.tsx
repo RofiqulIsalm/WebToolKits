@@ -13,6 +13,10 @@ import CalculatorGuard from "./components/CalculatorGuard";
 
 // ========== Lazy-loaded Pages (Code Splitting) ==========
 
+const withGuard = (el: JSX.Element) => (
+  <CalculatorGuard>{el}</CalculatorGuard>
+);
+
 // Core pages
 const Homepage = React.lazy(() => import("./pages/Homepage"));
 const CategoryPage = React.lazy(() => import("./pages/CategoryPage"));
