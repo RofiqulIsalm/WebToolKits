@@ -395,11 +395,11 @@ function App() {
                 element={<AppRevenueCalculator />}
               />
               <Route
-                path="/adsense-revenue-calculator"
+                path="/website-revenue-calculator"
                 element={<WebsiteRevenueCalculator />}
               />
               <Route
-                path="/tiktok-creator-fund-estimator"
+                path="/tiktok-revenue-calculator"
                 element={<TikTokRevenueCalculator />}
               />
 
