@@ -357,7 +357,7 @@ function App() {
                 element={<BusinessDaysCalculator />}
               />
               <Route path="/countdown-timer" element={<CountdownTimer />} />
-              <Route path="/time-zone-converter" element={<TimezoneConverter />} />
+              <Route path="/timezone-converter" element={<TimezoneConverter />} />
               <Route
                 path="/time-duration-calculator"
                 element={<TimeDurationCalculator />}
