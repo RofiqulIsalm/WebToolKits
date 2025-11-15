@@ -1,404 +1,412 @@
 // src/pages/AdminDashboard.tsx
-import React, { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  BarChart3,
-  LogOut,
-  Star,
-  Zap,
-  ListChecks,
-  ArrowUp,
-  ArrowDown,
-  Plus,
-  Trash2,
-  Edit3,
-} from "lucide-react";
-
-import SEOHead from "../components/SEOHead";
-import { toolsData } from "../data/toolsData";
+import React from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useSiteConfig, NavLink, FooterLink } from "../config/siteConfig";
 import { isAdminAuthenticated, logoutAdmin } from "../utils/adminAuth";
-import { useSiteConfig } from "../config/siteConfig";
-
-
-type SimpleTool = {
-  name: string;
-  path: string;
-};
-
-
-const defaultQuickAccess: SimpleTool[] = [
-  { name: "Currency Converter", path: "/currency-converter" },
-  { name: "Loan EMI Calculator", path: "/loan-emi-calculator" },
-  { name: "Tax Calculator", path: "/tax-calculator" },
-  { name: "Age Calculator", path: "/age-calculator" },
-];
-
-const defaultPopular: SimpleTool[] = [
-  { name: "Percentage Calculator", path: "/percentage-calculator" },
-  { name: "Compound Interest Calculator", path: "/compound-interest-calculator" },
-  { name: "SIP Calculator", path: "/sip-calculator" },
-  { name: "BMI Calculator", path: "/bmi-calculator" },
-];
-
-const LS_KEY_QUICK = "ch_admin_quick_access";
-const LS_KEY_POPULAR = "ch_admin_popular_list";
+import { Shield, Settings, Trash2, Plus, LogOut, Edit3 } from "lucide-react";
+import SEOHead from "../components/SEOHead";
 
 const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
+  const { config, setConfig } = useSiteConfig();
 
-  // Simple auth check
   React.useEffect(() => {
     if (!isAdminAuthenticated()) {
       navigate("/admin/login", { replace: true });
     }
   }, [navigate]);
 
-  const allTools = useMemo(
-    () => toolsData.flatMap((cat) => cat.tools),
-    []
-  );
-
-  const [quickAccess, setQuickAccess] = useState<SimpleTool[]>(() => {
-    if (typeof window === "undefined") return defaultQuickAccess;
-    try {
-      const raw = localStorage.getItem(LS_KEY_QUICK);
-      return raw ? JSON.parse(raw) : defaultQuickAccess;
-    } catch {
-      return defaultQuickAccess;
-    }
-  });
-
-  const [popular, setPopular] = useState<SimpleTool[]>(() => {
-    if (typeof window === "undefined") return defaultPopular;
-    try {
-      const raw = localStorage.getItem(LS_KEY_POPULAR);
-      return raw ? JSON.parse(raw) : defaultPopular;
-    } catch {
-      return defaultPopular;
-    }
-  });
-
-  const [newQuickPath, setNewQuickPath] = useState("");
-  const [newPopularPath, setNewPopularPath] = useState("");
-  const [editMode, setEditMode] = useState(false);
-
-  const persistQuick = (list: SimpleTool[]) => {
-    setQuickAccess(list);
-    if (typeof window !== "undefined") {
-      localStorage.setItem(LS_KEY_QUICK, JSON.stringify(list));
-    }
-  };
-
-  const persistPopular = (list: SimpleTool[]) => {
-    setPopular(list);
-    if (typeof window !== "undefined") {
-      localStorage.setItem(LS_KEY_POPULAR, JSON.stringify(list));
-    }
-  };
-
-  const moveItem = (
-    list: SimpleTool[],
-    index: number,
-    direction: "up" | "down"
-  ) => {
-    const newList = [...list];
-    const targetIndex = direction === "up" ? index - 1 : index + 1;
-    if (targetIndex < 0 || targetIndex >= newList.length) return newList;
-    const temp = newList[index];
-    newList[index] = newList[targetIndex];
-    newList[targetIndex] = temp;
-    return newList;
-  };
-
-  const resolveToolByPath = (path: string): SimpleTool | null => {
-    const t = allTools.find((tool) => tool.path === path.trim());
-    if (!t) return null;
-    return { name: t.name, path: t.path };
-  };
-
   const handleLogout = () => {
     logoutAdmin();
     navigate("/admin/login", { replace: true });
   };
 
-  const totalCalculators = allTools.length;
-  const totalCategories = toolsData.length;
+  // Helpers for editing arrays
+  const updateQuickAccess = (next: NavLink[]) => {
+    setConfig((prev) => ({ ...prev, quickAccess: next }));
+  };
+
+  const updatePopularSidebar = (next: NavLink[]) => {
+    setConfig((prev) => ({ ...prev, popularSidebar: next }));
+  };
+
+  const updateFooterPopular = (next: NavLink[]) => {
+    setConfig((prev) => ({ ...prev, footerPopular: next }));
+  };
+
+  const updateSocialLinks = (next: FooterLink[]) => {
+    setConfig((prev) => ({ ...prev, socialLinks: next }));
+  };
+
+  const handleFooterDescriptionChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const value = e.target.value;
+    setConfig((prev) => ({ ...prev, footerDescription: value }));
+  };
 
   return (
     <>
       <SEOHead
         title="Admin Dashboard – CalculatorHub"
-        description="Internal admin dashboard for CalculatorHub: analytics, favorites and quick access configuration."
+        description="Internal admin dashboard for managing CalculatorHub sidebar and footer configuration."
         canonical="https://calculatorhub.site/admin/dashboard"
-        breadcrumbs={[{ name: "Admin Dashboard", url: "/admin/dashboard" }]}
+        breadcrumbs={[
+          { name: "Admin", url: "/admin/login" },
+          { name: "Dashboard", url: "/admin/dashboard" },
+        ]}
       />
 
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-2xl bg-sky-500/20 border border-sky-400/60 flex items-center justify-center shadow-lg shadow-sky-900/70">
-              <BarChart3 className="w-6 h-6 text-sky-200" />
+            <div className="h-10 w-10 rounded-2xl bg-emerald-500/15 border border-emerald-400/60 flex items-center justify-center">
+              <Shield className="w-5 h-5 text-emerald-300" />
             </div>
             <div>
-              <h1 className="text-2xl md:text-3xl font-semibold text-white">
+              <h1 className="text-2xl font-semibold text-white flex items-center gap-2">
                 Admin Dashboard
+                <span className="text-xs font-normal text-emerald-300 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/40">
+                  Secure
+                </span>
               </h1>
-              <p className="text-xs md:text-sm text-slate-400">
-                View internal metrics and manage Quick Access & Popular calculators.
+              <p className="text-xs text-slate-400">
+                Manage sidebar quick access, popular calculators, and footer
+                content.
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setEditMode((v) => !v)}
-              className="px-3 py-1.5 rounded-lg text-xs bg-slate-900 border border-slate-700 text-slate-200 hover:bg-slate-800 flex items-center gap-1"
-            >
-              <Edit3 className="w-3.5 h-3.5" />
-              {editMode ? "Done editing" : "Edit lists"}
-            </button>
-            <button
-              onClick={handleLogout}
-              className="px-3 py-1.5 rounded-lg text-xs bg-rose-600 text-white hover:bg-rose-500 flex items-center gap-1.5"
-            >
-              <LogOut className="w-3.5 h-3.5" />
-              Logout
-            </button>
-          </div>
-        </div>
-
-        {/* Top Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <div className="glow-card rounded-2xl bg-slate-950/90 border border-sky-500/40 p-4">
-            <p className="text-xs uppercase tracking-wide text-sky-300">
-              Total calculators
-            </p>
-            <p className="text-3xl font-bold text-white mt-2">{totalCalculators}</p>
-            <p className="text-[11px] text-slate-400 mt-1">
-              Pulled directly from toolsData configuration.
-            </p>
-          </div>
-          <div className="glow-card rounded-2xl bg-slate-950/90 border border-emerald-500/40 p-4">
-            <p className="text-xs uppercase tracking-wide text-emerald-300">
-              Categories
-            </p>
-            <p className="text-3xl font-bold text-white mt-2">
-              {totalCategories}
-            </p>
-            <p className="text-[11px] text-slate-400 mt-1">
-              Currency, unit converters, math, date/time, misc, etc.
-            </p>
-          </div>
-          <div className="glow-card rounded-2xl bg-slate-950/90 border border-fuchsia-500/40 p-4">
-            <p className="text-xs uppercase tracking-wide text-fuchsia-300">
-              Analytics status
-            </p>
-            <p className="text-sm text-slate-200 mt-1">
-              To track “most liked / most used”, connect Google Analytics / backend
-              events and surface them here.
-            </p>
-          </div>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-slate-100 text-sm hover:bg-rose-600/80 hover:border-rose-400/70 hover:text-white transition-colors"
+          >
+            <LogOut className="w-4 h-4" />
+            Logout
+          </button>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Quick Access manager */}
-          <section className="glow-card rounded-2xl bg-slate-950/90 border border-amber-500/40 p-5">
+          {/* Quick Access */}
+          <section className="glow-card bg-slate-950/90 border border-slate-800/80 rounded-2xl p-5">
             <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <Zap className="w-5 h-5 text-amber-300" />
-                <h2 className="text-lg font-semibold text-white">
-                  Quick Access Calculators
-                </h2>
-              </div>
+              <h2 className="text-lg font-semibold text-amber-300 flex items-center gap-2">
+                <Settings className="w-4 h-4" />
+                Sidebar – Quick Access
+              </h2>
+              <button
+                type="button"
+                className="text-xs flex items-center gap-1 text-slate-300 hover:text-amber-300"
+                onClick={() =>
+                  updateQuickAccess([
+                    ...config.quickAccess,
+                    { name: "New Tool", slug: "/" },
+                  ])
+                }
+              >
+                <Plus className="w-3 h-3" />
+                Add
+              </button>
             </div>
 
-            <p className="text-xs text-slate-400 mb-3">
-              These appear in the sidebar “Quick Access” section for users.
+            <p className="text-[11px] text-slate-500 mb-2">
+              These links show in the right sidebar under “Quick Access”.
             </p>
 
-            <ul className="space-y-2 mb-4">
-              {quickAccess.map((item, idx) => (
-                <li
-                  key={item.path}
-                  className="flex items-center justify-between bg-slate-900/80 border border-slate-700/80 rounded-lg px-3 py-2 text-sm"
+            <div className="space-y-3">
+              {config.quickAccess.map((item, idx) => (
+                <div
+                  key={`${item.slug}-${idx}`}
+                  className="flex items-center gap-2 bg-slate-900/80 border border-slate-700/70 rounded-lg px-3 py-2"
                 >
-                  <div>
-                    <p className="text-slate-50">{item.name}</p>
-                    <p className="text-[11px] text-slate-500">{item.path}</p>
+                  <span className="text-xs text-slate-500 w-5">{idx + 1}.</span>
+                  <div className="flex-1 space-y-1">
+                    <input
+                      className="w-full bg-transparent border-b border-slate-700 text-sm text-slate-100 focus:outline-none focus:border-amber-400"
+                      value={item.name}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        const next = [...config.quickAccess];
+                        next[idx] = { ...next[idx], name: value };
+                        updateQuickAccess(next);
+                      }}
+                    />
+                    <input
+                      className="w-full bg-transparent border-b border-slate-800 text-[11px] text-slate-400 focus:outline-none focus:border-amber-400"
+                      value={item.slug}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        const next = [...config.quickAccess];
+                        next[idx] = { ...next[idx], slug: value };
+                        updateQuickAccess(next);
+                      }}
+                    />
                   </div>
-                  {editMode && (
-                    <div className="flex items-center gap-1">
-                      <button
-                        onClick={() =>
-                          persistQuick(moveItem(quickAccess, idx, "up"))
-                        }
-                        className="p-1 rounded-md hover:bg-slate-800"
-                      >
-                        <ArrowUp className="w-3.5 h-3.5 text-slate-200" />
-                      </button>
-                      <button
-                        onClick={() =>
-                          persistQuick(moveItem(quickAccess, idx, "down"))
-                        }
-                        className="p-1 rounded-md hover:bg-slate-800"
-                      >
-                        <ArrowDown className="w-3.5 h-3.5 text-slate-200" />
-                      </button>
-                      <button
-                        onClick={() =>
-                          persistQuick(
-                            quickAccess.filter((_, i) => i !== idx)
-                          )
-                        }
-                        className="p-1 rounded-md hover:bg-rose-900/60"
-                      >
-                        <Trash2 className="w-3.5 h-3.5 text-rose-300" />
-                      </button>
-                    </div>
-                  )}
-                </li>
+                  <button
+                    type="button"
+                    className="text-slate-500 hover:text-rose-400"
+                    onClick={() => {
+                      const next = config.quickAccess.filter(
+                        (_, i) => i !== idx
+                      );
+                      updateQuickAccess(next);
+                    }}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
               ))}
-            </ul>
-
-            {editMode && (
-              <form
-                className="flex flex-col sm:flex-row gap-2"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  if (!newQuickPath.trim()) return;
-                  const resolved = resolveToolByPath(newQuickPath);
-                  if (!resolved) {
-                    alert("No tool found for that path. Check App.tsx routes.");
-                    return;
-                  }
-                  persistQuick([...quickAccess, resolved]);
-                  setNewQuickPath("");
-                }}
-              >
-                <input
-                  type="text"
-                  value={newQuickPath}
-                  onChange={(e) => setNewQuickPath(e.target.value)}
-                  placeholder="e.g. /currency-converter"
-                  className="flex-1 px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-slate-50 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                />
-                <button
-                  type="submit"
-                  className="px-3 py-2 rounded-lg bg-amber-500 text-slate-900 text-sm font-medium flex items-center justify-center gap-1 hover:bg-amber-400"
-                >
-                  <Plus className="w-3.5 h-3.5" />
-                  Add
-                </button>
-              </form>
-            )}
+            </div>
           </section>
 
-          {/* Popular calculators manager */}
-          <section className="glow-card rounded-2xl bg-slate-950/90 border border-emerald-500/40 p-5">
+          {/* Sidebar Popular */}
+          <section className="glow-card bg-slate-950/90 border border-slate-800/80 rounded-2xl p-5">
             <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <Star className="w-5 h-5 text-emerald-300" />
-                <h2 className="text-lg font-semibold text-white">
-                  Popular Calculators
-                </h2>
-              </div>
+              <h2 className="text-lg font-semibold text-emerald-300 flex items-center gap-2">
+                <Settings className="w-4 h-4" />
+                Sidebar – Popular Calculators
+              </h2>
+              <button
+                type="button"
+                className="text-xs flex items-center gap-1 text-slate-300 hover:text-emerald-300"
+                onClick={() =>
+                  updatePopularSidebar([
+                    ...config.popularSidebar,
+                    { name: "New Popular", slug: "/" },
+                  ])
+                }
+              >
+                <Plus className="w-3 h-3" />
+                Add
+              </button>
             </div>
 
-            <p className="text-xs text-slate-400 mb-3">
-              These show in the sidebar “Popular Calculators” and can reflect your
-              top-performing tools.
+            <p className="text-[11px] text-slate-500 mb-2">
+              These links show in the sidebar “Popular Calculators” section.
             </p>
 
-            <ul className="space-y-2 mb-4">
-              {popular.map((item, idx) => (
-                <li
-                  key={item.path}
-                  className="flex items-center justify-between bg-slate-900/80 border border-slate-700/80 rounded-lg px-3 py-2 text-sm"
+            <div className="space-y-3">
+              {config.popularSidebar.map((item, idx) => (
+                <div
+                  key={`${item.slug}-${idx}`}
+                  className="flex items-center gap-2 bg-slate-900/80 border border-slate-700/70 rounded-lg px-3 py-2"
                 >
-                  <div>
-                    <p className="text-slate-50">{item.name}</p>
-                    <p className="text-[11px] text-slate-500">{item.path}</p>
+                  <span className="text-xs text-slate-500 w-5">{idx + 1}.</span>
+                  <div className="flex-1 space-y-1">
+                    <input
+                      className="w-full bg-transparent border-b border-slate-700 text-sm text-slate-100 focus:outline-none focus:border-emerald-400"
+                      value={item.name}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        const next = [...config.popularSidebar];
+                        next[idx] = { ...next[idx], name: value };
+                        updatePopularSidebar(next);
+                      }}
+                    />
+                    <input
+                      className="w-full bg-transparent border-b border-slate-800 text-[11px] text-slate-400 focus:outline-none focus:border-emerald-400"
+                      value={item.slug}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        const next = [...config.popularSidebar];
+                        next[idx] = { ...next[idx], slug: value };
+                        updatePopularSidebar(next);
+                      }}
+                    />
                   </div>
-                  {editMode && (
-                    <div className="flex items-center gap-1">
-                      <button
-                        onClick={() =>
-                          persistPopular(moveItem(popular, idx, "up"))
-                        }
-                        className="p-1 rounded-md hover:bg-slate-800"
-                      >
-                        <ArrowUp className="w-3.5 h-3.5 text-slate-200" />
-                      </button>
-                      <button
-                        onClick={() =>
-                          persistPopular(moveItem(popular, idx, "down"))
-                        }
-                        className="p-1 rounded-md hover:bg-slate-800"
-                      >
-                        <ArrowDown className="w-3.5 h-3.5 text-slate-200" />
-                      </button>
-                      <button
-                        onClick={() =>
-                          persistPopular(popular.filter((_, i) => i !== idx))
-                        }
-                        className="p-1 rounded-md hover:bg-rose-900/60"
-                      >
-                        <Trash2 className="w-3.5 h-3.5 text-rose-300" />
-                      </button>
-                    </div>
-                  )}
-                </li>
+                  <button
+                    type="button"
+                    className="text-slate-500 hover:text-rose-400"
+                    onClick={() => {
+                      const next = config.popularSidebar.filter(
+                        (_, i) => i !== idx
+                      );
+                      updatePopularSidebar(next);
+                    }}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
               ))}
-            </ul>
-
-            {editMode && (
-              <form
-                className="flex flex-col sm:flex-row gap-2"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  if (!newPopularPath.trim()) return;
-                  const resolved = resolveToolByPath(newPopularPath);
-                  if (!resolved) {
-                    alert("No tool found for that path. Check App.tsx routes.");
-                    return;
-                  }
-                  persistPopular([...popular, resolved]);
-                  setNewPopularPath("");
-                }}
-              >
-                <input
-                  type="text"
-                  value={newPopularPath}
-                  onChange={(e) => setNewPopularPath(e.target.value)}
-                  placeholder="e.g. /percentage-calculator"
-                  className="flex-1 px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-slate-50 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                />
-                <button
-                  type="submit"
-                  className="px-3 py-2 rounded-lg bg-emerald-500 text-slate-900 text-sm font-medium flex items-center justify-center gap-1 hover:bg-emerald-400"
-                >
-                  <Plus className="w-3.5 h-3.5" />
-                  Add
-                </button>
-              </form>
-            )}
+            </div>
           </section>
         </div>
 
-        {/* Placeholder “most liked / needs update” note */}
-        <div className="mt-8 glow-card rounded-2xl bg-slate-950/90 border border-slate-800/80 p-4 flex items-start gap-3 text-xs text-slate-300">
-          <ListChecks className="w-4 h-4 text-sky-300 mt-0.5" />
-          <div>
-            <p className="font-semibold text-slate-100 mb-1">
-              Next step: real usage analytics
+        {/* Footer settings */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+          {/* Footer description */}
+          <section className="glow-card bg-slate-950/90 border border-slate-800/80 rounded-2xl p-5">
+            <h2 className="text-lg font-semibold text-sky-300 flex items-center gap-2 mb-3">
+              <Edit3 className="w-4 h-4" />
+              Footer – Description
+            </h2>
+            <p className="text-[11px] text-slate-500 mb-2">
+              This text appears in the first column of your footer under
+              “CalculatorHub”.
             </p>
-            <p>
-              To truly see which calculators get the most impressions, likes and
-              bounce rate, connect Google Analytics / Plausible / a custom
-              backend. Then expose that data via an API and render it here.
-            </p>
-          </div>
+            <textarea
+              className="w-full h-32 bg-slate-900/80 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              value={config.footerDescription}
+              onChange={handleFooterDescriptionChange}
+            />
+          </section>
+
+          {/* Footer Popular + Social */}
+          <section className="space-y-4">
+            {/* Footer Popular */}
+            <div className="glow-card bg-slate-950/90 border border-slate-800/80 rounded-2xl p-5">
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="text-lg font-semibold text-indigo-300 flex items-center gap-2">
+                  <Settings className="w-4 h-4" />
+                  Footer – Popular Calculators
+                </h2>
+                <button
+                  type="button"
+                  className="text-xs flex items-center gap-1 text-slate-300 hover:text-indigo-300"
+                  onClick={() =>
+                    updateFooterPopular([
+                      ...config.footerPopular,
+                      { name: "New Footer Calc", slug: "/" },
+                    ])
+                  }
+                >
+                  <Plus className="w-3 h-3" />
+                  Add
+                </button>
+              </div>
+              <div className="space-y-3 text-sm">
+                {config.footerPopular.map((item, idx) => (
+                  <div
+                    key={`${item.slug}-${idx}`}
+                    className="flex items-center gap-2 bg-slate-900/80 border border-slate-700/70 rounded-lg px-3 py-2"
+                  >
+                    <span className="text-xs text-slate-500 w-5">
+                      {idx + 1}.
+                    </span>
+                    <div className="flex-1 space-y-1">
+                      <input
+                        className="w-full bg-transparent border-b border-slate-700 text-sm text-slate-100 focus:outline-none focus:border-indigo-400"
+                        value={item.name}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          const next = [...config.footerPopular];
+                          next[idx] = { ...next[idx], name: value };
+                          updateFooterPopular(next);
+                        }}
+                      />
+                      <input
+                        className="w-full bg-transparent border-b border-slate-800 text-[11px] text-slate-400 focus:outline-none focus:border-indigo-400"
+                        value={item.slug}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          const next = [...config.footerPopular];
+                          next[idx] = { ...next[idx], slug: value };
+                          updateFooterPopular(next);
+                        }}
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      className="text-slate-500 hover:text-rose-400"
+                      onClick={() => {
+                        const next = config.footerPopular.filter(
+                          (_, i) => i !== idx
+                        );
+                        updateFooterPopular(next);
+                      }}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Social Links */}
+            <div className="glow-card bg-slate-950/90 border border-slate-800/80 rounded-2xl p-5">
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="text-lg font-semibold text-fuchsia-300 flex items-center gap-2">
+                  <Settings className="w-4 h-4" />
+                  Footer – Social Links
+                </h2>
+                <button
+                  type="button"
+                  className="text-xs flex items-center gap-1 text-slate-300 hover:text-fuchsia-300"
+                  onClick={() =>
+                    updateSocialLinks([
+                      ...config.socialLinks,
+                      { label: "New Social", url: "https://example.com" },
+                    ])
+                  }
+                >
+                  <Plus className="w-3 h-3" />
+                  Add
+                </button>
+              </div>
+              <p className="text-[11px] text-slate-500 mb-2">
+                These links show as small pills under the footer description.
+              </p>
+
+              <div className="space-y-3 text-sm">
+                {config.socialLinks.map((item, idx) => (
+                  <div
+                    key={`${item.label}-${idx}`}
+                    className="flex items-center gap-2 bg-slate-900/80 border border-slate-700/70 rounded-lg px-3 py-2"
+                  >
+                    <span className="text-xs text-slate-500 w-5">
+                      {idx + 1}.
+                    </span>
+                    <div className="flex-1 space-y-1">
+                      <input
+                        className="w-full bg-transparent border-b border-slate-700 text-sm text-slate-100 focus:outline-none focus:border-fuchsia-400"
+                        value={item.label}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          const next = [...config.socialLinks];
+                          next[idx] = { ...next[idx], label: value };
+                          updateSocialLinks(next);
+                        }}
+                      />
+                      <input
+                        className="w-full bg-transparent border-b border-slate-800 text-[11px] text-slate-400 focus:outline-none focus:border-fuchsia-400"
+                        value={item.url}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          const next = [...config.socialLinks];
+                          next[idx] = { ...next[idx], url: value };
+                          updateSocialLinks(next);
+                        }}
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      className="text-slate-500 hover:text-rose-400"
+                      onClick={() => {
+                        const next = config.socialLinks.filter(
+                          (_, i) => i !== idx
+                        );
+                        updateSocialLinks(next);
+                      }}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* Small preview link */}
+        <div className="mt-6 text-xs text-slate-500">
+          <span>Preview changes: </span>
+          <Link
+            to="/"
+            className="text-sky-400 hover:text-sky-300 underline underline-offset-2"
+          >
+            Go to homepage
+          </Link>
         </div>
       </div>
     </>
