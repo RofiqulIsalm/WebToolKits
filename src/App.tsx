@@ -279,6 +279,7 @@ function App() {
               <Route path="/acceleration-converter" element={withGuard(<AccelerationConverter />)} />
               <Route path="/flow-rate-converter" element={withGuard(<FlowRateConverter />)} />
               <Route path="/fuel-consumption-converter" element={withGuard(<FuelConsumptionConverter />)} />
+              <Route path="/fuel-cost-calculator" element={withGuard(<FuelCostCalculator />)} />
               <Route path="/angle-converter" element={withGuard(<AngleConverter />)} />
               <Route path="/frequency-converter" element={withGuard(<FrequencyConverter />)} />
               <Route path="/data-transfer-converter" element={withGuard(<DataTransferConverter />)} />
