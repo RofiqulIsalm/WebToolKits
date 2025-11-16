@@ -687,6 +687,8 @@ export default function PressureConverter() {
           </div>
         </div>
 
+
+        <AdBanner type="bottom" />
         {/* ==================== SEO Content Section (~2000 words) ==================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
         
@@ -797,6 +799,7 @@ export default function PressureConverter() {
           <p className="text-sm text-slate-400">
             When magnitudes are extreme, Normal may auto-switch to scientific notation to preserve readability.
           </p>
+          <AdBanner type="bottom" />
         
           {/* ===== Keyboard Shortcuts ===== */}
           <h2 id="keyboard" className="text-2xl font-semibold text-emerald-300 mt-10 mb-4">⌨️ Keyboard Shortcuts & Workflow</h2>
