@@ -797,6 +797,8 @@ const PercentageCalculator: React.FC = () => {
           )}
         </div>
 
+
+        <AdBanner type="bottom" />
        {/* ==================== SEO CONTENT SECTION ==================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
         
@@ -932,7 +934,8 @@ const PercentageCalculator: React.FC = () => {
           <p className="text-sm text-slate-400 mt-2">
             Common pitfall: A 20% decrease followed by a 20% increase does <em>not</em> return to the original value.
           </p>
-        
+
+          <AdBanner type="bottom" />
           {/* ===== Mode 5 ===== */}
           <h2 id="percent-change" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">➎ Percent Change from A to B</h2>
           <p>
