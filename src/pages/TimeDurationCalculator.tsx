@@ -504,7 +504,7 @@ const TimeDurationCalculator: React.FC = () => {
             <p className="text-sm text-indigo-100">Try our Timezone Converter and Age Calculator next!</p>
           </div>
           <Link
-            href="/date-time-tools"
+            href="/category/date-time-tools" 
             className="bg-white text-indigo-700 font-semibold px-4 py-2 rounded-md hover:bg-indigo-50 transition"
           >
             Explore More
