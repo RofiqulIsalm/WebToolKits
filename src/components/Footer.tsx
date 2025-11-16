@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
               <img
                 src="/images/calculatorhub-logo.webp"
                 alt="CalculatorHub Logo"
-                className="h-8 w-8 rounded-md shadow-md"
+                className="h-4 w-4 rounded-md shadow-md"
                 loading="lazy"
               />
               <span className="text-2xl font-bold text-white drop-shadow-lg">
