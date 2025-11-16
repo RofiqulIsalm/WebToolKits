@@ -215,6 +215,7 @@ const AdminDashboard = React.lazy(
   () => import("./pages/AdminDashboard")
 );
 const PrivacyPolicy = React.lazy(() => import("./pages/PrivacyPolicy"));
+const Aboutus = React.lazy(() => import("./pages/Aboutus"));
 const TermsOfService = React.lazy(
   () => import("./pages/TermsOfService")
 );
@@ -434,6 +435,7 @@ function App() {
 
               {/* Legal Pages */}
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/about-us" element={<Aboutus />} />
               <Route path="/terms-of-service" element={<TermsOfService />} />
               <Route path="/contact-us" element={<ContactUs />} />
 
