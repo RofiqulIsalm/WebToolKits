@@ -1162,6 +1162,8 @@ const FacebookRevenueCalculator: React.FC = () => {
             RPM?”.
           </p>
 
+          <AdBanner type="bottom" />
+
           <h2
             id="how-calculated"
             className="text-2xl font-semibold text-cyan-300 mt-10 mb-4"
