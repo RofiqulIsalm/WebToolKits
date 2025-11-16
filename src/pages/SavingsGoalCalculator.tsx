@@ -695,6 +695,7 @@ const SavingsGoalCalculator: React.FC = () => {
           </div>
         )}
 
+        <AdBanner type="bottom" />
         {/* ===== SEO Content Section ===== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
           <h1 className="text-3xl font-bold text-cyan-400 mb-6">
@@ -748,6 +749,7 @@ const SavingsGoalCalculator: React.FC = () => {
             Use it to plan budgets, emergency funds, or investment milestones.
           </p>
 
+          <AdBanner type="bottom" />
           {/* ===== How It's Calculated (Step-by-Step) ===== */}
           <section id="how-calculated" className="mt-8 text-slate-200">
             <h2 className="mb-4 text-2xl font-extrabold tracking-tight">
@@ -760,6 +762,7 @@ const SavingsGoalCalculator: React.FC = () => {
               We simulate your balance month by month. Each month the current balance grows by the monthly rate,
               then your planned contribution is added. We repeat until the balance reaches your goal.
             </p>
+            
           
             {/* Inputs strip */}
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 mb-3">
