@@ -1186,6 +1186,7 @@ const TimezoneConverter: React.FC = () => {
           )}
         </div>
 
+        <AdBanner type="bottom" />
         {/* ===================== SEO Content (~1800–2000 words) ===================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
         
@@ -1291,7 +1292,7 @@ const TimezoneConverter: React.FC = () => {
             The display includes an at-a-glance chip (<em>Yesterday</em>, <em>Today</em>, <em>Tomorrow</em>)
             by comparing calendar dates between the base and each target city at the same UTC instant.
           </p>
-        
+        <AdBanner type="bottom" />
           {/* ===== Worked Examples ===== */}
           <h2 id="examples" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
             🧪 Worked examples
