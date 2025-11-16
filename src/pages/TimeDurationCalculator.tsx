@@ -769,6 +769,7 @@ const TimeDurationCalculator: React.FC = () => {
           )}
         </div>
 
+        <AdBanner type="bottom" />
         {/* ===================== SEO Content (~1800–2000 words) ===================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
         
