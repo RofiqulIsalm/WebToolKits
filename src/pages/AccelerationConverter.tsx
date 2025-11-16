@@ -815,7 +815,8 @@ export default function AccelerationConverter() {
               <strong>Convert 32.174 ft/s² to g:</strong> First to m/s²: 32.174 × 0.3048 ≈ 9.80665 m/s²; divide by 9.80665 → <strong>1 g</strong> (by design).
             </li>
           </ul>
-        
+
+          <AdBanner type="bottom" />
           {/* Engineering & Real-World Applications */}
           <h2 id="accel-engineering" className="text-2xl font-semibold text-violet-200 mt-10 mb-4">🛠️ Engineering & Real-World Applications</h2>
           <h3 className="text-lg font-semibold text-gray-100 mt-4">Automotive & Transportation</h3>
