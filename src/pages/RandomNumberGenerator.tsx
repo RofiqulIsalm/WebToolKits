@@ -833,7 +833,7 @@ const RandomNumberGenerator: React.FC = () => {
           )}
         </div>
 
-        <AdBanner />
+        <AdBanner type="bottom" />
 
         {/* SEO Content */}
         <div className="rounded-2xl p-8 mb-8">
@@ -1010,6 +1010,7 @@ const RandomNumberGenerator: React.FC = () => {
         
           </div>
         </div>
+        <AdBanner type="bottom" />
           <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
             <div className="flex items-center gap-3">
               <img
