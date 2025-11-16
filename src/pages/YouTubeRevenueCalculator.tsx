@@ -1210,7 +1210,8 @@ const YouTubeRevenueCalculator: React.FC = () => {
                 </li>
               </ol>
             </nav>
-          
+
+            <AdBanner type="bottom" />
             <h1
               id="overview"
               className="text-3xl font-bold text-cyan-400 mb-6"
