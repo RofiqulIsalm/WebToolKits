@@ -1271,6 +1271,8 @@ const CompoundInterestCalculator: React.FC = () => {
               <li>Encourages early and consistent investing.</li>
               <li>Accurate, fast, and easy to use.</li>
             </ul>
+
+           <AdBanner type="bottom" />
           
             <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">Compound Interest Calculator Comparison</h2>
             <p>
