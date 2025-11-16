@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
                 className="h-6 w-6 rounded-md shadow-md"
                 loading="lazy"
               />
-              <span className="text-2xl font-bold text-white drop-shadow-lg">
+              <span className="text-xl font-bold text-white drop-shadow-lg">
                 CalculatorHub
               </span> 
             </span>
