@@ -637,6 +637,7 @@ const PayRaiseCalculator: React.FC = () => {
           </div>
         )}
 
+        <AdBanner type="bottom" />
         {/* ===== SEO / Informational Section ===== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
 
@@ -769,7 +770,8 @@ const PayRaiseCalculator: React.FC = () => {
             Overall, it’s an <strong>affordable Pay Raise / Salary Hike Calculator solution</strong> 
             that simplifies salary growth tracking and helps users make informed career decisions.
           </p>
-        
+
+          <AdBanner type="bottom" />
           <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
             💬 Pay Raise / Salary Hike Calculator Tips
           </h2>
