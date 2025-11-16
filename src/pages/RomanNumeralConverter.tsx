@@ -934,7 +934,7 @@ const RomanNumeralConverter: React.FC = () => {
           </div>
         </div>
 
-        <AdBanner />
+        <AdBanner type="bottom" />
 
         {/* About / SEO Content (short) */}
         <div className="rounded-2xl p-8 mb-8">
@@ -1021,6 +1021,7 @@ const RomanNumeralConverter: React.FC = () => {
             In short, <strong>CalculatorHub’s Roman Numeral Converter</strong> combines accuracy,
             design, and education — making ancient math simple for everyone.
           </p>
+          <AdBanner type="bottom" />
       
           <h3 className="text-2xl font-semibold text-white mt-6">Benefits of Using This Tool</h3>
           <ul className="list-disc list-inside space-y-2 ml-4">
