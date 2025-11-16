@@ -687,7 +687,7 @@ export default function LengthConverter() {
           </div>    
         </div>
         
-
+        <AdBanner type="bottom" />
         {/* ==================== SEO CONTENT SECTION (Extended ~2000 words) ==================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
         
@@ -814,6 +814,7 @@ export default function LengthConverter() {
             <li><strong>CSV export</strong>: download for spreadsheets, QA logging, or documentation.</li>
             <li><strong>Shareable URL</strong>: inputs and preferences live in the link — send a precise snapshot to anyone.</li>
           </ul>
+          <AdBanner type="bottom" />
         
           {/* ===== Worked Examples ===== */}
           <h2 id="examples" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
