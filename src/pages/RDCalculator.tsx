@@ -1170,6 +1170,7 @@ const RDCalculator: React.FC = () => {
                 </div>
               </div>
             </div>
+            <AdBanner type="bottom" />
 
             <div className="mt-5 flex flex-col sm:flex-row items-center justify-between gap-2 rounded-xl bg-[#0f172a] px-4 py-3 ring-1 ring-emerald-500/30">
               <span className="text-sm text-emerald-300 whitespace-nowrap">
@@ -1244,6 +1245,7 @@ const RDCalculator: React.FC = () => {
               visuals, breakdowns, and privacy — all free. It’s rated among the <strong>best Recurring Deposit Calculator</strong>
               options online for both accuracy and design.
             </p>
+            <AdBanner type="bottom" />
           
             {/* FAQ */}
             <section id="faq" className="space-y-6 mt-16">
