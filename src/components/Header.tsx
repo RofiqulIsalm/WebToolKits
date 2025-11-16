@@ -1,7 +1,7 @@
 // src/components/Header.tsx
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Search, Calculator } from "lucide-react";
+import { Search } from "lucide-react";
 import { toolsData } from "../data/toolsData";
 
 type ToolEntry = (typeof toolsData)[number]["tools"][number];
@@ -72,31 +72,35 @@ const Header: React.FC = () => {
 
   return (
     <header className="bg-slate-900/80 backdrop-blur-lg shadow-2xl border-b border-blue-500/20 sticky top-0 z-40">
-      <div className="container mx-auto px-4 py-3 sm:py-4">
-        <div className="flex items-center justify-between gap-4">
+      <div className="container mx-auto px-3 sm:px-4 py-2.5 sm:py-3.5">
+        {/* On mobile: stack logo + search; on larger: row */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 sm:gap-4">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
+          <Link
+            to="/"
+            className="flex items-center gap-2 sm:gap-2.5"
+          >
             <img
               src="/images/calculatorhub-logo.webp"
               alt="CalculatorHub Logo"
-              className="h-8 w-8 rounded-md shadow-md"
+              className="h-8 w-8 rounded-md shadow-md flex-shrink-0"
               loading="lazy"
             />
-            <span className="text-2xl font-bold text-white drop-shadow-lg">
+            <span className="text-xl sm:text-2xl font-bold text-white drop-shadow-lg leading-tight">
               CalculatorHub
             </span>
           </Link>
 
           {/* Search */}
           <div
-            className="relative max-w-md w-full mx-2 sm:mx-4"
+            className="relative w-full sm:max-w-md sm:w-auto mt-2 sm:mt-0"
             ref={searchWrapperRef}
           >
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400 h-5 w-5" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400 h-4 w-4 sm:h-5 sm:w-5" />
               <input
                 type="text"
-                placeholder="Search calculators, converters, and tools..."
+                placeholder="Search calculators, converters, tools..."
                 value={searchQuery}
                 onChange={(e) => handleSearch(e.target.value)}
                 onKeyDown={handleKeyDown}
@@ -105,7 +109,7 @@ const Header: React.FC = () => {
                     setShowResults(true);
                   }
                 }}
-                className="w-full pl-10 pr-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-slate-400 text-sm sm:text-base"
+                className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 glow-input rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-slate-400 text-sm sm:text-base"
               />
             </div>
 
@@ -116,10 +120,10 @@ const Header: React.FC = () => {
                     <button
                       key={tool.path}
                       onClick={() => handleToolClick(tool.path)}
-                      className="w-full text-left px-4 py-3 hover:bg-slate-700/60 border-b border-slate-700/40 last:border-b-0 transition-colors"
+                      className="w-full text-left px-3 sm:px-4 py-2.5 sm:py-3 hover:bg-slate-700/60 border-b border-slate-700/40 last:border-b-0 transition-colors"
                     >
-                      <div className="flex items-center space-x-3">
-                        <tool.icon className="h-5 w-5 text-blue-400 flex-shrink-0" />
+                      <div className="flex items-start gap-2.5 sm:gap-3">
+                        <tool.icon className="h-4 w-4 sm:h-5 sm:w-5 text-blue-400 flex-shrink-0 mt-0.5" />
                         <div>
                           <div className="font-medium text-white text-sm sm:text-base">
                             {tool.name}
@@ -132,7 +136,7 @@ const Header: React.FC = () => {
                     </button>
                   ))
                 ) : (
-                  <div className="px-4 py-3 text-sm text-slate-300">
+                  <div className="px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-slate-300">
                     No tools found for{" "}
                     <span className="font-semibold text-blue-300">
                       “{searchQuery.trim()}”
