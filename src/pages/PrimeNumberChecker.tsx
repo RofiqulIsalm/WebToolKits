@@ -831,6 +831,7 @@ const PrimeNumberChecker: React.FC = () => {
           )}
         </div>
 
+        <AdBanner type="bottom" />
         {/* ===================== SEO Content (~1800–2000 words) ===================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
         
@@ -948,7 +949,8 @@ const PrimeNumberChecker: React.FC = () => {
             <li><strong>Input:</strong> <code>1 0 −5</code> → none are prime (primes are integers ≥ 2).</li>
             <li><strong>Single input:</strong> <code>101</code> → prime; previous prime 97; next prime 103; gap distances 4 and 2.</li>
           </ul>
-        
+
+          <AdBanner type="bottom" />
           {/* ===== Single-number Mode ===== */}
           <h2 id="single-number" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
             🎯 Single-number mode: neighbors & the local prime gap
