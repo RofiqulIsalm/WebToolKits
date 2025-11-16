@@ -646,6 +646,7 @@ const BreakEvenCalculator: React.FC = () => {
             breakdowns of interest, total repayment, and affordability ratios — making
             it a trusted financial planning companion.
           </p>
+          <AdBanner type="bottom" />
         
           <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
             🧭 How to Use Loan Affordability Calculator
