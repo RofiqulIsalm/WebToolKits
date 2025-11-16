@@ -666,6 +666,8 @@ export default function SpeedConverter() {
           </div>
         </div>
 
+        <AdBanner type="bottom" />
+
         {/* ========== SEO CONTENT SECTION: Speed Converter (EN only) ============ */}
           <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
             <header className="mb-10">
@@ -773,7 +775,8 @@ export default function SpeedConverter() {
                 <li>c = 299,792,458 m/s (exact)</li>
               </ul>
             </div>
-          
+
+            <AdBanner type="bottom" />
             <section id="en-faq" className="space-y-4 mt-10">
               <h2 className="text-3xl font-bold text-center text-cyan-300">❓ FAQ</h2>
               <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700">
