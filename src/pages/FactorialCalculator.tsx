@@ -673,6 +673,7 @@ const FactorialCalculator: React.FC = () => {
             <li><strong>log₁₀(n!) growth chart</strong> to visualize scale and compare different n.</li>
             <li><strong>Copy/Share</strong> your results or download the exact BigInt value as a text file (when available).</li>
           </ul>
+          <AdBanner type="bottom" />
         
           {/* ===== How to Use ===== */}
           <h2 id="how-to-use" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">🧭 How to use this calculator</h2>
