@@ -781,6 +781,7 @@ const BusinessDaysCalculator: React.FC = () => {
               <li><strong>Offset backward:</strong> Base = 2025-03-10 (Mon), −3 business days, Mon–Fri → <strong>2025-03-05 (Wed)</strong>.</li>
               <li><strong>Sun–Thu workweek:</strong> Count 2025-05-01 (Thu) to 2025-05-05 (Mon), Fri+Sat off. With both included, business days = Thu + Sun + Mon → <strong>3</strong>.</li>
             </ul>
+            <AdBanner type="bottom" />
           
             {/* ===== Weekend Patterns ===== */}
             <h2 id="weekend-patterns" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
