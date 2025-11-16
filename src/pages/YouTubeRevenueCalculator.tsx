@@ -1155,7 +1155,7 @@ const YouTubeRevenueCalculator: React.FC = () => {
         </div>
 
 
-
+          <AdBanner type='bottom' />
           {/* ==================== SEO CONTENT SECTION ==================== */}
           <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
           
@@ -1316,6 +1316,7 @@ const YouTubeRevenueCalculator: React.FC = () => {
               easy to test different scenarios and see how changes in CPM, RPM or monetized
               playbacks influence total <strong>YouTube income</strong>.
             </p>
+            <AdBanner type='bottom' />
           
             <h2
               id="how-calculated"
@@ -1691,10 +1692,9 @@ const YouTubeRevenueCalculator: React.FC = () => {
             </div>
           </section>
 
-        
-  
-
-
+      
+          <AdBanner type='bottom' />
+          <RelatedCalculators currentPath="/youtube-revenue-calculator" />
 
 
       </div>
