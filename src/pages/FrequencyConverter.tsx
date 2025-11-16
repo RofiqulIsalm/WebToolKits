@@ -731,6 +731,8 @@ export default function FrequencyConverter() {
           </div>
         </div>
 
+        <AdBanner type="bottom" />
+
         {/* ============ SEO Content: Frequency Converter (English Only) ======*/}
       <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
       
@@ -854,6 +856,7 @@ export default function FrequencyConverter() {
           Switch between RPM and Hz to evaluate resonance, bearing fault frequencies (CPM), and orders analysis. Period outputs help
           estimate time between impacts and sensor sampling requirements.
         </p>
+        <AdBanner type="bottom" />
       
         <h3 className="text-lg font-semibold text-gray-100 mt-4">Audio, Music &amp; Metronomes</h3>
         <p>
