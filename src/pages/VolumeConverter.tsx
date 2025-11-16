@@ -691,6 +691,8 @@ export default function VolumeConverter() {
             })}
           </div>
         </div>
+
+        <AdBanner type="top" />
         {/* =========== SEO CONTENT SECTION: Volume Converter (EN only) ============ */}
       <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
         <header className="mb-10">
