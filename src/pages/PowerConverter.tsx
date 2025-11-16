@@ -698,6 +698,8 @@ export default function PowerConverter() {
           </div>
         </div>
 
+        <AdBanner type="bottom" />
+
       {/* ==================== SEO Content: Power Converter (EN) ==================== */}
       <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
         <header className="mb-10">
@@ -788,6 +790,7 @@ export default function PowerConverter() {
           <li>Choose the correct horsepower: <strong>hp</strong> (mechanical) vs <strong>hp(M)</strong> (metric/PS).</li>
           <li>Document HVAC factors (BTU/h, TR) in specs for repeatability and audits.</li>
         </ul>
+        <AdBanner type="bottom" />
       
         {/* Quick Reference */}
         <h2 id="en-quickref" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">🗂️ Quick Reference</h2>
