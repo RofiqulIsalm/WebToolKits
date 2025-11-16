@@ -680,6 +680,7 @@ export default function ForceConverter() {
           </div>
         </div>
 
+        <AdBanner type="bottom" />
         {/* ==================== SEO Content: Force Converter (EN) ==================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
           <header className="mb-10">
@@ -751,6 +752,7 @@ export default function ForceConverter() {
             <li><strong>2500 N → kgf</strong>: 2500 ÷ 9.80665 ≈ <strong>254.94 kgf</strong></li>
             <li><strong>1 kip → kN</strong>: (1000 × 4.4482216152605) ÷ 1000 ≈ <strong>4.44822 kN</strong></li>
           </ul>
+          <AdBanner type="bottom" />
         
           {/* Quick Reference */}
           <h2 id="en-quickref" className="text-2xl font-semibold text-cyan-200 mt-10 mb-4">🗂️ Quick Reference</h2>
@@ -786,7 +788,8 @@ export default function ForceConverter() {
               <p>Structural unit equal to 1000 lbf (≈ 4.448 kN). Common in US design documents.</p>
             </div>
           </div>
-        
+
+         
           {/* Author & Cross-links */}
           <section className="mt-12 border-t border-gray-700 pt-6">
             <div className="flex items-center gap-3">
