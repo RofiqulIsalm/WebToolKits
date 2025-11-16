@@ -1693,7 +1693,7 @@ const YouTubeRevenueCalculator: React.FC = () => {
           </section>
 
       
-          <AdBanner type='bottom' />
+          <AdBanner type="bottom" />
           <RelatedCalculators currentPath="/youtube-revenue-calculator" />
 
 
