@@ -1165,6 +1165,7 @@ const TemperatureConverter: React.FC = () => {
           </div>
         </motion.div>
 
+        <AdBanner type="bottom" />
         {/* ==================== SEO CONTENT SECTION (~2000 words) ==================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
         
@@ -1289,7 +1290,8 @@ const TemperatureConverter: React.FC = () => {
           <p className="text-sm text-slate-400">
             Extremely large/small magnitudes may auto-switch to scientific when Normal is chosen, keeping values tidy and unambiguous.
           </p>
-        
+
+          <AdBanner type="bottom" />
           {/* ===== Presets ===== */}
           <h2 id="presets" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
             🎛️ Presets & Practical Benchmarks
