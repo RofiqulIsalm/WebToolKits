@@ -1112,7 +1112,7 @@ const TaxCalculator: React.FC = () => {
           )}
 
            
-          
+          <AdBanner type="bottom" />
             <h2 id="country-logic" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
               🧮 Tax Calculation Logic Used
             </h2>
@@ -1233,7 +1233,8 @@ const TaxCalculator: React.FC = () => {
               </ul>
             </div>
           </div>
-          
+
+           <AdBanner type="bottom" />
             {/* ===================== FAQ SECTION ===================== */}
             <section className="space-y-6 mt-16">
               <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
