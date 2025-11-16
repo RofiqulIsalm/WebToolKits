@@ -1154,7 +1154,7 @@ const YouTubeRevenueCalculator: React.FC = () => {
           </div>
         </div>
 
-            <AdBanner />
+        <AdBanner />
 
           {/* ==================== SEO CONTENT SECTION ==================== */}
           <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
