@@ -839,6 +839,8 @@ export default function EnergyConverter() {
             <li>Choose <strong>Scientific</strong> notation for very large/small values (e.g., GeV or GWh).</li>
             <li>Clarify definitions (e.g., <strong>kcal</strong> vs <strong>Calorie</strong> on labels, therm US vs UK).</li>
           </ul>
+
+          <AdBanner type="bottom" />
         
           {/* ===== Common Pitfalls ===== */}
           <h2 id="pitfalls" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">⚠️ Common Pitfalls to Avoid</h2>
