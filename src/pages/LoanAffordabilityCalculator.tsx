@@ -659,6 +659,7 @@ const LoanAffordabilityCalculator: React.FC = () => {
           </div>
         )}
 
+        
         {/* ===== Smart Tip ===== */}
         {maxLoan > 0 && (
           <div className="mt-5 bg-[#1e293b] border border-[#334155] text-slate-200 px-6 py-4 rounded-md shadow-sm">
@@ -669,6 +670,7 @@ const LoanAffordabilityCalculator: React.FC = () => {
           </div>
         )}
 
+        <AdBanner type="bottom" />
         {/* ===== SEO / Informational Section ===== */}
       <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
   <h1 className="text-3xl font-bold text-cyan-400 mb-6">
@@ -728,6 +730,7 @@ const LoanAffordabilityCalculator: React.FC = () => {
     breakdowns of interest, total repayment, and affordability ratios — making
     it a trusted financial planning companion.
   </p>
+        <AdBanner type="bottom" />
 
   <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
     🧭 How to Use Loan Affordability Calculator
