@@ -76,7 +76,12 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between gap-4">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <Calculator className="h-8 w-8 text-blue-400 drop-shadow-lg" />
+            <img
+              src="/images/calculatorhub-logo.webp"
+              alt="CalculatorHub Logo"
+              className="h-8 w-8 rounded-md shadow-md"
+              loading="lazy"
+            />
             <span className="text-2xl font-bold text-white drop-shadow-lg">
               CalculatorHub
             </span>
