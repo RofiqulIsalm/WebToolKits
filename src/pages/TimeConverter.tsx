@@ -676,6 +676,8 @@ export default function TimeConverter() {
             })}
           </div>
         </div>
+
+        <AdBanner type="bottom" />
         {/* ================ SEO Content Section (~1800–2000 words) ================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
         
@@ -828,7 +830,8 @@ export default function TimeConverter() {
             <li><strong>Time zones/DST</strong>: This tool converts durations, not wall-clock timestamps; DST shifts are separate concerns.</li>
             <li><strong>Early rounding</strong>: Round at the end to prevent error inflation in chained conversions.</li>
           </ul>
-        
+
+          <AdBanner type="bottom" />
           {/* ===== Quick Reference ===== */}
           <h2 id="quick-ref" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">🗂️ Quick Reference</h2>
           <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-4 text-sm">
