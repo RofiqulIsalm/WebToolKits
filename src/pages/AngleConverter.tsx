@@ -787,6 +787,7 @@ export default function AngleConverter() {
         <p className="text-xs text-slate-400">
           Your UI shows exact values at your chosen precision; results above are rounded for readability.
         </p>
+        <AdBanner type="bottom" />
       
         {/* Use Cases */}
         <h2 id="ang-usecases" className="text-2xl font-semibold text-amber-200 mt-10 mb-4">🛠️ Real-World Use Cases</h2>
