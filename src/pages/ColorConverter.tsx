@@ -728,7 +728,7 @@ const ColorConverter: React.FC = () => {
           </section>
         </div>
 
-        <AdBanner />
+        <AdBanner type="bottom" />
 
         {/* ------------------seo content------------------------ */}
 
