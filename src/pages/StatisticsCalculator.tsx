@@ -910,6 +910,7 @@ const StatisticsCalculator: React.FC = () => {
           )}
         </div>
 
+        <AdBanner type="bottom" />
        {/* ===================== SEO Content (~1800–2000 words) ===================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
         
@@ -992,7 +993,8 @@ const StatisticsCalculator: React.FC = () => {
             We split on spaces, commas, and semicolons, trim tokens, and drop anything that doesn’t parse to a finite number. This lets
             you paste raw CSV fragments, spreadsheet columns, or quick notes without strict formatting.
           </p>
-        
+
+          <AdBanner type="bottom" />
           <h3 className="text-xl font-semibold text-indigo-300 mt-6">2) Central tendency</h3>
           <ul className="list-disc list-inside space-y-1">
             <li><strong>Mean</strong> = sum / count — sensitive to outliers.</li>
