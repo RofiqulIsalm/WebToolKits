@@ -683,6 +683,7 @@ export default function MassWeightConverter() {
             })}
           </div>
         </div>
+        <AdBanner type="bottom" />
         {/* ================= SEO Content Section (~1800–2000 words) ==================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
         
@@ -832,6 +833,7 @@ export default function MassWeightConverter() {
             <li>For regulatory reporting, keep 3–6 decimals (or as specified by the standard).</li>
             <li>For UX readability, prefer fewer decimals and <strong>Compact</strong> format where appropriate.</li>
           </ul>
+          <AdBanner type="bottom" />
         
           {/* ===== Common Pitfalls ===== */}
           <h2 id="pitfalls" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">⚠️ Common Pitfalls to Avoid</h2>
