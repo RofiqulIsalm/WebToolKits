@@ -787,6 +787,8 @@ const PersonalLoanCalculator: React.FC = () => {
           </div>
         )}
 
+        <AdBanner type="bottom" />
+
         {/* ===== SEO / Informational Section ===== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
           <h1 className="text-3xl font-bold text-cyan-400 mb-6">
@@ -957,6 +959,7 @@ const PersonalLoanCalculator: React.FC = () => {
             suitable for planning everything from emergency needs to structured
             personal finance goals.
           </p>
+          <AdBanner type="bottom" />
 
           <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
             🏢 Small Business & Professional Use
