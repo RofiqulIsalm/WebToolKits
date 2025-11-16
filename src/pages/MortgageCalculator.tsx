@@ -1059,6 +1059,7 @@ useEffect(() => {
 
 
 
+        <AdBanner type="bottom" />
         {/* ==================== SEO CONTENT SECTION ==================== */}
           <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
 
@@ -1172,6 +1173,7 @@ useEffect(() => {
               </p>
 
                {/*Dynamic live math */}
+            <AdBanner type="bottom" />
 
           {/* ===== Responsive, colorful EMI step-by-step ===== */}
               <h2 id="how-calculated" className="mt-12 mb-3 text-2xl font-extrabold tracking-tight text-center sm:text-left">
@@ -1487,7 +1489,7 @@ useEffect(() => {
                 </div>
               </div>
 
-            
+            <AdBanner type="bottom" />
               {/* ===================== FAQ SECTION ===================== */}
               <section className="space-y-6 mt-16">
                 <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
