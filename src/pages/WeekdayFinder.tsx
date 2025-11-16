@@ -535,7 +535,8 @@ const WeekdayFinder: React.FC = () => {
             <p className="text-sm text-slate-400">
               Tip: Use <em>List Count</em> to pre-populate recurring events (e.g., the next 8 Mondays).
             </p>
-          
+
+            <AdBanner type="bottom" />
             {/* ===== Methods & Concepts ===== */}
             <h2 id="methods" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
               🔧 Methods & concepts behind the results
@@ -591,6 +592,7 @@ const WeekdayFinder: React.FC = () => {
               <strong>Custom week number</strong> mirrors regional or organizational norms—especially where Sunday is the observed start of the week. 
               If you’re aligning with global partners, ISO is typically preferred. If you’re reflecting local habits, custom may be more intuitive.
             </p>
+            <AdBanner type="bottom" />
           
             {/* ===== Localization ===== */}
             <h2 id="localization" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
