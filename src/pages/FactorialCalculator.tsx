@@ -785,7 +785,8 @@ const FactorialCalculator: React.FC = () => {
             Counting digits directly via <code>⌊log₁₀(n!)⌋ + 1</code> is both fast and robust. You can think of it as placing n!
             on a base-10 number line: the integer part of <code>log₁₀(n!)</code> tells you how many powers of 10 fit below n!.
           </p>
-        
+
+          <AdBanner type="bottom" />
           {/* ===== Performance ===== */}
           <h2 id="performance" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
             🚀 Performance, precision & limits
