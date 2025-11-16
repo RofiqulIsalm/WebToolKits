@@ -1297,7 +1297,7 @@ const decodeBase64 = () => {
           </div>
         )}
 
-        <AdBanner />
+        <AdBanner type="bottom" />
 
         {/* --------- Informational Section --------- */}
         <div className="rounded-2xl p-8 mb-8">
