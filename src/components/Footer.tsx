@@ -29,7 +29,7 @@ const Footer: React.FC = () => {
                 CalculatorHub
               </span> 
             </span>
-            <p className="text-slate-300 text-sm">
+            <p className="text-slate-300 mt-3 text-sm">
               {config.footerDescription}
             </p>
 
