@@ -598,7 +598,9 @@ const LoanComparisonCalculator: React.FC = () => {
           )}
       </div>
   )}
- 
+
+
+        <AdBanner type="bottom" />
         {/* ===== SEO CONTENT ====== */}
 
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
@@ -702,6 +704,7 @@ const LoanComparisonCalculator: React.FC = () => {
               These <strong>Loan Comparison Calculator benefits</strong> make it ideal for 
               individuals, financial planners, and businesses looking to manage loans efficiently. 
             </p>
+          <AdBanner type="bottom" />
           
             <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
               🌐 Loan Comparison Calculator Website
