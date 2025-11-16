@@ -984,7 +984,7 @@ const BaseConverter: React.FC = () => {
           </div>
         </div>
 
-        <AdBanner />
+        <AdBanner type="bottom" />
 
         {/* About / SEO Content */}
 
