@@ -824,6 +824,8 @@ export default function DataStorageConverter() {
               <li><strong>Data Engineering</strong>: Size pipelines, partitions, and retention using consistent units.</li>
               <li><strong>Product & Support</strong>: Explain “why my 1 TB drive shows ~0.91 TiB” with precise math.</li>
             </ul>
+
+            <AdBanner type="bottom" />
           
             {/* ===== Accuracy & Best Practices ===== */}
             <h2 id="accuracy" className="text-2xl font-semibold text-cyan-200 mt-10 mb-4">✅ Accuracy, Rounding & Best Practices</h2>
