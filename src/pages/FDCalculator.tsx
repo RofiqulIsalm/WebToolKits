@@ -1116,6 +1116,7 @@ const FDCalculator: React.FC = () => {
           </div>
         )}
 
+          <AdBanner type="bottom" />
            {/* ==================== SEO CONTENT SECTION ==================== */}
           <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
             <nav className="mt-16 mb-8 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200">
@@ -1179,6 +1180,8 @@ const FDCalculator: React.FC = () => {
             <p>
               This section doubles as an <strong>FD Calculator tutorial</strong>, designed for first-time users who want a simple yet detailed walkthrough.
             </p>
+
+            <AdBanner type="bottom" />
 
                {/* ===== Step-by-step math card ===== */}
                 <h2
