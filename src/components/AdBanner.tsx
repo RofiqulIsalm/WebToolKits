@@ -5,13 +5,13 @@ interface AdBannerProps {
   type?: "top" | "sidebar" | "bottom";
 }
 
-const AD_CLIENT = "ca-pub-XXXXXXXXXXXXXXXX"; // 🔹 REPLACE with your AdSense publisher ID
+const AD_CLIENT = "ca-pub-6901457916108884"; // 🔹 REPLACE with your AdSense publisher ID
 
 // 🔹 Give each placement its own slot ID from AdSense
 const AD_SLOTS: Record<NonNullable<AdBannerProps["type"]>, string> = {
-  top: "1111111111",     // e.g. top banner slot
-  sidebar: "2222222222", // e.g. sidebar rectangle slot
-  bottom: "3333333333",  // e.g. bottom banner slot
+  top: "3985444671",     // e.g. top banner slot
+  sidebar: "5166664408", // e.g. sidebar rectangle slot
+  bottom: "7715423234",  // e.g. bottom banner slot
 };
 
 const AdBanner: React.FC<AdBannerProps> = ({ type = "bottom" }) => {
