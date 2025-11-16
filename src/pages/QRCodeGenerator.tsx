@@ -1175,7 +1175,7 @@ const generateQRCode = async () => {
           )}
         </div>
 
-        <AdBanner />
+        <AdBanner type="bottom" />
         
 
         {/*--------------------------Seo content--------------------------------*/}
