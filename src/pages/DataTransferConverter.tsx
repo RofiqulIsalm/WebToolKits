@@ -777,7 +777,8 @@ export default function DataTransferConverter() {
             <li>Return to previous states with <strong>Recent</strong> (stores up to 10 locally in your browser).</li>
           </ol>
           <p className="text-xs text-slate-400">Tip: The page URL encodes your exact state. Bookmark or share for reproducible conversions.</p>
-        
+
+          <AdBanner type="bottom" />
           {/* Basics */}
           <h2 id="dtc-basics" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">🔁 Bits vs Bytes &amp; SI vs Binary</h2>
           <ul className="list-disc list-inside space-y-1">
