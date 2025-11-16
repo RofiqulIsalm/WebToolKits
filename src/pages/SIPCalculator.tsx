@@ -858,6 +858,7 @@ const SipCalculator: React.FC = () => {
 
 
 
+        <AdBanner type="bottom" />
 
   {/* ==================== SEO CONTENT SECTION ==================== */}
 <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
@@ -933,6 +934,7 @@ const SipCalculator: React.FC = () => {
       It’s also a great <strong>SIP calculator for beginners</strong>, as it visually demonstrates 
       how investments grow and how tenure, rate, and amount interact.
     </p>
+  <AdBanner type="bottom" />
   
     <h2 id="sip-how-to-use" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">💡 How to Use SIP Calculator (Step-by-Step Tutorial)</h2>
     <p>
@@ -1147,7 +1149,8 @@ FV = ${formatCurrency(P * n)}`}</code>
 
 
 
-  
+
+  <AdBanner type="bottom" />
           <h2 id="sip-charts" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">📈 Real-Time Chart & Data Visualization</h2>
           <p>
             The SIP Calculator includes interactive **Pie** and **Bar charts** powered by Recharts. These visualize your 
