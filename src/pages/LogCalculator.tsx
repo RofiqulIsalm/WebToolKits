@@ -703,6 +703,7 @@ const LogCalculator: React.FC = () => {
             <li><strong>Share & copy</strong>: export results as text or copy a permalink that encodes your inputs.</li>
             <li><strong>Input safety nets</strong>: gentle clamping for <em>x</em> and clear validation for the base.</li>
           </ul>
+          <AdBanner type="bottom" />
         
           {/* ===== How to Use ===== */}
           <h2 id="how-to-use" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">🧭 How to use this calculator</h2>
@@ -825,6 +826,7 @@ const LogCalculator: React.FC = () => {
             <li><strong>Clamping</strong>: very small/large <em>x</em> are gently clamped to keep plots stable and readable.</li>
             <li><strong>Displayed digits</strong>: the UI rounds to a sensible number of decimals; copying results preserves clear precision.</li>
           </ul>
+          <AdBanner type="bottom" />
         
           {/* ===== Pitfalls ===== */}
           <h2 id="pitfalls" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
