@@ -1382,6 +1382,7 @@ const RetirementCalculator: React.FC = () => {
                   </div>
                 )}
 
+                  <AdBanner type="bottom" />
           {/* ==================== SEO CONTENT SECTION ==================== */}
                <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
           {/* TOC */}
@@ -1511,6 +1512,7 @@ const RetirementCalculator: React.FC = () => {
             <li><strong>Time-saver:</strong> compares scenarios faster than a spreadsheet.</li>
             <li><strong>Confidence:</strong> helps readers make contribution or timeline decisions with evidence.</li>
           </ul>
+                 <AdBanner type="bottom" />
         
           <h2 id="pricing" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
             💵 Free, Affordable & Premium Retirement Calculator Options
