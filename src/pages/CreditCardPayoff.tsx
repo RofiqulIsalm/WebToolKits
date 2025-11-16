@@ -906,7 +906,7 @@ Paid       = ${fmt(totalPaid)}`}
           </section>
 
 
-        
+          <AdBanner type="bottom" />
           {/* ========== Example ========== */}
           <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
             📘 Example Calculation
