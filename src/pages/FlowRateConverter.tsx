@@ -705,6 +705,7 @@ export default function FlowRateConverter() {
             })}
           </div>
         </div>
+        <AdBanner type="bottom" />
  {/* ========= SEO Content: Flow Rate Converter (English Only) =========== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
         
@@ -852,6 +853,7 @@ export default function FlowRateConverter() {
             Small feeds and precise dosing (mL/s, L/h) benefit from higher decimal control. Use Scientific format for ultra-small flows and set precision to match
             instrument resolution.
           </p>
+          <AdBanner type="bottom" />
         
           {/* Precision & Formats */}
           <h2 id="en-precision" className="text-2xl font-semibold text-sky-200 mt-10 mb-4">🎯 Precision, Formats &amp; Edge Cases</h2>
