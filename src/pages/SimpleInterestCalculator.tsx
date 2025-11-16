@@ -779,7 +779,8 @@ const SimpleInterestCalculator: React.FC = () => {
               <p className="text-lg font-semibold text-white">{fmt(total)}</p>
             </div>
           </div>
-        
+
+          <AdBanner type="bottom" />
           {/* Formula bar */}
           <div className="rounded-xl bg-[#0b1220] border border-[#334155] p-3 font-mono text-[13px] text-indigo-300 overflow-x-auto">
             SI = (P × R_% × T) / 100 &nbsp; | &nbsp; Rate = R_% / 100 &nbsp; | &nbsp; Total = P + SI
@@ -867,7 +868,8 @@ Total = P + SI = ${fmt(total)}`}
             <strong> premium Simple Interest Calculator</strong> plans offering exports and
             historical charts for professionals.
           </p>
-        
+
+          <AdBanner type="bottom" />
           <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
             🧠 Simple Interest Calculator Guide for Beginners
           </h2>
