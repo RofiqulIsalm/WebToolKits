@@ -786,7 +786,8 @@ const DateDifferenceCalculator: React.FC = () => {
             <p className="text-sm text-slate-400">
               Tip: Use the “Swap” button to quickly reverse start/end dates if you picked them in the wrong order.
             </p>
-          
+
+            <AdBanner type="bottom" />
             {/* ===== Methods ===== */}
             <h2 id="methods" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
               🔧 Methods & math under the hood
@@ -1019,6 +1020,7 @@ const DateDifferenceCalculator: React.FC = () => {
               </div>
             </div>
           </section>
+          <AdBanner type="bottom" />
 
         </div>
       </div>
