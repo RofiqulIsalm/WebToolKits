@@ -1117,6 +1117,7 @@ const StatisticsCalculator: React.FC = () => {
             <li><strong>Healthcare</strong>: lab values, wait-time analysis, outlier detection for safety.</li>
             <li><strong>Research</strong>: experimental measurements, replication spread, data screening before modeling.</li>
           </ul>
+          <AdBanner type="bottom" />
         
           {/* ===== Quick Reference Table ===== */}
           <h2 id="quick-ref" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
