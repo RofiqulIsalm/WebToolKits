@@ -752,6 +752,7 @@ const GcdLcmCalculator: React.FC = () => {
             </div>
           )}
         </div>
+        <AdBanner type="bottom" />
         {/* ===================== SEO Content (~1800–2000 words) ===================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
         
@@ -862,6 +863,7 @@ const GcdLcmCalculator: React.FC = () => {
           <p>
             The app displays both <strong>GCD</strong> and <strong>LCM reduction chains</strong> as a readable audit trail.
           </p>
+          <AdBanner type="bottom" />
         
           {/* ===== Euclid steps ===== */}
           <h2 id="euclid-steps" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
