@@ -810,6 +810,8 @@ const AverageCalculator: React.FC = () => {
             <li>Open <strong>Step-by-step</strong> to see the exact working; <em>Copy Results</em> or <em>Copy Link</em> to share.</li>
           </ol>
           <p className="text-sm text-slate-400">Tip: The share link encodes your inputs so collaborators can reproduce the same output.</p>
+
+          <AdBanner type="bottom" />
         
           {/* ===== Core definitions ===== */}
           <h2 id="definitions" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">📚 Mean, Median, Mode — Clear Definitions</h2>
