@@ -678,6 +678,7 @@ export default function DensityConverter() {
             })}
           </div>
         </div>
+        <AdBanner type="bottom" />
         {/* ==================== SEO Content: Density Converter (EN) ==================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
           <header className="mb-10">
