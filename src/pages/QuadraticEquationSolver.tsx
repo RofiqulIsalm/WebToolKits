@@ -672,6 +672,7 @@ const QuadraticEquationSolver: React.FC = () => {
           )}
         </div>
 
+        <AdBanner type="bottom" />
         {/* ==================== SEO CONTENT SECTION ==================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
         
@@ -759,7 +760,8 @@ const QuadraticEquationSolver: React.FC = () => {
             If <code>a</code>, <code>b</code>, <code>c</code> are integers and the discriminant is a <strong>perfect square</strong>, the trinomial 
             factors neatly (e.g., <code>(x − r₁)(x − r₂)</code> or <code>(mx + p)(nx + q)</code>). Otherwise, the formula gives the exact result.
           </p>
-        
+
+          <AdBanner type="bottom" />
           {/* ===== Graph reading ===== */}
           <h2 id="graph" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">📈 Reading the Parabola Graph</h2>
           <ul className="list-disc list-inside space-y-1">
