@@ -1316,7 +1316,7 @@ const YouTubeRevenueCalculator: React.FC = () => {
               easy to test different scenarios and see how changes in CPM, RPM or monetized
               playbacks influence total <strong>YouTube income</strong>.
             </p>
-            <AdBanner type='bottom' />
+            <AdBanner type="bottom" />
           
             <h2
               id="how-calculated"
