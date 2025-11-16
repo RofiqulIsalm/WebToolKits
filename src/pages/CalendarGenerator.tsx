@@ -1104,6 +1104,7 @@ const CalendarGenerator: React.FC = () => {
             <strong> PNG, PDF, or SVG</strong>, this free online calendar creator gives you everything you
             need to plan, print, or share beautiful calendars — perfectly tailored to your needs.
           </p>
+         <AdBanner type="bottom" />
         
           <h2 className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
             What Makes This Calendar Generator Different
