@@ -18,17 +18,17 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand + description */}
           <div>
-            <Link to="/" className="flex items-center space-x-2">
-            <img
-              src="/images/calculatorhub-logo.webp"
-              alt="CalculatorHub Logo"
-              className="h-8 w-8 rounded-md shadow-md"
-              loading="lazy"
-            />
-            <span className="text-2xl font-bold text-white drop-shadow-lg">
-              CalculatorHub
-            </span> 
-          </Link>
+            <span className="flex items-center space-x-2">
+              <img
+                src="/images/calculatorhub-logo.webp"
+                alt="CalculatorHub Logo"
+                className="h-8 w-8 rounded-md shadow-md"
+                loading="lazy"
+              />
+              <span className="text-2xl font-bold text-white drop-shadow-lg">
+                CalculatorHub
+              </span> 
+            </span>
             <p className="text-slate-300 text-sm">
               {config.footerDescription}
             </p>
