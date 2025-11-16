@@ -1462,6 +1462,7 @@ const AppRevenueCalculator: React.FC = () => {
             <strong>ARPDAU</strong>. Because every input is editable, it&apos;s
             easy to compare different monetization strategies within seconds.
           </p>
+          <AdBanner type="bottom" />
 
           <h2
             id="how-calculated"
@@ -1604,6 +1605,7 @@ const AppRevenueCalculator: React.FC = () => {
             <strong> AdMob-style ad revenue</strong> with{" "}
             <strong>in-app purchase revenue</strong> and subscription income.
           </p>
+          <AdBanner type="bottom" />
 
           <h2
             id="benefits"
