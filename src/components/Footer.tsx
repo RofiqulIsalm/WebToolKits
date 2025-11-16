@@ -141,14 +141,6 @@ const Footer: React.FC = () => {
                   Contact Us
                 </Link>
               </li>
-              <li>
-                <Link
-                  to="/admin/login"
-                  className="text-slate-500 hover:text-slate-200 text-xs"
-                >
-                  Admin
-                </Link>
-              </li>
             </ul>
           </div>
         </div>
