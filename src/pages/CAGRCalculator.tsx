@@ -709,6 +709,8 @@ const CAGRCalculator: React.FC = () => {
               over that 5-year period. The CAGR Calculator instantly provides this result,
               helping you compare multiple investments quickly and accurately.
             </p>
+
+            <AdBanner type="bottom" />
           
             <h2 className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
               ⚙️ How To Use The CAGR Calculator
