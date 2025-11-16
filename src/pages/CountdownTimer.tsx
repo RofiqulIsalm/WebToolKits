@@ -1524,7 +1524,8 @@ const CountdownTimer: React.FC = () => {
           <li><strong>Mute toggle:</strong> silence the chime—your choice persists across sessions.</li>
           <li><strong>Mini pop-out:</strong> a draggable glassmorphism card you can pin/collapse and position anywhere.</li>
         </ul>
-      
+
+        <AdBanner type="bottom" />
         {/* ===== How to Use ===== */}
         <h2 id="how-to-use" className="scroll-mt-24 text-xl sm:text-2xl font-semibold text-indigo-200 mt-8 sm:mt-10 mb-3 sm:mb-4">
           🧭 How to Use
@@ -1704,6 +1705,7 @@ const CountdownTimer: React.FC = () => {
           </div>
         </section>
       </section>
+      <AdBanner type="bottom" />
 
       {/* Mini Pop-out in main document */}
       <PopOut
