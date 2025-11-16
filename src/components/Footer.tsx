@@ -39,7 +39,7 @@ const Footer: React.FC = () => {
                 <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1.5">
                   Follow us
                 </h4>
-                <ul className="flex mt-2 flex-wrap gap-2 text-xs">
+                <ul className="flex mt-3 flex-wrap gap-2 text-xs">
                   {config.socialLinks.map((link) => (
                     <li key={link.label}>
                       <a
