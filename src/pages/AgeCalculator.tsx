@@ -891,6 +891,7 @@ const AgeCalculator: React.FC = () => {
                 </li>
               </ol>
             </div>
+            <AdBanner type="bottom" />
             
             {/* ================= Worked Example ================= */}
             <div className="mt-6 bg-slate-800/60 rounded-xl p-5 border border-slate-700">
@@ -1111,6 +1112,7 @@ const AgeCalculator: React.FC = () => {
                 </div>
               </div>
             </section>
+            <AdBanner type="bottom" />
           
             {/* Footer note */}
             <p className="text-slate-400 text-sm mt-8">
