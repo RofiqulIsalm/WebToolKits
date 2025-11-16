@@ -644,6 +644,7 @@ const UUIDGenerator: React.FC = () => {
           </p>
         </div>
 
+        <AdBanner type="bottom" />
         {/* ---------- SEO CONTENT (kept, light spacing polish) ---------- */}
         
         <div className="">
@@ -832,6 +833,7 @@ const UUIDGenerator: React.FC = () => {
                     Version 4 is the most common for general use.
                   </p>
                 </div>
+                <AdBanner type="bottom" />
 
                 <div className="bg-slate-800/60 p-4 rounded-lg">
                   <h3 className="font-semibold text-xl">
