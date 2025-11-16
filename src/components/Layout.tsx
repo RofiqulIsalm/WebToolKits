@@ -40,7 +40,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
           {/* ========== SIDEBAR (Desktop only) ========== */}
           <aside className="hidden lg:block w-80 space-y-6">
-            {/* Sidebar Ad */}
+            {/* Sidebar Ad (top) */}
             <AdBanner type="sidebar" />
 
             {/* Quick Access Section */}
@@ -86,6 +86,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 ))}
               </ul>
             </section>
+
+            {/* ✅ Second Sidebar Ad – after Popular Calculators */}
+            <AdBanner type="sidebar" />
           </aside>
         </div>
 
