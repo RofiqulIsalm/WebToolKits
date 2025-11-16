@@ -586,6 +586,7 @@ const LumpSumInvestmentCalculator: React.FC = () => {
           </div>
         )}
 
+        <AdBanner type="bottom" />
         {/* ===== SEO CONTENT SECTION ===== */}
        <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
           <h1 className="text-3xl font-bold text-emerald-400 mb-6">
@@ -693,7 +694,8 @@ const LumpSumInvestmentCalculator: React.FC = () => {
             This tool offers a <strong>premium user experience</strong> while being completely 
             <strong>free and easy</strong> to access online.
           </p>
-        
+
+         <AdBanner type="bottom" />
           <h2 className="text-2xl font-semibold text-emerald-300 mt-10 mb-4">
             🧰 Key Benefits of Using Lump Sum Investment Calculator
           </h2>
