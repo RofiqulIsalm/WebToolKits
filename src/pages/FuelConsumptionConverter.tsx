@@ -715,6 +715,7 @@ export default function FuelConsumptionConverter() {
             })}
           </div>
         </div>
+        <AdBanner type="bottom" />
         {/* ============ SEO Content: Fuel Consumption Converter (English Only) =======*/}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
         
@@ -792,7 +793,8 @@ export default function FuelConsumptionConverter() {
               Note the gallon size difference: <em>mpg (Imperial)</em> will be higher than <em>mpg (US)</em> for the same consumption because the Imperial gallon is larger.
             </p>
           </div>
-        
+
+          <AdBanner type="bottom" />
           {/* Core Formulas */}
           <h2 id="fc-formulas" className="text-2xl font-semibold text-emerald-200 mt-10 mb-4">🧮 Core Formulas (with Derivations)</h2>
           <p>
