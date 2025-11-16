@@ -674,6 +674,7 @@ const ROICalculator: React.FC = () => {
           </div>
         )}
 
+        <AdBanner type="bottom" />
         {/* ===== SEO Content Section ===== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
           <h1 className="text-3xl font-bold text-cyan-400 mb-6">
@@ -792,7 +793,8 @@ const ROICalculator: React.FC = () => {
             <li>Clear explanations plus pro-grade metrics in one place.</li>
             <li>No sign-up required — free to use, with optional premium features.</li>
           </ul>
-        
+
+          <AdBanner type="bottom" />
           {/* ===== FAQ Section (kept) ===== */}
           <section id="faq" className="space-y-6 mt-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
