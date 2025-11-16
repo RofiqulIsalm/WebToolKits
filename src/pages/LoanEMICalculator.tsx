@@ -1398,6 +1398,7 @@ useEffect(() => {
         )}
 
 
+        <AdBanner type="bottom" />
           {/* ==================== SEO CONTENT SECTION (LOAN EMI) ==================== */}
           <section className="prose prose-invert max-w-4xl mx-auto mt-16 leading-relaxed text-slate-300">
             {/* ===== Page H1 ===== */}
@@ -1468,7 +1469,8 @@ useEffect(() => {
               For those new to personal finance, our <strong>loan EMI calculator for beginners</strong> makes this easy to
               visualize with a clear amortization breakdown.
             </p>
-          
+
+            <AdBanner type="bottom" />
             {/* ===== How the calculator works ===== */}
             <h2 id="how-to-calculate" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
               How Does the Loan EMI Calculator Work?
