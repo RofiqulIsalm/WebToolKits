@@ -1089,6 +1089,8 @@ const BMICalculator: React.FC = () => {
               For instance, at 170&nbsp;cm under WHO, normal spans BMI 18.5–24.9. Since 1.70² ≈ 2.89, the healthy weight range
               is roughly 53.5–72.0&nbsp;kg (≈118–159&nbsp;lb), with a midpoint target around 62.7&nbsp;kg (≈138&nbsp;lb).
             </p>
+            
+            <AdBanner type="bottom" />
           
             <h2 id="examples" className="text-2xl font-semibold text-cyan-300 mt-10 mb-4">
               📈 Worked Examples
