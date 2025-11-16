@@ -965,7 +965,8 @@ const EquationSolver: React.FC = () => {
             Indicators include near-zero pivots or a tiny determinant. When this happens, consider scaling your equations or
             using higher-precision arithmetic.
           </p>
-        
+
+          <AdBanner type="bottom" />
           {/* ===== Worked Examples ===== */}
           <h2 id="worked-examples" className="text-2xl font-semibold text-indigo-200 mt-10 mb-4">
             Worked examples (with rationale)
