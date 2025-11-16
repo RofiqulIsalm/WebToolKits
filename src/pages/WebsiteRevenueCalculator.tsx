@@ -1442,6 +1442,7 @@ const WebsiteRevenueCalculator: React.FC = () => {
           </div>
         </div>
 
+        <AdBanner type="top" />
         {/* ==================== SEO CONTENT SECTION ==================== */}
         <section className="prose prose-invert max-w-4xl mx-auto mt-12 mb-12 leading-relaxed text-slate-300">
         
@@ -1554,7 +1555,8 @@ const WebsiteRevenueCalculator: React.FC = () => {
               or any display stack.
             </figcaption>
           </figure>
-        
+
+          <AdBanner type="bottom" />
           {/* ===== How to Use ===== */}
           <h2
             id="website-revenue-how-to-use"
@@ -1864,7 +1866,8 @@ const WebsiteRevenueCalculator: React.FC = () => {
             doesn’t change the number of impressions; it adjusts the revenue to better match your
             real mix.
           </p>
-        
+
+          <AdBanner type="bottom" />
           <h3 className="text-xl font-semibold text-slate-100 mt-6 mb-2">
             3. Extra revenue – direct deals, native &amp; affiliate
           </h3>
@@ -2069,7 +2072,8 @@ const WebsiteRevenueCalculator: React.FC = () => {
               </ul>
             </div>
           </div>
-        
+
+          <AdBanner type="bottom" />
           {/* ===== Workflow Suggestion ===== */}
           <h2
             id="website-revenue-workflow"
