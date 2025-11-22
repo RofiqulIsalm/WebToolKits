@@ -20,7 +20,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   description,
   canonical,
   ogType = 'website',
-  ogImage = '/calculator-hub-og.jpg',
+  ogImage = '/calculator-hub-og.png',
   schemaData,
   breadcrumbs
 }) => {
