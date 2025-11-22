@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 // 1. Define the Measurement ID (Replace with your actual ID)
 //    You can also move this to a config file or environment variable.
-const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX';
+const GA_MEASUREMENT_ID = 'G-DDWPSK5Z3M';
 
 const GoogleAnalytics: React.FC = () => {
     const location = useLocation();
