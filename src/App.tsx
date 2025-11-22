@@ -5,7 +5,7 @@ import { HelmetProvider } from "react-helmet-async";
 
 import Layout from "./components/Layout";
 import ScrollToTop from "./components/ScrollToTop";
-import { SiteConfigProvider } from "./config/siteConfig"; 
+import { SiteConfigProvider } from "./config/siteConfig";
 import PageViewTracker from "./components/PageViewTracker";
 import CalculatorGuard from "./components/CalculatorGuard";
 
@@ -246,211 +246,214 @@ const LoadingFallback: React.FC = () => (
   </div>
 );
 
+import GoogleAnalytics from "./components/GoogleAnalytics";
+
 function App() {
   return (
     <HelmetProvider>
       <Router>
+        <GoogleAnalytics />
         <ScrollToTop />
         <PageViewTracker />
         <SiteConfigProvider>
-        <Layout> 
-          <Suspense fallback={<LoadingFallback />}>
-            <Routes>
-              {/* Main Routes */}
-              <Route path="/" element={<Homepage />} />
-              <Route path="/category/:categorySlug" element={<CategoryPage />} />
+          <Layout>
+            <Suspense fallback={<LoadingFallback />}>
+              <Routes>
+                {/* Main Routes */}
+                <Route path="/" element={<Homepage />} />
+                <Route path="/category/:categorySlug" element={<CategoryPage />} />
 
-              {/* Unit Converters */}
-              <Route path="/length-converter" element={withGuard(<LengthConverter />)} />
-              <Route
-                path="/weight-converter"
-                element={withGuard(<WeightConverter />)}
-              />
-              <Route path="/temperature-converter" element={withGuard(<TemperatureConverter />)} />
-              <Route path="/area-converter" element={withGuard(<AreaConverter />)} />
-              <Route path="/speed-converter" element={withGuard(<SpeedConverter />)} />
-              <Route path="/volume-converter" element={withGuard(<VolumeConverter />)} />
-              <Route path="/pressure-converter" element={withGuard(<PressureConverter />)} />
-              <Route path="/energy-converter" element={withGuard(<EnergyConverter />)} />
-              <Route path="/data-storage-converter" element={withGuard(<DataStorageConverter />)} />
-              <Route path="/mass-weight-converter" element={withGuard(<MassWeightConverter />)} />
-              <Route path="/time-converter" element={withGuard(<TimeConverter />)} />
-              <Route path="/power-converter" element={withGuard(<PowerConverter />)} />
-              <Route path="/force-converter" element={withGuard(<ForceConverter />)} />
-              <Route path="/density-converter" element={withGuard(<DensityConverter />)} />
-              <Route path="/acceleration-converter" element={withGuard(<AccelerationConverter />)} />
-              <Route path="/flow-rate-converter" element={withGuard(<FlowRateConverter />)} />
-              <Route path="/fuel-consumption-converter" element={withGuard(<FuelConsumptionConverter />)} />
-              <Route path="/fuel-cost-calculator" element={withGuard(<FuelCostCalculator />)} />
-              <Route path="/angle-converter" element={withGuard(<AngleConverter />)} />
-              <Route path="/frequency-converter" element={withGuard(<FrequencyConverter />)} />
-              <Route path="/data-transfer-converter" element={withGuard(<DataTransferConverter />)} />
- 
-              {/* Currency & Finance */}
-              <Route path="/currency-converter" element={withGuard(<CurrencyConverter />)} />
-              <Route path="/loan-emi-calculator" element={withGuard(<LoanEMICalculator />)} />
-              <Route path="/tax-calculator" element={withGuard(<TaxCalculator />)} />
-              <Route path="/mortgage-calculator" element={withGuard(<MortgageCalculator />)} />
-              <Route path="/sip-calculator" element={withGuard(<SIPCalculator />)} />
-              <Route path="/fd-calculator" element={withGuard(<FDCalculator />)} />
-              <Route path="/rd-calculator" element={withGuard(<RDCalculator />)} />
-              <Route path="/retirement-calculator" element={withGuard(<RetirementCalculator />)} />
-              <Route path="/inflation-calculator" element={withGuard(<InflationCalculator />)} />
-              <Route
-                path="/credit-card-payoff-calculator"
-                element={withGuard(<CreditCardPayoff />)}
-              />
-              <Route path="/roi-calculator" element={withGuard(<ROICalculator />)} />
-              <Route
-                path="/savings-goal-calculator"
-                element={withGuard(<SavingsGoalCalculator />)}
-              />
-              <Route path="/car-loan-calculator" element={withGuard(<CarLoanCalculator />)} />
-              <Route path="/home-loan-calculator" element={withGuard(<HomeLoanCalculator />)} />
-              <Route
-                path="/personal-loan-calculator"
-                element={withGuard(<PersonalLoanCalculator />)}
-              />
-              <Route
-                path="/loan-affordability-calculator"
-                element={withGuard(<LoanAffordabilityCalculator />)}
-              />
-              <Route
-                path="/debt-to-income-ratio-calculator"
-                element={withGuard(<DebtToIncomeCalculator />)}
-              />
-              <Route path="/cagr-calculator" element={withGuard(<CAGRCalculator />)} />
-              <Route
-                path="/lump-sum-investment-calculator"
-                element={withGuard(<LumpSumInvestmentCalculator />)}
-              />
-              <Route path="/pay-raise-calculator" element={withGuard(<PayRaiseCalculator />)} />
-              <Route
-                path="/break-even-point-calculator"
-                element={withGuard(<BreakEvenPointCalculator />)}
-              />
-              <Route
-                path="/loan-comparison-calculator"
-                element={withGuard(<LoanComparisonCalculator />)}
-              />
-              <Route
-                path="/simple-interest-calculator"
-                element={withGuard(<SimpleInterestCalculator />)}
-              />
-              <Route
-                path="/compound-interest-calculator"
-                element={withGuard(<CompoundInterestCalculator />)}
-              />
+                {/* Unit Converters */}
+                <Route path="/length-converter" element={withGuard(<LengthConverter />)} />
+                <Route
+                  path="/weight-converter"
+                  element={withGuard(<WeightConverter />)}
+                />
+                <Route path="/temperature-converter" element={withGuard(<TemperatureConverter />)} />
+                <Route path="/area-converter" element={withGuard(<AreaConverter />)} />
+                <Route path="/speed-converter" element={withGuard(<SpeedConverter />)} />
+                <Route path="/volume-converter" element={withGuard(<VolumeConverter />)} />
+                <Route path="/pressure-converter" element={withGuard(<PressureConverter />)} />
+                <Route path="/energy-converter" element={withGuard(<EnergyConverter />)} />
+                <Route path="/data-storage-converter" element={withGuard(<DataStorageConverter />)} />
+                <Route path="/mass-weight-converter" element={withGuard(<MassWeightConverter />)} />
+                <Route path="/time-converter" element={withGuard(<TimeConverter />)} />
+                <Route path="/power-converter" element={withGuard(<PowerConverter />)} />
+                <Route path="/force-converter" element={withGuard(<ForceConverter />)} />
+                <Route path="/density-converter" element={withGuard(<DensityConverter />)} />
+                <Route path="/acceleration-converter" element={withGuard(<AccelerationConverter />)} />
+                <Route path="/flow-rate-converter" element={withGuard(<FlowRateConverter />)} />
+                <Route path="/fuel-consumption-converter" element={withGuard(<FuelConsumptionConverter />)} />
+                <Route path="/fuel-cost-calculator" element={withGuard(<FuelCostCalculator />)} />
+                <Route path="/angle-converter" element={withGuard(<AngleConverter />)} />
+                <Route path="/frequency-converter" element={withGuard(<FrequencyConverter />)} />
+                <Route path="/data-transfer-converter" element={withGuard(<DataTransferConverter />)} />
 
-              {/* Math Tools */}
-              <Route
-                path="/percentage-calculator"
-                element={withGuard(<PercentageCalculator />)}
-              />
-              <Route path="/average-calculator" element={withGuard(<AverageCalculator />)} />
-              <Route
-                path="/quadratic-equation-solver"
-                element={withGuard(<QuadraticEquationSolver />)}
-              />
-              <Route
-                path="/factorial-calculator"
-                element={withGuard(<FactorialCalculator />)}
-              />
-              <Route
-                path="/prime-number-checker"
-                element={withGuard(<PrimeNumberChecker />)}
-              />
-              <Route
-                path="/statistics-calculator"
-                element={withGuard(<StatisticsCalculator />)}
-              />
-              <Route path="/gcd-lcm-calculator" element={withGuard(<GCDLCMCalculator />)} />
-              <Route path="/log-calculator" element={withGuard(<LogCalculator />)} />
-              <Route path="/equation-solver" element={withGuard(<EquationSolver />)} />
+                {/* Currency & Finance */}
+                <Route path="/currency-converter" element={withGuard(<CurrencyConverter />)} />
+                <Route path="/loan-emi-calculator" element={withGuard(<LoanEMICalculator />)} />
+                <Route path="/tax-calculator" element={withGuard(<TaxCalculator />)} />
+                <Route path="/mortgage-calculator" element={withGuard(<MortgageCalculator />)} />
+                <Route path="/sip-calculator" element={withGuard(<SIPCalculator />)} />
+                <Route path="/fd-calculator" element={withGuard(<FDCalculator />)} />
+                <Route path="/rd-calculator" element={withGuard(<RDCalculator />)} />
+                <Route path="/retirement-calculator" element={withGuard(<RetirementCalculator />)} />
+                <Route path="/inflation-calculator" element={withGuard(<InflationCalculator />)} />
+                <Route
+                  path="/credit-card-payoff-calculator"
+                  element={withGuard(<CreditCardPayoff />)}
+                />
+                <Route path="/roi-calculator" element={withGuard(<ROICalculator />)} />
+                <Route
+                  path="/savings-goal-calculator"
+                  element={withGuard(<SavingsGoalCalculator />)}
+                />
+                <Route path="/car-loan-calculator" element={withGuard(<CarLoanCalculator />)} />
+                <Route path="/home-loan-calculator" element={withGuard(<HomeLoanCalculator />)} />
+                <Route
+                  path="/personal-loan-calculator"
+                  element={withGuard(<PersonalLoanCalculator />)}
+                />
+                <Route
+                  path="/loan-affordability-calculator"
+                  element={withGuard(<LoanAffordabilityCalculator />)}
+                />
+                <Route
+                  path="/debt-to-income-ratio-calculator"
+                  element={withGuard(<DebtToIncomeCalculator />)}
+                />
+                <Route path="/cagr-calculator" element={withGuard(<CAGRCalculator />)} />
+                <Route
+                  path="/lump-sum-investment-calculator"
+                  element={withGuard(<LumpSumInvestmentCalculator />)}
+                />
+                <Route path="/pay-raise-calculator" element={withGuard(<PayRaiseCalculator />)} />
+                <Route
+                  path="/break-even-point-calculator"
+                  element={withGuard(<BreakEvenPointCalculator />)}
+                />
+                <Route
+                  path="/loan-comparison-calculator"
+                  element={withGuard(<LoanComparisonCalculator />)}
+                />
+                <Route
+                  path="/simple-interest-calculator"
+                  element={withGuard(<SimpleInterestCalculator />)}
+                />
+                <Route
+                  path="/compound-interest-calculator"
+                  element={withGuard(<CompoundInterestCalculator />)}
+                />
 
-              {/* Date & Time Tools */}
-              <Route path="/age-calculator" element={withGuard(<AgeCalculator />)} />
-              <Route path="/date-difference" element={withGuard(<DateDifference />)} />
-              <Route path="/add-subtract-days" element={withGuard(<AddSubtractDays />)} />
-              <Route path="/weekday-finder" element={withGuard(<WeekdayFinder />)} />
-              <Route
-                path="/business-days-calculator"
-                element={withGuard(<BusinessDaysCalculator />)}
-              />
-              <Route path="/countdown-timer" element={withGuard(<CountdownTimer />)} />
-              <Route path="/timezone-converter" element={withGuard(<TimezoneConverter />)} />
-              <Route
-                path="/time-duration-calculator"
-                element={withGuard(<TimeDurationCalculator />)}
-              />
-              <Route path="/week-number-finder" element={withGuard(<WeekNumberFinder />)} />
-              <Route path="/calendar-generator" element={withGuard(<CalendarGenerator />)} />
+                {/* Math Tools */}
+                <Route
+                  path="/percentage-calculator"
+                  element={withGuard(<PercentageCalculator />)}
+                />
+                <Route path="/average-calculator" element={withGuard(<AverageCalculator />)} />
+                <Route
+                  path="/quadratic-equation-solver"
+                  element={withGuard(<QuadraticEquationSolver />)}
+                />
+                <Route
+                  path="/factorial-calculator"
+                  element={withGuard(<FactorialCalculator />)}
+                />
+                <Route
+                  path="/prime-number-checker"
+                  element={withGuard(<PrimeNumberChecker />)}
+                />
+                <Route
+                  path="/statistics-calculator"
+                  element={withGuard(<StatisticsCalculator />)}
+                />
+                <Route path="/gcd-lcm-calculator" element={withGuard(<GCDLCMCalculator />)} />
+                <Route path="/log-calculator" element={withGuard(<LogCalculator />)} />
+                <Route path="/equation-solver" element={withGuard(<EquationSolver />)} />
 
-              {/* Misc Tools */}
-              <Route path="/qr-code-generator" element={withGuard(<QRCodeGenerator />)} />
-              <Route path="/password-generator" element={withGuard(<PasswordGenerator />)} />
-              <Route
-                path="/random-number-generator"
-                element={withGuard(<RandomNumberGenerator />)}
-              />
-              <Route path="/color-converter" element={withGuard(<ColorConverter />)} />
-              <Route path="/text-counter" element={withGuard(<TextCounter />)} />
-              <Route path="/tip-calculator" element={withGuard(<TipCalculator />)} />
-              <Route
-                path="/roman-numeral-converter"
-                element={withGuard(<RomanNumeralConverter />)}
-              />
-              <Route path="/uuid-generator" element={withGuard(<UUIDGenerator />)} />
-              <Route path="/base-converter" element={withGuard(<BaseConverter />)} />
-              <Route
-                path="/facebook-instream-revenue-estimator"
-                element={withGuard(<FacebookInstreamAdsCalculator />)}
-              />
-              <Route
-                path="/youtube-revenue-calculator"
-                element={withGuard(<YouTubeRevenueCalculator />)}
-              />
-              <Route
-                path="/app-revenue-calculator"
-                element={withGuard(<AppRevenueCalculator />)}
-              />
-              <Route
-                path="/website-revenue-calculator"
-                element={withGuard(<WebsiteRevenueCalculator />)}
-              />
-              <Route
-                path="/tiktok-revenue-calculator"
-                element={withGuard(<TikTokRevenueCalculator />)}
-              />
+                {/* Date & Time Tools */}
+                <Route path="/age-calculator" element={withGuard(<AgeCalculator />)} />
+                <Route path="/date-difference" element={withGuard(<DateDifference />)} />
+                <Route path="/add-subtract-days" element={withGuard(<AddSubtractDays />)} />
+                <Route path="/weekday-finder" element={withGuard(<WeekdayFinder />)} />
+                <Route
+                  path="/business-days-calculator"
+                  element={withGuard(<BusinessDaysCalculator />)}
+                />
+                <Route path="/countdown-timer" element={withGuard(<CountdownTimer />)} />
+                <Route path="/timezone-converter" element={withGuard(<TimezoneConverter />)} />
+                <Route
+                  path="/time-duration-calculator"
+                  element={withGuard(<TimeDurationCalculator />)}
+                />
+                <Route path="/week-number-finder" element={withGuard(<WeekNumberFinder />)} />
+                <Route path="/calendar-generator" element={withGuard(<CalendarGenerator />)} />
 
-              {/* Health Tools */}
-              <Route path="/bmi-calculator" element={withGuard(<BMICalculator />)} />
+                {/* Misc Tools */}
+                <Route path="/qr-code-generator" element={withGuard(<QRCodeGenerator />)} />
+                <Route path="/password-generator" element={withGuard(<PasswordGenerator />)} />
+                <Route
+                  path="/random-number-generator"
+                  element={withGuard(<RandomNumberGenerator />)}
+                />
+                <Route path="/color-converter" element={withGuard(<ColorConverter />)} />
+                <Route path="/text-counter" element={withGuard(<TextCounter />)} />
+                <Route path="/tip-calculator" element={withGuard(<TipCalculator />)} />
+                <Route
+                  path="/roman-numeral-converter"
+                  element={withGuard(<RomanNumeralConverter />)}
+                />
+                <Route path="/uuid-generator" element={withGuard(<UUIDGenerator />)} />
+                <Route path="/base-converter" element={withGuard(<BaseConverter />)} />
+                <Route
+                  path="/facebook-instream-revenue-estimator"
+                  element={withGuard(<FacebookInstreamAdsCalculator />)}
+                />
+                <Route
+                  path="/youtube-revenue-calculator"
+                  element={withGuard(<YouTubeRevenueCalculator />)}
+                />
+                <Route
+                  path="/app-revenue-calculator"
+                  element={withGuard(<AppRevenueCalculator />)}
+                />
+                <Route
+                  path="/website-revenue-calculator"
+                  element={withGuard(<WebsiteRevenueCalculator />)}
+                />
+                <Route
+                  path="/tiktok-revenue-calculator"
+                  element={withGuard(<TikTokRevenueCalculator />)}
+                />
 
-              {/* Admin Pages */}
-              <Route
-                path="/admin/upload-image"
-                element={<AdminImageUpload />}
-              />
-              <Route path="/adminparky/login" element={<AdminLogin />} />
-              <Route path="/adminparky/dashboard" element={<AdminDashboard />} />
+                {/* Health Tools */}
+                <Route path="/bmi-calculator" element={withGuard(<BMICalculator />)} />
 
-              {/* Legal Pages */}
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="/about-us" element={<Aboutus />} />
-              <Route path="/disclaimer" element={<Disclaimer />} />
-              <Route path="/terms-of-service" element={<TermsOfService />} />
-              <Route path="/contact-us" element={<ContactUs />} />
+                {/* Admin Pages */}
+                <Route
+                  path="/admin/upload-image"
+                  element={<AdminImageUpload />}
+                />
+                <Route path="/adminparky/login" element={<AdminLogin />} />
+                <Route path="/adminparky/dashboard" element={<AdminDashboard />} />
 
-              {/* 404 - Fallback */}
-              <Route
-                path="*"
-                element={<ComingSoon title="404 - Page Not Found" />}
-              />
-            </Routes>
-          </Suspense>
-        </Layout>
+                {/* Legal Pages */}
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/about-us" element={<Aboutus />} />
+                <Route path="/disclaimer" element={<Disclaimer />} />
+                <Route path="/terms-of-service" element={<TermsOfService />} />
+                <Route path="/contact-us" element={<ContactUs />} />
+
+                {/* 404 - Fallback */}
+                <Route
+                  path="*"
+                  element={<ComingSoon title="404 - Page Not Found" />}
+                />
+              </Routes>
+            </Suspense>
+          </Layout>
         </SiteConfigProvider>
-           
+
       </Router>
     </HelmetProvider>
   );
