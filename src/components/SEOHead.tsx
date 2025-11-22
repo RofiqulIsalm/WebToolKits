@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { SITE_DOMAIN, SITE_NAME } from '../config/domain';
 
 interface SEOHeadProps {
   title: string;
@@ -23,21 +24,21 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   schemaData,
   breadcrumbs
 }) => {
-  const fullTitle = `${title} | CalculatorHub`;
-  const currentUrl = canonical || `https://calculatorhub.site${window.location.pathname}`;
-  
+  const fullTitle = `${title} | ${SITE_NAME}`;
+  const currentUrl = canonical || `${SITE_DOMAIN}${window.location.pathname}`;
+
   // Website schema for homepage
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "CalculatorHub",
-    "url": "https://calculatorhub.site",
+    "name": SITE_NAME,
+    "url": SITE_DOMAIN,
     "description": "Free online calculators and converters for daily use. 64+ tools including currency converter, unit converters, finance calculators, math tools, and more.",
     "potentialAction": {
       "@type": "SearchAction",
       "target": {
         "@type": "EntryPoint",
-        "urlTemplate": "https://calculatorhub.site/search?q={search_term_string}"
+        "urlTemplate": `${SITE_DOMAIN}/search?q={search_term_string}`
       },
       "query-input": "required name=search_term_string"
     }
@@ -51,7 +52,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       "@type": "ListItem",
       "position": index + 1,
       "name": crumb.name,
-      "item": `https://calculatorhub.site${crumb.url}`
+      "item": `${SITE_DOMAIN}${crumb.url}`
     }))
   } : null;
 
@@ -69,19 +70,19 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       <meta property="og:description" content={description} />
       <meta property="og:type" content={ogType} />
       <meta property="og:url" content={currentUrl} />
-      <meta property="og:image" content={`https://calculatorhub.site${ogImage}`} />
+      <meta property="og:image" content={`${SITE_DOMAIN}${ogImage}`} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
-      <meta property="og:site_name" content="CalculatorHub" />
+      <meta property="og:site_name" content={SITE_NAME} />
       <meta property="og:locale" content="en_US" />
 
       {/* Twitter Card Tags */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={`https://calculatorhub.site${ogImage}`} />
-      <meta name="twitter:site" content="@CalculatorHub" />
-      <meta name="twitter:creator" content="@CalculatorHub" />
+      <meta name="twitter:image" content={`${SITE_DOMAIN}${ogImage}`} />
+      <meta name="twitter:site" content={`@${SITE_NAME}`} />
+      <meta name="twitter:creator" content={`@${SITE_NAME}`} />
 
       {/* Additional Meta Tags */}
       <meta name="author" content="CalculatorHub" />
@@ -93,7 +94,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
           {JSON.stringify(schemaData)}
         </script>
       )}
-      
+
       {/* Website Schema for homepage */}
       {window.location.pathname === '/' && (
         <script type="application/ld+json">
