@@ -207,9 +207,7 @@ const WebsiteRevenueCalculator = React.lazy(
 const BMICalculator = React.lazy(() => import("./pages/BMICalculator"));
 
 // Admin & Legal
-const AdminImageUpload = React.lazy(
-  () => import("./pages/AdminImageUpload")
-);
+
 const AdminLogin = React.lazy(() => import("./pages/AdminLogin"));
 const AdminDashboard = React.lazy(
   () => import("./pages/AdminDashboard")
@@ -430,10 +428,7 @@ function App() {
                 <Route path="/bmi-calculator" element={withGuard(<BMICalculator />)} />
 
                 {/* Admin Pages */}
-                <Route
-                  path="/admin/upload-image"
-                  element={<AdminImageUpload />}
-                />
+
                 <Route path="/adminparky/login" element={<AdminLogin />} />
                 <Route path="/adminparky/dashboard" element={<AdminDashboard />} />
 
