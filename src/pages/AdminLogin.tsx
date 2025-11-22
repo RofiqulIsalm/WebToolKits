@@ -13,7 +13,7 @@ const AdminLogin: React.FC = () => {
 
   React.useEffect(() => {
     if (isAdminAuthenticated()) {
-      navigate("/admin/dashboard", { replace: true });
+      navigate("/adminparky/dashboard", { replace: true });
     }
   }, [navigate]);
 
@@ -23,7 +23,7 @@ const AdminLogin: React.FC = () => {
 
     const ok = loginAdmin(password);
     if (ok) {
-      navigate("/admin/dashboard", { replace: true });
+      navigate("/adminlparky/dashboard", { replace: true });
     } else {
       setError("Invalid admin credentials.");
     }
@@ -34,8 +34,8 @@ const AdminLogin: React.FC = () => {
       <SEOHead
         title="Admin Login – CalculatorHub"
         description="Secure admin login for CalculatorHub internal tools and analytics."
-        canonical="https://calculatorhub.site/admin/login"
-        breadcrumbs={[{ name: "Admin Login", url: "/admin/login" }]}
+        canonical="https://calculatorhub.site/adminparky/login"
+        breadcrumbs={[{ name: "Admin Login", url: "/adminparky/login" }]}
       />
 
       <div className="min-h-[70vh] flex items-center justify-center">
