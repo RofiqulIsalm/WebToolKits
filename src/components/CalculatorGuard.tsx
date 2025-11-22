@@ -29,20 +29,25 @@ const CalculatorGuard: React.FC<CalculatorGuardProps> = ({ children }) => {
     if (typeof window === "undefined") return;
     if (isDisabled) return; // don't count views on disabled pages
 
-    try {
-      const raw = localStorage.getItem(VIEW_COUNT_KEY);
-      let map: ViewCountMap = {};
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (parsed && typeof parsed === "object") {
-          map = parsed as ViewCountMap;
+    // Defer the storage operation to avoid blocking the main thread during navigation
+    const timer = setTimeout(() => {
+      try {
+        const raw = localStorage.getItem(VIEW_COUNT_KEY);
+        let map: ViewCountMap = {};
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === "object") {
+            map = parsed as ViewCountMap;
+          }
         }
+        map[path] = (map[path] ?? 0) + 1;
+        localStorage.setItem(VIEW_COUNT_KEY, JSON.stringify(map));
+      } catch {
+        // ignore errors
       }
-      map[path] = (map[path] ?? 0) + 1;
-      localStorage.setItem(VIEW_COUNT_KEY, JSON.stringify(map));
-    } catch {
-      // ignore errors
-    }
+    }, 1000); // 1 second delay
+
+    return () => clearTimeout(timer);
   }, [path, isDisabled]);
 
   if (isDisabled) {
