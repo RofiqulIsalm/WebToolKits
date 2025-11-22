@@ -10,14 +10,14 @@ import { seoData, generateCalculatorSchema } from '../utils/seoData';
 import RelatedCalculators from '../components/RelatedCalculators';
 import { fallbackRates } from '../utils/fallbackRates';
 
- 
- 
+
+
 const CurrencyConverter: React.FC = () => {
   const [amount, setAmount] = useState<number>(1);
   const [fromCurrency, setFromCurrency] = useState<string>('USD');
   const [toCurrency, setToCurrency] = useState<string>('EUR');
   const [result, setResult] = useState<number>(0);
-  const [exchangeRates, setExchangeRates] = useState<{[key: string]: number}>({});
+  const [exchangeRates, setExchangeRates] = useState<{ [key: string]: number }>({});
   const [loading, setLoading] = useState<boolean>(false);
 
   const allCurrencies = React.useMemo(() => [
@@ -41,7 +41,7 @@ const CurrencyConverter: React.FC = () => {
     { code: 'BND', name: 'Brunei Dollar' },
     { code: 'BOB', name: 'Bolivian Boliviano' },
     { code: 'BRL', name: 'Brazilian Real' },
-    { code: 'BSD', name: 'Bahamian Dollar' }, 
+    { code: 'BSD', name: 'Bahamian Dollar' },
     { code: 'BTN', name: 'Bhutanese Ngultrum' },
     { code: 'BWP', name: 'Botswanan Pula' },
     { code: 'BYN', name: 'Belarusian Ruble' },
@@ -183,18 +183,19 @@ const CurrencyConverter: React.FC = () => {
     { code: 'ZMW', name: 'Zambian Kwacha' },
     { code: 'ZWL', name: 'Zimbabwean Dollar' }
 
-], []);
+  ], []);
 
 
   useEffect(() => {
     fetchExchangeRates();
   }, []);
 
-  useEffect(() => {
-  document.getElementById("amountInput")?.focus();
-}, []);
+  // Removed auto-focus to prevent keyboard popup on mobile
+  // useEffect(() => {
+  //   document.getElementById("amountInput")?.focus();
+  // }, []);
 
-  
+
   useEffect(() => {
     if (exchangeRates[fromCurrency] && exchangeRates[toCurrency]) {
       const rate = exchangeRates[toCurrency] / exchangeRates[fromCurrency];
@@ -204,7 +205,7 @@ const CurrencyConverter: React.FC = () => {
 
   const [error, setError] = useState<string | null>(null);
 
- 
+
 
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
 
@@ -230,8 +231,8 @@ const CurrencyConverter: React.FC = () => {
     }
     return 0;
   }, [exchangeRates, fromCurrency, toCurrency]);
-  
-  
+
+
 
   const swapCurrencies = React.useCallback(() => {
     setFromCurrency(toCurrency);
@@ -241,149 +242,149 @@ const CurrencyConverter: React.FC = () => {
 
   return (
     <>
-       <SEOHead
-              title={seoData.currencyConverter.title}
-              description={seoData.currencyConverter.description}
-              keywords={seoData.currencyConverter.keywords}
-              canonical="https://calculatorhub.site/currency-converter"
-              schemaData={[
-                // Calculator / WebApp metadata
-                {
-                  "@context": "https://schema.org",
-                  "@type": "WebApplication",
-                  "name": "Currency Converter",
-                  "url": "https://calculatorhub.site/currency-converter",
-                  "applicationCategory": "FinanceApplication",
-                  "operatingSystem": "Web",
-                  "description": seoData.currencyConverter.description,
-                  "inLanguage": "en",
-                  "publisher": {
-                    "@type": "Organization",
-                    "name": "CalculatorHub",
-                    "url": "https://calculatorhub.site",
-                    "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/logo.png" }
-                  },
-                  "image": [
-                    "https://calculatorhub.site/images/world-currency-map.webp",
-                    "https://calculatorhub.site/images/currency-converter-dashboard.webp"
-                  ],
-                  "datePublished": "2025-11-05",
-                  "dateModified": "2025-11-05",
-                  "keywords": seoData.currencyConverter.keywords
-                },
-            
-                // WebPage+Article 
-                {
-                  "@context": "https://schema.org",
-                  "@type": "WebPage",
-                  "mainEntity": {
-                    "@type": "Article",
-                    "headline": "Understanding Currency Converters: How They Work and Why You Need One",
-                    "description":
-                      "Learn what a currency converter is, how it works with live exchange rates, and why online currency calculators like moneyconverter and euro to pound converter are essential for travelers, businesses, and investors.",
-                    "image": [
-                      "https://calculatorhub.site/images/world-currency-map.jpg",
-                      "https://calculatorhub.site/images/currency-converter-dashboard.jpg",
-                      "https://calculatorhub.site/images/traveler-checking-rates.jpg"
-                    ],
-                    "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
-                    "publisher": {
-                      "@type": "Organization",
-                      "name": "CalculatorHub",
-                      "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/logo.png" }
-                    },
-                    "datePublished": "2025-10-21",
-                    "dateModified": "2025-10-21",
-                    "keywords": [
-                      "currency converter",
-                      "moneyconverter",
-                      "exchange rate calculator",
-                      "real time currency converter",
-                      "euro to pound converter",
-                      "currency converter euro to sterling",
-                      "convert euro to GBP",
-                      "currency exchange euro to pound",
-                      "accurate currency converter",
-                      "multi currency converter"
-                    ],
-                    "articleSection": [
-                      "What is a Currency Converter?",
-                      "How Does the Currency Converter Work?",
-                      "Why Should You Use an Online Currency Calculator?",
-                      "Popular Currency Conversions",
-                      "Image Suggestions"
-                    ],
-                    "inLanguage": "en",
-                    "url": "https://calculatorhub.site/currency-converter",
-                    "about": { "@type": "Thing", "name": "Currency Conversion" }
-                  }
-                },
-            
-                // FAQ 
-                {
-                  "@context": "https://schema.org",
-                  "@type": "FAQPage",
-                  "mainEntity": [
-                    {
-                      "@type": "Question",
-                      "name": "What is a currency converter?",
-                      "acceptedAnswer": { "@type": "Answer", "text": "A currency converter is an online tool that allows users to calculate the value of one currency in another using real-time exchange rates." }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "How does an online currency calculator work?",
-                      "acceptedAnswer": { "@type": "Answer", "text": "An online currency calculator fetches live exchange data from financial markets and applies it to instantly convert currencies." }
-                    },
-                    {
-                      "@type": "Question",
-                      "name": "Is a real time currency converter accurate?",
-                      "acceptedAnswer": { "@type": "Answer", "text": "Yes, most real time currency converters use up-to-date rates from trusted global data sources like central banks and forex providers." }
-                    }
-                  ]
-                },
-            
-                // Breadcrumbs
-                {
-                  "@context": "https://schema.org",
-                  "@type": "BreadcrumbList",
-                  "itemListElement": [
-                    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
-                    { "@type": "ListItem", "position": 2, "name": "Currency & Finance", "item": "https://calculatorhub.site/category/currency-finance" },
-                    { "@type": "ListItem", "position": 3, "name": "Currency Converter", "item": "https://calculatorhub.site/currency-converter" }
-                  ]
-                },
-            
-                // Website + site-wide Search action (ভয়েস/সাইটলিঙ্ক সার্চের জন্য সহায়ক)
-                {
-                  "@context": "https://schema.org",
-                  "@type": "WebSite",
-                  "name": "CalculatorHub",
-                  "url": "https://calculatorhub.site",
-                  "potentialAction": {
-                    "@type": "SearchAction",
-                    "target": "https://calculatorhub.site/search?q={query}",
-                    "query-input": "required name=query"
-                  }
-                },
-            
-                // Speakable 
-                {
-                  "@context": "https://schema.org",
-                  "@type": "SpeakableSpecification",
-                  "cssSelector": [".main-title", ".result-summary"]
-                }
-              ]}
-            />
+      <SEOHead
+        title={seoData.currencyConverter.title}
+        description={seoData.currencyConverter.description}
+        keywords={seoData.currencyConverter.keywords}
+        canonical="https://calculatorhub.site/currency-converter"
+        schemaData={[
+          // Calculator / WebApp metadata
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "Currency Converter",
+            "url": "https://calculatorhub.site/currency-converter",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "Web",
+            "description": seoData.currencyConverter.description,
+            "inLanguage": "en",
+            "publisher": {
+              "@type": "Organization",
+              "name": "CalculatorHub",
+              "url": "https://calculatorhub.site",
+              "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/logo.png" }
+            },
+            "image": [
+              "https://calculatorhub.site/images/world-currency-map.webp",
+              "https://calculatorhub.site/images/currency-converter-dashboard.webp"
+            ],
+            "datePublished": "2025-11-05",
+            "dateModified": "2025-11-05",
+            "keywords": seoData.currencyConverter.keywords
+          },
 
-        {/* -- Core -- */}
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-        <link rel="canonical" href="https://calculatorhub.site/currency-converter" />
-        
-        {/* -- Hreflang -- */}
-        <link rel="alternate" href="https://calculatorhub.site/currency-converter" hreflang="en" />
-        <link rel="alternate" href="https://calculatorhub.site/bn/currency-converter" hreflang="bn" />
-        <link rel="alternate" href="https://calculatorhub.site/currency-converter" hreflang="x-default" />
+          // WebPage+Article 
+          {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "mainEntity": {
+              "@type": "Article",
+              "headline": "Understanding Currency Converters: How They Work and Why You Need One",
+              "description":
+                "Learn what a currency converter is, how it works with live exchange rates, and why online currency calculators like moneyconverter and euro to pound converter are essential for travelers, businesses, and investors.",
+              "image": [
+                "https://calculatorhub.site/images/world-currency-map.jpg",
+                "https://calculatorhub.site/images/currency-converter-dashboard.jpg",
+                "https://calculatorhub.site/images/traveler-checking-rates.jpg"
+              ],
+              "author": { "@type": "Organization", "name": "CalculatorHub", "url": "https://calculatorhub.site" },
+              "publisher": {
+                "@type": "Organization",
+                "name": "CalculatorHub",
+                "logo": { "@type": "ImageObject", "url": "https://calculatorhub.site/images/logo.png" }
+              },
+              "datePublished": "2025-10-21",
+              "dateModified": "2025-10-21",
+              "keywords": [
+                "currency converter",
+                "moneyconverter",
+                "exchange rate calculator",
+                "real time currency converter",
+                "euro to pound converter",
+                "currency converter euro to sterling",
+                "convert euro to GBP",
+                "currency exchange euro to pound",
+                "accurate currency converter",
+                "multi currency converter"
+              ],
+              "articleSection": [
+                "What is a Currency Converter?",
+                "How Does the Currency Converter Work?",
+                "Why Should You Use an Online Currency Calculator?",
+                "Popular Currency Conversions",
+                "Image Suggestions"
+              ],
+              "inLanguage": "en",
+              "url": "https://calculatorhub.site/currency-converter",
+              "about": { "@type": "Thing", "name": "Currency Conversion" }
+            }
+          },
+
+          // FAQ 
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What is a currency converter?",
+                "acceptedAnswer": { "@type": "Answer", "text": "A currency converter is an online tool that allows users to calculate the value of one currency in another using real-time exchange rates." }
+              },
+              {
+                "@type": "Question",
+                "name": "How does an online currency calculator work?",
+                "acceptedAnswer": { "@type": "Answer", "text": "An online currency calculator fetches live exchange data from financial markets and applies it to instantly convert currencies." }
+              },
+              {
+                "@type": "Question",
+                "name": "Is a real time currency converter accurate?",
+                "acceptedAnswer": { "@type": "Answer", "text": "Yes, most real time currency converters use up-to-date rates from trusted global data sources like central banks and forex providers." }
+              }
+            ]
+          },
+
+          // Breadcrumbs
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://calculatorhub.site/" },
+              { "@type": "ListItem", "position": 2, "name": "Currency & Finance", "item": "https://calculatorhub.site/category/currency-finance" },
+              { "@type": "ListItem", "position": 3, "name": "Currency Converter", "item": "https://calculatorhub.site/currency-converter" }
+            ]
+          },
+
+          // Website + site-wide Search action (ভয়েস/সাইটলিঙ্ক সার্চের জন্য সহায়ক)
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "CalculatorHub",
+            "url": "https://calculatorhub.site",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://calculatorhub.site/search?q={query}",
+              "query-input": "required name=query"
+            }
+          },
+
+          // Speakable 
+          {
+            "@context": "https://schema.org",
+            "@type": "SpeakableSpecification",
+            "cssSelector": [".main-title", ".result-summary"]
+          }
+        ]}
+      />
+
+      {/* -- Core -- */}
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <link rel="canonical" href="https://calculatorhub.site/currency-converter" />
+
+      {/* -- Hreflang -- */}
+      <link rel="alternate" href="https://calculatorhub.site/currency-converter" hreflang="en" />
+      <link rel="alternate" href="https://calculatorhub.site/bn/currency-converter" hreflang="bn" />
+      <link rel="alternate" href="https://calculatorhub.site/currency-converter" hreflang="x-default" />
 
 
       {/* -- Open Graph -- */}
@@ -401,7 +402,7 @@ const CurrencyConverter: React.FC = () => {
       <meta name="twitter:description" content="Convert between 150+ world currencies with live exchange rates. Fast, accurate, and free." />
       <meta name="twitter:image" content="https://calculatorhub.site/images/currency-converter-dashboard.webp" />
 
-      
+
       {/* -- Icons / PWA  -- */}
       <link rel="icon" href="/favicon.ico" />
       <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
@@ -423,128 +424,127 @@ const CurrencyConverter: React.FC = () => {
       {/* -- Security / Privacy  -- */}
       <meta name="referrer" content="no-referrer-when-downgrade" />
 
-      
+
       <div className="max-w-4xl mx-auto">
         <Breadcrumbs items={[
           { name: 'Currency & Finance', url: '/category/currency-finance' },
           { name: 'Currency Converter', url: '/currency-converter' }
         ]} />
-        
-     {/* Header Section */}
-      <div className="mb-8 text-center">
-        <h1 className="text-4xl font-extrabold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent mb-3 drop-shadow-lg">
-          Currency Converter
-        </h1>
-        <p className="text-slate-300 text-base">
-          Convert between world currencies instantly with live exchange rates 🌍
-        </p>
-      </div>
-      
-      {/* Converter Card */}
-      <div className="rounded-2xl bg-slate-800/60 backdrop-blur-md border border-slate-700 p-6 mb-10 shadow-lg hover:shadow-blue-500/10 transition-all">
-        <div className="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-4 md:space-y-0">
-          
-          {/* From Section */}
-          <div className="flex-1">
-            <label className="block text-sm font-semibold text-slate-300 mb-2">From</label>
-            <div className="relative">
-              <input
-                id="amountInput"
-                type="number"
-                value={amount}
-                onChange={(e) => {
-                  const value = Number(e.target.value);
-                  if (value >= 0) setAmount(value);
-                }}
-                className="w-full px-4 py-3 bg-slate-900/70 text-white rounded-xl border border-slate-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                placeholder="Enter amount"
-              />
-              <select
-                value={fromCurrency}
-                onChange={(e) => setFromCurrency(e.target.value)}
-                className="w-full mt-3 px-4 py-3 bg-slate-900/70 text-white rounded-xl border border-slate-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              >
-                {allCurrencies.map((currency) => (
-                  <option key={currency.code} value={currency.code}>
-                    {currency.code} — {currency.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-      
-          {/* Swap Button */}
-          <div className="flex justify-center">
-            <button
-              onClick={swapCurrencies}
-              disabled={loading}
-              className={`flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 text-white shadow-md hover:shadow-blue-400/40 transition-transform hover:rotate-180 ${
-                loading ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-            >
-              <ArrowRightLeft className="h-5 w-5" />
-            </button>
-          </div>
-      
-          {/* To Section */}
-          <div className="flex-1">
-            <label className="block text-sm font-semibold text-slate-300 mb-2">To</label>
-            <div className="relative">
-              <input
-                type="text"
-                value={result.toFixed(2)}
-                readOnly
-                className="w-full px-4 py-3 bg-slate-900/70 text-white rounded-xl border border-slate-700"
-              />
-              <select
-                value={toCurrency}
-                onChange={(e) => setToCurrency(e.target.value)}
-                className="w-full mt-3 px-4 py-3 bg-slate-900/70 text-white rounded-xl border border-slate-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              >
-                {allCurrencies.map((currency) => (
-                  <option key={currency.code} value={currency.code}>
-                    {currency.code} — {currency.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-        </div>
-      
-        {/* Error or Loading Messages */}
-        {error && <p className="text-red-400 text-center mt-4">{error}</p>}
-        {loading && <p className="text-center text-slate-300 mt-4 animate-pulse">Fetching latest rates...</p>}
-      
-        {/* Conversion Result */}
-        {exchangeRates[fromCurrency] && exchangeRates[toCurrency] && (
-          <div className="bg-slate-900/70 border border-slate-700 rounded-xl p-4 mt-6 text-center transition-transform hover:scale-[1.02]" aria-live="polite">
-            <p className="text-xl font-semibold text-white">
-              {amount} {fromCurrency} = <span className="text-cyan-400">{result.toFixed(2)}</span> {toCurrency}
-            </p>
-            <p className="text-sm text-slate-400 mt-1">
-              1 {fromCurrency} = {(exchangeRates[toCurrency] / exchangeRates[fromCurrency]).toFixed(4)} {toCurrency}
-            </p>
-          </div>
-        )}
-      
-        {/* Refresh Button & Timestamp */}
-        <div className="flex flex-col items-center mt-6 space-y-2">
-          <button
-            onClick={fetchExchangeRates}
-            disabled={loading}
-            className="flex items-center space-x-2 px-5 py-2 rounded-lg text-blue-400 hover:text-blue-300 transition-colors"
-          >
-            <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-            <span>Refresh Rates</span>
-          </button>
-          {lastUpdated && (
-            <p className="text-xs text-slate-500">Last updated: {lastUpdated}</p>
-          )}
-        </div>
-      </div>
 
-        
-      <AdBanner type="bottom" />
+        {/* Header Section */}
+        <div className="mb-8 text-center">
+          <h1 className="text-4xl font-extrabold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent mb-3 drop-shadow-lg">
+            Currency Converter
+          </h1>
+          <p className="text-slate-300 text-base">
+            Convert between world currencies instantly with live exchange rates 🌍
+          </p>
+        </div>
+
+        {/* Converter Card */}
+        <div className="rounded-2xl bg-slate-800/60 backdrop-blur-md border border-slate-700 p-6 mb-10 shadow-lg hover:shadow-blue-500/10 transition-all">
+          <div className="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-4 md:space-y-0">
+
+            {/* From Section */}
+            <div className="flex-1">
+              <label className="block text-sm font-semibold text-slate-300 mb-2">From</label>
+              <div className="relative">
+                <input
+                  id="amountInput"
+                  type="number"
+                  value={amount}
+                  onChange={(e) => {
+                    const value = Number(e.target.value);
+                    if (value >= 0) setAmount(value);
+                  }}
+                  className="w-full px-4 py-3 bg-slate-900/70 text-white rounded-xl border border-slate-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  placeholder="Enter amount"
+                />
+                <select
+                  value={fromCurrency}
+                  onChange={(e) => setFromCurrency(e.target.value)}
+                  className="w-full mt-3 px-4 py-3 bg-slate-900/70 text-white rounded-xl border border-slate-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                >
+                  {allCurrencies.map((currency) => (
+                    <option key={currency.code} value={currency.code}>
+                      {currency.code} — {currency.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Swap Button */}
+            <div className="flex justify-center">
+              <button
+                onClick={swapCurrencies}
+                disabled={loading}
+                className={`flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 text-white shadow-md hover:shadow-blue-400/40 transition-transform hover:rotate-180 ${loading ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+              >
+                <ArrowRightLeft className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* To Section */}
+            <div className="flex-1">
+              <label className="block text-sm font-semibold text-slate-300 mb-2">To</label>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={result.toFixed(2)}
+                  readOnly
+                  className="w-full px-4 py-3 bg-slate-900/70 text-white rounded-xl border border-slate-700"
+                />
+                <select
+                  value={toCurrency}
+                  onChange={(e) => setToCurrency(e.target.value)}
+                  className="w-full mt-3 px-4 py-3 bg-slate-900/70 text-white rounded-xl border border-slate-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                >
+                  {allCurrencies.map((currency) => (
+                    <option key={currency.code} value={currency.code}>
+                      {currency.code} — {currency.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Error or Loading Messages */}
+          {error && <p className="text-red-400 text-center mt-4">{error}</p>}
+          {loading && <p className="text-center text-slate-300 mt-4 animate-pulse">Fetching latest rates...</p>}
+
+          {/* Conversion Result */}
+          {exchangeRates[fromCurrency] && exchangeRates[toCurrency] && (
+            <div className="bg-slate-900/70 border border-slate-700 rounded-xl p-4 mt-6 text-center transition-transform hover:scale-[1.02]" aria-live="polite">
+              <p className="text-xl font-semibold text-white">
+                {amount} {fromCurrency} = <span className="text-cyan-400">{result.toFixed(2)}</span> {toCurrency}
+              </p>
+              <p className="text-sm text-slate-400 mt-1">
+                1 {fromCurrency} = {(exchangeRates[toCurrency] / exchangeRates[fromCurrency]).toFixed(4)} {toCurrency}
+              </p>
+            </div>
+          )}
+
+          {/* Refresh Button & Timestamp */}
+          <div className="flex flex-col items-center mt-6 space-y-2">
+            <button
+              onClick={fetchExchangeRates}
+              disabled={loading}
+              className="flex items-center space-x-2 px-5 py-2 rounded-lg text-blue-400 hover:text-blue-300 transition-colors"
+            >
+              <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+              <span>Refresh Rates</span>
+            </button>
+            {lastUpdated && (
+              <p className="text-xs text-slate-500">Last updated: {lastUpdated}</p>
+            )}
+          </div>
+        </div>
+
+
+        <AdBanner type="bottom" />
         <div className="seo-content text-white space-y-6 mt-10">
           <nav className="mt-16 mb-8 bg-[#0f172a] border border-[#334155] rounded-xl p-5 text-slate-200">
             <h2 className="text-lg font-semibold text-cyan-300 mb-3">📖 Table of Contents</h2>
@@ -555,96 +555,96 @@ const CurrencyConverter: React.FC = () => {
               <li><a href="#faq" className="text-indigo-400 hover:underline">FAQ</a></li>
             </ol>
           </nav>
-    
 
-        <h2 className="text-2xl font-bold">Understanding Currency Converters: How They Work and Why You Need One</h2>
+
+          <h2 className="text-2xl font-bold">Understanding Currency Converters: How They Work and Why You Need One</h2>
           {/*------------ world map ----------------*/}
           <div className="mb-8 text-center">
-              <img
-                src="/images/world-currency-map.webp"
-                alt="World map with currency symbols showing live exchange rates"
-                className="mx-auto rounded-lg shadow-lg w-full max-w-3xl"
-              />
-            </div>
-          
-        <h2 id="what-is" className="text-2xl font-bold">What is a Currency Converter?</h2>
+            <img
+              src="/images/world-currency-map.webp"
+              alt="World map with currency symbols showing live exchange rates"
+              className="mx-auto rounded-lg shadow-lg w-full max-w-3xl"
+            />
+          </div>
+
+          <h2 id="what-is" className="text-2xl font-bold">What is a Currency Converter?</h2>
           <p>A <strong>currency converter </strong>is a practical online tool that allows people to quickly and accurately convert one currency into another. It works using <strong>live exchange rates</strong>, ensuring that the value you see reflects the most current market prices. Whether you are a traveler planning a trip abroad, an investor managing international assets, or a business owner trading across borders, a <strong>real time currency converter</strong> simplifies the process of currency exchange.</p>
           <p>In essence, a <strong>money converter</strong> or <strong>foreign exchange calculator </strong>saves time and reduces uncertainty by giving users instant access to the value of their money in another currency. For instance, a person who wants to<strong> convert dollars</strong> to euros or check the<strong> currency conversion rates today</strong> can simply enter the amount and select the desired currencies to get an immediate result.</p>
           <p>Over the years, the best <strong>currency converter</strong> tools have evolved into feature-rich platforms that can handle multiple currencies, historical exchange rates, and automatic rate updates. Whether it’s a<strong> travel currency converter</strong> or an <strong>international currency converter</strong>, users can depend on these tools to stay financially prepared wherever they go.</p>
-          
-         
-        <h2 id="how-to-calculate" className="text-2xl font-bold">How Does the Currency Converter Work?</h2>
-        <p>
-      A <strong>currency converter</strong> operates by pulling<strong> real-time exchange data </strong>from global financial markets. These rates fluctuate constantly due to economic indicators, inflation, and geopolitical factors that influence the strength of different currencies. The system updates every few seconds, ensuring accuracy when you use a <strong>real time currency converter </strong>or <strong>exchange rate calculator</strong>.
-        </p>  
-        <p>
-         When a user inputs an amount—say, converting 100 USD to EUR—the <strong>online currency calculator</strong> fetches the<strong> live exchange rate</strong> for USD to EUR and instantly performs the calculation. The formula is straightforward:
-        </p>
-        <div className="bg-slate-800/60 p-4 rounded-lg">
-          <code className="text-green-400">
-            Converted Amount = Amount × Current Exchange Rate
-          </code>
-        </div>
-          
+
+
+          <h2 id="how-to-calculate" className="text-2xl font-bold">How Does the Currency Converter Work?</h2>
+          <p>
+            A <strong>currency converter</strong> operates by pulling<strong> real-time exchange data </strong>from global financial markets. These rates fluctuate constantly due to economic indicators, inflation, and geopolitical factors that influence the strength of different currencies. The system updates every few seconds, ensuring accuracy when you use a <strong>real time currency converter </strong>or <strong>exchange rate calculator</strong>.
+          </p>
+          <p>
+            When a user inputs an amount—say, converting 100 USD to EUR—the <strong>online currency calculator</strong> fetches the<strong> live exchange rate</strong> for USD to EUR and instantly performs the calculation. The formula is straightforward:
+          </p>
+          <div className="bg-slate-800/60 p-4 rounded-lg">
+            <code className="text-green-400">
+              Converted Amount = Amount × Current Exchange Rate
+            </code>
+          </div>
+
           <p>For example, if the <strong>currency conversion rate today</strong> shows that 1 USD equals 0.92 EUR, the converter will display €92 for $100.</p>
-          
+
           <div className="bg-slate-800/60 p-4 rounded-lg">
             <code className="italic text-yellow-300">
               100 × 0.85 = 85 EUR
             </code>
           </div>
-        <p>
-          {/*---------- image ---------------*/}
-          <div className="my-6 flex justify-center">
+          <p>
+            {/*---------- image ---------------*/}
+            <div className="my-6 flex justify-center">
               <img
                 src="/images/currency-conversion-infographic.webp"
                 alt="Infographic explaining how currency conversion formula works with live exchange updates"
                 className="rounded-lg shadow-md w-full max-w-2xl"
               />
             </div>
-       Some advanced tools, like a <strong>multi currency converter</strong>, allow users to track several currencies at once, making it ideal for businesses or travelers managing multiple accounts. Other tools offer <strong>historical exchange rates</strong>, enabling investors and analysts to study market trends over time.
-        </p>
-        
-      
+            Some advanced tools, like a <strong>multi currency converter</strong>, allow users to track several currencies at once, making it ideal for businesses or travelers managing multiple accounts. Other tools offer <strong>historical exchange rates</strong>, enabling investors and analysts to study market trends over time.
+          </p>
+
+
           <p>However, it’s important to note that the rates shown on a converter might differ slightly from what banks or credit card companies offer due to <strong>currency conversion fees</strong> or additional service charges. Understanding this small difference can help users avoid unexpected costs when exchanging money in real transactions.</p>
 
           <AdBanner type="bottom" />
-      
-        <h2 id="benefits" className="text-2xl font-bold">Why Should You Use an Online Currency Calculator?</h2>
+
+          <h2 id="benefits" className="text-2xl font-bold">Why Should You Use an Online Currency Calculator?</h2>
           <p>
             There are countless reasons why people rely on a <strong>currency calculator online</strong>, especially in an increasingly connected global economy. Here are a few major benefits:
           </p>
 
           <ol>
             <li>
-                <strong>Instant Conversions Anytime, Anywhere</strong>
-                <p>
+              <strong>Instant Conversions Anytime, Anywhere</strong>
+              <p>
                 An <strong>online currency converter works 24/7</strong>, allowing users to check<strong>live exchange rates</strong> from their phones or laptops. This convenience makes it a must-have for travelers, digital nomads, and remote professionals who deal with international payments.
-                </p>
-              </li>
-              <li>
-                <strong>Accurate and Real-Time Data</strong>
-                <p>
+              </p>
+            </li>
+            <li>
+              <strong>Accurate and Real-Time Data</strong>
+              <p>
                 Modern <strong>real time currency converters</strong> ensure that the displayed rates reflect current market values. Whether you’re using an<strong> accurate currency converter</strong> for business planning or checking prices on e-commerce platforms, these tools eliminate the guesswork.
-                </p>
-              </li>
-              <li>
-                <strong>Smarter Financial Decisions</strong>
-                <p>
+              </p>
+            </li>
+            <li>
+              <strong>Smarter Financial Decisions</strong>
+              <p>
                 For investors and business owners, understanding the latest<strong> currency conversion rates today </strong>can be the difference between profit and loss. A reliable <strong>foreign exchange calculator</strong> helps you forecast expenses, compare options, and plan international transactions more effectively.
-                </p>
-              </li>
-              <li>
-                <strong>Transparent and Easy-to-Use</strong>
-                <p>
+              </p>
+            </li>
+            <li>
+              <strong>Transparent and Easy-to-Use</strong>
+              <p>
                 Unlike banks, which might charge hidden fees, a <strong>moneyconverter</strong> tool offers clarity. You can see the conversion instantly and understand how much you’ll actually get before making a transaction. Many <strong>currency converter apps</strong> even integrate with payment platforms or travel booking sites for seamless use.
-                </p>
-              </li>
-            </ol>
+              </p>
+            </li>
+          </ol>
 
           <p>In practice, most modern converters use <strong>real-time exchange rates</strong> provided by financial institutions, banks, or forex markets. This means the results update automatically whenever the rates change, keeping the information as accurate as possible.
 
-In short, the logic may be simple, but the impact is powerful: a <strong>currency converter saves time, reduces risk, and ensures financial clarity</strong> for anyone dealing with multiple currencies.</p>
+            In short, the logic may be simple, but the impact is powerful: a <strong>currency converter saves time, reduces risk, and ensures financial clarity</strong> for anyone dealing with multiple currencies.</p>
 
           {/*--------- image---------*/}
           <div className="my-6 flex justify-center">
@@ -654,69 +654,69 @@ In short, the logic may be simple, but the impact is powerful: a <strong>currenc
               className="rounded-xl shadow-lg w-full max-w-lg"
             />
           </div>
-          
-        <h2 className="text-2xl font-bold">Popular Currency Conversions</h2>
-        <p>
-         While thousands of currency pairs exist, some conversions are searched far more frequently due to tourism, trade, and international business. Here are a few of the most popular examples:
-        </p>
-        <ol >
-          <li>
-            <strong>USD to EUR (United States Dollar to Euro)</strong>
-            <p>
+
+          <h2 className="text-2xl font-bold">Popular Currency Conversions</h2>
+          <p>
+            While thousands of currency pairs exist, some conversions are searched far more frequently due to tourism, trade, and international business. Here are a few of the most popular examples:
+          </p>
+          <ol >
+            <li>
+              <strong>USD to EUR (United States Dollar to Euro)</strong>
+              <p>
                 The <strong>USD to EUR converter</strong> remains one of the most used tools worldwide. It’s especially valuable for travelers between the U.S. and Europe and for companies involved in transatlantic trade. With constant updates, the<strong> real time currency converter</strong> ensures you always know the true value of your dollars in euros.
-             </p>
-          </li>
-          <li>
-            <strong>Euro to Pound Converter (EUR to GBP)</strong>
-            <p>
-               If you’re traveling between European countries or the U.K., checking the<strong> euro to pound exchange rate </strong>is essential.<strong> A currency converter euro to pound or euro to GBP exchange rate</strong> calculator provides up-to-the-minute values for accurate budgeting. For example, someone might want to convert euros to pounds before visiting London or check the <strong>currency exchange euro to pound</strong> rates when making online purchases from British websites.
-             </p>
-            <p>
-              Similarly, businesses and investors often use tools like the <strong>currency converter euro</strong> to sterling to manage payments and monitor the <strong>euro to pound converter</strong> rates efficiently.
-            </p>
-          </li>
-          <li>
-            <strong>USD to GBP (United States Dollar to British Pound)</strong>
-            <p>
-               The <strong>USD to GBP</strong> exchange remains another high-demand conversion, used frequently by financial professionals and tourists. As markets fluctuate daily, using a <strong>live exchange rate calculator</strong> ensures accurate and timely conversions.
-             </p>
-          </li>
-          <li>
-            <strong>Multi-Currency and International Conversions</strong>
-            <p>
-               Global travelers often use<strong> multi currency converters</strong> to track several currencies at once — such as USD, EUR, GBP, AUD, and JPY. These tools simplify comparing rates across countries, which is invaluable for frequent flyers, e-commerce sellers, and multinational companies.
-             </p>
-          </li>
-        </ol>
+              </p>
+            </li>
+            <li>
+              <strong>Euro to Pound Converter (EUR to GBP)</strong>
+              <p>
+                If you’re traveling between European countries or the U.K., checking the<strong> euro to pound exchange rate </strong>is essential.<strong> A currency converter euro to pound or euro to GBP exchange rate</strong> calculator provides up-to-the-minute values for accurate budgeting. For example, someone might want to convert euros to pounds before visiting London or check the <strong>currency exchange euro to pound</strong> rates when making online purchases from British websites.
+              </p>
+              <p>
+                Similarly, businesses and investors often use tools like the <strong>currency converter euro</strong> to sterling to manage payments and monitor the <strong>euro to pound converter</strong> rates efficiently.
+              </p>
+            </li>
+            <li>
+              <strong>USD to GBP (United States Dollar to British Pound)</strong>
+              <p>
+                The <strong>USD to GBP</strong> exchange remains another high-demand conversion, used frequently by financial professionals and tourists. As markets fluctuate daily, using a <strong>live exchange rate calculator</strong> ensures accurate and timely conversions.
+              </p>
+            </li>
+            <li>
+              <strong>Multi-Currency and International Conversions</strong>
+              <p>
+                Global travelers often use<strong> multi currency converters</strong> to track several currencies at once — such as USD, EUR, GBP, AUD, and JPY. These tools simplify comparing rates across countries, which is invaluable for frequent flyers, e-commerce sellers, and multinational companies.
+              </p>
+            </li>
+          </ol>
 
 
 
-          
+
           <AdBanner type="bottom" />
           {/*------------- image ------------*/}
-            <div className="my-6 flex justify-center">
-              <img
-                src="/images/traveler-checking-rates.webp"
-                alt="Traveler using phone to check live euro to pound exchange rate on a moneyconverter app"
-                className="rounded-lg shadow-md w-full max-w-xl"
-              />
-            </div>
-              
-      
-        <p className="text-slate-300 mt-4">
-          This <strong>currency converter calculator</strong> is designed to make your life easier, 
-          whether you’re shopping online internationally, planning a trip abroad, or trading in 
-          foreign exchange markets. With accurate rates and an easy-to-use interface, you’ll always 
-          stay updated on global money values.
-        </p>
-      </div>
+          <div className="my-6 flex justify-center">
+            <img
+              src="/images/traveler-checking-rates.webp"
+              alt="Traveler using phone to check live euro to pound exchange rate on a moneyconverter app"
+              className="rounded-lg shadow-md w-full max-w-xl"
+            />
+          </div>
+
+
+          <p className="text-slate-300 mt-4">
+            This <strong>currency converter calculator</strong> is designed to make your life easier,
+            whether you’re shopping online internationally, planning a trip abroad, or trading in
+            foreign exchange markets. With accurate rates and an easy-to-use interface, you’ll always
+            stay updated on global money values.
+          </p>
+        </div>
 
         {/*--------------------FAQ------------------------*/}
         <section className="space-y-6 mt-16">
           <h2 id="faq" className="text-3xl md:text-4xl font-bold mb-4 text-center text-cyan-300">
             ❓ Frequently Asked Questions (<span className="text-yellow-300">FAQ</span>)
           </h2>
-        
+
           <div className="space-y-5 text-lg text-slate-100 leading-relaxed max-w-4xl mx-auto">
             {/* Q1 */}
             <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
@@ -730,7 +730,7 @@ In short, the logic may be simple, but the impact is powerful: a <strong>currenc
                 Many users also refer to it as a <strong>moneyconverter</strong> or <strong>foreign exchange calculator</strong>.
               </p>
             </div>
-        
+
             {/* Q2 */}
             <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
               <h3 className="font-semibold text-xl mb-2">
@@ -744,7 +744,7 @@ In short, the logic may be simple, but the impact is powerful: a <strong>currenc
                 The process is instant, transparent, and continuously updated to reflect market changes.
               </p>
             </div>
-        
+
             {/* Q3 */}
             <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
               <h3 className="font-semibold text-xl mb-2">
@@ -753,11 +753,11 @@ In short, the logic may be simple, but the impact is powerful: a <strong>currenc
               <p>
                 An <strong>online currency calculator</strong> helps users make quick and accurate conversions without the hassle of
                 manual math. It’s useful for <strong>travelers</strong> who want to plan budgets abroad, <strong>businesses</strong> dealing
-                with global payments, and <strong>investors</strong> managing international portfolios. 
+                with global payments, and <strong>investors</strong> managing international portfolios.
                 Tools like our <strong>international currency converter</strong> provide instant rates and eliminate hidden fees.
               </p>
             </div>
-        
+
             {/* Q4 */}
             <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
               <h3 className="font-semibold text-xl mb-2">
@@ -770,7 +770,7 @@ In short, the logic may be simple, but the impact is powerful: a <strong>currenc
                 that displayed rates are updated in real time for transparency.
               </p>
             </div>
-        
+
             {/* Q5 */}
             <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
               <h3 className="font-semibold text-xl mb-2">
@@ -783,7 +783,7 @@ In short, the logic may be simple, but the impact is powerful: a <strong>currenc
                 Our <strong>currency converter euro to sterling</strong> is designed to handle over 150+ world currencies accurately.
               </p>
             </div>
-        
+
             {/* Q6 */}
             <div className="bg-slate-800/60 p-4 rounded-lg border border-slate-700 shadow-sm">
               <h3 className="font-semibold text-xl mb-2">
@@ -802,40 +802,40 @@ In short, the logic may be simple, but the impact is powerful: a <strong>currenc
 
 
 
-        
-         {/* =================== AUTHOR & BACKLINK SECTION =================== */}
-          <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
-              <div className="flex items-center gap-3">
-                  <img src="/images/calculatorhub-author.webp" alt="CalculatorHub Finance Tools Team" className="w-12 h-12 rounded-full border border-gray-600" loading="lazy" />
-                    <div>
-                        <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
-                        <p className="text-sm text-slate-400">Experts in mortgages and online financial tools. Last updated:{" "} <time dateTime="2025-10-17">October 17, 2025</time>.</p>
-                    </div>
-                </div>
-              
-                <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
-                  <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">🚀 Explore more finance tools on CalculatorHub:</p>
-                    <div className="flex flex-wrap gap-3 text-sm"> 
-                      
-                      <Link to="/inflation-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-amber-600/20 text-amber-300 hover:text-amber-400 px-3 py-2 rounded-md border border-slate-700 hover:border-amber-500 transition-all duration-200"><span className="text-amber-400">📈</span> Inflation Calculator</Link>
-                      
-                      <Link to="/pay-raise-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-teal-600/20 text-teal-300 hover:text-teal-400 px-3 py-2 rounded-md border border-slate-700 hover:border-teal-500 transition-all duration-200"><span className="text-teal-400">💼</span> Pay Raise Calculator</Link>
-                      
-                      <Link to="/roi-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-fuchsia-600/20 text-fuchsia-300 hover:text-fuchsia-400 px-3 py-2 rounded-md border border-slate-700 hover:border-fuchsia-500 transition-all duration-200"><span className="text-fuchsia-400">📊</span> ROI Calculator</Link>
-                    </div>
-                </div>
-          </section>
+
+        {/* =================== AUTHOR & BACKLINK SECTION =================== */}
+        <section className="mt-10 border-t border-gray-700 pt-6 text-slate-300">
+          <div className="flex items-center gap-3">
+            <img src="/images/calculatorhub-author.webp" alt="CalculatorHub Finance Tools Team" className="w-12 h-12 rounded-full border border-gray-600" loading="lazy" />
+            <div>
+              <p className="font-semibold text-white">Written by the CalculatorHub Finance Tools Team</p>
+              <p className="text-sm text-slate-400">Experts in mortgages and online financial tools. Last updated:{" "} <time dateTime="2025-10-17">October 17, 2025</time>.</p>
+            </div>
+          </div>
+
+          <div className="mt-8 bg-gradient-to-r from-slate-800/70 via-slate-900/70 to-slate-800/70 rounded-lg border border-slate-700 shadow-inner p-4">
+            <p className="text-slate-300 text-sm mb-2 font-medium tracking-wide">🚀 Explore more finance tools on CalculatorHub:</p>
+            <div className="flex flex-wrap gap-3 text-sm">
+
+              <Link to="/inflation-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-amber-600/20 text-amber-300 hover:text-amber-400 px-3 py-2 rounded-md border border-slate-700 hover:border-amber-500 transition-all duration-200"><span className="text-amber-400">📈</span> Inflation Calculator</Link>
+
+              <Link to="/pay-raise-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-teal-600/20 text-teal-300 hover:text-teal-400 px-3 py-2 rounded-md border border-slate-700 hover:border-teal-500 transition-all duration-200"><span className="text-teal-400">💼</span> Pay Raise Calculator</Link>
+
+              <Link to="/roi-calculator" className="flex items-center gap-2 bg-[#0f172a] hover:bg-fuchsia-600/20 text-fuchsia-300 hover:text-fuchsia-400 px-3 py-2 rounded-md border border-slate-700 hover:border-fuchsia-500 transition-all duration-200"><span className="text-fuchsia-400">📊</span> ROI Calculator</Link>
+            </div>
+          </div>
+        </section>
 
 
-   
-      <RelatedCalculators 
-        currentPath="/currency-converter"   
-        category="currency-finance" 
-      />
-        
+
+        <RelatedCalculators
+          currentPath="/currency-converter"
+          category="currency-finance"
+        />
+
       </div>
     </>
-  );  
+  );
 };
 
 export default CurrencyConverter; 
