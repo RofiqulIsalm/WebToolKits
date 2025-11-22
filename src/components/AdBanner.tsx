@@ -15,6 +15,9 @@ const AD_SLOTS: Record<NonNullable<AdBannerProps["type"]>, string> = {
 };
 
 const AdBanner: React.FC<AdBannerProps> = ({ type = "bottom" }) => {
+  const adRef = React.useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = React.useState(false);
+
   const getWrapperSize = () => {
     switch (type) {
       case "top":
@@ -28,6 +31,26 @@ const AdBanner: React.FC<AdBannerProps> = ({ type = "bottom" }) => {
   };
 
   useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" } // Load 200px before it comes into view
+    );
+
+    if (adRef.current) {
+      observer.observe(adRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
     // ✅ Load AdSense script only once
     const existingScript = document.querySelector<HTMLScriptElement>(
       'script[data-adsbygoogle-loaded="true"]'
@@ -51,16 +74,17 @@ const AdBanner: React.FC<AdBannerProps> = ({ type = "bottom" }) => {
     } catch (e) {
       console.warn("AdSense rendering error:", e);
     }
-  }, [type]);
+  }, [isVisible, type]);
 
   const slotId = AD_SLOTS[type];
 
   return (
     <div
+      ref={adRef}
       className={`my-4 flex items-center justify-center w-full ${getWrapperSize()}`}
     >
       <div className="glow-card rounded-lg w-full h-full flex items-center justify-center">
-        {slotId ? (
+        {isVisible && slotId ? (
           <ins
             className="adsbygoogle"
             style={{ display: "block" }}
@@ -73,7 +97,7 @@ const AdBanner: React.FC<AdBannerProps> = ({ type = "bottom" }) => {
           <div className="text-center py-4">
             <p className="text-slate-400 text-sm">Advertisement</p>
             <p className="text-slate-500 text-xs mt-1">
-              Ads may be blocked or not configured yet.
+              {isVisible ? "Loading..." : "Scroll to view"}
             </p>
           </div>
         )}
