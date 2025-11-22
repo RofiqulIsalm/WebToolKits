@@ -1,6 +1,6 @@
 // App.tsx
 import React, { Suspense } from "react";
-import { HashRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 
 import Layout from "./components/Layout";
@@ -11,123 +11,216 @@ import CalculatorGuard from "./components/CalculatorGuard";
 
 
 
-
 // ========== Lazy-loaded Pages (Code Splitting) ==========
+
 const withGuard = (el: JSX.Element) => (
   <CalculatorGuard>{el}</CalculatorGuard>
 );
 
 // Core pages
-import Homepage from "./pages/Homepage";
-import CategoryPage from "./pages/CategoryPage";
-
+const Homepage = React.lazy(() => import("./pages/Homepage"));
+const CategoryPage = React.lazy(() => import("./pages/CategoryPage"));
 
 // Currency & Finance
-import CurrencyConverter from "./pages/CurrencyConverter";
-import LoanEMICalculator from "./pages/LoanEMICalculator";
-import CompoundInterestCalculator from "./pages/CompoundInterestCalculator";
-import TaxCalculator from "./pages/TaxCalculator";
-import MortgageCalculator from "./pages/MortgageCalculator";
-import SIPCalculator from "./pages/SIPCalculator";
-import FDCalculator from "./pages/FDCalculator";
-import RDCalculator from "./pages/RDCalculator";
-import RetirementCalculator from "./pages/RetirementCalculator";
-import InflationCalculator from "./pages/InflationCalculator";
-import CreditCardPayoff from "./pages/CreditCardPayoff";
-import ROICalculator from "./pages/ROICalculator";
-import SavingsGoalCalculator from "./pages/SavingsGoalCalculator";
-import CarLoanCalculator from "./pages/CarLoanCalculator";
-import HomeLoanCalculator from "./pages/HomeLoanCalculator";
-import PersonalLoanCalculator from "./pages/PersonalLoanCalculator";
-import LoanAffordabilityCalculator from "./pages/LoanAffordabilityCalculator";
-import DebtToIncomeCalculator from "./pages/DebtToIncomeCalculator";
-import CAGRCalculator from "./pages/CAGRCalculator";
-import LumpSumInvestmentCalculator from "./pages/LumpSumInvestmentCalculator";
-import PayRaiseCalculator from "./pages/PayRaiseCalculator";
-import BreakEvenPointCalculator from "./pages/BreakEvenPointCalculator";
-import LoanComparisonCalculator from "./pages/LoanComparisonCalculator";
+const CurrencyConverter = React.lazy(() => import("./pages/CurrencyConverter"));
+const LoanEMICalculator = React.lazy(() => import("./pages/LoanEMICalculator"));
+const CompoundInterestCalculator = React.lazy(
+  () => import("./pages/CompoundInterestCalculator")
+);
+const TaxCalculator = React.lazy(() => import("./pages/TaxCalculator"));
+const MortgageCalculator = React.lazy(
+  () => import("./pages/MortgageCalculator")
+);
+const SIPCalculator = React.lazy(() => import("./pages/SIPCalculator"));
+const FDCalculator = React.lazy(() => import("./pages/FDCalculator"));
+const RDCalculator = React.lazy(() => import("./pages/RDCalculator"));
+const RetirementCalculator = React.lazy(
+  () => import("./pages/RetirementCalculator")
+);
+const InflationCalculator = React.lazy(
+  () => import("./pages/InflationCalculator")
+);
+const CreditCardPayoff = React.lazy(
+  () => import("./pages/CreditCardPayoff")
+);
+const ROICalculator = React.lazy(() => import("./pages/ROICalculator"));
+const SavingsGoalCalculator = React.lazy(
+  () => import("./pages/SavingsGoalCalculator")
+);
+const SimpleInterestCalculator = React.lazy(
+  () => import("./pages/SimpleInterestCalculator")
+);
+const CarLoanCalculator = React.lazy(
+  () => import("./pages/CarLoanCalculator")
+);
+const HomeLoanCalculator = React.lazy(
+  () => import("./pages/HomeLoanCalculator")
+);
+const PersonalLoanCalculator = React.lazy(
+  () => import("./pages/PersonalLoanCalculator")
+);
+const LoanAffordabilityCalculator = React.lazy(
+  () => import("./pages/LoanAffordabilityCalculator")
+);
+const DebtToIncomeCalculator = React.lazy(
+  () => import("./pages/DebtToIncomeCalculator")
+);
+const CAGRCalculator = React.lazy(() => import("./pages/CAGRCalculator"));
+const LumpSumInvestmentCalculator = React.lazy(
+  () => import("./pages/LumpSumInvestmentCalculator")
+);
+const PayRaiseCalculator = React.lazy(
+  () => import("./pages/PayRaiseCalculator")
+);
+const BreakEvenPointCalculator = React.lazy(
+  () => import("./pages/BreakEvenPointCalculator")
+);
+const LoanComparisonCalculator = React.lazy(
+  () => import("./pages/LoanComparisonCalculator")
+);
 
 // Unit Converters
-import LengthConverter from "./pages/LengthConverter";
-import WeightConverter from "./pages/WeightConverter";
-import TemperatureConverter from "./pages/TemperatureConverter";
-import AreaConverter from "./pages/AreaConverter";
-import SpeedConverter from "./pages/SpeedConverter";
-import PressureConverter from "./pages/PressureConverter";
-import VolumeConverter from "./pages/VolumeConverter";
-import EnergyConverter from "./pages/EnergyConverter";
-import DataStorageConverter from "./pages/DataStorageConverter";
-import MassWeightConverter from "./pages/MassWeightConverter";
-import TimeConverter from "./pages/TimeConverter";
-import PowerConverter from "./pages/PowerConverter";
-import ForceConverter from "./pages/ForceConverter";
-import DensityConverter from "./pages/DensityConverter";
-import AccelerationConverter from "./pages/AccelerationConverter";
-import FlowRateConverter from "./pages/FlowRateConverter";
-import FuelConsumptionConverter from "./pages/FuelConsumptionConverter";
-import AngleConverter from "./pages/AngleConverter";
-import FrequencyConverter from "./pages/FrequencyConverter";
-import DataTransferConverter from "./pages/DataTransferConverter";
-
+const LengthConverter = React.lazy(() => import("./pages/LengthConverter"));
+const WeightConverter = React.lazy(() => import("./pages/WeightConverter"));
+const TemperatureConverter = React.lazy(
+  () => import("./pages/TemperatureConverter")
+);
+const AreaConverter = React.lazy(() => import("./pages/AreaConverter"));
+const SpeedConverter = React.lazy(() => import("./pages/SpeedConverter"));
+const PressureConverter = React.lazy(() => import("./pages/PressureConverter"));
+const VolumeConverter = React.lazy(() => import("./pages/VolumeConverter"));
+const EnergyConverter = React.lazy(() => import("./pages/EnergyConverter"));
+const DataStorageConverter = React.lazy(
+  () => import("./pages/DataStorageConverter")
+);
+const MassWeightConverter = React.lazy(
+  () => import("./pages/MassWeightConverter")
+);
+const TimeConverter = React.lazy(() => import("./pages/TimeConverter"));
+const PowerConverter = React.lazy(() => import("./pages/PowerConverter"));
+const ForceConverter = React.lazy(() => import("./pages/ForceConverter"));
+const DensityConverter = React.lazy(() => import("./pages/DensityConverter"));
+const AccelerationConverter = React.lazy(
+  () => import("./pages/AccelerationConverter")
+);
+const FlowRateConverter = React.lazy(
+  () => import("./pages/FlowRateConverter")
+);
+const FuelConsumptionConverter = React.lazy(
+  () => import("./pages/FuelConsumptionConverter")
+);
+const AngleConverter = React.lazy(() => import("./pages/AngleConverter"));
+const FrequencyConverter = React.lazy(
+  () => import("./pages/FrequencyConverter")
+);
+const DataTransferConverter = React.lazy(
+  () => import("./pages/DataTransferConverter")
+);
 
 // Math Tools
-import PercentageCalculator from "./pages/PercentageCalculator";
-import AverageCalculator from "./pages/AverageCalculator";
-import PrimeNumberChecker from "./pages/PrimeNumberChecker";
-import EquationSolver from "./pages/EquationSolver";
-import QuadraticEquationSolver from "./pages/QuadraticEquationSolver";
-import FactorialCalculator from "./pages/FactorialCalculator";
-import StatisticsCalculator from "./pages/StatisticsCalculator";
-import GCDLCMCalculator from "./pages/GCDLCMCalculator";
-import LogCalculator from "./pages/LogCalculator";
-
-
+const PercentageCalculator = React.lazy(
+  () => import("./pages/PercentageCalculator")
+);
+const AverageCalculator = React.lazy(
+  () => import("./pages/AverageCalculator")
+);
+const PrimeNumberChecker = React.lazy(
+  () => import("./pages/PrimeNumberChecker")
+);
+const EquationSolver = React.lazy(() => import("./pages/EquationSolver"));
+const QuadraticEquationSolver = React.lazy(
+  () => import("./pages/QuadraticEquationSolver")
+);
+const FactorialCalculator = React.lazy(
+  () => import("./pages/FactorialCalculator")
+);
+const StatisticsCalculator = React.lazy(
+  () => import("./pages/StatisticsCalculator")
+);
+const GCDLCMCalculator = React.lazy(
+  () => import("./pages/GCDLCMCalculator")
+);
+const LogCalculator = React.lazy(() => import("./pages/LogCalculator"));
 
 // Date & Time Tools
-import AgeCalculator from "./pages/AgeCalculator";
-import DateDifference from "./pages/DateDifference";
-import AddSubtractDays from "./pages/AddSubtractDays";
-import WeekdayFinder from "./pages/WeekdayFinder";
-import BusinessDaysCalculator from "./pages/BusinessDaysCalculator";
-import CountdownTimer from "./pages/CountdownTimer";
-import TimezoneConverter from "./pages/TimezoneConverter";
-import TimeDurationCalculator from "./pages/TimeDurationCalculator";
-import WeekNumberFinder  from "./pages/WeekNumberFinder";
-import CalendarGenerator from "./pages/CalendarGenerator";
-
+const AgeCalculator = React.lazy(() => import("./pages/AgeCalculator"));
+const DateDifference = React.lazy(() => import("./pages/DateDifference"));
+const AddSubtractDays = React.lazy(() => import("./pages/AddSubtractDays"));
+const WeekdayFinder = React.lazy(() => import("./pages/WeekdayFinder"));
+const BusinessDaysCalculator = React.lazy(
+  () => import("./pages/BusinessDaysCalculator")
+);
+const CountdownTimer = React.lazy(
+  () => import("./pages/CountdownTimer")
+);
+const TimezoneConverter = React.lazy(
+  () => import("./pages/TimezoneConverter")
+);
+const TimeDurationCalculator = React.lazy(
+  () => import("./pages/TimeDurationCalculator")
+);
+const WeekNumberFinder = React.lazy(
+  () => import("./pages/WeekNumberFinder")
+);
+const CalendarGenerator = React.lazy(
+  () => import("./pages/CalendarGenerator")
+);
 
 // Misc Tools
-import QRCodeGenerator from "./pages/QRCodeGenerator";
-import PasswordGenerator from "./pages/PasswordGenerator";
-import RandomNumberGenerator from "./pages/RandomNumberGenerator";
-import ColorConverter from "./pages/ColorConverter";
-import TextCounter from "./pages/TextCounter";
-import TipCalculator from "./pages/TipCalculator";
-import RomanNumeralConverter from "./pages/RomanNumeralConverter";
-import UUIDGenerator from "./pages/UUIDGenerator";
-import BaseConverter from "./pages/BaseConverter";
-import FuelCostCalculator from "./pages/FuelCostCalculator";
-import YouTubeRevenueCalculator from "./pages/YouTubeRevenueCalculator";
-import FacebookInstreamAdsCalculator from "./pages/FacebookInstreamAdsCalculator";
-import AppRevenueCalculator from "./pages/AppRevenueCalculator";
-import TikTokRevenueCalculator from "./pages/TikTokRevenueCalculator";
-import WebsiteRevenueCalculator from "./pages/WebsiteRevenueCalculator";
-
+const QRCodeGenerator = React.lazy(
+  () => import("./pages/QRCodeGenerator")
+);
+const PasswordGenerator = React.lazy(
+  () => import("./pages/PasswordGenerator")
+);
+const RandomNumberGenerator = React.lazy(
+  () => import("./pages/RandomNumberGenerator")
+);
+const ColorConverter = React.lazy(() => import("./pages/ColorConverter"));
+const TextCounter = React.lazy(() => import("./pages/TextCounter"));
+const TipCalculator = React.lazy(() => import("./pages/TipCalculator"));
+const RomanNumeralConverter = React.lazy(
+  () => import("./pages/RomanNumeralConverter")
+);
+const UUIDGenerator = React.lazy(() => import("./pages/UUIDGenerator"));
+const BaseConverter = React.lazy(() => import("./pages/BaseConverter"));
+const FuelCostCalculator = React.lazy(
+  () => import("./pages/FuelCostCalculator")
+);
+const YouTubeRevenueCalculator = React.lazy(
+  () => import("./pages/YouTubeRevenueCalculator")
+);
+const FacebookInstreamAdsCalculator = React.lazy(
+  () => import("./pages/FacebookInstreamAdsCalculator")
+);
+const AppRevenueCalculator = React.lazy(
+  () => import("./pages/AppRevenueCalculator")
+);
+const TikTokRevenueCalculator = React.lazy(
+  () => import("./pages/TikTokRevenueCalculator")
+);
+const WebsiteRevenueCalculator = React.lazy(
+  () => import("./pages/WebsiteRevenueCalculator")
+);
 
 // Health tools
-import BMICalculator  from "./pages/BMICalculator";
-
+const BMICalculator = React.lazy(() => import("./pages/BMICalculator"));
 
 // Admin & Legal
-import AdminImageUpload from "./pages/AdminImageUpload";
-import AdminLogin from "./pages/AdminLogin";
-import AdminDashboard from "./pages/AdminDashboard";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import Aboutus from "./pages/Aboutus";
-import Disclaimer from "./pages/Disclaimer";
-import TermsOfService from "./pages/TermsOfService";
-import ContactUs from "./pages/ContactUs";
-
+const AdminImageUpload = React.lazy(
+  () => import("./pages/AdminImageUpload")
+);
+const AdminLogin = React.lazy(() => import("./pages/AdminLogin"));
+const AdminDashboard = React.lazy(
+  () => import("./pages/AdminDashboard")
+);
+const PrivacyPolicy = React.lazy(() => import("./pages/PrivacyPolicy"));
+const Aboutus = React.lazy(() => import("./pages/Aboutus"));
+const Disclaimer = React.lazy(() => import("./pages/Disclaimer"));
+const TermsOfService = React.lazy(
+  () => import("./pages/TermsOfService")
+);
+const ContactUs = React.lazy(() => import("./pages/ContactUs"));
 
 // ✅ Placeholder Coming Soon Component
 const ComingSoon: React.FC<{ title: string }> = ({ title }) => (
