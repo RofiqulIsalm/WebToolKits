@@ -215,10 +215,10 @@ const AdminDashboard: React.FC = () => {
       <SEOHead
         title="Admin Dashboard – CalculatorHub"
         description="Internal admin dashboard for managing CalculatorHub layout, footer, live calculator analytics and power control."
-        canonical="https://calculatorhub.site/admin/dashboard"
+        canonical="https://calculatorhub.site/adminparky/dashboard"
         breadcrumbs={[
-          { name: "Admin", url: "/admin/login" },
-          { name: "Dashboard", url: "/admin/dashboard" },
+          { name: "Admin", url: "/adminparky/login" },
+          { name: "Dashboard", url: "/adminparky/dashboard" },
         ]}
       />
 
